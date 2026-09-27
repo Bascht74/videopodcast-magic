@@ -595,8 +595,11 @@ msgstr "זה אינו קובץ של התוכנה הזו."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "הקובץ הזה נכתב בגרסה %s בפורמט %d; הגרסה הזו כותבת פורמט %d. השמות שבתוכו השתנו מאז, ולכן לא ניתן לקרוא אותו. נא להגדיר את ההרצה מחדש."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (מדידה בלבד: לא נכתב דבר)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (הרצת ניסיון: חושב ונשמר, תיקיית הפלט ללא שינוי)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (הרצת ניסיון: לא נכתב דבר)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  בדיקה מול הזליגה -- הייחוס הוא %s:"
@@ -931,8 +934,8 @@ msgstr "  %s: %s, דולג"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: לא ניתן לקבוע כמה ערוצים יש בו (%s) -- הוא לא נמדד"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (מדידה בלבד: לא הועלה דבר)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (הרצת ניסיון: לא הועלה דבר)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline בשם %r כבר היה קיים -- החדש נקרא %r."
@@ -1735,8 +1738,8 @@ msgstr "\nמתבצעת עצירה. ההרצה תסתיים ברגע שתוכל �
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "השוט הרחב נמשך %s s, פחות מהשוט הקצר ביותר של %s s -- לכן הוא מתמזג שוב ואינו מופיע לעולם.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nנמדד. דבר לא נכתב -- הרצת ניסיון משאירה את תיקיית התוצאות כפי שהייתה.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nחושב. הרצת ניסיון משאירה את תיקיית התוצאות כפי שהייתה.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nהופסק במהלך: %s"
@@ -2209,8 +2212,8 @@ msgstr "מרחק מהממוצע"
 msgid "Drag audio and video files here"
 msgstr "יש לגרור לכאן קובצי שמע ווידאו"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "הרצת ניסיון: מדידה בלבד, דבר לא נכתב, דבר לא מועלה."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "הרצת ניסיון: הכול מחושב ומדווח, דבר לא נכנס לתיקיית הפלט, דבר לא מועלה."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "בזמן הברכה והפרידה התמונה נשארת רחבה."
@@ -3891,8 +3894,8 @@ msgstr "  כבר הופרד פעם אחת: נקרא מחדש, לא נמדד שו
 msgid "  About %s of computing for %s of audio."
 msgstr "  כ-%s של חישוב עבור %s של שמע."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (מדידה בלבד: שום דבר לא הופרד)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (הרצת ניסיון: שום דבר לא הופרד)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  הרצועות לא נמדדו, ולכן אלה נמצאות במיקס ולא בחיתוך: %s; סיבה: %s"

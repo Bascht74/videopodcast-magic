@@ -1186,8 +1186,8 @@ msgstr "  الإعداد المسبق:  %s"
 msgid "  File:    %s (%s, %s)"
 msgstr "  الملف:           %s (%s, %s)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (قياس فقط: لم يُرفع شيء)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (تشغيل تجريبي: لم يُرفع شيء)\n"
 
 msgid "  Production created (%s)"
 msgstr "  أُنشئ الإنتاج (%s)"
@@ -1687,8 +1687,11 @@ msgstr "تحديد من يتحدث ومتى ..."
 msgid "\nWITHOUT AUPHONIC.COM"
 msgstr "\nبدون AUPHONIC.COM"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (قياس فقط: لم يُكتب شيء)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (تشغيل تجريبي: حُسب وحُفظ، مجلد الإخراج لم يُمس)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (تشغيل تجريبي: لم يُكتب شيء)"
 
 msgid "FOR RESOLVE"
 msgstr "لـ RESOLVE"
@@ -3673,14 +3676,14 @@ msgstr "فشل الفحص نفسه: %s"
 msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
 msgstr "\nتم. في الأسفل يعرض \"فتح مجلد النتائج\" النتيجة.\nإن كان كل شيء صحيحًا، يبني \"إنشاء مشروع Resolve\" المشروع منها.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nتم القياس. لم يُكتب شيء -- التشغيل التجريبي يترك مجلد النتائج كما كان.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nتم الحساب. التشغيل التجريبي يترك مجلد النتائج كما كان.\n"
 
 msgid "Without processing at auphonic.com"
 msgstr "بدون معالجة على auphonic.com"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "تشغيل تجريبي: قياس فقط، لا كتابة، لا رفع."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "تشغيل تجريبي: يُحسب كل شيء ويُعرض، لا يدخل شيء إلى مجلد الإخراج، ولا يُرفع شيء."
 
 msgid "This is what happens next"
 msgstr "هذا ما سيحدث تاليًا"
@@ -3946,8 +3949,8 @@ msgstr "\nفصل المتحدثين"
 msgid "  Separated once already: read back, not measured again."
 msgstr "  فُصل مرة من قبل: قُرئ من جديد، ولم يُقس مجددًا."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (قياس فقط: لم يُفصل شيء)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (تشغيل تجريبي: لم يُفصل شيء)"
 
 msgid "\nSPEAKERS -- SEPARATED BY VOICE"
 msgstr "\nالمتحدثون -- مفصولون حسب الصوت"

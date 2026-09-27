@@ -80,7 +80,7 @@ figure of the day is that command, not this paragraph**:
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **1089** -- the command line a run is given: written out of
+* `orders/` **1090** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
@@ -114,7 +114,7 @@ figure of the day is that command, not this paragraph**:
   material is HDR, the spellings a colour space name goes by, and the
   report on a finished file
 * `tables/` **417** -- the tables and trees the window builds
-* `running/` **656** -- what a run is offered before it starts, the
+* `running/` **657** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
   looks one up

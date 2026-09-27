@@ -595,8 +595,11 @@ msgstr "یہ اس پروگرام کی فائل نہیں ہے۔"
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "یہ فائل ورژن %s نے فارمیٹ %d میں لکھی تھی؛ یہ ورژن فارمیٹ %d لکھتا ہے۔ اس کے اندر کے نام تب سے بدل چکے ہیں، اس لیے اسے پڑھا نہیں جا سکتا۔ براہ کرم رن دوبارہ ترتیب دیں۔"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (صرف پیمائش: کچھ نہیں لکھا گیا)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (آزمائشی رن: حساب کر کے رکھ لیا گیا، آؤٹ پٹ فولڈر کو چھوا نہیں گیا)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (آزمائشی رن: کچھ نہیں لکھا گیا)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  رساؤ کے مقابل جانچ -- حوالہ %s ہے:"
@@ -931,8 +934,8 @@ msgstr "  %s: %s، چھوڑ دیا گیا"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: چینلوں کی تعداد معلوم نہیں ہو سکتی (%s) -- اس کی پیمائش نہیں ہوتی"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (صرف پیمائش: کچھ اپ لوڈ نہیں ہوا)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (آزمائشی رن: کچھ اپ لوڈ نہیں ہوا)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  ایک Timeline %r پہلے سے موجود تھا -- نئے کا نام %r ہے۔"
@@ -1735,8 +1738,8 @@ msgstr "\nروکا جا رہا ہے۔ رن جیسے ہی کسی فائل کو ا
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "وائیڈ شاٹ %s s کا ہے، جو %s s کے سب سے چھوٹے شاٹ سے کم ہے -- اس لیے اسے دوبارہ ضم کر دیا جاتا ہے اور یہ کبھی نظر نہیں آتا۔\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nپیمائش ہو گئی۔ کچھ نہیں لکھا گیا -- آزمائشی رن نتائج کے فولڈر کو ویسا ہی چھوڑتا ہے جیسا وہ تھا۔\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nحساب ہو گیا۔ آزمائشی رن نتائج کے فولڈر کو ویسا ہی چھوڑتا ہے جیسا وہ تھا۔\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nاس مرحلے میں رک گیا: %s"
@@ -2209,8 +2212,8 @@ msgstr "اوسط سے فاصلہ"
 msgid "Drag audio and video files here"
 msgstr "آڈیو اور ویڈیو فائلیں یہاں کھینچیں"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "آزمائشی رن: صرف پیمائش، کچھ نہیں لکھا جاتا، کچھ اپ لوڈ نہیں ہوتا۔"
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "آزمائشی رن: سب کچھ حساب کر کے بتایا جاتا ہے، آؤٹ پٹ فولڈر میں کچھ نہیں جاتا، کچھ اپ لوڈ نہیں ہوتا۔"
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "استقبال اور الوداع کے دوران تصویر وائیڈ رہتی ہے۔"
@@ -3891,8 +3894,8 @@ msgstr "  پہلے ہی ایک بار الگ کیا جا چکا: واپس پڑھ
 msgid "  About %s of computing for %s of audio."
 msgstr "  تقریباً %s کا حساب، %s آڈیو کے لیے۔"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (صرف پیمائش: کچھ الگ نہیں کیا گیا)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (آزمائشی رن: کچھ الگ نہیں کیا گیا)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ٹریک ناپے نہیں گئے، اس لیے یہ مکس میں ہیں اور کٹ میں نہیں: %s؛ وجہ: %s"

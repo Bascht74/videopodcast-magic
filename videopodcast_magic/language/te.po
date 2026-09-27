@@ -596,8 +596,11 @@ msgstr "ఇది ఈ ప్రోగ్రామ్ ఫైల్ కాదు."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "ఈ ఫైల్‌ను వెర్షన్ %s, ఫార్మాట్ %d లో రాసింది; ఈ వెర్షన్ ఫార్మాట్ %d రాస్తుంది. అప్పటి నుండి లోపలి పేర్లు మారాయి, కాబట్టి దీన్ని చదవడం సాధ్యం కాదు. దయచేసి రన్‌ను మళ్లీ సెట్ చేయండి."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (కొలత మాత్రమే: ఏమీ రాయలేదు)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (ట్రయల్ రన్: లెక్కించి ఉంచబడింది, అవుట్‌పుట్ ఫోల్డర్ తాకబడలేదు)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (ట్రయల్ రన్: ఏమీ రాయలేదు)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  బ్లీడ్‌పై తనిఖీ -- ఆధారం %s:"
@@ -932,8 +935,8 @@ msgstr "  %s: %s, వదిలివేయబడింది"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: దీనిలో ఎన్ని ఛానళ్లు ఉన్నాయో నిర్ణయించలేము (%s) -- ఇది కొలవబడదు"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (కొలత మాత్రమే: ఏదీ అప్‌లోడ్ చేయలేదు)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (ట్రయల్ రన్: ఏదీ అప్‌లోడ్ చేయలేదు)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  %r అనే Timeline ఇప్పటికే ఉంది -- కొత్తదాని పేరు %r."
@@ -1736,8 +1739,8 @@ msgstr "\nఆపుతోంది. ఏ ఫైల్‌నూ సగం రా�
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "వైడ్ షాట్ %s s ఉంటుంది, అది కనీస షాట్ నిడివి %s s కన్నా తక్కువ -- అందుకే అది మళ్లీ కలిసిపోయి ఎప్పటికీ కనిపించదు.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nకొలత పూర్తయింది. ఏమీ రాయబడలేదు -- ట్రయల్ రన్ ఫలితాల ఫోల్డర్‌ను ఉన్నట్లే వదిలేస్తుంది.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nలెక్కింపు పూర్తయింది. ట్రయల్ రన్ ఫలితాల ఫోల్డర్‌ను ఉన్నట్లే వదిలేస్తుంది.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nఈ దశలో ఆగిపోయింది: %s"
@@ -2210,8 +2213,8 @@ msgstr "సగటు నుండి దూరం"
 msgid "Drag audio and video files here"
 msgstr "ఆడియో, వీడియో ఫైళ్లను ఇక్కడికి లాగండి"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "ట్రయల్ రన్: కొలత మాత్రమే, ఏమీ రాయబడదు, ఏమీ అప్‌లోడ్ చేయబడదు."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "ట్రయల్ రన్: అన్నీ లెక్కించి తెలియజేయబడతాయి, అవుట్‌పుట్ ఫోల్డర్‌లోకి ఏమీ వెళ్లదు, ఏమీ అప్‌లోడ్ చేయబడదు."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "స్వాగతం, వీడ్కోలు సమయంలో చిత్రం వైడ్‌గానే ఉంటుంది."
@@ -3892,8 +3895,8 @@ msgstr "  ఇప్పటికే ఒకసారి వేరుచేయబ�
 msgid "  About %s of computing for %s of audio."
 msgstr "  సుమారు %s గణన సమయం, %s ఆడియో కోసం."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (కొలత మాత్రమే: ఏదీ వేరుచేయలేదు)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (ట్రయల్ రన్: ఏదీ వేరుచేయలేదు)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ట్రాక్‌లు కొలవబడలేదు, కాబట్టి మిక్స్‌లో ఉండి కట్‌లో లేనివి: %s -- కారణం: %s"

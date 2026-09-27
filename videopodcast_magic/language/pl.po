@@ -570,8 +570,11 @@ msgstr "To nie jest plik tego programu."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Ten plik zapisała wersja %s w formacie %d; ta wersja zapisuje format %d. Nazwy w środku od tego czasu się zmieniły, więc nie da się go odczytać. Skonfiguruj przebieg od nowa."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (tylko pomiar: nic nie zapisano)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (próbny przebieg: obliczono i zachowano, folder wyjściowy nietknięty)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (próbny przebieg: nic nie zapisano)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontrola na podstawie przesłuchu -- odniesienie: %s:"
@@ -906,8 +909,8 @@ msgstr "  %s: %s, pominięto"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: nie da się ustalić liczby kanałów (%s) -- pomiar pominięty"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (tylko pomiar: nic nie przesłano)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (próbny przebieg: nic nie przesłano)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r już istniała -- nowa nazywa się %r."
@@ -1710,8 +1713,8 @@ msgstr "\nZatrzymywanie. Przebieg zakończy się, gdy tylko będzie mógł, nie 
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Plan ogólny trwa %s s, krócej niż najkrótsze ujęcie %s s -- dlatego zostaje z powrotem scalony i nigdy się nie pojawia.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nZmierzono. Nic nie zapisano -- próbny przebieg zostawia folder wyników bez zmian.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nObliczono. Próbny przebieg zostawia folder wyników bez zmian.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nPrzerwano podczas: %s"
@@ -2178,8 +2181,8 @@ msgstr "Odległość od średniej"
 msgid "Drag audio and video files here"
 msgstr "Przeciągnij tutaj pliki audio i wideo"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Próbny przebieg: tylko pomiar, nic nie jest zapisywane ani przesyłane."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Próbny przebieg: wszystko zostaje obliczone i opisane, nic nie trafia do folderu wyjściowego, nic nie jest przesyłane."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Podczas powitania i pożegnania obraz pozostaje w planie ogólnym."
@@ -3803,8 +3806,8 @@ msgstr "  Już raz rozdzielono: odczytano ponownie, bez nowego pomiaru."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Około %s obliczeń na %s dźwięku."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (tylko pomiar: nic nie rozdzielono)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (próbny przebieg: nic nie rozdzielono)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Ścieżki nie zostały zmierzone, więc %s jest w miksie, ale nie w montażu: %s"

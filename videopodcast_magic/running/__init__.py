@@ -48,7 +48,7 @@ without_own_camera = PROGRAM.without_own_camera
 def run_done_text(dry):
     """What to say when a run has ended well.
 
-    A dry run measures and writes nothing, so pointing at a result
+    A dry run writes nothing into the result folder, so pointing at a result
     folder and offering to build a Resolve project out of it points at
     whatever an earlier run happened to leave there. Measured
     30.8.2026 on an interview: a dry run said "if all is
@@ -57,8 +57,8 @@ def run_done_text(dry):
     window and another measurement.
     """
     if dry:
-        return T('\nMeasured. Nothing was written -- a dry run leaves the '
-                 'result folder as it was.\n')
+        return T('\nWorked out. A dry run leaves the result folder as it '
+                 'was.\n')
     return T('\nDone. Below, "Open result folder" shows the result.\nIf '
              'all is right, "Create Resolve project" builds the project '
              'from it.\n')
@@ -462,8 +462,9 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
             model.in_point.get(), model.out_point.get())
         if only_look:
             lines.append("")
-            lines.append(T('Dry run: only measuring, nothing written, '
-                           'nothing uploaded.'))
+            lines.append(T('Dry run: everything is worked out and '
+                           'reported, nothing goes into the output folder, '
+                           'nothing is uploaded.'))
         return ask(T('This is what happens next') if not only_look
                       else T('Dry run'),
                       "\n".join(lines),

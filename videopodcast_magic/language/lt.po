@@ -597,8 +597,11 @@ msgstr "Tai ne šios programos failas."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Šį failą įrašė versija %s formatu %d; ši versija rašo formatu %d. Pavadinimai jame nuo to laiko pasikeitė, todėl jo negalima perskaityti. Sukonfigūruokite vykdymą iš naujo."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (tik matavimas: nieko neįrašyta)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (bandomasis vykdymas: apskaičiuota ir išsaugota, išvesties aplankas nepaliestas)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (bandomasis vykdymas: nieko neįrašyta)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Patikra pagal garso nuotėkį -- atskaitos takelis %s:"
@@ -933,8 +936,8 @@ msgstr "  %s: %s, praleista"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: nepavyko nustatyti kanalų skaičiaus (%s) -- nematuojama"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (tik matavimas: nieko neįkelta)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (bandomasis vykdymas: nieko neįkelta)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r jau buvo -- naujasis vadinasi %r."
@@ -1737,8 +1740,8 @@ msgstr "\nStabdoma. Vykdymas baigsis, kai tik galės tai padaryti nepalikdamas p
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Bendrasis planas trunka %s s, mažiau nei trumpiausias planas (%s s) -- todėl jis vėl sujungiamas su kaimyniniais ir niekada nepasirodo.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nIšmatuota. Nieko neįrašyta -- bandomasis vykdymas palieka rezultatų aplanką nepakeistą.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nApskaičiuota. Bandomasis vykdymas palieka rezultatų aplanką nepakeistą.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nSustabdyta per žingsnį: %s"
@@ -2211,8 +2214,8 @@ msgstr "Atstumas iki vidurkio"
 msgid "Drag audio and video files here"
 msgstr "Nuvilkite garso ir vaizdo failus čia"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Bandomasis vykdymas: tik matuojama, nieko nerašoma, nieko neįkeliama."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Bandomasis vykdymas: viskas apskaičiuojama ir pranešama, į išvesties aplanką nieko nepatenka, nieko neįkeliama."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Per pasisveikinimą ir atsisveikinimą lieka bendrasis planas."
@@ -3893,8 +3896,8 @@ msgstr "  Jau atskirta anksčiau: nuskaityta, iš naujo nematuota."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Skaičiavimas truks apie %s, garso trukmė %s."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (tik matavimas: nieko neatskirta)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (bandomasis vykdymas: nieko neatskirta)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Takeliai nebuvo išmatuoti, todėl %s yra mikse, bet ne montaže: %s"

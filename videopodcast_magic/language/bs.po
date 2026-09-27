@@ -591,8 +591,11 @@ msgstr "Ovo nije datoteka ovog programa."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Ovu datoteku je zapisala verzija %s u formatu %d; ova zapisuje format %d. Nazivi unutra su se od tada promijenili, pa se ne može pročitati. Molimo, ponovo postavite prolaz."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (samo mjerenje: ništa nije zapisano)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (probni prolaz: izračunato i sačuvano, izlazni folder netaknut)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (probni prolaz: ništa nije zapisano)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Provjera prema preslušavanju -- referenca je %s:"
@@ -927,8 +930,8 @@ msgstr "  %s: %s, preskočeno"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: ne može se utvrditi koliko kanala ima (%s) -- ne mjeri se"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (samo mjerenje: ništa se ne prenosi)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (probni prolaz: ništa se ne prenosi)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r je već postojao -- novi se zove %r."
@@ -1731,8 +1734,8 @@ msgstr "\nZaustavljanje. Prolaz završava čim to može bez ostavljanja napola z
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Široki kadar traje %s s, manje od najkraćeg kadra od %s s -- pa se opet stapa i nikada se ne pojavljuje.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nIzmjereno. Ništa nije zapisano -- probni prolaz ostavlja folder s rezultatom kakav je bio.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nIzračunato. Probni prolaz ostavlja folder s rezultatom kakav je bio.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nPrekinuto tokom: %s"
@@ -2205,8 +2208,8 @@ msgstr "Odstupanje od prosjeka"
 msgid "Drag audio and video files here"
 msgstr "Ovamo povucite audio i video datoteke"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Probni prolaz: samo mjerenje, ništa se ne zapisuje, ništa se ne prenosi."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Probni prolaz: sve se izračuna i prijavi, ništa ne ide u izlazni folder, ništa se ne prenosi."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Tokom pozdrava i oproštaja slika ostaje široka."
@@ -3887,8 +3890,8 @@ msgstr "  Već jednom razdvojeno: pročitano nazad, nije ponovo mjereno."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Oko %s računanja za %s zvuka."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (samo mjerenje: ništa nije razdvojeno)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (probni prolaz: ništa nije razdvojeno)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Trake nisu izmjerene, pa su u miksu, a ne u rezu: %s. Razlog: %s"

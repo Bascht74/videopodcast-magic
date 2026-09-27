@@ -570,8 +570,11 @@ msgstr "Ez nem ennek a programnak a fájlja."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Ezt a fájlt a(z) %s verzió írta %d formátumban; ez a verzió a(z) %d formátumot írja. A benne lévő nevek azóta megváltoztak, ezért nem olvasható. Kérjük, állítsa be újra a futást."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (csak mérés: semmi nem íródott)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (próbafuttatás: kiszámolva és megőrizve, a kimeneti mappa érintetlen)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (próbafuttatás: semmi nem íródott)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Ellenőrzés az áthallás alapján -- a viszonyítási alap %s:"
@@ -906,8 +909,8 @@ msgstr "  %s: %s, kihagyva"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: nem állapítható meg, hány csatornája van (%s) -- nem lesz mérve"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (csak mérés: nincs feltöltés)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (próbafuttatás: nincs feltöltés)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Már létezett %r nevű Timeline -- az új neve %r."
@@ -1710,8 +1713,8 @@ msgstr "\nLeállítás. A futás akkor ér véget, amint ezt félig megírt fáj
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "A totál %s mp hosszú, kevesebb, mint a legrövidebb snitt %s mp-e -- ezért újra összevonódik, és sosem jelenik meg.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nMérés kész. Semmi nem lett kiírva -- a próbafuttatás úgy hagyja az eredménymappát, ahogy volt.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nKiszámolva. A próbafuttatás úgy hagyja az eredménymappát, ahogy volt.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nMegszakadt itt: %s"
@@ -2178,8 +2181,8 @@ msgstr "Távolság az átlagtól"
 msgid "Drag audio and video files here"
 msgstr "Húzza ide a hang- és videófájlokat"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Próbafuttatás: csak mérés, semmi nem lesz kiírva, semmi nem lesz feltöltve."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Próbafuttatás: minden ki lesz számolva és jelentve, semmi nem kerül a kimeneti mappába, semmi nem lesz feltöltve."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "A köszöntés és a búcsúzás alatt a kép totálban marad."
@@ -3801,8 +3804,8 @@ msgstr "  Egyszer már szétválasztva: visszaolvasva, nem újra mérve."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Kb. %s számítás %s hangra."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (csak mérés: semmi nincs szétválasztva)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (próbafuttatás: semmi nincs szétválasztva)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  A sávok nem lettek megmérve, így a keverésben van, nem a vágásban: %s. Az ok: %s"

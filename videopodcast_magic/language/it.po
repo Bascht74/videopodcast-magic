@@ -1155,8 +1155,8 @@ msgstr "  Preset:  %s"
 msgid "  File:    %s (%s, %s)"
 msgstr "  File:    %s (%s, %s)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (solo misurazione: nulla caricato)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (esecuzione di prova: nulla caricato)\n"
 
 msgid "  Production created (%s)"
 msgstr "  Produzione creata (%s)"
@@ -1656,8 +1656,11 @@ msgstr "si determina chi parla quando ..."
 msgid "\nWITHOUT AUPHONIC.COM"
 msgstr "\nSENZA AUPHONIC.COM"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (solo misurazione: nulla scritto)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (esecuzione di prova: calcolato e conservato, cartella di destinazione intatta)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (esecuzione di prova: nulla scritto)"
 
 msgid "FOR RESOLVE"
 msgstr "PER RESOLVE"
@@ -3634,14 +3637,14 @@ msgstr "Il controllo stesso non è riuscito: %s"
 msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
 msgstr "\nFatto. Qui sotto, \"Apri la cartella dei risultati\" mostra il risultato.\nSe è tutto a posto, \"Crea progetto Resolve\" ne ricava il progetto.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nMisurato. Non è stato scritto nulla -- un’esecuzione di prova lascia la cartella dei risultati com’era.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nCalcolato. Un’esecuzione di prova lascia la cartella dei risultati com’era.\n"
 
 msgid "Without processing at auphonic.com"
 msgstr "Senza elaborazione su auphonic.com"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Esecuzione di prova: solo misurazione, nulla scritto, nulla caricato."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Esecuzione di prova: tutto viene calcolato e riportato, nulla va nella cartella di destinazione, nulla viene caricato."
 
 msgid "This is what happens next"
 msgstr "Ecco cosa succede ora"
@@ -3907,8 +3910,8 @@ msgstr "\nSEPARAZIONE DEI PARLANTI"
 msgid "  Separated once already: read back, not measured again."
 msgstr "  Già separato una volta: riletto, non misurato di nuovo."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (solo misurazione: nulla separato)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (esecuzione di prova: nulla separato)"
 
 msgid "\nSPEAKERS -- SEPARATED BY VOICE"
 msgstr "\nPARLANTI -- SEPARATI PER VOCE"

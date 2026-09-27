@@ -597,8 +597,11 @@ msgstr "Това не е файл на тази програма."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Този файл е записан от версия %s във формат %d; тази версия записва формат %d. Имената в него оттогава са се променили, затова не може да бъде прочетен. Моля, настройте изпълнението отново."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (само измерване: нищо не е записано)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (пробно изпълнение: изчислено и запазено, изходната папка е недокосната)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (пробно изпълнение: нищо не е записано)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Проверка срещу просмукването -- еталонът е %s:"
@@ -933,8 +936,8 @@ msgstr "  %s: %s, пропуска се"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: броят на каналите не може да се определи (%s) -- не се измерва"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (само измерване: нищо не е качено)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (пробно изпълнение: нищо не е качено)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r вече съществуваше -- новата се казва %r."
@@ -1737,8 +1740,8 @@ msgstr "\nСпиране. Изпълнението приключва ведна
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Общият план трае %s с, по-малко от най-краткия план от %s с -- затова отново се слива и никога не се появява.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nИзмерено. Нищо не е записано -- пробното изпълнение оставя папката с резултата такава, каквато е била.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nИзчислено. Пробното изпълнение оставя папката с резултата такава, каквато е била.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nСпряно по време на: %s"
@@ -2211,8 +2214,8 @@ msgstr "Отклонение от средното"
 msgid "Drag audio and video files here"
 msgstr "Плъзнете аудио- и видеофайлове тук"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Пробно изпълнение: само измерване, нищо не се записва, нищо не се качва."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Пробно изпълнение: всичко се изчислява и докладва, нищо не влиза в изходната папка, нищо не се качва."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "По време на поздрава и сбогуването картината остава в общ план."
@@ -3893,8 +3896,8 @@ msgstr "  Вече разделено веднъж: прочетено от за
 msgid "  About %s of computing for %s of audio."
 msgstr "  Около %s изчислително време за %s звук."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (само измерване: нищо не е разделено)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (пробно изпълнение: нищо не е разделено)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Пистите не бяха измерени, затова в микса, а не в монтажа: %s -- %s"

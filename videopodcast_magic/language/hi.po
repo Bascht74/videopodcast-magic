@@ -1139,8 +1139,8 @@ msgstr "  प्रीसेट:  %s"
 msgid "  File:    %s (%s, %s)"
 msgstr "  फ़ाइल:   %s (%s, %s)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (केवल माप: कुछ अपलोड नहीं हुआ)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (सूखा परीक्षण: कुछ अपलोड नहीं हुआ)\n"
 
 msgid "  Production created (%s)"
 msgstr "  प्रोडक्शन बनाया गया (%s)"
@@ -1640,8 +1640,11 @@ msgstr "कौन कब बोलता है, यह पता किया �
 msgid "\nWITHOUT AUPHONIC.COM"
 msgstr "\nAUPHONIC.COM के बिना"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (केवल माप: कुछ नहीं लिखा गया)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (सूखा परीक्षण: गणना करके रखा गया, आउटपुट फ़ोल्डर अछूता)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (सूखा परीक्षण: कुछ नहीं लिखा गया)"
 
 msgid "FOR RESOLVE"
 msgstr "RESOLVE के लिए"
@@ -3618,14 +3621,14 @@ msgstr "जाँच स्वयं विफल: %s"
 msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
 msgstr "\nहो गया। नीचे \"परिणाम फ़ोल्डर खोलें\" परिणाम दिखाता है।\nसब ठीक हो तो \"Resolve परियोजना बनाएँ\" उससे परियोजना बनाता है।\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nमापा गया। कुछ भी नहीं लिखा गया -- सूखा परीक्षण परिणाम फ़ोल्डर को जैसा था वैसा छोड़ता है।\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nगणना हो गई। सूखा परीक्षण परिणाम फ़ोल्डर को जैसा था वैसा छोड़ता है।\n"
 
 msgid "Without processing at auphonic.com"
 msgstr "auphonic.com पर प्रोसेसिंग के बिना"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "सूखा परीक्षण: केवल मापना, कुछ लिखा नहीं जाता, कुछ अपलोड नहीं होता।"
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "सूखा परीक्षण: सब कुछ गणना करके बताया जाता है, आउटपुट फ़ोल्डर में कुछ नहीं जाता, कुछ अपलोड नहीं होता।"
 
 msgid "This is what happens next"
 msgstr "आगे यह होगा"
@@ -3891,8 +3894,8 @@ msgstr "\nवक्ता पृथक्करण"
 msgid "  Separated once already: read back, not measured again."
 msgstr "  पहले ही एक बार अलग किया जा चुका: वापस पढ़ा गया, फिर से मापा नहीं गया।"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (केवल मापा गया: कुछ अलग नहीं किया गया)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (सूखा परीक्षण: कुछ अलग नहीं किया गया)"
 
 msgid "\nSPEAKERS -- SEPARATED BY VOICE"
 msgstr "\nवक्ता -- आवाज़ के आधार पर अलग किए गए"

@@ -601,8 +601,11 @@ msgstr "Ní comhad den ríomhchlár seo é seo."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Scríobh leagan %s an comhad seo i bhformáid %d; scríobhann an leagan seo formáid %d. Tá na hainmneacha ann athraithe ó shin, mar sin ní féidir é a léamh. Socraigh an rith arís, le do thoil."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (tomhas amháin: níor scríobhadh aon rud)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (rith trialach: oibrithe amach agus coinnithe, fillteán an aschuir gan teagmháil)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (rith trialach: níor scríobhadh aon rud)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Seiceáil in aghaidh an sceite fuaime -- is é %s an tagairt:"
@@ -937,8 +940,8 @@ msgstr "  %s: %s, fágtha ar lár"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: ní féidir líon na gcainéal a dhéanamh amach (%s) -- ní thomhaistear é"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (tomhas amháin: níor uaslódáladh aon rud)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (rith trialach: níor uaslódáladh aon rud)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Bhí Timeline %r ann cheana -- %r is ainm don cheann nua."
@@ -1741,8 +1744,8 @@ msgstr "\nÁ stopadh. Críochnaíonn an rith chomh luath agus is féidir leis ga
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Maireann an seat leathan %s s, níos lú ná an seat is giorra, %s s -- mar sin cumasctar arís é agus ní fheictear riamh é.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nTomhaiste. Níor scríobhadh aon rud -- fágann rith trialach fillteán na dtorthaí mar a bhí.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nOibrithe amach. Fágann rith trialach fillteán na dtorthaí mar a bhí.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nStoptha ag an gcéim: %s"
@@ -2215,8 +2218,8 @@ msgstr "Fad ón meán"
 msgid "Drag audio and video files here"
 msgstr "Tarraing comhaid fuaime agus físe anseo"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Rith trialach: tomhas amháin, ní scríobhtar aon rud, ní uaslódáiltear aon rud."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Rith trialach: oibrítear amach agus tuairiscítear gach rud, ní théann aon rud isteach i bhfillteán an aschuir, ní uaslódáiltear aon rud."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Fanann an pictiúr leathan le linn beannú agus slán a fhágáil."
@@ -3899,8 +3902,8 @@ msgstr "  Scartha cheana féin uair amháin: léite ar ais, gan tomhas arís."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Thart ar %s ríomhaireachta do %s fuaime."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (tomhas amháin: níor scaradh faic)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (rith trialach: níor scaradh faic)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Níor tomhaiseadh na rianta, mar sin tá %s sa mheascán agus ní sa ghearradh: %s"

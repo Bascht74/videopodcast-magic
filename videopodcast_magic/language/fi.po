@@ -568,8 +568,11 @@ msgstr "Tämä ei ole tämän ohjelman tiedosto."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Tämän tiedoston kirjoitti versio %s muodossa %d; tämä versio kirjoittaa muotoa %d. Sisällä olevat nimet ovat sittemmin muuttuneet, joten sitä ei voi lukea. Määritä ajo uudelleen."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (vain mittaus: mitään ei kirjoitettu)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (koeajo: laskettu ja säilytetty, tulostekansio koskematon)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (koeajo: mitään ei kirjoitettu)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Tarkistus äänivuotoa vasten -- viitteenä on %s:"
@@ -904,8 +907,8 @@ msgstr "  %s: %s, ohitettu"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: kanavien määrää ei voi selvittää (%s) -- sitä ei mitata"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (vain mittaus: mitään ei lähetetä)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (koeajo: mitään ei lähetetä)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r oli jo olemassa -- uuden nimi on %r."
@@ -1708,8 +1711,8 @@ msgstr "\nPysäytetään. Ajo päättyy heti, kun se voi tehdä sen jättämätt
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Yleiskuva kestää %s s, vähemmän kuin lyhin otos %s s -- joten se sulautetaan takaisin eikä näy koskaan.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nMitattu. Mitään ei kirjoitettu -- koeajo jättää tuloskansion ennalleen.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nLaskettu. Koeajo jättää tuloskansion ennalleen.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nPysäytetty vaiheessa: %s"
@@ -2176,8 +2179,8 @@ msgstr "Etäisyys keskiarvosta"
 msgid "Drag audio and video files here"
 msgstr "Vedä ääni- ja videotiedostot tähän"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Koeajo: vain mittaus, mitään ei kirjoiteta, mitään ei lähetetä."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Koeajo: kaikki lasketaan ja raportoidaan, tulostekansioon ei tule mitään, mitään ei lähetetä."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Tervehdyksen ja hyvästelyn aikana kuva pysyy yleiskuvana."
@@ -3799,8 +3802,8 @@ msgstr "  Eroteltu jo kerran: luettu takaisin, ei mitattu uudelleen."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Laskentaa noin %s, ääntä %s."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (vain mittaus: mitään ei eroteltu)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (koeajo: mitään ei eroteltu)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Raitoja ei mitattu, joten %s on miksauksessa eikä leikkauksessa: %s"

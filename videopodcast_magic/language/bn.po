@@ -570,8 +570,11 @@ msgstr "এটি এই প্রোগ্রামের কোনো ফা�
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "এই ফাইলটি সংস্করণ %s দিয়ে ফরম্যাট %d-এ লেখা; এই সংস্করণ ফরম্যাট %d লেখে। ভেতরের নামগুলো তারপর থেকে বদলে গেছে, তাই এটি পড়া যায় না। অনুগ্রহ করে চালনাটি আবার সাজান।"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (শুধু মাপা: কিছু লেখা হয়নি)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (পরীক্ষামূলক চালনা: হিসাব করে রাখা হয়েছে, আউটপুট ফোল্ডার অক্ষত)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (পরীক্ষামূলক চালনা: কিছু লেখা হয়নি)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  ব্লিডের সঙ্গে যাচাই -- রেফারেন্স হলো %s:"
@@ -906,8 +909,8 @@ msgstr "  %s: %s, বাদ দেওয়া হয়েছে"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: এতে কটি চ্যানেল আছে তা নির্ণয় করা যায়নি (%s) -- এটি মাপা হবে না"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (শুধু মাপা: কিছুই আপলোড হয়নি)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (পরীক্ষামূলক চালনা: কিছুই আপলোড হয়নি)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r আগে থেকেই ছিল -- নতুনটির নাম %r।"
@@ -1710,8 +1713,8 @@ msgstr "\nথামানো হচ্ছে। কোনো ফাইল অর
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "ওয়াইড শট %s s স্থায়ী হয়, সবচেয়ে ছোট শটের %s s-এর চেয়ে কম -- তাই এটি আবার মিশে যায় এবং কখনো দেখা যায় না।\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nমাপা হয়েছে। কিছুই লেখা হয়নি -- পরীক্ষামূলক চালনা ফলাফলের ফোল্ডার আগের মতোই রাখে।\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nহিসাব হয়েছে। পরীক্ষামূলক চালনা ফলাফলের ফোল্ডার আগের মতোই রাখে।\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nযে ধাপে থেমেছে: %s"
@@ -2178,8 +2181,8 @@ msgstr "গড় থেকে দূরত্ব"
 msgid "Drag audio and video files here"
 msgstr "অডিও ও ভিডিও ফাইল এখানে টেনে আনুন"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "পরীক্ষামূলক চালনা: শুধু মাপা হয়, কিছু লেখা হয় না, কিছু আপলোড হয় না।"
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "পরীক্ষামূলক চালনা: সবকিছু হিসাব করে জানানো হয়, আউটপুট ফোল্ডারে কিছু যায় না, কিছু আপলোড হয় না।"
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "স্বাগত ও বিদায়ের সময় ছবি ওয়াইড থাকে।"
@@ -3801,8 +3804,8 @@ msgstr "  আগেই একবার পৃথক করা হয়েছে
 msgid "  About %s of computing for %s of audio."
 msgstr "  প্রায় %s গণনা, %s অডিওর জন্য।"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (শুধু মাপা হয়েছে: কিছুই পৃথক করা হয়নি)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (পরীক্ষামূলক চালনা: কিছুই পৃথক করা হয়নি)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ট্র্যাকগুলো মাপা হয়নি, তাই %s মিক্সে আছে, কাটে নয়: %s"

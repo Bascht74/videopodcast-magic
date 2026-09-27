@@ -1048,8 +1048,11 @@ msgstr "\n    %s  --  %s, %s"
 msgid "\n  %s: no audio to extract (%s)"
 msgstr "\n  %s: нет звука для извлечения (%s)"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (только измерение: ничего не записано)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (пробный прогон: рассчитано и сохранено, папка вывода не тронута)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (пробный прогон: ничего не записано)"
 
 msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
 msgstr "\n  ПРОЕКТ С ТАКИМ НАЗВАНИЕМ УЖЕ ЕСТЬ: %r"
@@ -1168,8 +1171,8 @@ msgstr "\nПОКАЗАТЕЛИ"
 msgid "\nMIXING"
 msgstr "\nСВЕДЕНИЕ"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nИзмерено. Ничего не записано -- пробный прогон оставляет папку с результатом такой, какой она была.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nРассчитано. Пробный прогон оставляет папку с результатом такой, какой она была.\n"
 
 msgid "\nNORMALISE"
 msgstr "\nНОРМАЛИЗАЦИЯ"
@@ -1696,11 +1699,11 @@ msgstr "  %sx уход от говорящего, потому что план �
 msgid "  (container; measured %s)"
 msgstr "  (контейнер; измерено %s)"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (только измерение: ничего не разделено)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (пробный прогон: ничего не разделено)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (только измерение: ничего не выгружено)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (пробный прогон: ничего не выгружено)\n"
 
 msgid "  (this file starts later)"
 msgstr "  (этот файл начинается позже)"
@@ -2852,8 +2855,8 @@ msgstr "Расстояние до среднего"
 msgid "Downloading %s"
 msgstr "Загрузка %s"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Пробный прогон: только измеряется, ничего не записывается, ничего не выгружается."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Пробный прогон: всё рассчитывается и выводится в отчёт, в папку вывода ничего не попадает, ничего не выгружается."
 
 msgid "Duration %s"
 msgstr "Длительность %s"

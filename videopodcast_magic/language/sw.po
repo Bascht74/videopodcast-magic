@@ -596,8 +596,11 @@ msgstr "Hii si faili ya programu hii."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Faili hii iliandikwa na toleo %s katika muundo %d; toleo hili huandika muundo %d. Majina ndani yake yamebadilika tangu wakati huo, kwa hiyo haiwezi kusomwa. Tafadhali andaa uendeshaji upya."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (kupima tu: hakuna kilichoandikwa)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (jaribio: kimekokotolewa na kuhifadhiwa, folda ya towe haijaguswa)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (jaribio: hakuna kilichoandikwa)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Ukaguzi dhidi ya uvujaji wa sauti -- marejeo ni %s:"
@@ -932,8 +935,8 @@ msgstr "  %s: %s, imerukwa"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: idadi ya chaneli zake haiwezi kubainishwa (%s) -- haipimwi"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (kupima tu: hakuna kilichopakiwa)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (jaribio: hakuna kilichopakiwa)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r ilikuwepo tayari -- mpya inaitwa %r."
@@ -1736,8 +1739,8 @@ msgstr "\nInasimamishwa. Uendeshaji unaisha mara tu unapoweza bila kuacha faili 
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Picha pana inadumu %s s, chini ya kipande kifupi zaidi cha %s s -- kwa hiyo inaunganishwa tena na haionekani kamwe.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nImepimwa. Hakuna kilichoandikwa -- jaribio huiacha folda ya matokeo kama ilivyokuwa.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nImekokotolewa. Jaribio huiacha folda ya matokeo kama ilivyokuwa.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nIlisimamishwa wakati wa: %s"
@@ -2210,8 +2213,8 @@ msgstr "Umbali kutoka wastani"
 msgid "Drag audio and video files here"
 msgstr "Buruta faili za sauti na video hapa"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Jaribio: kupima tu, hakuna kinachoandikwa, hakuna kinachopakiwa."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Jaribio: kila kitu kinakokotolewa na kuripotiwa, hakuna kinachoingia kwenye folda ya towe, hakuna kinachopakiwa."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Wakati wa salamu na kuagana picha inabaki pana."
@@ -3892,8 +3895,8 @@ msgstr "  Imeshatenganishwa mara moja: inasomwa tena, haipimwi upya."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Takriban muda wa %s wa kukokotoa kwa sauti ya %s."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (kupima pekee: hakuna kilichotenganishwa)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (jaribio: hakuna kilichotenganishwa)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Treki hazikupimwa, kwa hiyo %s -- kwenye mchanganyiko, si kwenye mkato: %s"

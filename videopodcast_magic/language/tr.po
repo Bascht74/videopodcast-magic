@@ -1151,8 +1151,8 @@ msgstr "  Hazır ayar: %s"
 msgid "  File:    %s (%s, %s)"
 msgstr "  Dosya:      %s (%s, %s)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (yalnızca ölçüm: hiçbir şey yüklenmedi)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (deneme çalışması: hiçbir şey yüklenmedi)\n"
 
 msgid "  Production created (%s)"
 msgstr "  Prodüksiyon oluşturuldu (%s)"
@@ -1652,8 +1652,11 @@ msgstr "kimin ne zaman konuştuğu belirleniyor ..."
 msgid "\nWITHOUT AUPHONIC.COM"
 msgstr "\nAUPHONIC.COM OLMADAN"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (yalnızca ölçüm: hiçbir şey yazılmadı)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (deneme çalışması: hesaplandı ve saklandı, çıktı klasörüne dokunulmadı)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (deneme çalışması: hiçbir şey yazılmadı)"
 
 msgid "FOR RESOLVE"
 msgstr "RESOLVE İÇİN"
@@ -3630,14 +3633,14 @@ msgstr "Denetimin kendisi başarısız oldu: %s"
 msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
 msgstr "\nBitti. Aşağıda \"Sonuç klasörünü aç\" sonucu gösterir.\nHer şey doğruysa \"Resolve projesi oluştur\" bundan projeyi kurar.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nÖlçüldü. Hiçbir şey yazılmadı -- deneme çalışması sonuç klasörünü olduğu gibi bırakır.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nHesaplandı. Deneme çalışması sonuç klasörünü olduğu gibi bırakır.\n"
 
 msgid "Without processing at auphonic.com"
 msgstr "auphonic.com'da işleme olmadan"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Deneme çalışması: yalnızca ölçüm, hiçbir şey yazılmıyor, hiçbir şey yüklenmiyor."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Deneme çalışması: her şey hesaplanıp raporlanır, çıktı klasörüne hiçbir şey girmez, hiçbir şey yüklenmez."
 
 msgid "This is what happens next"
 msgstr "Şimdi olacaklar"
@@ -3903,8 +3906,8 @@ msgstr "\nKONUŞMACILAR AYRILIYOR"
 msgid "  Separated once already: read back, not measured again."
 msgstr "  Daha önce ayrılmış: geri okundu, yeniden ölçülmedi."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (yalnızca ölçüm: hiçbir şey ayrılmadı)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (deneme çalışması: hiçbir şey ayrılmadı)"
 
 msgid "\nSPEAKERS -- SEPARATED BY VOICE"
 msgstr "\nKONUŞMACILAR -- SESE GÖRE AYRILDI"

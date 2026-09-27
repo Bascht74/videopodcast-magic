@@ -599,8 +599,11 @@ msgstr "To ni datoteka tega programa."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "To datoteko je zapisala različica %s v obliki %d; ta zapisuje obliko %d. Imena v njej so se medtem spremenila, zato je ni mogoče prebrati. Prosimo, znova nastavite zagon."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (samo merjenje: nič ni zapisano)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (poskusni zagon: izračunano in shranjeno, izhodna mapa nedotaknjena)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (poskusni zagon: nič ni zapisano)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Preverjanje presluha -- referenca je %s:"
@@ -935,8 +938,8 @@ msgstr "  %s: %s, preskočeno"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: števila kanalov ni mogoče določiti (%s) -- ne meri se"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (samo merjenje: nič ni naloženo)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (poskusni zagon: nič ni naloženo)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r je že obstajala -- nova se imenuje %r."
@@ -1739,8 +1742,8 @@ msgstr "\nUstavljanje. Zagon se konča, takoj ko lahko, ne da bi pustil napol za
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Splošni plan traja %s s, manj od najkrajšega kadra s %s s -- zato se znova združi in se nikoli ne pojavi.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nIzmerjeno. Nič ni bilo zapisano -- poskusni zagon pusti mapo z rezultatom takšno, kot je bila.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nIzračunano. Poskusni zagon pusti mapo z rezultatom takšno, kot je bila.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nUstavljeno med: %s"
@@ -2213,8 +2216,8 @@ msgstr "Odmik od povprečja"
 msgid "Drag audio and video files here"
 msgstr "Sem povlecite zvočne in video datoteke"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Poskusni zagon: samo merjenje, nič se ne zapiše, nič se ne naloži."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Poskusni zagon: vse se izračuna in sporoči, nič ne gre v izhodno mapo, nič se ne naloži."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Med pozdravom in slovesom ostane slika v splošnem planu."
@@ -3895,8 +3898,8 @@ msgstr "  Že enkrat ločeno: prebrano nazaj, ne izmerjeno znova."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Približno %s računanja za %s zvoka."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (samo merjenje: nič ni ločeno)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (poskusni zagon: nič ni ločeno)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Sledi niso bile izmerjene, zato v miksu in ne v montaži: %s -- %s"

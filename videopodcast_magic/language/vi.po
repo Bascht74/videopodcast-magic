@@ -568,8 +568,11 @@ msgstr "Đây không phải tệp của chương trình này."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Tệp này được ghi bởi phiên bản %s ở định dạng %d; phiên bản này ghi định dạng %d. Các tên bên trong đã thay đổi từ đó, nên không đọc được. Vui lòng thiết lập lại lượt chạy."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (chỉ đo: không ghi gì)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (chạy thử: đã tính toán và giữ lại, thư mục đầu ra không bị động đến)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (chạy thử: không ghi gì)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kiểm tra dựa trên rò tiếng -- tham chiếu là %s:"
@@ -904,8 +907,8 @@ msgstr "  %s: %s, bỏ qua"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: không xác định được số kênh (%s) -- tệp này không được đo"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (chỉ đo: không tải lên gì)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (chạy thử: không tải lên gì)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Đã có Timeline %r -- Timeline mới tên là %r."
@@ -1708,8 +1711,8 @@ msgstr "\nĐang dừng. Lượt chạy sẽ kết thúc ngay khi có thể mà k
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Cảnh rộng kéo dài %s s, ít hơn cảnh quay ngắn nhất %s s -- nên nó lại bị gộp mất và không bao giờ xuất hiện.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nĐã đo. Không ghi gì cả -- chạy thử giữ nguyên thư mục kết quả như cũ.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nĐã tính toán. Chạy thử giữ nguyên thư mục kết quả như cũ.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nDừng ở bước: %s"
@@ -2176,8 +2179,8 @@ msgstr "Độ lệch so với trung bình"
 msgid "Drag audio and video files here"
 msgstr "Kéo tệp âm thanh và video vào đây"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Chạy thử: chỉ đo, không ghi gì, không tải lên gì."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Chạy thử: mọi thứ được tính toán và báo cáo, không có gì vào thư mục đầu ra, không tải lên gì."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Trong lúc chào đầu và tạm biệt cuối, hình ảnh giữ ở cảnh rộng."
@@ -3797,8 +3800,8 @@ msgstr "  Đã tách một lần rồi: đọc lại, không đo lại."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Khoảng %s tính toán cho %s âm thanh."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (chỉ đo: không tách gì)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (chạy thử: không tách gì)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Các rãnh chưa được đo, nên %s có trong bản trộn nhưng không có trong bản dựng: %s"

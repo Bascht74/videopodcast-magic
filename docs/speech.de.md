@@ -422,7 +422,7 @@ Projekt- oder Zuordnungsdatei steht genauso da, unter den Namen, die
 darin stehen.
 
 Liegt nichts vor, hört der Probelauf an dieser Stelle auf. Er sagt,
-wieviel Rechenzeit die Trennung kosten würde, dann **(nur gemessen:
+wieviel Rechenzeit die Trennung kosten würde, dann **(Probelauf:
 nichts getrennt)**, und es folgen keine Stimmen. Das ist der ganze
 Unterschied: liegen bleibt nur, was wirklich gemessen werden müsste.
 Eine Trennung zurückzulesen kostet nichts, also geschieht es, und das

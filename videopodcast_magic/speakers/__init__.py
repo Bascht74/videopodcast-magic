@@ -3597,7 +3597,7 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         # A separation already on this machine costs nothing to read, so
         # a dry run hands it on. Only a measurement is left undone.
         if getattr(args, "dry_run", False) and not stored:
-            print(T('  (measuring only: nothing separated)'))
+            print(T('  (dry run: nothing separated)'))
             return [], ""
         if not stored and not speaker_split_available():
             print("  %s" % speaker_split_missing())

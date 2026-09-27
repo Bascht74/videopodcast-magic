@@ -568,8 +568,11 @@ msgstr "Dette er ikke en fil fra dette program."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Denne fil blev skrevet af version %s i format %d; denne skriver format %d. Navnene indeni har ændret sig siden, så den kan ikke læses. Sæt kørslen op igen."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (kun måling: intet skrevet)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (prøvekørsel: regnet ud og gemt, outputmappen urørt)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (prøvekørsel: intet skrevet)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontrol mod overhøringen -- reference er %s:"
@@ -904,8 +907,8 @@ msgstr "  %s: %s, sprunget over"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: hvor mange kanaler den har, kan ikke afgøres (%s) -- den måles ikke"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (kun måling: intet uploadet)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (prøvekørsel: intet uploadet)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  En Timeline %r fandtes allerede -- den nye hedder %r."
@@ -1708,8 +1711,8 @@ msgstr "\nStopper. Kørslen slutter, så snart den kan gøre det uden at efterla
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Oversigtsbilledet holder %s s, mindre end det korteste klip på %s s -- så det bliver slået sammen igen og viser sig aldrig.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nMålt. Intet blev skrevet -- en prøvekørsel lader resultatmappen være, som den var.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nRegnet ud. En prøvekørsel lader resultatmappen være, som den var.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nStoppet under: %s"
@@ -2176,8 +2179,8 @@ msgstr "Afstand til middel"
 msgid "Drag audio and video files here"
 msgstr "Træk lyd- og videofiler hertil"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Prøvekørsel: der måles kun, intet skrives, intet uploades."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Prøvekørsel: alt regnes ud og rapporteres, intet kommer i outputmappen, intet uploades."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Under velkomst og farvel bliver billedet i oversigtsbillede."
@@ -3799,8 +3802,8 @@ msgstr "  Allerede adskilt én gang: læst tilbage, ikke målt igen."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Omkring %s beregning for %s lyd."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (kun måling: intet adskilt)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (prøvekørsel: intet adskilt)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Sporene blev ikke målt, så %s ligger i mixet og ikke i klipningen: %s"
