@@ -1119,9 +1119,9 @@ def voices_clashing_of_run(args, plan):
         if one.get("source"):
             heard.add(path_key(os.path.realpath(one["source"])))
         named = dict(one.get("names") or {})
-        stored = speaker_voices_stored(one.get("source") or "",
-                                       one.get("num_speakers") or 0) \
-            if one.get("source") else {}
+        stored = speaker_voices_stored(
+            one.get("source") or "", one.get("num_speakers") or 0,
+            blocks_in_run(plan, one["source"])) if one.get("source") else {}
         labels = set(s[0] for s in one.get("segments") or () if s)
         for k in sorted(labels):
             if (named.get(k) or "").strip():
@@ -1636,18 +1636,75 @@ def speakers_stored(state, source):
         source or "") or {}
 
 
-def speakers_keep(state, source, segments, count, names):
+def blocks_heard(state, source):
+    """Every block of the recording *source* begins, as the window has it.
+
+    A recorder that splits a long take writes several files, and the
+    separation hears them all as one recording. Just [source] where the
+    window knows of no others.
+    """
+    return list((state.get("blocks_of") or ByFile()).get(source or "")
+                or [source])
+
+
+def recordings_of_blocks(paths, blocks_of):
+    """One path per recording out of a list of files: its first block.
+
+    The blocks of one recording listed side by side are one microphone,
+    not several. *blocks_of* is {first block: every block}.
+    """
+    first = ByFile()
+    for head, row in (blocks_of or {}).items():
+        for p in row:
+            first[p] = head
+    out = []
+    for p in paths or ():
+        head = first.get(p) or p
+        if path_key(head) not in [path_key(x) for x in out]:
+            out.append(head)
+    return out
+
+
+def blocks_in_run(rows, source):
+    """Every block of the recording *source* begins, out of a run's rows.
+
+    *rows* are the run's tracks or its plan, each with its "blocks".
+    Looked up by the real path, as one_separation_on_axis looks it up.
+    Just [source] where no row begins with it -- a mix, a file named.
+    """
+    want = path_key(os.path.realpath(source or ""))
+    for row in rows or ():
+        blocks = [p for p in (row.get("blocks") or [
+            row.get("source") or row.get("audio")]) if p]
+        if blocks and path_key(os.path.realpath(blocks[0])) == want:
+            return blocks
+    return [source]
+
+
+def heard_whole(entry, source, blocks):
+    """Whether a stored separation heard exactly these blocks.
+
+    One made of the first block alone, before a separation heard the
+    whole recording, does not: from the second block on it knows nobody.
+    """
+    return ([path_key(p) for p in (entry or {}).get("blocks") or [source]]
+            == [path_key(p) for p in blocks or [source]])
+
+
+def speakers_keep(state, source, segments, count, names, blocks=()):
     """Store what was heard in one recording, and put it in front.
 
     Every recording keeps its own: the names hang on the model's labels
     and cannot be put back by hand once they have been carried over to
     another recording's voices. In front is what the run and the
-    preview read.
+    preview read. *blocks* are what was heard, where more than one.
     """
     by = state.setdefault("speakers_by", ByFile())
     by[source] = {
         "segments": list(segments or ()),
         "count": int(count or 0), "names": dict(names or {})}
+    if len(blocks or ()) > 1:
+        by[source]["blocks"] = list(blocks)
     state["speakers_source"] = source
     state["speakers_local"] = list(segments or ())
     state["speakers_count"] = int(count or 0)
@@ -1687,7 +1744,7 @@ def speakers_block_of(state, voice_lines=None):
                                      voices_ignored_of(voice_lines, src))
             names = voice_names_of(names, voice_lines, src)
         return speakers_for_project(src, segments, e.get("count") or 0,
-                                    names, e.get("proof"))
+                                    names, e.get("proof"), e.get("blocks"))
     out = block(named, by[first])
     more = [block(src, by[src]) for src in keep if src != first]
     more = [m for m in more if m["segments"]]
@@ -2863,22 +2920,26 @@ def speaker_recipe_mark():
     return _SPEAKER_RECIPE[0]
 
 
-def speaker_cache_key(path, model_mark="", num_speakers=0):
+def speaker_cache_key(path, model_mark="", num_speakers=0, blocks=()):
     """The name a stored separation lives under.
 
-    Path, mtime and size say whether it is the same recording; a mix of
-    speaker_mix_file is known by its name, which its inputs make, as
-    the sweep redates it. Model, speakers set by hand and recipe count
-    too; the language, time window, offset and names change nothing.
+    Path, mtime and size of every one of its *blocks* say whether it is
+    the same recording; a mix of speaker_mix_file is known by its name,
+    which its inputs make, as the sweep redates it. Model, speakers set
+    by hand and recipe count too; window, offset and names do not.
     """
-    mark = file_fingerprint(path)
-    if not mark:
+    whole = [p for p in blocks or () if p]
+    marks = [file_fingerprint(p) for p in
+             (whole if len(whole) > 1 else [path])]
+    if not all(marks):
         return ""
+    mark = marks[0]
     name, mixes = os.path.basename(mark[0]), cache_folder("speakers")
-    if (mixes and re.match(r"mix_[0-9a-f]{16}\.wav$", name)
+    if (len(marks) == 1 and mixes
+            and re.match(r"mix_[0-9a-f]{16}\.wav$", name)
             and path_key(os.path.dirname(mark[0])) == path_key(mixes)):
-        mark = [name, 0, 0]
-    parts = ["%s|%d|%d" % (mark[0], mark[1], mark[2]),
+        marks = [[name, 0, 0]]
+    parts = ["%s|%d|%d" % (m[0], m[1], m[2]) for m in marks] + [
              model_mark or "", str(int(num_speakers or 0)),
              speaker_recipe_mark()]
     return hashlib.sha1(
@@ -2929,31 +2990,70 @@ def speaker_cache_write(key, segments):
         pass
 
 
-def speaker_split_stored(source, count=0):
+def speaker_split_stored(source, count=0, blocks=()):
     """A separation of this recording that is already on this machine.
 
     [] where none is, so whoever asks may say what a run would cost.
+    *blocks* are the recording's, where a recorder split it.
     """
     return speaker_cache_read(
-        speaker_cache_key(source, speaker_model_mark(), count)) or []
+        speaker_cache_key(source, speaker_model_mark(), count,
+                          blocks)) or []
 
 
-def speaker_split_cached(source, count=0, report=None, stopping=None):
+def recording_whole_file(blocks):
+    """Every block of one recording in one file, for the separation.
+
+    Joined as the run joins them, recording_decoded, so what is heard
+    at a second of this file is what the run has there. A file of its
+    own in the temporary folder, which whoever asked removes.
+    """
+    x = recording_decoded(blocks, SPEAKER_SPLIT_RATE)
+    fd, here = tempfile.mkstemp(prefix="vpm_whole_", suffix=".wav")
+    os.close(fd)
+    p = subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le",
+                        "-ar", str(SPEAKER_SPLIT_RATE), "-ac", "1",
+                        "-i", "pipe:0", "-c:a", "pcm_s16le", "-y", here],
+                       input=x.astype("<f4").tobytes(),
+                       capture_output=True)
+    if p.returncode:
+        remove_quietly(here)
+        raise RuntimeError(p.stderr.decode("utf-8", "replace")[-140:])
+    return here
+
+
+def speaker_split_cached(source, count=0, report=None, stopping=None,
+                         blocks=()):
     """Separate one recording, or hand back what was stored before.
 
     The one road: the window and the run both take it, so minutes spent
-    in the window are not spent again. Returns (segments, trouble).
+    in the window are not spent again. A recording a recorder split into
+    *blocks* is heard whole and stored under a key of the whole: its
+    first block alone would leave everybody after it without a voice.
+    Returns (segments, trouble), in the time of the whole recording.
     """
-    stored = speaker_split_stored(source, count)
+    blocks = [p for p in blocks or () if p]
+    stored = speaker_split_stored(source, count, blocks)
     if stored:
         return stored, ""
-    segments, trouble = speaker_split_run(source, count, report=report,
-                                          stopping=stopping)
-    heard = SPEAKER_VOICES_HEARD.pop(source, None)
+    heard = source
+    if len(blocks) > 1:
+        try:
+            heard = recording_whole_file(blocks)
+        except Exception as e:
+            return [], T('The speaker separation reports: %s') \
+                % str(e)[:140]
+    try:
+        segments, trouble = speaker_split_run(heard, count, report=report,
+                                              stopping=stopping)
+    finally:
+        if heard != source:
+            remove_quietly(heard)
+    voices = SPEAKER_VOICES_HEARD.pop(heard, None)
     if segments:
-        key = speaker_cache_key(source, speaker_model_mark(), count)
+        key = speaker_cache_key(source, speaker_model_mark(), count, blocks)
         speaker_cache_write(key, segments)
-        speaker_voices_write(key, heard)
+        speaker_voices_write(key, voices)
     return segments, trouble
 
 
@@ -2993,14 +3093,15 @@ def speaker_voices_write(key, voices):
     return True
 
 
-def speaker_voices_stored(source, count=0):
+def speaker_voices_stored(source, count=0, blocks=()):
     """The voice prints of a stored separation, {label: [numbers]}.
 
     {} where none were kept -- an older separation, or one another
-    machine made -- and then nothing is proposed.
+    machine made -- and then nothing is proposed. *blocks* as for
+    speaker_split_stored.
     """
     file_path = speaker_cache_file(
-        speaker_cache_key(source, speaker_model_mark(), count))
+        speaker_cache_key(source, speaker_model_mark(), count, blocks))
     try:
         with open(file_path or "", encoding="utf-8") as f:
             got = json.load(f).get("voices")
@@ -3043,7 +3144,8 @@ def speaker_voices_alike(mine, theirs, least=SPEAKER_SAME_VOICE):
 def voice_prints_of(state, source):
     """The prints stored beside the window's separation of *source*."""
     return speaker_voices_stored(
-        source, speakers_stored(state, source).get("count") or 0)
+        source, speakers_stored(state, source).get("count") or 0,
+        blocks_heard(state, source))
 
 
 def voices_lent(state, source, prints, called):
@@ -3103,7 +3205,8 @@ def speaker_voices_said(state, source, count=0):
     A proposal, never a merge: the names stay as they are. Returns the
     lines, so a caller can show them too.
     """
-    mine = speaker_voices_stored(source, count)
+    mine = speaker_voices_stored(source, count,
+                                 blocks_heard(state, source))
     by = state.get("speakers_by") or ByFile()
     here = dict((by.get(source) or {}).get("names") or {})
     lines = []
@@ -3112,7 +3215,8 @@ def speaker_voices_said(state, source, count=0):
             continue
         there = dict(by[other].get("names") or {})
         for label, theirs, alike in speaker_voices_alike(
-                mine, speaker_voices_stored(other, by[other].get("count"))):
+                mine, speaker_voices_stored(other, by[other].get("count"),
+                                            blocks_heard(state, other))):
             lines.append(T('  %s in %s sounds like %s in %s (similarity '
                            '%s): the same person, it seems.')
                          % (here.get(label, label), os.path.basename(source),
@@ -3123,12 +3227,13 @@ def speaker_voices_said(state, source, count=0):
     return lines
 
 
-def speaker_split_work(source, count, note, stopping, done):
+def speaker_split_work(source, count, note, stopping, done, blocks=()):
     """One separation of one recording, in a thread of its own.
 
-    Out here because it decides nothing and touches no widget: a file
-    goes in, the passages come out, and the three callbacks -- *note*,
-    *stopping*, *done* -- are the only way it says anything.
+    Out here because it decides nothing and touches no widget: a
+    recording goes in -- *blocks* where a recorder split it -- the
+    passages come out, and the three callbacks -- *note*, *stopping*,
+    *done* -- are the only way it says anything.
     """
     segments, trouble = [], ""
     try:
@@ -3143,10 +3248,11 @@ def speaker_split_work(source, count, note, stopping, done):
             trouble = speaker_split_trouble()
         if not trouble:
             segments, trouble = speaker_split_cached(
-                source, count, report=note, stopping=stopping)
+                source, count, report=note, stopping=stopping,
+                blocks=blocks)
     except Exception as e:
         trouble = T('The speaker separation reports: %s') % str(e)[:140]
-    done((source, count, segments, trouble))
+    done((source, count, segments, trouble, list(blocks or [source])))
 
 
 def speaker_measure_loop(tracks, bridge, bridge_emit):
@@ -3163,7 +3269,7 @@ def speaker_measure_loop(tracks, bridge, bridge_emit):
 
 
 def speaker_split_loop(state, split_run, bridge, bridge_emit,
-                       source, count, label_run):
+                       source, count, label_run, blocks=()):
     """The separation, with the window's own way of answering.
 
     Nothing is said back once the list this was started for has gone.
@@ -3176,11 +3282,12 @@ def speaker_split_loop(state, split_run, bridge, bridge_emit,
         lambda t, s: still_wanted() and bridge_emit(
             bridge.speakers_split_note, t, s),
         lambda: split_run["stop"] or not still_wanted(),
-        lambda r: still_wanted() and bridge_emit(bridge.speakers_split, r))
+        lambda r: still_wanted() and bridge_emit(bridge.speakers_split, r),
+        blocks)
 
 
 def speaker_split_begin(state, split_run, bridge, bridge_emit,
-                        source, count, label_run, language=""):
+                        source, count, label_run, language="", blocks=()):
     """Start the separation of one recording, and its words with it.
 
     The recognition runs beside the separation, not behind it: the two
@@ -3190,28 +3297,32 @@ def speaker_split_begin(state, split_run, bridge, bridge_emit,
     threading.Thread(
         target=speaker_split_loop,
         args=(state, split_run, bridge, bridge_emit, source, count,
-              label_run), daemon=True).start()
+              label_run, blocks), daemon=True).start()
     speech_words_kick_off(state, language, lambda r: bridge_emit(
         bridge.speakers_heard, r), source)
 
 
 def speakers_for_project(source, segments, num_speakers=0, called=None,
-                         proof=None):
+                         proof=None, blocks=()):
     """The separation as the project file carries it.
 
     Raw, in the time of the source file, so a machine that opens the
     project elsewhere does not pay the three minutes again. *proof*, the
-    one it was read back with, is kept rather than stamped anew.
+    one it was read back with, is kept rather than stamped anew. The
+    *blocks* heard go with it where there were more than one.
     """
     mark = file_fingerprint(source) or [source, 0, 0]
     proof = proof or separation_proof_now(source)
-    return {"source": mark[0], "mtime": proof[0], "size": proof[1],
-            "model": SPEAKER_MODEL_NAME,
-            "model_mark": proof[2], "recipe": proof[3],
-            "num_speakers": int(num_speakers or 0),
-            "names": dict(called or {}),
-            "segments": [[label, a, b] for label, parts in segments
-                         for a, b in parts]}
+    out = {"source": mark[0], "mtime": proof[0], "size": proof[1],
+           "model": SPEAKER_MODEL_NAME,
+           "model_mark": proof[2], "recipe": proof[3],
+           "num_speakers": int(num_speakers or 0),
+           "names": dict(called or {}),
+           "segments": [[label, a, b] for label, parts in segments
+                        for a, b in parts]}
+    if len(blocks or ()) > 1:
+        out["blocks"] = list(blocks)
+    return out
 
 
 def speakers_from_project(d, fingerprint=file_fingerprint):
@@ -3253,6 +3364,8 @@ def speakers_all_from_project(d, fingerprint=file_fingerprint):
                 "count": int(one.get("num_speakers") or 0),
                 "proof": [one.get("mtime"), one.get("size"),
                           one.get("model_mark"), one.get("recipe")]}
+            if len(one.get("blocks") or ()) > 1:
+                out[source]["blocks"] = list(one["blocks"])
     return out
 
 
@@ -3277,6 +3390,7 @@ def tracks_all_separated(state, assign_lines, voice_lines=None):
     held = set(path_key(src) for src in by
                if by[src].get("segments") and (by[src].get("proof") or [0])[-1]
                and by[src]["proof"] == separation_proof_now(src)
+               and heard_whole(by[src], src, blocks_heard(state, src))
                and (voice_lines is None or voice_lines_here(voice_lines, src)))
     paths = [row[0] for row, _n, cv in assign_lines or ()
              if cv.get() != IGNORE_AUDIO]
@@ -3436,10 +3550,12 @@ def separation_source_of_run(args, tracks, video_paths, window=()):
     from_cameras = bool(getattr(args, "_camera_audio", None))
     recordings, of_track = [], {}
     for track in tracks or ():
-        for p in (track.get("blocks") or [track.get("source")]):
-            if p and p not in recordings:
-                recordings.append(p)
-                of_track[p] = track
+        # A recording a recorder split is one microphone: its first
+        # block names it, and the separation hears every block.
+        p = (track.get("blocks") or [track.get("source")])[0]
+        if p and p not in recordings:
+            recordings.append(p)
+            of_track[p] = track
 
     def mix(chosen):
         """Add up the tracks these recordings were aligned into."""
@@ -3536,12 +3652,13 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         else:
             print(T('  In %s, on this machine.') % os.path.basename(source))
         count = int(getattr(args, "speakers_count", 0) or 0)
-        stored = speaker_split_stored(source, count)
+        blocks = blocks_in_run(tracks, source)
+        stored = speaker_split_stored(source, count, blocks)
         if stored:
             print(T('  Separated once already: read back, not measured '
                     'again.'))
         else:
-            how_long = media_seconds(source)
+            how_long = sum(media_seconds(p) for p in blocks)
             if how_long:
                 print(T('  About %s of computing for %s of audio.')
                       % (as_hms(how_long / SPEAKER_SPLIT_SPEED),
@@ -3558,7 +3675,8 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
             return [], ""
         segments, trouble = speaker_split_cached(
             source, count,
-            report=lambda text, share: show_progress(text, share))
+            report=lambda text, share: show_progress(text, share),
+            blocks=blocks)
         print()
         if trouble:
             print("  %s" % trouble)
@@ -3739,20 +3857,24 @@ def speakers_step_said(source):
 
 def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
                        assign_lines, voice_lines, remembered, split_run,
-                       split_line, split_label, split_never, axis_store):
+                       split_line, split_label, split_never, axis_store,
+                       blocks_of=None):
     """Separate the speakers, locally, and say where that stands.
 
     A third source for the same thing: who speaks when. auphonic.com says
     it from its statistics, speakers_from_tracks measures it where every
     person has a microphone, and this works it out from one recording.
-    Three names built in gui() come through *state*.
+    Three names built in gui() come through *state*; *blocks_of*, the
+    file list's blocks per recording, goes there for blocks_heard.
     """
+    state["blocks_of"] = blocks_of if blocks_of is not None else ByFile()
     # A thread of its own and an entry of its own on the bar, and no
     # place in the prework count: axis_work_loop waits in "while
     # prework_busy()", and three minutes there hold up the time axis.
     def speaker_split_source(alone=False):
         """Which file the separation listens to, and why that one."""
-        audio_files = [p for p, a in files if a == "audio"]
+        audio_files = recordings_of_blocks(
+            [p for p, a in files if a == "audio"], state["blocks_of"])
         videos = [p for p, a in files if a == "video"]
         # The derived answer, not the stored one: a camera whose sound is
         # the only sound there is was never clicked.
@@ -3802,7 +3924,7 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
 
     def speaker_split_done(result):
         """The separation came back: keep it, store it, show it."""
-        source, count, segments, trouble = result
+        source, count, segments, trouble, blocks = result
         split_run["busy"] = False
         plan.done("speakers:" + source)
         state["speakers_running"] = ""
@@ -3823,10 +3945,10 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
         kept = [called[label] for label, _p in segments
                 if (called.get(label) or "").strip()]
         known = voice_names_known(
-            source, speaker_voices_stored(source, count), others,
+            source, speaker_voices_stored(source, count, blocks), others,
             taken + kept)
         speakers_keep(state, source, segments, count, dict(
-            speaker_label_names(segments, called, taken, known)))
+            speaker_label_names(segments, called, taken, known)), blocks)
         speaker_voices_said(state, source, count)
         axis_store(state.get("axis") or {})
         state["assignment_fresh"]()
@@ -3852,8 +3974,11 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
             speaker_split_show()
             return
         count = int(state.get("speakers_count") or 0)
+        blocks = blocks_heard(state, source)
+        stored = speakers_stored(state, source)
         if not fresh:
-            if speakers_stored(state, source).get("segments"):
+            if stored.get("segments") and heard_whole(stored, source,
+                                                      blocks):
                 speaker_split_show()
                 return
             if not speaker_split_wanted(state.get("speakers_wanted")):
@@ -3868,13 +3993,14 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
         # Measured at 28 times real time on the graphics unit, so the
         # share of the bar is known rather than guessed.
         plan.add("speakers:" + source,
-                 max(2.0, media_seconds(source) / SPEAKER_SPLIT_SPEED),
+                 max(2.0, sum(media_seconds(p) for p in blocks)
+                     / SPEAKER_SPLIT_SPEED),
                  speakers_step_said(source))
         plan.begin("speakers:" + source, speakers_step_said(source))
         speaker_split_show()
         speaker_split_begin(state, split_run, bridge, bridge_emit,
                             source, count, label_run,
-                            state["speech_language"].get())
+                            state["speech_language"].get(), blocks)
 
     def split_stop(_source=""):
         """The one button left in a row: stop listening to it."""

@@ -193,7 +193,7 @@ print("\n3. What is reported when it worked, and when it did not")
 reached = []
 
 
-def instead(source, count=0, report=None, stopping=None):
+def instead(source, count=0, report=None, stopping=None, blocks=()):
     reached.append(source)
     return [("A", [(0.0, 1.0)])], ""
 

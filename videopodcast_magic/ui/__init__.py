@@ -2630,7 +2630,7 @@ def gui():
      several_set) = make_speaker_split(
         QtCore, state, bridge, bridge_emit, plan, files, assign_lines,
         voice_lines, remembered, split_run, split_line, split_label,
-        split_never, axis_store)
+        split_never, axis_store, blocks_of)
 
     # The assignment table is the sheet's, with what it keeps between
     # two builds: the voice rows below reach for two of its own, and
