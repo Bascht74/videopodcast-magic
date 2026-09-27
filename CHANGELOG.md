@@ -97,6 +97,10 @@ nicht.
 
 ### Fixed
 
+- **A recording the recorder split into several files is now separated
+  as one recording.** The separation heard only the first file, so from
+  the second on nobody on that microphone reached the preview or the
+  cut.
 - **Mark In and Mark Out now count from the moment every camera runs,
   as the run does.** On material without a clock the run could cut 20
   to 25 seconds after the picture you marked; it now cuts on it.
@@ -273,6 +277,10 @@ nicht.
 
 ### Behoben
 
+- **Eine Aufnahme, die der Rekorder in mehrere Dateien geteilt hat,
+  wird jetzt als eine Aufnahme getrennt.** Die Trennung hörte nur die
+  erste Datei, sodass ab der zweiten niemand von diesem Mikrofon in
+  Vorschau und Schnitt kam.
 - **In markieren und Out markieren zählen jetzt ab dem Moment, in dem
   jede Kamera läuft, so wie der Lauf.** Bei Material ohne Uhr konnte der
   Lauf 20 bis 25 Sekunden nach dem markierten Bild schneiden; jetzt

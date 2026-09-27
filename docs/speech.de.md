@@ -57,6 +57,14 @@ Auf einem Mac läuft die Trennung bei einer Aufnahme von selbst, sobald
 die Dateien da sind. Bei mehr als einer Aufnahme läuft von selbst
 nichts; die Antwort **mehrere Sprecher** in der Zeile startet sie.
 
+Eine Aufnahme, die der Rekorder in mehrere Dateien geteilt hat -- die
+Blöcke, die die Dateiliste unter einer Zeile zeigt --, zählt hier als
+eine Aufnahme. Die Trennung hört alle Blöcke, hintereinander, so wie der
+Lauf sie zusammensetzt, und die Stimmen, die sie findet, gelten für die
+ganze Aufnahme. Eine Trennung, die eine frühere Version nur aus dem
+ersten Block gemacht hat, gilt nicht für das Ganze: Sie wird einmal neu
+berechnet.
+
 Die Trennung ist der Weg für **eine gemeinsame Aufnahme**, auf der alle
 zu hören sind. Sie braucht das Häkchen **Multitrack (je Sprecher eine
 Spur)** nicht: die Spalte steht auf beiden Wegen da, auch bei einer

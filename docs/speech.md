@@ -53,6 +53,13 @@ On a Mac with one recording the separation starts by itself as soon as
 the files are there. With more than one recording nothing starts on its
 own; the answer **several speakers** in the row starts it.
 
+A recording the recorder split into several files -- the blocks the
+file list shows under one row -- counts as one recording here. The
+separation hears every block, one after the other as the run joins
+them, and the voices it finds cover the whole recording. A separation
+an earlier version made of the first block alone is not taken for the
+whole: it is worked out once more.
+
 Separation is the way for **one common recording** that everybody is
 audible on. It does not need the tick **Multitrack (one track per
 speaker)**: the column stands there on both paths, with a single camera
