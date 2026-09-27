@@ -35,7 +35,7 @@ auphonic_jingle_cut_away	11
 auphonic_key_answer_fits	18
 auphonic_key_by_pipe	68
 auphonic_key_in_keyring	14
-auphonic_key_out_of_view	28
+auphonic_key_out_of_view	24
 auphonic_key_reg_shut	9
 auphonic_key_typed	11
 auphonic_keyring_offered	18
@@ -476,3 +476,4 @@ window_output_no_debug	2
 run_camera_audio_planned	4
 source_freeze_attached	22
 run_no_own_camera_kept	5
+auphonic_credit_said	24

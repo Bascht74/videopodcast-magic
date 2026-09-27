@@ -5090,3 +5090,39 @@ msgstr "جو کچھ یہ کہتا ہے وہ آؤٹ پٹ میں ظاہر ہوتا
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian اور Ubuntu پر libsecret-tools پیکیج، Fedora اور Arch پر libsecret"
+
+msgid "%d min"
+msgstr "%d منٹ"
+
+msgid "%d h %02d min"
+msgstr "%d گھنٹے %02d منٹ"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "auphonic.com پر کریڈٹ: %s باقی"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "auphonic.com پر کریڈٹ: نامعلوم"
+
+msgid "%s -- free plan"
+msgstr "%s -- مفت پلان"
+
+msgid "On the free plan a Multitrack production may be at most %s long."
+msgstr "مفت پلان میں Multitrack پروڈکشن زیادہ سے زیادہ %s لمبی ہو سکتی ہے۔"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  auphonic.com پر کریڈٹ: نامعلوم -- اکاؤنٹ نے جواب نہیں دیا۔"
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  auphonic.com پر کریڈٹ: نامعلوم۔"
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  auphonic.com پر کریڈٹ: %s باقی۔"
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  auphonic.com پر کریڈٹ: %s باقی، اور اس پروڈکشن کو %s درکار ہیں -- کافی نہیں۔"
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  auphonic.com پر کریڈٹ: %s باقی، اس پروڈکشن کو درکار %s کے لیے کافی۔"
+
+msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
+msgstr "  مفت پلان میں Multitrack پروڈکشن زیادہ سے زیادہ %s لمبی ہو سکتی ہے، اور یہ %s کی ہے۔"

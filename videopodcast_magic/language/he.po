@@ -5090,3 +5090,39 @@ msgstr "מה שהוא מדווח מופיע בכרטיסייה \"פלט\"."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "החבילה libsecret-tools ב-Debian וב-Ubuntu, libsecret ב-Fedora וב-Arch"
+
+msgid "%d min"
+msgstr "%d דק׳"
+
+msgid "%d h %02d min"
+msgstr "%d שע׳ %02d דק׳"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "קרדיט ב-auphonic.com: נותרו %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "קרדיט ב-auphonic.com: לא ידוע"
+
+msgid "%s -- free plan"
+msgstr "%s -- תוכנית חינמית"
+
+msgid "On the free plan a Multitrack production may be at most %s long."
+msgstr "בתוכנית החינמית הפקת Multitrack יכולה להימשך לכל היותר %s."
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  קרדיט ב-auphonic.com: לא ידוע -- החשבון לא ענה."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  קרדיט ב-auphonic.com: לא ידוע."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  קרדיט ב-auphonic.com: נותרו %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  קרדיט ב-auphonic.com: נותרו %s, וההפקה הזו צריכה %s -- לא מספיק."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  קרדיט ב-auphonic.com: נותרו %s, מספיק ל-%s שההפקה הזו צריכה."
+
+msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
+msgstr "  בתוכנית החינמית הפקת Multitrack יכולה להימשך לכל היותר %s, וזו נמשכת %s."

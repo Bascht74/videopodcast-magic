@@ -5271,3 +5271,39 @@ msgstr "ما يقوله يظهر تحت الإخراج."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "الحزمة libsecret-tools على Debian وUbuntu، وlibsecret على Fedora وArch"
+
+msgid "%d min"
+msgstr "%d د"
+
+msgid "%d h %02d min"
+msgstr "%d س %02d د"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "الرصيد في auphonic.com: يتبقى %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "الرصيد في auphonic.com: غير معروف"
+
+msgid "%s -- free plan"
+msgstr "%s -- الخطة المجانية"
+
+msgid "On the free plan a Multitrack production may be at most %s long."
+msgstr "في الخطة المجانية لا يجوز أن تتجاوز مدة إنتاج Multitrack %s."
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  الرصيد في auphonic.com: غير معروف -- لم يُجب الحساب."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  الرصيد في auphonic.com: غير معروف."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  الرصيد في auphonic.com: يتبقى %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  الرصيد في auphonic.com: يتبقى %s، وهذا الإنتاج يحتاج %s -- لا يكفي."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  الرصيد في auphonic.com: يتبقى %s، وهو يكفي لـ %s التي يحتاجها هذا الإنتاج."
+
+msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
+msgstr "  في الخطة المجانية لا يجوز أن تتجاوز مدة إنتاج Multitrack %s، وهذا الإنتاج مدته %s."

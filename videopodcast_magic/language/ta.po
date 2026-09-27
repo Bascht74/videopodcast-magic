@@ -5091,3 +5091,39 @@ msgstr "அது சொல்வது வெளியீடு தாவலி
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian, Ubuntu-வில் libsecret-tools தொகுப்பு, Fedora, Arch-இல் libsecret"
+
+msgid "%d min"
+msgstr "%d நிமி"
+
+msgid "%d h %02d min"
+msgstr "%d மணி %02d நிமி"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "auphonic.com-இல் கிரெடிட்: %s மீதம்"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "auphonic.com-இல் கிரெடிட்: தெரியவில்லை"
+
+msgid "%s -- free plan"
+msgstr "%s -- இலவசத் திட்டம்"
+
+msgid "On the free plan a Multitrack production may be at most %s long."
+msgstr "இலவசத் திட்டத்தில் ஒரு Multitrack தயாரிப்பு அதிகபட்சம் %s நீளமாக இருக்கலாம்."
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  auphonic.com-இல் கிரெடிட்: தெரியவில்லை -- கணக்கு பதிலளிக்கவில்லை."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  auphonic.com-இல் கிரெடிட்: தெரியவில்லை."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  auphonic.com-இல் கிரெடிட்: %s மீதம்."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  auphonic.com-இல் கிரெடிட்: %s மீதம், இந்தத் தயாரிப்புக்கு %s தேவை -- போதாது."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  auphonic.com-இல் கிரெடிட்: %s மீதம், இந்தத் தயாரிப்புக்குத் தேவையான %s-க்குப் போதும்."
+
+msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
+msgstr "  இலவசத் திட்டத்தில் ஒரு Multitrack தயாரிப்பு அதிகபட்சம் %s நீளமாக இருக்கலாம், இது %s."

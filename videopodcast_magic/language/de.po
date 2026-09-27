@@ -6824,3 +6824,39 @@ msgstr "Was dabei ausgegeben wird, erscheint unter Ausgabe."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "das Paket libsecret-tools unter Debian und Ubuntu, libsecret unter Fedora und Arch"
+
+msgid "%d min"
+msgstr "%d Min."
+
+msgid "%d h %02d min"
+msgstr "%d Std. %02d Min."
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Guthaben bei auphonic.com: noch %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Guthaben bei auphonic.com: unbekannt"
+
+msgid "%s -- free plan"
+msgstr "%s -- kostenloser Tarif"
+
+msgid "On the free plan a Multitrack production may be at most %s long."
+msgstr "Im kostenlosen Tarif darf eine Multitrack-Produktion höchstens %s lang sein."
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Guthaben bei auphonic.com: unbekannt -- das Konto hat nicht geantwortet."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Guthaben bei auphonic.com: unbekannt."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Guthaben bei auphonic.com: noch %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Guthaben bei auphonic.com: noch %s, diese Produktion braucht %s -- das reicht nicht."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Guthaben bei auphonic.com: noch %s, genug für die %s, die diese Produktion braucht."
+
+msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
+msgstr "  Im kostenlosen Tarif darf eine Multitrack-Produktion höchstens %s lang sein, und diese ist %s lang."

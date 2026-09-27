@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 """Nobody else can read the key: not in the process list, not left behind.
 
-Every call to auphonic.com goes through _curl_call, and no test watched
-it. curl is never started and the key store is stood in for: the place
-that starts a process reads what it was handed -- the arguments, the
-environment, and the file behind --config while it still exists. The
-sections: the quiet call, the two ways one can go wrong, the transfer
-with a bar, what is left lying about, the project file, and where a
-download goes -- the key to auphonic.com alone. Where a
-file mode carries no rights -- Windows -- the two judgements about it
-are left out by name. The key is invented and no line prints it.
+Every call to auphonic.com goes through _curl_call. The place that
+starts a process reads what it was handed -- the arguments, the
+environment, its input -- and what the temporary folder holds at that
+moment. Sections: the quiet call, the two ways one can go wrong, the
+transfer with a bar, what is left lying about, the project file, where
+a download goes, and a real process in curl's place that reads its
+input and looks in the folder itself. The key is invented; no line
+prints it.
 """
 PLATFORM_BOUND = True
 import os
@@ -24,7 +23,6 @@ sys.path.insert(0, HERE)
 import io
 import json
 import shutil
-import stat
 import subprocess
 import tempfile
 import time
@@ -46,27 +44,19 @@ import key_store_apart
 key_store_apart.apart(vpm)
 
 # Unmistakably invented, and it survives the program's escaping
-# untouched: no backslash, no quotation mark, no space, so what is
-# written into the config file is this string character for character.
+# untouched: no backslash, no quotation mark, no space, so what curl is
+# handed on its input carries this string character for character.
 KEY = "NOT-A-REAL-KEY-videopodcast-magic-test-only"
 # A host that resolves nowhere, so even a stand-in that failed could not
 # reach auphonic.com. One strand did reach it once by accident.
 URL = "https://vpm-test.invalid/api/info.json"
 
-# Whether a file mode carries rights on this system at all. On Windows
-# os.chmod sets the read-only flag and nothing else, so st_mode answers
-# 0666 for every writable file and 0600 can neither be asked for nor
-# read back -- both builder jobs there reported "mode 0666 against
-# 0600". What shuts the file there is the access list on %TEMP%, and no
-# way of reading an access list is open to this test. So the question is
-# not asked wrongly, it is left out by name at the end of the run.
-MODE_CARRIES_RIGHTS = os.name != "nt"
+# The folder the system hands out for what a run throws away: where the
+# key lay in a file of its own until b28, and so where it is looked for.
+TEMP_ROOT = os.path.realpath(tempfile.gettempdir())
 
 done = 0
 bad = []
-# Judgements this system cannot be asked for. They are named in full at
-# the end rather than counted, so nothing has to be kept in step by hand.
-LEFT_OUT = []
 
 
 def check(name, ok, extra=""):
@@ -83,27 +73,23 @@ def check(name, ok, extra=""):
 
 def stop():
     """Every way out passes the count and the return code."""
-    if LEFT_OUT:
-        # run.sh keeps the test green on this and repeats the line, so
-        # the piece is named without the twenty-one beside it being
-        # written off. It has to say which piece and why, because on the
-        # machine that prints it this is the only word about the hole.
-        print("LEFT OUT %d of the %d judgements here, and both are the "
-              "same question: %s. os.chmod on this system sets the "
-              "read-only flag and no other right, so st_mode answers "
-              "0666 for every writable file and 0600 can neither be "
-              "asked for nor read back."
-              % (len(LEFT_OUT), done + len(LEFT_OUT),
-                 " and ".join(LEFT_OUT)))
-        print("LEFT OUT what still holds instead: the config file lies "
-              "in the folder this system hands out for temporary files "
-              "and in none of the program's, the working or the home "
-              "folder -- which on Windows is where the access list that "
-              "does shut it comes from. That list itself is not read "
-              "here, and nothing in this test claims it was.")
     print("\n%d checks in %.2f s" % (done, time.time() - began))
     print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
     sys.exit(1 if bad else 0)
+
+
+def holding_key(root, key=KEY):
+    """Every file under *root* whose bytes hold *key*, by name."""
+    found = []
+    for folder, _dirs, files in os.walk(root):
+        for one in files:
+            try:
+                with io.open(os.path.join(folder, one), "rb") as fh:
+                    if key.encode("utf-8") in fh.read():
+                        found.append(one)
+            except OSError:
+                pass
+    return found
 
 
 # ---------------------------------------------------------------- ground
@@ -120,7 +106,7 @@ vpm.show_progress = lambda text, share=None: None
 
 
 class Started(object):
-    """One start of a program, read while its config file still exists."""
+    """One start of a program: what it was handed, and the folder then."""
 
     def __init__(self, argv, kwargs):
         self.argv = ([str(x) for x in argv]
@@ -131,18 +117,26 @@ class Started(object):
         given = kwargs.get("env")
         self.env = dict(given) if given is not None else dict(os.environ)
         self.out_file = getattr(kwargs.get("stdout"), "name", None)
-        self.conf = None
-        if "--config" in self.argv:
-            at = self.argv.index("--config")
-            if at + 1 < len(self.argv):
-                self.conf = self.argv[at + 1]
-        self.conf_there = bool(self.conf) and os.path.exists(self.conf)
-        self.conf_mode = None
-        self.conf_text = ""
-        if self.conf_there:
-            self.conf_mode = stat.S_IMODE(os.stat(self.conf).st_mode)
-            with open(self.conf, "rb") as fh:
-                self.conf_text = fh.read().decode("utf-8", "replace")
+        # What goes in on its input: handed whole to run(), written into
+        # the pipe of a Popen and then closed -- see Input below.
+        self.input = kwargs.get("input") or b""
+        self.input_closed = kwargs.get("input") is not None
+        # Every file in the temporary folder that holds the key while
+        # this process starts, which is while curl would read it.
+        self.lying = holding_key(TEMP_ROOT)
+
+
+class Input(io.BytesIO):
+    """A Popen's input: what was written, and whether it was closed."""
+
+    def __init__(self, start):
+        io.BytesIO.__init__(self)
+        self.start = start
+
+    def close(self):
+        self.start.input = self.getvalue()
+        self.start.input_closed = True
+        io.BytesIO.close(self)
 
 
 STARTS = []
@@ -164,9 +158,12 @@ class Broken(object):
 
 class FakePopen(object):
     def __init__(self, argv, **kwargs):
-        STARTS.append(Started(argv, kwargs))
+        start = Started(argv, kwargs)
+        STARTS.append(start)
         self.args = list(argv)
         self.returncode = None
+        self.stdin = (Input(start) if kwargs.get("stdin") == subprocess.PIPE
+                      else None)
         sink = kwargs.get("stdout")
         if sink is not None and hasattr(sink, "write"):
             sink.write(b'{"ok": 1}')
@@ -224,6 +221,14 @@ def call(**kw):
     return None
 
 
+def on_input(start):
+    """Whether *start* was told to read its configuration from its input
+    and was handed the key there."""
+    at = start.argv.index("--config") if "--config" in start.argv else -1
+    return (at >= 0 and start.argv[at + 1:at + 2] == ["-"]
+            and KEY.encode("utf-8") in start.input)
+
+
 # ------------------------------------------------------- 1. A quiet call
 print("1. The quiet call")
 
@@ -233,7 +238,7 @@ if len(STARTS) < 2:
     check("the channel starts a program at all", False,
           "%d starts against 2 calls" % len(STARTS))
     stop()
-first, second = STARTS[0], STARTS[1]
+first = STARTS[0]
 
 check("the channel starts a program at all", len(STARTS) == 2,
       "%d starts against 2 calls" % len(STARTS))
@@ -242,12 +247,12 @@ check("the channel starts curl itself, with no shell in between",
       "started %r, shell %s" % (first.argv[0] if first.argv else "-",
                                 first.shell))
 
-holds = KEY in first.conf_text
-check("the key is written into the config file curl is pointed at",
-      first.conf_there and holds,
-      "config file %s, %d bytes, the key %s"
-      % ("there" if first.conf_there else "missing", len(first.conf_text),
-         "in it" if holds else "in none of them"))
+check("the key is handed to curl on its input, as its configuration",
+      on_input(first),
+      "--config %s, %d bytes on the input, the key %s"
+      % ("-" if "-" in first.argv else "not from the input",
+         len(first.input),
+         "in them" if KEY.encode("utf-8") in first.input else "not in them"))
 
 on_line = [i for i, one in enumerate(first.argv) if KEY in one]
 check("no argument on curl's command line is the key", not on_line,
@@ -261,37 +266,11 @@ check("no environment variable curl inherits carries the key", not in_env,
       % (len(first.env), "none carries it" if not in_env
          else "the one called %s carries it" % in_env[0]))
 
-if MODE_CARRIES_RIGHTS:
-    check("the config file may be read by its owner alone",
-          first.conf_mode == 0o600,
-          "mode %s against 0600"
-          % ("none -- no config file" if first.conf_mode is None
-             else "0%o" % first.conf_mode))
-else:
-    LEFT_OUT.append("that the config file may be read by its owner alone")
-
-# The one file that holds the key belongs where the system keeps what a
-# run throws away -- not beside the program, the working folder or the
-# home folder, which get backed up, synced and packed into an archive.
-TEMP_ROOT = os.path.realpath(tempfile.gettempdir())
-BESIDE = [os.path.realpath(os.path.dirname(os.path.abspath(vpm.__file__))),
-          os.path.realpath(os.getcwd()),
-          os.path.realpath(os.path.expanduser("~"))]
-folder = os.path.realpath(os.path.dirname(first.conf or "."))
-check("the config file lies in the temporary folder, nowhere that is kept",
-      bool(first.conf) and folder == TEMP_ROOT and folder not in BESIDE,
-      "it lies in %s, and the temporary folder is %s" % (folder, TEMP_ROOT))
-
-check("two calls do not share one config file name",
-      bool(first.conf) and bool(second.conf) and first.conf != second.conf,
-      "%s and %s" % (os.path.basename(first.conf or "-"),
-                     os.path.basename(second.conf or "-")))
-
-check("the config file is gone when the call has returned",
-      bool(first.conf) and not os.path.exists(first.conf),
-      "%s is %s" % (first.conf,
-                    "still there" if first.conf
-                    and os.path.exists(first.conf) else "gone"))
+check("no file in the temporary folder holds the key while curl starts",
+      not first.lying,
+      "%d files in %s hold it%s"
+      % (len(first.lying), TEMP_ROOT,
+         ": " + first.lying[0] if first.lying else ""))
 
 # --------------------------------------------- 2. When the call goes wrong
 print("\n2. When the call goes wrong")
@@ -299,29 +278,17 @@ print("\n2. When the call goes wrong")
 PLAN["code"] = 22
 why = call()
 PLAN["code"] = 0
-failed = STARTS[-1]
 check("a call curl reports as failed comes back as a fault",
       isinstance(why, RuntimeError),
       "return code 22, raised %s"
       % (type(why).__name__ if why is not None else "nothing"))
-check("after a failed call the config file is gone",
-      bool(failed.conf) and not os.path.exists(failed.conf),
-      "%s is %s" % (failed.conf,
-                    "still there" if failed.conf
-                    and os.path.exists(failed.conf) else "gone"))
 
 PLAN["raise"] = OSError("there is no curl on this machine")
 why = call()
 PLAN["raise"] = None
-threw = STARTS[-1]
 check("a call that cannot start at all comes back as a fault",
       isinstance(why, OSError),
       "raised %s" % (type(why).__name__ if why is not None else "nothing"))
-check("after a call that could not start the config file is gone",
-      bool(threw.conf) and not os.path.exists(threw.conf),
-      "%s is %s" % (threw.conf,
-                    "still there" if threw.conf
-                    and os.path.exists(threw.conf) else "gone"))
 
 # ------------------------------------------------------- 3. The transfer
 print("\n3. The transfer with a progress bar")
@@ -333,20 +300,17 @@ check("no argument on a transfer's command line is the key", not on_line,
       "%d arguments, %s"
       % (len(moved.argv), "none carries it" if not on_line
          else "argument %d of them carries it" % on_line[0]))
-if MODE_CARRIES_RIGHTS:
-    check("a transfer's config file may be read by its owner alone",
-          moved.conf_mode == 0o600,
-          "mode %s against 0600"
-          % ("none -- no config file" if moved.conf_mode is None
-             else "0%o" % moved.conf_mode))
-else:
-    LEFT_OUT.append("that a transfer's config file may be read by its "
-                    "owner alone")
-check("a transfer that finished leaves no config file",
-      bool(moved.conf) and not os.path.exists(moved.conf),
-      "%s is %s" % (moved.conf,
-                    "still there" if moved.conf
-                    and os.path.exists(moved.conf) else "gone"))
+# Closed, or curl waits on its input for more configuration for ever.
+check("a transfer hands curl the key on its input and closes it",
+      on_input(moved) and moved.input_closed,
+      "the key %s, the input %s"
+      % ("on the input" if on_input(moved) else "not on the input",
+         "closed" if moved.input_closed else "left open"))
+check("no file in the temporary folder holds the key while a transfer "
+      "starts", not moved.lying,
+      "%d files in %s hold it%s"
+      % (len(moved.lying), TEMP_ROOT,
+         ": " + moved.lying[0] if moved.lying else ""))
 check("a transfer that finished leaves no answer file",
       bool(moved.out_file) and not os.path.exists(moved.out_file),
       "%s is %s" % (moved.out_file,
@@ -360,11 +324,6 @@ torn = STARTS[-1]
 check("a transfer that breaks off in the middle comes back as a fault",
       why is not None,
       "raised %s" % (type(why).__name__ if why is not None else "nothing"))
-check("a transfer that broke off leaves no config file",
-      bool(torn.conf) and not os.path.exists(torn.conf),
-      "%s is %s" % (torn.conf,
-                    "still there" if torn.conf
-                    and os.path.exists(torn.conf) else "gone"))
 check("a transfer that broke off leaves no answer file",
       bool(torn.out_file) and not os.path.exists(torn.out_file),
       "%s is %s" % (torn.out_file,
@@ -379,21 +338,13 @@ print("\n4. What is left lying about")
 # not, because it is the cheapest way to see litter come back: this
 # found the fallback that recreated an answer file the normal path had
 # already removed, one per transfer, and would find its like again.
-made = [p for one in STARTS for p in (one.conf, one.out_file) if p]
+made = [one.out_file for one in STARTS if one.out_file]
 survivors = [p for p in made if os.path.exists(p)]
-leaky = []
-for path in survivors:
-    try:
-        with io.open(path, "rb") as fh:
-            if KEY.encode("utf-8") in fh.read():
-                leaky.append(path)
-    except OSError:
-        pass
+leaky = holding_key(TEMP_ROOT)
 check("no file this channel left behind holds the key", not leaky,
-      "%d of the %d files it made are still there, %s"
-      % (len(survivors), len(made),
-         "none holds the key" if not leaky
-         else "the one at %s holds it" % leaky[0]))
+      "%d of the %d answer files it made are still there, %d files in "
+      "the temporary folder hold the key"
+      % (len(survivors), len(made), len(leaky)))
 
 # Counted first, then swept: what the program made under this test is
 # this test's to take away again, and only that.
@@ -500,7 +451,7 @@ print("\n6. Where a download goes")
 # A download address is the server's word and can name any host. It is
 # fetched the way the program fetches it -- fetch_text_outputs, the
 # first of the downloading functions -- and what the one start of curl
-# was handed is read: the config file behind --config, the arguments.
+# was handed is read: its input, the arguments.
 fetch_room = tempfile.mkdtemp(prefix="vpm_key_host_")
 
 
@@ -525,8 +476,8 @@ def carries(start):
     """Where in one start of curl the key stands, or "nowhere"."""
     if start is None:
         return "no start"
-    if KEY in start.conf_text:
-        return "the config file"
+    if KEY.encode("utf-8") in start.input:
+        return "curl's input"
     if any(KEY in one for one in start.argv):
         return "an argument"
     return "nowhere"
@@ -534,7 +485,7 @@ def carries(start):
 
 home = fetched_with("https://auphonic.com/api/download/chapters.txt")
 check("a download from auphonic.com is handed the key",
-      carries(home) == "the config file",
+      carries(home) == "curl's input",
       "the key stands in %s" % carries(home))
 
 foreign = fetched_with("http://127.0.0.1:9/chapters.txt")
@@ -558,5 +509,85 @@ check("an address that only looks like auphonic.com is handed no key",
       not given,
       "%d of %d handed it: %s" % (len(given), len(LOOKALIKES), given))
 shutil.rmtree(fetch_room, ignore_errors=True)
+
+# ------------------------------------------ 7. A real process in its place
+print("\n7. A real process in curl's place")
+
+# Everything above asked a stand-in in this process. Here a process of
+# its own is started where curl would be -- this Python, a script that
+# reads its input the way curl reads "--config -" and, while it runs,
+# looks through the temporary folder itself. What it saw it writes as
+# yes and no, never the key. The key it watches for comes in its
+# environment from this test, not from the program.
+room = tempfile.mkdtemp(prefix="vpm_key_real_")
+STANDIN = os.path.join(room, "curl_reads_input.py")
+REPORT = os.path.join(room, "seen.jsonl")
+with io.open(STANDIN, "w", encoding="utf-8") as f:
+    f.write(r"""
+import json, os, sys
+args = sys.argv[1:]
+key = os.environ["VPM_KEY_WATCH"].encode("utf-8")
+handed = sys.stdin.buffer.read() if args[args.index("--config") + 1:][:1] \
+    == ["-"] else b""
+lying = []
+for folder, _d, files in os.walk(os.environ["VPM_KEY_ROOT"]):
+    for one in files:
+        try:
+            with open(os.path.join(folder, one), "rb") as fh:
+                if key in fh.read():
+                    lying.append(one)
+        except OSError:
+            pass
+with open(os.environ["VPM_KEY_REPORT"], "a") as out:
+    out.write(json.dumps({"on_input": key in handed,
+                          "in_args": any(key.decode() in a for a in args),
+                          "lying": len(lying)}) + "\n")
+sys.stderr.write("100  10  100  10    0     0\r")
+sys.stdout.write('{"ok": 1}')
+""")
+
+
+def started_here(argv, kwargs):
+    """curl's place taken by the script, the key to watch beside it."""
+    argv = [sys.executable, STANDIN] + list(argv[1:])
+    env = dict(kwargs.pop("env", None) or os.environ)
+    env.update({"VPM_KEY_WATCH": KEY, "VPM_KEY_ROOT": TEMP_ROOT,
+                "VPM_KEY_REPORT": REPORT})
+    return argv, dict(kwargs, env=env)
+
+
+class RealSubprocess(NoSubprocess):
+    """subprocess itself, with the script started where curl was asked."""
+
+    @staticmethod
+    def run(argv, **kwargs):
+        argv, kwargs = started_here(argv, kwargs)
+        return subprocess.run(argv, **kwargs)
+
+    @staticmethod
+    def Popen(argv, **kwargs):
+        argv, kwargs = started_here(argv, kwargs)
+        return subprocess.Popen(argv, **kwargs)
+
+
+vpm.subprocess = RealSubprocess
+quiet_why = call()
+moved_why = call(progress="Uploading")
+vpm.subprocess = NoSubprocess
+seen = []
+if os.path.exists(REPORT):
+    with io.open(REPORT, encoding="utf-8") as fh:
+        seen = [json.loads(one) for one in fh if one.strip()]
+check("a real process in curl's place reads the key off its input",
+      len(seen) == 2 and all(one["on_input"] for one in seen),
+      "%d of %d starts found it on their input; the calls raised %s, %s"
+      % (len([one for one in seen if one["on_input"]]), len(seen),
+         type(quiet_why).__name__ if quiet_why else "nothing",
+         type(moved_why).__name__ if moved_why else "nothing"))
+check("while it ran no file in the temporary folder held the key",
+      len(seen) == 2 and not any(one["lying"] for one in seen),
+      "%s files holding it, per start, in %s"
+      % ([one["lying"] for one in seen], TEMP_ROOT))
+shutil.rmtree(room, ignore_errors=True)
 
 stop()

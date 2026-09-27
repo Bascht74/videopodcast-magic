@@ -44,11 +44,11 @@ accepted** -- so the answer is looked for where the key lies. After
 **Connect** it is the key in the field, and the line says only what
 auphonic.com replied.
 
-* On its way to auphonic.com the key never appears in the process list:
-  curl reads it from a config file that only its owner can read. The
-  program deletes that file afterwards, and overwrites it first if it
-  cannot delete it. The key goes into that file escaped, so a quotation
-  mark or a line break in it cannot add directives of its own.
+* On its way to auphonic.com the key never appears in the process list
+  and never lies in a file: curl reads it from its input, as the one
+  line of its configuration, and nothing else on the machine sees that
+  input. The key goes into that line escaped, so a quotation mark or a
+  line break in it cannot add directives of its own.
 
 Storing it in the macOS Keychain hands it to the `security` program over
 that program's input, not as an argument, so the key does not stand in
@@ -82,6 +82,15 @@ On the **Assignment & time window** tab the box **Processing at
 auphonic.com (optional)** holds what this run does: the preset under
 **Preset:** (on the command line `--auphonic-preset`). The program
 rebuilds the production from that preset.
+
+Once the key is checked, a line under the preset shows the credit left
+at auphonic.com, and says so where the account is on the free plan. In
+Multitrack mode it reminds you in the colour of a warning that a free
+Multitrack production may last 20 minutes at most. The account is asked
+together with the presets and at no other time. Before each upload the
+log says whether the credit suffices for this production, and warns
+where a free Multitrack production is longer than 20 minutes. It only
+warns: the run goes on, and auphonic.com has the last word.
 
 The tick **Multitrack (one track per speaker)** is not in the Auphonic
 box and needs no key. What it decides here is whether every person keeps

@@ -5042,3 +5042,39 @@ msgstr "其输出显示在“输出”下。"
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian 和 Ubuntu 上的 libsecret-tools 软件包，Fedora 和 Arch 上的 libsecret"
+
+msgid "%d min"
+msgstr "%d 分"
+
+msgid "%d h %02d min"
+msgstr "%d 小时 %02d 分"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "auphonic.com 额度：剩余 %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "auphonic.com 额度：未知"
+
+msgid "%s -- free plan"
+msgstr "%s——免费方案"
+
+msgid "On the free plan a Multitrack production may be at most %s long."
+msgstr "免费方案下，Multitrack 制作最长 %s。"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  auphonic.com 额度：未知——账户没有回应。"
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  auphonic.com 额度：未知。"
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  auphonic.com 额度：剩余 %s。"
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  auphonic.com 额度：剩余 %s，而此次制作需要 %s——不够。"
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  auphonic.com 额度：剩余 %s，足够此次制作所需的 %s。"
+
+msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
+msgstr "  免费方案下，Multitrack 制作最长 %s，而此次制作长 %s。"

@@ -5,7 +5,7 @@ Put first on PATH under the name curl by source_live_asks_first, so the
 live tests can be run without a network: to prove the starter's gate,
 and to see each live check fall against a broken copy of the program.
 Every call is written to VPM_STANDIN_LOG as its arguments and whether
-the key named in VPM_STANDIN_WATCH stood in the config file; the key
+the key named in VPM_STANDIN_WATCH came in its configuration; the key
 itself is never written. A key containing VPM_STANDIN_REFUSED is turned
 away with a 401, the way auphonic.com turns away one it does not know.
 
@@ -24,7 +24,10 @@ import wave
 
 args = sys.argv[1:]
 conf = args[args.index("--config") + 1] if "--config" in args else ""
-said = open(conf, encoding="utf-8").read() if conf else ""
+# "--config -" is the program's way since b28: the key comes on the
+# input, and no file holds it.
+said = (sys.stdin.read() if conf == "-" else
+        open(conf, encoding="utf-8").read() if conf else "")
 LOG = os.environ["VPM_STANDIN_LOG"]
 with open(LOG, "a", encoding="utf-8") as log:
     log.write(json.dumps({"args": args, "key_in_config":
