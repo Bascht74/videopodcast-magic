@@ -5051,9 +5051,6 @@ msgstr "gói libsecret-tools trên Debian và Ubuntu, libsecret trên Fedora và
 msgid "%d min"
 msgstr "%d phút"
 
-msgid "%d h %02d min"
-msgstr "%d giờ %02d phút"
-
 msgid "Credit at auphonic.com: %s left"
 msgstr "Tín dụng tại auphonic.com: còn %s"
 
@@ -5062,9 +5059,6 @@ msgstr "Tín dụng tại auphonic.com: không rõ"
 
 msgid "%s -- free plan"
 msgstr "%s -- gói miễn phí"
-
-msgid "On the free plan a Multitrack production may be at most %s long."
-msgstr "Ở gói miễn phí, một bản sản xuất Multitrack dài tối đa %s."
 
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Tín dụng tại auphonic.com: không rõ -- tài khoản không trả lời."
@@ -5081,8 +5075,23 @@ msgstr "  Tín dụng tại auphonic.com: còn %s, mà bản sản xuất này c
 msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
 msgstr "  Tín dụng tại auphonic.com: còn %s, đủ cho %s mà bản sản xuất này cần."
 
-msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
-msgstr "  Ở gói miễn phí, một bản sản xuất Multitrack dài tối đa %s, còn bản này dài %s."
+msgid "  Account at auphonic.com: paying."
+msgstr "  Tài khoản tại auphonic.com: trả phí."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Tài khoản tại auphonic.com: miễn phí."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Tài khoản tại auphonic.com: không rõ."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Lưu ý: lượt chạy vẫn thử. auphonic.com quyết định bản sản xuất có bắt đầu hay không, và sẽ báo nếu không."
+
+msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Lưu ý: ở gói miễn phí, auphonic.com chỉ nhận bản sản xuất Multitrack ngắn hơn %s, còn bản này dài %s. Lượt chạy vẫn thử; nếu auphonic.com từ chối, thông báo của chính nó sẽ theo sau."
+
+msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
+msgstr "Ở gói miễn phí, auphonic.com chỉ nhận bản sản xuất Multitrack ngắn hơn %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Dự án %r do lần chạy này tạo vẫn mở -- trước đó không có gì đang mở\n  có thể mở lại. Hãy xóa nó trong trình quản lý dự án của Resolve."

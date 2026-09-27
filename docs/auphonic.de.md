@@ -92,15 +92,17 @@ Auf dem Reiter **Zuordnung & Zeitfenster** steht im Kasten
 Preset unter **Preset:** (auf der Kommandozeile `--auphonic-preset`).
 Aus diesem Preset baut das Programm die Produktion neu.
 
-Ist der Schlüssel geprüft, zeigt eine Zeile unter dem Preset das
-restliche Guthaben bei auphonic.com und sagt es, wenn das Konto im
-kostenlosen Tarif ist. Im Multitrack-Modus erinnert sie in der Farbe
-einer Warnung daran, dass eine kostenlose Multitrack-Produktion höchstens
-20 Minuten dauern darf. Der Kasten fragt das Konto zusammen mit den
-Presets und sonst nie. Der Lauf fragt vor jedem Hochladen noch einmal,
-und das Protokoll sagt, ob das Guthaben für diese Produktion reicht, und warnt, wenn eine kostenlose
-Multitrack-Produktion länger als 20 Minuten ist. Es warnt nur: der Lauf
-geht weiter, und das letzte Wort hat auphonic.com.
+Ist der Schlüssel geprüft und ein Preset gewählt, zeigt eine Zeile unter
+dem Preset, wie viele Minuten Guthaben bei auphonic.com noch übrig sind,
+und sagt es, wenn das Konto im kostenlosen Tarif ist. Rot wird sie, wenn
+das Guthaben nicht für die Produktion reicht. Gerechnet wird bei
+Multitrack mit der längsten Spur, sonst mit allen Spuren zusammen, und
+zwar bevor der Lauf sie auf eine Zeitachse legt -- das kann sie nur
+länger machen. Ist das Konto im kostenlosen Tarif und die
+Multitrack-Produktion 20 Minuten lang oder länger, kommt eine zweite,
+ebenfalls rote Zeile dazu: Im kostenlosen Tarif nimmt auphonic.com eine
+Multitrack-Produktion nur an, wenn sie kürzer als 20 Minuten ist. Der
+Kasten fragt das Konto zusammen mit den Presets und sonst nie.
 
 Das Häkchen **Multitrack (je Sprecher eine Spur)** steht nicht im
 Auphonic-Kasten und braucht keinen Schlüssel. Es entscheidet hier, ob
@@ -220,12 +222,32 @@ Beide Wege beginnen im Protokoll mit einer Überschrift: `AUFBEREITUNG
 BEI AUPHONIC.COM:` bei einer einzelnen Spur, `AUFBEREITUNG BEI
 AUPHONIC.COM (MULTITRACK):` bei mehreren. Darunter stehen das Preset und
 die Datei mit Größe und Kanälen, oder der Titel der Produktion, die
-Spuren mit Namen und das, was hochzuladen ist. Dann folgt das Guthaben,
-etwa `Guthaben bei auphonic.com: noch 1 Std. 20 Min., genug für die 12
-Min., die diese Produktion braucht.` Was eine Produktion braucht, wird in
-ganzen Minuten gezählt, aufgerundet und nie unter `1 Min.`, weil
+Spuren mit Namen und das, was hochzuladen ist. Dann fragt der Lauf das
+Konto noch einmal und sagt, was es geantwortet hat: den Tarif, etwa
+`Das Konto bei auphonic.com ist im kostenlosen Tarif.`, und das Guthaben
+in Minuten, etwa `Guthaben bei auphonic.com: noch 80 Min., genug für die
+12 Min., die diese Produktion braucht.` Was eine Produktion braucht, wird
+in ganzen Minuten gezählt, aufgerundet und nie unter `1 Min.`, weil
 auphonic.com nicht weniger abrechnet: Eine Probe von 20 Sekunden braucht
 `1 Min.`, nicht `0 Min.`
+
+Zwei Dinge sagt der Lauf als Hinweis, der mit `Hinweis:` beginnt, nie als
+Warnung, und in beiden Fällen geht er weiter:
+
+* **Das Guthaben reicht nicht.** Die Zeile zum Guthaben endet auf `-- das
+  reicht nicht.`, und der Hinweis sagt, dass der Lauf es trotzdem
+  versucht: Ob die Produktion startet, entscheidet auphonic.com.
+* **Ein kostenloses Konto und eine Multitrack-Produktion von 20 Minuten
+  oder mehr.** Im kostenlosen Tarif nimmt auphonic.com eine
+  Multitrack-Produktion nur an, wenn sie kürzer als 20 Minuten ist. Der
+  Hinweis sagt das, nennt die Länge dieser Produktion und dass der Lauf
+  es trotzdem versucht.
+
+Lehnt auphonic.com ab, dann beim Start, nach dem Hochladen, und es
+berechnet nichts. Der Lauf endet dann mit `Aufbereitung fehlgeschlagen:`
+und der Meldung von auphonic.com selbst, etwa `Non-paying users can try
+our multitrack algorithms only for productions shorter than 20min!` --
+sie kommt auf Englisch, so wie auphonic.com sie schickt.
 
 Eine einzelne Spur geht dann diese Schritte:
 

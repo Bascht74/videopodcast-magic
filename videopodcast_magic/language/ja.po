@@ -5051,9 +5051,6 @@ msgstr "Debian と Ubuntu では libsecret-tools パッケージ、Fedora と Ar
 msgid "%d min"
 msgstr "%d分"
 
-msgid "%d h %02d min"
-msgstr "%d時間%02d分"
-
 msgid "Credit at auphonic.com: %s left"
 msgstr "auphonic.com のクレジット：残り %s"
 
@@ -5062,9 +5059,6 @@ msgstr "auphonic.com のクレジット：不明"
 
 msgid "%s -- free plan"
 msgstr "%s -- 無料プラン"
-
-msgid "On the free plan a Multitrack production may be at most %s long."
-msgstr "無料プランでは Multitrack プロダクションは最長 %s までです。"
 
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  auphonic.com のクレジット：不明 -- アカウントから応答がありません。"
@@ -5081,8 +5075,23 @@ msgstr "  auphonic.com のクレジット：残り %s、このプロダクショ
 msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
 msgstr "  auphonic.com のクレジット：残り %s、このプロダクションに必要な %s には足ります。"
 
-msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
-msgstr "  無料プランでは Multitrack プロダクションは最長 %s までですが、これは %s あります。"
+msgid "  Account at auphonic.com: paying."
+msgstr "  auphonic.com のアカウント：有料。"
+
+msgid "  Account at auphonic.com: free."
+msgstr "  auphonic.com のアカウント：無料。"
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  auphonic.com のアカウント：不明。"
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  注記: それでも実行は試みます。プロダクションが始まるかどうかは auphonic.com が決め、始まらなければそう伝えます。"
+
+msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  注記: 無料プランでは auphonic.com は %s より短い Multitrack プロダクションしか受け付けず、これは %s あります。それでも実行は試みます。auphonic.com が拒否した場合は、その本来のメッセージが続きます。"
+
+msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
+msgstr "無料プランでは auphonic.com は %s より短い Multitrack プロダクションしか受け付けません。"
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  この実行で作成したプロジェクト %r は開いたままです -- 以前は再び開けるものが\n  何も開いていませんでした。Resolve のプロジェクトマネージャーで削除してください。"

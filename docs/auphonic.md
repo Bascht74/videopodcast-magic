@@ -83,15 +83,16 @@ auphonic.com (optional)** holds what this run does: the preset under
 **Preset:** (on the command line `--auphonic-preset`). The program
 rebuilds the production from that preset.
 
-Once the key is checked, a line under the preset shows the credit left
-at auphonic.com, and says so where the account is on the free plan. In
-Multitrack mode it reminds you in the colour of a warning that a free
-Multitrack production may last 20 minutes at most. The box asks the
-account together with the presets and at no other time. The run asks
-once more before each upload, and the log says whether the credit
-suffices for this production, and warns where a free Multitrack
-production is longer than 20 minutes. It only warns: the run goes on,
-and auphonic.com has the last word.
+Once the key is checked and a preset is chosen, a line under the preset
+shows the minutes of credit left at auphonic.com, and says so where the
+account is on the free plan. It turns red where the credit is fewer
+than the production needs -- as long as the longest track for
+Multitrack, all tracks together otherwise, before the run lays them on
+one axis, which can only make them longer. On the free plan a
+Multitrack production of 20 minutes or more adds a second line, red as
+well: auphonic.com takes a Multitrack production there only when it is
+shorter than 20 minutes. The box asks the account together with the
+presets and at no other time.
 
 The tick **Multitrack (one track per speaker)** is not in the Auphonic
 box and needs no key. What it decides here is whether every person keeps
@@ -204,11 +205,29 @@ Both paths open with a heading in the log: `PROCESSING AT
 AUPHONIC.COM:` for a single track, `PROCESSING AT AUPHONIC.COM
 (MULTITRACK):` for several. Under it stand the preset and the file with
 its size and channels, or the production's title, the tracks by name and
-what there is to upload. Then comes the credit, for instance
-`Credit at auphonic.com: 1 h 20 min left, enough for the 12 min this
+what there is to upload. The run then asks the account once more and
+says what it answered: the plan, `Account at auphonic.com: free.`,
+`paying.` or `not known.`, and the credit in minutes, for instance
+`Credit at auphonic.com: 80 min left, enough for the 12 min this
 production needs.` What a production needs is counted in whole minutes,
 rounded up and never below `1 min`, since auphonic.com charges no less:
 a 20-second sample needs `1 min`, not `0 min`.
+
+Two things are said as a hint beginning `Note:`, never as a warning,
+and the run goes on either way:
+
+* **Too little credit.** The credit line ends in `-- not enough.`, and
+  the note says that the run tries anyway: auphonic.com decides whether
+  the production starts.
+* **A free account and a Multitrack production of 20 minutes or more.**
+  auphonic.com takes a Multitrack production on the free plan only when
+  it is shorter than 20 minutes. The note says so, with the length of
+  this one, and that the run tries anyway.
+
+Where auphonic.com refuses, it does so at the start, after the upload,
+and charges nothing; the run ends with `Processing failed:` and
+auphonic.com's own message, for instance `Non-paying users can try our
+multitrack algorithms only for productions shorter than 20min!`
 
 A single track then goes through these steps:
 

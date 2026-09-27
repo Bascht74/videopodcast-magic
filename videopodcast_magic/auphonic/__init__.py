@@ -403,8 +403,9 @@ def list_presets(key):
     return Presets(items)
 
 
-# The longest Multitrack production a free account may start, as the
-# pricing page of auphonic.com says it ("< 20 min"), read 27.9.2026.
+# auphonic.com's Multitrack border for a free account, in its refusal of
+# an hour-long one: "shorter than 20min". 21 minutes went through, so it
+# is said and never enforced (both measured 27.9.2026).
 FREE_MULTITRACK_S = 20 * 60
 
 
@@ -441,27 +442,45 @@ def account_credit(key):
 
 
 def credit_time(seconds, needed=False):
-    """A span of credit as hours and whole minutes.
+    """A span of credit in whole minutes.
 
     What is left is rounded down. What a production *needed* is rounded
     up and never below one minute: auphonic.com charges whole minutes,
     so a twenty-second production is not free.
     """
+    return T('%d min') % credit_minutes(seconds, needed)
+
+
+def credit_minutes(seconds, needed=False):
+    """The whole minutes credit_time says: left down, needed up, at least 1."""
     if needed:
-        minutes = max(1, int(-(-max(0.0, seconds) // 60)))
-    else:
-        minutes = int(max(0.0, seconds) // 60)
-    if minutes < 60:
-        return T('%d min') % minutes
-    return T('%d h %02d min') % (minutes // 60, minutes % 60)
+        return max(1, int(-(-max(0.0, seconds) // 60)))
+    return int(max(0.0, seconds) // 60)
 
 
-def credit_note(account, multitrack):
+def credit_short(hours, seconds):
+    """Whether *hours* of credit fall short of *seconds* of production.
+
+    Held against the whole minutes it is charged, at least one, so no
+    credit at all is short even where the length is not known.
+    """
+    return (hours is not None
+            and hours * 3600 < credit_minutes(seconds, needed=True) * 60)
+
+
+def free_too_long(account, seconds, multitrack):
+    """Whether auphonic.com's free Multitrack border stands in the way."""
+    return (bool(account) and account.get("paying") is False
+            and multitrack and seconds >= FREE_MULTITRACK_S)
+
+
+def credit_note(account, multitrack, seconds=0):
     """The line the Auphonic box shows about the account: (text, short).
 
-    *short* is true where it is a warning: no credit left, or a free
-    account while the run needs a Multitrack production, which there may
-    be twenty minutes at most. Without an answer there is no line.
+    *seconds*: the production's length as the window knows it, or 0.
+    *short* is true where the line is red: the credit is fewer than the
+    production needs, or a free account's Multitrack production reaches
+    auphonic.com's twenty minutes. Without an answer there is no line.
     """
     if not account:
         return "", False
@@ -470,54 +489,65 @@ def credit_note(account, multitrack):
             if hours is not None else T('Credit at auphonic.com: unknown'))
     if paying is False:
         left = T('%s -- free plan') % left
-    short = hours is not None and hours * 3600 < 60
-    if paying is False and multitrack:
-        left += "\n" + T('On the free plan a Multitrack production may be '
-                         'at most %s long.') % credit_time(FREE_MULTITRACK_S)
+    short = credit_short(hours, seconds)
+    if free_too_long(account, seconds, multitrack):
+        left += "\n" + (T('auphonic.com takes a Multitrack production on the '
+                          'free plan only when it is shorter than %s.')
+                        % credit_time(FREE_MULTITRACK_S))
         short = True
     return left, short
 
 
 def credit_verdict(account, seconds, multitrack):
-    """Whether the account carries this production: [(line, warning)].
+    """What the account says to this production: the lines, as said.
 
     auphonic.com charges the length of what comes back, which is the
     length sent: *seconds*, the longest track. 0 where it is not known.
+    Nothing here is a warning: auphonic.com decides at the start, and
+    where it refuses, its own message ends the run.
     """
+    paying = (account or {}).get("paying")
+    lines = [{True: T('  Account at auphonic.com: paying.'),
+              False: T('  Account at auphonic.com: free.')}.get(
+                  paying, T('  Account at auphonic.com: not known.'))]
     if not account:
-        return [(T('  Credit at auphonic.com: not known -- the account '
-                   'did not answer.'), False)]
-    hours, paying = account.get("hours"), account.get("paying")
-    lines = []
+        lines.append(T('  Credit at auphonic.com: not known -- the account '
+                       'did not answer.'))
+        return lines
+    hours = account.get("hours")
     if hours is None:
-        lines.append((T('  Credit at auphonic.com: not known.'), False))
+        lines.append(T('  Credit at auphonic.com: not known.'))
     elif seconds <= 0:
-        lines.append((T('  Credit at auphonic.com: %s left.')
-                      % credit_time(hours * 3600), False))
-    elif hours * 3600 < max(1, -(-seconds // 60)) * 60:
-        # Held against the whole minutes it is charged, as the line says.
-        lines.append((T('  Credit at auphonic.com: %s left, and this '
-                        'production needs %s -- not enough.')
-                      % (credit_time(hours * 3600),
-                         credit_time(seconds, needed=True)), True))
+        lines.append(T('  Credit at auphonic.com: %s left.')
+                     % credit_time(hours * 3600))
+    elif credit_short(hours, seconds):
+        lines.append(T('  Credit at auphonic.com: %s left, and this '
+                       'production needs %s -- not enough.')
+                     % (credit_time(hours * 3600),
+                        credit_time(seconds, needed=True)))
+        lines.append(T('  Note: the run tries anyway. auphonic.com decides '
+                       'whether the production starts, and says so if it '
+                       'does not.'))
     else:
-        lines.append((T('  Credit at auphonic.com: %s left, enough for the '
-                        '%s this production needs.')
-                      % (credit_time(hours * 3600),
-                         credit_time(seconds, needed=True)), False))
-    if paying is False and multitrack and seconds > FREE_MULTITRACK_S:
-        lines.append((T('  On the free plan a Multitrack production may be '
-                        'at most %s long, and this one is %s.')
-                      % (credit_time(FREE_MULTITRACK_S),
-                         credit_time(seconds, needed=True)), True))
+        lines.append(T('  Credit at auphonic.com: %s left, enough for the '
+                       '%s this production needs.')
+                     % (credit_time(hours * 3600),
+                        credit_time(seconds, needed=True)))
+    if free_too_long(account, seconds, multitrack):
+        lines.append(T('  Note: auphonic.com takes a Multitrack production '
+                       'on the free plan only when it is shorter than %s, '
+                       'and this one is %s. The run tries anyway; if '
+                       'auphonic.com refuses, its own message follows.')
+                     % (credit_time(FREE_MULTITRACK_S),
+                        credit_time(seconds, needed=True)))
     return lines
 
 
 def production_said(key, head, rows, dry_run, seconds, multitrack):
-    """The head both productions print, and what the credit says to it.
+    """The head both productions print, and what the account says to it.
 
     Returns True on a dry run, which ends there: it says nothing to
-    auphonic.com at all, so the credit is only asked before an upload,
+    auphonic.com at all, so the account is only asked before an upload,
     and *seconds*, which measures the files, is called only then.
     """
     print(as_head(head))
@@ -526,9 +556,8 @@ def production_said(key, head, rows, dry_run, seconds, multitrack):
     if dry_run:
         print(T('  (measuring only: nothing uploaded)\n'))
         return True
-    for line, warning in credit_verdict(account_credit(key), seconds(),
-                                        multitrack):
-        print(as_warn(line) if warning else line)
+    for line in credit_verdict(account_credit(key), seconds(), multitrack):
+        print(line)
     return False
 
 
@@ -942,26 +971,27 @@ def secret_tool_offer(parent, arrived):
 def credit_row(run_layout):
     """The line under the preset that says what the account has left.
 
-    Hidden until an answer came. Returns show(account, multitrack),
-    called when the presets arrive, the kind needed changes, or the key
-    does -- nothing asks auphonic.com for it on its own.
+    Hidden until an answer came. Returns show(account, multitrack,
+    seconds), called when the presets arrive, the kind needed changes,
+    or the key does -- nothing asks auphonic.com for it on its own.
+    *seconds* is how long the production lasts as the rows stand.
     """
     line = label("")
     line.setWordWrap(True)
     line.setVisible(False)
     run_layout.addWidget(line)
 
-    def show(account, multitrack):
-        """Say the account's credit, in the warning colour where short."""
-        text, short = credit_note(account, multitrack)
+    def show(account, multitrack, seconds=0):
+        """Say the account's credit, red where the production needs more."""
+        text, short = credit_note(account, multitrack, seconds)
         line.setText(text)
-        line.setStyleSheet("color: %s" % COLOURS["warning" if short
+        line.setStyleSheet("color: %s" % COLOURS["error" if short
                                                   else "good"])
         line.setVisible(bool(text))
         if account:
-            gui_log("credit: %r h, paying %r, multitrack %s, short %s"
+            gui_log("credit: %r h, paying %r, multitrack %s, %.0f s, short %s"
                     % (account.get("hours"), account.get("paying"),
-                       multitrack, short))
+                       multitrack, seconds, short))
 
     return show
 
@@ -973,9 +1003,9 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
 
     Here and not in the window because the two are one theme: the key is
     checked by fetching the presets, and what comes back is what the
-    preset box offers -- of the kind *tracks_now*, (tracks, on one axis),
-    needs. gui() calls it below multi_button, which the preset switches
-    on when it says no processing is wanted.
+    preset box offers -- of the kind *tracks_now*, (tracks, on one axis,
+    seconds), needs. gui() calls it below multi_button, which the preset
+    switches on when it says no processing is wanted.
     """
     # --- In two places in the window: the key behind "Settings ...", set
     #     once; the preset under the assignment, chosen every time.
@@ -1059,6 +1089,10 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
         """
         multi_button.setEnabled(True)
         buttons_check()
+        # The credit concerns a run that goes there, so only a preset
+        # chosen shows it.
+        credit_show(None if without_auphonic() else state.get("account"),
+                    kind_needed(), tracks_now()[2])
 
     preset_box.currentIndexChanged.connect(without_auphonic_toggled)
 
@@ -1110,12 +1144,11 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
                         preset_entries(state["presets"], kind_needed(),
                                        label_of(PRESET_NONE), PRESET_NONE),
                         state, PRESET_NONE)
-        credit_show(state.get("account"), kind_needed())
         without_auphonic_toggled()
 
     def kind_needed():
         """True where the rows as they stand need a Multitrack preset."""
-        return production_is_multitrack(*tracks_now())
+        return production_is_multitrack(*tracks_now()[:2])
 
     def preset_plaintext():
         """Return the chosen preset name, empty where none was chosen.

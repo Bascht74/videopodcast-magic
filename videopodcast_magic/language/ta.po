@@ -5098,9 +5098,6 @@ msgstr "Debian, Ubuntu-வில் libsecret-tools தொகுப்பு, Fe
 msgid "%d min"
 msgstr "%d நிமி"
 
-msgid "%d h %02d min"
-msgstr "%d மணி %02d நிமி"
-
 msgid "Credit at auphonic.com: %s left"
 msgstr "auphonic.com-இல் கிரெடிட்: %s மீதம்"
 
@@ -5109,9 +5106,6 @@ msgstr "auphonic.com-இல் கிரெடிட்: தெரியவி�
 
 msgid "%s -- free plan"
 msgstr "%s -- இலவசத் திட்டம்"
-
-msgid "On the free plan a Multitrack production may be at most %s long."
-msgstr "இலவசத் திட்டத்தில் ஒரு Multitrack தயாரிப்பு அதிகபட்சம் %s நீளமாக இருக்கலாம்."
 
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  auphonic.com-இல் கிரெடிட்: தெரியவில்லை -- கணக்கு பதிலளிக்கவில்லை."
@@ -5128,8 +5122,23 @@ msgstr "  auphonic.com-இல் கிரெடிட்: %s மீதம், �
 msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
 msgstr "  auphonic.com-இல் கிரெடிட்: %s மீதம், இந்தத் தயாரிப்புக்குத் தேவையான %s-க்குப் போதும்."
 
-msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
-msgstr "  இலவசத் திட்டத்தில் ஒரு Multitrack தயாரிப்பு அதிகபட்சம் %s நீளமாக இருக்கலாம், இது %s."
+msgid "  Account at auphonic.com: paying."
+msgstr "  auphonic.com-இல் கணக்கு: கட்டணம் செலுத்தியது."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  auphonic.com-இல் கணக்கு: இலவசம்."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  auphonic.com-இல் கணக்கு: தெரியவில்லை."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  குறிப்பு: ஓட்டம் இருந்தாலும் முயல்கிறது. தயாரிப்பு தொடங்குமா என்பதை auphonic.com தீர்மானிக்கிறது, தொடங்காவிட்டால் அதைச் சொல்கிறது."
+
+msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  குறிப்பு: இலவசத் திட்டத்தில் auphonic.com ஒரு Multitrack தயாரிப்பை %s-ஐ விடக் குறைவாக இருந்தால் மட்டுமே ஏற்கிறது, இது %s. ஓட்டம் இருந்தாலும் முயல்கிறது; auphonic.com மறுத்தால் அதன் சொந்தச் செய்தி தொடரும்."
+
+msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
+msgstr "இலவசத் திட்டத்தில் auphonic.com ஒரு Multitrack தயாரிப்பை %s-ஐ விடக் குறைவாக இருந்தால் மட்டுமே ஏற்கிறது."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  இந்த ஓட்டம் உருவாக்கிய திட்டப்பணி %r திறந்தே இருக்கும் -- முன்பு மீண்டும் திறக்கக்கூடிய\n  எதுவும் திறந்திருக்கவில்லை. அதை Resolve இன் திட்டப்பணி மேலாளரில் நீக்கவும்."

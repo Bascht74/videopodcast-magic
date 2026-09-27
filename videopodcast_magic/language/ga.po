@@ -5234,9 +5234,6 @@ msgstr "an pacáiste libsecret-tools ar Debian agus Ubuntu, libsecret ar Fedora 
 msgid "%d min"
 msgstr "%d nóim"
 
-msgid "%d h %02d min"
-msgstr "%d u %02d nóim"
-
 msgid "Credit at auphonic.com: %s left"
 msgstr "Creidmheas ag auphonic.com: %s fágtha"
 
@@ -5245,9 +5242,6 @@ msgstr "Creidmheas ag auphonic.com: anaithnid"
 
 msgid "%s -- free plan"
 msgstr "%s -- plean saor in aisce"
-
-msgid "On the free plan a Multitrack production may be at most %s long."
-msgstr "Ar an bplean saor in aisce ní féidir le léiriú Multitrack a bheith níos faide ná %s."
 
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Creidmheas ag auphonic.com: anaithnid -- níor fhreagair an cuntas."
@@ -5264,8 +5258,23 @@ msgstr "  Creidmheas ag auphonic.com: %s fágtha, agus teastaíonn %s ón léiri
 msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
 msgstr "  Creidmheas ag auphonic.com: %s fágtha, is leor é don %s a theastaíonn ón léiriú seo."
 
-msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
-msgstr "  Ar an bplean saor in aisce ní féidir le léiriú Multitrack a bheith níos faide ná %s, agus tá an ceann seo %s."
+msgid "  Account at auphonic.com: paying."
+msgstr "  Cuntas ag auphonic.com: íoctha."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Cuntas ag auphonic.com: saor in aisce."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Cuntas ag auphonic.com: anaithnid."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Nóta: déanann an rith iarracht mar sin féin. Is é auphonic.com a shocraíonn an dtosaíonn an léiriú, agus deir sé é mura dtosaíonn."
+
+msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Nóta: ar an bplean saor in aisce ní ghlacann auphonic.com le léiriú Multitrack ach amháin má tá sé níos giorra ná %s, agus maireann an ceann seo %s. Déanann an rith iarracht mar sin féin; má dhiúltaíonn auphonic.com, leanann a theachtaireacht féin."
+
+msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
+msgstr "Ar an bplean saor in aisce ní ghlacann auphonic.com le léiriú Multitrack ach amháin má tá sé níos giorra ná %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Fanann an tionscadal %r a rinne an rith seo oscailte -- ní raibh aon rud oscailte roimhe\n  a d'fhéadfaí a oscailt arís. Scrios é i mbainisteoir tionscadal Resolve."

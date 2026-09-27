@@ -5098,9 +5098,6 @@ msgstr "Debian, Ubuntu లో libsecret-tools ప్యాకేజ్, Fedora, 
 msgid "%d min"
 msgstr "%d నిమి"
 
-msgid "%d h %02d min"
-msgstr "%d గం %02d నిమి"
-
 msgid "Credit at auphonic.com: %s left"
 msgstr "auphonic.com లో క్రెడిట్: %s మిగిలి ఉంది"
 
@@ -5109,9 +5106,6 @@ msgstr "auphonic.com లో క్రెడిట్: తెలియదు"
 
 msgid "%s -- free plan"
 msgstr "%s -- ఉచిత ప్లాన్"
-
-msgid "On the free plan a Multitrack production may be at most %s long."
-msgstr "ఉచిత ప్లాన్‌లో Multitrack ప్రొడక్షన్ గరిష్ఠంగా %s ఉండవచ్చు."
 
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  auphonic.com లో క్రెడిట్: తెలియదు -- ఖాతా స్పందించలేదు."
@@ -5128,8 +5122,23 @@ msgstr "  auphonic.com లో క్రెడిట్: %s మిగిలి �
 msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
 msgstr "  auphonic.com లో క్రెడిట్: %s మిగిలి ఉంది, ఈ ప్రొడక్షన్‌కు కావలసిన %s కు సరిపోతుంది."
 
-msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
-msgstr "  ఉచిత ప్లాన్‌లో Multitrack ప్రొడక్షన్ గరిష్ఠంగా %s ఉండవచ్చు, ఇది %s."
+msgid "  Account at auphonic.com: paying."
+msgstr "  auphonic.com లో ఖాతా: చెల్లింపు."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  auphonic.com లో ఖాతా: ఉచితం."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  auphonic.com లో ఖాతా: తెలియదు."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  గమనిక: రన్ అయినా ప్రయత్నిస్తుంది. ప్రొడక్షన్ మొదలవుతుందో లేదో auphonic.com నిర్ణయిస్తుంది, మొదలుకాకపోతే చెబుతుంది."
+
+msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  గమనిక: ఉచిత ప్లాన్‌లో auphonic.com Multitrack ప్రొడక్షన్‌ను అది %s కంటే చిన్నదైతేనే స్వీకరిస్తుంది, ఇది %s. రన్ అయినా ప్రయత్నిస్తుంది; auphonic.com నిరాకరిస్తే దాని స్వంత సందేశం వస్తుంది."
+
+msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
+msgstr "ఉచిత ప్లాన్‌లో auphonic.com Multitrack ప్రొడక్షన్‌ను అది %s కంటే చిన్నదైతేనే స్వీకరిస్తుంది."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  ఈ రన్ సృష్టించిన ప్రాజెక్ట్ %r తెరిచే ఉంటుంది -- ఇంతకు ముందు మళ్లీ తెరవగలిగేది\n  ఏదీ తెరిచి లేదు. దాన్ని Resolve ప్రాజెక్ట్ మేనేజర్‌లో తొలగించండి."

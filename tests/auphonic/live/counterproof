@@ -33,3 +33,16 @@ open	auphonic_tracks_return	every track the program leaves is as long as the one
 open	auphonic_tracks_return	each track back carries its own voice and not the other's
 open	auphonic_tracks_return	the production stands at auphonic.com under the title given
 open	auphonic_tracks_return	the tests' own production can be deleted again
+open	auphonic_account_read	auphonic.com answers the account with a JSON object
+open	auphonic_account_read	the answer carries a "data" object
+open	auphonic_account_read	"credits" reads as a number of hours
+open	auphonic_account_read	"is_paying_user" is there and a truth value
+open	auphonic_account_read	account_credit() answers
+open	auphonic_account_read	it hands on the same hours
+open	auphonic_account_read	it hands on the same plan
+open	auphonic_free_limit_said	the account is a free one
+open	auphonic_free_limit_said	auphonic.com refused the production at its start
+open	auphonic_free_limit_said	the run does not come back with tracks as if all were well
+open	auphonic_free_limit_said	auphonic.com's own message is in what the program said
+open	auphonic_free_limit_said	no credit was spent on the refused production
+open	auphonic_free_limit_said	the production is deleted at the end

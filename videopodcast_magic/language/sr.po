@@ -5139,9 +5139,6 @@ msgstr "пакет libsecret-tools на системима Debian и Ubuntu, lib
 msgid "%d min"
 msgstr "%d мин"
 
-msgid "%d h %02d min"
-msgstr "%d ч %02d мин"
-
 msgid "Credit at auphonic.com: %s left"
 msgstr "Кредит на auphonic.com: преостало %s"
 
@@ -5150,9 +5147,6 @@ msgstr "Кредит на auphonic.com: непознат"
 
 msgid "%s -- free plan"
 msgstr "%s -- бесплатни план"
-
-msgid "On the free plan a Multitrack production may be at most %s long."
-msgstr "У бесплатном плану Multitrack продукција сме да траје највише %s."
 
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Кредит на auphonic.com: непознат -- налог није одговорио."
@@ -5169,8 +5163,23 @@ msgstr "  Кредит на auphonic.com: преостало %s, а овој п�
 msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
 msgstr "  Кредит на auphonic.com: преостало %s, довољно за %s колико треба овој продукцији."
 
-msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
-msgstr "  У бесплатном плану Multitrack продукција сме да траје највише %s, а ова траје %s."
+msgid "  Account at auphonic.com: paying."
+msgstr "  Налог на auphonic.com: плаћени."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Налог на auphonic.com: бесплатни."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Налог на auphonic.com: непознат."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Напомена: покретање ипак покушава. auphonic.com одлучује да ли ће продукција кренути, и каже ако неће."
+
+msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Напомена: у бесплатном плану auphonic.com прихвата Multitrack продукцију само ако је краћа од %s, а ова траје %s. Покретање ипак покушава; ако auphonic.com одбије, следи његова сопствена порука."
+
+msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
+msgstr "У бесплатном плану auphonic.com прихвата Multitrack продукцију само ако је краћа од %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Пројекат %r из овог покретања остаје отворен -- пре није било отворено ништа\n  што би могло поново да се отвори. Обришите га у Resolve-овом управљачу пројеката."

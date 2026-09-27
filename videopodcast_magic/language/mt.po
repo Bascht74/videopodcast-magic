@@ -5187,9 +5187,6 @@ msgstr "il-pakkett libsecret-tools fuq Debian u Ubuntu, libsecret fuq Fedora u A
 msgid "%d min"
 msgstr "%d min"
 
-msgid "%d h %02d min"
-msgstr "%d s %02d min"
-
 msgid "Credit at auphonic.com: %s left"
 msgstr "Kreditu fuq auphonic.com: fadal %s"
 
@@ -5198,9 +5195,6 @@ msgstr "Kreditu fuq auphonic.com: mhux magħruf"
 
 msgid "%s -- free plan"
 msgstr "%s -- pjan b'xejn"
-
-msgid "On the free plan a Multitrack production may be at most %s long."
-msgstr "Fil-pjan b'xejn produzzjoni Multitrack tista' ddum l-aktar %s."
 
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Kreditu fuq auphonic.com: mhux magħruf -- il-kont ma weġibx."
@@ -5217,8 +5211,23 @@ msgstr "  Kreditu fuq auphonic.com: fadal %s, u din il-produzzjoni teħtieġ %s 
 msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
 msgstr "  Kreditu fuq auphonic.com: fadal %s, biżżejjed għall-%s li teħtieġ din il-produzzjoni."
 
-msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
-msgstr "  Fil-pjan b'xejn produzzjoni Multitrack tista' ddum l-aktar %s, u din iddum %s."
+msgid "  Account at auphonic.com: paying."
+msgstr "  Kont fuq auphonic.com: bi ħlas."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Kont fuq auphonic.com: b'xejn."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Kont fuq auphonic.com: mhux magħruf."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Nota: it-tħaddim jipprova xorta waħda. auphonic.com jiddeċiedi jekk il-produzzjoni tibdiex, u jgħid jekk ma tibdiex."
+
+msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Nota: fil-pjan b'xejn auphonic.com jaċċetta produzzjoni Multitrack biss jekk tkun iqsar minn %s, u din iddum %s. It-tħaddim jipprova xorta waħda; jekk auphonic.com jirrifjuta, jidher il-messaġġ tiegħu stess."
+
+msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
+msgstr "Fil-pjan b'xejn auphonic.com jaċċetta produzzjoni Multitrack biss jekk tkun iqsar minn %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Il-proġett %r ta' din it-tħaddima jibqa' miftuħ -- qabel ma kien miftuħ xejn\n  li seta' jerġa' jinfetaħ. Ħassru fil-maniġer tal-proġetti ta' Resolve."
