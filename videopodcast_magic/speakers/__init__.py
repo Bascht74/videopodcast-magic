@@ -2243,17 +2243,37 @@ def recording_decoded(blocks, rate):
     return out
 
 
+def level_on_grid(x, offset, clock, block, rate):
+    """One recording's level curve, laid on the blocks of the axis.
+
+    The recording is padded in front so its first block starts on a
+    block of the axis, as a track written onto the axis does, and not
+    up to half a block beside it. Returns (first block, curve).
+    """
+    first = int(math.floor(round(offset / block, 6)))
+    pad = int(round((offset - first * block) * clock * rate))
+    if pad > 0:
+        x = np.concatenate([np.zeros(pad), x])
+    nb = max(1, int(block * rate))
+    count = len(x) // nb
+    if count < 2:
+        return first, np.zeros(0)
+    return first, clock_on_axis(np.sqrt(
+        (x[:count * nb].reshape(count, nb).astype(np.float64) ** 2
+         ).mean(axis=1)), clock)
+
+
 def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
                         pause_bridged=SPEECH_PAUSE_BRIDGED_S,
                         min_len=SPEECH_MIN_LEN_S, report=None, separate=True,
-                        note=None, grid=None):
-    """Derive speech segments from the separate tracks.
+                        note=None, grid=None, span=None):
+    """Who speaks when, read off each recording at its place on the axis.
 
-    Each block is measured against the track's own noise floor, because
-    recorders are set to different gains. With *separate* the bleed is
-    taken out first; without it a neighbour's voice counts as that
-    neighbour speaking. *tracks* is [(name, path or blocks, offset[,
-    clock])]; *grid* takes the levels as read, so none is opened twice."""
+    The one reading the window and the run share. Each block against the
+    track's own noise floor; with *separate* the bleed is taken out
+    first. *tracks* is [(name, path or blocks, offset[, clock])]; *span*
+    keeps only 0 to that many seconds of the axis; *grid* takes the
+    levels as read, so none is opened twice."""
     names, levels, shifts = [], [], []
     # Read a handful at a time, not all at once: an hour of audio is a
     # couple of hundred megabytes per track.
@@ -2275,30 +2295,28 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
         x = read.pop(i, None)
         if x is None:
             x = recording_decoded(file_path, rate)
-        nb = max(1, int(block * rate))
-        count = len(x) // nb
         names.append(name)
-        shifts.append(int(round(offset / block)))
-        if count < 2:
-            levels.append(np.zeros(0))
-            continue
-        levels.append(clock_on_axis(np.sqrt(
-            (x[:count * nb].reshape(count, nb).astype(np.float64) ** 2
-             ).mean(axis=1)), clock))
+        first, curve = level_on_grid(x, offset, clock, block, rate)
+        shifts.append(first)
+        levels.append(curve)
 
     # One grid for all: louder than another only means something on one axis.
     begin = min(shifts) if shifts else 0
     end = max((s + len(v) for s, v in zip(shifts, levels)), default=0)
+    if span is not None:
+        # What lies outside the window is not heard, not even as floor.
+        begin, end = 0, int(round(span * rate)) // max(1, int(block * rate))
     width = max(0, end - begin)
     level = np.zeros((len(levels), width))
     for i, (s, v) in enumerate(zip(shifts, levels)):
-        if len(v):
-            level[i][s - begin:s - begin + len(v)] = v
+        lo, hi = max(0, begin - s), min(len(v), end - s)
+        if hi > lo:
+            level[i][s + lo - begin:s + hi - begin] = v[lo:hi]
     # The reference has to land inside the speaking: the 90th percentile
     # does so above a tenth of the blocks, the 99th above a hundredth.
     # Below that it lands on the bleed and refuses the split untruly.
     speech = np.array([float(np.percentile(v[v > 0], 99))
-                       if len(v) and len(v[v > 0]) else 0.0 for v in levels])
+                       if len(v[v > 0]) else 0.0 for v in level])
     if grid is not None:
         grid.append({"names": list(names), "level": level.copy(),
                      "block": block, "begin": begin * block})
@@ -3602,6 +3620,9 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     run picks. Where the microphones hear each other too well, all are
     mixed instead. Returns (segments, where from) or ([], "").
     """
+    # Where the cut's window lies, so speakers_for_the_cut can read each
+    # recording at its place instead of the tracks written onto it.
+    args._axis_window = (t0, t1)
     given, _seats, where_from = handed_over(args, say=True)
     source, why, dropped = "", "", None
     # Whichever carrier brought it: both hand over one recording's.
@@ -3743,14 +3764,35 @@ def separated_already(track, separated=()):
     return any(path_key(p) in apart for p in mine if p)
 
 
-def speakers_for_the_cut(args, tracks):
+def recordings_on_axis(tracks, window=None):
+    """The run's tracks as speakers_from_tracks reads them.
+
+    With the window: each recording itself, placed where the track was
+    written onto the axis -- a and b as place_track_on_axis takes them,
+    the clock only where the drift is taken out. Without it: the tracks
+    written onto the axis, which all begin at nought.
+    """
+    if not window or not all("a" in t and t.get("source") for t in tracks):
+        return [(t["name"], t["axis"], 0.0) for t in tracks]
+    out = []
+    for t in tracks:
+        b = float(t.get("b", 1.0))
+        clock = b if t.get("drift") and abs(b - 1.0) > 1e-7 else 1.0
+        out.append((t["name"], t["source"],
+                    -float(t["a"]) / clock - window[0], clock))
+    return out
+
+
+def speakers_for_the_cut(args, tracks, window=None):
     """Say who speaks when, and put the origin in the log.
 
     Everybody is in it, whichever way they came in: the voices a
     separation found, and every track no separation covers, measured from
     its own microphone. Only "do not use" keeps somebody out. Whoever is
     not in it is named in the log instead of going quietly missing.
+    *window* is the cut's (t0, t1) on the axis.
     """
+    window = window or getattr(args, "_axis_window", None)
     voices, where_from = getattr(args, "_speakers", None) or ([], "")
     left = [t for t in tracks
             if not separated_already(t, getattr(args, "_separated", None))]
@@ -3761,8 +3803,8 @@ def speakers_for_the_cut(args, tracks):
         # tracks, never the returned ones: auphonic.com is sound only.
         try:
             mics = speakers_from_tracks(
-                [(track["name"], track["axis"], 0.0)
-                 for track in tracks], note=print, grid=box)
+                recordings_on_axis(tracks, window), note=print, grid=box,
+                span=window and window[1] - window[0])
         except PROGRAM.Stopped:
             # Stop ends the run; it is no failure of this step.
             raise
