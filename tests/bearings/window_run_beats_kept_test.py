@@ -6,9 +6,10 @@ line; a run of the same line that ends later wrote the newer handover.
 In order: the kept dry run shown before any run, a run of other numbers
 leaving it standing, a run of the same line -- auphonic.com asked, as a
 Start asks it -- putting the preview out of date and shown with the
-finished run's label, "Create Resolve project" after it keeping the
-run's, and a dry run of the same line afterwards taking the kept one
-back. The window's run loop with main stood in for, without a window.
+finished run's label, a run without a plan after it -- "Create Resolve
+project" is one -- keeping the run's, and a dry run of the same line
+afterwards taking the kept one back. The window's run loop with main
+stood in for, without a window.
 """
 PLATFORM_BOUND = True
 import contextlib
@@ -63,14 +64,21 @@ def handover(name, said):
     return path
 
 
+# The plan every window line carries; its path goes, what it holds stays.
+PLAN = os.path.join(WORK, "plan.json")
+with open(PLAN, "w", encoding="utf-8") as f:
+    json.dump({"A_Presenter.mov": "Presenter"}, f)
 RUN_FILE = handover("Episode_resolve.json", "the run of these numbers")
 OTHER_FILE = handover("Other_resolve.json", "a run of other numbers")
 # The preview's line goes without auphonic.com; Start's asks it.
-PREVIEW = ["vpm", A, B, "--lufs", "-16", "--without-auphonic",
+PREVIEW = ["vpm", A, B, "--lufs", "-16", "--assign", PLAN,
+           "--without-auphonic",
            "--min-edit-duration", "2.0"]
-START = ["vpm", A, B, "--lufs", "-16", "--auphonic-preset", "Preset",
+START = ["vpm", A, B, "--lufs", "-16", "--assign", PLAN,
+         "--auphonic-preset", "Preset",
          "--min-edit-duration", "2.0"]
-OTHER = ["vpm", A, B, "--lufs", "-16", "--auphonic-preset", "Preset",
+OTHER = ["vpm", A, B, "--lufs", "-16", "--assign", PLAN,
+         "--auphonic-preset", "Preset",
          "--min-edit-duration", "2.5"]
 KEY = vpm.handover_key(*vpm.line_words(PREVIEW))
 vpm.stage_put(KEY, {"came_from": "the preview's dry run", "cut": [],
@@ -142,11 +150,10 @@ check("the run's handover once shown is not out of date again",
       stale is False, "answered %r, shown from %r"
       % (stale, state.get("preview_from")))
 
-print("\n4. Create Resolve project after it")
-run(["vpm", "--resolve-json", RUN_FILE, "--min-edit-duration", "2.0"],
-    RUN_FILE)
+print("\n4. A run without a plan after it, as Create Resolve project is")
+run(["vpm", "--min-edit-duration", "2.0"], RUN_FILE)
 got = shown()
-check("Create Resolve project afterwards keeps the run's shown",
+check("a run without a plan afterwards keeps the run's shown",
       got == "the run of these numbers",
       "read %r, wanted the run of these numbers" % got)
 
