@@ -87,3 +87,8 @@ Resolve Handbuch/
 # Produktionen und Rollennamen, genau wie docs/notes/, und gehoeren
 # deshalb nie ins oeffentliche Verzeichnis. 1,4 GB.
 docs/historie/
+
+# What run.sh remembers of the last run on this checkout, for
+# --last-red: nobody else has had that run.
+tests/state/last_red
+tests/state/last_red.*
