@@ -194,15 +194,18 @@ def sample_count(path):
 
 
 def _sample_count(path):
-    # Out of the one description of the file, not a second call:
-    # duration_ts counts samples exactly, a duration in seconds is rounded.
+    # From the one description, exactly: duration_ts in the stream's time
+    # base, a sample in a WAV but 1/14112000 s in an MP3, where a 20 s
+    # file read as samples measured 5880 s (27.9.2026).
     d = ffprobe_json(path)
     a = next((x for x in d.get("streams", [])
               if x.get("codec_type") == "audio"), {})
     try:
         n, sr = int(a["duration_ts"]), int(a.get("sample_rate") or SR)
-        return int(round(n * SR / sr)) if sr and sr != SR else n
-    except (KeyError, TypeError, ValueError):
+        over, under = (int(x) for x in (a.get("time_base") or "1/%d" % sr)
+                       .split("/"))
+        return (n * over * SR + under // 2) // under
+    except (KeyError, TypeError, ValueError, ZeroDivisionError):
         pass
     duration = float(a.get("duration") or d.get("format", {}).get("duration") or 0)
     return int(round(duration * SR))

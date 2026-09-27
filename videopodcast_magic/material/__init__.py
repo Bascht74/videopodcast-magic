@@ -41,6 +41,7 @@ file_timecode = PROGRAM.file_timecode
 fit_places_it = PROGRAM.fit_places_it
 gcc_phat_offset = PROGRAM.gcc_phat_offset
 hashlib = PROGRAM.hashlib
+match_places_it = PROGRAM.match_places_it
 math = PROGRAM.math
 no_place_message = PROGRAM.no_place_message
 number_text = PROGRAM.number_text
@@ -675,6 +676,124 @@ def refine_offset(axis, done, a, b, rate=16000, how_many=9):
     return float(np.median(values))
 
 
+def where_sent_sits(sent, back):
+    """Where the sound sent stands in the file that came back.
+
+    Envelopes without the leveler's slow changes, sample points off the
+    returned file and their median, then the voice for the last
+    milliseconds. Returns {"a": seconds into *back* where *sent* begins,
+    "drift", "ppm", "spread" in ms, "st", "fine" in ms or None}; raises
+    where the two cannot be laid against each other at all.
+    """
+    HOP, rate = 5.0, 4000
+    env_old = remove_slow_level_drift(envelope(decode_audio(sent, rate=rate),
+                                               HOP, rate))
+    env_fresh = remove_slow_level_drift(envelope(decode_audio(back, rate=rate),
+                                                 HOP, rate))
+    # Sample points on the processed track, not the uploaded
+    # one: after de-bleeding only one speaker is left, and the
+    # passages now empty would dominate a whole-length compare.
+    density = int(max(20, min(120, len(env_fresh) * HOP / 1000.0 / 30.0)))
+    a_corr, _b_corr, st = align_envelopes(env_old, env_fresh, HOP,
+                                          sample_points=density,
+                                          distance_s=30.0,
+                                          warn=os.path.basename(back),
+                                          points_off="audio")
+    # Median, not a regression line: Auphonic shifts a track as a
+    # whole or not at all, so there is no slope to estimate.
+    offsets = st.get("offsets") or []
+    times = st.get("times") or []
+    clock_drift, clock_drift_ppm = 1.0, 0.0
+    if offsets:
+        v = np.array(offsets)
+        a_corr = -float(np.median(v))
+        spread = float(np.median(np.abs(v - np.median(v))) * 1000)
+        # A returned file drifting against the uploaded one carries
+        # clock drift, which a fixed offset cannot mend.
+        if len(v) >= 20 and len(times) == len(v):
+            t = np.array(times)
+            slope, axis = np.polyfit(t, v, 1)
+            rest = v - (axis + slope * t)
+            if (abs(slope) * 1e6 > 2.0
+                    and float(np.std(rest) * 1000) < 30.0):
+                clock_drift = 1.0 / (1.0 + slope)
+                clock_drift_ppm = (clock_drift - 1.0) * 1e6
+                a_corr = -axis / (1.0 + slope)
+                spread = float(np.median(np.abs(rest)) * 1000)
+    else:
+        spread = st.get("spread_ms", 0.0)
+    # Where the file was coarsely trimmed to a window set later there
+    # is deliberate slack at both ends. Measured on the voice, not the
+    # envelope: a second voice becomes audible from about 20 ms.
+    fine = refine_offset(sent, back, a_corr, clock_drift)
+    if fine is not None and abs(fine) < 500.0:
+        a_corr += fine / 1000.0
+    return {"a": a_corr, "drift": clock_drift, "ppm": clock_drift_ppm,
+            "spread": spread, "st": st, "fine": fine}
+
+
+# What auphonic.com may add before it is cut: less than this is the
+# encoder's own padding at the end of a lossy file, not a jingle.
+ADDED_FLOOR_S = 0.05
+
+
+def cut_to_what_was_sent(sent, back):
+    """Cut what auphonic.com put before and after the sound it was sent.
+
+    The free plan puts a jingle in front (20 s up, 26.4 s back, 27.9.2026).
+    *back* is rewritten in place as long as *sent*: to the sample when
+    lossless, copied to the frame when lossy rather than encoded twice.
+    Returns (seconds cut in front, behind). A file no longer than what
+    went up is not measured; one that cannot be placed stays, and is said.
+    """
+    sent_s = sample_count(sent) / float(SR)
+    back_s = sample_count(back) / float(SR)
+    name = os.path.basename(back)
+    if back_s - sent_s <= ADDED_FLOOR_S:
+        return 0.0, 0.0
+    try:
+        found = where_sent_sits(sent, back)
+    except Exception:
+        found = {"st": {}}
+    # Placed by the rule a camera is placed by. The voice's correction is
+    # no test: it came out near zero on three built replies of other
+    # sound entirely (27.9.2026).
+    if not (match_places_it(found["st"]) or fit_places_it(found["st"])):
+        print(as_warn(T('  %s came back %s s longer than it went up, and '
+                        'where the sound sent\n  begins in it could not '
+                        'be measured -- left as it came.')
+                      % (name, number_text(back_s - sent_s, 1))))
+        return 0.0, 0.0
+    front = max(0.0, found["a"])
+    behind = max(0.0, back_s - front - sent_s)
+    facts = audio_stream_facts(back)
+    codec = facts.get("codec_name") or ""
+    head, suffix = os.path.splitext(back)
+    kept = head + ".cut" + suffix
+    if codec.startswith("pcm_") or codec in ("flac", "alac"):
+        how = ["-i", back, "-map", "0:a", "-af",
+               "atrim=start=%.6f:duration=%.6f,asetpts=N/SR/TB"
+               % (front, sent_s), "-c:a", codec] + wav_safe(back)
+    else:
+        how = ["-ss", "%.6f" % front, "-i", back, "-t", "%.6f" % sent_s,
+               "-map", "0", "-c", "copy"]
+    try:
+        shell_quote(["ffmpeg", "-v", "error"] + how + ["-y", kept])
+        os.replace(kept, back)
+    except Exception as e:
+        remove_quietly(kept)
+        print(as_warn(T('  %s could not be cut (%s) -- left as it came.')
+                      % (name, str(e)[:120])))
+        return 0.0, 0.0
+    if front > ADDED_FLOOR_S:
+        print(T('  %s: auphonic.com added %s s at the start -- cut away')
+              % (name, number_text(front, 1)))
+    if behind > ADDED_FLOOR_S:
+        print(T('  %s: auphonic.com added %s s at the end -- cut away')
+              % (name, number_text(behind, 1)))
+    return front, behind
+
+
 def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
     """Check what Auphonic returns against what was uploaded.
 
@@ -684,7 +803,6 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
     the envelopes flattened, and the estimate a median.
     """
     print(as_head(T('\nCHECK THE RETURN')))
-    HOP, rate = 5.0, 4000
     shaky = []
     # A stereo track coming back with one channel was folded at
     # auphonic.com, and no later step can undo that. Not an error, but
@@ -707,19 +825,7 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
             continue
         n_fresh = sample_count(done) / float(SR)
         try:
-            env_old = remove_slow_level_drift(envelope(decode_audio(track["axis"], rate=rate),
-                                         HOP, rate))
-            env_fresh = remove_slow_level_drift(envelope(decode_audio(done, rate=rate),
-                                         HOP, rate))
-            # Sample points on the processed track, not the uploaded
-            # one: after de-bleeding only one speaker is left, and the
-            # passages now empty would dominate a whole-length compare.
-            density = int(max(20, min(120, len(env_fresh) * HOP / 1000.0 / 30.0)))
-            a_corr, b_corr, st = align_envelopes(env_old, env_fresh, HOP,
-                                                sample_points=density,
-                                                distance_s=30.0,
-                                                warn=os.path.basename(done),
-                                                points_off="audio")
+            found = where_sent_sits(track["axis"], done)
         except Exception as e:
             print(T('  %-20s not measurable: %s') % (track["name"], e))
             if track.get("edge"):
@@ -731,35 +837,9 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
             else:
                 track["ready"] = done
             continue
-        # Median, not a regression line: Auphonic shifts a track as a
-        # whole or not at all, so there is no slope to estimate.
-        offsets = st.get("offsets") or []
-        times = st.get("times") or []
-        clock_drift, clock_drift_ppm = 1.0, 0.0
-        if offsets:
-            v = np.array(offsets)
-            a_corr = -float(np.median(v))
-            spread = float(np.median(np.abs(v - np.median(v))) * 1000)
-            # A returned file drifting against the uploaded one carries
-            # clock drift, which a fixed offset cannot mend.
-            if len(v) >= 20 and len(times) == len(v):
-                t = np.array(times)
-                slope, axis = np.polyfit(t, v, 1)
-                rest = v - (axis + slope * t)
-                if (abs(slope) * 1e6 > 2.0
-                        and float(np.std(rest) * 1000) < 30.0):
-                    clock_drift = 1.0 / (1.0 + slope)
-                    clock_drift_ppm = (clock_drift - 1.0) * 1e6
-                    a_corr = -axis / (1.0 + slope)
-                    spread = float(np.median(np.abs(rest)) * 1000)
-        else:
-            spread = st.get("spread_ms", 0.0)
-        # Where the file was coarsely trimmed to a window set later there
-        # is deliberate slack at both ends. Measured on the voice, not the
-        # envelope: a second voice becomes audible from about 20 ms.
-        fine = refine_offset(track["axis"], done, a_corr, clock_drift)
-        if fine is not None and abs(fine) < 500.0:
-            a_corr += fine / 1000.0
+        a_corr, clock_drift = found["a"], found["drift"]
+        clock_drift_ppm, spread = found["ppm"], found["spread"]
+        st, fine = found["st"], found["fine"]
         edge = track.get("edge", 0.0)
         ms = (a_corr - edge) * 1000.0
         track["drift_ppm"] = clock_drift_ppm

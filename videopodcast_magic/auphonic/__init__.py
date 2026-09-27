@@ -28,6 +28,7 @@ caption_room = PROGRAM.caption_room
 channel_count = PROGRAM.channel_count
 channel_text = PROGRAM.channel_text
 check_preset = PROGRAM.check_preset
+cut_to_what_was_sent = PROGRAM.cut_to_what_was_sent
 checkbox_bind = PROGRAM.checkbox_bind
 delete_api_key = PROGRAM.delete_api_key
 field_bind = PROGRAM.field_bind
@@ -1068,6 +1069,7 @@ def run_single_production(audio, preset, presetname, key, target_folder,
     if os.path.getsize(target) < 1000:
         raise RuntimeError(T('downloaded file is only %s bytes')
                            % number_text(os.path.getsize(target), 0))
+    cut_to_what_was_sent(audio, target)
     print(T('  Result: %s (%s) -- stays next to the video file\n')
           % (os.path.basename(target), as_data_size(os.path.getsize(target) / 1e6)))
     fetch_text_outputs(key, files, target_folder, skip=best)
@@ -1459,7 +1461,22 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
                 AUPHONIC + "/api/production/%s/start.json" % uuid])
     p = wait_for_production(key, uuid, wait_s)
 
-    return download_results(key, p, names, target_folder, base)
+    return cut_what_was_added(
+        tracks, download_results(key, p, names, target_folder, base))
+
+
+def cut_what_was_added(tracks, done):
+    """Cut what auphonic.com put around each track, in place.
+
+    *done* is {name: returned file}, each held against the "axis" sent
+    under that name -- only in the run that uploaded it: files of an
+    earlier day carry that day's window. Returns *done*.
+    """
+    for track in tracks:
+        back = done.get(track["name"])
+        if back:
+            cut_to_what_was_sent(track["axis"], back)
+    return done
 
 
 def download_results(key, p, names, target_folder, base):
@@ -1690,7 +1707,8 @@ def reuse_production(key, existing, request, preset, tracks,
     _curl_call(key, ["-X", "POST",
                 AUPHONIC + "/api/production/%s/start.json" % uuid])
     p = wait_for_production(key, uuid, wait_s)
-    return download_results(key, p, names, target_folder, base)
+    done = download_results(key, p, names, target_folder, base)
+    return cut_what_was_added(tracks, done) if upload_again else done
 
 
 def wait_for_production(key, uuid, wait_s):
