@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 """Stop pressed in a real window run ends it, and leaves no false result.
 
-Plain path stopped while camera files are written, Multitrack while a
-track is levelled, the step read at half speed (-readrate) so Stop meets
-it midway. Each: Stop there, a soon end, no ffmpeg left, the stage named
-by its caption, Start back; plain also: no cut-short camera file, no
-handover or EDL, and the check and time axis measure afterwards, no Start.
+Camera files (plain) and a levelled track (Multitrack), read at half
+speed so Stop meets them midway: a soon end, no ffmpeg left; plain also
+no cut-short file, handover or EDL, and check and axis measure after.
+The time axis, its decoder held until Stop: nothing written. auphonic.com
+stood in by a production that stays at work: a soon end. The run's own
+separation by a stand-in worker: a soon end, the worker gone. Each: Stop
+there, the stop said, Start back; all but the separation name the stage.
 """
 PLATFORM_BOUND = True
 import os
@@ -18,6 +20,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import glob
+import json
 import shutil
 import subprocess
 import tempfile
@@ -106,9 +109,12 @@ def running_ffmpeg():
                     else p.args))]
 
 
-def stopped_run(project, at):
+def stopped_run(project, at, ready=None, startable=None, in_run=None):
     """Open *project*, Start, press Stop once *at* is under way.
 
+    *ready* says instead when to press: a name for the step, or None;
+    *startable* is asked of the window before Start, and may pick in it;
+    *in_run* are names of the program set only while the run runs.
     Hands back what was seen: Stop at the press, seconds from the press
     to the loop's end (None if it never came in SOON), the ffmpeg still
     running then, the log, Start and Stop afterwards, and why it gave up.
@@ -123,6 +129,9 @@ def stopped_run(project, at):
     def loop(argv, state, write, *rest):
         """The window's own run loop, with its log and its end kept."""
         seen["state"] = state
+        before = dict((n, getattr(vpm, n)) for n in in_run or {})
+        for n, v in (in_run or {}).items():
+            setattr(vpm, n, v)
 
         def kept(text):
             """Keep a piece of the log, and hand it on to the window."""
@@ -132,6 +141,8 @@ def stopped_run(project, at):
         try:
             return real_loop(argv, state, kept, *rest)
         finally:
+            for n, v in before.items():
+                setattr(vpm, n, v)
             seen["ended"] = time.time()
 
     vpm.gui_run_loop = loop
@@ -179,6 +190,8 @@ def stopped_run(project, at):
                 step[0], since[0] = 1, time.time()
             elif step[0] == 1:
                 k = button(vpm.T("Start"))
+                if startable is not None and not startable(win()):
+                    k = None
                 if k is None or not k.isEnabled():
                     if time.time() - since[0] > 90:
                         return give_up("Start was not ready after 90 s")
@@ -186,7 +199,7 @@ def stopped_run(project, at):
                 k.click()
                 step[0], since[0] = 2, time.time()
             elif step[0] == 2:
-                seen["step"] = under_way()
+                seen["step"] = (ready or under_way)()
                 if seen["step"]:
                     k = button(vpm.T("Stop"))
                     seen["stop_there"] = (k is not None and k.isVisible()
@@ -415,10 +428,308 @@ def multitrack():
                                               seen["stop_gone"]))
 
 
+def results(out):
+    """The camera files, handover and EDLs lying in *out*, by name."""
+    return sorted(os.path.basename(p) for p in
+                  glob.glob(os.path.join(out, "*_audio.mov"))
+                  + glob.glob(os.path.join(out, "*_resolve.json"))
+                  + glob.glob(os.path.join(out, "*.edl")))
+
+
+def log_end(text, out):
+    """The last of the window's log on one line, the out folder named."""
+    return " / ".join(x.strip() for x in text.replace(out, "<out>")
+                      .splitlines() if x.strip())[-300:]
+
+
+def said_stopped(text):
+    """Where the window's report stands: step line and break-off sentence."""
+    return "'%s' %s, the break-off sentence %s" % (
+        AT_STEP, "said" if AT_STEP in text else "missing",
+        "said" if BROKEN_OFF in text else "missing")
+
+
+def time_axis():
+    """Stop while the time axis is measured, the decoder held there."""
+    print("\nPlain path, Stop while the time axis is measured")
+    OUT = os.path.join(WORK, "axis")
+    os.makedirs(OUT)
+    os.makedirs(os.path.join(WORK, "axis_project"))
+    AXIS = vpm.T('Common time axis')
+    measuring = {"now": False, "stage": ""}
+    real, real_begin = vpm.decode_audio, vpm.step_begin
+
+    def noted(name):
+        """The run begins a stage: noted here, in the run's own thread."""
+        measuring["stage"] = name
+        return real_begin(name)
+
+    def held(*a, **k):
+        """The decoder, held inside the axis stage until Stop is pressed."""
+        if measuring["stage"] == "time base":
+            measuring["now"], since = True, time.time()
+            while not vpm.RUN_STOP["wanted"] and time.time() - since < SOON:
+                time.sleep(0.05)
+            measuring["now"] = False
+        return real(*a, **k)
+
+    vpm.decode_audio, vpm.step_begin = held, noted
+    try:
+        seen = stopped_run(
+            ground.project_file(vpm, os.path.join(WORK, "axis_project"),
+                                OUT), "the time axis",
+            ready=lambda: measuring["now"] and "the time axis")
+    finally:
+        vpm.decode_audio, vpm.step_begin = real, real_begin
+    check("Stop stands and can be pressed while the time axis is measured",
+          bool(seen["stop_there"]),
+          "%s; Stop there and enabled: %r"
+          % (seen["why"] or "pressed at %s" % seen["step"],
+             seen["stop_there"]))
+    left = results(OUT)
+    # Judged on a run that came back: one still going writes on.
+    check("a run stopped at the time axis writes no camera file or EDL",
+          seen["pressed"] is not None and bool(seen["ended"]) and not left,
+          "the run %s; left in the folder: %s; the log ends: %s"
+          % ("came back" if seen["ended"] else "never came back", left,
+             log_end(seen["text"], OUT)[-160:]))
+    check("the window says where a run stopped at the time axis stopped",
+          AT_STEP in seen["text"] and BROKEN_OFF in seen["text"],
+          "%s; the log ends: %s" % (said_stopped(seen["text"]),
+                                    log_end(seen["text"], OUT)))
+    said = stopped_at(seen["text"])
+    check("the stop report names the time axis stage by its caption",
+          said == AXIS, "said %r, wanted %r" % (said, AXIS))
+    check("Start is back and Stop gone after a run stopped at the axis",
+          bool(seen["start_back"]) and bool(seen["stop_gone"]),
+          "Start enabled %r, Stop gone %r" % (seen["start_back"],
+                                              seen["stop_gone"]))
+
+
+PRESET = "Stand-in preset"
+
+
+class Service(object):
+    """Stands in for auphonic.com: a production that stays at work.
+
+    Every production it is asked about is still processing, until the
+    section is over and it says the production failed, so a run that
+    never heard Stop ends all the same.
+    """
+
+    def __init__(self):
+        self.polls = []
+        self.over = False
+
+    def __call__(self, key, arguments, output_binary=False, progress=False):
+        arguments = [str(a) for a in arguments]
+        url = next((a for a in arguments
+                    if a.startswith(vpm.auphonic.AUPHONIC)), "")
+        path = url[len(vpm.auphonic.AUPHONIC):]
+        post = "-X" in arguments
+        if "-o" in arguments:
+            open(arguments[arguments.index("-o") + 1], "wb").close()
+            return b"" if output_binary else ""
+        production = {"uuid": "PRODUCTION", "status": 2 if self.over else 1,
+                      "status_string": "Audio Processing",
+                      "error_message": "the test is over",
+                      "output_files": []}
+        if path.startswith("/api/preset/"):
+            answer = {"status_code": 200, "data": {
+                "uuid": "PRESET", "preset_name": PRESET,
+                "is_multitrack": False, "algorithms": {},
+                "output_files": [{"format": "wav-24bit", "ending": "wav"}]}}
+        elif path.startswith("/api/info/output_files"):
+            answer = {"data": {"wav-24bit": {"string": "WAV",
+                                             "ending": "wav"}}}
+        elif "?" in path:
+            answer = {"status_code": 200, "data": []}
+        else:
+            if path.startswith("/api/production/") and not post:
+                self.polls.append(time.time())
+            answer = {"status_code": 201 if post else 200,
+                      "data": production}
+        return json.dumps(answer)
+
+
+def preset_picked(window):
+    """Pick the stand-in preset, as a hand would; True once it holds."""
+    for box in window.findChildren(QtWidgets.QComboBox):
+        at = box.findData(PRESET)
+        if at >= 0:
+            if box.currentData() != PRESET:
+                box.setCurrentIndex(at)
+            return box.currentData() == PRESET
+    return False
+
+
+def auphonic_wait():
+    """Stop while the production at auphonic.com is waited for."""
+    print("\nPlain path, Stop while auphonic.com works on the production")
+    OUT = os.path.join(WORK, "service")
+    os.makedirs(OUT)
+    os.makedirs(os.path.join(WORK, "service_project"))
+    service = Service()
+    kept = (vpm._curl_call, vpm.load_api_key, vpm.list_presets)
+    vpm._curl_call = service
+    vpm.load_api_key = lambda: "stand-in-key"
+    vpm.list_presets = lambda key: [(PRESET, "PRESET", False)]
+    path = ground.project_file(vpm, os.path.join(WORK, "service_project"),
+                               OUT)
+    with open(path, encoding="utf-8") as f:
+        d = json.load(f)
+    d["preset"] = PRESET
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(d, f)
+    seen = None
+    try:
+        seen = stopped_run(path, "the wait for auphonic.com",
+                           ready=lambda: bool(service.polls)
+                           and "the wait for auphonic.com",
+                           startable=preset_picked)
+    finally:
+        service.over = True
+        since = time.time()
+        while not seen_ended(seen) and time.time() - since < 30:
+            time.sleep(0.1)
+        vpm._curl_call, vpm.load_api_key, vpm.list_presets = kept
+    check("Stop stands and can be pressed while auphonic.com is waited for",
+          bool(seen["stop_there"]),
+          "%s; Stop there and enabled: %r"
+          % (seen["why"] or "pressed at %s" % seen["step"],
+             seen["stop_there"]))
+    check("the run ends soon after Stop pressed while auphonic.com works",
+          seen["took"] is not None and seen["took"] < SOON,
+          "%s; asked for the production %d times"
+          % (took(seen), len(service.polls)))
+    check("the window says where a run stopped at auphonic.com stopped",
+          AT_STEP in seen["text"] and BROKEN_OFF in seen["text"],
+          "%s; the log ends: %s" % (said_stopped(seen["text"]),
+                                    log_end(seen["text"], OUT)))
+    said, wanted = stopped_at(seen["text"]), vpm.T('Processing at '
+                                                   'auphonic.com')
+    check("the stop report names the auphonic.com stage by its caption",
+          said == wanted, "said %r, wanted %r" % (said, wanted))
+    check("Start is back and Stop gone after a run stopped at auphonic.com",
+          bool(seen["start_back"]) and bool(seen["stop_gone"]),
+          "Start enabled %r, Stop gone %r" % (seen["start_back"],
+                                              seen["stop_gone"]))
+
+
+def seen_ended(seen):
+    """Whether the run loop of a section has come back."""
+    return seen is not None and bool(seen.get("ended"))
+
+
+# The stand-in separation works this long unless it is ended: well past
+# SOON, so a Stop that waits for it shows.
+LASTS = 3 * SOON
+WORKER = '''import json, os, sys, time
+sys.stdin.buffer.read()
+began = time.time()
+while time.time() - began < %(lasts)r and not os.path.exists(%(end)r):
+    with open(%(beat)r, "a") as f:
+        f.write(".")
+    sys.stderr.write("P\\tstand-in\\t%%d\\t%%d\\n"
+                     %% (time.time() - began, %(lasts)r))
+    sys.stderr.flush()
+    time.sleep(0.1)
+print(json.dumps({"segments": [["SPEAKER_00", 1.0, 5.0]]}))
+'''
+
+
+def still_beating(path):
+    """Whether *path* still grows: False once it stood a second still."""
+    size, since, limit = -1, time.time(), time.time() + 10
+    while time.time() < limit:
+        now = os.path.getsize(path) if os.path.exists(path) else 0
+        if now != size:
+            size, since = now, time.time()
+        elif time.time() - since >= 1.0:
+            return False
+        time.sleep(0.1)
+    return True
+
+
+def separation():
+    """Stop while the run separates the speakers of its one recording."""
+    print("\nPlain path, Stop while the run separates the speakers")
+    OUT = os.path.join(WORK, "separation")
+    PARTS = os.path.join(WORK, "separation_worker")
+    for folder in (OUT, PARTS, os.path.join(WORK, "separation_project")):
+        os.makedirs(folder)
+    beat, end = os.path.join(PARTS, "beat"), os.path.join(PARTS, "end")
+    worker = os.path.join(PARTS, "worker.py")
+    with open(worker, "w", encoding="utf-8") as f:
+        f.write(WORKER % {"lasts": LASTS, "beat": beat, "end": end})
+    names = ("speaker_split_available", "speaker_model_folder",
+             "speaker_model_checked", "speaker_model_mark",
+             "speaker_python", "speaker_worker_file")
+    kept = [getattr(vpm, n) for n in names]
+    stand_ins = (lambda deep=False: True, lambda: PARTS,
+                 lambda folder="": "", lambda folder="": "stand-in",
+                 lambda: sys.executable, lambda: worker)
+    for n, v in zip(names, stand_ins):
+        setattr(vpm, n, v)
+    sound, pictures = ground.material()
+    seen = None
+    try:
+        # One recording and no separation handed over: the run takes it
+        # apart itself. Allowed only while the run runs, or the window
+        # starts one of its own on opening.
+        seen = stopped_run(
+            ground.project_plain(
+                vpm, os.path.join(WORK, "separation_project"), OUT,
+                multitrack=False,
+                extra={"files": [{"path": p, "kind": "audio"}
+                                 for p in sound]
+                       + [{"path": p, "kind": "video"}
+                          for p in pictures]}),
+            "the separation",
+            ready=lambda: os.path.exists(beat)
+            and os.path.getsize(beat) > 0 and "the separation",
+            in_run={"SPEAKER_SPLIT_OFF": False})
+        running = still_beating(beat)
+    finally:
+        open(end, "w").close()
+        since = time.time()
+        while not seen_ended(seen) and time.time() - since < 60:
+            time.sleep(0.1)
+        for n, v in zip(names, kept):
+            setattr(vpm, n, v)
+    check("Stop stands and can be pressed while the run separates speakers",
+          bool(seen["stop_there"]),
+          "%s; Stop there and enabled: %r"
+          % (seen["why"] or "pressed at %s" % seen["step"],
+             seen["stop_there"]))
+    check("the run ends soon after Stop pressed during the separation",
+          seen["took"] is not None and seen["took"] < SOON,
+          "%s; the separation works %.0f s unless it is ended"
+          % (took(seen), LASTS))
+    check("the separation of a stopped run does not work on",
+          seen["pressed"] is not None and not running,
+          "the worker %s after the run was back or given up"
+          % ("still worked" if running else "had ended"))
+    check("the window says where a run stopped in the separation stopped",
+          AT_STEP in seen["text"] and BROKEN_OFF in seen["text"],
+          "%s; the log ends: %s" % (said_stopped(seen["text"]),
+                                    log_end(seen["text"], OUT)))
+    check("Start is back and Stop gone after a run stopped in separation",
+          bool(seen["start_back"]) and bool(seen["stop_gone"]),
+          "Start enabled %r, Stop gone %r" % (seen["start_back"],
+                                              seen["stop_gone"]))
+
+
 try:
     plain_path()
     let_go()
     multitrack()
+    let_go()
+    time_axis()
+    let_go()
+    auphonic_wait()
+    let_go()
+    separation()
 except Exception:
     import traceback
     traceback.print_exc()

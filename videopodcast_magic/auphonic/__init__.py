@@ -1075,6 +1075,7 @@ def wishes_then_start(key, uuid, stereo=False):
 def run_single_production(audio, preset, presetname, key, target_folder,
                   wait_s=7200, dry_run=False, title=None):
     """Upload a file, start the production, wait, download the result."""
+    step_begin("auphonic")
     title = title or os.path.splitext(os.path.basename(audio))[0]
     size = os.path.getsize(audio) / 1e6
     stereo = kept_channels(audio) == 2
