@@ -1906,6 +1906,17 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
     comes in as a parameter -- the window imports PySide6 inside gui().
     """
 
+    def seats():
+        """Who sits in front of which camera, by the run's own reading.
+
+        One answer for both places below that ask it: the handover
+        built here and the camera table laid over a run's handover.
+        """
+        return PROGRAM.speakers_to_cameras(
+            assign_lines, voice_lines, state.get("own_audio_rows") or (),
+            [b for b, _n, _own, _flag in camera_lines],
+            bool(state.get("camera_audio")))
+
     def off_speakers():
         """Build a handover from who speaks when and the assignment.
 
@@ -1926,8 +1937,7 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
             rows, apart)
         state["tracks_left"] = tracks_awaiting_measure(
             rows, state.get("speakers_measured"), apart)
-        where_to = PROGRAM.speakers_to_cameras(assign_lines, voice_lines,
-                                               state.get("voiced") or set())
+        where_to = seats()
         axis = state.get("axis") or {}
 
         d, reason = build_handover(segment_list, length, where_to,
@@ -2074,17 +2084,8 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         now = state.get("wide_cameras_now")
         if d is not None and now:
             try:
-                on = {}
-                for _row, nv, cv in assign_lines:
-                    nm = nv.get()
-                    if nm and cv.get() not in (MIX_ONLY, IGNORE_AUDIO):
-                        on[nm] = cv.get()
-                for _label, nv, cv in voice_lines:
-                    nm = nv.get().strip()
-                    if nm and cv.get() not in (MIX_ONLY, IGNORE_AUDIO):
-                        on[nm] = cv.get()
                 wides, said = now()
-                d = wide_marks_applied(d, wides, on, said)
+                d = wide_marks_applied(d, wides, seats(), said)
                 # The window is applied below by apply_time_window, out
                 # of start_s. Here as well would move it a second time.
             except RuntimeError:
