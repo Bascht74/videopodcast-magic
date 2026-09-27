@@ -33,7 +33,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
-import array, json, random, subprocess, sys, tempfile, time, wave
+import array, json, random, subprocess, sys, tempfile, threading, time, wave
 
 # One clock for both processes: the child runs this file from the top
 # as well, and stops in look() before the parent's own part.
@@ -80,8 +80,18 @@ STEP_MS = 100          # between two passes of a wait
 NEXT_MS = 300          # between two steps of the plan
 # Over the whole run, and well over the waits inside it: a step that
 # never comes has to be reported by the check that asks about it, not
-# by the window being cut off in the middle of the plan.
-WHOLE_MS = 420000
+# by the window being cut off in the middle of the plan. And under the
+# suite's own limit, both windows together: run.sh kills a test at
+# 300 s, and a window killed from outside says nothing at all -- which
+# is how this test hung on three builder jobs on 27.9.2026 and left not
+# one line saying where. A window takes 2 to 31 s there.
+WHOLE_MS = 110000
+# Where the window can no longer end itself -- its own thread stuck, so
+# the timer above never fires -- every thread's stack is written out
+# and the window ended, still inside what the parent waits for.
+STUCK_S = WHOLE_MS // 1000 + 10
+# How long the parent waits for one window. Two of these stay under 300.
+PATIENCE_S = STUCK_S + 10
 
 
 # The two windows, and what each of them is there for.
@@ -93,6 +103,8 @@ CASES = (("make", "two recordings separated one after the other"),
 def look(case, media, folder):
     """One window: the separations, or the project file opened again."""
     os.environ["QT_QPA_PLATFORM"] = "offscreen"
+    import faulthandler
+    faulthandler.dump_traceback_later(STUCK_S, exit=True)
     os.environ.setdefault("VPM_SILENT", "1")
     os.environ.setdefault("VPM_NO_UPDATE_CHECK", "1")
     # The suite switches the separation off. This test is about what
@@ -452,6 +464,7 @@ def look(case, media, folder):
                 return None
             return AGAIN if mine["still"] < STILL else None
 
+        step.__name__ = "the wait %r" % name
         return step
 
     def said(name):
@@ -761,12 +774,26 @@ def look(case, media, folder):
         QtCore.QTimer.singleShot(STEP_MS if answer == AGAIN else NEXT_MS,
                                  step)
 
+    def out_of_time():
+        """Say which step the window stood on, and every wait's last word.
+
+        The count below says how far it got; this says what it was
+        waiting for, which is the line another machine has to go on.
+        """
+        print("  the window ran out of its %d s on the step %s"
+              % (WHOLE_MS // 1000,
+                 getattr(plan[0], "__name__", plan[0]) if plan else "none"))
+        for name in sorted(seen):
+            print("    wait %r ended on %s" % (name, said(name)))
+        app.quit()
+
     QtCore.QTimer.singleShot(300, step)
     # A window that never gets there must not hold the suite up, and
     # must not pass either: the plan stops here and the count below says
     # how far it got.
-    QtCore.QTimer.singleShot(WHOLE_MS, app.quit)
+    QtCore.QTimer.singleShot(WHOLE_MS, out_of_time)
     vpm.gui()
+    faulthandler.cancel_dump_traceback_later()
     if not done[0]:
         print("  the window never got as far as the checks   FAIL")
         bad.append("no answer")
@@ -845,21 +872,29 @@ for name, what in CASES:
         env=dict(os.environ, VPM_BOTH_CASE=name, VPM_BOTH_MEDIA=media,
                  VPM_BOTH_FOLDER=folder, LANG="C", LC_ALL="C",
                  LANGUAGE="en", QT_QPA_PLATFORM="offscreen"), cwd=HERE)
-    try:
-        out, _ = child.communicate(timeout=600)
-    except subprocess.TimeoutExpired:
-        child.kill()
-        out, _ = child.communicate()
-        out = (out or "") + "\nthe window never came back"
-    for line in (out or "").rstrip().split("\n"):
+    # Each line passed on as it comes, not all of them at the end: a
+    # window the suite's limit kills leaves what it printed so far here,
+    # and on another machine that is all there is.
+    killed = []
+    guard = threading.Timer(PATIENCE_S,
+                            lambda: (killed.append(PATIENCE_S), child.kill()))
+    guard.start()
+    for line in child.stdout:
         # Long enough for a whole judgement to come through: a line cut
-        # off here is a line the report cannot repeat, and on another
-        # machine the line is all there is.
+        # off here is a line the report cannot repeat.
+        line = line.rstrip("\n")
         print(line[:400])
         head = line.split(" checks in ")[0]
         if " checks in " in line and head.isdigit():
             done += int(head)
+    child.wait()
+    guard.cancel()
     if child.returncode != 0:
+        # A window that ends without its closing lines says nothing
+        # else: the code is the one thing left to go on.
+        print("  that window ended with code %s%s"
+              % (child.returncode, " -- ended by this test after %d s"
+                 % PATIENCE_S if killed else ""))
         bad.append(name)
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
