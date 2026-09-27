@@ -113,16 +113,27 @@ try:
     check("one file spelled with dots in its path is one key",
           spelled == first, "key %r against %r for %s"
           % (spelled, first, os.path.relpath(roundabout, WORK)))
-    # Windows compares paths without case; normcase says so there.
+    # Windows compares paths without case; normcase says so there. And
+    # its disc folds too, so the other spelling reaches the same file.
+    # Linux's disc does not: there the file system is asked, and where
+    # it says two names are two files, the second spelling is given to
+    # the one file by a link -- the fold of the disc, stood in for.
+    SHOUTED = CAM.replace("Guest_cam", "GUEST_CAM")
+    disc_folds = os.path.exists(SHOUTED)
+    if not disc_folds:
+        os.link(CAM, SHOUTED)
     plain = os.path.normcase
     os.path.normcase = lambda p: plain(p).lower()
     try:
-        upper = key(files=(CAM.replace("Guest_cam", "GUEST_CAM"), MIC))
+        upper = key(files=(SHOUTED, MIC))
         lower = key(files=(CAM, MIC))
     finally:
         os.path.normcase = plain
+        if not disc_folds:
+            os.unlink(SHOUTED)
     check("where paths fold case, two spellings of one file are one key",
-          upper == lower, "key %r against %r" % (upper, lower))
+          upper == lower, "key %r against %r, the disc folds case: %s"
+          % (upper, lower, disc_folds))
 
     check("an input json cannot hold gives no key, not a wrong one",
           key(knobs={"hold_s": object()}) is None,
