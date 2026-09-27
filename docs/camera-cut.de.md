@@ -463,11 +463,9 @@ später wieder an: eine Datei, ein Name, eine Kamera, In-Punkt oder
 Out-Punkt. Die Zeitachse wird dabei nur neu gemessen, wo sich eine
 Datei geändert hat. Ein geänderter Schnittwert
 rechnet allein den Schnitt neu, über dem, was der letzte Lauf
-hinterlassen hat, und steht fast sofort. Eines lässt dieser kurze Weg
-aus: die Senke im Ton, die einen Weitwinkel aufs Bild genau setzt. Bis zum
-nächsten Lauf setzt die Vorschau ihn dann allein an die Satzgrenze, und
-das kann bis zu einer halben Sekunde neben der Stelle liegen, die der
-Lauf wählt.
+hinterlassen hat, und steht fast sofort -- an denselben Senken im Ton,
+an denen ein ganzer Lauf schneiden würde: Der Lauf behält dafür den
+Pegel seines Tons, einmal je Material.
 
 Scheitert der Lauf der Vorschau, wird er für dieselben Einstellungen
 nicht wiederholt -- er scheiterte genauso und kostete dieselben

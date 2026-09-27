@@ -1527,6 +1527,8 @@ def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
                             os.path.join(tmpdir, "levels.wav"))
         work = cut_list_of(args, segment_list, tracks, cameras, videos,
                            tc_start, ref_clip, t1 - t0, sound_source=levels)
+        # The sum goes with tmpdir; its envelope stays, for a recut.
+        levels_key = PROGRAM.keep_levels(PROGRAM.sound_levels(levels))
         cut, segment_list = ((work["cut"], work["segments"]) if work
                              else ([], []))
         roles_said(segment_list, ())
@@ -1541,6 +1543,8 @@ def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
                        in position.items()),
         unplaceable=unplaceable, clocked=clocked)
     handover["axis_key"] = axis
+    if not sync:
+        handover["levels_key"] = levels_key
     # The window hands its key in; any other line is read off sys.argv,
     # which the command line and the window's own run both set.
     stage_put(getattr(args, "_handover_key", None)

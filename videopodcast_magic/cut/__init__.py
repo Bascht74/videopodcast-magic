@@ -368,11 +368,12 @@ def sound_levels_for(d):
 
     Only a recording as long as the programme itself can be used: the
     stored single tracks start where it starts, or every dip is wrong.
+    Where none is, a dry run's kept envelope.
     """
     files = (d or {}).get("audio_files") or {}
     length = float((d or {}).get("length_s") or 0.0)
     if not files or length <= 0:
-        return []
+        return kept_levels(d)
     for name in sorted(files, key=lambda n: (n != MIX_TRACK_NAME, n)):
         path = files[name]
         if not path or not os.path.exists(path):
@@ -384,7 +385,41 @@ def sound_levels_for(d):
         if abs(seconds - length) > 2.0:
             continue
         return sound_levels(path)
-    return []
+    return kept_levels(d)
+
+def keep_levels(levels, step=DIP_STEP_S):
+    """Keep a dry run's level envelope in the stage store; its key.
+
+    A dry run sums its tracks into a temporary file and throws it away,
+    so a slider moved afterwards would cut without the dips (E-555).
+    Keyed by the envelope itself: the same material keeps one entry,
+    however many runs and recuts stand on it. Two bytes a value, packed.
+    """
+    import base64
+    import zlib
+    if not levels:
+        return None
+    packed = base64.b64encode(zlib.compress(struct.pack(
+        "<%dh" % len(levels), *levels), 6)).decode("ascii")
+    key = PROGRAM.stage_key("levels", step=round(step, 4), data=packed)
+    entry = {"step": round(step, 4), "count": len(levels), "data": packed}
+    return key if key and stage_put(key, entry) else None
+
+def kept_levels(d, step=DIP_STEP_S):
+    """The level envelope a dry run kept for handover *d*, else []."""
+    import base64
+    import zlib
+    key = (d or {}).get("levels_key")
+    entry = PROGRAM.stage_get(key) if key else None
+    try:
+        if not entry or abs(entry["step"] - step) > 1e-9:
+            return []
+        raw = zlib.decompress(base64.b64decode(entry["data"]))
+        if len(raw) != 2 * entry["count"]:
+            return []
+        return list(struct.unpack("<%dh" % entry["count"], raw))
+    except (KeyError, TypeError, ValueError, zlib.error):
+        return []
 
 def reaction_cuts(tracks, words, camera_of, gap=3.0, holds=0.7,
                   over=10.0, tally=None, ends=None):
@@ -2990,13 +3025,15 @@ def cut_seating(args, tracks, cameras, gone):
 
 
 def cut_list_of(args, segment_list, tracks, cameras, videos, tc_start,
-                ref_clip, length, words=(), sound_source="", unwritten=()):
+                ref_clip, length, words=(), sound_source="", unwritten=(),
+                levels=()):
     """The camera cut and what its four files would say: nothing written.
 
     The same arguments write_cut_list takes, less the folder; the log is
-    the one a run prints. Returns None where nobody was heard, else a
-    dict: cut, segments, detail, lines, alone, zero, fps, drop and the
-    production the files are named after.
+    the one a run prints. *levels* stand in for *sound_source* where no
+    file is left to read them from. Returns None where nobody was heard,
+    else a dict: cut, segments, detail, lines, alone, zero, fps, drop
+    and the production the files are named after.
     """
     fps = max(1.0, resolve_timeline_rate(
         timeline_frame_rate(args, videos, ref_clip)))
@@ -3050,7 +3087,8 @@ def cut_list_of(args, segment_list, tracks, cameras, videos, tc_start,
     # The interface shows the whole cut as a band; a closing line is enough.
     rules = rules_from_settings(args)
     rules["words"] = list(words or ())
-    rules["levels"] = sound_levels(sound_source) if sound_source else []
+    rules["levels"] = (sound_levels(sound_source) if sound_source
+                       else list(levels or ()))
     edges_on = not getattr(args, "no_wide_edges", False)
     wide_after = args.wide_after
     if not wides:
@@ -3269,7 +3307,8 @@ def handover_recut(d, argv, key):
     work = cut_list_of(
         args, speakers, tracks, cameras, videos, start, ref_clip, length,
         words=words_from_handover(d),
-        sound_source=(d.get("audio_files") or {}).get(MIX_TRACK_NAME, ""))
+        sound_source=(d.get("audio_files") or {}).get(MIX_TRACK_NAME, ""),
+        levels=kept_levels(d))
     fresh = json.loads(json.dumps(d))
     if not work or handover_refreshed(fresh, work["cut"], work["segments"]):
         return False
