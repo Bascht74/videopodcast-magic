@@ -24,7 +24,6 @@ CUT_CHOICES = PROGRAM.CUT_CHOICES
 CUT_FIELDS = PROGRAM.CUT_FIELDS
 FILE_FORMAT = PROGRAM.FILE_FORMAT
 FileSet = PROGRAM.FileSet
-IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIN_EDIT_DURATION_S = PROGRAM.MIN_EDIT_DURATION_S
 MIX_ONLY = PROGRAM.MIX_ONLY
 PROGRAM_NAME = PROGRAM.PROGRAM_NAME
@@ -1370,6 +1369,22 @@ def wide_cameras_of(files, kinds, remembered, taken, placeless=(),
     return (wide_shots_of(cameras, cameras if sync else taken, marked),
             bool(marked))
 
+def wide_cameras_seen(files, kinds, remembered, rows, voice_rows,
+                      own_rows=(), camera_audio=False, placeless=(),
+                      sync=False):
+    """The wide shots the Kind field shows: the run's, seated as it seats.
+
+    Who sits where is speakers_to_cameras', the run's reading of the rows:
+    a rule of the window's own called a camera with its own sound and no
+    name guess the wide shot, where the run seats the guessed name on it.
+    *rows*, *voice_rows*: the window's; the rest as for wide_cameras_of.
+    """
+    seats = PROGRAM.speakers_to_cameras(
+        rows, voice_rows, own_rows, [p for p, a in files if a == "video"],
+        camera_audio)
+    return wide_cameras_of(files, kinds, remembered, set(seats.values()),
+                           placeless, sync)
+
 def wide_shot_barred(path, value, placeless):
     """Why this file cannot be the wide shot, or "" where it can be one.
 
@@ -1493,26 +1508,6 @@ def camera_names_offered(production, camera, values):
                                 sorted(names, key=name_order))
                   for tick in (True, False))
     return offered | {camera_name_of(production, camera, [], False)}
-
-def cameras_with_a_speaker(assign_rows, voice_rows, voiced=()):
-    """Which cameras a speaker is assigned to, by file name.
-
-    The same reading off the assignment that off_speakers makes: voices
-    under a recording carry the camera, and the recording does not.
-    """
-    voiced = set(voiced or ())
-    taken = set()
-    for row, name_value, camera_value in assign_rows:
-        if os.path.abspath(row[0]) in voiced:
-            continue
-        if name_value.get() and camera_value.get() not in (
-                MIX_ONLY, IGNORE_AUDIO):
-            taken.add(camera_value.get())
-    for _label, name_value, camera_value in voice_rows:
-        if name_value.get().strip() and camera_value.get() not in (
-                MIX_ONLY, IGNORE_AUDIO):
-            taken.add(camera_value.get())
-    return taken
 
 def kind_on_show(kind, path, wides, said, labels=None):
     """What the Kind field shows, why, and whether it is derived.
