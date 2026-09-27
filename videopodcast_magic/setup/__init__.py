@@ -350,18 +350,32 @@ def package_manager_command(update=False):
     if sys.platform == "win32":
         # No manager here; install_ffmpeg fetches a built one instead.
         return ()
-    for tool, rest, lift in (
-            ("apt-get", ("install", "-y", "ffmpeg"),
-             ("install", "--only-upgrade", "-y", "ffmpeg")),
-            ("dnf", ("install", "-y", "ffmpeg"),
-             ("upgrade", "-y", "ffmpeg")),
-            ("zypper", ("--non-interactive", "install", "ffmpeg"),
-             ("--non-interactive", "update", "ffmpeg")),
-            # pacman's -S is both, so there is nothing else to say.
-            ("pacman", ("-S", "--noconfirm", "ffmpeg"),
-             ("-S", "--noconfirm", "ffmpeg"))):
+    return linux_install_command(
+        [(tool, "ffmpeg") for tool, _rest, _lift in LINUX_MANAGERS], update)
+
+
+# The Linux managers in the order they are looked for, each with how it
+# installs and how it updates, both without asking a second time.
+LINUX_MANAGERS = (
+    ("apt-get", ("install", "-y"), ("install", "--only-upgrade", "-y")),
+    ("dnf", ("install", "-y"), ("upgrade", "-y")),
+    ("zypper", ("--non-interactive", "install"),
+     ("--non-interactive", "update")),
+    # pacman's -S is both, so there is nothing else to say.
+    ("pacman", ("-S", "--noconfirm"), ("-S", "--noconfirm")))
+
+
+def linux_install_command(packages, update=False):
+    """How the first Linux manager found installs a package, or ().
+
+    *packages* pairs each manager with the package's name there: the
+    same program is packaged under different names. On Linux with sudo
+    unless the run is root already.
+    """
+    for tool, rest, lift in LINUX_MANAGERS:
         if shutil.which(tool):
-            whole = (tool,) + (lift if update else rest)
+            whole = (tool,) + (lift if update else rest) \
+                + (dict(packages)[tool],)
             if hasattr(os, "geteuid") and os.geteuid() == 0:
                 return whole
             return ("sudo",) + whole if shutil.which("sudo") else whole
@@ -480,20 +494,22 @@ def run_watched(command, env=None, say=None, started=None):
 
 
 def install_over_package_manager(update=False, asked=False, say=None,
-                                 started=None):
+                                 started=None, command=None):
     """Offer the package manager, and run it if that is wanted.
 
-    True when ffmpeg was installed. Asked only where somebody can
-    answer: a window started from the desktop has no console, and a
+    True when the manager said it installed. Asked only where somebody
+    can answer: a window started from the desktop has no console, and a
     question nobody sees would hang the start for good. *say* takes
-    every line; without one they go to print.
+    every line; without one they go to print. *command* is what to run
+    where it is not ffmpeg -- secret-tool comes the same way.
     """
     tell = (lambda text: say(text + "\n")) if say else print
     if os.environ.get("VPM_SILENT"):
         # A test run installs nothing and asks nobody. Before the
         # platforms, because the Windows branch asks a question too.
         return False
-    command = package_manager_command(update)
+    if command is None:
+        command = package_manager_command(update)
     if not command:
         # No manager here; install_ffmpeg goes on from this point.
         return False
@@ -927,6 +943,47 @@ def secret_tool(words, given=b""):
         return None
 
 
+# The package secret-tool comes in, under each distribution's own name.
+SECRET_TOOL_PACKAGES = (("apt-get", "libsecret-tools"), ("dnf", "libsecret"),
+                        ("zypper", "secret-tool"), ("pacman", "libsecret"))
+
+
+def secret_tool_missing():
+    """True where the key would go to secret-tool and there is none."""
+    if sys.platform == "darwin" or os.name == "nt":
+        return False
+    return not shutil.which("secret-tool")
+
+
+def secret_tool_command():
+    """How this machine installs secret-tool, or () where it cannot."""
+    return linux_install_command(SECRET_TOOL_PACKAGES)
+
+
+def install_secret_tool(asked=False, say=None):
+    """Offer secret-tool the way ffmpeg is offered. True when it is there.
+
+    The same door and the same question: asked in the terminal where one
+    can answer, not at all where nobody can, and never in a test run.
+    What decides is the command being found afterwards, not what the
+    package manager said.
+    """
+    command = secret_tool_command()
+    if not command:
+        return False
+    install_over_package_manager(asked=asked, say=say, command=command)
+    return not secret_tool_missing()
+
+
+def secret_tool_by_hand():
+    """What installs secret-tool here by hand, as one sentence."""
+    command = " ".join(secret_tool_command())
+    if command:
+        return command
+    return T('the package libsecret-tools on Debian and Ubuntu, libsecret '
+             'on Fedora and Arch')
+
+
 def registry_rule(sid):
     """The access rule for the key's registry entry, written as SDDL.
 
@@ -1046,6 +1103,11 @@ def store_key_from_terminal(words=()):
     if not key:
         print(T('No key was typed, so nothing was stored.'))
         return 1
+    if secret_tool_missing():
+        # Asked after the key, so a no leaves only this to be done.
+        print(T('The key is kept in the desktop\'s keyring through the '
+                'secret-tool command, and this machine does not have it.'))
+        install_secret_tool()
     if store_api_key(key):
         print(T('The key is stored, and reading it back gave the same key.'))
         return 0
@@ -1107,6 +1169,10 @@ def key_store_trouble():
                  'say why.')
     if os.name == "nt":
         return T('The registry did not take the key.')
+    if secret_tool_missing():
+        return T('This machine has no secret-tool, which keeps the key in '
+                 'the desktop\'s keyring, so nothing was stored. By hand: '
+                 '%s') % secret_tool_by_hand()
     return T('No Secret Service keyring answered, so nothing was stored. '
              'Off Mac and Windows the key is kept in the desktop\'s '
              'keyring, through the secret-tool command from libsecret. '

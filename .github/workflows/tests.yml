@@ -1108,6 +1108,11 @@ jobs:
                  #! line and an execute bit. Windows runs neither, and on
                  Windows the key goes to the registry, which
                  auphonic_key_reg_shut walks."
+              aside auphonic_keyring_offered \
+                "it puts a stand-in package manager and secret-tool on PATH
+                 as files with a #! line and an execute bit. Windows runs
+                 neither, and on Windows the key goes to the registry, so
+                 no secret-tool is ever offered there."
               aside files_named_by_folder \
                 "it asks what /Volumes/Recordings is called. /Volumes is
                  the macOS shape of a volume root; Windows has none."
