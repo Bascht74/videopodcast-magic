@@ -34,9 +34,9 @@ stopped somewhere, or when a command in it is being changed.
 4. **The pictures show the program as it is now.** Skill `bilder`. Not
    every version moves them; one that changed the window does.
 
-5. **The open work and the issue are up to date** -- the owner's
-   decision board (private, outside the repository) for what is open,
-   the roadmap issue for whoever reads from outside.
+5. **The open work is up to date** -- on the owner's decision board
+   (private, outside the repository), the one place where what is open
+   and what is planned is kept.
 
    **Before a release the owner reviews the board's "Prüfen" column and
    confirms it**: every card of this release is done, or has been moved
@@ -59,22 +59,6 @@ stopped somewhere, or when a command in it is being changed.
    card is closed: a standing decision to `claude_intern.md`, a
    measurement to `development/measurements.md`, what a user notices to
    `CHANGELOG.md`, what they must know to the manual.
-
-   **The roadmap is not asked here any more. It is a gate.** Step 3b of
-   `.github/workflows/publish.yml` reads the roadmap issue and refuses
-   to go on where it does not name the version going out -- since
-   26.9.2026 in the ready job, before the suite, so a stale issue costs
-   a minute and not the forty the suite takes. So the roadmap is
-   brought up to date **before** the word is said, the same way the
-   changelog section is -- both describe a version that is about to
-   exist. The gate is the last net, not the check: the check is the
-   command in item 8b of the list at the end.
-
-   **The real case, and why it became a gate: "Where the program stands
-   today" in the roadmap said 2.24.0-beta while the program was at
-   2.25.0-beta.** It had drifted two releases with nothing noticing
-   (`80f46d5`, 1.9.2026) -- and what was supposed to have caught it was
-   a line in a report. A report nobody grades holds nothing.
 
 6. **The live tests have run, or the report says why not.**
    `tests/resolve.sh --go` starts the tests under `tests/resolve/live/`, which
@@ -155,12 +139,12 @@ still going: 3.0.0b24's `state/longest` was read that way and holds
 **Set the number.** `VERSION = "..."` in the program itself,
 `videopodcast_magic/__init__.py`. The same number stands as the topmost
 numbered section in `CHANGELOG.md`, and as `**Version ....**` in
-`README.md`, `README.de.md`, `ROADMAP.md` and `ROADMAP.de.md`.
-`tests/source/text_release_ready_test.py` holds those six against each
+`README.md` and `README.de.md`.
+`tests/source/text_release_ready_test.py` holds those four against each
 other, and the workflow's first question is whether that test was green
 here.
 
-**A seventh place, and no test reaches it: `version = "..."` in
+**A fifth place, and no test reaches it: `version = "..."` in
 `pyproject.toml`.** It is what pip hands somebody who installs rather
 than fetches, and a package calling itself one thing while the program
 calls itself another looks amiss nowhere on the release page. Two
@@ -168,7 +152,7 @@ workflows hold it against the program letter for letter now, and only
 one of them is in time: `.github/workflows/publish.yml` reads both lines and stops before
 the suite even starts; `.github/workflows/release.yml` asks the same question once the
 release is out, when the push is long gone. So it is set by hand, with
-the other six, before the word.
+the other four, before the word.
 
 **Which number**, by Semantic Versioning:
 
@@ -423,13 +407,8 @@ ends in `cut off, to fix next release: N` and the lines.
 6. The three lines of the release report written down, none of them blank -- the owner's confirmation of the board among them?
 6b. `resolve.sh` and `auphonic.sh` run on the owner's OK -- or the line
     "not run, because ..." in the report, with the reason?
-7. The number set in the program and the four documents that carry it?
-8. Set in `pyproject.toml` too -- the seventh place, which no test reaches?
-8b. The roadmap issue names the number, asked by command and not by eye:
-    `gh issue view 1 --json body -q .body | grep -c <VERSION>` says 2?
-    The workflow stops on it too, but only after the word: 3.0.0b25 was
-    dispatched with the issue at 3.0.0b24, and the gate then stood
-    behind the suite -- forty minutes for nothing (26.9.2026).
+7. The number set in the program and the three documents that carry it?
+8. Set in `pyproject.toml` too -- the fifth place, which no test reaches?
 9. The number Semantic Versioning asks for -- PATCH, MINOR or MAJOR?
 10. `tests/source/text_release_ready_test.py` green here, and the whole
     suite with it, in every language (`VPM_ALL_LANGUAGES=1`)?

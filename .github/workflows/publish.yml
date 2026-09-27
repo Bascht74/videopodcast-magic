@@ -109,23 +109,20 @@ permissions:
   # request's head. A check run is neither contents nor an action run;
   # it is its own scope, and a scope not named here is none.
   checks: read
-  # read, because step 3b of the ready job asks the roadmap issue which
-  # version it says the program is at. Issues are their own scope too.
-  issues: read
 
 jobs:
 
   # Everything that needs neither the suite nor the archive, in a job
   # of its own before both: the title, the version, the changelog
-  # section, the roadmap issue, the tag. The commonest ways to start
+  # section, the tag. The commonest ways to start
   # this wrongly must not cost a full run of seven jobs to find out
   # about.
   #
   # Until 26.9.2026 only the title stood here, and the rest waited in
   # the publish job behind the suite. Measured that day: 3.0.0b25 was
   # dispatched, the suite ran about forty minutes, and only then did
-  # step 3b find the roadmap issue still saying 3.0.0b24 -- and the
-  # second dispatch cost another forty. Every job below needs this
+  # a step behind it stop the run -- and the second dispatch cost
+  # another forty. Every job below needs this
   # one, so a FAIL here stops the run within a minute.
   #
   # The files are read out of a sparse checkout of this very commit --
@@ -135,15 +132,11 @@ jobs:
   # Which of them the publish job asks again, and why, stands beside
   # each of them there.
   ready:
-    name: "Ready: title, version, changelog, roadmap, tag"
+    name: "Ready: title, version, changelog, tag"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
       TITLE: ${{ inputs.title }}
-      GH_TOKEN: ${{ github.token }}
-      # Which issue carries the roadmap. One number, in one place, so
-      # that moving the roadmap is one edit and not a search.
-      ROADMAP: 1
       SHA: ${{ github.sha }}
     steps:
 
@@ -256,52 +249,6 @@ jobs:
           fi
           echo "notes: $(wc -l < /tmp/notes.md | tr -d ' ') lines," \
                "$(wc -c < /tmp/notes.md | tr -d ' ') bytes"
-
-      # ------------------------------------------------------------
-      # 3b. The roadmap issue names the version that is going out.
-      #
-      # Of the five things a version needs, four are held by something:
-      # the suite by six jobs, the number by six files and a test, the
-      # changelog by the step above, the pictures by a pass that is
-      # repeatable. The fifth -- that the open list and the roadmap are
-      # brought up to date -- was held by a line in a report, and a
-      # report nobody grades holds nothing.
-      #
-      # It has already failed once, and quietly: "Where the program
-      # stands today" said 2.24.0-beta while the program was at
-      # 2.25.0-beta, and it had drifted two releases with nothing
-      # noticing (80f46d5, 1.9.2026).
-      #
-      # So it is asked before the tag, and since 26.9.2026 here and
-      # only here: it stood in the publish job behind the suite, and a
-      # stale issue cost forty minutes of suite before it was found.
-      # The issue can change during the run, but the only edit anybody
-      # makes to it then is the one that brings it up to date -- so a
-      # second asking after the suite would catch nothing and only
-      # carry the same lines twice.
-      - name: "3b. The roadmap issue names this version"
-        run: |
-          body=$(gh issue view "$ROADMAP" --repo "$GITHUB_REPOSITORY" \
-                   --json body --jq .body) || {
-            echo "FAIL: issue #$ROADMAP could not be read. It is the"
-            echo "      roadmap, and this step is the only thing that"
-            echo "      holds it against the program. If the number"
-            echo "      moved, say so here rather than turning the"
-            echo "      check off."
-            exit 1
-          }
-          if ! printf '%s' "$body" | grep -qF "$VERSION"; then
-            echo "FAIL: issue #$ROADMAP does not say $VERSION anywhere."
-            echo "      It names: $(printf '%s' "$body" \
-                 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+[A-Za-z0-9.-]*' \
-                 | sort -u | tr '\n' ' ')"
-            echo "      The roadmap is what somebody outside reads to"
-            echo "      find out where this is. Bring it up to date and"
-            echo "      dispatch again -- it is two minutes, and it is"
-            echo "      one of the five things a version is."
-            exit 1
-          fi
-          echo "roadmap: issue #$ROADMAP names $VERSION"
 
       # The same lines as step 4 of the publish job -- change both.
       # Here so that a number that was not raised stops the run in a
@@ -645,10 +592,10 @@ jobs:
       # second place for it to be wrong.
       #
       # pyproject.toml is the reason this step is not just a read.
-      # tests/source/text_release_ready_test.py holds six places against each
-      # other -- the program, the changelog, both READMEs, both
-      # roadmaps -- and it has run already, on this commit, in step 1.
-      # It does not reach pyproject.toml. That seventh place is what
+      # tests/source/text_release_ready_test.py holds four places against
+      # each other -- the program, the changelog, both READMEs -- and it
+      # has run already, on this commit, in step 1.
+      # It does not reach pyproject.toml. That fifth place is what
       # pip hands somebody who installs, and a package calling itself
       # one thing while the program calls itself another looks amiss
       # nowhere on the release page.
@@ -772,9 +719,6 @@ jobs:
           fi
           echo "notes: $(wc -l < /tmp/notes.md | tr -d ' ') lines," \
                "$(wc -c < /tmp/notes.md | tr -d ' ') bytes"
-
-      # 3b, the roadmap issue, is asked in the ready job and only
-      # there -- why, beside it.
 
       # ------------------------------------------------------------
       # 4. The tag does not exist yet.
