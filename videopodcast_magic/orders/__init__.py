@@ -414,26 +414,33 @@ def camera_label_argv(files, off=()):
     return out
 
 
-def speakers_to_cameras(assign_lines, voice_lines, voiced=()):
-    """Who is on which camera, out of the two tables that say so.
+def speakers_to_cameras(assign_lines, voice_lines, own_rows=(), cameras=(),
+                        only_video=False):
+    """Who is on which camera, {name: camera file}, as the run reads it.
 
-    *assign_lines* are the recording rows, *voice_lines* the voices a
-    separation found under one of them, *voiced* the recordings whose
-    voices stand underneath. Where the voices stand under a recording
-    they carry the camera and the recording does not, or two answers
-    could say different things about the same camera.
+    The rows go in as the window hands them to the run and run_plan and
+    voices_of_values answer: the preview has no rule of its own to drift.
+    *own_rows* are the rows of a camera's own sound, *cameras* the files.
     """
-    where_to = {}
-    for chain, name_value, camera_value in assign_lines:
-        if os.path.abspath(chain[0]) in (voiced or ()):
-            continue
-        n = name_value.get()
-        if n and camera_value.get() != IGNORE_AUDIO:
-            where_to[n] = camera_value.get()
-    for _label, name_value, camera_value in voice_lines:
-        n = name_value.get().strip()
-        if n and camera_value.get() != IGNORE_AUDIO:
-            where_to[n] = camera_value.get()
+    videos = list(cameras) or sorted(set(
+        cv.get() for _c, _n, cv in list(assign_lines) + list(voice_lines)
+        if PROGRAM.is_a_path(cv.get())))
+    rows = [{"blocks": list(chain), "speakers": nv.get(),
+             "camera_choice": cv.get(),
+             "own_audio": chain[0] in (own_rows or ()),
+             "from_camera": (own_rows.get(chain[0]) or ""
+                             if isinstance(own_rows, dict) else "")}
+            for chain, nv, cv in assign_lines]
+    values = {"files": [(p, "video") for p in videos], "rows": rows,
+              "cameras": [{"path": p, "name": ""} for p in videos],
+              "voices": [{"name": nv.get().strip(), "camera": cv.get()}
+                         for _k, nv, cv in voice_lines]}
+    plan = run_plan(values, [r for r in rows
+                             if r["camera_choice"] != IGNORE_AUDIO],
+                    [], only_video)
+    where_to = dict((e["speakers"], e["camera"])
+                    for e in plan["tracks_of"] if e.get("camera"))
+    where_to.update(voices_of_values(values))
     return where_to
 
 
