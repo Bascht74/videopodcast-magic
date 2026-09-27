@@ -96,9 +96,9 @@ Ist der Schlüssel geprüft, zeigt eine Zeile unter dem Preset das
 restliche Guthaben bei auphonic.com und sagt es, wenn das Konto im
 kostenlosen Tarif ist. Im Multitrack-Modus erinnert sie in der Farbe
 einer Warnung daran, dass eine kostenlose Multitrack-Produktion höchstens
-20 Minuten dauern darf. Das Konto wird zusammen mit den Presets gefragt
-und sonst nie. Vor jedem Hochladen sagt das Protokoll, ob das Guthaben
-für diese Produktion reicht, und warnt, wenn eine kostenlose
+20 Minuten dauern darf. Der Kasten fragt das Konto zusammen mit den
+Presets und sonst nie. Der Lauf fragt vor jedem Hochladen noch einmal,
+und das Protokoll sagt, ob das Guthaben für diese Produktion reicht, und warnt, wenn eine kostenlose
 Multitrack-Produktion länger als 20 Minuten ist. Es warnt nur: der Lauf
 geht weiter, und das letzte Wort hat auphonic.com.
 
@@ -214,7 +214,64 @@ nennt der Kasten das Preset mit **wird geprüft** dahinter, grau und
 nicht wählbar, und sein Wert bleibt **ohne Auphonic arbeiten**: ein
 **Start** vor der Antwort gibt kein Guthaben aus.
 
+### Was ein Lauf zeigt
+
+Beide Wege beginnen im Protokoll mit einer Überschrift: `AUFBEREITUNG
+BEI AUPHONIC.COM:` bei einer einzelnen Spur, `AUFBEREITUNG BEI
+AUPHONIC.COM (MULTITRACK):` bei mehreren. Darunter stehen das Preset und
+die Datei mit Größe und Kanälen, oder der Titel der Produktion, die
+Spuren mit Namen und das, was hochzuladen ist. Dann folgt das Guthaben,
+etwa `Guthaben bei auphonic.com: noch 1 Std. 20 Min., genug für die 12
+Min., die diese Produktion braucht.`
+
+Eine einzelne Spur geht dann diese Schritte:
+
+1. `Hochladen <Datei>` mit einem Balken. Die Datei geht zusammen mit dem
+   Preset hoch.
+2. Bei einer Stereoaufnahme `Zwei Kanäle angefordert -- die Aufnahme ist
+   Stereo`. Das Preset würde den Mix auf einen Kanal falten; so kommen
+   zwei Kanäle zurück.
+3. `Produktion läuft (…)` mit der Nummer der Produktion, und
+   `Zeitgrenze: 2:00:00,000`.
+4. Ein Balken mit der vergangenen Zeit und dem Stand, den auphonic.com
+   meldet, etwa `Audio Processing`, bis dort `fertig` steht.
+5. `Lade herunter <Name>`: eine Tondatei, die verlustfreie, wenn das
+   Preset mehrere schreibt, und daneben nur, was Text ist -- Transkript,
+   Untertitel, Kapitelmarken.
+6. Hat auphonic.com etwas angefügt, `<Name>: auphonic.com hat am Ende
+   6,4 s angefügt -- weggeschnitten`, und zuletzt `Ergebnis: <Name> (1
+   MB) -- bleibt neben der Videodatei liegen`. Sie liegt im
+   Ausgabeordner selbst, nicht in `auphonic-tracks/`.
+
+Mehrere Spuren gehen diese:
+
+1. `Fertigen Mixdown als Maßstab angefordert (wav-24bit)`: Der Mix, den
+   auphonic.com herstellt, kommt mit zurück, als Maß dafür, wie laut der
+   eigene Mix des Programms werden soll. Ist eine Spur Stereo, folgt
+   `Zwei Kanäle, weil eine Spur Stereo ist`.
+2. `Produktion läuft (…)`, dann `Hochladen 2 Spuren`: alle Spuren in
+   einem Zug. Eine Spur, für die auphonic.com keine Datei angenommen
+   hat, hält den Lauf an.
+3. `Zeitgrenze:` und derselbe Balken.
+4. `Lade herunter <Titel>.wav.zip`, die Einzelspuren in einem Archiv,
+   danach jede weitere Ausgabe des Presets, darunter der fertige
+   Mixdown `<Titel>_master.wav`. Alles landet in `auphonic-tracks/`.
+5. `Im Archiv: Guest.wav, Presenter.wav`, und je Sprecher eine Zeile,
+   die nennt, welche Datei zu seiner Spur geworden ist. Das Archiv wird
+   gelöscht, sobald es entpackt ist.
+
+An einer kurzen Probe von 20 Sekunden waren die Presets in weniger als
+einer Sekunde da. Eine einzelne Spur brauchte vom Hochladen bis zum
+Ergebnis etwa 15 s, davon etwa 10 s Warten; zwei Spuren brauchten etwa
+27 s, davon etwa 20 s Warten. Längere Aufnahmen dauern länger; wie viel
+länger, ist nicht gemessen. Der Balken kennt die Dauer nicht im Voraus:
+An einer solchen Probe steht er bei wenigen Prozent und springt auf 100,
+sobald auphonic.com fertig meldet.
+
 ### Wenn es die Produktion schon gibt
+
+Gesucht wird nur nach einer Multitrack-Produktion. Eine einzelne Spur
+geht bei jedem Lauf neu hoch, und jedes Hochladen kostet Guthaben.
 
 Das Programm erkennt die Produktion am Namen und fragt, was mit ihr
 geschehen soll:
@@ -234,17 +291,22 @@ dort fragt das Programm, ob es sie übernimmt.
 Beim Neurechnen bringt das Programm auch die Spureinstellungen auf das
 Preset. Weitere Spuren dort gehen in den Mix, eine Warnung nennt sie.
 
-Das Programm lädt alles herunter, die Einzelspuren und jede weitere
-Ausgabe, die das Preset selbst erzeugt: Kapitelmarken, Auswertungen und
-ein eigenes Transkript, wo das Preset eines herstellt. Bezahlt ist das
-alles ohnehin mit der Produktion. Es landet in `auphonic-tracks/` neben
-den fertigen Videos, später auch die `final_*.wav`. Ein Name, den
+Eine Multitrack-Produktion wird ganz heruntergeladen, die Einzelspuren
+und jede weitere Ausgabe, die das Preset selbst erzeugt: der fertige
+Mixdown, Kapitelmarken, Auswertungen und ein eigenes Transkript, wo das
+Preset eines herstellt. Bezahlt ist das alles ohnehin mit der
+Produktion. Es landet in `auphonic-tracks/` neben den fertigen Videos,
+später auch die `final_*.wav`. Eine einzelne Spur bringt ihre Tondatei
+und das, was Text ist, zurück, wie oben beschrieben, und sonst nichts.
+Ein Name, den
 auphonic.com einer Datei gibt, wird auf den einfachen Dateinamen
 gekürzt; bleibt keiner übrig, wird die Datei nicht geholt, und das
 Protokoll nennt sie.
 
 Was auphonic.com um eine zurückgegebene Datei herum legt -- beim
-kostenlosen Tarif einen Jingle am Anfang --, schneidet das Programm weg.
+kostenlosen Tarif einen Jingle am Anfang, und hinter einer einzelnen
+Spur noch einige Sekunden, an einer kurzen Probe etwa 6 s --, schneidet
+das Programm weg.
 Es sucht, wo der hochgeschickte Ton in der Rückgabe beginnt, und behält
 genau die Länge, die hochgegangen ist; das Protokoll sagt, wie viele
 Sekunden vorne und hinten weggefallen sind. Lässt sich der
@@ -260,8 +322,18 @@ die Meldung sagt das.
 ### Wenn etwas klemmt
 
 * **Verbinden wird nicht grün.** Die Zeile unter dem Feld sagt, was
-  auphonic.com geantwortet hat. Der Knopf daneben öffnet die
-  Einstellungen; dort den Schlüssel berichtigen.
+  auphonic.com geantwortet hat, bei einem Schlüssel, den es nicht
+  kennt, `auphonic.com nimmt den Schlüssel nicht an: Auphonic meldet
+  403: Token doesn't exist`. Die Antwort kommt binnen einer Sekunde. Der
+  Knopf daneben öffnet die Einstellungen; dort den Schlüssel
+  berichtigen.
+* **Die Zeitgrenze läuft ab.** Das Protokoll sagt `Zeitgrenze von
+  2:00:00,000 erreicht, Produktion läuft noch:` und die Adresse der
+  Produktion. Sie läuft bei auphonic.com weiter; mit `--auphonic-wait`
+  wartet der Lauf länger. **Abbrechen** beendet ebenso nur das Warten, nicht
+  die Produktion.
+* **auphonic.com meldet einen Fehler.** Der Lauf endet mit
+  `Aufbereitung fehlgeschlagen:` und dem, was auphonic.com gesagt hat.
 * **In der Presetliste steht nur ihr erster Eintrag.** Es ist noch kein
   Schlüssel geprüft: **Verbinden** drücken.
 * **Die zurückgekommenen Spuren passen weder zum Zeitfenster noch zum
