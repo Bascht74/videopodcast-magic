@@ -74,13 +74,13 @@ figure of the day is that command, not this paragraph**:
   keeping the key, and storing it from the terminal
 * `speech/` **1422** -- what is said and when, and what is written down
   from it
-* `hearing/` **1322** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1323** -- decoding, envelopes, bands, phase, aligning
   audio to video
 * `fittings/` **1320** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **1000** -- the command line a run is given: written out of
+* `orders/` **1023** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries

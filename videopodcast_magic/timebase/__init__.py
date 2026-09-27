@@ -159,7 +159,7 @@ def clocks_on_the_axis(videos, position, tracks, ref_clip):
         a, b, st = position[v]
         if (st or {}).get("by_clock_only"):
             continue
-        found.append({"name": os.path.basename(v), "tc": when,
+        found.append({"name": PROGRAM.camera_shown(v), "tc": when,
                       "a": a, "b": b})
     for track in (tracks or []):
         blocks = track.get("blocks") or []
@@ -171,7 +171,7 @@ def clocks_on_the_axis(videos, position, tracks, ref_clip):
         when = file_timecode(blocks[0], ref_clip[1]["fps"]) if blocks else None
         if when is None:
             continue
-        found.append({"name": os.path.basename(blocks[0]), "tc": when,
+        found.append({"name": PROGRAM.recording_shown(blocks[0]), "tc": when,
                       "a": track["a"], "b": track["b"]})
     return found
 
@@ -236,7 +236,7 @@ def clip_to_time_window(args, t0, t1, ref_clip, clocks=()):
                       'clock: no file here carries one, the reference '
                       'camera %s included. Then only a value from the '
                       'window start works, such as +12:30.')
-                    % (value_text, os.path.basename(ref_clip[0])))
+                    % (value_text, PROGRAM.camera_shown(ref_clip[0])))
             return value - tc_ref
         if value < 0:
             if not from_the_end:
@@ -345,7 +345,7 @@ def join_the_plan(plan, tmpdir):
                                      "raw_%s.wav" % safe_filename(name)))
             out = {n for n, _far in join_info.get("dropped", [])}
             blocks = [b for i, b in enumerate(blocks)
-                      if not i or os.path.basename(b) not in out]
+                      if not i or PROGRAM.recording_shown(b) not in out]
             hint = T('%s blocks') % number_text(join_info["blocks"], 0) \
                 if len(blocks) > 1 else ""
         else:
@@ -1305,9 +1305,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     for line in clock_apart_lines(
             dict((c["name"], -c["a"] / c["b"]) for c in read),
             dict([(c["name"], c["tc"]) for c in read]
-                 + [(os.path.basename(ref_clip[0]),
+                 + [(PROGRAM.camera_shown(ref_clip[0]),
                      timecode_seconds(ref_clip[1]))]),
-            os.path.basename(ref_clip[0]), ref_clip[1]["fps"]):
+            PROGRAM.camera_shown(ref_clip[0]), ref_clip[1]["fps"]):
         print(line)
 
     # Window: what every camera saw, limited to what there is audio for.

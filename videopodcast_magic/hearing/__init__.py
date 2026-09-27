@@ -300,8 +300,9 @@ def video_envelope(path, hop_ms=5.0, rate=4000, report=None):
         large = os.path.getsize(path) > 200e6 if os.path.exists(path) else False
         if large or report:
             x = decode_audio_long(path, rate, duration,
-                                T('Reading audio track from %s') % os.path.basename(path),
-                                report=report)
+                                  T('Reading audio track from %s')
+                                  % PROGRAM.recording_shown(path),
+                                  report=report)
         else:
             x = decode_audio(path, rate=rate)
         _ENV[api_key] = envelope(x, hop_ms, rate)
@@ -310,7 +311,7 @@ def video_envelope(path, hop_ms=5.0, rate=4000, report=None):
             # unalignable until it next changes, without saying why.
             _ENV.pop(api_key, None)
             raise ValueError(T('no audio data from %s')
-                             % os.path.basename(path))
+                             % PROGRAM.recording_shown(path))
         if cache:
             # Beside it and then moved: two runs at once, or one broken
             # off, must not leave half a curve to be read as a curve.
@@ -594,7 +595,7 @@ def blocks_within_reach(paths, trs, lengths):
         reach = max(reach, end[i])
     run = [r for r in runs if 0 in r][0]
     first, last = min(start[i] for i in run), max(end[i] for i in run)
-    return sorted(run), [(os.path.basename(paths[i]),
+    return sorted(run), [(PROGRAM.recording_shown(paths[i]),
                           start[i] - last if start[i] >= last
                           else first - end[i])
                          for i in range(len(paths)) if i not in run]
@@ -811,7 +812,7 @@ def align_audio_to_video(audio, video, sample_points=None, window_s=20.0,
     env_audio = envelope(x_audio, HOP, rate)
     a, b, st = align_envelopes(env_video, env_audio, HOP, sample_points,
                                window_s, distance_s,
-                               warn=os.path.basename(audio))
+                               warn=PROGRAM.recording_shown(audio))
     if sound_places_recording(st):
         return a, b, st
     # The plain way found nothing worth having. Read once here for the
@@ -1015,7 +1016,7 @@ def cameras_on_one_axis(curves, clocks=None, warn=True, spread=None,
             return align_envelopes(
                 curves[via], curves[p], hop_ms, sample_points=density,
                 distance_s=30.0, near_s=hint,
-                warn=(os.path.basename(p) if warn is True
+                warn=(PROGRAM.camera_shown(p) if warn is True
                       and pair not in quiet else False))
         except Exception as e:
             return 0.0, 1.0, {"quality": 0.0, "points": 0,

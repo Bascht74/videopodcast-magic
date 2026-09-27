@@ -879,6 +879,8 @@ def build_argument_parser():
 # The window's names for this run's cameras, set by cameras_shown_as
 # at the start of every run so that none is left over from the last.
 _SHOWN = [ByFile()]
+# And for its recordings, set by recordings_shown_as the same way.
+_HEARD = [ByFile()]
 
 
 # The line levels to -16 as the window does; this word leaves it alone.
@@ -916,6 +918,27 @@ def camera_shown(file_path):
     over. Every other camera is named by its file.
     """
     return _SHOWN[0].get(file_path) or os.path.basename(file_path or "")
+
+
+def recordings_shown_as(audio_paths):
+    """Take this run's recordings, named by the rule the file list names by.
+
+    The window hands them over in its own order, and recording_labels
+    numbers a second one of one file name "(2)" in that order: so the
+    run need not be told the names, it works them out alike.
+    """
+    _HEARD[0] = PROGRAM.recording_labels(list(audio_paths or ()))
+
+
+def recording_shown(file_path):
+    """A recording as the run's log names it: as the file list does.
+
+    Two recorders that both write ZOOM0001.WAV made two recordings, and
+    the second is "ZOOM0001.WAV (2)" (recording_labels). A file that is
+    no recording of this run -- a camera, a file made along the way --
+    is named as camera_shown names it.
+    """
+    return _HEARD[0].get(file_path) or camera_shown(file_path)
 
 
 # How the command line switch is named and how the field behind it. All others

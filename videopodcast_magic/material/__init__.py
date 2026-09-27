@@ -1881,7 +1881,7 @@ def place_camera_by_clock(v, position, clocks, said, quality=None):
     less this one's. With no clock here, or none on a camera the sound
     placed, it is refused.
     """
-    own, name = clocks.get(v), os.path.basename(v)
+    own, name = clocks.get(v), PROGRAM.camera_shown(v)
     w = clock_base(own, [(c, clocks.get(c)) for c, (_a, _b, st_c)
                          in position.items() if not st_c.get("by_clock_only")])
     if w is None:
@@ -1944,13 +1944,13 @@ def align_cameras(videos, heard=None):
             by_clock.append((v, T(
                 '  %s gives no sound to measure -- placed by its clock '
                 'alone, and nothing was found to check it against')
-                % os.path.basename(v), None))
+                % PROGRAM.camera_shown(v), None))
             continue
         if st.get("error"):
             # Not measured is not placed: the clock is asked as for any.
             by_clock.append((v, T('  %s cannot be classified: %s -- placed '
                                   'by its clock alone')
-                             % (os.path.basename(v), st["error"]), None))
+                             % (PROGRAM.camera_shown(v), st["error"]), None))
             continue
         # What the sound failed at is a guess and the clock is not: where
         # a clock places the camera it stands there.
@@ -1959,18 +1959,18 @@ def align_cameras(videos, heard=None):
         if q < CAMERA_MATCH_ENOUGH:
             said = T('  %s: its sound matches by %s, under the floor of %s '
                      '-- placed by its clock alone') % (
-                os.path.basename(v), number_text(q, 3),
+                PROGRAM.camera_shown(v), number_text(q, 3),
                 number_text(CAMERA_MATCH_ENOUGH, 2))
         elif q < PROGRAM.MATCH_STANDS_OUT * st.get("next_best", 0.0):
             said = T('  %s: its sound matches by %s, and by %s at another '
                      'place as well -- placed by its clock alone') % (
-                os.path.basename(v), number_text(q, 3),
+                PROGRAM.camera_shown(v), number_text(q, 3),
                 number_text(st.get("next_best", 0.0), 3))
         else:
             said = T('  %s: its sound matches by %s over %s s of shared '
                      'sound, too little to tell from chance -- placed by '
                      'its clock alone') % (
-                os.path.basename(v), number_text(q, 3),
+                PROGRAM.camera_shown(v), number_text(q, 3),
                 number_text(st.get("shared_s") or 0.0, 1))
         by_clock.append((v, said, st.get("quality")))
     for v, said, quality in by_clock:
