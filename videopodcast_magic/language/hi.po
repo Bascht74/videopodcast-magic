@@ -5101,6 +5101,9 @@ msgstr "auphonic.com पर क्रेडिट: अज्ञात"
 msgid "%s -- free plan"
 msgstr "%s -- मुफ़्त प्लान"
 
+msgid "%s -- paying plan"
+msgstr "%s -- पेड प्लान"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  auphonic.com पर क्रेडिट: अज्ञात -- खाते ने जवाब नहीं दिया।"
 
@@ -5125,14 +5128,20 @@ msgstr "  auphonic.com पर खाता: मुफ़्त।"
 msgid "  Account at auphonic.com: not known."
 msgstr "  auphonic.com पर खाता: अज्ञात।"
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "auphonic.com पर खाता: अज्ञात -- उससे पूछा नहीं जा सका। रन जारी रहता है।"
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  टिप्पणी: रन फिर भी कोशिश करता है। प्रोडक्शन शुरू होगा या नहीं, यह auphonic.com तय करता है, और न होने पर बताता है।"
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  टिप्पणी: मुफ़्त प्लान में auphonic.com Multitrack प्रोडक्शन तभी स्वीकार करता है जब वह %s से छोटा हो, और यह %s का है। रन फिर भी कोशिश करता है; अगर auphonic.com मना करे, तो उसका अपना संदेश आता है।"
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  चेतावनी: यह Multitrack प्रोडक्शन %s लंबा है, और मुफ़्त प्लान पर auphonic.com ऐसा प्रोडक्शन केवल लगभग %s तक ही लेता है।"
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "मुफ़्त प्लान में auphonic.com Multitrack प्रोडक्शन तभी स्वीकार करता है जब वह %s से छोटा हो।"
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  टिप्पणी: auphonic.com इससे लंबे प्रोडक्शन को शुरू में ही लौटा देता है और उसके लिए कुछ नहीं काटता। रन फिर भी कोशिश करता है; अगर auphonic.com मना करे, तो उसका अपना संदेश आता है।"
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "मुफ़्त प्लान पर auphonic.com Multitrack प्रोडक्शन केवल लगभग %s तक ही लेता है।"
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  इस रन से बनी परियोजना %r खुली रहती है -- पहले ऐसा कुछ खुला नहीं था\n  जिसे फिर से खोला जा सके। इसे Resolve के प्रोजेक्ट मैनेजर में हटाएँ।"

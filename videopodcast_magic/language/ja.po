@@ -5057,6 +5057,9 @@ msgstr "auphonic.com のクレジット：不明"
 msgid "%s -- free plan"
 msgstr "%s -- 無料プラン"
 
+msgid "%s -- paying plan"
+msgstr "%s -- 有料プラン"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  auphonic.com のクレジット：不明 -- アカウントから応答がありません。"
 
@@ -5081,14 +5084,20 @@ msgstr "  auphonic.com のアカウント：無料。"
 msgid "  Account at auphonic.com: not known."
 msgstr "  auphonic.com のアカウント：不明。"
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "auphonic.com のアカウント：不明 -- 問い合わせできませんでした。実行は続きます。"
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  注記: それでも実行は試みます。プロダクションが始まるかどうかは auphonic.com が決め、始まらなければそう伝えます。"
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  注記: 無料プランでは auphonic.com は %s より短い Multitrack プロダクションしか受け付けず、これは %s あります。それでも実行は試みます。auphonic.com が拒否した場合は、その本来のメッセージが続きます。"
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  警告: この Multitrack プロダクションは %s あり、無料プランでは auphonic.com はこうしたものを約 %s までしか受け付けません。"
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "無料プランでは auphonic.com は %s より短い Multitrack プロダクションしか受け付けません。"
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  注記: それより長いものは auphonic.com が開始時に断り、料金はかかりません。それでも実行は試みます。auphonic.com が断った場合は、その側のメッセージが続きます。"
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "無料プランでは auphonic.com は Multitrack プロダクションを約 %s までしか受け付けません。"
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  この実行で作成したプロジェクト %r は開いたままです -- 以前は再び開けるものが\n  何も開いていませんでした。Resolve のプロジェクトマネージャーで削除してください。"

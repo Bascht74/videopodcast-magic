@@ -5101,6 +5101,9 @@ msgstr "Tegoed bij auphonic.com: onbekend"
 msgid "%s -- free plan"
 msgstr "%s -- gratis abonnement"
 
+msgid "%s -- paying plan"
+msgstr "%s -- betaald abonnement"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Tegoed bij auphonic.com: onbekend -- het account gaf geen antwoord."
 
@@ -5125,14 +5128,20 @@ msgstr "  Account bij auphonic.com: gratis."
 msgid "  Account at auphonic.com: not known."
 msgstr "  Account bij auphonic.com: onbekend."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Account bij auphonic.com: onbekend -- het kon niet worden bevraagd. De run gaat door."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Opmerking: de run probeert het toch. auphonic.com beslist of de productie start, en zegt het als dat niet zo is."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Opmerking: met het gratis abonnement neemt auphonic.com een Multitrack-productie alleen aan als die korter is dan %s, en deze duurt %s. De run probeert het toch; weigert auphonic.com, dan volgt zijn eigen melding."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Waarschuwing: deze Multitrack-productie duurt %s, en met het gratis abonnement neemt auphonic.com er een alleen aan tot ongeveer %s."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "Met het gratis abonnement neemt auphonic.com een Multitrack-productie alleen aan als die korter is dan %s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Opmerking: een langere weigert auphonic.com meteen bij de start en rekent er niets voor. De run probeert het toch; weigert auphonic.com, dan volgt zijn eigen melding."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Met het gratis abonnement neemt auphonic.com een Multitrack-productie alleen aan tot ongeveer %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Het project %r van deze run blijft open -- er stond vooraf niets open\n  dat weer geopend kon worden. Verwijder het in de projectmanager van Resolve."

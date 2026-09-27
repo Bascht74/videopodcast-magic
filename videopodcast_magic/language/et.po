@@ -5104,6 +5104,9 @@ msgstr "Krediit auphonic.com-is: teadmata"
 msgid "%s -- free plan"
 msgstr "%s -- tasuta pakett"
 
+msgid "%s -- paying plan"
+msgstr "%s -- tasuline pakett"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Krediit auphonic.com-is: teadmata -- konto ei vastanud."
 
@@ -5128,14 +5131,20 @@ msgstr "  Konto auphonic.com-is: tasuta."
 msgid "  Account at auphonic.com: not known."
 msgstr "  Konto auphonic.com-is: teadmata."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Konto auphonic.com-is: teadmata -- seda ei saanud küsida. Käivitus jätkub."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Märkus: käivitus proovib ikkagi. auphonic.com otsustab, kas produktsioon algab, ja ütleb, kui ei alga."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Märkus: tasuta paketis võtab auphonic.com Multitrack-produktsiooni vastu ainult siis, kui see on lühem kui %s, ja see kestab %s. Käivitus proovib ikkagi; kui auphonic.com keeldub, järgneb tema enda teade."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Hoiatus: see Multitrack-produktsioon kestab %s ning tasuta paketis võtab auphonic.com sellise vastu ainult umbes %s pikkuseni."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "Tasuta paketis võtab auphonic.com Multitrack-produktsiooni vastu ainult siis, kui see on lühem kui %s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Märkus: pikema lükkab auphonic.com tagasi juba alguses ega võta selle eest midagi. Käivitus proovib ikkagi; kui auphonic.com keeldub, järgneb tema enda teade."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Tasuta paketis võtab auphonic.com Multitrack-produktsiooni vastu ainult umbes %s pikkuseni."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Selle käivituse projekt %r jääb avatuks -- varem ei olnud avatud midagi,\n  mida saaks uuesti avada. Kustutage see Resolve'i projektihalduris."

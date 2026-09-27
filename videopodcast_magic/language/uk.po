@@ -5161,6 +5161,9 @@ msgstr "Кредит на auphonic.com: невідомо"
 msgid "%s -- free plan"
 msgstr "%s -- безкоштовний тариф"
 
+msgid "%s -- paying plan"
+msgstr "%s -- платний тариф"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Кредит на auphonic.com: невідомо -- обліковий запис не відповів."
 
@@ -5185,14 +5188,20 @@ msgstr "  Обліковий запис на auphonic.com: безкоштовн�
 msgid "  Account at auphonic.com: not known."
 msgstr "  Обліковий запис на auphonic.com: невідомо."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Обліковий запис на auphonic.com: невідомо -- його не вдалося опитати. Запуск триває."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Зауваження: запуск однаково спробує. Чи почнеться продукція, вирішує auphonic.com, і якщо ні, він сам це скаже."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Зауваження: на безкоштовному тарифі auphonic.com приймає продукцію Multitrack, лише якщо вона коротша за %s, а ця триває %s. Запуск однаково спробує; якщо auphonic.com відмовить, буде його власне повідомлення."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Попередження: ця Multitrack-продукція триває %s, а на безкоштовному тарифі auphonic.com приймає таку лише приблизно до %s."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "На безкоштовному тарифі auphonic.com приймає продукцію Multitrack, лише якщо вона коротша за %s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Зауваження: довшу auphonic.com відхиляє вже на початку й нічого за неї не списує. Запуск однаково спробує; якщо auphonic.com відмовить, буде його власне повідомлення."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "На безкоштовному тарифі auphonic.com приймає Multitrack-продукцію лише приблизно до %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Проєкт %r, створений цим запуском, лишається відкритим -- раніше не було відкрито нічого,\n  що можна відкрити знову. Видаліть його в менеджері проєктів Resolve."

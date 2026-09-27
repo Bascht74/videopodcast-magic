@@ -5111,6 +5111,9 @@ msgstr "Crédit sur auphonic.com : inconnu"
 msgid "%s -- free plan"
 msgstr "%s -- offre gratuite"
 
+msgid "%s -- paying plan"
+msgstr "%s -- offre payante"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Crédit sur auphonic.com : inconnu -- le compte n'a pas répondu."
 
@@ -5135,14 +5138,20 @@ msgstr "  Compte sur auphonic.com : gratuit."
 msgid "  Account at auphonic.com: not known."
 msgstr "  Compte sur auphonic.com : inconnu."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Compte sur auphonic.com : inconnu -- il n'a pas pu être interrogé. L'exécution continue."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Note : l'exécution essaie quand même. auphonic.com décide si la production démarre, et le dit si elle ne démarre pas."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Note : avec l'offre gratuite, auphonic.com n'accepte une production Multitrack que si elle dure moins de %s, et celle-ci dure %s. L'exécution essaie quand même ; si auphonic.com refuse, son propre message suit."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Avertissement : cette production Multitrack dure %s, et avec l'offre gratuite auphonic.com n'en accepte une que jusqu'à environ %s."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "Avec l'offre gratuite, auphonic.com n'accepte une production Multitrack que si elle dure moins de %s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Note : auphonic.com refuse une production plus longue dès le départ et ne facture rien. L'exécution essaie quand même ; si auphonic.com refuse, son propre message suit."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Avec l'offre gratuite, auphonic.com n'accepte une production Multitrack que jusqu'à environ %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Le projet %r créé par cette exécution reste ouvert -- rien n’était ouvert avant\n  qui puisse être rouvert. Supprimez-le dans le gestionnaire de projets de Resolve."

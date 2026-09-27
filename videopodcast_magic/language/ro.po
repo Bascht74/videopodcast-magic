@@ -5145,6 +5145,9 @@ msgstr "Credit la auphonic.com: necunoscut"
 msgid "%s -- free plan"
 msgstr "%s -- plan gratuit"
 
+msgid "%s -- paying plan"
+msgstr "%s -- plan plătit"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Credit la auphonic.com: necunoscut -- contul nu a răspuns."
 
@@ -5169,14 +5172,20 @@ msgstr "  Cont la auphonic.com: gratuit."
 msgid "  Account at auphonic.com: not known."
 msgstr "  Cont la auphonic.com: necunoscut."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Cont la auphonic.com: necunoscut -- nu a putut fi întrebat. Rularea continuă."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Notă: rularea încearcă oricum. auphonic.com decide dacă producția pornește și spune dacă nu pornește."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Notă: în planul gratuit auphonic.com acceptă o producție Multitrack doar dacă este mai scurtă de %s, iar aceasta durează %s. Rularea încearcă oricum; dacă auphonic.com refuză, urmează propriul său mesaj."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Avertisment: această producție Multitrack durează %s, iar pe planul gratuit auphonic.com acceptă una astfel doar până la aproximativ %s."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "În planul gratuit auphonic.com acceptă o producție Multitrack doar dacă este mai scurtă de %s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Notă: auphonic.com refuză una mai lungă încă de la început și nu taxează nimic pentru ea. Rularea încearcă oricum; dacă auphonic.com refuză, urmează propriul său mesaj."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Pe planul gratuit, auphonic.com acceptă o producție Multitrack doar până la aproximativ %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Proiectul %r creat de această rulare rămâne deschis -- înainte nu era deschis nimic\n  ce ar putea fi redeschis. Ștergeți-l în managerul de proiecte din Resolve."

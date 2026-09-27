@@ -5149,6 +5149,9 @@ msgstr "Kredīts vietnē auphonic.com: nezināms"
 msgid "%s -- free plan"
 msgstr "%s -- bezmaksas plāns"
 
+msgid "%s -- paying plan"
+msgstr "%s -- maksas plāns"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Kredīts vietnē auphonic.com: nezināms -- konts neatbildēja."
 
@@ -5173,14 +5176,20 @@ msgstr "  Konts vietnē auphonic.com: bezmaksas."
 msgid "  Account at auphonic.com: not known."
 msgstr "  Konts vietnē auphonic.com: nezināms."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Konts vietnē auphonic.com: nezināms -- to nevarēja pajautāt. Palaišana turpinās."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Piezīme: palaišana tomēr mēģina. auphonic.com izlemj, vai producējums sākas, un pasaka, ja nesākas."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Piezīme: bezmaksas plānā auphonic.com pieņem Multitrack producējumu tikai tad, ja tas ir īsāks par %s, bet šis ilgst %s. Palaišana tomēr mēģina; ja auphonic.com atsaka, seko tā paša ziņojums."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Brīdinājums: šis Multitrack producējums ilgst %s, un bezmaksas plānā auphonic.com tādu pieņem tikai līdz aptuveni %s."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "Bezmaksas plānā auphonic.com pieņem Multitrack producējumu tikai tad, ja tas ir īsāks par %s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Piezīme: garāku auphonic.com noraida jau sākumā un par to neko neiekasē. Palaišana tomēr mēģina; ja auphonic.com atsaka, seko tā paša ziņojums."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Bezmaksas plānā auphonic.com pieņem Multitrack producējumu tikai līdz aptuveni %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Šīs palaišanas projekts %r paliek atvērts -- iepriekš nekas nebija atvērts,\n  ko varētu atvērt no jauna. Izdzēsiet to Resolve projektu pārvaldniekā."

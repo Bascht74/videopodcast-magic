@@ -5193,6 +5193,9 @@ msgstr "Kreditu fuq auphonic.com: mhux magħruf"
 msgid "%s -- free plan"
 msgstr "%s -- pjan b'xejn"
 
+msgid "%s -- paying plan"
+msgstr "%s -- pjan imħallas"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Kreditu fuq auphonic.com: mhux magħruf -- il-kont ma weġibx."
 
@@ -5217,14 +5220,20 @@ msgstr "  Kont fuq auphonic.com: b'xejn."
 msgid "  Account at auphonic.com: not known."
 msgstr "  Kont fuq auphonic.com: mhux magħruf."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Kont fuq auphonic.com: mhux magħruf -- ma setax jiġi mistoqsi. It-tħaddim ikompli."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Nota: it-tħaddim jipprova xorta waħda. auphonic.com jiddeċiedi jekk il-produzzjoni tibdiex, u jgħid jekk ma tibdiex."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Nota: fil-pjan b'xejn auphonic.com jaċċetta produzzjoni Multitrack biss jekk tkun iqsar minn %s, u din iddum %s. It-tħaddim jipprova xorta waħda; jekk auphonic.com jirrifjuta, jidher il-messaġġ tiegħu stess."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Twissija: din il-produzzjoni Multitrack iddum %s, u fuq il-pjan b'xejn auphonic.com jaċċetta waħda bħal din biss sa madwar %s."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "Fil-pjan b'xejn auphonic.com jaċċetta produzzjoni Multitrack biss jekk tkun iqsar minn %s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Nota: auphonic.com jirrifjuta waħda itwal diġà fil-bidu u ma jiċċarġja xejn għaliha. It-tħaddim jipprova xorta waħda; jekk auphonic.com jirrifjuta, jiġi l-messaġġ tiegħu stess."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Fuq il-pjan b'xejn auphonic.com jaċċetta produzzjoni Multitrack biss sa madwar %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Il-proġett %r ta' din it-tħaddima jibqa' miftuħ -- qabel ma kien miftuħ xejn\n  li seta' jerġa' jinfetaħ. Ħassru fil-maniġer tal-proġetti ta' Resolve."

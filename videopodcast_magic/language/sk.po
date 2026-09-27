@@ -5144,6 +5144,9 @@ msgstr "Kredit na auphonic.com: neznámy"
 msgid "%s -- free plan"
 msgstr "%s -- bezplatný program"
 
+msgid "%s -- paying plan"
+msgstr "%s -- platený program"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Kredit na auphonic.com: neznámy -- účet neodpovedal."
 
@@ -5168,14 +5171,20 @@ msgstr "  Účet na auphonic.com: bezplatný."
 msgid "  Account at auphonic.com: not known."
 msgstr "  Účet na auphonic.com: neznámy."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Účet na auphonic.com: neznámy -- nepodarilo sa ho opýtať. Beh pokračuje."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Poznámka: beh to aj tak skúsi. O tom, či produkcia začne, rozhoduje auphonic.com, a ak nie, povie to."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Poznámka: v bezplatnom programe prijme auphonic.com produkciu Multitrack len vtedy, ak je kratšia ako %s, a táto trvá %s. Beh to aj tak skúsi; ak ju auphonic.com odmietne, nasleduje jeho vlastná správa."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Varovanie: táto produkcia Multitrack trvá %s a v bezplatnom programe prijíma auphonic.com takú len zhruba do %s."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "V bezplatnom programe prijme auphonic.com produkciu Multitrack len vtedy, ak je kratšia ako %s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Poznámka: dlhšiu produkciu auphonic.com odmietne hneď na začiatku a nič za ňu neúčtuje. Beh to aj tak skúsi; ak auphonic.com odmietne, nasleduje jeho vlastná správa."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "V bezplatnom programe prijíma auphonic.com produkciu Multitrack len zhruba do %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Projekt %r z tohto behu zostáva otvorený -- predtým nebolo otvorené nič,\n  čo by sa dalo znova otvoriť. Odstráňte ho v správcovi projektov Resolve."

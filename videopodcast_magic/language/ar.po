@@ -5284,6 +5284,9 @@ msgstr "الرصيد في auphonic.com: غير معروف"
 msgid "%s -- free plan"
 msgstr "%s -- الخطة المجانية"
 
+msgid "%s -- paying plan"
+msgstr "%s -- الخطة المدفوعة"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  الرصيد في auphonic.com: غير معروف -- لم يُجب الحساب."
 
@@ -5308,14 +5311,20 @@ msgstr "  الحساب في auphonic.com: مجاني."
 msgid "  Account at auphonic.com: not known."
 msgstr "  الحساب في auphonic.com: غير معروف."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "الحساب في auphonic.com: غير معروف -- تعذّر السؤال عنه. التشغيل يستمر."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  ملاحظة: التشغيل يحاول رغم ذلك. auphonic.com هو من يقرر إن كان الإنتاج سيبدأ، ويقول ذلك إن لم يبدأ."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  ملاحظة: في الخطة المجانية لا يقبل auphonic.com إنتاج Multitrack إلا إذا كان أقصر من %s، وهذا الإنتاج مدته %s. التشغيل يحاول رغم ذلك؛ وإن رفض auphonic.com تتبعه رسالته هو."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  تحذير: مدة إنتاج Multitrack هذا %s، وفي الخطة المجانية يقبل auphonic.com إنتاجًا كهذا حتى نحو %s فقط."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "في الخطة المجانية لا يقبل auphonic.com إنتاج Multitrack إلا إذا كان أقصر من %s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  ملاحظة: يرفض auphonic.com الإنتاج الأطول عند البدء ولا يحتسب عليه شيئًا. التشغيل يحاول رغم ذلك؛ وإن رفض auphonic.com تتبعه رسالته الخاصة."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "في الخطة المجانية يقبل auphonic.com إنتاج Multitrack حتى نحو %s فقط."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  يبقى المشروع %r الذي أنشأه هذا التشغيل مفتوحًا -- لم يكن مفتوحًا من قبل\n  ما يمكن فتحه مجددًا. احذفه من مدير المشاريع في Resolve."

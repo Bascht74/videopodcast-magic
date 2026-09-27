@@ -44,9 +44,18 @@ Der Bericht gilt für beide Betriebsarten.
 | Auphonic | Algorithmen des Presets, Lautheitsziel, Spurvorlage | **Abbruch** bei Widerspruch |
 | Projekttyp | bei **Nur synchronisieren** eine zweite Tonaufnahme | **Abbruch** |
 | Lautheit | welches Ziel gilt und woher es kommt | — |
+| Auphonic-Konto | der Tarif, die übrigen Minuten, ob sie für die Produktion reichen | wird gesagt, eine Warnung, wenn eine kostenlose Multitrack-Produktion länger als 21 Minuten ist; nie ein Abbruch |
 
 Ein Abbruch hält den Lauf an, bevor etwas geschrieben oder hochgeladen
 wird.
+
+**Das Konto fragt nur der Bericht des Laufs**, nicht die Dateiliste:
+wenn **Start** oder **Probelauf** gedrückt wird oder ein Lauf auf der
+Kommandozeile beginnt, und nur, wenn der Lauf zu auphonic.com schicken
+würde. Gefragt wird einmal, und es steht dort, was der Auphonic-Schritt
+vor dem Hochladen noch einmal sagt ([Auphonic](auphonic.de.md), „Was
+ein Lauf zeigt“). Lässt sich das Konto nicht fragen, sagt eine Zeile,
+dass es nicht bekannt ist, und der Lauf geht weiter.
 
 **Nur synchronisieren nimmt eine Tonaufnahme.** Bei diesem Projekttyp
 bekommt jede Aufnahme nach der ersten in der Dateiliste ein ✕, und der
