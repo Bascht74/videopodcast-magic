@@ -3014,13 +3014,14 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
 
 def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
                            tc_start, ref_clip, length, words=(),
-                           sound_source=""):
+                           sound_source="", unwritten=()):
     """Write the speaker list, markers and camera cut.
 
     Returns (camera cut, speaker segments) so the Resolve handover uses
     the same result instead of recomputing it. *segment_list* says who
     speaks when. *words* and *sound_source* say where the cut points
-    come from -- the text roughly, the sound exactly.
+    come from -- the text roughly, the sound exactly. *unwritten* are
+    the cameras whose file was not written: the cut leaves them out.
     """
     fps = max(1.0, resolve_timeline_rate(
         timeline_frame_rate(args, videos, ref_clip)))
@@ -3040,13 +3041,21 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         timecode_string(tc_start if tc_start is not None else 0.0, fps,
                         drop_frame=drop), fps)
 
+    # A camera whose file failed has nothing behind it: cut to, the list
+    # names a reel the handover has no file for. Its speakers fall to
+    # the wide shot, as a speaker on no camera does.
+    gone = FileSet(unwritten or ())
+    for cam in cameras:
+        if cam["video"] in gone:
+            print(as_bad(T('  %s: no file was written, so the cut leaves '
+                           'this camera out.') % cam["name"]))
     # Who belongs to which camera, and which is the wide shot? Through
     # path_key, or two shapes of one path count as two cameras.
     output_name = {path_key(cam["video"]): cam["name"] for cam in cameras}
     camera_of = {}
     taken = set()
     for track in tracks:
-        if track.get("camera"):
+        if track.get("camera") and track["camera"] not in gone:
             v = os.path.abspath(track["camera"])
             camera_of[track["name"]] = output_name.get(path_key(v),
                                                      os.path.basename(v))
@@ -3056,6 +3065,8 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     strangers = []
     for who, where in PROGRAM.handed_over(args)[1].items():
         v = os.path.abspath(where)
+        if v in gone:
+            continue
         if path_key(v) not in output_name:
             strangers.append((who, os.path.basename(v)))
         camera_of[who] = output_name.get(path_key(v), os.path.basename(v))
@@ -3071,14 +3082,13 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     def camera_name_of(video):
         return output_name.get(path_key(video), os.path.basename(video))
 
+    cut_to = [v for v, _ in videos if v not in gone]
     wides = wide_shots_of(
-        [camera_name_of(v) for v, _ in videos],
-        set(camera_name_of(v) for v, _ in videos
-            if path_key(v) in taken),
-        [camera_name_of(v) for v, _ in videos
-         if path_key(v) in marked_wide])
+        [camera_name_of(v) for v in cut_to],
+        set(camera_name_of(v) for v in cut_to if path_key(v) in taken),
+        [camera_name_of(v) for v in cut_to if path_key(v) in marked_wide])
     wide_shot = wides[0] if wides else stand_in_camera(
-        [camera_name_of(v) for v, _ in videos])[0]
+        [camera_name_of(v) for v in cut_to])[0]
 
     stem = os.path.join(folder, safe_filename(args.production or 'Production'))
     lines = sorted((a, b, n) for n, segs in segment_list for a, b in segs)

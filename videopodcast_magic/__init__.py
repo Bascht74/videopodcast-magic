@@ -499,6 +499,36 @@ def main():
             # The window took itself down for a chosen language; the
             # choice is read back so the next one speaks it.
             set_language(kept_language() or system_locale())
+    try:
+        return run_from_command_line(args, ap)
+    except workbench.Stopped:
+        raise
+    except Exception as e:
+        # The window's run comes through here too, and says it itself.
+        if OUTPUT_SINK is not None:
+            raise
+        return stopped_on_command_line(e)
+
+
+def stopped_on_command_line(e):
+    """Say an unexpected fault in one line and return 1, as the window does.
+
+    A traceback in the terminal reads as a crash and hides the reason
+    in its last line; the window says "Stopped: <reason>". The trace
+    itself goes into the log, where whoever reports the fault finds it.
+    """
+    import traceback
+    logbook.log_aside(traceback.format_exc().rstrip())
+    print(livery.as_bad(T('Stopped: %s') % e))
+    return 1
+
+
+def run_from_command_line(args, ap):
+    """The run a command line asks for: said, preflight, then the one door.
+
+    Split from main() so that a fault anywhere in it is caught in one
+    place. Returns the code the process ends with.
+    """
     force_utf8_output()
     enable_colour_output()
     # Whoever typed a command line has a console: said there, after the
@@ -555,6 +585,15 @@ def main():
             return 1
     if not args.files:
         return ap.error(T('No files given.'))
+    # A run that sends and has no key to send with: with a picture it
+    # failed only after the axis was measured, and without one it stayed
+    # local unasked. A dry run sends nothing, so it needs none.
+    if (timebase.run_uploads(args) and not args.auphonic_key
+            and not args.dry_run):
+        print(livery.as_bad(T('No API key. Store it once in the interface, or '
+                       'with --store-auphonic-key. The key is in the '
+                       'Auphonic account settings.')))
+        return 1
     if args.auphonic_preset:
         e = os.path.splitext(args.auphonic_preset)[1].lower()
         if e in AUDIO_SUFFIXES + VIDEO_SUFFIXES or os.path.exists(args.auphonic_preset):

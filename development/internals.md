@@ -40,12 +40,12 @@ figure of the day is that command, not this paragraph**:
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3256** -- the window and everything it shows, asks or offers,
+* `ui/` **3266** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `player/` **3191** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3275** -- who is on camera when, and what carries it out
+* `cut/` **3285** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2509** -- the DaVinci Resolve project, timelines, colour,
@@ -56,7 +56,7 @@ figure of the day is that command, not this paragraph**:
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2057** -- the time base and the camera files: every
+* `timebase/` **2058** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
@@ -90,7 +90,7 @@ figure of the day is that command, not this paragraph**:
 * `herald/` **843** -- the progress bar, the stages, the console and log
   redirection, and the watch over a quiet run: `RunVitals` counts the
   run's children and reads whether any of them still moves
-* `pipeline/` **638** -- the plan: the camera audio out of the
+* `pipeline/` **660** -- the plan: the camera audio out of the
   pictures, the names and the plan the time base runs
 * `project/` **589** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of

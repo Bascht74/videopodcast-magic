@@ -6,6 +6,8 @@ fills while one camera is written, command line; one camera's file is
 gone when its turn comes, command line; the disk fills, in the window.
 Each: the camera named with the reason, the run not counted as done;
 where the disk filled, no cut-short file left under the camera's name.
+In the first, too, the cut list leaves the camera out, and says so --
+the handover holds no file for it.
 The limit: the full disk is a stand-in for ffmpeg, not a full disk.
 """
 PLATFORM_BOUND = True
@@ -18,6 +20,8 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
         and os.path.dirname(HERE) != HERE:
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
+import csv
+import json
 import re
 import shutil
 import tempfile
@@ -170,6 +174,28 @@ try:
     check("no cut-short file is left under a camera the disk broke off",
           begun and not left, "the stand-in began %d, left: %s"
           % (begun, left or "nothing"))
+    unfiled, shots = [], []
+    for name in os.listdir(OUT):
+        if name.endswith("_resolve.json"):
+            with open(os.path.join(OUT, name), encoding="utf-8") as f:
+                unfiled = [c["camera"] for c in json.load(f)["cameras"]
+                           if not c.get("file")]
+        elif name.endswith("_cameracut.csv"):
+            with open(os.path.join(OUT, name), encoding="utf-8") as f:
+                shots = [row[1] for row in list(csv.reader(f))[1:]]
+    # The camera is known by the name the handover gives it, the one
+    # entry there without a file.
+    gone = unfiled[0] if len(unfiled) == 1 else "?"
+    check("the cut list leaves out a camera the full disk broke off",
+          gone != "?" and shots and gone not in shots,
+          "%d of %d shots on %s; cameras cut to: %s; without a file in "
+          "the handover: %s" % (shots.count(gone), len(shots), gone,
+                                sorted(set(shots)), unfiled))
+    LEFT_OUT = vpm.T('  %s: no file was written, so the cut leaves this '
+                     'camera out.').strip() % gone
+    check("and the log says the cut leaves that camera out",
+          LEFT_OUT in re.sub(r"\x1b\[[0-9;]*m", "", text),
+          "'%s' %s" % (LEFT_OUT, "said" if LEFT_OUT in text else "not said"))
 
     print("\n2. One camera's file is gone when its turn comes, command line")
     OUT = os.path.join(WORK, "gone")
