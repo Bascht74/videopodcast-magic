@@ -49,6 +49,7 @@ fit_speaks_against = PROGRAM.fit_speaks_against
 format_complaint = PROGRAM.format_complaint
 gcc_phat_offset = PROGRAM.gcc_phat_offset
 group_recording_parts = PROGRAM.group_recording_parts
+join_audio_parts = PROGRAM.join_audio_parts
 json = PROGRAM.json
 no_base_message = PROGRAM.no_base_message
 no_place_message = PROGRAM.no_place_message
@@ -60,10 +61,17 @@ phase_way_on = PROGRAM.phase_way_on
 place_track_on_axis = PROGRAM.place_track_on_axis
 re = PROGRAM.re
 safe_filename = PROGRAM.safe_filename
+shutil = PROGRAM.shutil
+stage_file = PROGRAM.stage_file
+stage_get = PROGRAM.stage_get
+stage_key = PROGRAM.stage_key
+stage_put = PROGRAM.stage_put
 subprocess = PROGRAM.subprocess
+tempfile = PROGRAM.tempfile
 threading = PROGRAM.threading
 time = PROGRAM.time
 timecode_string = PROGRAM.timecode_string
+types = PROGRAM.types
 video_envelope = PROGRAM.video_envelope
 video_facts = PROGRAM.video_facts
 
@@ -215,11 +223,18 @@ def preview_handover(state):
 
     A finished run beats what the window worked out: its tracks lie on
     one axis and its speakers are the ones it cut by. So the measurement
-    the window took is dropped rather than shown beside it.
+    the window took is dropped rather than shown beside it. A handover a
+    dry or full run kept under the key of what is set now comes first;
+    the file the run wrote only where none is kept.
     """
     d, js = None, state.get("resolve_json")
     state["preview_from"] = None
-    if js:
+    key = state.get("handover_key")
+    kept = stage_get(key) if key else None
+    if isinstance(kept, dict):
+        d = kept
+        state["preview_from"] = ("stage", key)
+    elif js:
         try:
             with open(js, encoding="utf-8") as f:
                 d = json.load(f)
@@ -242,6 +257,11 @@ def preview_out_of_date(state):
     """
     if state.get("running"):
         return False
+    # A handover kept for what is set now, and not the one shown.
+    key = state.get("handover_key")
+    if key and os.path.isfile(stage_file(key) or ""):
+        return (not state.get("statistics")
+                or state.get("preview_from") != ("stage", key))
     js = state.get("resolve_json")
     return bool(js) and (not state.get("statistics")
                          or handover_mark(js) != state.get("preview_from"))
@@ -799,6 +819,43 @@ def clock_apart_lines(placed, clocks, reference, fps):
     return lines
 
 
+# What camera_drift reads off a run: the drift is taken out by default.
+RUN_DRIFT = types.SimpleNamespace(no_drift=False)
+
+
+def run_place(a, b, st, camera=False):
+    """Where the run lays a file its sound placed: (start, clock).
+
+    File time = a + b * reference time. The run takes a drift out only
+    where camera_drift or drift_clear says so; a recording whose drift
+    stays in is laid at -a unstretched, as place_track_on_axis lays it,
+    and a camera sits at -a/b either way, its clock 1.0 unless taken out.
+    """
+    if camera:
+        taken = PROGRAM.camera_drift(RUN_DRIFT, 1.0 / b, st,
+                                     {"fps": 25.0, "duration": 0.0})[0]
+        return -a / b, (b if taken else 1.0)
+    if PROGRAM.drift_clear(b, st):
+        return -a / b, b
+    return -a, 1.0
+
+
+def axis_stage_key(paths, blocks=None, phase=(), tc=None, fps=None):
+    """The name the time axis is kept under, for the window and the run.
+
+    Every file the axis is asked about, continuations too; the blocks
+    grouped into one recording; the recordings the phase way may place;
+    a timecode or frame rate the run was told instead of the files' own.
+    Either side finding it takes the other's axis rather than measure.
+    """
+    rows = sorted(set(tuple(path_key(p) for p in row)
+                      for row in (blocks or {}).values()
+                      if len(row or ()) > 1))
+    inputs = {"blocks": rows, "tc": tc, "fps": fps,
+              "phase": sorted(set(path_key(p) for p in phase or ()))}
+    return stage_key("axis", sorted(set(paths), key=path_key), **inputs)
+
+
 def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
                       phase_of=lambda p: True):
     """Determine how all files sit relative to each other.
@@ -846,9 +903,8 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
     under = set()
     # camera time = a + b * reference time, so its first frame sits at
     # -a / b on the axis, and that runs at b.
-    for p, (a_c, b_c, _st) in on_axis.items():
-        axis[p] = -a_c / b_c
-        clock_speed[p] = b_c
+    for p, (a_c, b_c, st_c) in on_axis.items():
+        axis[p], clock_speed[p] = run_place(a_c, b_c, st_c, camera=True)
     # The cameras the run's sound does not place: none heard, or none of
     # the placed ones placing it -- by their clock, or by nothing.
     by_clock = [p for p in unheard if p.lower().endswith(VIDEO_SUFFIXES)]
@@ -886,10 +942,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
             if g < WEAK_MATCH:
                 under.add(p)
             continue
-        # Divided by b, as the run does before writing the track: a is
-        # where the recording sits in its own time, and that runs at b.
-        axis[p] = -a_s / b
-        clock_speed[p] = b
+        # As the run writes the track: divided by b where it takes the
+        # drift out, a is where the recording sits in its own time.
+        axis[p], clock_speed[p] = run_place(a_s, b, st)
     # Those go by the run's rule, never by a recording's clock or a
     # middle of several: clock_base, or refused. The rest as before.
     placed = [(p, clocks.get(p)) for p in sorted(
@@ -960,8 +1015,8 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
                                              camera_clocks):
             refused.add(p)
         elif not found[2].get("unplaceable"):
-            axis[p] = axis[ref_r] - found[0] / found[1]
-            clock_speed[p] = found[1]
+            start, clock_speed[p] = run_place(*found)
+            axis[p] = axis[ref_r] + start
         elif clock_base(clocks[p], placed) in axis:
             w = clock_base(clocks[p], placed)
             axis[p] = axis[w] + clocks[p] - clocks[w]
@@ -1075,7 +1130,8 @@ def blocks_after_their_head(data, blocks, length_of=envelope_seconds):
                 # place to work out. Guessing one would put the rest of
                 # the recording somewhere and call it measured.
                 break
-            at += runs
+            # Its clock as the head's: a drift taken out shortens it.
+            at += runs / speed.get(keys[0], 1.0)
             put[key] = (at, speed.get(keys[0], 1.0))
     if not put:
         return data
@@ -1089,60 +1145,64 @@ def axis_with_blocks(paths, tc_of=lambda p: None, HOP=5.0, blocks=None,
                      length_of=envelope_seconds, phase_of=lambda p: True):
     """Measure a recording made of blocks as one recording.
 
-    The head is measured like any other file; the continuations are
-    taken to fit and their place follows from the head, so a tail of a
-    few minutes cannot turn down an hour of material. One taken out of
-    the recording and put back in as a file is measured again.
-    *phase_of* is handed on to measure_time_axis.
+    The blocks are joined and measured as the run measures them; the
+    continuations are taken to fit and their place follows from the
+    head, so a tail of a few minutes cannot turn down an hour of
+    material. One taken out of the recording and put back in as a file
+    is measured again. *phase_of* is handed on to measure_time_axis.
     """
     tails = set(path_key(p) for row in (blocks or {}).values()
                 for p in (row or ())[1:])
     data, text = measure_time_axis(
         [p for p in paths if path_key(p) not in tails], tc_of, HOP, phase_of)
-    if head_by_the_whole(data, paths, blocks, HOP):
+    if head_by_the_whole(data, paths, blocks, HOP, phase_of):
         text = axis_text(data)
     return blocks_after_their_head(data, blocks, length_of), text
 
 
-def head_by_the_whole(data, paths, blocks, HOP=5.0):
-    """Place a head its own sound refused by the recording it heads.
+def head_by_the_whole(data, paths, blocks, HOP=5.0,
+                      phase_of=lambda p: True):
+    """Measure a recording made of blocks as the run does: joined, as one.
 
-    The run joins the blocks and measures them as one, so a first block
-    of a turn or two refused on its own is placed there all the same.
-    Here the blocks' curves are joined and measured against the longest
-    camera on the axis, by the run's rule. True where one was placed.
+    The run's join and measurement against the axis's reference camera,
+    the joined file kept only while it is read; the place by the run's
+    drift rule, and the head's own verdict dropped. Where the join does
+    not place it, what its head block got stands. True where one moved.
     """
     axis = (data or {}).get("axis") or {}
-    cameras = [p for p in paths if path_key(p) in axis
-               and p.lower().endswith(VIDEO_SUFFIXES)]
-    rows = [row for row in (blocks or {}).values()
-            if len(row or ()) > 1 and path_key(row[0]) not in axis]
-    if not cameras or not rows:
+    ref = next((p for p in paths if path_key(p) == (data or {}).get(
+        "reference") and p.lower().endswith(VIDEO_SUFFIXES)), None)
+    rows = [row for row in (blocks or {}).values() if len(row or ()) > 1
+            and not row[0].lower().endswith(VIDEO_SUFFIXES)]
+    if ref is None or path_key(ref) not in axis or not rows:
         return False
-    curve = dict((p, video_envelope(p, HOP, 4000)) for p in cameras)
-    # The axis's own reference, as the run measures the joined blocks.
-    ref = next((p for p in cameras
-                if path_key(p) == (data or {}).get("reference")),
-               max(sorted(cameras, key=path_key),
-                   key=lambda p: len(curve[p])))
-    points = int(max(20, min(120, len(curve[ref]) * HOP / 30000.0)))
+    # The run's length for its sample points: the reference's container.
+    length = float(video_facts(ref).get("duration") or 0.0)
+    folder = tempfile.mkdtemp(prefix="vpm_axis_join_")
     placed = False
-    for row in rows:
-        try:
-            whole = np.concatenate([video_envelope(p, HOP, 4000)
-                                    for p in row])
-            a, b, st = align_envelopes(curve[ref], whole, HOP, points,
-                                       distance_s=30.0, warn=False)
-        except Exception:
-            continue
-        if not PROGRAM.sound_places_recording(st):
-            continue
-        axis[path_key(row[0])] = axis[path_key(ref)] - a / b
-        data["clock"][path_key(row[0])] = b
-        for key in ("weak", "no_place", "unplaceable", "clock_alone"):
-            data[key] = [p for p in data.get(key) or ()
-                         if path_key(p) != path_key(row[0])]
-        placed = True
+    try:
+        for n, row in enumerate(rows):
+            try:
+                joined = join_audio_parts(
+                    row, os.path.join(folder, "joined_%d.wav" % n))[0]
+            except Exception:
+                # Not joined is not measured: the head keeps its verdict.
+                joined = None
+            got = joined and PROGRAM.sound_places(
+                os.path.basename(row[0]), joined, ref, length,
+                bool(phase_of(row[0])))
+            if not got or got[2].get("unplaceable"):
+                continue
+            start, clock = run_place(*got)
+            axis[path_key(row[0])] = axis[path_key(ref)] + start
+            data["clock"][path_key(row[0])] = clock
+            for key in ("weak", "no_place", "unplaceable", "clock_alone",
+                        "brief"):
+                data[key] = [p for p in data.get(key) or ()
+                             if path_key(p) != path_key(row[0])]
+            placed = True
+    finally:
+        shutil.rmtree(folder, True)
     return placed
 
 
@@ -1533,8 +1593,14 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
             return None
         return axis_still_valid(d, paths)
 
-    def axis_work_loop(paths, label_run):
-        """Wait for the envelopes, then measure.
+    def axis_key(paths):
+        """The axis's name in the stage store, as the run builds it."""
+        return axis_stage_key(paths, dict(
+            (p, blocks_of.get(p)) for p in paths if blocks_of.get(p)),
+            state.get("axis_phase"))
+
+    def axis_work_loop(paths, label_run, key=None):
+        """Wait for the envelopes, then measure, and keep it for the run.
 
         Broken off where the list it was started for has gone: this is
         the longest reading of the material there is.
@@ -1552,9 +1618,11 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
         # Counted like the check above: putting an answer about files
         # that have left in would carry one axis into the next.
         if state.get("axis_run") == label_run:
+            if key and (data or {}).get("axis"):
+                stage_put(key, data)
             bridge_emit(bridge.axis, dict(data or {}, run=label_run), text)
 
-    def axis_hand_back(data, label_run):
+    def axis_hand_back(data, label_run, text=""):
         """Present a stored axis once the prework is done.
 
         The way a measured one arrives: the prework writes the file
@@ -1567,7 +1635,7 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
                 return
             time.sleep(0.4)
         if state.get("axis_run") == label_run:
-            bridge_emit(bridge.axis, dict(data, run=label_run), "")
+            bridge_emit(bridge.axis, dict(data, run=label_run), text)
 
     def axis_kick_off(paths):
         """Measure wherever there are two files, timecode or not.
@@ -1584,16 +1652,21 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
         state["axis_phase"] = axis_phase_on(state, every, blocks_of)
         if not axis_worth_measuring(files, every, state):
             return
-        remembered = axis_read(every)
+        remembered, key = axis_read(every), axis_key(every)
         if remembered:
             # Not stored again: it came out of the file.
             remembered["remembered"] = True
+        else:
+            # What a run or an earlier window measured over these files.
+            remembered = stage_get(key)
+        if isinstance(remembered, dict):
             state["axis_running"] = True
             state["axis_phase_measuring"] = state["axis_phase"]
             label_run = state.get("axis_run", 0) + 1
             state["axis_run"] = label_run
             threading.Thread(target=axis_hand_back,
-                             args=(remembered, label_run),
+                             args=(remembered, label_run, "" if remembered.get(
+                                 "remembered") else axis_text(remembered)),
                              daemon=True).start()
             return
         if state.get("axis_running"):
@@ -1608,8 +1681,8 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
         plan.begin("axis", T('Measuring time axis'), 3.0)
         axis_label.setText(T('Measuring time axis ...'))
         axis_label.setStyleSheet("color: %s" % COLOURS["quiet"])
-        threading.Thread(target=axis_work_loop, args=(every, label_run),
-                         daemon=True).start()
+        threading.Thread(target=axis_work_loop,
+                         args=(every, label_run, key), daemon=True).start()
 
     def axis_sound_again():
         """Ask again where what a recording's sound holds has changed.

@@ -1,6 +1,6 @@
 # The test suite
 
-454 tests against the program in `../videopodcast_magic/`. Every one of them stands
+457 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -249,7 +249,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-454 tests. The name is the one a red line carries, and beside it the
+457 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -332,6 +332,7 @@ it is green.
 | Test | Green means |
 |---|---|
 | `time_all_ways_agree` | One moment, and every way to it has to land on the same second. |
+| `time_axis_is_the_run` | The window's time axis is the run's measurement, drift rule included. |
 | `time_axis_keys_agree` | A measured time axis answers to the same name as a remembered one. |
 | `time_axis_measured` | The common time axis, measured out of the sound and without a window. |
 | `time_bad_point_dropped` | One sample point in the wrong place must not tip the whole line. |
@@ -537,6 +538,7 @@ it is green.
 | `window_amounts_grouped` | The window says its amounts the way the language does. |
 | `window_answers_arrive` | What the window is told is what the calculation gets. |
 | `window_axis_asks_again` | A file added while the time axis is measured is measured too. |
+| `window_axis_kept_by_key` | The window's time axis is kept under the run's key, and taken back. |
 | `window_bare_start_stands` | A bare start, as the installed command makes it, opens the window and ends. |
 | `window_block_misfit_kept` | A recording of several blocks keeps its misfit mark whatever block ran last. |
 | `window_blocks_placed` | The preview plays a recording in the block that holds the moment. |
@@ -565,6 +567,7 @@ it is green.
 | `window_handover_found` | The Resolve button finds a handover where a run over the list put it. |
 | `window_hears_while_split` | The words are written down while the speakers are being separated. |
 | `window_idle_bar_hidden` | The one bar in the footer: does it come, rise, and go again? |
+| `window_kept_cut_shown` | The preview shows a handover a run kept for what is set now. |
 | `window_key_off_line` | The key stands on no command line: a window run's, a restart's, a typed one. |
 | `window_marks_come_back` | A file that fits nothing is still marked after the project is reopened. |
 | `window_marks_moved_grey` | A mark moved since the run greys Create Resolve project, and says why. |
@@ -779,7 +782,7 @@ the source, the texts and the documents as a whole.
 |---|---|
 | `assignmenttable/` | `table_seats_reach_run` |
 | `auphonic/` | `auphonic_credit_said`, `auphonic_jingle_cut_away`, `auphonic_key_answer_fits`, `auphonic_key_out_of_view`, `auphonic_kind_one_rule`, `auphonic_may_be_skipped`, `auphonic_mono_not_stereo`, `auphonic_names_stay_in`, `auphonic_none_chosen`, `auphonic_preset_checked`, `auphonic_run_delivers`, `auphonic_stays_quiet`, `auphonic_unsaved_said`, `project_each_track_set` |
-| `bearings/` | `files_colour_fair`, `files_intro_proposed`, `files_mute_clip_intro`, `files_named_by_folder`, `run_prework_listed`, `sound_camera_counts`, `table_camera_proposed`, `time_axis_keys_agree`, `time_axis_measured`, `time_block_holds_on`, `time_clock_beats_guess`, `time_fit_reports`, `time_offset_found`, `time_order_same_axis`, `time_preview_fit_as_run`, `time_short_cam_as_run`, `time_tracks_sit_together`, `time_unheard_file_named`, `time_weak_as_run`, `time_weak_at_its_clock`, `window_axis_asks_again`, `window_marks_come_back` |
+| `bearings/` | `files_colour_fair`, `files_intro_proposed`, `files_mute_clip_intro`, `files_named_by_folder`, `run_prework_listed`, `sound_camera_counts`, `table_camera_proposed`, `time_axis_is_the_run`, `time_axis_keys_agree`, `time_axis_measured`, `time_block_holds_on`, `time_clock_beats_guess`, `time_fit_reports`, `time_offset_found`, `time_order_same_axis`, `time_preview_fit_as_run`, `time_short_cam_as_run`, `time_tracks_sit_together`, `time_unheard_file_named`, `time_weak_as_run`, `time_weak_at_its_clock`, `window_axis_asks_again`, `window_axis_kept_by_key`, `window_kept_cut_shown`, `window_marks_come_back` |
 | `colour/` | `files_hdr_complete`, `files_named_as_written` |
 | `cut/` | `cut_answer_brought_early`, `cut_both_are_shown`, `cut_edges_said_as_cut`, `cut_edl_says_drop_frame`, `cut_fresh_preview_is_run`, `cut_list_rebuilt`, `cut_no_wide_silences`, `cut_one_camera_marks`, `cut_one_turn_one_edge`, `cut_opening_wide_holds`, `cut_preview_is_the_run`, `cut_preview_seats_as_run`, `cut_rebuild_keeps_all`, `cut_right_camera`, `cut_rules_hold`, `cut_short_edges_kept`, `cut_speech_time_fits`, `cut_stored_voices_used`, `cut_together_read_order`, `cut_voice_on_its_camera`, `cut_wide_not_on_speech`, `cut_window_cut_as_whole`, `project_errors_reach_run`, `project_every_offset`, `project_handover_built`, `project_real_frame`, `run_metrics_add_up`, `table_names_one_order`, `table_names_reach_camera`, `table_no_place_not_wide`, `table_sync_keeps_stem`, `table_sync_none_derived`, `time_measured_place_wins`, `time_zero_at_in_point`, `window_grey_opens_again` |
 | `desktop/` | `run_shortcut_laid_once`, `run_starter_arch_fits` |
