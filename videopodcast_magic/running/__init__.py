@@ -180,7 +180,8 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         content = [p for p in videos_p if kind_now(p) in CAMERA_TYPES]
         edge = [(kind_now(p), os.path.basename(p)) for p in videos_p
                 if kind_now(p) not in CAMERA_TYPES]
-        duration = model.window_length(state.get("axis"))
+        duration = model.window_length(state.get("axis"),
+                                       state.get("mark_on_clock"))
         lines = ["%s, %s%s"
                   % (TN(len(content), '%s camera', '%s cameras')
                      % number_text(len(content), 0),

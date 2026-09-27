@@ -104,26 +104,29 @@ class ProjectModel(object):
                 out.append((p, kind))
         return out
 
-    def window_length(self, axis=None):
+    def window_length(self, axis=None, reading=None):
         """Return the length of the window, empty if none is set."""
-        seconds = self.window_seconds(axis)
+        seconds = self.window_seconds(axis, reading)
         return as_hms(seconds) if seconds else ""
 
-    def window_seconds(self, axis=None):
+    def window_seconds(self, axis=None, reading=None):
         """The window's length in seconds, or None where it is not known.
 
         Two points from the start need nothing measured. With the time
-        *axis* measured, the run's zero and end are known -- where every
-        camera runs, where the first stops -- and an open end or one
-        counted back from it has a length too. An In point counted from
-        the end is refused by the run and has none.
+        *axis* measured, the run's zero and end are known, so an open end
+        or one counted back from it has a length too. *reading* is the
+        player's mark_on_clock: an old project can hold a timecode beside
+        a counted mark, and only on the clock are the two one length.
         """
+        read = reading or (lambda t: parse_time_point(t, 30.0))
         try:
-            a, abs_a = parse_time_point(self.in_point.get(), 30.0)
-            b, abs_b = parse_time_point(self.out_point.get(), 30.0)
+            a, abs_a = read(self.in_point.get())
+            b, abs_b = read(self.out_point.get())
         except Exception:
             return None
         if a is not None and a < 0 and not abs_a:
+            return None
+        if a is not None and b is not None and abs_a != abs_b:
             return None
         if a is not None and b is not None and b > a \
                 and (b >= 0 or abs_b):

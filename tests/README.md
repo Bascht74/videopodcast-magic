@@ -348,7 +348,7 @@ it is green.
 | `time_length_is_in_to_out` | The window shows its own length, and only content bounds an episode. |
 | `time_length_names_change` | The length line names the measured window only where it differs. |
 | `time_lost_end_named` | The log names only the end of a track that runs past the picture. |
-| `time_marks_reach_result` | A mark on a 25 camera is where the run's result begins or ends. |
+| `time_marks_reach_result` | A window mark is where the run's result begins or ends, at 25 and 29.97. |
 | `time_measured_place_wins` | A camera stands where it was measured; its clock is the last resort. |
 | `time_offset_found` | Sound path and a track's own offset are told apart out of the bleed. |
 | `time_one_track_aligned` | The simple path: one recording into the video files. |
