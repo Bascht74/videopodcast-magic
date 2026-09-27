@@ -225,6 +225,27 @@ def stop_wanted():
     return bool(PROGRAM.RUN_STOP["wanted"])
 
 
+def end_child(proc):
+    """End a child of the run, and on Windows what it started in turn.
+
+    A Chocolatey or Scoop ffmpeg is a shim that starts the real one;
+    ended alone, the real one writes on and holds the pipe the run
+    reads. taskkill /T, on every Windows, ends the tree. Says whether
+    the ending was sent: a child already gone is no fault.
+    """
+    try:
+        if os.name == "nt":
+            subprocess.run(["taskkill", "/T", "/F", "/PID", str(proc.pid)],
+                           stdout=subprocess.DEVNULL,
+                           stderr=subprocess.DEVNULL,
+                           creationflags=subprocess.CREATE_NO_WINDOW)
+        proc.terminate()
+    except Exception:
+        # It ended by itself in the meantime. Nothing to do.
+        return False
+    return True
+
+
 #------------------------------------------------- Asking whoever runs it
 
 def ask_choice(possible, heading, title=T('Question'), default_value=None,

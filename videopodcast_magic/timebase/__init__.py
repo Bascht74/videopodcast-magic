@@ -1880,6 +1880,10 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     progress_bar = SharedProgressBar(T('Processing'), len(videos))
 
     def one(v, info):
+        # A camera still queued when Stop came is not begun: with fewer
+        # workers than cameras the pool starts it after the others end.
+        if PROGRAM.stop_wanted():
+            raise PROGRAM.Stopped(PROGRAM.RUN_STOP["at"])
         ident = threading.get_ident()
         THREAD_BUFFER[ident] = []
         THREAD_SHARE[ident] = Share(progress_bar, v)

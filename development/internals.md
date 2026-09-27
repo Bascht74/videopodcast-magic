@@ -59,15 +59,15 @@ figure of the day is that command, not this paragraph**:
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2058** -- the time base and the camera files: every
+* `timebase/` **2062** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
   recording answers to (`drift_clear`: three times its uncertainty)
   and one bound of its own, 500 ppm
-* `auphonic/` **1886** -- the sending to auphonic.com and the fetching
+* `auphonic/` **1889** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1818** -- whether the material fits together before the
+* `preflight/` **1824** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `setup/` **1388** -- finding ffmpeg, installing a missing module,
@@ -76,11 +76,11 @@ figure of the day is that command, not this paragraph**:
   from it
 * `hearing/` **1117** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1321** -- helpers that shape what the window shows and
+* `fittings/` **1318** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **977** -- the command line a run is given: written out of
+* `orders/` **992** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
@@ -128,7 +128,7 @@ figure of the day is that command, not this paragraph**:
   the time window beside the preview player, and which audio runs under
   a camera; the table itself is `assignmenttable/`
 * `menus/` **238** -- the menu bar and what follows it
-* `workbench/` **346** -- what more than one piece reaches over for:
+* `workbench/` **367** -- what more than one piece reaches over for:
   numbers as words, a channel count, one tool run, two recordings in
   step, what a video file says of itself, a question put to whoever
   runs it, a working file let go, many things done at once, and the
@@ -265,7 +265,8 @@ are measured.** It holds what more than one piece reaches over for --
 (four), `shell_quote` (three), `gcc_phat_offset` with `PHAT_BAND`,
 `finished_tracks_find` and `stop_wanted` (two each), and since
 27.9.2026 `parallel_map`, `remove_quietly`, `how_many_processors` and
-`ask_choice` out of `material/` -- and it is read
+`ask_choice` out of `material/`, and `end_child` (three), which Stop
+ends a child through -- and it is read
 between `language/` and `setup/`, because `setup/` is the second piece
 read and binds `number_text` at its head. Measured 6.9.2026 in a child
 process with `PYTHONDONTWRITEBYTECODE=1`, one line above and one
@@ -673,14 +674,14 @@ way every window in this table was found.
 | `metadata/` | 8 pieces bind its names at their heads, `resolve/` among them for `audio_track_count`, which stands here since 27.9.2026; it binds `file_frame_rate` and `known_frame_rate` out of `timecode/` since the same day | above all 8 |
 | `herald/` | `loudness/` and `hearing/` bind the progress line -- `progress_from_line` and `show_progress` -- at their heads. `python_note` stands here since 27.9.2026, beside `running_from` in the banner; it binds `LIKES_PYTHON` for it, and `orders/` binds it back | before both of them |
 | `player/` | 35 head lines, the latest of them the herald's `SEEK_AGAIN_MS` and `gui_log`; it takes `file_span` off `tables/` with `beside()`, and reads `block_at`, `legend_markup`, `hint`, `label` and `zoom_button` through `PROGRAM.` at the use | **both edges measured 7.9.2026**: one read-block earlier -- above `herald/` -- answers `AttributeError: 'Program' object has no attribute 'SEEK_AGAIN_MS'`, rc=1; right after the herald, rc=0 and the window stands. As early as it can, so that any piece taking a window part of its own binds `caption_room` and the rest at its head |
-| `fittings/` | 19 head lines, the latest of them the herald's `run_stages`; it asks `beside("player")` for three widths and is handed the piece read just above. `fitted` of `ui/` and `widget_width` of `tables/` are read through `PROGRAM.` | directly under `player/`, because its own head asks for it -- and **the way in's `RUN_STOP` moved above this block for it**: left where it stood, `RUN_STOP = PROGRAM.RUN_STOP` at this head answers `AttributeError`, rc=1. `ui/` binds 15 of its names, `filelist/` three |
+| `fittings/` | 20 head lines, the latest of them the workbench's `end_child`; it asks `beside("player")` for three widths and is handed the piece read just above. `fitted` of `ui/` and `widget_width` of `tables/` are read through `PROGRAM.` | directly under `player/`, because its own head asks for it -- and **the way in's `RUN_STOP` moved above this block for it**: left where it stood, `RUN_STOP = PROGRAM.RUN_STOP` at this head answers `AttributeError`, rc=1. `ui/` binds 15 of its names, `filelist/` three |
 | `hearing/` | binds the herald's progress line; `material/` binds 10 of its names | after the herald, before the material |
 | `upkeep/` | 15 head lines. Since 7.9.2026 the boxes the window shows about updating stand here -- look now, fetch it, go back a version -- and the latest name it binds is the fittings' `speaks_as`. Five names it uses are read after it and go through `PROGRAM.` at the use: `RELEASE_BY_TAG`, `_qt_widgets`, `newest_shown` and `restart_when_done` of `ui/`, `warn_box` of `cut/`. It binds the herald's `write_through`, and nothing else binds that; the separation binds its `PIP_SOURCE` | **the upper edge measured 7.9.2026**: read one block earlier, above the window's toolbox, it answers `AttributeError: 'Program' object has no attribute 'speaks_as'`, rc=1. So under `fittings/` now and no longer merely under the herald, and above the separation |
 | `speech/` | binds `SPEECH_CODES`, which is the last name of the way in's own that it takes | anywhere from `SPEECH_CODES` down would do; it stands above the run that wants it |
 | `material/` | 44 head lines. On 27.9.2026 the two window rows `channel_rows_build` and `channel_rows_fit` went to `filesheet/` and the four that write a camera file to `timebase/`, each to its only reader; later that day loudness and mixing went to `loudness/`, `parallel_map`, `remove_quietly`, `how_many_processors` and `ask_choice` to `workbench/`, `python_note` to `herald/`, `format_complaint` to `stowage/` and the two prework weights to `prework/`, and it binds `parallel_map` and `remove_quietly` back. The checking binds the camera margin and the clipping out of it; `timebase/` binds the camera margin too, which keeps it here | before the loudness and the checking |
 | `loudness/` | 23 head lines, five of them the material's channel names -- `channel_count`, `channel_filter`, `kept_channels`, `wav_safe`, `widest_track` -- which hold it under the material; `OUTPUT_SINK` and `run_ffmpeg_with_progress` it reads through `PROGRAM.` at the use, as the material did. `cut/` binds four of its names, `timebase/` three. A piece since 27.9.2026, out of `material/` | directly under the material, and above the cut and the time base |
 | `bearings/` | 48 head lines, the material's names among them, `group_recording_parts` one of those; `np` and `name_to_fit` (from `preflight/`, read below it) are the names it reads late through `PROGRAM.`, both at call time. `camera_offset` and `not_on_the_axis` came out of the window on 7.9.2026 and needed no head line of their own. Eleven pieces bind names of its own, `ui/` 17 of them and `speakers/` seven | after the material, before the checking |
-| `preflight/` | 57 head lines. `caption_room` of `player/` and `hint`, `label` and `speaks_as` of `fittings/` became head lines on 7.9.2026, so `loudness_field_build` stops asking the program at every use; `read_preset` of `auphonic/` and `MATRIX_BT2020` of `colour/` are the two left that way, both read after this one. It binds `RUN_STOP`; the separation binds its `run_ffmpeg_with_progress` | **the upper edge measured 7.9.2026**: moved up to just under `RUN_STOP` it answers `AttributeError: 'Program' object has no attribute 'CAMERA_MARGIN_S'`, rc=1 -- the material holds it down, not the window's toolbox. Before the separation |
+| `preflight/` | 58 head lines. `caption_room` of `player/` and `hint`, `label` and `speaks_as` of `fittings/` became head lines on 7.9.2026, so `loudness_field_build` stops asking the program at every use; `read_preset` of `auphonic/` and `MATRIX_BT2020` of `colour/` are the two left that way, both read after this one. It binds `RUN_STOP`; the separation binds its `run_ffmpeg_with_progress` | **the upper edge measured 7.9.2026**: moved up to just under `RUN_STOP` it answers `AttributeError: 'Program' object has no attribute 'CAMERA_MARGIN_S'`, rc=1 -- the material holds it down, not the window's toolbox. Before the separation |
 | `colour/` | 13 head lines, the latest of them the preflight's `Finding`; `resolve/` binds `LOG_MARKERS` and `_marker_stands_alone` back for the project's output space, and since 27.9.2026 the colour-space spellings `HDR_TAGS`, `SDR_TAGS`, `plain_spelling` and `hdr_says` too; `cut/` binds `hdr_from_sources`. `metadata/`, `bearings/` and `preflight/`, read above it, reach `colour_text`, `camera_text`, `bit_depth` and the two BT.2020 codes through `PROGRAM.` | **both edges measured 26.9.2026**: one read-block earlier -- above `preflight/` -- answers `AttributeError: 'Program' object has no attribute 'Finding'`, rc=1; below `resolve/` it answers the same for `LOG_MARKERS`, rc=1. Directly under the preflight, as early as it can |
 | `auphonic/` | binds `check_preset` and `report_findings` out of `preflight/`, and `gui_log` out of `herald/`; `preflight/` reaches back for the one name that would close the circle, `read_preset`, through `PROGRAM.` | after the checking, because `choose_preset` asks it whether the preset fits |
 | `speakers/` | everything about a voice is in it, so it is bound widest: the window takes 10 of its names, the cut 13, `timebase/` five, `project/` four, and `orders/` and three pieces the window reads one each -- counted 7.9.2026 | before all of them |

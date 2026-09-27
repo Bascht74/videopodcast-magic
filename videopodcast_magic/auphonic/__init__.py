@@ -170,6 +170,9 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
             running.append(proc)
             # An upload runs for many minutes, so Stop has to reach it.
             PROGRAM.RUN_STOP["children"].add(proc)
+            if PROGRAM.stop_wanted():
+                # Stop came before this child was on the list.
+                PROGRAM.end_child(proc)
             text = progress if isinstance(progress, str) else T('Transfer')
             rest, last_percent, last_time = "", -1, 0.0
             moved = None         # the amounts curl last reported
