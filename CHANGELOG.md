@@ -97,6 +97,12 @@ nicht.
 
 ### Fixed
 
+- **Stop now ends a run while the camera files are written, also with
+  more cameras than run at once**; a camera still waiting started after
+  Stop and ran to its end. On Windows, Stop also reaches an ffmpeg
+  installed through Chocolatey or Scoop.
+- **An Out point counted back from the end ("-0:00:20") no longer stops
+  a run on Python 3.10 to 3.13**; it was read as an unknown switch.
 - **Stop now ends a run's own speaker separation at once**; it used to
   run on until the separation finished, measured 60 s. A single-track
   run waiting for auphonic.com now says so in the bar and in a stop
@@ -281,6 +287,13 @@ nicht.
 
 ### Behoben
 
+- **Stopp beendet einen Lauf jetzt auch beim Schreiben der
+  Kameradateien, wenn es mehr Kameras gibt, als gleichzeitig laufen**;
+  eine wartende Kamera begann nach Stopp und lief zu Ende. Unter Windows
+  erreicht Stopp auch ein über Chocolatey oder Scoop installiertes ffmpeg.
+- **Ein vom Ende gezählter Out-Punkt („-0:00:20“) hält einen Lauf unter
+  Python 3.10 bis 3.13 nicht mehr an**; er wurde als unbekannter Schalter
+  gelesen.
 - **Stopp beendet jetzt auch die Stimmentrennung eines Laufs sofort**;
   bisher lief er weiter, bis die Trennung fertig war, gemessen 60 s. Ein
   Einspur-Lauf, der auf auphonic.com wartet, sagt das jetzt im Balken und
