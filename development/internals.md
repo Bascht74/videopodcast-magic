@@ -35,14 +35,14 @@ What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **4133** -- who speaks and when: the separation itself,
+* `speakers/` **4241** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
 * `ui/` **3266** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `player/` **3191** -- the moving picture: the player, the cut band,
+* `player/` **3219** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
 * `cut/` **3304** -- who is on camera when, and what carries it out
@@ -77,7 +77,7 @@ figure of the day is that command, not this paragraph**:
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **973** -- the command line a run is given: written out of
+* `orders/` **977** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **742** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
@@ -111,7 +111,7 @@ figure of the day is that command, not this paragraph**:
   material is HDR, the spellings a colour space name goes by, and the
   report on a finished file
 * `tables/` **397** -- the tables and trees the window builds
-* `running/` **424** -- what a run is offered before it starts, the
+* `running/` **426** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
   looks one up
@@ -120,7 +120,7 @@ figure of the day is that command, not this paragraph**:
 * `filesheet/` **458** -- the first tab: the drop area or the file
   list with its channel rows and findings, the video choices, and the
   production strip with the output folder
-* `assignmentsheet/` **260** -- the second tab: the assignment boxes,
+* `assignmentsheet/` **267** -- the second tab: the assignment boxes,
   the time window beside the preview player, and which audio runs under
   a camera; the table itself is `assignmenttable/`
 * `menus/` **238** -- the menu bar and what follows it
@@ -146,7 +146,7 @@ figure of the day is that command, not this paragraph**:
 `models/` is the odd one out among the folders: the speaker model lives
 there and no code at all, so `beside()` never reaches for it. There is
 nothing to build.
-* `projectmodel/` **121** -- the production's data the window works on:
+* `projectmodel/` **144** -- the production's data the window works on:
   the files, the output folder, the assignment and the choices, read by
   the project file, the run start and the file list; no widget, no Qt
 

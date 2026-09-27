@@ -156,7 +156,7 @@ run_bar_tracks_work	35
 run_cam_fault_no_half	10
 run_choice_kept	17
 run_clock_place_travels	7
-run_command_built	78
+run_command_built	79
 run_done_tracks_used	13
 run_dry_leaves_out	4
 run_dry_reports_voices	13
@@ -449,7 +449,7 @@ window_tracks_seen_anew	5
 window_view_reaches_tabs	10
 window_voice_audio_heard	6
 window_words_caught_up	23
-window_zero_as_run	14
+window_zero_as_run	17
 window_zoom_stays_in	32
 voice_heard_again_said	10
 text_third_party_true	4
@@ -463,3 +463,4 @@ window_first_kind_holds	6
 files_same_names_apart	8
 cut_one_turn_one_edge	7
 files_cam_lands_in_out	4
+voice_heard_again_named	12

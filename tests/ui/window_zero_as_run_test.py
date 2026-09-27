@@ -2,12 +2,13 @@
 """A relative mark means in the window what it means in the run.
 
 No file carries a clock; a recorder rolls first, the cameras later.
-Sections: the ground, the axis with each camera where it rolls; Mark
-In and Mark Out, counted from where every camera runs; the preview
-cut there; "to In point" back to that picture; an Out point counted
-back from where the first camera stops, in the preview, the player and
-a run; the run, fed the two marks, cutting at the same pictures; its
-handover, not cut again. The limit: one camera in the player.
+Sections: the axis; Mark In and Mark Out, counted from where every
+camera runs; the preview cut there; "to In point" back to that picture;
+an Out point counted back from where the first camera stops, in the
+preview, the player, the window's length and a run; an In point counted
+back, refused by the player as by the run; the run cutting at the same
+pictures; its handover, not cut again. The limit: one camera in the
+player.
 """
 PLATFORM_BOUND = True
 import os
@@ -493,6 +494,46 @@ def at_from_end(_fresh):
               FROM_END_AT))
 
 
+def length_said(_fresh):
+    text = drawn(window_of().resolve_sheet.window_info_label.text())
+    m = re.search(r"(\d+):(\d\d):(\d\d)[.,](\d+)\s*$", text)
+    got = None if not m else (int(m.group(1)) * 3600 + int(m.group(2)) * 60
+                              + int(m.group(3)) + float("0." + m.group(4)))
+    wanted = FROM_END_AT - IN_AT
+    check("the window's length counts an Out point back from the first stop",
+          got is not None and abs(got - wanted) <= FRAME,
+          "the line says %r, wanted a length of %.1f s" % (text, wanted))
+
+
+# Not the Out point's value: "to In point" going there would stand still.
+IN_FROM_END = "-0:00:40"
+REFUSED = vpm.T('%r counts from the end -- that only works for Out point.') \
+    % IN_FROM_END
+
+
+def type_in_from_end():
+    window_of().assignment_sheet.model.in_point.set(IN_FROM_END)
+
+
+def in_from_end_refused(_fresh):
+    p = preview_player()
+    said = "" if p is None else drawn(p.cut_middle.text())
+    check("the player refuses an In point counted from the end, as the run",
+          said == drawn(REFUSED),
+          "under the rail %r, wanted %r" % (said, drawn(REFUSED)))
+
+
+def in_from_end_not_jumped(_fresh):
+    p = preview_player()
+    where = None if p is None else p.spot_s()
+    said = drawn(window_of().assignment_sheet.window_label.text())
+    check("and to In point stays where it was and says why",
+          where is not None and abs(where - FROM_END_AT) <= FRAME
+          and said == drawn(REFUSED),
+          "the player stands at %s s, wanted %.1f s; the sheet says %r"
+          % (None if where is None else round(where, 3), FROM_END_AT, said))
+
+
 def start():
     top = window_of()
     if top is None:
@@ -527,6 +568,14 @@ step("5. an Out point is typed counted back from the end", type_from_end,
      until=lambda: bool(seen) and seen[-1]["out"] == FROM_END)
 step("5b. to Out point is pressed", press('to Out point'), at_from_end,
      until=stands_at(FROM_END_AT))
+step("5c. the Resolve tab names the window's length", lambda: None,
+     length_said)
+step("5d. an In point is typed counted back from the end", type_in_from_end,
+     in_from_end_refused,
+     until=lambda: drawn(preview_player().cut_middle.text())
+     == drawn(REFUSED))
+step("5e. to In point is pressed", press('to In point'),
+     in_from_end_not_jumped)
 
 QtCore.QTimer.singleShot(1200, start)
 QtCore.QTimer.singleShot(420000, app.quit)

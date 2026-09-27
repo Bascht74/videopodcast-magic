@@ -219,12 +219,14 @@ def run_argv(values, assignment_file_path=""):
 
     # The last net under the window's own mark: a voice whose name is on
     # somebody else already. Refused and not asked -- to the cut two
-    # voices of one name are one person.
-    voices = [(r.get("name") or "").strip()
-              for r in (values.get("voices") or ())
+    # voices of one name are one person, so only one heard again may.
+    voices = [((r.get("name") or "").strip(), r.get("key") or "",
+               r.get("heard")) for r in (values.get("voices") or ())
               if r.get("camera") != IGNORE_AUDIO
               and (r.get("name") or "").strip()]
-    twice = sorted(set(n for n in voices if voices.count(n) > 1))
+    twice = PROGRAM.names_clashing(
+        [n for n, _k, _h in voices], [(n, k) for n, k, _h in voices],
+        PROGRAM.voices_alike_keys(dict((k, h) for _n, k, h in voices)))
     if twice:
         return error(
             T('One name for two voices'),
@@ -245,6 +247,10 @@ def run_argv(values, assignment_file_path=""):
     only_video = bool(values.get("camera_audio_only"))
     lines = [r for r in (values.get("rows") or [])
              if r.get("camera_choice") != IGNORE_AUDIO]
+    # A name typed on two recordings merges them into one track on
+    # either path, so both ask first; a name left empty merges nothing.
+    names = [(r.get("speakers") or "").strip() for r in lines]
+    duplicate = sorted(set(n for n in names if n and names.count(n) > 1))
     if values.get("multitrack"):
         if only_video:
             messages.append((
@@ -262,26 +268,24 @@ def run_argv(values, assignment_file_path=""):
                   'recorder, or the audio of a video file set to "use '
                   'internal audio". Several blocks of the same recording '
                   'count as one, tracks set aside not at all.'))
-        names = [(r.get("speakers") or "").strip() for r in lines]
         if not all(names):
             return error(
                 T('Speaker names'),
                 T('Every row needs a name -- at Auphonic it becomes the '
                   'track ID.'))
-        duplicate = sorted(set(n for n in names if names.count(n) > 1))
         if duplicate and len(set(names)) < 2:
             return error(
                 T('Only one speaker'),
                 T('All rows carry the same name -- that makes a single '
                   'track, and Multitrack needs at least two.'))
-        if duplicate:
-            messages.append((
-                "question", T('Names used more than once'),
-                T('These names occur more than once:\n\n  %s\n\nThe recordings '
-                  'are merged into one track and laid end to end by their '
-                  'timecode. That is right if recording was stopped in '
-                  'between.')
-                % "\n  ".join(duplicate), T('Merge them')))
+    if duplicate:
+        messages.append((
+            "question", T('Names used more than once'),
+            T('These names occur more than once:\n\n  %s\n\nThe recordings '
+              'are merged into one track and laid end to end by their '
+              'timecode. That is right if recording was stopped in '
+              'between.')
+            % "\n  ".join(duplicate), T('Merge them')))
     # Two cameras under one name would be one file and one track. The
     # window refuses it before the button; this is the net under it,
     # and without case, as the disks compare.

@@ -180,7 +180,7 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         content = [p for p in videos_p if kind_now(p) in CAMERA_TYPES]
         edge = [(kind_now(p), os.path.basename(p)) for p in videos_p
                 if kind_now(p) not in CAMERA_TYPES]
-        duration = model.window_length()
+        duration = model.window_length(state.get("axis"))
         lines = ["%s, %s%s"
                   % (TN(len(content), '%s camera', '%s cameras')
                      % number_text(len(content), 0),
@@ -319,8 +319,10 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
             "speakers_wanted": state.get("speakers_wanted"),
             # Which camera each voice belongs to. The run cannot work
             # that out: a voice has no file to be assigned by.
-            "voices": [{"name": nv.get().strip(), "camera": cv.get()}
-                       for _k, nv, cv in model.voice_lines],
+            # Key and print too: one voice heard again may share a name.
+            "voices": [{"name": nv.get().strip(), "camera": cv.get(),
+                        "key": k, "heard": getattr(nv, "heard", None)}
+                       for k, nv, cv in model.voice_lines],
             # Without auphonic.com: the key stays in the field but this run
             # does not see it.
             "key": "" if without_auphonic() else model.key.get(),

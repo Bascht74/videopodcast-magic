@@ -11,8 +11,9 @@ apart. The window is gui(), every make_* function beside it and
 every class, collected out of the program rather than listed here, and
 held against a plain search for their definitions. The last two
 sections: one plan, ticked or not -- names, production, each
-recording's camera and "do not use" in it, the same word for word --
-and the window's name for the second of two files of one name."""
+recording's camera and "do not use" in it, the same word for word, and
+one question for a name typed twice -- and the window's name for the
+second of two files of one name."""
 PLATFORM_BOUND = False
 import os
 import sys
@@ -610,6 +611,22 @@ check("and the plan is the one Multitrack writes, word for word",
         % (brief(plain), brief(ticked),
            len((plain or {}).get("tracks_of", [])),
            len((ticked or {}).get("tracks_of", []))))
+
+TWICE = [{"blocks": ["/x/a.wav"], "speakers": "Guest",
+          "camera_choice": "/x/G.mov"},
+         {"blocks": ["/x/b.wav"], "speakers": "Guest",
+          "camera_choice": "/x/G.mov"},
+         {"blocks": ["/x/c.wav"], "speakers": "Presenter",
+          "camera_choice": "/x/H.mov"}]
+_a, _p, plain = vpm.run_argv(values(files=FIVE, rows=TWICE, cameras=NAMED))
+_a, _p, ticked = vpm.run_argv(values(files=FIVE, rows=TWICE, cameras=NAMED,
+                                     multitrack=True))
+check("a name typed twice is asked about without the tick, as with it",
+      [x[1] for x in plain] == ["Names used more than once"]
+      and plain == ticked,
+      "19. titles %s without the tick against %s with it, wanted "
+      "['Names used more than once'] on both"
+      % ([x[1] for x in plain], [x[1] for x in ticked]))
 
 print("\n20. The production's name and a camera's window name ride along")
 # The production field travels in the plan on both paths. Two cameras
