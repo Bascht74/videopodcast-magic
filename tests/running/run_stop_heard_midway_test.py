@@ -6,7 +6,8 @@ of few cores) and a levelled track (Multitrack), read at half speed so
 Stop meets them midway: a soon end, no ffmpeg left; plain also no
 cut-short file, handover or EDL, and check and axis measure after.
 The time axis, its decoder held until Stop: nothing written. auphonic.com
-stood in by a production that stays at work: a soon end. The run's own
+stood in by a production that stays at work, the window not told the
+stage began: a soon end, the stage named all the same. The run's own
 separation by a stand-in worker: a soon end, the worker gone. Each: Stop
 there, the stop said, Start back; all but the separation name the stage.
 """
@@ -111,13 +112,15 @@ def running_ffmpeg():
 
 
 def stopped_run(project, at, ready=None, startable=None, in_run=None,
-                more=()):
+                more=(), late=None):
     """Open *project*, Start, press Stop once *at* is under way.
 
     *more* are words added to the window's run line;
     *ready* says instead when to press: a name for the step, or None;
     *startable* is asked of the window before Start, and may pick in it;
-    *in_run* are names of the program set only while the run runs.
+    *in_run* are names of the program set only while the run runs;
+    *late* is a stage whose beginning the window never hears of, as a
+    signal still on its way when Stop is pressed.
     Hands back what was seen: Stop at the press, seconds from the press
     to the loop's end (None if it never came in SOON), the ffmpeg still
     running then, the log, Start and Stop afterwards, and why it gave up.
@@ -143,6 +146,16 @@ def stopped_run(project, at, ready=None, startable=None, in_run=None,
 
         if more:
             argv = type(argv)(list(argv) + list(more), argv.key)
+        if late:
+            ask, bridge, emit = rest[:3]
+
+            def held(signal, *values):
+                """Hand a signal on, but not the news that *late* began."""
+                if signal is bridge.run_step and values[0] == late \
+                        and values[1] < 0:
+                    return
+                return emit(signal, *values)
+            rest = (ask, bridge, held) + tuple(rest[3:])
         try:
             return real_loop(argv, state, kept, *rest)
         finally:
@@ -599,10 +612,13 @@ def auphonic_wait():
         json.dump(d, f)
     seen = None
     try:
+        # The window never hears that the stage began: a signal from the
+        # run's thread, still on its way when Stop is pressed. The stop
+        # has to name the stage all the same.
         seen = stopped_run(path, "the wait for auphonic.com",
                            ready=lambda: bool(service.polls)
                            and "the wait for auphonic.com",
-                           startable=preset_picked)
+                           startable=preset_picked, late="auphonic")
     finally:
         service.over = True
         since = time.time()
@@ -624,7 +640,7 @@ def auphonic_wait():
                                     log_end(seen["text"], OUT)))
     said, wanted = stopped_at(seen["text"]), vpm.T('Processing at '
                                                    'auphonic.com')
-    check("the stop report names the auphonic.com stage by its caption",
+    check("the stop report names the auphonic.com stage the window missed",
           said == wanted, "said %r, wanted %r" % (said, wanted))
     check("Start is back and Stop gone after a run stopped at auphonic.com",
           bool(seen["start_back"]) and bool(seen["stop_gone"]),

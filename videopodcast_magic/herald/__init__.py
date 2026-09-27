@@ -183,6 +183,25 @@ def step_begin(name):
             pass
 
 
+def step_forget():
+    """Before a run: no stage reached yet."""
+    _STEP["name"] = ""
+
+
+def step_caption():
+    """The stage the run is in, in the bar's words; "" before the first.
+
+    Set in the run's own thread the moment the stage begins. The window
+    learns of it by a signal that may still be on its way when Stop is
+    pressed, so where a stop was asked for is read here.
+    """
+    for stages in (run_stages(1, 1, True), run_stages(1, 1, False)):
+        for name, _weight, caption in stages:
+            if name == _STEP["name"]:
+                return caption
+    return ""
+
+
 def step_report(share):
     """Say how far the current stage is, 0 to 1."""
     if PROGRAM.PROGRESS_SINK and _STEP["name"] and share is not None:

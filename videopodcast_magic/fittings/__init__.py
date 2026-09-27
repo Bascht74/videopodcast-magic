@@ -1129,7 +1129,10 @@ def break_off_button(QtWidgets, state, say):
         button.setText(T('Stopping ...'))
         say(T('\nStopping. The run ends as soon as it can do so '
               'without leaving a file half written -- one moment.\n'))
-        stop_asked_for(state.get("run_step") or "")
+        # Where the run itself is: the window hears of a new stage by a
+        # signal that may still be on its way at this moment.
+        stop_asked_for(PROGRAM.step_caption() or state.get("run_step")
+                       or "")
 
     button.clicked.connect(pressed)
     return button
