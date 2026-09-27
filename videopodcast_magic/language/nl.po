@@ -568,8 +568,11 @@ msgstr "Dit is geen bestand van dit programma."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Dit bestand is geschreven door versie %s in formaat %d; deze versie schrijft formaat %d. De namen erin zijn sindsdien veranderd, dus het kan niet worden gelezen. Richt de run opnieuw in."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (alleen meten: niets geschreven)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (proefdraai: uitgerekend en bewaard, uitvoermap onaangeroerd)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (proefdraai: niets geschreven)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Controle aan de overspraak -- referentie is %s:"
@@ -904,8 +907,8 @@ msgstr "  %s: %s, overgeslagen"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: hoeveel kanalen het heeft, is niet vast te stellen (%s) -- het wordt niet gemeten"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (alleen meten: niets geüpload)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (proefdraai: niets geüpload)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Er bestond al een Timeline %r -- de nieuwe heet %r."
@@ -1708,8 +1711,8 @@ msgstr "\nWordt gestopt. De run eindigt zodra dat kan zonder een bestand half ge
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Het totaalshot duurt %s s, korter dan het kortste shot van %s s -- dus het wordt weer weggevoegd en verschijnt nooit.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nGemeten. Er is niets geschreven -- een proefdraai laat de resultatenmap zoals hij was.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nUitgerekend. Een proefdraai laat de resultatenmap zoals hij was.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nGestopt tijdens: %s"
@@ -2176,8 +2179,8 @@ msgstr "Afstand tot gemiddelde"
 msgid "Drag audio and video files here"
 msgstr "Sleep audio- en videobestanden hierheen"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Proefdraai: alleen meten, niets geschreven, niets geüpload."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Proefdraai: alles wordt uitgerekend en gemeld, er komt niets in de uitvoermap, niets wordt geüpload."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Tijdens begroeting en afscheid blijft het totaalshot in beeld."
@@ -3800,8 +3803,8 @@ msgstr "  Al eens gescheiden: teruggelezen, niet opnieuw gemeten."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Ongeveer %s rekentijd voor %s geluid."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (alleen gemeten: niets gescheiden)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (proefdraai: niets gescheiden)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  De sporen zijn niet gemeten, dus %s zit in de mix en niet in de montage: %s"

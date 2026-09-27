@@ -595,8 +595,11 @@ msgstr "این فایل متعلق به این برنامه نیست."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "این فایل با نسخه %s در قالب %d نوشته شده است؛ این نسخه قالب %d را می‌نویسد. نام‌های درون آن از آن زمان تغییر کرده‌اند، بنابراین خوانده نمی‌شود. لطفاً اجرا را دوباره تنظیم کنید."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (فقط اندازه‌گیری: چیزی نوشته نشد)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (اجرای آزمایشی: محاسبه و نگه داشته شد، پوشه خروجی دست‌نخورده)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (اجرای آزمایشی: چیزی نوشته نشد)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  بررسی در برابر نشت صدا -- مرجع %s است:"
@@ -931,8 +934,8 @@ msgstr "  %s: %s، رد شد"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: تعداد کانال‌های آن مشخص نمی‌شود (%s) -- اندازه‌گیری نمی‌شود"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (فقط اندازه‌گیری: چیزی بارگذاری نشد)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (اجرای آزمایشی: چیزی بارگذاری نشد)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  یک Timeline با نام %r از قبل وجود داشت -- نام Timeline تازه %r است."
@@ -1735,8 +1738,8 @@ msgstr "\nدر حال توقف. اجرا به محض اینکه بتواند ب�
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "نمای باز %s s طول می‌کشد، کمتر از کوتاه‌ترین نما با %s s -- پس دوباره ادغام می‌شود و هرگز دیده نمی‌شود.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nاندازه‌گیری انجام شد. چیزی نوشته نشد -- اجرای آزمایشی پوشه نتایج را همان‌طور که بود باقی می‌گذارد.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nمحاسبه انجام شد. اجرای آزمایشی پوشه نتایج را همان‌طور که بود باقی می‌گذارد.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nتوقف در مرحله: %s"
@@ -2209,8 +2212,8 @@ msgstr "فاصله تا میانگین"
 msgid "Drag audio and video files here"
 msgstr "فایل‌های صوتی و ویدیویی را اینجا بکشید"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "اجرای آزمایشی: فقط اندازه‌گیری، بدون نوشتن و بدون بارگذاری."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "اجرای آزمایشی: همه‌چیز محاسبه و گزارش می‌شود، چیزی به پوشه خروجی نمی‌رود و چیزی بارگذاری نمی‌شود."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "هنگام خوشامدگویی و خداحافظی تصویر باز می‌ماند."
@@ -3891,8 +3894,8 @@ msgstr "  پیش‌تر یک بار تفکیک شده: بازخوانی شد، �
 msgid "  About %s of computing for %s of audio."
 msgstr "  حدود %s محاسبه برای %s صدا."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (فقط اندازه‌گیری: چیزی تفکیک نشد)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (اجرای آزمایشی: چیزی تفکیک نشد)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ترک‌ها اندازه‌گیری نشدند، پس این‌ها در میکس هستند و نه در برش: %s؛ علت: %s"

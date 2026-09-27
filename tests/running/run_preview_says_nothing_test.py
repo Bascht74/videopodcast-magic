@@ -90,8 +90,9 @@ vpm.speaker_split_available = lambda deep=False: True
 vpm.SPEAKER_SPLIT_OFF = False
 vpm.words_at_hand = lambda *a, **k: []
 vpm.recognise_speech = lambda *a, **k: ([], "")
-# Every dry run says this last; the preview's run is a dry run.
-SAID_LAST = vpm.T('\n  (measuring only: nothing written)').strip()
+# A dry run with cameras says this last; the preview's run is one.
+SAID_LAST = vpm.T('\n  (dry run: worked out and kept, output folder '
+                  'untouched)').strip()
 # The second preview's run is held this long in its levels mix, by a
 # real child the run's own stop has to reach.
 SLOW_S = 120

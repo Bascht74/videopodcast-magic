@@ -397,8 +397,8 @@ names from. A separation taken out of a project or an assignment file
 is listed the same way, under the names that stand in it.
 
 Where nothing is stored, the dry run stops at that point. It says how
-much computing the separation would cost, then **(measuring only:
-nothing separated)**, and no voices follow. That is the whole
+much computing the separation would cost, then **(dry run: nothing
+separated)**, and no voices follow. That is the whole
 difference: only a measurement that would really have to be made is
 left undone. Reading a separation back costs nothing, so it happens and
 the result is shown.

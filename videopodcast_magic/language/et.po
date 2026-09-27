@@ -596,8 +596,11 @@ msgstr "See pole selle programmi fail."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Selle faili kirjutas versioon %s vormingus %d; see versioon kirjutab vormingus %d. Nimed selles on vahepeal muutunud, seega ei saa seda lugeda. Palun seadista käitus uuesti."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (ainult mõõtmine: midagi ei kirjutatud)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (proovikäitus: välja arvutatud ja hoitud, väljundkaust puutumata)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (proovikäitus: midagi ei kirjutatud)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontroll ülekostmise põhjal -- võrdlusrada on %s:"
@@ -932,8 +935,8 @@ msgstr "  %s: %s, vahele jäetud"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: kanalite arvu ei saa kindlaks teha (%s) -- ei mõõdeta"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (ainult mõõtmine: midagi ei laaditud üles)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (proovikäitus: midagi ei laaditud üles)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r oli juba olemas -- uus on nimega %r."
@@ -1736,8 +1739,8 @@ msgstr "\nPeatamine. Käitus lõpeb niipea, kui saab seda teha poolikult kirjuta
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Üldplaan kestab %s s, vähem kui lühim võte (%s s) -- seetõttu liidetakse see taas naabritega ja see ei ilmu kunagi.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nMõõdetud. Midagi ei kirjutatud -- proovikäitus jätab tulemuste kausta endiseks.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nVälja arvutatud. Proovikäitus jätab tulemuste kausta endiseks.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nPeatatud sammul: %s"
@@ -2210,8 +2213,8 @@ msgstr "Kaugus keskmisest"
 msgid "Drag audio and video files here"
 msgstr "Lohista heli- ja videofailid siia"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Proovikäitus: ainult mõõdetakse, midagi ei kirjutata, midagi ei laadita üles."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Proovikäitus: kõik arvutatakse välja ja antakse teada, väljundkausta ei lähe midagi, midagi ei laadita üles."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Tervitamise ja hüvastijätu ajal jääb pilt üldplaanile."
@@ -3892,8 +3895,8 @@ msgstr "  Juba varem eristatud: loeti tagasi, uuesti ei mõõdetud."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Arvutamist umbes %s, heli %s."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (ainult mõõtmine: midagi ei eristatud)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (proovikäitus: midagi ei eristatud)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Radu ei mõõdetud, seega %s on miksis, aga mitte montaažis: %s"

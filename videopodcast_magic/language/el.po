@@ -568,8 +568,11 @@ msgstr "Αυτό δεν είναι αρχείο αυτού του προγράμ
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Αυτό το αρχείο γράφτηκε από την έκδοση %s σε μορφή %d· αυτή εδώ γράφει μορφή %d. Τα ονόματα μέσα του έχουν αλλάξει από τότε, οπότε δεν μπορεί να διαβαστεί. Παρακαλούμε ρυθμίστε ξανά την εκτέλεση."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (μόνο μέτρηση: δεν γράφτηκε τίποτα)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (δοκιμαστική εκτέλεση: υπολογίστηκε και φυλάχτηκε, ο φάκελος εξόδου έμεινε ανέγγιχτος)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (δοκιμαστική εκτέλεση: δεν γράφτηκε τίποτα)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Έλεγχος με βάση τη διαρροή -- αναφορά είναι %s:"
@@ -904,8 +907,8 @@ msgstr "  %s: %s, παραλείφθηκε"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: δεν μπορεί να προσδιοριστεί πόσα κανάλια έχει (%s) -- δεν μετριέται"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (μόνο μέτρηση: δεν μεταφορτώθηκε τίποτα)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (δοκιμαστική εκτέλεση: δεν μεταφορτώθηκε τίποτα)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Ένα Timeline %r υπήρχε ήδη -- το νέο ονομάζεται %r."
@@ -1708,8 +1711,8 @@ msgstr "\nΔιακοπή. Η εκτέλεση τελειώνει μόλις μπ
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Το γενικό πλάνο κρατά %s δ., λιγότερο από το συντομότερο πλάνο των %s δ. -- οπότε συγχωνεύεται ξανά και δεν εμφανίζεται ποτέ.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nΜετρήθηκε. Δεν γράφτηκε τίποτα -- μια δοκιμαστική εκτέλεση αφήνει τον φάκελο αποτελεσμάτων όπως ήταν.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nΥπολογίστηκε. Μια δοκιμαστική εκτέλεση αφήνει τον φάκελο αποτελεσμάτων όπως ήταν.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nΔιακοπή κατά τη διάρκεια: %s"
@@ -2176,8 +2179,8 @@ msgstr "Απόσταση από τον μέσο όρο"
 msgid "Drag audio and video files here"
 msgstr "Σύρετε εδώ αρχεία ήχου και βίντεο"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Δοκιμαστική εκτέλεση: μόνο μέτρηση, τίποτα δεν γράφεται, τίποτα δεν μεταφορτώνεται."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Δοκιμαστική εκτέλεση: όλα υπολογίζονται και αναφέρονται, τίποτα δεν μπαίνει στον φάκελο εξόδου, τίποτα δεν μεταφορτώνεται."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Κατά τον χαιρετισμό και τον αποχαιρετισμό η εικόνα μένει σε γενικό πλάνο."
@@ -3800,8 +3803,8 @@ msgstr "  Διαχωρίστηκε ήδη μία φορά: διαβάστηκε 
 msgid "  About %s of computing for %s of audio."
 msgstr "  Περίπου %s υπολογισμού για %s ήχου."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (μόνο μέτρηση: τίποτα δεν διαχωρίστηκε)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (δοκιμαστική εκτέλεση: τίποτα δεν διαχωρίστηκε)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Τα κομμάτια δεν μετρήθηκαν, άρα στη μίξη και όχι στο μοντάζ: %s. Αιτία: %s"

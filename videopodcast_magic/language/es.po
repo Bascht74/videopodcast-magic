@@ -1038,8 +1038,11 @@ msgstr "\n    %s  --  %s, %s"
 msgid "\n  %s: no audio to extract (%s)"
 msgstr "\n  %s: no hay audio que extraer (%s)"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (solo medir: no se escribe nada)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (prueba en seco: calculado y guardado, carpeta de salida intacta)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (prueba en seco: no se escribe nada)"
 
 msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
 msgstr "\n  YA EXISTE UN PROYECTO CON ESTE NOMBRE: %r"
@@ -1158,8 +1161,8 @@ msgstr "\nINDICADORES"
 msgid "\nMIXING"
 msgstr "\nMEZCLANDO"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nMedido. No se ha escrito nada -- una prueba en seco deja la carpeta de resultados como estaba.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nCalculado. Una prueba en seco deja la carpeta de resultados como estaba.\n"
 
 msgid "\nNORMALISE"
 msgstr "\nNORMALIZAR"
@@ -1686,11 +1689,11 @@ msgstr "  %sx lejos del hablante porque un plano duró más de %s s"
 msgid "  (container; measured %s)"
 msgstr "  (contenedor; medido %s)"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (solo medir: no se separa nada)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (prueba en seco: no se separa nada)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (solo medir: no se sube nada)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (prueba en seco: no se sube nada)\n"
 
 msgid "  (this file starts later)"
 msgstr "  (este archivo empieza más tarde)"
@@ -2842,8 +2845,8 @@ msgstr "Distancia a la media"
 msgid "Downloading %s"
 msgstr "Descargando %s"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Prueba en seco: solo se mide, no se escribe nada, no se sube nada."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Prueba en seco: se calcula e informa de todo, nada va a la carpeta de salida, no se sube nada."
 
 msgid "Duration %s"
 msgstr "Duración %s"

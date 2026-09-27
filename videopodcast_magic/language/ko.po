@@ -568,8 +568,11 @@ msgstr "이 프로그램의 파일이 아닙니다."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "이 파일은 버전 %s에서 형식 %d(으)로 기록되었습니다. 이 버전은 형식 %d을(를) 씁니다. 그 뒤로 내부 이름이 바뀌어 읽을 수 없습니다. 실행을 다시 설정하세요."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (측정만: 아무것도 기록하지 않음)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (시험 실행: 계산해 보관함, 출력 폴더는 그대로)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (시험 실행: 아무것도 기록하지 않음)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  블리드로 확인 -- 기준은 %s:"
@@ -904,8 +907,8 @@ msgstr "  %s: %s, 건너뜀"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: 채널 수를 알 수 없습니다 (%s) -- 측정하지 않습니다"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (측정만 함: 업로드한 것 없음)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (시험 실행: 업로드한 것 없음)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r이(가) 이미 있었습니다 -- 새 Timeline의 이름은 %r입니다."
@@ -1708,8 +1711,8 @@ msgstr "\n중지하는 중입니다. 파일을 반쯤 쓴 채로 두지 않을 �
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "와이드 샷은 %s s로, 최단 샷 %s s보다 짧습니다 -- 그래서 다시 합쳐져 사라지고 나타나지 않습니다.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\n측정했습니다. 아무것도 쓰지 않았습니다 -- 시험 실행은 결과 폴더를 그대로 둡니다.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\n계산했습니다. 시험 실행은 결과 폴더를 그대로 둡니다.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\n중단된 단계: %s"
@@ -2176,8 +2179,8 @@ msgstr "평균과의 차이"
 msgid "Drag audio and video files here"
 msgstr "오디오 및 비디오 파일을 여기로 끌어 오세요"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "시험 실행: 측정만 하고, 아무것도 쓰거나 업로드하지 않습니다."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "시험 실행: 모든 것을 계산해 보고하며, 출력 폴더에는 아무것도 넣지 않고 업로드도 하지 않습니다."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "시작 인사와 마무리 인사 동안에는 화면이 와이드로 유지됩니다."
@@ -3796,8 +3799,8 @@ msgstr "  이미 한 번 분리됨: 다시 읽었고, 새로 측정하지 않았
 msgid "  About %s of computing for %s of audio."
 msgstr "  계산 시간 약 %s (오디오 %s 분량)."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (측정만 함: 분리하지 않음)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (시험 실행: 분리하지 않음)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  트랙을 측정하지 못해 %s은(는) 믹스에는 있지만 편집에는 없습니다: %s"

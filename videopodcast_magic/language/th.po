@@ -594,8 +594,11 @@ msgstr "นี่ไม่ใช่ไฟล์ของโปรแกรมน
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "ไฟล์นี้เขียนโดยเวอร์ชัน %s ในรูปแบบ %d เวอร์ชันนี้เขียนรูปแบบ %d ชื่อภายในเปลี่ยนไปตั้งแต่นั้น จึงอ่านไม่ได้ โปรดตั้งค่ารอบการทำงานใหม่อีกครั้ง"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (วัดอย่างเดียว: ไม่ได้เขียนอะไร)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (รอบทดลอง: คำนวณและเก็บไว้แล้ว โฟลเดอร์เอาต์พุตไม่ถูกแตะต้อง)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (รอบทดลอง: ไม่ได้เขียนอะไร)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  ตรวจสอบเทียบกับเสียงรั่ว -- ตัวอ้างอิงคือ %s:"
@@ -930,8 +933,8 @@ msgstr "  %s: %s, ข้าม"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: ระบุจำนวนช่องสัญญาณไม่ได้ (%s) -- จะไม่ถูกวัด"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (วัดอย่างเดียว: ไม่ได้อัปโหลดอะไร)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (รอบทดลอง: ไม่ได้อัปโหลดอะไร)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  มี Timeline %r อยู่แล้ว -- อันใหม่ชื่อ %r"
@@ -1734,8 +1737,8 @@ msgstr "\nกำลังหยุด รอบการทำงานจะจ
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "ภาพมุมกว้างยาว %s s น้อยกว่าช็อตที่สั้นที่สุด %s s -- จึงถูกรวมหายไปอีกและไม่ปรากฏเลย\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nวัดเสร็จแล้ว ไม่มีการเขียนสิ่งใด -- รอบทดลองปล่อยโฟลเดอร์ผลลัพธ์ไว้ตามเดิม\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nคำนวณเสร็จแล้ว รอบทดลองปล่อยโฟลเดอร์ผลลัพธ์ไว้ตามเดิม\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nหยุดระหว่าง: %s"
@@ -2208,8 +2211,8 @@ msgstr "ระยะห่างจากค่าเฉลี่ย"
 msgid "Drag audio and video files here"
 msgstr "ลากไฟล์เสียงและวิดีโอมาที่นี่"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "รอบทดลอง: วัดอย่างเดียว ไม่เขียนและไม่อัปโหลดสิ่งใด"
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "รอบทดลอง: คำนวณและรายงานทุกอย่าง ไม่มีสิ่งใดเข้าไปในโฟลเดอร์เอาต์พุต และไม่อัปโหลดสิ่งใด"
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "ระหว่างการทักทายและการบอกลา ภาพจะยังเป็นมุมกว้าง"
@@ -3890,8 +3893,8 @@ msgstr "  เคยแยกไว้แล้วครั้งหนึ่ง:
 msgid "  About %s of computing for %s of audio."
 msgstr "  ใช้เวลาคำนวณประมาณ %s สำหรับเสียงยาว %s"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (วัดอย่างเดียว: ไม่ได้แยกอะไร)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (รอบทดลอง: ไม่ได้แยกอะไร)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  แทร็กไม่ได้ถูกวัด %s จึงอยู่ในมิกซ์แต่ไม่อยู่ในการตัดต่อ: %s"

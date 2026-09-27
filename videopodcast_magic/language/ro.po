@@ -570,8 +570,11 @@ msgstr "Acesta nu este un fișier al acestui program."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Acest fișier a fost scris de versiunea %s în formatul %d; aceasta scrie formatul %d. Numele din el s-au schimbat de atunci, deci nu poate fi citit. Configurați din nou rularea."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (doar măsurare: nu s-a scris nimic)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (rulare de probă: calculat și păstrat, dosarul de ieșire neatins)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (rulare de probă: nu s-a scris nimic)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Verificare pe baza diafoniei -- referința este %s:"
@@ -906,8 +909,8 @@ msgstr "  %s: %s, omis"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: nu se poate stabili câte canale are (%s) -- nu se măsoară"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (doar măsurare: nimic încărcat)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (rulare de probă: nimic încărcat)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Un Timeline %r exista deja -- cel nou se numește %r."
@@ -1710,8 +1713,8 @@ msgstr "\nSe oprește. Rularea se încheie de îndată ce o poate face fără a 
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Planul larg ține %s s, mai puțin decât cel mai scurt plan de %s s -- deci este comasat la loc și nu apare niciodată.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nMăsurat. Nu s-a scris nimic -- o rulare de probă lasă dosarul cu rezultate așa cum era.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nCalculat. O rulare de probă lasă dosarul cu rezultate așa cum era.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nOprit în timpul: %s"
@@ -2178,8 +2181,8 @@ msgstr "Distanța față de medie"
 msgid "Drag audio and video files here"
 msgstr "Trageți aici fișiere audio și video"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Rulare de probă: doar se măsoară, nu se scrie nimic, nu se încarcă nimic."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Rulare de probă: totul se calculează și se raportează, nimic nu ajunge în dosarul de ieșire, nu se încarcă nimic."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "În timpul salutului și al rămas-bunului imaginea rămâne în plan larg."
@@ -3803,8 +3806,8 @@ msgstr "  Separat deja o dată: recitit, nu măsurat din nou."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Circa %s de calcul pentru %s de audio."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (doar măsurare: nimic separat)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (rulare de probă: nimic separat)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Pistele nu au fost măsurate, deci în mix și nu în montaj: %s. Motivul: %s"

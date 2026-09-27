@@ -727,7 +727,7 @@ def align_tracks_only(args, tracks, tmpdir, title=""):
     if stop is not None:
         return stop
     if args.dry_run:
-        print(T('\n  (measuring only: nothing written)'))
+        print(T('\n  (dry run: nothing written)'))
         return 0
     print(as_head(T('RESULT')))
     for track in placed:
@@ -1709,7 +1709,7 @@ def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
     stage_put(getattr(args, "_handover_key", None)
               or handover_key(*line_words(sys.argv)), handover)
     shutil.rmtree(tmpdir, ignore_errors=True)
-    print(T('\n  (measuring only: nothing written)'))
+    print(T('\n  (dry run: worked out and kept, output folder untouched)'))
     return 0
 
 

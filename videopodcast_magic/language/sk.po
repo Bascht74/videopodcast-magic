@@ -569,8 +569,11 @@ msgstr "Toto nie je súbor tohto programu."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Tento súbor zapísala verzia %s vo formáte %d; táto verzia zapisuje formát %d. Názvy vnútri sa odvtedy zmenili, takže sa nedá prečítať. Nastavte prosím beh znova."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (len meranie: nič sa nezapisuje)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (skúšobný beh: vypočítané a uchované, výstupný priečinok nedotknutý)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (skúšobný beh: nič nezapísané)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontrola podľa presluchu -- referenciou je %s:"
@@ -905,8 +908,8 @@ msgstr "  %s: %s, preskočené"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: koľko má kanálov, sa nedá zistiť (%s) -- nemeria sa"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (len meranie: nič sa nenahráva)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (skúšobný beh: nič sa nenahráva)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r už existovala -- nová sa volá %r."
@@ -1709,8 +1712,8 @@ msgstr "\nZastavuje sa. Beh skončí, len čo to pôjde bez toho, aby nechal sú
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Široký záber drží %s s, menej ako najkratší záber %s s -- preto sa zase zlúči a nikdy sa neobjaví.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nZmerané. Nič nebolo zapísané -- skúšobný beh nechá priečinok s výsledkom, ako bol.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nVypočítané. Skúšobný beh nechá priečinok s výsledkom, ako bol.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nPrerušené počas: %s"
@@ -2177,8 +2180,8 @@ msgstr "Odchýlka od priemeru"
 msgid "Drag audio and video files here"
 msgstr "Sem pretiahnite zvukové a videosúbory"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Skúšobný beh: len sa meria, nič sa nezapisuje, nič sa nenahráva."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Skúšobný beh: všetko sa vypočíta a vypíše, nič nejde do výstupného priečinka, nič sa nenahráva."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Počas privítania a rozlúčky zostáva obraz široký."
@@ -3802,8 +3805,8 @@ msgstr "  Už raz oddelené: načítané späť, nemerané znova."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Asi %s výpočtu na %s zvuku."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (len meranie: nič neoddelené)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (skúšobný beh: nič neoddelené)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Stopy neboli zmerané, %s je teda v mixe, a nie v strihu: %s"

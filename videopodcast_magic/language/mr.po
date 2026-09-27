@@ -596,8 +596,11 @@ msgstr "ही या प्रोग्रामची फाइल नाह�
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "ही फाइल आवृत्ती %s ने फॉरमॅट %d मध्ये लिहिली होती; ही आवृत्ती फॉरमॅट %d लिहिते. आतील नावे तेव्हापासून बदलली आहेत, त्यामुळे ती वाचता येत नाही. कृपया रन पुन्हा सेट करा."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (फक्त मोजमाप: काहीही लिहिले नाही)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (चाचणी रन: मोजून ठेवले, आउटपुट फोल्डर अस्पर्शित)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (चाचणी रन: काहीही लिहिले नाही)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  गळतीवरून तपासणी -- संदर्भ %s आहे:"
@@ -932,8 +935,8 @@ msgstr "  %s: %s, वगळले"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: यात किती चॅनेल आहेत हे ठरवता येत नाही (%s) -- ते मोजले जात नाही"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (फक्त मोजमाप: काहीही अपलोड केले नाही)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (चाचणी रन: काहीही अपलोड केले नाही)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r आधीच होती -- नव्या Timeline चे नाव %r आहे."
@@ -1736,8 +1739,8 @@ msgstr "\nथांबवत आहे. एखादी फाइल अर्�
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "वाइड शॉट %s s टिकतो, जो %s s च्या सर्वात लहान शॉटपेक्षा कमी आहे -- म्हणून तो पुन्हा विलीन होतो आणि कधीच दिसत नाही.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nमोजले. काहीही लिहिले नाही -- चाचणी रन निकाल फोल्डर जसा होता तसाच ठेवतो.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nमोजून झाले. चाचणी रन निकाल फोल्डर जसा होता तसाच ठेवतो.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nया टप्प्यात थांबले: %s"
@@ -2210,8 +2213,8 @@ msgstr "सरासरीपासून अंतर"
 msgid "Drag audio and video files here"
 msgstr "ऑडिओ आणि व्हिडिओ फाइली येथे ओढा"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "चाचणी रन: फक्त मोजमाप, काहीही लिहिले जात नाही, काहीही अपलोड होत नाही."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "चाचणी रन: सर्व काही मोजून कळवले जाते, आउटपुट फोल्डरमध्ये काहीही जात नाही, काहीही अपलोड होत नाही."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "स्वागत आणि निरोपाच्या वेळी चित्र वाइड राहते."
@@ -3892,8 +3895,8 @@ msgstr "  आधीच एकदा विभाजित: परत वाच�
 msgid "  About %s of computing for %s of audio."
 msgstr "  सुमारे %s संगणन, %s ऑडिओसाठी."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (फक्त मोजमाप: काहीही विभाजित नाही)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (चाचणी रन: काहीही विभाजित नाही)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ट्रॅक मोजले गेले नाहीत, म्हणून मिक्समध्ये, पण कटमध्ये नाही: %s; कारण: %s"

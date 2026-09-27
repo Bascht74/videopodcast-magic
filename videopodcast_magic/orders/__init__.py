@@ -932,7 +932,8 @@ def build_argument_parser():
                          "new = a second project alongside, abort = stop. "
                          "Without this it asks.")
     ap.add_argument("--dry-run", action="store_true",
-                    help="only measure and report, write nothing")
+                    help="work everything out up to the finished cut and report it, "
+                         "write nothing")
     # A switch that needs several recordings says so, or it would be
     # taken and do nothing. Marked here rather than at the call site:
     # --help builds its own parser and never reaches that one.

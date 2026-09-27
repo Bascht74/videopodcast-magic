@@ -570,8 +570,11 @@ msgstr "Ово није датотека овог програма."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Ову датотеку је записала верзија %s у формату %d; ова пише формат %d. Имена у њој су се од тада променила, па се не може прочитати. Молимо поново подесите покретање."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (само мерење: ништа није записано)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (пробно покретање: израчунато и сачувано, излазна фасцикла нетакнута)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (пробно покретање: ништа није записано)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Провера преко преслушавања -- референца је %s:"
@@ -906,8 +909,8 @@ msgstr "  %s: %s, прескочено"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: не може да се утврди колико канала има (%s) -- не мери се"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (само мерење: ништа није отпремљено)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (пробно покретање: ништа није отпремљено)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r је већ постојао -- нови се зове %r."
@@ -1710,8 +1713,8 @@ msgstr "\nЗаустављање. Покретање се завршава чи�
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Широки кадар траје %s с, мање од најкраћег кадра од %s с -- па се поново спаја и никада се не појављује.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nИзмерено. Ништа није записано -- пробно покретање оставља фасциклу са резултатом какву је затекло.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nИзрачунато. Пробно покретање оставља фасциклу са резултатом какву је затекло.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nЗаустављено током: %s"
@@ -2178,8 +2181,8 @@ msgstr "Одступање од просека"
 msgid "Drag audio and video files here"
 msgstr "Превуците овде аудио и видео датотеке"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Пробно покретање: само се мери, ништа се не записује, ништа се не отпрема."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Пробно покретање: све се израчуна и пријави, ништа не иде у излазну фасциклу, ништа се не отпрема."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Током поздрава и опроштаја слика остаје у широком кадру."
@@ -3803,8 +3806,8 @@ msgstr "  Већ једном раздвојено: поново прочита�
 msgid "  About %s of computing for %s of audio."
 msgstr "  Око %s рачунања за %s аудија."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (само мерење: ништа није раздвојено)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (пробно покретање: ништа није раздвојено)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Траке нису измерене, па је у миксу а не у монтажи: %s. Разлог: %s"

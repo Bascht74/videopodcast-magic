@@ -596,8 +596,11 @@ msgstr "Ini bukan file dari program ini."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "File ini ditulis oleh versi %s dalam format %d; versi ini menulis format %d. Nama-nama di dalamnya sudah berubah sejak itu, sehingga file ini tidak dapat dibaca. Silakan siapkan proses ini lagi."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (hanya mengukur: tidak ada yang ditulis)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (uji coba: dihitung dan disimpan, folder keluaran tidak disentuh)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (uji coba: tidak ada yang ditulis)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Pemeriksaan terhadap kebocoran suara -- referensinya %s:"
@@ -932,8 +935,8 @@ msgstr "  %s: %s, dilewati"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: jumlah kanalnya tidak dapat ditentukan (%s) -- tidak diukur"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (hanya mengukur: tidak ada yang diunggah)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (uji coba: tidak ada yang diunggah)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r sudah ada -- yang baru bernama %r."
@@ -1736,8 +1739,8 @@ msgstr "\nMenghentikan. Proses berakhir segera setelah bisa tanpa meninggalkan f
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Bidikan lebar bertahan %s s, lebih pendek dari bidikan terpendek %s s -- jadi digabung lagi dan tidak pernah muncul.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nSudah diukur. Tidak ada yang ditulis -- uji coba membiarkan folder hasil seperti semula.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nSudah dihitung. Uji coba membiarkan folder hasil seperti semula.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nDihentikan saat: %s"
@@ -2210,8 +2213,8 @@ msgstr "Jarak ke rata-rata"
 msgid "Drag audio and video files here"
 msgstr "Seret file audio dan video ke sini"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Uji coba: hanya mengukur, tidak ada yang ditulis, tidak ada yang diunggah."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Uji coba: semuanya dihitung dan dilaporkan, tidak ada yang masuk ke folder keluaran, tidak ada yang diunggah."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Selama salam pembuka dan salam penutup gambar tetap lebar."
@@ -3892,8 +3895,8 @@ msgstr "  Sudah pernah dipisahkan: dibaca kembali, tidak diukur ulang."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Sekitar %s komputasi untuk %s audio."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (hanya mengukur: tidak ada yang dipisahkan)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (uji coba: tidak ada yang dipisahkan)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Trek tidak diukur, jadi %s ada di campuran dan tidak di potongan: %s"

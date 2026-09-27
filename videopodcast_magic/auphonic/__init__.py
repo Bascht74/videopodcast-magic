@@ -565,7 +565,7 @@ def production_said(key, head, rows, dry_run, seconds, multitrack):
     for row in rows:
         print(row)
     if dry_run:
-        print(T('  (measuring only: nothing uploaded)\n'))
+        print(T('  (dry run: nothing uploaded)\n'))
         return True
     for line in credit_verdict(account_credit(key), seconds(), multitrack):
         print(line)

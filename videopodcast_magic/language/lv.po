@@ -597,8 +597,11 @@ msgstr "Tas nav šīs programmas fails."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Šo failu ierakstīja versija %s formātā %d; šī versija raksta formātā %d. Nosaukumi tajā kopš tā laika ir mainījušies, tāpēc to nevar nolasīt. Lūdzu, iestatiet izpildi no jauna."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (tikai mērīšana: nekas nav ierakstīts)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (izmēģinājuma izpilde: aprēķināts un saglabāts, izvades mape neskarta)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (izmēģinājuma izpilde: nekas nav ierakstīts)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Pārbaude pēc skaņas noplūdes -- atsauces celiņš %s:"
@@ -933,8 +936,8 @@ msgstr "  %s: %s, izlaists"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: kanālu skaitu nevar noteikt (%s) -- netiek mērīts"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (tikai mērīšana: nekas nav augšupielādēts)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (izmēģinājuma izpilde: nekas nav augšupielādēts)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r jau pastāvēja -- jaunais saucas %r."
@@ -1737,8 +1740,8 @@ msgstr "\nApturēšana. Izpilde beigsies, tiklīdz to varēs izdarīt, neatstāj
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Kopplāns ilgst %s s, mazāk nekā īsākais plāns (%s s) -- tāpēc tas atkal tiek apvienots ar blakus esošajiem un nekad neparādās.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nIzmērīts. Nekas netika ierakstīts -- izmēģinājuma izpilde atstāj rezultātu mapi nemainītu.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nAprēķināts. Izmēģinājuma izpilde atstāj rezultātu mapi nemainītu.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nApturēts solī: %s"
@@ -2211,8 +2214,8 @@ msgstr "Attālums līdz vidējam"
 msgid "Drag audio and video files here"
 msgstr "Velciet šeit audio un video failus"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Izmēģinājuma izpilde: tikai mēra, neko neraksta, neko neaugšupielādē."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Izmēģinājuma izpilde: viss tiek aprēķināts un paziņots, izvades mapē nekas nenonāk, nekas netiek augšupielādēts."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Sasveicināšanās un atvadu laikā attēls paliek kopplānā."
@@ -3894,8 +3897,8 @@ msgstr "  Jau vienreiz atdalīts: nolasīts, no jauna nav mērīts."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Aprēķins aizņems apm. %s, skaņas ilgums %s."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (tikai mērīšana: nekas nav atdalīts)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (izmēģinājuma izpilde: nekas nav atdalīts)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Celiņi netika izmērīti, tāpēc %s ir miksējumā, bet ne montāžā: %s"

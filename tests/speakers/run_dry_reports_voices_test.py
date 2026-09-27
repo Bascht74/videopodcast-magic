@@ -128,7 +128,7 @@ check("with nothing stored a dry run measures nothing",
 check("and hands nothing on either", nothing == [],
       "%d voices came back, wanted none" % len(nothing))
 check("and the log says that is what happened",
-      vpm.T('  (measuring only: nothing separated)') in log,
+      vpm.T('  (dry run: nothing separated)') in log,
       "the log was %r" % log[-120:])
 
 print("\n2. A machine that has separated it before")
@@ -148,7 +148,7 @@ check("and hands the stored voices on rather than nothing",
       "%d voices in the dry run against %d in the real one"
       % (len(read_back), len(real)))
 check("and does not say it separated nothing",
-      vpm.T('  (measuring only: nothing separated)') not in log,
+      vpm.T('  (dry run: nothing separated)') not in log,
       "the log was %r" % log[-120:])
 # Who speaks when, the stage after, as the dry run goes on to it.
 _segments, then = logged(

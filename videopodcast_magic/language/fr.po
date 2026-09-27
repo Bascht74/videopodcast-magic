@@ -1050,8 +1050,11 @@ msgstr "\n    %s  --  %s, %s"
 msgid "\n  %s: no audio to extract (%s)"
 msgstr "\n  %s : aucun audio à extraire (%s)"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (mesure seulement : rien n’est écrit)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (essai à blanc : calculé et conservé, dossier de sortie intact)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (essai à blanc : rien n’est écrit)"
 
 msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
 msgstr "\n  IL EXISTE DÉJÀ UN PROJET DE CE NOM : %r"
@@ -1170,8 +1173,8 @@ msgstr "\nINDICATEURS"
 msgid "\nMIXING"
 msgstr "\nMIXAGE"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nMesuré. Rien n’a été écrit -- un essai à blanc laisse le dossier des résultats tel qu’il était.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nCalculé. Un essai à blanc laisse le dossier des résultats tel qu’il était.\n"
 
 msgid "\nNORMALISE"
 msgstr "\nNORMALISER"
@@ -1698,11 +1701,11 @@ msgstr "  %sx loin du locuteur parce qu’un plan a duré plus de %s s"
 msgid "  (container; measured %s)"
 msgstr "  (conteneur ; mesuré %s)"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (mesure seulement : rien n’est séparé)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (essai à blanc : rien n’est séparé)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (mesure seulement : rien n’est envoyé)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (essai à blanc : rien n’est envoyé)\n"
 
 msgid "  (this file starts later)"
 msgstr "  (ce fichier commence plus tard)"
@@ -2857,8 +2860,8 @@ msgstr "Écart à la moyenne"
 msgid "Downloading %s"
 msgstr "Téléchargement de %s"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Essai à blanc : on mesure seulement, rien n’est écrit, rien n’est envoyé."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Essai à blanc : tout est calculé et rapporté, rien ne va dans le dossier de sortie, rien n’est envoyé."
 
 msgid "Duration %s"
 msgstr "Durée %s"

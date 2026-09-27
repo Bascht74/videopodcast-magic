@@ -1165,8 +1165,8 @@ msgstr "  Пресет: %s"
 msgid "  File:    %s (%s, %s)"
 msgstr "  Файл:   %s (%s, %s)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (лише вимірювання: нічого не вивантажено)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (пробний запуск: нічого не вивантажено)\n"
 
 msgid "  Production created (%s)"
 msgstr "  Випуск створено (%s)"
@@ -1666,8 +1666,11 @@ msgstr "визначається, хто коли говорить ..."
 msgid "\nWITHOUT AUPHONIC.COM"
 msgstr "\nБЕЗ AUPHONIC.COM"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (лише вимірювання: нічого не записано)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (пробний запуск: обчислено й збережено, тека виводу не зачеплена)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (пробний запуск: нічого не записано)"
 
 msgid "FOR RESOLVE"
 msgstr "ДЛЯ RESOLVE"
@@ -3646,14 +3649,14 @@ msgstr "Сама перевірка не вдалася: %s"
 msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
 msgstr "\nГотово. Унизу «Відкрити теку з результатом» показує результат.\nЯкщо все гаразд, «Створити проєкт Resolve» збирає з нього проєкт.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nВиміряно. Нічого не записано -- пробний запуск лишає теку з результатом без змін.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nОбчислено. Пробний запуск лишає теку з результатом без змін.\n"
 
 msgid "Without processing at auphonic.com"
 msgstr "Без обробки на auphonic.com"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Пробний запуск: лише вимірювання, нічого не записується і не вивантажується."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Пробний запуск: усе обчислюється й подається у звіті, до теки виводу нічого не потрапляє, нічого не вивантажується."
 
 msgid "This is what happens next"
 msgstr "Ось що буде далі"
@@ -3919,8 +3922,8 @@ msgstr "\nРОЗДІЛЕННЯ МОВЦІВ"
 msgid "  Separated once already: read back, not measured again."
 msgstr "  Уже розділено раніше: перечитано, не виміряно заново."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (лише вимірювання: нічого не розділено)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (пробний запуск: нічого не розділено)"
 
 msgid "\nSPEAKERS -- SEPARATED BY VOICE"
 msgstr "\nМОВЦІ -- РОЗДІЛЕНІ ЗА ГОЛОСОМ"

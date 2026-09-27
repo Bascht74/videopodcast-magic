@@ -595,8 +595,11 @@ msgstr "இது இந்த நிரலின் கோப்பு அல�
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "இந்தக் கோப்பு %s பதிப்பால், %d வடிவத்தில் எழுதப்பட்டது; இந்தப் பதிப்பு %d வடிவத்தை எழுதுகிறது. அதன் பிறகு உள்ளே உள்ள பெயர்கள் மாறிவிட்டன, எனவே இதைப் படிக்க முடியாது. இயக்கத்தை மீண்டும் அமைக்கவும்."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (அளவீடு மட்டும்: எதுவும் எழுதப்படவில்லை)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (சோதனை இயக்கம்: கணக்கிட்டு வைக்கப்பட்டது, வெளியீட்டுக் கோப்புறை தொடப்படவில்லை)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (சோதனை இயக்கம்: எதுவும் எழுதப்படவில்லை)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  கசிவுக்கு எதிரான சரிபார்ப்பு -- அடிப்படை %s:"
@@ -931,8 +934,8 @@ msgstr "  %s: %s, தவிர்க்கப்பட்டது"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: இதில் எத்தனை சேனல்கள் உள்ளன என்பதைக் கண்டறிய முடியவில்லை (%s) -- இது அளவிடப்படாது"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (அளவீடு மட்டும்: எதுவும் பதிவேற்றப்படவில்லை)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (சோதனை இயக்கம்: எதுவும் பதிவேற்றப்படவில்லை)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  %r என்ற Timeline ஏற்கனவே இருந்தது -- புதியதன் பெயர் %r."
@@ -1735,8 +1738,8 @@ msgstr "\nநிறுத்துகிறது. எந்தக் கோப�
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "வைட் ஷாட் %s s நீடிக்கிறது, இது மிகக் குறுகிய ஷாட்டின் நீளமான %s s-ஐ விடக் குறைவு -- எனவே அது மீண்டும் இணைக்கப்பட்டு ஒருபோதும் தோன்றாது.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nஅளவிடப்பட்டது. எதுவும் எழுதப்படவில்லை -- சோதனை இயக்கம் முடிவுக் கோப்புறையை இருந்தபடியே விடுகிறது.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nகணக்கிடப்பட்டது. சோதனை இயக்கம் முடிவுக் கோப்புறையை இருந்தபடியே விடுகிறது.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nஇந்தப் படியில் நிறுத்தப்பட்டது: %s"
@@ -2209,8 +2212,8 @@ msgstr "சராசரியிலிருந்து தூரம்"
 msgid "Drag audio and video files here"
 msgstr "ஆடியோ, வீடியோ கோப்புகளை இங்கே இழுக்கவும்"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "சோதனை இயக்கம்: அளவீடு மட்டும், எதுவும் எழுதப்படாது, எதுவும் பதிவேற்றப்படாது."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "சோதனை இயக்கம்: அனைத்தும் கணக்கிடப்பட்டு அறிவிக்கப்படும், வெளியீட்டுக் கோப்புறைக்கு எதுவும் செல்லாது, எதுவும் பதிவேற்றப்படாது."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "வரவேற்பு மற்றும் விடைபெறுதலின்போது படம் வைடாகவே இருக்கும்."
@@ -3892,8 +3895,8 @@ msgstr "  ஏற்கனவே ஒருமுறை பிரிக்கப�
 msgid "  About %s of computing for %s of audio."
 msgstr "  சுமார் %s கணக்கீட்டு நேரம், %s ஆடியோவுக்கு."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (அளவீடு மட்டும்: எதுவும் பிரிக்கப்படவில்லை)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (சோதனை இயக்கம்: எதுவும் பிரிக்கப்படவில்லை)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  தடங்கள் அளவிடப்படவில்லை, எனவே மிக்ஸில் இருந்தும் கட்டில் இல்லாதவை: %s -- காரணம்: %s"

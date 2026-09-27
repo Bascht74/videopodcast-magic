@@ -598,8 +598,11 @@ msgstr "Dan mhuwiex fajl ta' dan il-programm."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Dan il-fajl inkiteb mill-verżjoni %s fil-format %d; din tikteb il-format %d. L-ismijiet ġewwa nbidlu minn dak iż-żmien, għalhekk ma jistax jinqara. Jekk jogħġbok erġa' ssettja t-tħaddim."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (kejl biss: ma nkiteb xejn)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (tħaddim ta' prova: maħdum u miżmum, il-folder tal-ħruġ ma ntmessx)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (tħaddim ta' prova: ma nkiteb xejn)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontroll kontra t-tnixxija -- ir-referenza hija %s:"
@@ -934,8 +937,8 @@ msgstr "  %s: %s, maqbuż"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: in-numru ta' kanali ma jistax jiġi stabbilit (%s) -- ma jitkejjilx"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (kejl biss: xejn ma ttella')\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (tħaddim ta' prova: xejn ma ttella')\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  It-Timeline %r kienet diġà teżisti -- il-ġdida jisimha %r."
@@ -1738,8 +1741,8 @@ msgstr "\nQed jieqaf. It-tħaddim jintemm hekk kif ikun jista' mingħajr ma jħa
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Il-veduta wiesgħa ddum %s s, inqas mill-iqsar qatgħa ta' %s s -- għalhekk terġa' tingħaqad u qatt ma tidher.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nImkejjel. Ma nkiteb xejn -- tħaddim ta' prova jħalli l-folder tar-riżultat kif kien.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nMaħdum. Tħaddim ta' prova jħalli l-folder tar-riżultat kif kien.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nWaqaf waqt: %s"
@@ -2212,8 +2215,8 @@ msgstr "Distanza mill-medja"
 msgid "Drag audio and video files here"
 msgstr "Kaxkar fajls tal-awdjo u tal-vidjo hawn"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Tħaddim ta' prova: kejl biss, xejn ma jinkiteb, xejn ma jitla'."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Tħaddim ta' prova: kollox jinħadem u jiġi rrappurtat, xejn ma jidħol fil-folder tal-ħruġ, xejn ma jitla'."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Waqt it-tislima tal-bidu u tal-aħħar l-istampa tibqa' wiesgħa."
@@ -3895,8 +3898,8 @@ msgstr "  Diġà separat darba: moqri lura, mhux imkejjel mill-ġdid."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Madwar %s ta' kalkolu għal %s ta' awdjo."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (kejl biss: xejn ma ġie separat)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (tħaddim ta' prova: xejn ma ġie separat)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Il-binarji ma tkejlux, għalhekk fit-taħlita u mhux fil-muntaġġ hemm %s: %s"

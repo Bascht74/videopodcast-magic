@@ -1131,8 +1131,8 @@ msgstr "  预设：  %s"
 msgid "  File:    %s (%s, %s)"
 msgstr "  文件：  %s (%s, %s)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  （仅测量：未上传任何内容）\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  （试运行：未上传任何内容）\n"
 
 msgid "  Production created (%s)"
 msgstr "  制作已创建（%s）"
@@ -1632,8 +1632,11 @@ msgstr "正在确定谁在何时说话 ..."
 msgid "\nWITHOUT AUPHONIC.COM"
 msgstr "\n不使用 AUPHONIC.COM"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  （仅测量：未写入任何内容）"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  （试运行：已算出并保留，输出文件夹未改动）"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  （试运行：未写入任何内容）"
 
 msgid "FOR RESOLVE"
 msgstr "用于 RESOLVE"
@@ -3608,14 +3611,14 @@ msgstr "检查本身失败：%s"
 msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
 msgstr "\n完成。下方的“打开结果文件夹”显示结果。\n若一切无误，“创建 Resolve 项目”会据此建立项目。\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\n已测量。未写入任何内容 -- 试运行不改动结果文件夹。\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\n已算出。试运行不改动结果文件夹。\n"
 
 msgid "Without processing at auphonic.com"
 msgstr "不在 auphonic.com 处理"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "试运行：只测量，不写入，不上传。"
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "试运行：全部算出并报告，不往输出文件夹写入任何内容，不上传。"
 
 msgid "This is what happens next"
 msgstr "接下来将执行"
@@ -3881,8 +3884,8 @@ msgstr "\n分离说话人"
 msgid "  Separated once already: read back, not measured again."
 msgstr "  已分离过一次：读回结果，未重新测量。"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  （仅测量：未做分离）"
+msgid "  (dry run: nothing separated)"
+msgstr "  （试运行：未做分离）"
 
 msgid "\nSPEAKERS -- SEPARATED BY VOICE"
 msgstr "\n说话人 -- 按声音分离"
