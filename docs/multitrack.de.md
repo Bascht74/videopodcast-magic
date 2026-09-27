@@ -352,7 +352,12 @@ spielt; der Lauf bekommt sie aber als Abstand vom Moment, in dem jede
 Kamera läuft. So landet eine Marke auf jeder Kamera auf dem Bild, auf
 dem sie gesetzt wurde -- auch auf einer, die mit 29,97 Bildern läuft --,
 und Vorschau und Lauf schneiden im selben Moment. Einen In-Punkt, der
-vom Ende zurückzählt, lehnt der Player ab, genau wie der Lauf.
+vom Ende zurückzählt, lehnt der Player ab, genau wie der Lauf. Beide
+lehnen auch ein Fenster ab, mit dem sich nichts anfangen lässt, und sie
+sagen es mit denselben Worten: wenn der Out-Punkt vor dem In-Punkt
+liegt, wenn das Fenster ganz außerhalb des Materials liegt -- dann nennt
+die Meldung, wo beide Marken stehen und wie lang das Material ist --
+und wenn davon im Material weniger als fünf Sekunden übrig bleiben.
 
 Beide Grenzen nehmen diese Angaben:
 

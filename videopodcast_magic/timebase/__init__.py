@@ -197,12 +197,22 @@ def time_window_refused(new0, new1, t0, t1):
     """Why an In and an Out point make no window, or "" where they do.
 
     One rule for the run and for the window's trimming (apply_time_window
-    asks this very function): the Out point lies after the In point, and
-    what is left of the two inside the material, *t0* to *t1*, runs at
-    least five seconds. The line comes indented, as the run prints it.
+    asks this very function): the Out point lies after the In point, the
+    two do not both lie on one side of the material, *t0* to *t1*, and
+    what is left of them inside it runs at least five seconds. The line
+    comes indented, as the run prints it; the outside-the-material one
+    counts from *t0*, as the window's marks do.
     """
     if new1 <= new0:
         return T('    Out point lies before In point -- that does not work.')
+    if t1 > t0 and (new0 >= t1 or new1 <= t0):
+        # Wholly past the material: "only 0:00:00 long" would be true and
+        # would not say why; this says where the points are.
+        return "    " + (T('The time window lies outside the material: In '
+                           'point at %s, Out point at %s, and the material '
+                           'runs %s.')
+                         % (as_hms(new0 - t0), as_hms(new1 - t0),
+                            as_hms(t1 - t0)))
     kept = min(new1, t1) - max(new0, t0)
     if kept < 5:
         return (T('    The window would be only %s long -- that cannot be '

@@ -328,7 +328,11 @@ but the run gets it as a distance from the moment every camera runs. So
 a mark lands on the frame it was set on, on every camera -- one running
 at 29.97 frames included -- and preview and run cut at the same moment.
 An In point counted back from the end is refused, by the player as by
-the run.
+the run. So is a window the two cannot use, and in the same words: an
+Out point in front of the In point, a window that lies wholly outside
+the material -- the message then says where both marks stand and how
+long the material runs -- and one that leaves less than five seconds
+inside it.
 
 Both boundaries take these entries:
 

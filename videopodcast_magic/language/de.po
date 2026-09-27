@@ -5541,7 +5541,7 @@ msgid "on"
 msgstr "an"
 
 msgid "%r counts from the end -- that only works for Out point."
-msgstr "%r zählt vom Ende her -- das geht nur bei Schnitt aus."
+msgstr "%r zählt vom Ende her -- das geht nur beim Out-Punkt."
 
 msgid "Check"
 msgstr "Prüfung"
@@ -5550,7 +5550,7 @@ msgid "the check itself stopped: %s"
 msgstr "die Prüfung selbst ist gescheitert: %s"
 
 msgid "In point or Out point cannot be read here."
-msgstr "Schnitt an oder Schnitt aus lässt sich hier nicht lesen."
+msgstr "In-Punkt oder Out-Punkt lässt sich hier nicht lesen."
 
 msgid ""
 "About %s missing. Free up space or choose another folder with --out. The "

@@ -294,7 +294,7 @@ text_lang_acted_on	2
 text_lang_settled_first	8
 text_languages_covered	9
 text_lists_match	30
-text_no_german_left	47
+text_no_german_left	48
 text_numbers_fit_reader	21
 text_only_texts_change	101
 text_release_has_program	5
@@ -500,5 +500,5 @@ cut_three_cuts_agree	20
 run_dry_leaves_no_trace	8
 table_wide_is_the_run	2
 window_run_beats_kept	8
-time_refusal_as_run	6
+time_refusal_as_run	8
 cut_recut_keeps_dips	6
