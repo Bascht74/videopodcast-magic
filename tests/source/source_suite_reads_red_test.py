@@ -20,6 +20,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
         and os.path.dirname(HERE) != HERE:
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
+import re
 import shutil
 import subprocess
 import tempfile
@@ -94,11 +95,11 @@ try:
                   newline="\n") as f:
             f.write(text + "\n")
     # One bash for every case: on Windows a process is what a run pays.
-    # The case's name after the last / or backslash: Windows hands the paths
-    # over with backslashes, and ${f##*/} would keep the whole of one.
+    # The name is cut here, not in bash: Windows hands the paths over
+    # with backslashes, and a bash pattern for both was read wrongly.
     script = ('. "$1"; shift; for f in "$@"; do '
-              'if said_red "$(< "$f")"; then echo "${f##*[/\\\\]} red"; '
-              'else echo "${f##*[/\\\\]} green"; fi; done')
+              'if said_red "$(< "$f")"; then echo "$f red"; '
+              'else echo "$f green"; fi; done')
     ran = subprocess.run(
         [bash(), "-c", script, "_", "verdict.sh"]
         + [os.path.join(D, key) for key in sorted(CASES)],
@@ -106,7 +107,9 @@ try:
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=120)
     heard = ran.stdout.decode("utf-8", "replace")
     for one in heard.splitlines():
-        parts = one.split()
+        parts = one.rsplit(" ", 1)
+        if len(parts) == 2:
+            parts[0] = re.split(r"[\\\\/]", parts[0])[-1]
         if len(parts) == 2 and parts[0] in CASES:
             said[parts[0]] = parts[1]
     if not said:
