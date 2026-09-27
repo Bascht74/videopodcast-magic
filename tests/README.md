@@ -1,10 +1,6 @@
 # The test suite
 
-<<<<<<< HEAD
 470 tests against the program in `../videopodcast_magic/`. Every one of them stands
-=======
-470 tests against the program in `../videopodcast_magic/`. Every one of them stands
->>>>>>> s-e556
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
