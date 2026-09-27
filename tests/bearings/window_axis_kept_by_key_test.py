@@ -174,6 +174,15 @@ def waited_for(condition, why):
     return None
 
 
+def by_name(path):
+    """A file's name as the program compares it: on Windows, case folded.
+
+    The project file keeps each place under the file's key, so a name
+    looked up in it goes through the same key.
+    """
+    return os.path.basename(vpm.path_key(path))
+
+
 def kept_places():
     """The places the project file beside the material holds, by name."""
     for path in glob.glob(os.path.join(MEDIA, "videopodcast-magic_*.json")):
@@ -182,7 +191,7 @@ def kept_places():
                 rows = json.load(f).get("timeline") or []
         except (OSError, ValueError):
             continue
-        return dict((os.path.basename(e["path"]), e.get("start_s"))
+        return dict((by_name(e["path"]), e.get("start_s"))
                     for e in rows)
     return {}
 
@@ -199,7 +208,7 @@ def drive():
     took = waited_for(lambda: kept_places(), "the project file's axis")
     places = kept_places()
     check("an axis the run kept reaches the project file unmeasured",
-          places.get(os.path.basename(SECOND)) == 2.5 and not measured,
+          places.get(by_name(SECOND)) == 2.5 and not measured,
           "places %r, measured %r, after %s s" % (places, measured, took))
     add.click()
     wanted = key([FIRST, SECOND, LATE])
