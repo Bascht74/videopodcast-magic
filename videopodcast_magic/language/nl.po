@@ -571,9 +571,6 @@ msgstr "Dit bestand is geschreven door versie %s in formaat %d; deze versie schr
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (alleen meten: niets geschreven)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (alleen meten: zonder API-sleutel stopt het hier)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Controle aan de overspraak -- referentie is %s:"
 
@@ -5163,3 +5160,12 @@ msgstr "  %s: zijn klok zegt %s, het geluid mat %s -- %s s uit elkaar; de meting
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s staat op twee camera's: %s volgens het spoor, %s volgens de stem. De stem gaat voor, dus de montage toont %s alleen op %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Overgenomen uit de meting die op deze computer bewaard is: dezelfde bestanden en instellingen, dus er wordt niets opnieuw gemeten."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nSPREKERS -- EERDER GEMETEN"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Overgenomen uit de meting die op deze computer bewaard is: dezelfde opnamen, posities en hetzelfde tijdvenster."

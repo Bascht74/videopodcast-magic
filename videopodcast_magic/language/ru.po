@@ -1054,9 +1054,6 @@ msgstr "\n  %s: нет звука для извлечения (%s)"
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (только измерение: ничего не записано)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (только измерение: без API Key дальше не пойдёт)"
-
 msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
 msgstr "\n  ПРОЕКТ С ТАКИМ НАЗВАНИЕМ УЖЕ ЕСТЬ: %r"
 
@@ -5205,3 +5202,12 @@ msgstr "  %s: его часы показывают %s, звук измерил %
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s назначен на две камеры: %s по дорожке, %s по голосу. Приоритет у голоса, поэтому монтаж показывает %s только на %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Взято из измерения, сохранённого на этой машине: те же файлы и настройки, поэтому ничего не измеряется заново."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nГОВОРЯЩИЕ -- ИЗМЕРЕНЫ РАНЕЕ"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Взято из измерения, сохранённого на этой машине: те же записи, положения и временное окно."

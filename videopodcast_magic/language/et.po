@@ -599,9 +599,6 @@ msgstr "Selle faili kirjutas versioon %s vormingus %d; see versioon kirjutab vor
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (ainult mõõtmine: midagi ei kirjutatud)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (ainult mõõtmine: ilma API-võtmeta peatub see siin)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontroll ülekostmise põhjal -- võrdlusrada on %s:"
 
@@ -5166,3 +5163,12 @@ msgstr "  %s: selle kell ütleb %s, heli mõõtis %s -- vahe %s s; kasutatakse m
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s on kahel kaameral: %s raja järgi, %s hääle järgi. Hääl on ülimuslik, seega näitab lõige %s ainult kaameral %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Võetud selles arvutis hoitud mõõtmisest: samad failid ja seaded, seega midagi ei mõõdeta uuesti."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nKÕNELEJAD -- VAREM MÕÕDETUD"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Võetud selles arvutis hoitud mõõtmisest: samad salvestised, asukohad ja ajaaken."

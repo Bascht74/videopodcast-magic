@@ -152,7 +152,7 @@ check("paths into the void -> no crash", d == {},
 print("\n6. The interface really calls this path")
 source = the_program.whole()
 PASSED_ON = ("return axis_with_blocks(paths, real_tc, HOP, blocks_of, "
-             "phase_of=said)")
+             "phase_of=said,\n                                raw=raw)")
 check("axis_measure only passes it on",
         PASSED_ON in source,
         "the line stands %d times in %d characters of source"

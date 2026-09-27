@@ -571,9 +571,6 @@ msgstr "Αυτό το αρχείο γράφτηκε από την έκδοση %
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (μόνο μέτρηση: δεν γράφτηκε τίποτα)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (μόνο μέτρηση: χωρίς API key σταματά εδώ)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Έλεγχος με βάση τη διαρροή -- αναφορά είναι %s:"
 
@@ -5163,3 +5160,12 @@ msgstr "  %s: το ρολόι της λέει %s, ο ήχος μέτρησε %s 
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s βρίσκεται σε δύο κάμερες: %s σύμφωνα με το κανάλι, %s σύμφωνα με τη φωνή. Υπερισχύει η φωνή, οπότε το μοντάζ δείχνει %s μόνο στην %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Λήφθηκε από τη μέτρηση που φυλάσσεται σε αυτό το μηχάνημα: ίδια αρχεία και ρυθμίσεις, οπότε τίποτα δεν μετριέται ξανά."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nΟΜΙΛΗΤΕΣ -- ΜΕΤΡΗΜΕΝΟΙ ΠΡΙΝ"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Λήφθηκε από τη μέτρηση που φυλάσσεται σε αυτό το μηχάνημα: ίδιες ηχογραφήσεις, θέσεις και χρονικό παράθυρο."

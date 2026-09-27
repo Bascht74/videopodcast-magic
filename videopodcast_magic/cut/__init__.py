@@ -90,7 +90,6 @@ separation_sources = PROGRAM.separation_sources
 speaker_measure_loop = PROGRAM.speaker_measure_loop
 speakers_all_on_window_axis = PROGRAM.speakers_all_on_window_axis
 speakers_for_run = PROGRAM.speakers_for_run
-speakers_for_the_cut = PROGRAM.speakers_for_the_cut
 speakers_window_all = PROGRAM.speakers_window_all
 step_begin = PROGRAM.step_begin
 struct = PROGRAM.struct
@@ -2709,18 +2708,6 @@ def output_folder(args, beside):
             else os.path.dirname(os.path.abspath(beside)))
 
 
-def speakers_without_auphonic(args, tracks):
-    """Who speaks when, worked out of the aligned tracks: nothing written.
-
-    The part of finish_without_auphonic a run without files can ask
-    too. Sync only asks nobody, so there the answer is empty.
-    """
-    if sync_only(args):
-        return []
-    step_begin("speakers")
-    return speakers_for_the_cut(args, tracks)
-
-
 def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
                             t0, t1, ref_clip):
     """Finish a multitrack run without auphonic.com.
@@ -2738,10 +2725,12 @@ def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
             'removal -- for\n  those the run needs auphonic.com.'))
     for track in tracks:
         track["ready"] = track["axis"]
-    if args.dry_run:
-        print(T('\n  (measuring only: nothing written)'))
-        return 0
-    segment_list = speakers_without_auphonic(args, tracks)
+    # Sync only asks nobody who speaks. The rest as every run asks it,
+    # over the cut's window: out of the store where it was measured.
+    segment_list = []
+    if not sync_only(args):
+        step_begin("speakers")
+        segment_list = PROGRAM.speakers_of_the_run(args, tracks, (t0, t1))
     folder = output_folder(args, videos and videos[0][0])
     # The voices first, each on its own, then the sum: one common gain
     # keeps whatever balance came in, and here no leveler set one.

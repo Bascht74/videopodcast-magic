@@ -598,9 +598,6 @@ msgstr "இந்தக் கோப்பு %s பதிப்பால், %d
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (அளவீடு மட்டும்: எதுவும் எழுதப்படவில்லை)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (அளவீடு மட்டும்: API விசை இல்லாமல் இங்கே நிற்கிறது)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  கசிவுக்கு எதிரான சரிபார்ப்பு -- அடிப்படை %s:"
 
@@ -5166,3 +5163,12 @@ msgstr "  %s: அதன் கடிகாரம் %s என்கிறது,
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s இரண்டு கேமராக்களில் உள்ளார்: டிராக்கின்படி %s, குரலின்படி %s. குரலே முன்னுரிமை பெறுகிறது, எனவே வெட்டு %s-ஐ %s-இல் மட்டுமே காட்டுகிறது."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  இந்தக் கணினியில் வைக்கப்பட்ட அளவீட்டிலிருந்து எடுக்கப்பட்டது: அதே கோப்புகள், அதே அமைப்புகள், எனவே எதுவும் மீண்டும் அளவிடப்படவில்லை."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nபேச்சாளர்கள் -- முன்பே அளவிடப்பட்டவை"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  இந்தக் கணினியில் வைக்கப்பட்ட அளவீட்டிலிருந்து எடுக்கப்பட்டது: அதே பதிவுகள், இடங்கள், நேரச் சாளரம்."

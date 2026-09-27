@@ -571,9 +571,6 @@ msgstr "이 파일은 버전 %s에서 형식 %d(으)로 기록되었습니다. �
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (측정만: 아무것도 기록하지 않음)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (측정만: API 키가 없으면 여기서 멈춥니다)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  블리드로 확인 -- 기준은 %s:"
 
@@ -5118,3 +5115,12 @@ msgstr "  %s: 시계는 %s, 소리 측정값은 %s -- 차이 %s초, 측정값을
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s은(는) 두 카메라에 배정되어 있습니다: 트랙으로는 %s, 목소리로는 %s. 목소리가 우선하므로 편집은 %s을(를) %s에만 보여 줍니다."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  이 컴퓨터에 보관된 측정에서 가져옴: 같은 파일과 설정이므로 다시 측정하지 않습니다."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\n화자 -- 이전에 측정"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  이 컴퓨터에 보관된 측정에서 가져옴: 같은 녹음, 위치, 시간 구간."

@@ -2328,9 +2328,6 @@ msgstr "  साझा खिड़की:  %s से %s (%s)"
 msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
 msgstr "    %s से शुरू और %s पर समाप्त -- वह हिस्सा जो हर कैमरे ने देखा"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (केवल माप: API कुंजी के बिना यहीं रुकता है)"
-
 msgid "\nMIXING"
 msgstr "\nमिश्रण"
 
@@ -5163,3 +5160,12 @@ msgstr "  %s: उसकी घड़ी कहती है %s, ध्वनि 
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s दो कैमरों पर है: ट्रैक के अनुसार %s, आवाज़ के अनुसार %s। आवाज़ मान्य होती है, इसलिए कट %s को केवल %s पर दिखाता है।"
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  इस मशीन पर रखे माप से लिया गया: वही फ़ाइलें और सेटिंग्स, इसलिए कुछ भी फिर से नहीं मापा जाता।"
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nवक्ता -- पहले मापे गए"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  इस मशीन पर रखे माप से लिया गया: वही रिकॉर्डिंग, स्थान और समय-खिड़की।"

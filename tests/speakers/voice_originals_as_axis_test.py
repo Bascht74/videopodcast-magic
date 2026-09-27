@@ -6,8 +6,8 @@ off the block grid, the guest's later and on a clock of its own. In
 order: the originals read at their place against the same tracks
 written onto the axis, each speaker against where the turns were put,
 nothing outside the window heard, and the run's own step -- after the
-separation step it reads the originals, with the tracks on the axis
-silenced. The guest's clock is five in a thousand, far past a real one,
+separation, who speaks when over the cut's window reads the originals,
+with the tracks on the axis silenced. The guest's clock is five in a thousand, far past a real one,
 so a clock left out shows at a tenth of a second.
 """
 PLATFORM_BOUND = True
@@ -136,14 +136,15 @@ check("no speech is heard before or after the cut's window",
 
 print("\n4. The run's step reads the originals")
 # The tracks on the axis are silenced: whatever is heard now came off
-# the originals. The separation step is where the run learns its window.
+# the originals. Who speaks when is asked with the window, as the run
+# asks it.
 for t in tracks:
     vpm.place_track_on_axis(t["source"], t["axis"], 0.0, 1.0, 1e6,
                             1e6 + T1 - T0, False)
 args = argparse.Namespace(no_speakers_local=True)
 with contextlib.redirect_stdout(io.StringIO()):
     vpm.separation_for_run(args, tracks, {}, T0, T1)
-    got = dict(vpm.speakers_for_the_cut(args, tracks))
+    got = dict(vpm.speakers_of_the_run(args, tracks, (T0, T1)))
 far = worst(got.get("Host", []), in_window("Host"))
 check("after the separation step the run reads each recording itself",
       far <= EDGE and worst(got.get("Guest", []), in_window("Guest"))

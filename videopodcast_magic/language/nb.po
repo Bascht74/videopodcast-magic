@@ -571,9 +571,6 @@ msgstr "Denne filen ble skrevet av versjon %s i format %d; denne skriver format 
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (bare måling: ingenting skrevet)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (bare måling: uten API-nøkkel stopper det her)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontroll mot overhøringen -- referanse er %s:"
 
@@ -5162,3 +5159,12 @@ msgstr "  %s: klokken sier %s, lyden målte %s -- %s s fra hverandre; målingen 
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s er på to kameraer: %s ifølge sporet, %s ifølge stemmen. Stemmen gjelder, så klippet viser %s bare på %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Hentet fra målingen lagret på denne maskinen: samme filer og innstillinger, så ingenting måles på nytt."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nTALERE -- MÅLT TIDLIGERE"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Hentet fra målingen lagret på denne maskinen: samme opptak, plasseringer og tidsvindu."

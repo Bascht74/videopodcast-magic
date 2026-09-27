@@ -319,7 +319,8 @@ for where, node in everywhere():
         required = len(node.args.args) - len(node.args.defaults)
         functions.setdefault(node.name, []).append(
             (required, len(node.args.args), node.args.vararg is not None,
-             set(a.arg for a in node.args.args + node.args.kwonlyargs)))
+             set(a.arg for a in node.args.args + node.args.kwonlyargs),
+             node.args.kwarg is not None))
 
 
 def own_names(fn):
@@ -417,7 +418,8 @@ for where, node, bound in calls_with_scope():
     if len(sig) != 1:
         passed_over += 1
         continue
-    required, max_args, star, names = sig[0]
+    # A **kwargs takes any name: stage_key(stage, files, **inputs).
+    required, max_args, star, names, any_name = sig[0]
     n = len(node.args)
     kw = set(x.arg for x in node.keywords if x.arg)
     if any(x.arg is None for x in node.keywords) \
@@ -431,7 +433,7 @@ for where, node, bound in calls_with_scope():
     elif n + len(kw) < required:
         bad_calls.append((at, node.func.id, "too few: %d of %d"
                           % (n + len(kw), required)))
-    elif kw - names:
+    elif kw - names and not any_name:
         bad_calls.append((at, node.func.id,
                           "unknown: %s" % sorted(kw - names)))
 # The three counts are the reach: a section that judges nothing is

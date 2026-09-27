@@ -598,9 +598,6 @@ msgstr "این فایل با نسخه %s در قالب %d نوشته شده اس
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (فقط اندازه‌گیری: چیزی نوشته نشد)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (فقط اندازه‌گیری: بدون کلید API همین‌جا متوقف می‌شود)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  بررسی در برابر نشت صدا -- مرجع %s است:"
 
@@ -5165,3 +5162,12 @@ msgstr "  %s: ساعتش می‌گوید %s، صدا %s را اندازه گرف
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s روی دو دوربین است: %s بر اساس ترک، %s بر اساس صدا. صدا اولویت دارد، پس برش %s را فقط روی %s نشان می‌دهد."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  از اندازه‌گیری نگه‌داشته‌شده روی همین رایانه برداشته شد: همان پرونده‌ها و تنظیمات، پس چیزی دوباره اندازه‌گیری نمی‌شود."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nگویندگان -- پیش‌تر اندازه‌گیری‌شده"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  از اندازه‌گیری نگه‌داشته‌شده روی همین رایانه برداشته شد: همان ضبط‌ها، جایگاه‌ها و بازهٔ زمانی."

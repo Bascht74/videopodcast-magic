@@ -115,7 +115,7 @@ vpm.stage_put(key([FIRST, SECOND]), KEPT)
 measured = []
 
 
-def measure_stand_in(paths, tc_of=None, HOP=5.0, phase_of=None):
+def measure_stand_in(paths, tc_of=None, HOP=5.0, phase_of=None, raw=None):
     """An axis at once: each file a second and a half after the last."""
     measured.append(sorted(os.path.basename(p) for p in paths))
     ordered = sorted(paths, key=vpm.path_key)

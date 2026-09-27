@@ -573,9 +573,6 @@ msgstr "Ову датотеку је записала верзија %s у фо�
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (само мерење: ништа није записано)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (само мерење: без API кључа стаје овде)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Провера преко преслушавања -- референца је %s:"
 
@@ -5207,3 +5204,12 @@ msgstr "  %s: њен сат каже %s, звук је измерио %s -- ра
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s је на две камере: %s по траци, %s по гласу. Глас има предност, па рез приказује %s само на %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Преузето из мерења сачуваног на овом рачунару: исте датотеке и подешавања, па се ништа не мери изнова."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nГОВОРНИЦИ -- ИЗМЕРЕНИ РАНИЈЕ"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Преузето из мерења сачуваног на овом рачунару: исти снимци, положаји и временски прозор."

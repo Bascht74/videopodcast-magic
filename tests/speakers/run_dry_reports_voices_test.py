@@ -5,7 +5,9 @@ Reading a separation that is already on this machine costs nothing, so
 a dry run may do it: what it must not do is measure. The sections are
 a machine that has never separated this recording, one that has, and
 one whose recording has been written since -- where there is nothing
-to read back and the dry run measures nothing again.
+to read back and the dry run measures nothing again. Where it has, the
+voices are said by who speaks when, the stage after, as on every run
+(speakers_of_the_run), and their heading stands once.
 
 The model is stood in for by a table, so what is counted is who asks
 for it, not what a model hears.
@@ -90,17 +92,24 @@ class Args(object):
         self.__dict__.update(over)
 
 
-def separated(args):
-    """What the separation handed back, and what it wrote to the log."""
-    del asked[:]
+def logged(step):
+    """What *step* hands back, and what it wrote to the log."""
     said = io.StringIO()
     kept, sys.stdout = sys.stdout, said
     try:
-        out, _where = vpm.separation_for_run(args, TRACKS, {}, 0.0, 20.0,
-                                             [CAM])
+        got = step()
     finally:
         sys.stdout = kept
-    return out, said.getvalue()
+    return got, said.getvalue()
+
+
+def separated(args):
+    """What the separation handed back, and what it wrote to the log."""
+    del asked[:]
+    (out, where), log = logged(lambda: vpm.separation_for_run(
+        args, TRACKS, {}, 0.0, 20.0, [CAM]))
+    args._speakers = (out, where)
+    return out, log
 
 
 def forget_stored():
@@ -129,7 +138,8 @@ check("a run without --dry-run measures it once",
       "the model was asked %d times %s and %d voices came back, "
       "wanted once and two" % (len(asked), asked, len(real)))
 
-read_back, log = separated(Args(dry_run=True))
+dry = Args(dry_run=True)
+read_back, log = separated(dry)
 check("a dry run does not measure what is already stored",
       asked == [], "the model was asked %d times %s, wanted none"
       % (len(asked), asked))
@@ -140,6 +150,14 @@ check("and hands the stored voices on rather than nothing",
 check("and does not say it separated nothing",
       vpm.T('  (measuring only: nothing separated)') not in log,
       "the log was %r" % log[-120:])
+# Who speaks when, the stage after, as the dry run goes on to it.
+_segments, then = logged(
+    lambda: vpm.speakers_of_the_run(dry, TRACKS, (0.0, 20.0)))
+log += then
+heading = vpm.as_head(vpm.T('\nSPEAKERS -- SEPARATED BY VOICE'))
+check("the voices' heading stands once, not once per stage",
+      log.count(heading) == 1,
+      "%d times in the log %r" % (log.count(heading), log[-300:]))
 check("and the list stands under the heading the real run gives it",
       vpm.as_head(vpm.T('\nSPEAKERS -- SEPARATED BY VOICE')) in log,
       "the log was %r" % log[-200:])

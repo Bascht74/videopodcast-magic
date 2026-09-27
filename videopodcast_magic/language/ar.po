@@ -2383,9 +2383,6 @@ msgstr "  النافذة المشتركة:  %s إلى %s (%s)"
 msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
 msgstr "    يبدأ بـ %s وينتهي بـ %s -- المقطع الذي رأته كل الكاميرات"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (قياس فقط: بلا مفتاح API يتوقف هنا)"
-
 msgid "\nMIXING"
 msgstr "\nالمزج"
 
@@ -5346,3 +5343,12 @@ msgstr "  %s: ساعته تقول %s، والصوت قاس %s -- الفرق %s �
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s على كاميرتين: %s حسب المسار، و%s حسب الصوت. الصوت هو الذي يُعتمد، لذا يُظهر المونتاج %s على %s فقط."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  مأخوذ من القياس المحفوظ على هذا الجهاز: الملفات والإعدادات نفسها، فلا يُقاس شيء من جديد."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nالمتحدثون -- مقيسون من قبل"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  مأخوذ من القياس المحفوظ على هذا الجهاز: التسجيلات والمواضع والنافذة الزمنية نفسها."

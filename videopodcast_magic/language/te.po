@@ -599,9 +599,6 @@ msgstr "ఈ ఫైల్‌ను వెర్షన్ %s, ఫార్మా�
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (కొలత మాత్రమే: ఏమీ రాయలేదు)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (కొలత మాత్రమే: API కీ లేకుండా ఇక్కడే ఆగుతుంది)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  బ్లీడ్‌పై తనిఖీ -- ఆధారం %s:"
 
@@ -5166,3 +5163,12 @@ msgstr "  %s: దాని గడియారం %s అంటోంది, ఆ�
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s రెండు కెమెరాలపై ఉన్నారు: ట్రాక్ ప్రకారం %s, గొంతు ప్రకారం %s. గొంతుకే ప్రాధాన్యం, కాబట్టి కట్ %s ను %s పై మాత్రమే చూపిస్తుంది."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  ఈ కంప్యూటర్‌లో ఉంచిన కొలత నుంచి తీసుకున్నది: అవే ఫైళ్లు, అవే సెట్టింగ్‌లు, కాబట్టి ఏదీ మళ్లీ కొలవబడదు."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nవక్తలు -- ముందే కొలిచినవి"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  ఈ కంప్యూటర్‌లో ఉంచిన కొలత నుంచి తీసుకున్నది: అవే రికార్డింగ్‌లు, స్థానాలు, సమయ విండో."

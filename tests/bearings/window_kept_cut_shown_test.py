@@ -2,12 +2,14 @@
 """The preview shows a handover a run kept for what is set now.
 
 A dry or full run keeps its handover in the stage store under a key of
-what it was worked from; the preview reads that one first and the file
-the run wrote only where nothing is kept under the key set now. In
-order: which one is read, and when the preview counts as out of date
--- a kept handover not yet shown, one shown, the key moved on. The
-store lies in a cache folder of the test's own; the handovers are
-stand-ins that carry only a word saying where they came from.
+what it was worked from, with the key of the time axis it stood on; the
+preview reads that one first, where that axis is the one the window has
+now, and the file the run wrote otherwise. In order: which one is read,
+and when the preview counts as out of date -- a kept handover not yet
+shown, one shown, the key moved on; then a kept handover on another
+axis, neither read nor out of date. The store lies in a cache folder
+of the test's own; the handovers are stand-ins that carry only a word
+saying where they came from and the axis they stood on.
 """
 PLATFORM_BOUND = True
 import os
@@ -49,8 +51,10 @@ with open(FILE, "w", encoding="utf-8") as f:
 KEY = vpm.stage_key("handover", (), axis="axis_1", in_out=[0.0, 60.0])
 OTHER = vpm.stage_key("handover", (), axis="axis_1", in_out=[0.0, 61.0])
 MOVED = vpm.stage_key("handover", (), axis="axis_2", in_out=[0.0, 60.0])
-vpm.stage_put(KEY, {"came_from": "kept for this key"})
-vpm.stage_put(MOVED, {"came_from": "kept for the next key"})
+AXIS = vpm.stage_key("axis", (), material="these")
+vpm.stage_put(KEY, {"came_from": "kept for this key", "axis_key": AXIS})
+vpm.stage_put(MOVED, {"came_from": "kept for the next key",
+                      "axis_key": AXIS})
 
 
 def word(d):
@@ -60,12 +64,14 @@ def word(d):
 #------------------------------------------------------ which one is read
 
 print("which handover the preview reads")
-state = {"handover_key": KEY, "resolve_json": FILE}
+state = {"handover_key": KEY, "resolve_json": FILE,
+         "axis_stage_key": AXIS}
 got = word(vpm.preview_handover(state))
 check("a handover kept for the key set now is what the preview reads",
       got == "kept for this key",
       "read %r, wanted 'kept for this key'" % got)
-state_other = {"handover_key": OTHER, "resolve_json": FILE}
+state_other = {"handover_key": OTHER, "resolve_json": FILE,
+               "axis_stage_key": AXIS}
 got = word(vpm.preview_handover(state_other))
 check("with nothing kept under the key the run's file is read as before",
       got == "the run's file", "read %r, wanted 'the run's file'" % got)
@@ -74,7 +80,7 @@ check("with nothing kept under the key the run's file is read as before",
 
 print("\nwhen the preview is out of date")
 before = {"handover_key": KEY, "resolve_json": FILE, "statistics": {"n": 1},
-          "preview_from": vpm.handover_mark(FILE)}
+          "preview_from": vpm.handover_mark(FILE), "axis_stage_key": AXIS}
 check("a kept handover not yet shown puts the preview out of date",
       vpm.preview_out_of_date(before) is True,
       "answered %r with the run's file shown" % vpm.preview_out_of_date(
@@ -89,6 +95,20 @@ check("a key moved on to another kept handover is out of date again",
       vpm.preview_out_of_date(state) is True,
       "answered %r, shown from %r" % (vpm.preview_out_of_date(state),
                                       state.get("preview_from")))
+
+#----------------------------------------------- one on another time axis
+
+print("\na kept handover on another time axis")
+elsewhere = {"handover_key": KEY, "resolve_json": FILE,
+             "axis_stage_key": vpm.stage_key("axis", (), material="others")}
+got = word(vpm.preview_handover(elsewhere))
+check("a kept handover on other files than the window's is not read",
+      got == "the run's file", "read %r, wanted 'the run's file'" % got)
+elsewhere.update(statistics={"n": 1}, preview_from=vpm.handover_mark(FILE))
+check("nor does it put the preview out of date",
+      vpm.preview_out_of_date(elsewhere) is False,
+      "answered %r with the run's file shown" % vpm.preview_out_of_date(
+          elsewhere))
 
 shutil.rmtree(WORK, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

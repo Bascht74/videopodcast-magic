@@ -600,9 +600,6 @@ msgstr "Šo failu ierakstīja versija %s formātā %d; šī versija raksta form�
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (tikai mērīšana: nekas nav ierakstīts)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (tikai mērīšana: bez API atslēgas šeit apstājas)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Pārbaude pēc skaņas noplūdes -- atsauces celiņš %s:"
 
@@ -5211,3 +5208,12 @@ msgstr "  %s: tā pulkstenis rāda %s, skaņa izmērīja %s -- atšķirība %s s
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s ir divās kamerās: %s pēc celiņa, %s pēc balss. Noteicošā ir balss, tāpēc griezums rāda %s tikai kamerā %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Ņemts no šajā datorā saglabātā mērījuma: tie paši faili un iestatījumi, tāpēc nekas netiek mērīts no jauna."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nRUNĀTĀJI -- IZMĒRĪTI IEPRIEKŠ"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Ņemts no šajā datorā saglabātā mērījuma: tie paši ieraksti, vietas un laika logs."

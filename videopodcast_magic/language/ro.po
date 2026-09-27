@@ -573,9 +573,6 @@ msgstr "Acest fișier a fost scris de versiunea %s în formatul %d; aceasta scri
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (doar măsurare: nu s-a scris nimic)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (doar măsurare: fără un API key se oprește aici)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Verificare pe baza diafoniei -- referința este %s:"
 
@@ -5207,3 +5204,12 @@ msgstr "  %s: ceasul ei spune %s, sunetul a măsurat %s -- diferență de %s s; 
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s este pe două camere: %s după pistă, %s după voce. Vocea are prioritate, așa că montajul îl arată pe %s doar pe %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Preluat din măsurătoarea păstrată pe acest calculator: aceleași fișiere și setări, deci nimic nu se măsoară din nou."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nVORBITORI -- MĂSURAȚI ANTERIOR"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Preluat din măsurătoarea păstrată pe acest calculator: aceleași înregistrări, poziții și fereastră de timp."
