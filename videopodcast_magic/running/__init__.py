@@ -20,6 +20,7 @@ CAMERA_TYPES = PROGRAM.CAMERA_TYPES
 T = PROGRAM.T
 TN = PROGRAM.TN
 as_data_size = PROGRAM.as_data_size
+camera_audio_pulled = PROGRAM.camera_audio_pulled
 camera_shortfall_lines = PROGRAM.camera_shortfall_lines
 json = PROGRAM.json
 label_of = PROGRAM.label_of
@@ -382,8 +383,9 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         only_resolve.setEnabled(False)
         start_run.setText(T('Preview running ...') if only_look else T('running ...'))
         state["running"], state["dry_run"] = True, bool(only_look)
-        # Held now: the preset box can be turned while the run goes on.
-        state["run_auphonic"] = not without_auphonic()
+        # What the bar plans for: the run pulls a camera's audio wherever
+        # the plan makes it a track, tick or no tick.
+        state["run_camera_audio"] = camera_audio_pulled(wishes)
         PROGRAM.break_off_arm(window.break_off)
         # The plan is built, the result buttons follow, and the project
         # file is written -- but not by a dry run, which says it left

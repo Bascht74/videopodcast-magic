@@ -1215,9 +1215,8 @@ gap was always far under the shortest shot.
 
 `state["cut_basis"]` is set on every pass of the preview, before
 anything is computed: `"run"` where this window's own handover file was
-read, `"auphonic"` where that run went over auphonic.com
-(`state["run_auphonic"]`, held when **Start** is pressed, so turning the
-preset box afterwards cannot change the answer), otherwise `"measured"`.
+read, otherwise `"measured"`. A `"auphonic"` kept by an older project
+file is read like `"run"`; nothing writes it any more.
 `cut_basis_line` turns it into the sentence and the colour -- warning
 for `"measured"`, good for the other two.
 

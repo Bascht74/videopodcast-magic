@@ -3232,7 +3232,6 @@ def make_band_and_player(Qt, QtCore, QtGui, QtWidgets, QtMultimedia,
     forecast_outer.addWidget(band_legend)
 
     def band_spot_chosen(t):
-        state["band_spot"] = t
         cut_band.label_set(t)
         try:
             cut_player.jump(t)

@@ -45,7 +45,8 @@ separation_has_voices = PROGRAM.separation_has_voices
 
 # The switches that need several recordings. Everything else works on
 # any run since the two paths became one -- the assignment file too.
-ONLY_MULTITRACK = ("auphonic_resume", "multitrack")
+# Not --multitrack itself: a switch marked as needing itself says nothing.
+ONLY_MULTITRACK = ("auphonic_resume",)
 
 
 #--------------------------------------- Out of the window into an order

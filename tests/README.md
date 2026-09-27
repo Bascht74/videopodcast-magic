@@ -1,6 +1,6 @@
 # The test suite
 
-439 tests against the program in `../videopodcast_magic/`. Every one of them stands
+441 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -249,7 +249,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-439 tests. The name is the one a red line carries, and beside it the
+441 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -568,6 +568,7 @@ it is green.
 | `window_note_reason_true` | The note beside a file with no place gives the reason that is true. |
 | `window_notes_break_up` | A note too long for its place breaks into lines, and its box gives. |
 | `window_offers_restart` | The window offers to start again when another language is chosen. |
+| `window_output_no_debug` | The window's own [GUI] lines reach the log file, never the Output tab. |
 | `window_overwrite_asked` | A camera file already written is asked about before a run starts. |
 | `window_pair_said_apart` | The window names the second of a pair '(2)' in its intro sentences. |
 | `window_picture_returns` | A refused format does not outlive the attempt it was about. |
@@ -646,6 +647,7 @@ it is green.
 | `run_bar_never_falls` | The bar neither falls back nor stands still. |
 | `run_bar_tracks_work` | The one bar: weights, creeping, never going backwards, and its line. |
 | `run_cam_fault_no_half` | A camera that cannot be written is named, and leaves no piece behind. |
+| `run_camera_audio_planned` | The bar plans the camera-audio stage exactly when the run pulls it. |
 | `run_choice_kept` | A choice made in one run is found by the next, and by nobody else. |
 | `run_clock_place_travels` | Where its clock places a camera, its own sound and handover follow. |
 | `run_command_built` | run_argv() builds the command line and the plan, or says why not. |
@@ -789,7 +791,7 @@ the source, the texts and the documents as a whole.
 | `project/` | `files_project_first`, `files_project_offered`, `project_close_forgets`, `project_keeps_answers`, `project_leaves_others`, `project_run_comes_back`, `project_settings_return`, `project_ticks_come_back`, `window_restart_carries` |
 | `resolve/` | `cut_all_shots_land`, `cut_colour_per_camera`, `cut_jingle_over_start`, `project_amounts_grouped`, `project_cameras_land`, `project_grades_stay_off`, `project_hdr_follows`, `project_markers_placed`, `project_mix_by_name`, `project_mixed_run_lands`, `project_output_says_hdr`, `project_refusal_heeded`, `project_render_kept`, `project_render_queued`, `project_rerun_updates`, `project_run_lands_whole`, `project_same_offset`, `project_sync_multicam`, `project_tag_reason_fits`, `project_two_stay_two`, `project_two_timelines_go` |
 | `resolvesheet/` | `window_cut_tab_by_voice`, `window_groups_make_room`, `window_split_held_known` |
-| `running/` | `run_assign_file_gone`, `run_dry_leaves_out`, `run_stop_heard_midway`, `run_stop_passes_through`, `run_window_run_agrees`, `window_overwrite_asked`, `window_start_runs`, `window_stop_always` |
+| `running/` | `run_assign_file_gone`, `run_camera_audio_planned`, `run_dry_leaves_out`, `run_stop_heard_midway`, `run_stop_passes_through`, `run_window_run_agrees`, `window_overwrite_asked`, `window_start_runs`, `window_stop_always` |
 | `setup/` | `auphonic_key_by_pipe`, `auphonic_key_in_keyring`, `auphonic_key_kept`, `auphonic_key_reg_shut`, `auphonic_key_typed`, `auphonic_keyring_offered`, `run_ffmpeg_new_enough`, `run_ffmpeg_not_fetched`, `run_ffmpeg_offered`, `run_ffmpeg_sum_checked`, `run_install_is_watched` |
 | `soundings/` | `files_probed_once` |
 | `source/` | `source_checks_proved`, `source_floor_needs_main`, `source_frozen_name_holds`, `source_imported_is_whole`, `source_limits_hold`, `source_line_loads_no_qt`, `source_live_asks_first`, `source_material_stays`, `source_names_said_once`, `source_names_stay_fresh`, `source_needs_lists_agree`, `source_no_loose_ends`, `source_no_real_names`, `source_no_stale_places`, `source_numpy_comes_last`, `source_pictures_seen`, `source_piece_list_holds`, `source_platform_declared`, `source_reds_carry_value`, `source_resolve_door_shut`, `source_resolve_recalled`, `source_sections_named`, `source_skills_resolve`, `source_suite_reads_red`, `source_test_names_swept`, `text_index_targets_exist`, `text_lists_match`, `text_release_has_program`, `text_release_ready`, `text_skills_listed`, `text_tests_listed`, `text_third_party_true` |
@@ -798,7 +800,7 @@ the source, the texts and the documents as a whole.
 | `stowage/` | `files_old_file_refused`, `run_choice_kept` |
 | `timebase/` | `files_cut_without_keys`, `run_cam_fault_no_half`, `time_camera_drift_clear`, `time_colour_own_camera`, `time_lost_end_named`, `time_marks_reach_result` |
 | `timecode/` | `cut_own_rate_counted`, `project_top_rate_wins`, `time_all_ways_agree`, `time_bext_at_own_rate`, `time_clock_read_at_rate`, `time_clock_track_first`, `time_drop_label_kept`, `time_length_is_in_to_out`, `time_one_rate_per_file`, `time_over_midnight` |
-| `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_pair_named_alike`, `table_pair_seats_apart`, `table_sync_stem_shown`, `table_tick_keeps_camera`, `table_typed_name_stays`, `window_all_come_up`, `window_answers_arrive`, `window_bare_start_stands`, `window_captions_fit`, `window_captions_langs1`, `window_captions_langs2`, `window_captions_langs3`, `window_captions_langs4`, `window_captions_langs5`, `window_captions_langs6`, `window_captions_langs7`, `window_captions_langs8`, `window_crash_said`, `window_grey_says_why`, `window_handover_follows`, `window_handover_found`, `window_key_off_line`, `window_marks_moved_grey`, `window_marks_take_spot`, `window_offers_restart`, `window_pair_said_apart`, `window_point_named`, `window_project_type_set`, `window_run_handover_kept`, `window_setup_kept_apart`, `window_sheets_fit`, `window_sound_sync_fixed`, `window_stands_still`, `window_symbol_from_file`, `window_title_follows`, `window_tracks_seen_anew`, `window_voice_audio_heard`, `window_zero_as_run` |
+| `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_pair_named_alike`, `table_pair_seats_apart`, `table_sync_stem_shown`, `table_tick_keeps_camera`, `table_typed_name_stays`, `window_all_come_up`, `window_answers_arrive`, `window_bare_start_stands`, `window_captions_fit`, `window_captions_langs1`, `window_captions_langs2`, `window_captions_langs3`, `window_captions_langs4`, `window_captions_langs5`, `window_captions_langs6`, `window_captions_langs7`, `window_captions_langs8`, `window_crash_said`, `window_grey_says_why`, `window_handover_follows`, `window_handover_found`, `window_key_off_line`, `window_marks_moved_grey`, `window_marks_take_spot`, `window_offers_restart`, `window_output_no_debug`, `window_pair_said_apart`, `window_point_named`, `window_project_type_set`, `window_run_handover_kept`, `window_setup_kept_apart`, `window_sheets_fit`, `window_sound_sync_fixed`, `window_stands_still`, `window_symbol_from_file`, `window_title_follows`, `window_tracks_seen_anew`, `window_voice_audio_heard`, `window_zero_as_run` |
 | `upkeep/` | `run_only_newer_offered`, `run_update_says_it_landed`, `run_way_back_offered` |
 | `workbench/` | `run_threads_keep_order` |
 
