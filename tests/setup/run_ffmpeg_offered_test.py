@@ -11,7 +11,8 @@ The sections in order: a way on every system; what a test run may do,
 which is nothing; the note about soxr following the measurement rather
 than the hope; that an install throws the old measurement away before
 it reports; and what an archive is allowed to give up, which is the
-two programs, runnable, and nothing else. Whether a file may be run is
+two programs, runnable, and nothing else -- and an archive holding one
+of them twice gives up nothing at all. Whether a file may be run is
 asked of each system in its own terms -- Unix answers with the owner's
 execute bit, Windows with the ending, and a mode says nothing there.
 No connection is ever opened -- the one function that would open it is
@@ -326,15 +327,20 @@ WORK = tempfile.mkdtemp(prefix="vpm_ffbuild_")
 # file that could really run.
 EXE = ".exe" if sys.platform == "win32" else ""
 BOTH = ["ffmpeg" + EXE, "ffprobe" + EXE]
-INSIDE = ["build/bin/ffmpeg" + EXE, "build/bin/ffprobe" + EXE,
-          "build/bin/ffplay" + EXE,
+INSIDE = ["build/bin/ffprobe" + EXE, "build/bin/ffplay" + EXE,
           "build/doc/general.html", "build/LICENSE.txt",
           # A path that tries to climb out of the folder it is
           # unpacked into. Nothing in an archive may decide where a
           # file lands, so this one has to end up beside the others.
           # One step up and no more, so that a broken version writes
-          # into the test's own folder and not into the machine.
+          # into the test's own folder and not into the machine. It is
+          # the only ffmpeg in here: a second one beside it would make
+          # the archive one that is refused whole, the last block below.
           "../ffmpeg" + EXE]
+# The same programs, and ffmpeg twice under two paths. Before 27.9.2026
+# the later one was taken and quietly replaced the earlier.
+TWICE = ["build/bin/ffmpeg" + EXE, "build/bin/ffprobe" + EXE,
+         "other/ffmpeg" + EXE]
 
 
 def may_be_started(path):
@@ -351,17 +357,17 @@ def may_be_started(path):
     return os.access(path, os.X_OK)
 
 
-def build_zip(where):
+def build_zip(where, inside=INSIDE):
     with zipfile.ZipFile(where, "w") as zf:
-        for name in INSIDE:
+        for name in inside:
             zf.writestr(name, b"not really a program\n")
     return where
 
 
-def build_tar(where):
+def build_tar(where, inside=INSIDE):
     plain = os.path.join(WORK, "plain.tar")
     with tarfile.open(plain, "w") as tf:
-        for name in INSIDE:
+        for name in inside:
             info = tarfile.TarInfo(name)
             info.size = 21
             tf.addfile(info, io.BytesIO(b"not really a program\n"))
@@ -385,17 +391,35 @@ try:
     runnable = [may_be_started(os.path.join(out_zip, n)) for n in left_zip]
     modes = [oct(os.stat(os.path.join(out_zip, n)).st_mode & 0o777)
              for n in left_zip]
+
+    def refused(build, name):
+        """What unpack_tools answered for an archive holding ffmpeg twice.
+
+        The answer, or the sentence it refused with, and what it left
+        in the folder -- which has to be nothing at all.
+        """
+        out = os.path.join(WORK, "out_" + name)
+        os.makedirs(out)
+        try:
+            said = m.unpack_tools(build(os.path.join(WORK, name), TWICE),
+                                  out)
+        except ValueError as e:
+            said = str(e)
+        return said, sorted(os.listdir(out))
+
+    twice_zip = refused(build_zip, "twice.zip")
+    twice_tar = refused(build_tar, "twice.tar.xz")
 finally:
     shutil.rmtree(WORK, ignore_errors=True)
 
 check("a zip gives up ffmpeg and ffprobe and nothing beside them",
-      left_zip == BOTH and from_zip == 3,
-      "it left %r behind and reported %d files, wanted %r and 3 -- "
+      left_zip == BOTH and from_zip == 2,
+      "it left %r behind and reported %d files, wanted %r and 2 -- "
       "ffplay, the documentation and the licence are 150 MB of what "
       "nobody asked for" % (left_zip, from_zip, BOTH))
 check("a tar gives up the same two and nothing beside them",
-      left_tar == BOTH and from_tar == 3,
-      "it left %r behind and reported %d files, wanted %r and 3"
+      left_tar == BOTH and from_tar == 2,
+      "it left %r behind and reported %d files, wanted %r and 2"
       % (left_tar, from_tar, BOTH))
 check("a path in the archive cannot decide where a file lands",
       outside is False,
@@ -408,6 +432,18 @@ check("and what is unpacked may be started on this system",
       "permission and no ending anybody can rely on, so the program has "
       "to give it what this system starts a file by"
       % (sys.platform, runnable, left_zip, modes))
+# Which of two entries of the same name would land is again the
+# archive's choice, so neither does: nothing at all comes out.
+REFUSAL = m.T('The archive holds %s more than once, so nothing was '
+              'taken out of it.') % ("ffmpeg" + EXE)
+check("a zip holding ffmpeg twice is refused whole, not the last taken",
+      twice_zip == (REFUSAL, []),
+      "it answered %r and left %r in the folder, wanted the refusal and "
+      "an empty folder -- entries %r" % (twice_zip[0], twice_zip[1], TWICE))
+check("a tar holding ffmpeg twice is refused whole, not the last taken",
+      twice_tar == (REFUSAL, []),
+      "it answered %r and left %r in the folder, wanted the refusal and "
+      "an empty folder -- entries %r" % (twice_tar[0], twice_tar[1], TWICE))
 
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
