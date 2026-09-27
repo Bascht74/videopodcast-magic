@@ -420,7 +420,8 @@ def speakers_to_cameras(assign_lines, voice_lines, own_rows=(), cameras=(),
     """Who is on which camera, {name: camera file}, as the run reads it.
 
     The rows go in as the window hands them to the run and run_plan and
-    voices_of_values answer: the preview has no rule of its own to drift.
+    voices_of_values answer: the Kind field's wide shot has no rule of
+    its own to drift.
     *own_rows* are the rows of a camera's own sound, *cameras* the files.
     """
     videos = list(cameras) or sorted(set(

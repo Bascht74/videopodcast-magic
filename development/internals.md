@@ -45,7 +45,7 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3294** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3355** -- who is on camera when, and what carries it out
+* `cut/` **3350** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2430** -- the DaVinci Resolve project, timelines, colour,
@@ -80,7 +80,7 @@ figure of the day is that command, not this paragraph**:
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **1023** -- the command line a run is given: written out of
+* `orders/` **1024** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
@@ -687,7 +687,7 @@ way every window in this table was found.
 | `speakers/` | everything about a voice is in it, so it is bound widest: the window takes 10 of its names, the cut 13, `timebase/` five, `project/` four, and `orders/` and three pieces the window reads one each -- counted 7.9.2026 | before all of them |
 | `project/` | binds four names of `speakers/` and reaches five of the window's through `PROGRAM.`; `ui/` binds `make_project_file` and `project_state_read` at its head, `filelist/` binds `project_offer` | directly under the separation, and both edges are measured: one read-block earlier the loader stops at `speakers_all_from_project`, below the window's own read it stops on `make_project_file`. Every position between the two loads |
 | `resolve/` | binds 40 names in all -- `hint`, `label` and `speaks_as` among them, for the box in the window that stands at its foot; `cut/` binds one of its own and `ui/` two, the frame-rate names they and `timebase/` took out of it standing in `timecode/` since 27.9.2026, seven of which it binds back; `LOG_MARKERS`, `_marker_stands_alone` and the four colour-space spellings it binds back out of `colour/`, `CLIP_COLOURS` and `colour_per_camera` out of `livery/` and `audio_track_count` out of `metadata/` -- all six moved out on 27.9.2026, all read above it. `refresh_cut_list` sits in `cut/`, read 29 lines below it, so it carries no head line for it and reads `PROGRAM.refresh_cut_list` at the call | here, and not where it is first used |
-| `cut/` | the window binds 13 of its names -- `wide_shot_barred` came out of it on 7.9.2026 and stands beside `wide_cameras_of` now -- `timebase/` six, `pipeline/` one, `orders/` two and `player/` one; who speaks is not its subject and it binds 13 names of `speakers/` at its own head, one of `resolve/`, four of `loudness/`, `CLIP_COLOURS` and `colour_per_camera` of `livery/`, `hdr_from_sources` of `colour/` and 93 in all. `resolve/`, read above it, reaches its `refresh_cut_list` through `PROGRAM.` | before the line that reads the window |
+| `cut/` | the window binds 12 of its names -- `wide_shot_barred` came out of it on 7.9.2026 and stands beside `wide_cameras_of` now -- `timebase/` six, `pipeline/` one, `orders/` two and `player/` one; who speaks is not its subject and it binds 13 names of `speakers/` at its own head, one of `resolve/`, four of `loudness/`, `CLIP_COLOURS` and `colour_per_camera` of `livery/`, `hdr_from_sources` of `colour/` and 93 in all. `resolve/`, read above it, reaches its `refresh_cut_list` through `PROGRAM.` | before the line that reads the window |
 | `timebase/` | 109 head lines, `CAMERA_MARGIN_S` of the material among them for the four that write a camera file, which stand here since 27.9.2026; six of the cut's names -- the cut list, the handover, the metrics and `sync_only` among them -- and five of the speakers' -- who asks, who was named, what a run separated; `pipeline/` binds four of its names back (`build_common_timebase`, `camera_targets`, `track_name_of`, `tracks_per_camera`), `running/` binds `targets_to_ask` | after the cut, before the chain |
 | `pipeline/` | binds one of the cut's names and four of the time base's; `prework/`, which the window reads, binds its `unpack_kind` | after the time base, before the window |
 | `orders/` | its head binds `MIN_SPEECH_TO_SWITCH_S` and `WIDE_AFTER_S` out of the cut just above | this late for that reason. The window asks `beside()` for the same piece and is handed this one, read already |

@@ -52,7 +52,6 @@ as_bad = PROGRAM.as_bad
 as_good = PROGRAM.as_good
 as_head = PROGRAM.as_head
 beside = PROGRAM.beside
-cameras_with_a_speaker = PROGRAM.cameras_with_a_speaker
 cameras_with_own_audio = PROGRAM.cameras_with_own_audio
 colours_pick = PROGRAM.colours_pick
 desktop_is_dark = PROGRAM.desktop_is_dark
@@ -121,7 +120,7 @@ voice_key_parts = PROGRAM.voice_key_parts
 voice_names_clashing = PROGRAM.voice_names_clashing
 warn_box = PROGRAM.warn_box
 weak_marks_show = PROGRAM.weak_marks_show
-wide_cameras_of = PROGRAM.wide_cameras_of
+wide_cameras_seen = PROGRAM.wide_cameras_seen
 wide_shot_barred = PROGRAM.wide_shot_barred
 
 
@@ -1934,8 +1933,8 @@ def audio_under_camera(camera_path, kind_of, done,
         if name in done:
             return [done[name]]
     # Before the mix exists, one recording that carries every voice is
-    # the whole conversation. A speaker read as cut.cameras_with_a_speaker
-    # reads one, so a camera's own sound with a name on it carries too.
+    # the whole conversation. A camera's own sound with a name on it
+    # carries too: the run seats a speaker there as on any recording.
     carriers = set(source for source, nv, cv in rows
                    if source and nv.get().strip()
                    and cv.get() not in (MIX_ONLY, IGNORE_AUDIO))
@@ -2617,11 +2616,12 @@ def gui():
         Kept in state as well: the preview needs the same answer, and it
         lives in another part of the window.
         """
-        return wide_cameras_of(files, clip_kind_values, remembered,
-                               cameras_with_a_speaker(
-                                   assign_lines, voice_lines,
-                                   state.get("voiced") or ()),
-                               state.get("no_place") or (), PROGRAM.sync_only(state))
+        return wide_cameras_seen(files, clip_kind_values, remembered,
+                                 assign_lines, voice_lines,
+                                 state.get("own_audio_rows") or (),
+                                 bool(state.get("camera_audio")),
+                                 state.get("no_place") or (),
+                                 PROGRAM.sync_only(state))
 
     state["wide_cameras_now"] = wide_cameras_now
 
