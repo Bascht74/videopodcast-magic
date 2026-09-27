@@ -1,6 +1,6 @@
 # The test suite
 
-470 tests against the program in `../videopodcast_magic/`. Every one of them stands
+471 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -249,7 +249,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-470 tests. The name is the one a red line carries, and beside it the
+471 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -457,6 +457,7 @@ it is green.
 | `cut_preview_no_own_work` | The cut tab's preview measures and builds nothing of its own. |
 | `cut_preview_seats_as_run` | The preview seats every speaker on the camera the run seats them on. |
 | `cut_rebuild_keeps_all` | Rebuilding the cut list keeps every setting the project file holds. |
+| `cut_recut_keeps_dips` | A slider's recut cuts at the same sound dips a full dry run cuts at. |
 | `cut_right_camera` | Is the cut true: the right camera, and every time rule kept? |
 | `cut_rules_hold` | The cut rules: when the camera follows, and what it shows instead. |
 | `cut_short_edges_kept` | A too long wide edge is shortened, to a third or the latest setting. |
@@ -797,7 +798,7 @@ the source, the texts and the documents as a whole.
 | `auphonic/` | `auphonic_credit_said`, `auphonic_jingle_cut_away`, `auphonic_key_answer_fits`, `auphonic_key_out_of_view`, `auphonic_kind_one_rule`, `auphonic_may_be_skipped`, `auphonic_mono_not_stereo`, `auphonic_names_stay_in`, `auphonic_none_chosen`, `auphonic_preset_checked`, `auphonic_run_delivers`, `auphonic_stays_quiet`, `auphonic_unsaved_said`, `project_each_track_set` |
 | `bearings/` | `files_colour_fair`, `files_intro_proposed`, `files_mute_clip_intro`, `files_named_by_folder`, `run_prework_listed`, `sound_camera_counts`, `table_camera_proposed`, `time_axis_is_the_run`, `time_axis_keys_agree`, `time_axis_measured`, `time_block_holds_on`, `time_clock_beats_guess`, `time_fit_reports`, `time_offset_found`, `time_order_same_axis`, `time_preview_fit_as_run`, `time_short_cam_as_run`, `time_tracks_sit_together`, `time_unheard_file_named`, `time_weak_as_run`, `time_weak_at_its_clock`, `window_axis_asks_again`, `window_axis_kept_by_key`, `window_kept_cut_shown`, `window_marks_come_back`, `window_run_beats_kept` |
 | `colour/` | `files_hdr_complete`, `files_named_as_written` |
-| `cut/` | `cut_answer_brought_early`, `cut_both_are_shown`, `cut_edges_said_as_cut`, `cut_edl_says_drop_frame`, `cut_fresh_preview_is_run`, `cut_list_rebuilt`, `cut_no_wide_silences`, `cut_one_camera_marks`, `cut_one_turn_one_edge`, `cut_opening_wide_holds`, `cut_preview_is_the_run`, `cut_preview_no_own_work`, `cut_preview_seats_as_run`, `cut_rebuild_keeps_all`, `cut_right_camera`, `cut_rules_hold`, `cut_short_edges_kept`, `cut_slider_recuts_only`, `cut_speech_time_fits`, `cut_stored_voices_used`, `cut_three_cuts_agree`, `cut_together_read_order`, `cut_voice_on_its_camera`, `cut_voice_seat_wins`, `cut_wide_not_on_speech`, `cut_window_cut_as_whole`, `project_errors_reach_run`, `project_every_offset`, `project_handover_built`, `project_real_frame`, `run_metrics_add_up`, `table_names_one_order`, `table_names_reach_camera`, `table_no_place_not_wide`, `table_sync_keeps_stem`, `table_sync_none_derived`, `table_wide_is_the_run`, `time_measured_place_wins`, `time_refusal_as_run`, `time_zero_at_in_point`, `window_grey_opens_again` |
+| `cut/` | `cut_answer_brought_early`, `cut_both_are_shown`, `cut_edges_said_as_cut`, `cut_edl_says_drop_frame`, `cut_fresh_preview_is_run`, `cut_list_rebuilt`, `cut_no_wide_silences`, `cut_one_camera_marks`, `cut_one_turn_one_edge`, `cut_opening_wide_holds`, `cut_preview_is_the_run`, `cut_preview_no_own_work`, `cut_preview_seats_as_run`, `cut_rebuild_keeps_all`, `cut_recut_keeps_dips`, `cut_right_camera`, `cut_rules_hold`, `cut_short_edges_kept`, `cut_slider_recuts_only`, `cut_speech_time_fits`, `cut_stored_voices_used`, `cut_three_cuts_agree`, `cut_together_read_order`, `cut_voice_on_its_camera`, `cut_voice_seat_wins`, `cut_wide_not_on_speech`, `cut_window_cut_as_whole`, `project_errors_reach_run`, `project_every_offset`, `project_handover_built`, `project_real_frame`, `run_metrics_add_up`, `table_names_one_order`, `table_names_reach_camera`, `table_no_place_not_wide`, `table_sync_keeps_stem`, `table_sync_none_derived`, `table_wide_is_the_run`, `time_measured_place_wins`, `time_refusal_as_run`, `time_zero_at_in_point`, `window_grey_opens_again` |
 | `desktop/` | `run_shortcut_laid_once`, `run_starter_arch_fits` |
 | `filelist/` | `files_added_alike`, `files_block_out_and_back` |
 | `filesheet/` | `table_row_per_channel` |

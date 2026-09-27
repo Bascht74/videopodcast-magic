@@ -431,10 +431,8 @@ would do -- a file, a name, a camera, In point or Out point -- sets it
 going again a moment later, and the time axis is measured again only
 where a file changed. A changed cut value works out
 the cut alone again, over what the last run left, and stands almost at
-once. One thing that quick way goes without: the dip in the sound that
-places a wide shot to the frame. Until the next run the preview then
-places it on the sentence boundary alone, which can put it up to half a
-second beside where the run puts it.
+once -- at the same dips in the sound a full run would cut at: the run
+keeps the level of its sound for that, and one copy per material.
 
 A preview's run that fails is not repeated for the same settings -- it
 would fail the same way and cost the same minutes. **Start**, **Dry
