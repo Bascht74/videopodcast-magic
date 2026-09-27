@@ -1,6 +1,6 @@
 # The test suite
 
-440 tests against the program in `../videopodcast_magic/`. Every one of them stands
+441 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -249,7 +249,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-440 tests. The name is the one a red line carries, and beside it the
+441 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -607,6 +607,7 @@ it is green.
 | `window_tracks_seen_anew` | The window looks for finished tracks again after a run and a reset. |
 | `window_view_reaches_tabs` | The View menu reaches every tab that stands, by name and by key. |
 | `window_voice_audio_heard` | A camera hears its voice; the wide shot, the one recording of every voice. |
+| `window_words_all_blocks` | The window writes down the words of every block of a split recording. |
 | `window_words_caught_up` | The window writes its own transcript once the axis stands, and uses it. |
 | `window_zero_as_run` | A relative mark means in the window what it means in the run. |
 | `window_zoom_stays_in` | Zoom on the cut band: in, out, and what a press then means. |
@@ -795,7 +796,7 @@ the source, the texts and the documents as a whole.
 | `soundings/` | `files_probed_once` |
 | `source/` | `source_checks_proved`, `source_floor_needs_main`, `source_frozen_name_holds`, `source_imported_is_whole`, `source_limits_hold`, `source_line_loads_no_qt`, `source_live_asks_first`, `source_material_stays`, `source_names_said_once`, `source_names_stay_fresh`, `source_needs_lists_agree`, `source_no_loose_ends`, `source_no_real_names`, `source_no_stale_places`, `source_numpy_comes_last`, `source_pictures_seen`, `source_piece_list_holds`, `source_platform_declared`, `source_reds_carry_value`, `source_resolve_door_shut`, `source_resolve_recalled`, `source_sections_named`, `source_skills_resolve`, `source_suite_reads_red`, `source_test_names_swept`, `text_index_targets_exist`, `text_lists_match`, `text_release_has_program`, `text_release_ready`, `text_skills_listed`, `text_tests_listed`, `text_third_party_true` |
 | `speakers/` | `cut_amounts_grouped`, `cut_own_mic_own_camera`, `run_dry_reports_voices`, `table_back_to_one_name`, `table_heard_name_offered`, `table_row_per_voice`, `voice_answer_kept`, `voice_bleed_gone_first`, `voice_both_splits_stand`, `voice_both_ways_agree`, `voice_close_mics_mixed`, `voice_counts_grouped`, `voice_empty_marks_as_run`, `voice_every_block_heard`, `voice_failed_read_named`, `voice_heard_again_named`, `voice_heard_again_said`, `voice_mhm_is_speech`, `voice_mic_reaches_cut`, `voice_model_main_on_404`, `voice_model_names_inside`, `voice_name_is_one_person`, `voice_names_when_sure`, `voice_questions_rank`, `voice_raw_times_kept`, `voice_reason_reaches_log`, `voice_source_travels`, `voice_split_hears_two`, `voice_split_mends_itself`, `voice_split_names_fault`, `voice_tracks_read_once`, `voice_turns_found`, `voice_zero_all_cameras`, `window_amounts_grouped`, `window_block_misfit_kept`, `window_first_kind_holds`, `window_hears_while_split`, `window_note_names_kind`, `window_note_names_way`, `window_note_reason_true`, `window_speakers_as_run` |
-| `speech/` | `voice_amounts_grouped`, `voice_cue_fits_two_lines`, `voice_every_word_placed`, `voice_language_arrives`, `voice_note_translated`, `voice_onnx_stays_quiet`, `voice_words_intact`, `window_silent_hears_none`, `window_words_caught_up` |
+| `speech/` | `voice_amounts_grouped`, `voice_cue_fits_two_lines`, `voice_every_word_placed`, `voice_language_arrives`, `voice_note_translated`, `voice_onnx_stays_quiet`, `voice_words_intact`, `window_silent_hears_none`, `window_words_all_blocks`, `window_words_caught_up` |
 | `stowage/` | `files_old_file_refused`, `run_choice_kept` |
 | `timebase/` | `files_cut_without_keys`, `run_cam_fault_no_half`, `time_camera_drift_clear`, `time_colour_own_camera`, `time_lost_end_named`, `time_marks_reach_result` |
 | `timecode/` | `cut_own_rate_counted`, `project_top_rate_wins`, `time_all_ways_agree`, `time_bext_at_own_rate`, `time_clock_read_at_rate`, `time_clock_track_first`, `time_drop_label_kept`, `time_length_is_in_to_out`, `time_one_rate_per_file`, `time_over_midnight` |
