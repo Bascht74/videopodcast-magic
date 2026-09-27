@@ -1026,6 +1026,23 @@ def file_content_mark(file_path):
     return mark.hexdigest()
 
 
+def blocks_content_mark(blocks):
+    """What a recording in several blocks holds, as one string.
+
+    Over every block's content and the way they are joined, so a changed
+    join lets go of what was heard through the old one. Never the mark
+    of a single file: a recording in one piece keeps its stored words.
+    "" where a block cannot be read.
+    """
+    marks = [file_content_mark(p) for p in blocks or ()]
+    if not marks or not all(marks):
+        return ""
+    joined = recipe_mark("words of blocks", PROGRAM.recording_decoded,
+                         PROGRAM.recording_whole_file)
+    return hashlib.sha1("\n".join(["blocks"] + marks + [joined])
+                        .encode("utf-8")).hexdigest()
+
+
 def recognise_speech(audio_path, language="", way=""):
     """Write down what is spoken in a file, with a time per word.
 
@@ -1072,17 +1089,21 @@ def listening_unasked():
     return not os.environ.get("VPM_SILENT")
 
 
-def words_at_hand(audio_path, language="", mark=""):
+def words_at_hand(audio_path, language="", mark="", blocks=()):
     """Write the words down with what the machine already has.
 
-    A run may install faster-whisper and fetch a 1.5 GB model: somebody
-    started it and is watching. The window may not: adding files to a
-    list asks for no download. So macOS first, faster-whisper only where
-    a run installed it; [] where nothing can listen or nobody may (see
-    listening_unasked). *mark* files a mix under its sources, not content.
+    A run may install faster-whisper and fetch a 1.5 GB model; the window
+    may not, adding files asks for no download. So macOS first, Whisper
+    only where a run installed it; [] where nothing can or may listen.
+    *mark* files a mix under its sources; *blocks* of one recording are
+    heard joined, as the separation hears them, on the whole one's time.
     """
     started = time.time()
-    mark = mark or file_content_mark(audio_path)
+    whole = [p for p in blocks or () if p]
+    whole = whole if len(whole) > 1 else []
+    if not mark:
+        mark = (blocks_content_mark(whole) if whole
+                else file_content_mark(audio_path))
     words, took = words_stored(mark, language,
                                [name for _wanted, name in WORD_WAYS])
     if words is not None:
@@ -1091,11 +1112,16 @@ def words_at_hand(audio_path, language="", mark=""):
         return words
     if not listening_unasked():
         return []
-    words = macos_words(audio_path, language)
-    took = "macOS"
-    if words is None:
-        words = whisper_words(audio_path, language, install=False)
-        took = WHISPER_MODEL
+    heard = PROGRAM.recording_whole_file(whole) if whole else audio_path
+    try:
+        words = macos_words(heard, language)
+        took = "macOS"
+        if words is None:
+            words = whisper_words(heard, language, install=False)
+            took = WHISPER_MODEL
+    finally:
+        if heard != audio_path:
+            PROGRAM.remove_quietly(heard)
     if words is None:
         return []
     words_cache_write(mark, language, took, words)
@@ -1105,23 +1131,25 @@ def words_at_hand(audio_path, language="", mark=""):
     return words
 
 
-def speech_words_work(source, language, done):
+def speech_words_work(source, language, done, blocks=()):
     """One recognition of one recording, in a thread of its own."""
     try:
-        words = words_at_hand(source, language)
+        words = words_at_hand(source, language, blocks=blocks)
     except Exception as e:
         print(T('  The speech recognition reports: %s') % str(e)[:140])
         words = []
     done((source, words))
 
 
-def speech_words_kick_off(state, language="", done=None, source=""):
+def speech_words_kick_off(state, language="", done=None, source="",
+                          blocks=()):
     """Write down what is said in the recording being separated.
 
-    Beside the separation, not behind it: different machinery, and the
-    recognition is over long before the separation is. *source* names
-    the recording and carries the separation's consent; without it the
-    one in front is meant. Installs nothing -- words_at_hand says why.
+    Beside the separation, not behind it: different machinery, and over
+    long before it. *source* names the recording and carries the
+    separation's consent; without it the one in front is meant. All its
+    *blocks* are heard, the window's where none are named. Installs
+    nothing -- words_at_hand says why.
     """
     source = source or state.get("speakers_source") or ""
     listening = state.setdefault("speakers_words_now", set())
@@ -1134,8 +1162,10 @@ def speech_words_kick_off(state, language="", done=None, source=""):
     listening.add(source)
     state["speakers_words_of"] = source
     state["speakers_words"] = []
+    blocks = list(blocks or ()) or PROGRAM.blocks_heard(state, source)
     threading.Thread(target=speech_words_work,
-                     args=(source, language, done), daemon=True).start()
+                     args=(source, language, done, blocks),
+                     daemon=True).start()
 
 
 def speech_words_done(state, result, wake):

@@ -2244,8 +2244,8 @@ def recording_decoded(blocks, rate):
 
 
 def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
-                        gap=SPEECH_PAUSE_BRIDGED_S, min_len=SPEECH_MIN_LEN_S,
-                        report=None, separate=True,
+                        pause_bridged=SPEECH_PAUSE_BRIDGED_S,
+                        min_len=SPEECH_MIN_LEN_S, report=None, separate=True,
                         note=None, grid=None):
     """Derive speech segments from the separate tracks.
 
@@ -2361,7 +2361,7 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
         # Short pauses inside a sentence are not speaker changes.
         joined = []
         for a, b in segments:
-            if joined and a - joined[-1][1] <= gap:
+            if joined and a - joined[-1][1] <= pause_bridged:
                 joined[-1][1] = b
             else:
                 joined.append([a, b])
@@ -3299,7 +3299,7 @@ def speaker_split_begin(state, split_run, bridge, bridge_emit,
         args=(state, split_run, bridge, bridge_emit, source, count,
               label_run, blocks), daemon=True).start()
     speech_words_kick_off(state, language, lambda r: bridge_emit(
-        bridge.speakers_heard, r), source)
+        bridge.speakers_heard, r), source, blocks)
 
 
 def speakers_for_project(source, segments, num_speakers=0, called=None,
