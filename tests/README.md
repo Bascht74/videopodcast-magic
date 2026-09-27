@@ -320,7 +320,7 @@ it is green.
 | `sound_join_order` | Audio blocks are joined in the order they were handed over. |
 | `sound_loudest_block` | The facts of a recording come from its loudest block. |
 | `sound_mix_hits_target` | Loudness: does the range come along, and does it still normalise? |
-| `sound_mix_says_the_name` | While mixing, a track is named by its speaker, and only the mix as the mix. |
+| `sound_mix_says_the_name` | While mixing, each sum is named by speaker, mix or label -- never by file. |
 | `sound_one_pass_agrees` | Reading the channels: one pass has to say what one pass per channel said. |
 | `sound_peaks_limited` | The limiter holds every peak at the ceiling and backs off where it must. |
 | `sound_silent_no_pair` | A silent channel is never one side of a stereo track. |

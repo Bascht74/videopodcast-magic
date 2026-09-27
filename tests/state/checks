@@ -233,7 +233,7 @@ sound_join_any_rate	6
 sound_join_order	2
 sound_loudest_block	5
 sound_mix_hits_target	13
-sound_mix_says_the_name	7
+sound_mix_says_the_name	9
 sound_one_pass_agrees	15
 sound_peaks_limited	7
 sound_silent_no_pair	3
