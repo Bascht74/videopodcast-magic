@@ -102,7 +102,6 @@
   "speaker_cache_write": [1, 2555],
   "step_begin": [1, 171],
   "step_report": [1, 180],
-  "stop_asked_for": [1, 821],
   "system_locale": [2, 240],
   "usable_clip_colours": [2, 1969],
   "video_envelope": [2, 296],
