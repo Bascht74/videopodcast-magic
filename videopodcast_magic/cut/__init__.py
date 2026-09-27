@@ -1128,10 +1128,9 @@ def apply_time_window(d, in_point, out_point):
         return d, T('In point or Out point cannot be read here.')
     if from_s is None or until is None:
         return d, T('In point or Out point cannot be read here.')
-    # The run's own rule and wording (timebase), reached on the program
-    # because that piece is read after this one; the run indents it. It
-    # judges the order first, then a window wholly past the material,
-    # then one too short once trimmed.
+    # The run's own rule and wording (timebase, reached on the program as
+    # that piece is read after this one; the run indents it): the order
+    # first, then a window wholly past the material, then one too short.
     refused = PROGRAM.time_window_refused(from_s, until, 0.0, length)
     if refused:
         return d, refused.strip()

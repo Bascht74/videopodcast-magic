@@ -45,7 +45,7 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3311** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3391** -- who is on camera when, and what carries it out
+* `cut/` **3390** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2430** -- the DaVinci Resolve project, timelines, colour,
@@ -59,7 +59,7 @@ figure of the day is that command, not this paragraph**:
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2546** -- the time base and the camera files: every
+* `timebase/` **2545** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
