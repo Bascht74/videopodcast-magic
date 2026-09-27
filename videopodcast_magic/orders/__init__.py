@@ -352,9 +352,9 @@ def run_plan(values, lines, cameras, only_video):
     and which camera each voice is on travel with it.
     """
     files = list(values.get("files") or [])
-    # A name left empty is guessed from the file, and two recordings of
-    # one file name are two speakers: numbered as the file list does.
-    heard = PROGRAM.recording_labels([p for p, a in files if a == "audio"])
+    # A name left empty is guessed from the file, and two folders are two
+    # speakers even where they guess alike: numbered (speaker_guesses).
+    guessed = PROGRAM.speaker_guesses([p for p, a in files if a == "audio"])
     tracks = []
     for r in lines:
         blocks = list(r.get("blocks") or [])
@@ -376,9 +376,9 @@ def run_plan(values, lines, cameras, only_video):
         entry = {"audio": blocks[0] if blocks else "",
                  "blocks": blocks,
                  "speakers": (r.get("speakers") or "").strip()
-                 or PROGRAM.guess_speaker_name(
-                     blocks[0] if blocks else "",
-                     heard.get(blocks[0]) if blocks else ""),
+                 or (guessed.get(blocks[0])
+                     or PROGRAM.guess_speaker_name(blocks[0])
+                     if blocks else PROGRAM.guess_speaker_name("")),
                  "camera": full,
                  "camera_audio": bool(only_video or
                                       (camera_track and straight))}

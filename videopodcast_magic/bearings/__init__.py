@@ -723,23 +723,38 @@ def guess_camera_name(file_path):
     return left_over[-1] if len(left_over) >= 2 else stem
 
 
-def guess_speaker_name(file_path, shown=""):
+def guess_speaker_name(file_path):
     """Guess a usable speaker name from a file name.
 
     The first name part usually hits; if it is very short the whole stem
-    without its trailing number is used. *shown* is the file list's name
-    for the recording (recording_labels): two recorders that both wrote
-    ZOOM0001.WAV are two speakers, and the second guesses "ZOOM (2)" --
-    one name for both would join them into one track.
+    without its trailing number is used. For the guess a run offers,
+    see speaker_guesses: this one knows nothing of the other files.
     """
-    name = os.path.basename(file_path)
-    stem = os.path.splitext(name)[0]
+    stem = os.path.splitext(os.path.basename(file_path))[0]
     m = TRAILING_NUMBER.match(stem)
     without_index_number = m.group(1).rstrip("_-. ") if m else stem
     first_one = re.split(r"[_\-. ]", without_index_number)[0]
-    guess = first_one if len(first_one) >= 3 else without_index_number
-    shown = shown or ""
-    return guess + (shown[len(name):] if shown.startswith(name) else "")
+    return first_one if len(first_one) >= 3 else without_index_number
+
+
+def speaker_guesses(audio_paths):
+    """{path: guessed speaker}, one folder being one speaker per guess.
+
+    One guess joins its rows into one track (merge_plan_entries), meant
+    for one recorder's blocks in one folder. Two folders are two people
+    even where A/ZOOM0001.WAV and B/ZOOM0003.WAV guess alike: the second
+    folder's guess is "ZOOM (2)", counted in the order given.
+    """
+    folders, out = {}, {}
+    for p in audio_paths:
+        guess = guess_speaker_name(p)
+        seen = folders.setdefault(guess, [])
+        where = path_key(os.path.dirname(os.path.abspath(p)))
+        if where not in seen:
+            seen.append(where)
+        k = seen.index(where) + 1
+        out[p] = guess if k == 1 else "%s (%d)" % (guess, k)
+    return ByFile(out)
 
 
 # The standard folders of a home directory. macOS and Windows keep the

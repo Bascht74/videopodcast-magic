@@ -491,7 +491,7 @@ window_axis_kept_by_key	6
 window_kept_cut_shown	5
 run_takes_dry_measure	9
 time_axis_one_store	6
-run_recordings_apart	6
+run_recordings_apart	11
 run_kept_by_its_line	10
 run_preview_says_nothing	5
 cut_preview_no_own_work	7

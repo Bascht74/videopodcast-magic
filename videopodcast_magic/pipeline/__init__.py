@@ -306,20 +306,24 @@ def plan_from_camera_audio(video_paths, tmpdir, cameras=None, title=""):
 def merge_plan_entries(plan):
     """Merge plan rows that share a speaker name into one track.
 
-    Stopping the recording in between leaves several files for the same
-    person; their timecodes place them anyway, and as one track it stays
-    one person at Auphonic. A row marked "apart" stays put and is no
-    target either: two blocks of one recorder guess the same name, so
-    without that mark this undid what --apart had separated.
+    A recording stopped in between leaves several files of one person,
+    placed by their timecodes and one track at Auphonic; a guess is one
+    per folder (speaker_guesses), so only a typed name joins across. A
+    row marked "apart" stays put and is no target: one recorder's blocks
+    guess alike, and this would undo what --apart separated.
     """
     combined = []
     after_name = {}
+    # How many recordings each track took in, for the summary: a track's
+    # blocks count the pieces of one recording too.
+    took = {}
     for e in plan:
         name = (e.get("speakers") or "").strip()
         blocks = list(e.get("blocks") or [e["audio"]])
         if name and name in after_name and not e.get("apart"):
             old = after_name[name]
             old["blocks"] += blocks
+            took[id(old)] += 1
             if not old.get("camera") and e.get("camera"):
                 old["camera"] = e["camera"]
             elif (e.get("camera") and old.get("camera")
@@ -333,13 +337,14 @@ def merge_plan_entries(plan):
         fresh["blocks"] = blocks
         fresh["speakers"] = name
         combined.append(fresh)
+        took[id(fresh)] = 1
         if name and not fresh.get("apart"):
             after_name[name] = fresh
     for e in combined:
         e["blocks"] = sort_by_time(e["blocks"])
         e["audio"] = e["blocks"][0]
-    more = [(e["speakers"], len(e["blocks"])) for e in combined
-            if len(e["blocks"]) > 1]
+    more = [(e["speakers"], took[id(e)]) for e in combined
+            if took[id(e)] > 1]
     if len(combined) < len(plan):
         print(T('  In summary: %s')
               % ", ".join(T('%s from %s recordings') % (n, number_text(k, 0))
@@ -536,6 +541,8 @@ def show_multitrack_plan(args, audio_paths, video_paths):
         # same name, so grouping alone would join again what was split here.
         kept_apart = {path_key(x)
                       for x in (getattr(args, "apart", ()) or ())}
+        # And a guess joins only within one folder (speaker_guesses).
+        guessed = PROGRAM.speaker_guesses(audio_paths)
         for row, _ in group_recording_parts(audio_paths,
                                             args.no_follow_ups,
                                             getattr(args, "apart", ()),
@@ -543,8 +550,8 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             # The name typed for the recording, on whichever block it
             # came; the file name is only the proposal.
             typed = [spoken[path_key(b)] for b in row
-                     if path_key(b) in spoken] + [guess_speaker_name(
-                         row[0], PROGRAM.recording_shown(row[0]))]
+                     if path_key(b) in spoken] + [
+                         guessed.get(row[0]) or guess_speaker_name(row[0])]
             plan.append({"audio": row[0], "blocks": row,
                          "speakers": typed[0],
                          "camera": "",
