@@ -2,7 +2,6 @@
  "article_fragments": {
   "' -- an In or Out point saves the upload' into 'Missing audio %s filled with silence%s'": [1, 7466],
   "' and ' into '    Careful: %s. There is no picture there;'": [1, 7151],
-  "' and ' into 'No speakers known yet -- nothing measured, n'": [1, 3960],
   "' and ' into 'The existing result is unusable: %s is missi'": [1, 4900],
   "' at high frame rates' into '    %-22s %s kbit/s  (YouTube recommendation'": [1, 9456],
   "' of %s embedded channel' into '      --> interpreted as %s audio track%s'": [1, "resolve/__init__.py 1917"],
