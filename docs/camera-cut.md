@@ -205,7 +205,11 @@ where the talk really changes hands. An edge that comes out shorter than
 **Minimum Edit Duration** falls into the shot beside it, like any other.
 The log line names the edges as they stand in the finished cut: where
 one fell into its neighbour, it says `only from` or `only until`, and
-`none` where both did.
+`none` where both did. Where the other voice speaks only once, that one
+turn holds the wide shot only at the edge nearer to it: near the start
+the line says `only until` and that there is no closing one, near the
+end `only from` and that there is no opening one, and `none` where that
+one edge came out shorter than the shortest shot.
 
 **Speaks at least** takes care of short interjections ("mhm", "yes
 exactly"). A shot that still comes out too short falls into the one
@@ -624,10 +628,10 @@ as it is not there, the program takes the camera file carrying the mix
 as its first audio track -- the same choice as for angle 1 of the
 multicam clip, and noticeably quieter.
 
-`start_s` is the wall clock time at which programme time is zero. It is
-the earliest audio start actually known -- the measured position, or the
-recording's own timecode where nothing was measured of it; failing that
-the earliest camera timecode; failing that nothing. In point and Out
+Programme time is zero at the moment every camera runs, the point the
+run's Timeline starts at, and the preview ends where the run's Timeline
+does, where the first camera stops. So before any run the preview shows
+exactly the cut the run will build, shot for shot. In point and Out
 point move the zero point along. The spot in each camera file is
 programme time minus offset, the same offset the cut timeline is built
 with.
@@ -731,8 +735,11 @@ It keeps what somebody answered, and nothing else. A preset picked by
 hand stays in it even where the preset list could not be built at that
 moment -- a refused key, no line out -- rather than the entry the box
 fell back on. **Opening the project puts that preset back in the box**,
-a multitrack one included: the tick **Multitrack** is set first, because
-a multitrack preset is in the list only in that mode. And a file taken
+a multitrack one included: the files and their assignment come back
+first, and the list is built for the kind of production they make. In
+point and Out point set in the window are written as a distance from
+the moment every camera runs (`+m:ss.fff`); a project that holds them as
+a timecode opens with them where they were. And a file taken
 out of the list is taken out of the
 project file with it, along with everything that had been answered
 about it, so that adding it again later starts from nothing rather than
@@ -767,6 +774,14 @@ the last run's handover no longer names exactly these cameras: the
 preview goes back to what the window works out for itself, and **Create
 Resolve project** turns grey. Put the camera back, and the handover and
 the button return with it.
+
+The same holds for the marks. Move **In point** or **Out point** after
+a run, and **Create Resolve project** turns grey and says which mark
+moved, from what to what, that the cut and the sound inside the videos
+still belong to the old window, and to press **Start** again. The
+preview on the **Resolve cut** tab shows the same notice instead of
+cutting the old result a second time, and on the command line the
+Resolve step refuses in the same words.
 
 ### How the program places the wide shot
 

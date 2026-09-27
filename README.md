@@ -125,6 +125,11 @@ videopodcast-magic --lang fr                language of the messages
 videopodcast-magic --help                   all switches
 ```
 
+A run from the command line sends its sound to auphonic.com unless
+`--without-auphonic` stands in it, and with no key stored it stops
+before it starts: store the key once with `--store-auphonic-key`, or
+add `--without-auphonic` and everything happens on this machine.
+
 Where pip put the command somewhere the search path does not reach,
 pip's own warning names that folder: put it on the path and open a new
 terminal. There is no second way in.

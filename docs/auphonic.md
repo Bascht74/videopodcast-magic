@@ -92,7 +92,11 @@ one track there is nothing for the de-bleed to take apart.
 The number of tracks decides the kind of production. A single track goes
 up as an ordinary production, two or more as a multitrack production,
 and the preset has to match: an ordinary preset for the one, a
-multitrack preset for the others.
+multitrack preset for the others. The tick does not decide it: two
+recordings with a picture, or two without any, go up together whether
+it is set or not, and the preset list offers the kind the run will
+need. A preset of the wrong kind stops the run before the time axis is
+measured.
 
 ### Storing the key without the window
 
@@ -148,10 +152,12 @@ cut and Resolve project come out as usual. Missing is only what the
 service does: de-bleed, leveler, noise removal. The bleed stays in the
 audio.
 
-`--lufs` sets the target loudness; a lower number is quieter. The same
-gain goes on every track, which keeps the balance between the speakers.
-Without it, and with **Take from source files** in the window, nothing
-is adjusted at all: the sound stays as it is in the source files.
+`--lufs` sets the target loudness; a lower number is quieter, and
+without it the target is -16, as in a new project in the window. The
+same gain goes on every track, which keeps the balance between the
+speakers. With `--lufs source`, or **Take from source files** in the
+window, nothing is adjusted at all: the sound stays as it is in the
+source files.
 
 The local speaker separation says who speaks when ([Speech recognition
 and speaker separation](speech.md)). Without it, the program measures it
@@ -171,9 +177,9 @@ What is written down is then the preset that was picked and not the
 entry the box fell back on, so a project saved on a machine with no
 connection opens again with the preset it was given. Reopening a
 project puts that preset back into the box, a multitrack preset
-included: the mode comes back first and the list is built for it, so a
-preset that stands only under **Multitrack** is there again to be
-found.
+included: the files and their assignment come back first and the list
+is built for the kind of production they make, so a multitrack preset
+is there again to be found.
 
 Where no list has been fetched yet, opening the project fetches one, so
 that the preset has somewhere to stand. Until the answer arrives the
@@ -205,7 +211,16 @@ The program downloads everything, the single tracks and every further
 output the preset itself makes: chapter marks, analyses, and a
 transcript of its own where the preset produces one. All of that is paid
 for with the production either way. It lands in `auphonic-tracks/` next
-to the finished videos, later the `final_*.wav` too.
+to the finished videos, later the `final_*.wav` too. A name auphonic.com
+gives a file is cut to its plain file name; a file with none left is not
+fetched, and the log names it.
+
+What auphonic.com puts around a returned file -- on the free plan a
+jingle in front -- is cut away. The program finds where the sound it
+sent begins in what comes back and keeps exactly the length that went
+up, and the log says how many seconds went at the start and at the end.
+Where the sent sound cannot be found in the return, the file is left as
+it came, and the log says that too.
 
 The program handles a later In point or Out point here, not at Auphonic.
 It trims the returned tracks to the new window. If the length matches

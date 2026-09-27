@@ -25,6 +25,357 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b27] - 2026-09-27
+
+### Added
+
+- **The log now says when a voice sounds like one from another
+  recording**, with how alike the two are; no name is changed by it.
+  Separations stored before are computed once more, the first time.
+
+### Changed
+
+- **A run from the command line is now levelled to -16 LUFS by default,
+  as the window already does.** To keep the sound exactly as recorded,
+  give `--lufs source`, the counterpart of "Take from source files".
+- **From the command line, a preset that masters to anything but
+  -16 LUFS now stops the run before the upload**, as in the window. Give
+  `--lufs source` or the preset's own number to go on.
+- **A command-line run that would send to auphonic.com and finds no key
+  stored now stops before it starts**, not after the time axis. A dry
+  run and `--without-auphonic` need no key.
+- **Without Multitrack the run now cuts to the cameras chosen under
+  "belongs to" and leaves out recordings set to "do not use"**, as with
+  Multitrack. It used to cut everything to the wide shot.
+- **Without Multitrack, the name typed for a recording is now the name
+  the run uses** in the log, the track names and the written sound
+  files. On the command line `--speaker-name FILE NAME` does the same.
+- **Several recordings without any picture are now laid on one time
+  axis whether or not Multitrack is ticked**, and go to auphonic.com as
+  one multitrack production. One whose sound matches nothing is placed
+  by its timecode.
+- **The auphonic.com preset list now offers the kind of preset the run
+  will need**, tick or no tick. A preset of the wrong kind stops the run
+  before the time axis is measured, not after it.
+- **`--auphonic-done` now also works without a picture**: the processed
+  tracks are taken, and nothing is uploaded or charged.
+- **The command line now refuses a "Sync only" project with more than
+  one recording before it starts**, as the window already did.
+- **A voice recognised in another recording may now carry that
+  recording's name**, and the assignment table proposes it. Any other
+  name on two voices still holds "Start", in the window and on the
+  command line.
+- **Without Multitrack, a name typed on two recordings now asks "Names
+  used more than once" before they are merged**, as with Multitrack.
+- **With several cameras, no audio recording and Multitrack off,
+  "Start" is now greyed out and says why.** Each camera would bring its
+  own sound, and that is what Multitrack is for.
+- **When In point or Out point has changed since the last run, "Create
+  Resolve project" is now greyed out** and says which mark moved and to
+  press "Start" again. The command line's Resolve step refuses in the
+  same words.
+- **Where the other voice speaks only once, that turn now holds the
+  wide shot only at the nearer edge**, and the log says so under "Wide
+  shot at the edges".
+- **Two recordings with the same file name are now told apart by
+  "(2)"** in the file list, on the Assignment tab and in the preflight,
+  as cameras already were.
+- **The speaker model is now taken from this version's tag, and from
+  the main branch only where that tag does not exist.** A timeout or a
+  server fault stops the fetch with a message naming the tag.
+- **A run that stops on a fault nobody foresaw now writes the traceback
+  into the log** and shows one line beginning "Stopped:", in the window
+  and on the command line alike.
+- **A relative In or Out point ("+12:30") saved from the window in an
+  earlier version is now read from the moment every camera runs**, so
+  such a mark can move when the project is opened.
+
+### Fixed
+
+- **Mark In and Mark Out now count from the moment every camera runs,
+  as the run does.** On material without a clock the run could cut 20
+  to 25 seconds after the picture you marked; it now cuts on it.
+- **A mark set on a camera running at 29.97 frames now lands on its
+  frame.** It landed three frames late, and preview and run cut three
+  frames apart.
+- **After a run, the Resolve cut tab no longer applies In point and Out
+  point a second time** to what the run has already cut, and no longer
+  says the time window lies outside the material.
+- **An Out point counted back from the end ("-0:00:30") now means the
+  same point in the preview, the player and "Create Resolve project" as
+  in the run**: back from where the first camera stops.
+- **Before any run, the preview on the Resolve cut tab now starts and
+  ends where the run's Timeline does**, so it shows the cut the run will
+  build. It began with the earliest recording and could cut its first
+  shots differently.
+- **The proposals for speaker names and "do not use" now count only
+  the stretch the run cuts.** A voice heard only before every camera ran
+  was proposed as a speaker; it is now proposed for "do not use".
+- **A phone recording with a variable frame rate is now counted at one
+  rate everywhere**: in the cut, the Timeline, the timecode and on the
+  Resolve side. A timecode could land seven frames late.
+- **A recording that started late now lands in the right place when it
+  is placed by phase.** One starting 540 s into a 10-minute camera, for
+  example, was placed 1048.6 s off.
+- **The window's speaker measurement now hears every block of a
+  recording the recorder split into several files.** The preview used
+  to show a guest who speaks only in a later part as never speaking.
+- **The Assignment tab now marks a recording of several blocks red when
+  any block does not fit the time axis**, as the file list does. It
+  looked at the first block only.
+- **An intro or outro made of several blocks is no longer marked red
+  for a later block**: the Kind of the first block now holds for all.
+- **Opening the Resolve cut tab no longer measures the speakers again
+  while a stored separation still fits**: the same recording, the same
+  model and the same separation code.
+- **After a run without Multitrack, the preview now takes up the run's
+  result by itself.**
+- **The disk estimate now counts a recording of several blocks once**
+  instead of once per block, and reckons the same with and without
+  Multitrack.
+- **The progress bar no longer jumps to 98 % while the camera files are
+  still being written** without Multitrack.
+- **Stop pressed while the camera files are written now stops the
+  run.** It used to go on and write the cut beside camera files a second
+  or two long; a file Stop cuts short is now removed.
+- **Stop now also ends the run while results are downloaded, a preset
+  is read, a join is levelled or several files are worked on at once**,
+  instead of carrying on or ending as "Finished with errors".
+- **After Stop, the file check and the time axis now work again
+  straight away**, without pressing "Start" first.
+- **After Stop, the report now lists only what lies in the output
+  folder** and names the stage in plain words, such as "Writing the
+  camera files", instead of a file name.
+- **A camera file that cannot be written, for example with the disk
+  full, no longer stays in the result folder under its finished name**,
+  and the cut list leaves that camera out.
+- **A camera name holding a folder or drive separator is now written as
+  a plain name** inside the result folder, and the log says so.
+- **What auphonic.com puts around a returned file, such as the free
+  plan's jingle, is now cut away.** A 20 s track came back 26.4 s long
+  and was kept so; it is now 20.0 s, and the log says what went.
+- **In Japanese, the YouTube entry of the loudness list now fits its
+  field on a Mac.**
+
+### Security
+
+- **onnxruntime, which the speech recognition and the speaker separation
+  bring with them, no longer reports to Microsoft.** Its telemetry is
+  switched off before it loads, and with it goes the thread that could
+  make Python quit unexpectedly when a run ended.
+- **A fetched ffmpeg build is now checked against its release's
+  checksums before it is unpacked.** Where the list is missing or the
+  sum differs, nothing is unpacked; an archive holding a tool twice is
+  refused.
+- **A file name auphonic.com gives a download is now cut to a plain file
+  name before it is saved**, so nothing lands outside the chosen folder.
+  The key now goes to auphonic.com only.
+- **A list of model files naming a place outside the model folder is now
+  refused** before anything is fetched or written.
+
+### Tests
+
+- **Pull requests from forks now run the test suite on the builder.**
+  Branches of this repository still run it once, on their push.
+- **No test reaches a DaVinci Resolve open on the machine any more.**
+  About 23 read-only connections per suite run went to it before.
+
+### Documentation
+
+- **THIRD-PARTY.md now describes the program as pip installs it**, each
+  dependency with its licence, and a test holds that list against
+  `pyproject.toml`.
+- **The chapters on the simple path and on Multitrack now say what the
+  tick still decides**, and that the camera files carry the same tracks
+  with and without it.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Das Protokoll sagt jetzt, wenn eine Stimme wie eine aus einer
+  anderen Aufnahme klingt**, und wie ähnlich die beiden sind; einen
+  Namen ändert das nicht. Früher gespeicherte Trennungen werden beim
+  ersten Mal noch einmal gerechnet.
+
+### Geändert
+
+- **Ein Lauf von der Kommandozeile wird jetzt von Haus aus auf −16 LUFS
+  ausgesteuert, wie im Fenster schon bisher.** Wer den Ton genau so
+  behalten will, wie er aufgenommen ist, gibt `--lufs source` an, das
+  Gegenstück zu „Aus Quelldateien übernehmen“.
+- **Von der Kommandozeile hält ein Preset, das auf etwas anderes als
+  −16 LUFS mastert, den Lauf jetzt vor dem Hochladen an**, wie im
+  Fenster. Weiter geht es mit `--lufs source` oder der Zahl des Presets.
+- **Ein Lauf von der Kommandozeile, der zu auphonic.com senden würde und
+  keinen abgelegten Schlüssel findet, hält jetzt an, bevor er beginnt**,
+  nicht erst nach der Zeitachse. Probelauf und `--without-auphonic`
+  brauchen keinen Schlüssel.
+- **Ohne Multitrack schneidet der Lauf jetzt auf die Kameras, die unter
+  „gehört zu“ gewählt sind, und lässt Aufnahmen auf „nicht verwenden“
+  weg**, wie mit Multitrack. Vorher schnitt er alles auf den Weitwinkel.
+- **Ohne Multitrack ist der Name, der für eine Aufnahme getippt wurde,
+  jetzt auch der, unter dem der Lauf arbeitet**: im Protokoll, in den
+  Spurnamen und in den geschriebenen Tondateien. Auf der Kommandozeile
+  tut `--speaker-name DATEI NAME` dasselbe.
+- **Mehrere Aufnahmen ganz ohne Bild kommen jetzt auf eine Zeitachse,
+  ob Multitrack angekreuzt ist oder nicht**, und gehen als eine
+  Multitrack-Produktion zu auphonic.com. Passt der Ton einer Aufnahme zu
+  nichts, setzt ihr Timecode sie.
+- **Die Presetliste für auphonic.com bietet jetzt die Art von Preset an,
+  die der Lauf brauchen wird**, mit Häkchen wie ohne. Ein Preset der
+  falschen Art hält den Lauf an, bevor die Zeitachse gemessen wird.
+- **`--auphonic-done` geht jetzt auch ohne Bild**: Die fertigen Spuren
+  werden übernommen, hochgeladen und berechnet wird nichts.
+- **Die Kommandozeile lehnt ein Projekt „Nur synchronisieren“ mit mehr
+  als einer Aufnahme jetzt ab, bevor der Lauf beginnt**, wie es das
+  Fenster schon tat.
+- **Eine Stimme, die in einer anderen Aufnahme wiedererkannt wird, darf
+  jetzt deren Namen tragen**, und die Zuordnungstabelle schlägt ihn vor.
+  Jeder andere Name auf zwei Stimmen sperrt „Start“ weiterhin, im
+  Fenster wie auf der Kommandozeile.
+- **Ohne Multitrack fragt ein Name, der auf zwei Aufnahmen getippt ist,
+  jetzt unter „Mehrfach vergebene Namen“ nach, bevor sie
+  zusammengefasst werden**, wie mit Multitrack.
+- **Bei mehreren Kameras, keiner Tonaufnahme und ausgeschaltetem
+  Multitrack ist „Start“ jetzt grau und sagt, warum.** Jede Kamera
+  brächte ihren eigenen Ton mit, und genau dafür ist Multitrack da.
+- **Hat sich In-Punkt oder Out-Punkt seit dem letzten Lauf geändert,
+  ist „Resolve-Projekt anlegen“ jetzt grau** und sagt, welche Marke sich
+  bewegt hat und dass noch einmal „Start“ fällig ist. Der Resolve-Schritt
+  der Kommandozeile lehnt mit denselben Worten ab.
+- **Spricht die andere Stimme nur ein einziges Mal, hält dieser Beitrag
+  den Weitwinkel jetzt nur am näheren Rand**, und das Protokoll sagt es
+  unter „Weitwinkel am Rand“.
+- **Zwei Aufnahmen mit demselben Dateinamen werden jetzt mit „(2)“
+  auseinandergehalten**, in der Dateiliste, im Reiter Zuordnung &
+  Zeitfenster und im Vorflug, so wie Kameras schon bisher.
+- **Das Sprechermodell kommt jetzt aus dem Stand, den der Tag dieser
+  Version trägt, und nur ohne diesen Tag vom Hauptzweig.** Eine
+  abgelaufene Zeit oder ein Serverfehler bricht das Holen ab, und die
+  Meldung nennt den Tag.
+- **Hält ein Lauf an einem Fehler an, mit dem niemand gerechnet hat,
+  steht der Traceback jetzt im Protokoll**, und zu sehen ist eine Zeile,
+  die mit „Abgebrochen:“ beginnt, im Fenster wie auf der Kommandozeile.
+- **Ein relativer In- oder Out-Punkt („+12:30“), den das Fenster in
+  einer früheren Version gespeichert hat, zählt jetzt ab dem Moment, in
+  dem jede Kamera läuft**; beim Öffnen kann so eine Marke daher wandern.
+
+### Behoben
+
+- **In markieren und Out markieren zählen jetzt ab dem Moment, in dem
+  jede Kamera läuft, so wie der Lauf.** Bei Material ohne Uhr konnte der
+  Lauf 20 bis 25 Sekunden nach dem markierten Bild schneiden; jetzt
+  schneidet er darauf.
+- **Eine Marke, die auf einer Kamera mit 29,97 Bildern gesetzt wird,
+  landet jetzt auf ihrem Bild.** Vorher lag sie drei Bilder zu spät, und
+  Vorschau und Lauf schnitten drei Bilder auseinander.
+- **Nach einem Lauf wendet der Reiter Resolve-Schnitt In-Punkt und
+  Out-Punkt nicht mehr ein zweites Mal** auf das an, was der Lauf schon
+  geschnitten hat, und meldet kein Zeitfenster außerhalb des Materials
+  mehr.
+- **Ein vom Ende zurückgezählter Out-Punkt („-0:00:30“) meint jetzt in
+  der Vorschau, im Player und bei „Resolve-Projekt anlegen“ dieselbe
+  Stelle wie im Lauf**: zurück von dort, wo die erste Kamera aufhört.
+- **Vor jedem Lauf beginnt und endet die Vorschau auf dem Reiter
+  Resolve-Schnitt jetzt dort, wo die Timeline des Laufs es tut**, und
+  zeigt so den Schnitt, den der Lauf bauen wird. Vorher begann sie mit
+  der frühesten Aufnahme und konnte die ersten Einstellungen anders
+  schneiden.
+- **Die Vorschläge für Sprechernamen und „nicht verwenden“ zählen jetzt
+  nur die Strecke, die der Lauf schneidet.** Eine Stimme, die nur zu
+  hören war, bevor jede Kamera lief, wurde als Sprecher vorgeschlagen;
+  jetzt steht sie auf „nicht verwenden“.
+- **Eine Telefonaufnahme mit schwankender Bildrate wird jetzt überall
+  mit einer Rate gezählt**: im Schnitt, in der Timeline, im Timecode und
+  auf der Seite von Resolve. Ein Timecode konnte sieben Bilder zu spät
+  landen.
+- **Eine Aufnahme, die spät angefangen hat, landet jetzt an der
+  richtigen Stelle, wenn die Phase sie setzt.** Eine, die zum Beispiel
+  540 s nach dem Start einer 10-Minuten-Kamera begann, lag um 1048,6 s
+  daneben.
+- **Die Sprechermessung des Fensters hört jetzt jeden Block einer
+  Aufnahme, die der Rekorder in mehrere Dateien zerlegt hat.** Die
+  Vorschau zeigte einen Gast, der erst in späteren Teilen spricht, als
+  stumm.
+- **Der Reiter Zuordnung & Zeitfenster färbt eine Aufnahme aus
+  mehreren Blöcken jetzt rot, sobald einer ihrer Blöcke nicht zur
+  Zeitachse passt**, wie die Dateiliste. Vorher sah er nur auf den ersten Block.
+- **Ein Vorspann oder Abspann aus mehreren Blöcken steht nicht mehr
+  wegen eines späteren Blocks rot da**: Der Typ des ersten Blocks gilt
+  jetzt für alle.
+- **Öffnet man den Reiter Resolve-Schnitt, werden die Sprecher nicht
+  mehr neu gemessen, solange eine gespeicherte Trennung noch passt**:
+  dieselbe Aufnahme, dasselbe Modell, derselbe Trennungscode.
+- **Nach einem Lauf ohne Multitrack übernimmt die Vorschau das Ergebnis
+  des Laufs jetzt von selbst.**
+- **Die Platzschätzung zählt eine Aufnahme aus mehreren Blöcken jetzt
+  einmal** statt einmal je Block und rechnet mit Multitrack wie ohne
+  gleich.
+- **Der Fortschrittsbalken springt nicht mehr auf 98 %, während die
+  Kameradateien ohne Multitrack noch geschrieben werden.**
+- **Abbrechen, während die Kameradateien geschrieben werden, hält den
+  Lauf jetzt an.** Vorher lief er weiter und schrieb den Schnitt neben
+  Kameradateien von ein, zwei Sekunden; eine Datei, die Abbrechen
+  mittendrin trifft, wird jetzt entfernt.
+- **Abbrechen beendet den Lauf jetzt auch, während Ergebnisse geladen,
+  ein Preset gelesen, ein Zusammenschnitt ausgesteuert oder mehrere
+  Dateien zugleich bearbeitet werden**, statt weiterzulaufen oder mit
+  „Mit Fehlern beendet“ zu enden.
+- **Nach einem Abbruch arbeiten die Dateiprüfung und die Zeitachse jetzt
+  sofort wieder**, ohne dass erst „Start“ nötig ist.
+- **Nach einem Abbruch nennt der Bericht jetzt nur noch, was im
+  Ausgabeordner liegt**, und die Stufe in Worten wie „Kameradateien
+  werden geschrieben“ statt als Dateiname.
+- **Eine Kameradatei, die sich nicht schreiben lässt, etwa bei voller
+  Platte, bleibt nicht mehr unter ihrem fertigen Namen im
+  Ergebnisordner liegen**, und die Schnittliste lässt diese Kamera weg.
+- **Ein Kameraname mit Ordner- oder Laufwerkstrenner wird im
+  Ergebnisordner jetzt als einfacher Name geschrieben**, und das
+  Protokoll sagt es.
+- **Was auphonic.com um eine zurückgegebene Datei legt, etwa den Jingle
+  des kostenlosen Tarifs, wird jetzt weggeschnitten.** Eine 20-s-Spur
+  kam 26,4 s lang zurück und blieb so; jetzt sind es 20,0 s, und das
+  Protokoll sagt, was wegfiel.
+- **Auf Japanisch passt der YouTube-Eintrag der Lautheitsliste jetzt
+  auf einem Mac in sein Feld.**
+
+### Sicherheit
+
+- **onnxruntime, das die Spracherkennung und die Sprechertrennung
+  mitbringen, meldet nichts mehr an Microsoft.** Seine Telemetrie wird
+  abgeschaltet, bevor es geladen wird, und mit ihr der Thread, an dem
+  Python am Ende eines Laufs unerwartet abbrechen konnte.
+- **Ein geholter ffmpeg-Bau wird jetzt gegen die Prüfsummen seiner
+  Veröffentlichung gehalten, bevor er ausgepackt wird.** Fehlt die
+  Liste oder weicht die Summe ab, wird nichts ausgepackt; ein Archiv
+  mit einem Werkzeug in doppelter Ausführung wird abgelehnt.
+- **Ein Dateiname, den auphonic.com einem Download gibt, wird jetzt vor
+  dem Speichern auf einen einfachen Dateinamen gekürzt**, damit nichts
+  außerhalb des gewählten Ordners landet. Der Schlüssel geht jetzt nur
+  noch an auphonic.com.
+- **Eine Liste von Modelldateien, die einen Ort außerhalb des
+  Modellordners nennt, wird jetzt abgelehnt**, bevor irgendetwas geholt
+  oder geschrieben wird.
+
+### Tests
+
+- **Pull Requests aus Forks durchlaufen die Testsammlung jetzt auf dem
+  Baurechner.** Zweige dieses Repositorys laufen weiterhin einmal, beim
+  Push.
+- **Kein Test erreicht mehr ein DaVinci Resolve, das auf dem Rechner
+  offen ist.** Vorher gingen je Durchlauf etwa 23 lesende Verbindungen
+  dorthin.
+
+### Dokumentation
+
+- **THIRD-PARTY.md beschreibt das Programm jetzt so, wie pip es
+  installiert**, jede Abhängigkeit mit ihrer Lizenz, und ein Test hält
+  diese Liste gegen `pyproject.toml`.
+- **Die Kapitel über den einfachen Weg und über Multitrack sagen jetzt,
+  was das Häkchen noch entscheidet**, und dass die Kameradateien mit
+  und ohne es dieselben Spuren tragen.
+
 ## [3.0.0b26] - 2026-09-26
 
 ### Added

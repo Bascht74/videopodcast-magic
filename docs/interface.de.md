@@ -277,6 +277,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   unter einem Namen, den schon jemand anderes trägt, ist dagegen eine
   Weigerung -- der Hinweis am Feld bittet um einen eigenen, **Start**
   bleibt gesperrt, und die Zeile unter den Knöpfen nennt die Person.
+  Die einzige Ausnahme ist dieselbe Stimme, wiedererkannt: Klingt eine
+  Stimme wie eine, die in einer anderen Aufnahme schon einen Namen hat,
+  schlägt die Tabelle diesen Namen in ihrem Feld vor, und die beiden
+  dürfen ihn gemeinsam tragen.
 
   Zu welcher Kamera eine Aufnahme gehört, ergibt sich aus diesem Namen,
   solange niemand selbst eine wählt; ein später getippter oder
@@ -635,7 +639,11 @@ Er und **Start** bleiben gesperrt, solange etwas offen ist, und
 - bei Multitrack alle Aufnahmen unter demselben Namen,
 - eine **Stimme** unter einem Namen, den schon jemand anderes trägt: der
   Schnitt setzt eine Person auf eine Kamera, und ein Name auf zwei
-  Stimmen wäre diese Person an zwei Stellen,
+  Stimmen wäre diese Person an zwei Stellen -- es sei denn, es ist
+  dieselbe Stimme, in zwei Aufnahmen gehört,
+- ohne Multitrack mehrere Kameras und keine Tonaufnahme: jede Kamera
+  brächte ihren eigenen Ton mit, und eine Spur je Kamera ist das, wofür
+  Multitrack da ist,
 - zwei Kameras mit derselben Ausgabedatei.
 
 Das Feld oder die Zeile, die gemeint ist, wird rot. Ein Häkchen hinter
@@ -773,8 +781,9 @@ Für den Lauf selbst nennt die Zeile den Abschnitt, auf beiden Wegen mit
 denselben Namen, mit Multitrack und ohne:
 
 - **Plan wird gelesen**
-- **Ton aus den Kameras**: nur mit Multitrack. Ohne richtet der Lauf sich
-  an den Kameras aus und lässt sie in Ruhe.
+- **Ton aus den Kameras**: überall dort, wo der Ton einer Kamera eine
+  Spur in der Zuordnungstabelle ist. Sonst richtet der Lauf sich an den
+  Kameras aus und lässt sie in Ruhe.
 - **Gemeinsame Zeitachse**
 - **Aufbereitung bei auphonic.com**, ohne Schlüssel **Lautheit und Pegel**
 - **Wer wann spricht**: nur bei **Schnitt nach Sprecher**. **Nur
@@ -806,7 +815,10 @@ während **Resolve-Projekt anlegen** arbeitet. Wer ihn in jener Wartezeit
 drückt, sagt nur den Start ab; der Kameraton wird weiter erzeugt, und
 ein späteres **Start** findet ihn fertig vor. Mitten im Lauf gedrückt,
 endet der Lauf, sobald er es kann, ohne eine Datei halb geschrieben
-zurückzulassen; bis dahin steht auf dem Knopf **Abbruch ...**.
+zurückzulassen, und eine Kameradatei, die Abbrechen mittendrin
+erwischt hat, wird entfernt; bis dahin steht auf dem Knopf **Abbruch
+...**. Danach arbeiten die Dateiprüfung und die Zeitachse sofort
+wieder, ohne ein neues **Start**.
 
 **Die Zeile steht als Satz da, nie als Name, unter dem das Programm die
 Sache intern führt.** Während eine Aufnahme in Sprecher getrennt wird,
@@ -1288,7 +1300,12 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
   ihren Zeiten, mit dem Vorsatz `[EXT]`, und jede rote Meldung, die
   das Fenster gezeigt hat, mit dem Vorsatz `[BAD]` und mit der Uhrzeit
   -- eine rote Marke, über die längst neu gezeichnet wurde, findet man
-  dort wieder, statt sie erinnern zu müssen.
+  dort wieder, statt sie erinnern zu müssen. Hält ein Lauf an einem
+  Fehler an, mit dem niemand gerechnet hat, zeigt das Fenster eine
+  einzige Zeile, die mit **Abgebrochen:** beginnt; der ganze Traceback
+  dahinter steht im Protokoll, und genau der lohnt das Mitschicken. Die
+  Kommandozeile endet genauso, mit der einen Zeile und dem Traceback im
+  Protokoll. Ein Lauf, den **Abbrechen** beendet hat, schreibt keinen.
 
 Das ist das ganze Fenster. Im nächsten Kapitel, [Vorflug](preflight.de.md),
 geht es um die Prüfungen vor einem Lauf und um die Bedeutung jedes

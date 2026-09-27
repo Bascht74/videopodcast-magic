@@ -4,10 +4,11 @@
 [contents](README.md).*
 
 `--help` prints this list too, always in English. Defaults in brackets.
-A switch that works on one path only carries `[multitrack only]` or
-`[simple path only]` in the tables here; `--help` marks three of them
-the same way, and the marker stays English whatever the language of the
-run.
+A switch that only means something where several tracks go up to
+auphonic.com together carries `[multitrack only]` in the tables here;
+`--help` marks it the same way, and `--multitrack` too, and the marker
+stays English whatever the language of the run. Every other switch
+works with the Multitrack tick and without it.
 
 ```text
 $ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
@@ -17,16 +18,16 @@ videopodcast-magic 3.0.0b25   Python 3.14.7
 
 
 PREFLIGHT -- does the material fit together?
-    GuestCam_01011858_C003.m 25.000 fps -- h264, 320x180, 3,000 frames in 0:02:00.000
-    Guest_Take0021A_Timecode 48 kHz, 16 bit, mono, 0:02:00.000
-    Presenter_REC00021.wav 48 kHz, 16 bit, mono, 0:00:40.000
-    Presenter_REC0002 Note: only 0:00:40.000 long, the longest recording has 0:02:00.000.
+    GuestCam_01…858_C003.mov 25.000 fps -- h264, 320x180, 3,000 frames in 0:02:00.000
+    Guest_Take0…Timecode.wav 48 kHz, 16 bit, mono, 0:02:00.000
+    Presenter_REC00021.wav   48 kHz, 16 bit, mono, 0:00:40.000
+    Presenter_REC00021.wav   Note: only 0:00:40.000 long, the longest recording has 0:02:00.000.
       Started late or stopped early -- this voice is then missing from the
       mix in places.
-    Bleed             Guest_Take0021A_Timecode in Presenter_REC00021's microphone: 31.7 dB quieter than in their own.
-    Bleed             Presenter_REC00021 in Guest_Take0021A_Timecode's microphone: 31.6 dB quieter than in their own.
-    Disk space        free 119.6 GB, about 326 MB needed (/private/tmp/vpm_terminal/interview)
-    Loudness          -16 LUFS (Podcast directories, stereo)
+    Bleed                    Guest_Take0021A_Timecode in Presenter_REC00021's microphone: 31.7 dB quieter than in their own.
+    Bleed                    Presenter_REC00021 in Guest_Take0021A_Timecode's microphone: 31.6 dB quieter than in their own.
+    Disk space               free 109.9 GB, about 326 MB needed (/private/tmp/vpm_terminal/interview)
+    Loudness                 -16 LUFS (Podcast directories, stereo)
     8 checked, 1 hint
 MULTITRACK NOT POSSIBLE
   Without an API key there is nothing to send to auphonic.com.
@@ -48,7 +49,7 @@ hint. Without a key the multitrack run stops there.*
 | `--suffix TEXT` | added to the file name (`_audio`) |
 | `--production NAME` | the production's name, which the handover, the lists and the transcript are named after; not read beside `--assign`, whose file carries its own (the folder the material lies in) |
 | `--name-camera TEXT` | name of the camera track (`Camera Original`) |
-| `--parallel COUNT` | this many video files at once; 0 decides for you, 1 one after another (0)  `[multitrack only]` |
+| `--parallel COUNT` | this many video files at once; 0 decides for you, 1 one after another (0) |
 | `--dry-run` | only measure and report, write nothing |
 | `--version` | version number, and the Python this runs on |
 | `--update` | run `pip3 install -U` on the address the program came from with the newest release hung on the end, in the Python it is running in, and write what pip says into the terminal. Any other run only ever says that a newer version is out |
@@ -63,7 +64,7 @@ hint. Without a key the multitrack run stops there.*
 | `--apart FILE` | this block stands on its own, whatever its name says: it is not joined to a recording, and in the plan it stays a track of its own even where it gets the same name as another block of the same recorder; repeatable |
 | `--sound WHAT` | what the sound of every recording holds: `speech` places it by its loudness alone, and a recording that shares nothing with the cameras is refused; `mixed` means music or a mix lies under the voices, and where the loudness finds nothing the phase may place it. `--project-type sync` always takes `mixed`. In the window the field **In the sound** (`speech`) |
 | `--sound-of FILE WHAT` | the same for one recording, named by any of its files; beats `--sound`; repeatable. The window sends it for every recording set to **Mixed** (none) |
-| `--no-single-tracks` | only the mix into the video, not the recordings beside it  `[simple path only]` |
+| `--no-single-tracks` | only the mix into the video, not the recordings beside it |
 | `--no-drift` | measure clock drift and report it, but do not take it out |
 | `--tc HH:MM:SS:FF` | start timecode of the picture, if the camera wrote none or a wrong one (from the video file) |
 | `--fps NUMBER` | frame rate to assume, if ffprobe reports a wrong one (from the video file) |
@@ -74,8 +75,8 @@ hint. Without a key the multitrack run stops there.*
 | `--speakers-from FILE` | take a finished separation out of a project or assignment file instead of computing one; not used where its recording has changed since or it came from another model (none) |
 | `--speakers-count NUMBER` | how many people `--speakers-local` should find (work it out) |
 | `--no-speakers-local` | never take a recording apart by voice in this run (off) |
-| `--no-speech-recognition` | do not write down what is said; the cut then has no sentence boundaries (off)  `[multitrack only]` |
-| `--no-transcript-file` | write no transcript beside the result; the words that were heard normally go into the output folder as json, srt and txt (off)  `[multitrack only]` |
+| `--no-speech-recognition` | do not write down what is said; the cut then has no sentence boundaries (off) |
+| `--no-transcript-file` | write no transcript beside the result; the words that were heard normally go into the output folder as json, srt and txt (off) |
 
 ## Processing at auphonic.com
 
@@ -91,17 +92,17 @@ only lists the presets.
 | `--auphonic-preset NAME` | preset name or id (the program asks) |
 | `--auphonic-wait SECONDS` | how long the run waits for auphonic.com to finish; when the time is up the run stops and names the address of the production, which goes on there; once it is finished, a later run takes its result with `--auphonic-resume result`. Higher waits longer (7200, two hours) |
 | `--auphonic-resume WHAT` | production already there: `result`, `rerun`, `adopt`, `upload`, `abort` (the program asks)  `[multitrack only]` |
-| `--auphonic-done FOLDER` | tracks already processed, named after the speakers. The run takes them from there instead of uploading them, and the account keeps its credit  `[multitrack only]` |
-| `--multitrack` | every audio file as its own track, so auphonic.com can take the bleed out. Needs a multitrack preset |
-| `--assign FILE` | JSON saying which audio belongs to which camera; the interface writes it  `[multitrack only]` |
+| `--auphonic-done FOLDER` | tracks already processed, named after the speakers. The run takes them from there instead of uploading them, and the account keeps its credit |
+| `--multitrack` | every audio file as its own track, so auphonic.com can take the bleed out. Where two tracks or more go up together -- with this switch or without it -- the preset has to be a multitrack preset |
+| `--assign FILE` | JSON saying which audio belongs to which camera, under which speaker names and which are not used; the interface writes it for every run, with Multitrack and without |
 | `--without-auphonic` | align, mix and write locally, camera cut from our own speech detection |
 
 ## Setting the time window
 
 | Switch | Does |
 |---|---|
-| `--in-point TIME` | start: `17:20:14` absolute, `+12:30` or `90` from the start of the window (from the video files) |
-| `--out-point TIME` | end, same notation; `-30` counts back from the end (from the video files) |
+| `--in-point TIME` | start: `17:20:14` absolute, `+12:30` or `90` from the start of the window, which with cameras is the moment every camera runs |
+| `--out-point TIME` | end, same notation; `-30` counts back from where the first camera stops |
 
 ## Steering the camera cut
 
@@ -120,8 +121,8 @@ only lists the presets.
 | `--on-uncertain VALUE` | the recognition is uncertain and somebody is speaking: `wide`, `listener`, `alternate`, `hold` -- the picture holds no longer than `--silence-hold`, then the wide shot comes; without a wide shot it holds to the end of the stretch (wide) |
 | `--on-question VALUE` | after a question: `off`, `answer`, `listener` (answer) |
 | `--wide-shot FILE` | this video file is a wide shot: a camera nobody sits in front of, it takes no speaker; repeatable. Without it the cameras with no speaker assigned are the wide shots -- except with `--project-type sync`, where only a camera given here is one |
-| `--new-name FILE NAME` | this video file is written as NAME (the ending is hung on) and its track in the handover carries that name; repeatable. Without it the file's own name. The window sends its "new file name" field this way where no assignment file carries it. It acts wherever each camera is named after its file, also beside `--speakers-from` or an assignment file that names no cameras. Beside an assignment file that names the cameras (`--assign`), and with `--multitrack` and cameras alone, whose files are named after the tracks taken from their sound, it would be dropped and is refused instead. Refused before anything is written as well: a NAME with a folder or drive separator (`/`, `\`, `:`), beginning with a dot or empty, a FILE that is not one of the cameras or given two names, and two cameras in one file, upper and lower case counting as the same |
-| `--speaker-name FILE NAME` | the recording FILE belongs to is spoken by NAME: its track, its lines in the log and the cut carry that name; FILE may be any of its blocks; repeatable. Without it the name is guessed from the file name. The window sends each recording's name field this way without Multitrack. Refused before anything is written: beside `--assign`, a FILE that is not one of the recordings or given two names, an empty NAME |
+| `--new-name FILE NAME` | this video file is written as NAME (the ending is hung on) and its track in the handover carries that name; repeatable. Without it the file's own name. It acts wherever each camera is named after its file, also beside `--speakers-from` or an assignment file that names no cameras. Beside an assignment file that names the cameras (`--assign`), and with `--multitrack` and cameras alone, whose files are named after the tracks taken from their sound, it would be dropped and is refused instead. Refused before anything is written as well: a NAME with a folder or drive separator (`/`, `\`, `:`), beginning with a dot or empty, a FILE that is not one of the cameras or given two names, and two cameras in one file, upper and lower case counting as the same |
+| `--speaker-name FILE NAME` | the recording FILE belongs to is spoken by NAME: its track, its lines in the log and the cut carry that name; FILE may be any of its blocks; repeatable. Without it the name is guessed from the file name. The window writes the names into its assignment file instead. Refused before anything is written: beside `--assign`, a FILE that is not one of the recordings or given two names, an empty NAME |
 | `--camera-label FILE NAME` | the run's messages name this video file NAME; repeatable. Without it the file's own name. The window sends it for the second of two files of one name, "(2)" as it shows it |
 | `--wide-after SECONDS` | from this hold time on the program breaks the shot up at a sentence boundary, not by the clock, 0 off (70) |
 | `--wide-length SECONDS` | how long the interposed shot stands at least; it then runs to the end of the sentence (5) |
@@ -136,7 +137,7 @@ only lists the presets.
 | `--no-preflight` | skip the check before the first long step |
 | `--preflight-again` | measure again instead of taking the stored measurement |
 | `--anyway` | run even if the preflight found a reason to stop |
-| `--no-metrics` | no metrics and no colour comparison at the end  `[multitrack only]` |
+| `--no-metrics` | no metrics and no colour comparison at the end |
 
 ## Adding intro and outro
 
@@ -178,9 +179,11 @@ chapters.
 * **A value with a space in it.** Put it in quotes:
   `--auphonic-preset "<name of the preset>"`. Without them the second
   word arrives as a file name.
-* **`--multitrack` without a key.** The run stops after the preflight.
-  Store a key once with `--store-auphonic-key`, or let
-  `--without-auphonic` align, mix and cut on this machine.
+* **No key stored.** A run that would send to auphonic.com stops before
+  it starts, with `--multitrack` or without it. Store a key once with
+  `--store-auphonic-key`, or let `--without-auphonic` align, mix and cut
+  on this machine. A dry run (`--dry-run`) needs no key and goes on to
+  the preflight, which says the same.
 * **The list is English in a German run.** `--help` and the names of
   the switches do not follow `--lang`; that switch sets the language of
   the messages.

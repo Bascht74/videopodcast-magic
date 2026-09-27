@@ -28,6 +28,9 @@ the largest part of an installation:
                  Apache-2.0, MIT,      torchvision
                  BSL-1.0
   torchaudio     BSD-2-Clause          brought by pyannote.audio
+  onnxruntime    MIT                   brought by faster-whisper; its
+                                       reporting to Microsoft is
+                                       switched off before it loads
 
 They bring further packages of their own. `pip3 show <name>` names each
 one and its licence.

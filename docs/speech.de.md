@@ -202,7 +202,13 @@ zweimal an verschiedenen Stellen desselben Schnitts. Darum wird ein
 Name, den schon jemand anderes trägt, bereits beim Tippen rot, und der
 Hinweis am Feld sagt, woran es liegt. Trägt eine Stimme den zweiten,
 wartet **Start**, bis sie einen eigenen hat: eine Stimme ist eine Person
-in einer Trennung und lässt sich mit nichts zusammenfassen. Zwei
+in einer Trennung und lässt sich nur mit sich selbst zusammenfassen.
+Das ist die eine Ausnahme: Klingt eine Stimme wie eine, die in einer
+anderen Aufnahme schon einen Namen hat, hält das Programm sie für
+dieselbe Person, wiedererkannt; die Tabelle schlägt diesen Namen in
+ihrem Feld vor, und die beiden dürfen ihn gemeinsam tragen. Das
+Protokoll sagt, welche Stimme es wiedererkannt hat und wie ähnlich die
+beiden sind; von sich aus ändert es keinen Namen. Zwei
 Aufnahmen gleichen Namens sind dagegen eine Frage und keine Weigerung --
 sie sollen zu einer Spur werden, nach Timecode hintereinandergelegt
 ([Multitrack](multitrack.de.md)).
@@ -212,13 +218,17 @@ Trennung, die er mitbekommt -- in der Zuordnungsdatei des Fensters oder
 über `--speakers-from` --, einer Stimme einen Namen, den schon ein
 anderer Sprecher trägt, bricht der Lauf ab, bevor irgendetwas
 geschrieben ist, mit `Abbruch:` und demselben Satz, den das Fenster
-zeigt. Eine Trennung, die der Lauf erst unterwegs selbst rechnet, wird
+zeigt; dieselbe Stimme, in zwei Aufnahmen gehört, darf ihren Namen auch
+hier teilen. Eine Trennung, die der Lauf erst unterwegs selbst rechnet, wird
 vorher nicht geprüft: ihre Namen kennt dann noch niemand.
 
 Sobald die Worte aufgeschrieben sind, werden aus diesen Namen
 Vorschläge, die etwas sagen. Wer fragt und wer antwortet, lässt sich am
-Gesprochenen ablesen: das Programm zählt für jede Stimme im Zeitfenster,
-wie viele ihrer Sätze auf ein Fragezeichen enden, und schlägt **Gast**
+Gesprochenen ablesen: das Programm zählt für jede Stimme im Zeitfenster
+-- ohne In-Punkt ab dem Moment, in dem jede Kamera läuft, ohne
+Out-Punkt bis dahin, wo die erste Kamera aufhört, so wie der Lauf
+schneidet --, wie viele ihrer Sätze auf
+ein Fragezeichen enden, und schlägt **Gast**
 für den vor, der am wenigsten fragt und am längsten redet, **Moderation**
 für die übrigen. Vorgeschlagen wird nur über einen Namen, den das
 Programm selbst vergeben hat — ein getippter wird nie angerührt, auch
@@ -534,7 +544,9 @@ dasselbe Kapitel sagt, was der Weitwinkel dann tut.
   gemeinsamen Aufnahme kommt keiner.
 * **Start bleibt gesperrt, und ein Namensfeld steht rot.** Zwei Sprecher
   tragen denselben Namen. Die Zeile unter **Start** sagt, welcher Name
-  es ist; gib der Stimme in ihrer Zeile einen eigenen.
+  es ist; gib der Stimme in ihrer Zeile einen eigenen. Behalten darf
+  ihn nur eine Stimme, die die Tabelle in einer anderen Aufnahme
+  wiedererkannt und mit deren Namen versehen hat.
 * **Auf einem Mac nimmt die Erkennung den langsamen Weg.** Die Command
   Line Developer Tools fehlen. `xcode-select --install` holt sie;
   danach nimmt der Lauf den schnellen Weg.

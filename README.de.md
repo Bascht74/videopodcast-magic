@@ -130,6 +130,12 @@ videopodcast-magic --lang fr                Sprache der Meldungen
 videopodcast-magic --help                   alle Schalter
 ```
 
+Ein Lauf von der Kommandozeile schickt seinen Ton zu auphonic.com,
+sofern nicht `--without-auphonic` darin steht, und ohne abgelegten
+Schlüssel hält er an, bevor er beginnt: den Schlüssel einmal mit
+`--store-auphonic-key` ablegen, oder `--without-auphonic` anhängen,
+dann geschieht alles auf diesem Rechner.
+
 Hat pip den Befehl in einen Ordner gelegt, den der Suchpfad nicht
 erreicht, nennt pips eigene Warnung diesen Ordner: ihn in den Suchpfad
 aufnehmen und ein neues Terminal öffnen. Einen zweiten Weg hinein gibt

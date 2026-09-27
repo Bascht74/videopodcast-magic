@@ -251,7 +251,10 @@ Four tabs, in the order they are needed.
   the table says so; [Multitrack](multitrack.md) has that whole side. A
   **Voice** under a name somebody else carries is a refusal -- the note
   at the field asks for one of its own, **Start** stays locked, and the
-  line under the buttons names the person.
+  line under the buttons names the person. The one exception is the
+  same voice heard again: where a voice sounds like one already named in
+  another recording, the table proposes that name in its field, and the
+  two may carry it together.
 
   Which camera a recording belongs to follows from that name for as
   long as nobody picks one, so a name typed or corrected later takes
@@ -583,7 +586,11 @@ is stands under the buttons**, with the tab it is on:
 - with multitrack, all recordings under the same name,
 - a **Voice** under a name that is on somebody else: the cut puts a
   person on one camera, and one name on two voices would be that person
-  in two places,
+  in two places -- unless the two are the same voice heard in two
+  recordings,
+- without multitrack, several cameras and no audio recording: each
+  camera would bring its own sound, and a track per camera is what
+  Multitrack is for,
 - two cameras with the same output file.
 
 The field or the row it means turns red. A tick behind a tab means
@@ -712,8 +719,9 @@ For the run itself the line names the stage, by the same names on both
 paths, with Multitrack and without:
 
 - **Reading the plan**
-- **Audio out of the cameras**: only with Multitrack. Without it the run
-  aligns against the cameras and leaves them alone.
+- **Audio out of the cameras**: wherever a camera's sound is a track in
+  the assignment table. Otherwise the run aligns against the cameras
+  and leaves them alone.
 - **Common time axis**
 - **Processing at auphonic.com**, or **Loudness and levels** without a key
 - **Who speaks when**: only with **Cut by speaker**. **Sync only** asks
@@ -742,7 +750,9 @@ the run itself, and while **Create Resolve project** is at work. Pressed
 during that wait it calls off only the start; the camera audio goes on
 being made, and a later **Start** finds it ready. Pressed during a run,
 the run ends as soon as it can do so without leaving a file half
-written; until then the button reads **Stopping ...**.
+written, and a camera file Stop cut short is removed; until then the
+button reads **Stopping ...**. Afterwards the file check and the time
+axis work again straight away, without a new **Start**.
 
 **The line reads as a sentence, and never as a name the program uses
 inside itself.** While a recording is being separated into speakers it
@@ -1193,7 +1203,11 @@ nothing are told apart.
   the calls to ffmpeg and ffprobe with their times, marked `[EXT]`,
   and every red message the window showed, marked `[BAD]` and with the
   time of day -- a red mark that has since been drawn over is found
-  again there instead of being remembered.
+  again there instead of being remembered. A run that stops on a fault
+  nobody foresaw shows one line beginning **Stopped:** in the window;
+  the whole traceback behind it stands in the log, and that is the part
+  worth sending. The command line ends the same way, with the one line
+  and the traceback in the log. A run stopped with **Stop** writes none.
 
 That is the whole window. The next chapter, [Preflight](preflight.md),
 covers the checks before a run and the meaning of each mark in the file
