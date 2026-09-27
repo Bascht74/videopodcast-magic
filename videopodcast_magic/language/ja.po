@@ -493,7 +493,7 @@ msgid "Wide shot for greeting at the start and farewell at the end"
 msgstr "冒頭のあいさつと最後の別れは引き画で"
 
 msgid "YouTube -- turns down only, never up"
-msgstr "YouTube -- 下げるだけ、上げない"
+msgstr "YouTube -- 下げるのみ"
 
 msgid "average"
 msgstr "平均"
