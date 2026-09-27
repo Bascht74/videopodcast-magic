@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """Stop pressed in a real window run ends it, and leaves no false result.
 
-Camera files (plain) and a levelled track (Multitrack), read at half
-speed so Stop meets them midway: a soon end, no ffmpeg left; plain also
-no cut-short file, handover or EDL, and check and axis measure after.
+Camera files (plain, two at once and the third queued, as on a machine
+of few cores) and a levelled track (Multitrack), read at half speed so
+Stop meets them midway: a soon end, no ffmpeg left; plain also no
+cut-short file, handover or EDL, and check and axis measure after.
 The time axis, its decoder held until Stop: nothing written. auphonic.com
 stood in by a production that stays at work: a soon end. The run's own
 separation by a stand-in worker: a soon end, the worker gone. Each: Stop
@@ -109,9 +110,11 @@ def running_ffmpeg():
                     else p.args))]
 
 
-def stopped_run(project, at, ready=None, startable=None, in_run=None):
+def stopped_run(project, at, ready=None, startable=None, in_run=None,
+                more=()):
     """Open *project*, Start, press Stop once *at* is under way.
 
+    *more* are words added to the window's run line;
     *ready* says instead when to press: a name for the step, or None;
     *startable* is asked of the window before Start, and may pick in it;
     *in_run* are names of the program set only while the run runs.
@@ -138,6 +141,8 @@ def stopped_run(project, at, ready=None, startable=None, in_run=None):
             seen["log"].append(text)
             return write(text)
 
+        if more:
+            argv = type(argv)(list(argv) + list(more), argv.key)
         try:
             return real_loop(argv, state, kept, *rest)
         finally:
@@ -315,7 +320,10 @@ def plain_path():
     os.makedirs(OUT)
     # The project file inside the out folder, where it is kept in use;
     # the stop report must still not count it as finished.
-    seen = stopped_run(ground.project_file(vpm, OUT, OUT), "_audio.mov")
+    # Two workers for three cameras: Stop meets two running and one
+    # still queued, whatever the machine's own count of cores.
+    seen = stopped_run(ground.project_file(vpm, OUT, OUT), "_audio.mov",
+                       more=["--parallel", "2"])
     check("Stop stands and can be pressed while a camera file is written",
           bool(seen["stop_there"]),
           "%s; Stop there and enabled: %r"

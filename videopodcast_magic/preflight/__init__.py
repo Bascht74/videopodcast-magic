@@ -42,6 +42,7 @@ clean_old_files = PROGRAM.clean_old_files
 clipping_facts = PROGRAM.clipping_facts
 clocks_apart = PROGRAM.clocks_apart
 decode_audio = PROGRAM.decode_audio
+end_child = PROGRAM.end_child
 ffprobe_json = PROGRAM.ffprobe_json
 file_timecode = PROGRAM.file_timecode
 group_recording_parts = PROGRAM.group_recording_parts
@@ -1788,6 +1789,11 @@ def run_ffmpeg_with_progress(cmd, duration, text):
             # This is where a run spends its minutes, so this is where
             # breaking off has to reach. The window ends the child.
             RUN_STOP["children"].add(proc)
+            if stop_wanted():
+                # Stop came before this child was on the list, so it
+                # never reached it: a camera still queued behind others
+                # on a machine with few cores starts after Stop.
+                end_child(proc)
             try:
                 show_progress(text, 0.0)
                 for line in proc.stdout:

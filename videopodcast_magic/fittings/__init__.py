@@ -25,6 +25,7 @@ SHOT_NAMES = PROGRAM.SHOT_NAMES
 T = PROGRAM.T
 TN = PROGRAM.TN
 Value = PROGRAM.Value
+end_child = PROGRAM.end_child
 fill_choices = PROGRAM.fill_choices
 label_of = PROGRAM.label_of
 os = PROGRAM.os
@@ -1103,11 +1104,7 @@ def stop_asked_for(where=""):
     RUN_STOP["wanted"] = True
     RUN_STOP["at"] = where
     for child in list(RUN_STOP["children"]):
-        try:
-            child.terminate()
-        except Exception:
-            # It ended by itself between the two lines. Nothing to do.
-            pass
+        end_child(child)
 
 def break_off_button(QtWidgets, state, say):
     """The button that stops a run, and what it says while it does.
