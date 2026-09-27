@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 3.0.0b26.
+gone through for 3.0.0b27.
 
 ## Where the program stands today
 
-**Version 3.0.0b26.** It runs every week, on real material.
+**Version 3.0.0b27.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -119,14 +119,12 @@ the major number.
 
 ## What comes next
 
-**3.0.0b26, and the four versions after it, in short.** 3.0.0b26 did what it was set
-to: it took the window apart into pieces, split the assignment table
-and the run's pipeline the same way, and built tests against
-auphonic.com beside those against a real Resolve -- both run only on
-the owner's machine, when a change calls for them. It also brought the
-first of the whole-way tests forward. 3.0.0b27 takes the whole-way
-tests further and fixes what the window visibly still does wrong.
-3.0.0b28 makes the time axis and the hand-over to Resolve more exact,
+**3.0.0b27, and the three versions after it, in short.** 3.0.0b27
+fixed what the window visibly still did wrong: In and Out count from
+the moment every camera runs, as the run does; a recording the recorder
+split into several files is separated as one; Stop is heard in every
+stage of a run; the command line masters to -16 LUFS by default; and a
+live test now covers the Auphonic path with several tracks. 3.0.0b28 makes the time axis and the hand-over to Resolve more exact,
 with the rest of the whole-way tests. 3.0.0b29 opens more of the
 Auphonic options, takes more than two channels, replaces set thresholds
 with measured ones and shows the preview in HDR. 3.0.0b30 gives the
