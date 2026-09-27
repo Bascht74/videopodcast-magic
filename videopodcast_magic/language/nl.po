@@ -5136,3 +5136,15 @@ msgstr "  Resolve heeft het opruimen afgebroken: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Let op: het half gebouwde project %r kon niet worden verwijderd, of %r niet\n  opnieuw geopend. Doe dat in de projectmanager van Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: het geluid komt overeen met %s over %s s gedeeld geluid, te weinig om van toeval te onderscheiden -- alleen op zijn klok geplaatst"
+
+msgid "placed through %s"
+msgstr "geplaatst via %s"
+
+msgid "found where its timecode pointed"
+msgstr "gevonden waar zijn tijdcode naar wees"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: zijn klok zegt %s, het geluid mat %s -- %s s uit elkaar; de meting geldt"

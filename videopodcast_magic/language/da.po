@@ -5135,3 +5135,15 @@ msgstr "  Resolve afbrød oprydningen: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Advarsel: det halvt byggede projekt %r kunne ikke slettes, eller %r kunne ikke\n  åbnes igen. Gør det venligst i Resolves projektstyring."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: lyden passer med %s over %s s fælles lyd, for lidt til at skelne fra tilfældighed -- placeret alene efter sit ur"
+
+msgid "placed through %s"
+msgstr "placeret via %s"
+
+msgid "found where its timecode pointed"
+msgstr "fundet, hvor dens timecode pegede hen"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: dens ur siger %s, lyden målte %s -- %s s fra hinanden; målingen bruges"

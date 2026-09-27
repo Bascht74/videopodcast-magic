@@ -5092,3 +5092,15 @@ msgstr "  Resolve đã dừng việc dọn dẹp: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Cảnh báo: không xóa được dự án dựng dở %r, hoặc không mở lại được\n  %r. Hãy làm việc đó trong trình quản lý dự án của Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: âm thanh khớp ở mức %s trên %s giây âm thanh chung, quá ít để phân biệt với ngẫu nhiên -- chỉ được đặt theo đồng hồ của nó"
+
+msgid "placed through %s"
+msgstr "được đặt qua %s"
+
+msgid "found where its timecode pointed"
+msgstr "tìm thấy ở nơi timecode của nó chỉ tới"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: đồng hồ của nó ghi %s, âm thanh đo được %s -- lệch %s giây; dùng kết quả đo"

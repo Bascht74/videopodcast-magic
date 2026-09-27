@@ -5094,3 +5094,15 @@ msgstr "  Resolve หยุดการเก็บกวาด: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  ข้อควรระวัง: ลบโปรเจกต์ที่สร้างไว้ครึ่งเดียว %r ไม่ได้ หรือเปิด %r\n  กลับไม่ได้ โปรดทำในตัวจัดการโปรเจกต์ของ Resolve"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: เสียงตรงกันที่ %s บนเสียงร่วม %s วินาที น้อยเกินกว่าจะแยกจากความบังเอิญได้ -- วางตามนาฬิกาของกล้องอย่างเดียว"
+
+msgid "placed through %s"
+msgstr "วางผ่าน %s"
+
+msgid "found where its timecode pointed"
+msgstr "พบตรงที่ไทม์โค้ดชี้ไว้"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: นาฬิกาบอก %s เสียงวัดได้ %s -- ห่างกัน %s วินาที ใช้ค่าที่วัดได้"

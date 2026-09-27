@@ -5138,3 +5138,15 @@ msgstr "  Resolve نے صفائی روک دی: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  احتیاط: آدھا بنا ہوا پروجیکٹ %r حذف نہیں ہو سکا، یا %r دوبارہ\n  نہیں کھل سکا۔ براہ کرم یہ Resolve کے پروجیکٹ مینیجر میں کریں۔"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: اس کا آڈیو %s کی حد تک میل کھاتا ہے، %s سیکنڈ مشترک آڈیو پر، جو اتفاق سے الگ پہچاننے کے لیے بہت کم ہے -- صرف اس کی گھڑی کے مطابق جگہ دی گئی"
+
+msgid "placed through %s"
+msgstr "%s کے ذریعے جگہ دی گئی"
+
+msgid "found where its timecode pointed"
+msgstr "وہیں ملا جہاں اس کا ٹائم کوڈ اشارہ کر رہا تھا"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: اس کی گھڑی کہتی ہے %s، آڈیو نے %s ناپا -- %s سیکنڈ کا فرق؛ پیمائش استعمال ہوتی ہے"

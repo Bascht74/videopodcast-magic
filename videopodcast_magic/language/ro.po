@@ -5180,3 +5180,15 @@ msgstr "  Resolve a întrerupt curățenia: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Atenție: proiectul construit pe jumătate %r nu a putut fi șters, sau %r nu a\n  putut fi redeschis. Faceți-o în managerul de proiecte din Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: potrivirea sunetului este %s pe %s s de sunet comun, prea puțin pentru a o deosebi de întâmplare -- plasată doar după ceasul ei"
+
+msgid "placed through %s"
+msgstr "plasată prin %s"
+
+msgid "found where its timecode pointed"
+msgstr "găsită acolo unde arăta timecode-ul ei"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: ceasul ei spune %s, sunetul a măsurat %s -- diferență de %s s; se folosește măsurarea"

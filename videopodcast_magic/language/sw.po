@@ -5139,3 +5139,15 @@ msgstr "  Resolve ilisimamisha usafishaji: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Tahadhari: mradi uliojengwa nusu %r haukuweza kufutwa, au %r haukuweza\n  kufunguliwa tena. Tafadhali fanya hivyo katika kidhibiti cha miradi cha Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: sauti yake inalingana kwa %s kwenye sekunde %s za sauti ya pamoja, kidogo mno kutofautisha na bahati -- imewekwa kwa saa yake tu"
+
+msgid "placed through %s"
+msgstr "imewekwa kupitia %s"
+
+msgid "found where its timecode pointed"
+msgstr "imepatikana pale timecode yake ilipoelekeza"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: saa yake inasema %s, sauti ilipima %s -- tofauti ya sekunde %s; kipimo ndicho kinachotumika"

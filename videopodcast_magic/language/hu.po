@@ -5137,3 +5137,15 @@ msgstr "  A Resolve megszakította a rendrakást: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Figyelem: a félig felépített %r projektet nem sikerült törölni, vagy a(z) %r nem\n  nyílt meg újra. Kérjük, tegye meg a Resolve projektkezelőjében."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: a hang egyezése %s, %s s közös hangon, túl kevés ahhoz, hogy elváljon a véletlentől -- csak az órája alapján került a helyére"
+
+msgid "placed through %s"
+msgstr "%s révén került a helyére"
+
+msgid "found where its timecode pointed"
+msgstr "ott található, ahová az időkódja mutatott"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: az órája szerint %s, a hang %s értéket mért -- %s s eltérés; a mérés érvényes"

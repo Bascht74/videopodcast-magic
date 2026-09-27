@@ -5184,3 +5184,15 @@ msgstr "  Resolve pārtrauca sakopšanu: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Uzmanību: pusizveidoto projektu %r neizdevās izdzēst vai %r neizdevās\n  atvērt no jauna. Lūdzu, izdariet to Resolve projektu pārvaldniekā."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: skaņas atbilstība %s pār %s s kopīgas skaņas, pārāk maz, lai atšķirtu no nejaušības -- novietots tikai pēc tā pulksteņa"
+
+msgid "placed through %s"
+msgstr "novietots caur %s"
+
+msgid "found where its timecode pointed"
+msgstr "atrasts tur, kur norādīja tā laika kods"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: tā pulkstenis rāda %s, skaņa izmērīja %s -- atšķirība %s s; tiek izmantots mērījums"

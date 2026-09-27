@@ -5178,3 +5178,15 @@ msgstr "  Resolve прервал уборку: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Внимание: наполовину построенный проект %r не удалось удалить, или %r не удалось\n  открыть снова. Сделайте это в менеджере проектов Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: совпадение звука %s на %s с общего звука, слишком мало, чтобы отличить от случайности -- размещено только по собственным часам"
+
+msgid "placed through %s"
+msgstr "размещено через %s"
+
+msgid "found where its timecode pointed"
+msgstr "найдено там, куда указывал его таймкод"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: его часы показывают %s, звук измерил %s -- расхождение %s с; используется измерение"

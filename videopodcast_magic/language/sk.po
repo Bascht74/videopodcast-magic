@@ -5179,3 +5179,15 @@ msgstr "  Resolve prerušil upratovanie: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Pozor: napoly postavený projekt %r sa nepodarilo odstrániť, alebo %r znova\n  otvoriť. Urobte to v správcovi projektov Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: zhoda zvuku %s na %s s spoločného zvuku, príliš málo na odlíšenie od náhody -- zaradené len podľa vlastných hodín"
+
+msgid "placed through %s"
+msgstr "zaradené cez %s"
+
+msgid "found where its timecode pointed"
+msgstr "nájdené tam, kam ukazoval jeho timecode"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: jeho hodiny hovoria %s, zvuk nameral %s -- rozdiel %s s; platí meranie"

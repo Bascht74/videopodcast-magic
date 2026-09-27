@@ -5091,3 +5091,15 @@ msgstr "  Resolve가 정리를 중단했습니다: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  주의: 절반만 만들어진 프로젝트 %r을(를) 삭제하지 못했거나 %r을(를) 다시\n  열지 못했습니다. Resolve 프로젝트 관리자에서 해 주십시오."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: 소리 일치도 %s, 공통 소리 %s초, 우연과 구별하기에는 너무 짧음 -- 자체 시계만으로 배치했습니다"
+
+msgid "placed through %s"
+msgstr "%s을(를) 거쳐 배치"
+
+msgid "found where its timecode pointed"
+msgstr "타임코드가 가리킨 곳에서 찾음"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: 시계는 %s, 소리 측정값은 %s -- 차이 %s초, 측정값을 사용합니다"

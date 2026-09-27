@@ -5196,3 +5196,15 @@ msgstr "  Resolve перервав прибирання: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Увага: наполовину побудований проєкт %r не вдалося видалити, або %r не вдалося\n  відкрити знову. Зробіть це в менеджері проєктів Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: збіг звуку %s на %s с спільного звуку, замало, щоб відрізнити від випадковості -- розміщено лише за власним годинником"
+
+msgid "placed through %s"
+msgstr "розміщено через %s"
+
+msgid "found where its timecode pointed"
+msgstr "знайдено там, куди вказував його таймкод"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: його годинник показує %s, звук виміряв %s -- розбіжність %s с; використовується вимірювання"

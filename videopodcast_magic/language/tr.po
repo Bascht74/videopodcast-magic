@@ -5148,3 +5148,15 @@ msgstr "  Resolve toparlamayı durdurdu: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Dikkat: yarım kurulan %r projesi silinemedi ya da %r yeniden\n  açılamadı. Lütfen bunu Resolve'un proje yöneticisinde yapın."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: ses eşleşmesi %s, %s sn ortak ses üzerinde, rastlantıdan ayırmak için çok az -- yalnızca kendi saatine göre yerleştirildi"
+
+msgid "placed through %s"
+msgstr "%s üzerinden yerleştirildi"
+
+msgid "found where its timecode pointed"
+msgstr "zaman kodunun gösterdiği yerde bulundu"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: saati %s diyor, ses %s ölçtü -- %s sn fark; ölçüm kullanılır"

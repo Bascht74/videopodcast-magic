@@ -5136,3 +5136,15 @@ msgstr "  Το Resolve διέκοψε το συμμάζεμα: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Προσοχή: το μισοχτισμένο έργο %r δεν μπόρεσε να διαγραφεί, ή το %r δεν\n  άνοιξε ξανά. Κάντε το στη διαχείριση έργων του Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: ο ήχος της ταιριάζει κατά %s σε %s s κοινού ήχου, πολύ λίγο για να ξεχωρίσει από τη σύμπτωση -- τοποθετήθηκε μόνο με βάση το ρολόι της"
+
+msgid "placed through %s"
+msgstr "τοποθετήθηκε μέσω %s"
+
+msgid "found where its timecode pointed"
+msgstr "βρέθηκε εκεί όπου έδειχνε το timecode της"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: το ρολόι της λέει %s, ο ήχος μέτρησε %s -- απόσταση %s s· χρησιμοποιείται η μέτρηση"

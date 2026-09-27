@@ -5136,3 +5136,15 @@ msgstr "  O Resolve interrompeu a arrumação: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Atenção: não foi possível excluir o projeto construído pela metade %r, ou reabrir\n  %r. Faça isso no gerenciador de projetos do Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: o som dele corresponde em %s sobre %s s de som comum, pouco demais para distinguir do acaso -- posicionado só pelo seu relógio"
+
+msgid "placed through %s"
+msgstr "posicionado através de %s"
+
+msgid "found where its timecode pointed"
+msgstr "encontrado onde o seu timecode apontava"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: o relógio dele diz %s, o som mediu %s -- %s s de diferença; vale a medição"

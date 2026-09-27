@@ -57,23 +57,24 @@ BURSTS = [(0.6, 1.3), (1.9, 2.1), (2.9, 3.2), (3.7, 8.9), (9.6, 10.0),
           (21.9, 22.2)]
 
 
-def camera(name, hz, timecode, late=None):
+def camera(name, hz, timecode, late=None, length=LENGTH):
     """A camera made with ffmpeg: a steady tone, or bursts heard from *late*.
 
-    With no *timecode* the file carries none. A precondition of the
-    material, not a judgement, hence the assert.
+    With no *timecode* the file carries none; *length* longer than the
+    rest makes it the reference whatever the order. A precondition of
+    the material, not a judgement, hence the assert.
     """
     if late is None:
-        sound = "sine=frequency=%d:duration=%g" % (hz, LENGTH)
+        sound = "sine=frequency=%d:duration=%g" % (hz, length)
     else:
         gate = "+".join("between(t+%g,%g,%g)" % (late, x, y)
                         for x, y in BURSTS)
         sound = ("aevalsrc='0.5*sin(2*PI*%d*t)*(%s)':s=48000:d=%g"
-                 % (hz, gate, LENGTH))
+                 % (hz, gate, length))
     path = os.path.join(HOME, name)
     made = subprocess.run(
         ["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
-         "testsrc=size=160x90:rate=25:duration=%g" % LENGTH,
+         "testsrc=size=160x90:rate=25:duration=%g" % length,
          "-f", "lavfi", "-i", sound, "-c:v", "libx264", "-preset",
          "ultrafast", "-pix_fmt", "yuv420p", "-c:a", "aac"]
         + (["-timecode", timecode] if timecode else [])
@@ -99,8 +100,9 @@ def figure(value):
     return "none" if value is None else "%.3f" % value
 
 
-# The guest first: of two cameras of one length the first is the
-# reference, so the presenter's offset is the one measured.
+# Of two cameras of one length the one first by path is the reference
+# where both carry a clock and neither places more: the guest's, so the
+# presenter's offset is the one measured, whatever the order.
 GUEST = camera("GuestCam_C003.mov", 220, "18:55:06:12")
 PRESENTER = camera("PresenterCam_C002.mov", 330, "18:55:04:00")
 
@@ -171,7 +173,8 @@ check("and nothing says the clock placed it",
 print("\n4. A reference with no clock, and a camera the sound placed with one")
 # The wide camera rolls a second after the presenter's, so the sound lays
 # the presenter's at +1.00; the clocks put the guest's 2.48 s after it.
-WIDE = camera("WideCam_C006.mov", 440, None, 1.0)
+# A second longer than the rest, so it is the reference in any order.
+WIDE = camera("WideCam_C006.mov", 440, None, 1.0, LENGTH + 1.0)
 AFTER_WIDE = 1.0 - LATE
 ref, position, said = aligned([WIDE, HEARD, GUEST])
 a_heard = position.get(HEARD, (None,))[0]
@@ -314,11 +317,15 @@ def refusing(env_a, env_b, *args, **named):
     return real(env_a, env_b, *args, **named)
 
 
+# The liar a second longer: of two as long, the one the other places
+# would be the reference, and the failure would decide which.
+LIAR_LONG = camera("GuestCam_C008.mov", 220, "18:55:09:00", LATE,
+                   LENGTH + 1.0)
 vpm.align_envelopes = refusing
 try:
-    ref, position, said = aligned([LIAR, HEARD])
+    ref, position, said = aligned([LIAR_LONG, HEARD])
     data, text = vpm.measure_time_axis(
-        [LIAR, HEARD], tc_of=lambda p: vpm.timecode_seconds(
+        [LIAR_LONG, HEARD], tc_of=lambda p: vpm.timecode_seconds(
             vpm.video_facts(p)))
 finally:
     vpm.align_envelopes = real
@@ -327,13 +334,13 @@ told = vpm.T('  %s cannot be classified: %s -- placed by its clock '
              'alone') % (os.path.basename(HEARD),
                          vpm.T('too little audio to align'))
 check("a camera whose measurement fails stands at its clock, 5.00 s in",
-      ref == LIAR and a is not None and abs(a - 5.0) <= FRAME
+      ref == LIAR_LONG and a is not None and abs(a - 5.0) <= FRAME
       and bool(st.get("by_clock_only")) and told in said,
       "reference %s, offset %s against the clock's 5.00, verdict %r, "
       "log %r" % (os.path.basename(ref), figure(a),
                   sorted(k for k in st if st[k]), said))
 axis = (data or {}).get("axis") or {}
-kl, kh = vpm.path_key(LIAR), vpm.path_key(HEARD)
+kl, kh = vpm.path_key(LIAR_LONG), vpm.path_key(HEARD)
 gap = axis[kh] - axis[kl] if kl in axis and kh in axis else None
 check("the preview lays the unmeasured one 5.00 s in as well",
       gap is not None and abs(gap + 5.0) <= FRAME,
@@ -376,18 +383,21 @@ check("the preview refuses no camera the run places by sound",
 print("\n9. The reference's clock before a later camera's, which is wrong")
 # The liar's clock is 2.52 s off what the sound says; set against it,
 # the guest would stand 0.04 s after the presenter, not 2.48 s before.
-ref, position, said = aligned([HEARD, LIAR, GUEST])
+# The presenter's a second longer, so it is the reference by length.
+HEARD_LONG = camera("PresenterCam_C007.mov", 330, "18:55:04:00", 0.0,
+                    LENGTH + 1.0)
+ref, position, said = aligned([HEARD_LONG, LIAR, GUEST])
 a = position.get(GUEST, (None,))[0]
 check("the run sets the camera against the reference's clock first",
-      ref == HEARD and a is not None and abs(a + LATE) <= FRAME,
+      ref == HEARD_LONG and a is not None and abs(a + LATE) <= FRAME,
       "reference %s, offset %s against %.2f, the liar's by sound %s"
       % (os.path.basename(ref), figure(a), -LATE,
          figure(position.get(LIAR, (None,))[0])))
 data, text = vpm.measure_time_axis(
-    [HEARD, LIAR, GUEST],
+    [HEARD_LONG, LIAR, GUEST],
     tc_of=lambda p: vpm.timecode_seconds(vpm.video_facts(p)))
 axis = (data or {}).get("axis") or {}
-kh, kg = vpm.path_key(HEARD), vpm.path_key(GUEST)
+kh, kg = vpm.path_key(HEARD_LONG), vpm.path_key(GUEST)
 gap = axis[kg] - axis[kh] if kh in axis and kg in axis else None
 check("and so does the preview, 2.48 s after the presenter",
       gap is not None and abs(gap - LATE) <= FRAME,

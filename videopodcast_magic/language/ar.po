@@ -5319,3 +5319,15 @@ msgstr "  أوقف Resolve التنظيف: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  تنبيه: تعذّر حذف المشروع نصف المبني %r، أو تعذّر فتح %r\n  مجددًا. يرجى القيام بذلك من مدير المشاريع في Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: يتطابق صوته بدرجة %s على %s ث من الصوت المشترك، وهذا أقل من أن يُميَّز عن المصادفة -- وُضع بساعته وحدها"
+
+msgid "placed through %s"
+msgstr "وُضع عبر %s"
+
+msgid "found where its timecode pointed"
+msgstr "وُجد حيث أشار رمزه الزمني"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: ساعته تقول %s، والصوت قاس %s -- الفرق %s ث؛ تُعتمد القياسات"

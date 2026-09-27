@@ -5139,3 +5139,15 @@ msgstr "  Resolve katkestas koristamise: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Tähelepanu: pooleldi ehitatud projekti %r ei õnnestunud kustutada või %r ei\n  avanenud uuesti. Tehke seda Resolve'i projektihalduris."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: heli sobib määraga %s üle %s s ühise heli, liiga vähe, et juhusest eristada -- paigutatud ainult selle kella järgi"
+
+msgid "placed through %s"
+msgstr "paigutatud %s kaudu"
+
+msgid "found where its timecode pointed"
+msgstr "leitud sealt, kuhu selle ajakood osutas"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: selle kell ütleb %s, heli mõõtis %s -- vahe %s s; kasutatakse mõõtmist"

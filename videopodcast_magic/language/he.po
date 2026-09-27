@@ -5138,3 +5138,15 @@ msgstr "  Resolve עצר את הסידור: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  זהירות: לא ניתן היה למחוק את הפרויקט הבנוי למחצה %r, או לפתוח שוב את %r.\n  נא לעשות זאת במנהל הפרויקטים של Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: השמע שלו מתאים ברמה %s על פני %s ש׳ של שמע משותף, מעט מדי כדי להבדיל ממקריות -- המיקום לפי השעון שלו בלבד"
+
+msgid "placed through %s"
+msgstr "מוקם דרך %s"
+
+msgid "found where its timecode pointed"
+msgstr "נמצא היכן שקוד הזמן שלו הצביע"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: השעון שלו אומר %s, השמע מדד %s -- הפרש של %s ש׳; המדידה היא שקובעת"

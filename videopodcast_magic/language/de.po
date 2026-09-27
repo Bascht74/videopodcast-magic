@@ -6872,3 +6872,15 @@ msgstr "  Resolve hat das Aufräumen abgebrochen: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  ACHTUNG: das halb gebaute Projekt %r ließ sich nicht löschen, oder %r nicht\n  wieder öffnen. Bitte in der Projektverwaltung von Resolve nachholen."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: Übereinstimmung des Tons %s über %s s gemeinsamen Ton, zu wenig, um sie vom Zufall zu unterscheiden -- allein nach seiner Uhr gesetzt"
+
+msgid "placed through %s"
+msgstr "über %s gesetzt"
+
+msgid "found where its timecode pointed"
+msgstr "dort gefunden, wohin sein Timecode wies"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: seine Uhr sagt %s, der Ton hat %s gemessen -- %s s auseinander; es gilt die Messung"

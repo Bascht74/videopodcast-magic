@@ -5090,3 +5090,15 @@ msgstr "  Resolve 中断了清理：%s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  注意：无法删除建了一半的项目 %r，或无法重新打开 %r。\n  请在 Resolve 的项目管理器中处理。"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s：其声音匹配度为 %s，共同声音 %s 秒，太少，无法与巧合区分 -- 仅按其时钟放置"
+
+msgid "placed through %s"
+msgstr "经由 %s 放置"
+
+msgid "found where its timecode pointed"
+msgstr "在其时间码所指之处找到"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s：其时钟显示 %s，声音测得 %s -- 相差 %s 秒；采用测量结果"

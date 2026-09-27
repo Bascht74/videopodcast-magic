@@ -164,11 +164,14 @@ subprocess.run(
      "-map", "0:v", "-map", "1:a", "-ss", "%.2f" % CAM_LATE,
      "-t", "%.2f" % CAM_LEN, "-timecode", CAM_TC] + PICTURE
     + [D + "/Good.mov",
-       # The one nothing can place: foreign sound, and no clock.
-       "-map", "0:v", "-map", "2:a", "-t", "%.2f" % CAM_LEN] + PICTURE
+       # The one nothing can place: foreign sound, and no clock. A
+       # second shorter, so the camera that fits is the longest and the
+       # reference: the two foreign ones place each other, and as long
+       # they would be chosen for it (cameras_on_one_axis).
+       "-map", "0:v", "-map", "2:a", "-t", "%.2f" % (CAM_LEN - 1)] + PICTURE
     + [D + "/Lost.mov",
        # The same foreign sound, but this one knows what time it is.
-       "-map", "0:v", "-map", "2:a", "-t", "%.2f" % CAM_LEN,
+       "-map", "0:v", "-map", "2:a", "-t", "%.2f" % (CAM_LEN - 1),
        "-timecode", CAM_TC] + PICTURE + [D + "/Clock.mov"], check=True)
 
 REC = D + "/Rec.wav"
@@ -286,11 +289,16 @@ check("nor does one that never measured a spread",
       vpm.fit_places_it(nospread) is False,
       "%r from %d points and no spread at all"
       % (vpm.fit_places_it(nospread), nospread["points"]))
-gates = source.count("and not fit_places_it(st)")
-check("both gates ask it, the window's and the run's",
-      gates == 2 and source.count("def fit_places_it") == 1,
-      "%d gates ask it (wanted 2), %d definitions of the rule (wanted 1)"
-      % (gates, source.count("def fit_places_it")))
+# One gate for cameras, and both doors -- the run's align_cameras and
+# the window's measure_time_axis -- go through the one function that
+# asks it; the definition is the one call without a door.
+gates = source.count("(match_places_it(st) or fit_places_it(st))")
+doors = source.count("cameras_on_one_axis(") - 1
+check("one camera gate asks it, for the window and the run alike",
+      gates == 1 and doors == 2 and source.count("def fit_places_it") == 1,
+      "%d gates ask it (wanted 1), %d doors reach it (wanted 2), %d "
+      "definitions of the rule (wanted 1)"
+      % (gates, doors, source.count("def fit_places_it")))
 
 
 #------------------------------------------------- 3. Two cameras alone

@@ -5140,3 +5140,15 @@ msgstr "  Resolve прекъсна почистването: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Внимание: наполовина изграденият проект %r не можа да бъде изтрит или %r не\n  можа да бъде отворен отново. Моля, направете го в мениджъра на проекти на Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: съвпадението на звука е %s при %s s общ звук, твърде малко, за да се различи от случайност -- мястото е определено само по часовника"
+
+msgid "placed through %s"
+msgstr "поставено чрез %s"
+
+msgid "found where its timecode pointed"
+msgstr "намерено там, където сочеше таймкодът му"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: часовникът му показва %s, звукът измери %s -- разлика %s s; използва се измерването"

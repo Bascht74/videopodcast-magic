@@ -5139,3 +5139,15 @@ msgstr "  Resolve శుభ్రపరచడాన్ని ఆపేసిం�
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  జాగ్రత్త: సగం నిర్మించిన ప్రాజెక్ట్ %r తొలగించబడలేదు, లేదా %r మళ్లీ\n  తెరవబడలేదు. దయచేసి దాన్ని Resolve ప్రాజెక్ట్ మేనేజర్‌లో చేయండి."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: దీని ఆడియో %s మేరకు సరిపోతుంది, %s సె. ఉమ్మడి ఆడియోపై, యాదృచ్ఛికం నుంచి వేరు చేయడానికి చాలా తక్కువ -- దాని గడియారం ఆధారంగా మాత్రమే ఉంచబడింది"
+
+msgid "placed through %s"
+msgstr "%s ద్వారా ఉంచబడింది"
+
+msgid "found where its timecode pointed"
+msgstr "దాని టైమ్‌కోడ్ సూచించిన చోట దొరికింది"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: దాని గడియారం %s అంటోంది, ఆడియో %s కొలిచింది -- %s సె. తేడా; కొలతనే ఉపయోగిస్తారు"

@@ -5228,3 +5228,15 @@ msgstr "  Resolve je prekinil pospravljanje: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Pozor: napol zgrajenega projekta %r ni bilo mogoče izbrisati ali %r znova\n  odpreti. To storite v upravitelju projektov Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: ujemanje zvoka %s na %s s skupnega zvoka, premalo, da bi ga ločili od naključja -- umeščeno samo po lastni uri"
+
+msgid "placed through %s"
+msgstr "umeščeno prek %s"
+
+msgid "found where its timecode pointed"
+msgstr "najdeno tam, kamor je kazala njegova časovna koda"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: njegova ura pravi %s, zvok je izmeril %s -- razlika %s s; velja meritev"

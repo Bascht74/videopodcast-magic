@@ -5275,3 +5275,15 @@ msgstr "  Stop Resolve an slachtú: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Aire: níorbh fhéidir an tionscadal leathdhéanta %r a scriosadh, nó %r a oscailt\n  arís. Déan é i mbainisteoir tionscadal Resolve, le do thoil."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: oireann a fhuaim le %s thar %s s d’fhuaim chomhroinnte, ró-bheag le hidirdhealú ó sheans -- curtha de réir a chloig amháin"
+
+msgid "placed through %s"
+msgstr "curtha trí %s"
+
+msgid "found where its timecode pointed"
+msgstr "aimsithe san áit a raibh a chód ama ag díriú"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: deir a chlog %s, thomhais an fhuaim %s -- %s s óna chéile; úsáidtear an tomhas"

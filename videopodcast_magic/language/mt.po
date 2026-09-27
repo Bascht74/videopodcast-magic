@@ -5228,3 +5228,15 @@ msgstr "  Resolve waqqaf it-tindif: %s"
 
 msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
 msgstr "  Attenzjoni: il-proġett mibni bin-nofs %r ma setax jitħassar, jew %r ma setax\n  jerġa' jinfetaħ. Jekk jogħġbok agħmel dan fil-maniġer tal-proġetti ta' Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: il-ħoss tiegħu jaqbel b'%s fuq %s s ta' ħoss komuni, ftit wisq biex jingħaraf mill-kumbinazzjoni -- tqiegħed skont l-arloġġ tiegħu biss"
+
+msgid "placed through %s"
+msgstr "tqiegħed permezz ta' %s"
+
+msgid "found where its timecode pointed"
+msgstr "instab fejn kien jindika t-timecode tiegħu"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: l-arloġġ tiegħu jgħid %s, il-ħoss kejjel %s -- differenza ta' %s s; jintuża l-kejl"
