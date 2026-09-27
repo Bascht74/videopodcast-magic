@@ -2005,10 +2005,13 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         if request and request.get("key"):
             state["handover_key"] = request["key"]
         d, made = preview_handover(state), None
-        if request and request.get("key") and state.get("preview_from") \
-                == ("stage", request["key"]):
-            state["preview_base"] = (words_but_the_cut(request["words"]),
-                                     request["plan"], d)
+        # Kept by the dry run or written by a finished run, it was made
+        # for these numbers; only the kept one is a cut stage's base.
+        if request and request.get("key") and state.get("preview_key") \
+                == request["key"]:
+            if state.get("preview_from") == ("stage", request["key"]):
+                state["preview_base"] = (
+                    words_but_the_cut(request["words"]), request["plan"], d)
             made = [(c["start"], c["end"], c["camera"])
                     for c in d.get("cut") or ()]
             # The run's cut names each camera, not its Resolve track: the
