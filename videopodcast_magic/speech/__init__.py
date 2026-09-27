@@ -832,6 +832,24 @@ def use_certificates():
     return bundle
 
 
+def onnxruntime_quiet():
+    """Keep onnxruntime from reporting home. True where its switch was thrown.
+
+    faster-whisper's voice filter runs on it, and from its import on it
+    keeps events under the home folder and a thread that posts them to
+    Microsoft; that thread has aborted Python at exit. The variable
+    stops both, but only before the import; the call is its own switch.
+    """
+    # An onnxruntime too old for the switch, or none, is no reason to stop.
+    os.environ["ORT_DISABLE_TELEMETRY"] = "1"
+    try:
+        import onnxruntime
+        onnxruntime.disable_telemetry_events()
+        return True
+    except Exception:
+        return False
+
+
 def whisper_words(audio_path, language="", install=True):
     """Recognise with faster-whisper where macOS cannot.
 
@@ -841,6 +859,7 @@ def whisper_words(audio_path, language="", install=True):
     applied, or None where the package is not there.
     """
     import importlib
+    onnxruntime_quiet()
     try:
         module = importlib.import_module("faster_whisper")
     except ImportError:

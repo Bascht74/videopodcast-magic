@@ -35,7 +35,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **4250** -- who speaks and when: the separation itself,
+* `speakers/` **4259** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -69,7 +69,7 @@ figure of the day is that command, not this paragraph**:
   the findings
 * `setup/` **1322** -- finding ffmpeg, installing a missing module,
   keeping the key, and storing it from the terminal
-* `speech/` **1373** -- what is said and when, and what is written down
+* `speech/` **1392** -- what is said and when, and what is written down
   from it
 * `hearing/` **1128** -- decoding, envelopes, bands, phase, aligning
   audio to video

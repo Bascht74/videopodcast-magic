@@ -537,6 +537,15 @@ def hush():
     that error, so the sentence names it. Or it loads and has no such
     switch, and then the refusal stands and "telemetry" is the truth.
     """
+    # onnxruntime comes with pyannote's pipelines and reports home from
+    # its import on; its thread has aborted this process at exit. The
+    # variable must stand before that import. Neither step ever refuses.
+    os.environ["ORT_DISABLE_TELEMETRY"] = "1"
+    try:
+        import onnxruntime
+        onnxruntime.disable_telemetry_events()
+    except Exception:
+        pass
     loaded, first = False, ""
     for where in ("pyannote.audio.telemetry", "pyannote.audio"):
         try:
