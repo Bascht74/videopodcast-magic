@@ -13,7 +13,10 @@ PROGRAM = PROGRAM
 FILE_FORMAT = PROGRAM.FILE_FORMAT
 FROZEN_NAME = PROGRAM.FROZEN_NAME
 T = PROGRAM.T
+VERSION = PROGRAM.VERSION
+hashlib = PROGRAM.hashlib
 json = PROGRAM.json
+path_key = PROGRAM.path_key
 os = PROGRAM.os
 sys = PROGRAM.sys
 tempfile = PROGRAM.tempfile
@@ -114,6 +117,7 @@ def clean_kept_stores(days=30):
     """
     clean_old_files(cache_folder("words"), days)
     clean_old_files(cache_folder("speakers"), days)
+    clean_stage_store(days)
     keep_newest_build(cache_folder("speech"), "recogniser_")
 
 
@@ -126,6 +130,7 @@ def write_beside_then_move(file_path, data):
     """
     if not file_path:
         return
+    beside = None
     try:
         fd, beside = tempfile.mkstemp(dir=os.path.dirname(file_path),
                                       prefix=".vpm_", suffix=".part")
@@ -133,7 +138,11 @@ def write_beside_then_move(file_path, data):
             f.write(data)
         os.replace(beside, file_path)
     except OSError:
-        return
+        # A write that did not arrive leaves no half file lying beside.
+        try:
+            os.unlink(beside or "")
+        except OSError:
+            return
 
 
 def settings_folder(make=False):
@@ -229,6 +238,112 @@ def keep_setting(name, value):
     write_beside_then_move(path, data)
     forget_settings()
     return read_settings(path).get(name) == value
+
+
+#------------------------------------------ What a stage worked out, kept
+
+# Beyond this many the stage store keeps only the ones used last.
+STAGE_KEEP_COUNT = 200
+
+
+def stage_input(o):
+    """A set in a stage's inputs, in an order that does not wander."""
+    if isinstance(o, (set, frozenset)):
+        return sorted(o, key=repr)
+    raise TypeError("a stage input json cannot hold: %r" % type(o))
+
+
+def stage_key(stage, files=(), **inputs):
+    """The name a stage's result is kept under, or None if it has none.
+
+    Built from everything the stage depends on: each file by its place,
+    time and size (the place as path_key spells it, so one file reached
+    two ways is one input), and every other input as it is given.
+    Anything that changes changes the key.
+    """
+    # The stage names the file, so it may not lead out of the folder.
+    if not str(stage).replace("_", "").isalnum():
+        return None
+    marks = []
+    for p in files or ():
+        seen = PROGRAM.file_fingerprint(p) or [None, None, None]
+        marks.append([path_key(p), seen[1], seen[2]])
+    try:
+        body = json.dumps({"stage": stage, "files": marks,
+                           "inputs": inputs}, sort_keys=True,
+                          default=stage_input)
+    except (TypeError, ValueError):
+        return None
+    digest = hashlib.sha256(body.encode("utf-8")).hexdigest()[:40]
+    return "%s_%s" % (stage, digest)
+
+
+def stage_file(key):
+    """Where the entry under *key* lies in the cache, or None."""
+    folder = cache_folder("stages") if key else None
+    return os.path.join(folder, key + ".json") if folder else None
+
+
+def stage_get(key, schema=1):
+    """What was kept under *key*, or None wherever it cannot be trusted.
+
+    A missing, broken or foreign entry is None, and so is one another
+    version of the program or another shape of the stage wrote: the
+    caller works the stage out again rather than read the wrong thing.
+    """
+    path = stage_file(key)
+    try:
+        with open(path or "", "rb") as f:
+            kept = json.loads(f.read().decode("utf-8"))
+    except (OSError, ValueError, UnicodeDecodeError):
+        return None
+    if not isinstance(kept, dict) or kept.get("key") != key \
+            or kept.get("version") != VERSION \
+            or kept.get("schema") != schema:
+        return None
+    kept_in_use(path)
+    return kept.get("result")
+
+
+def stage_put(key, result, schema=1):
+    """Keep *result* under *key* for the next run. True if it went.
+
+    Written beside and moved into place, so a reader never meets half
+    an entry; the store is trimmed to its count on the way out.
+    """
+    path = stage_file(key)
+    if not path or result is None:
+        return False
+    try:
+        data = json.dumps({"key": key, "version": VERSION, "schema": schema,
+                           "result": result}, sort_keys=True).encode("utf-8")
+    except (TypeError, ValueError):
+        return False
+    write_beside_then_move(path, data)
+    clean_stage_store()
+    return os.path.isfile(path)
+
+
+def clean_stage_store(days=None):
+    """Let stage entries go by age, and beyond STAGE_KEEP_COUNT by use.
+
+    The age as the other stores have it; the count because every slider
+    moved in the window writes an entry of its own.
+    """
+    folder = cache_folder("stages")
+    if days is not None:
+        clean_old_files(folder, days)
+    try:
+        names = [n for n in os.listdir(folder or "") if n.endswith(".json")]
+        ages = dict((n, os.path.getmtime(os.path.join(folder, n)))
+                    for n in names)
+    except OSError:
+        return
+    for name in sorted(names, key=lambda n: -ages[n])[STAGE_KEEP_COUNT:]:
+        try:
+            os.unlink(os.path.join(folder, name))
+        except OSError:
+            continue
 
 
 #-------------------------------------- Whether a stored file may be read
