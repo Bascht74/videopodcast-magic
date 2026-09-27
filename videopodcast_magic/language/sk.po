@@ -5167,3 +5167,15 @@ msgstr "  Kredit na auphonic.com: zostáva %s, stačí na %s, ktoré táto produ
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  V bezplatnom programe môže produkcia Multitrack trvať najviac %s a táto trvá %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Projekt %r z tohto behu zostáva otvorený -- predtým nebolo otvorené nič,\n  čo by sa dalo znova otvoriť. Odstráňte ho v správcovi projektov Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Napoly postavený projekt %r je opäť odstránený, %r je opäť otvorený."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve prerušil upratovanie: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Pozor: napoly postavený projekt %r sa nepodarilo odstrániť, alebo %r znova\n  otvoriť. Urobte to v správcovi projektov Resolve."

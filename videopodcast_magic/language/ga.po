@@ -5263,3 +5263,15 @@ msgstr "  Creidmheas ag auphonic.com: %s fágtha, is leor é don %s a theastaío
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Ar an bplean saor in aisce ní féidir le léiriú Multitrack a bheith níos faide ná %s, agus tá an ceann seo %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Fanann an tionscadal %r a rinne an rith seo oscailte -- ní raibh aon rud oscailte roimhe\n  a d'fhéadfaí a oscailt arís. Scrios é i mbainisteoir tionscadal Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Tá an tionscadal leathdhéanta %r scriosta arís, tá %r oscailte arís."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Stop Resolve an slachtú: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Aire: níorbh fhéidir an tionscadal leathdhéanta %r a scriosadh, nó %r a oscailt\n  arís. Déan é i mbainisteoir tionscadal Resolve, le do thoil."

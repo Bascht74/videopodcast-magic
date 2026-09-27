@@ -5136,3 +5136,15 @@ msgstr "  auphonic.com kredisi: %s kaldı, bu prodüksiyonun gerektirdiği %s i�
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Ücretsiz planda bir Multitrack prodüksiyonu en fazla %s sürebilir, bu ise %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Bu çalıştırmanın oluşturduğu %r projesi açık kalıyor -- önceden yeniden açılabilecek\n  hiçbir şey açık değildi. Onu Resolve'un proje yöneticisinde silin."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Yarım kurulan %r projesi yeniden silindi, %r yeniden açık."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve toparlamayı durdurdu: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Dikkat: yarım kurulan %r projesi silinemedi ya da %r yeniden\n  açılamadı. Lütfen bunu Resolve'un proje yöneticisinde yapın."

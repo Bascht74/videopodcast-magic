@@ -652,6 +652,13 @@ backup copy.
   left it out of the handover file; it names it as it writes.
   Give the file a timecode that fits the other recordings and run
   again, or bring it into Resolve by hand.
+- **The run stopped while building, and the project is gone.** Resolve
+  would not take a file, so the run stopped. It deleted the project it
+  had just made and opened the one you had open before; it says both by
+  name. A project that existed before the run is never deleted. Where
+  nothing that can be opened again was open before -- a freshly started
+  Resolve -- the made project stays open and the run says so: delete it
+  in Resolve's project manager.
 - **The last lines of the run say the project is not complete.**
   Resolve refused a track, was asked a second time, and refused again.
   The run named it the moment it happened -- the track, the timeline,

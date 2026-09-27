@@ -2111,7 +2111,67 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
     r = connect_to_resolve()
     print("  %s %s" % (r.GetProductName(), r.GetVersionString()))
     pm = r.GetProjectManager()
+    # Asked before anything is made: creating a project replaces the open
+    # one, and afterwards nobody can say any more what that was.
+    was = pm.GetCurrentProject()
+    before = was.GetName() if was else ""
     p, kind = open_or_create_project(pm, name, project_carry_on)
+    try:
+        return build_into_project(p, kind, name, cameras, d)
+    except Exception:
+        # Only a project this run created goes again. One it opened --
+        # "update" or "keep" -- is somebody's, whatever happened here.
+        if kind == "created":
+            take_back_project(pm, p, before)
+        raise
+
+
+def take_back_project(pm, made, before):
+    """Delete a project this run created, and open what was open before.
+
+    Called where the build stopped after creating it: an unsaved project
+    under the production's name would otherwise stay open, with a clip
+    and the settings in it and no Timeline. Returns whether it is gone.
+    Never raises: the reason the build stopped is what the run ends on.
+    """
+    # Measured (resolve/live/resolve_ground.py): the open project cannot be
+    # deleted, and loading another writes an unsaved one out, into the
+    # list. So load first, delete then, and believe the list, not the answer.
+    name = made.GetName()
+    try:
+        listed = pm.GetProjectListInCurrentFolder() or []
+        # Nothing loadable was open (a fresh Resolve's unsaved project,
+        # gone on creating). Closing the last project leaves Resolve with
+        # no database, which is worse: the made one stays open, and says so.
+        if not before or before == name or before not in listed:
+            print(as_warn(T('  The project %r this run made stays open -- '
+                            'nothing was open before\n  that could be '
+                            'opened again. Delete it in Resolve\'s project '
+                            'manager.') % name))
+            return False
+        if pm.LoadProject(before):
+            pm.DeleteProject(name)
+        now = pm.GetCurrentProject()
+        now = now.GetName() if now else ""
+        gone = name not in (pm.GetProjectListInCurrentFolder() or [])
+        if gone and now == before:
+            print(T('  The half-built project %r is deleted again, %r is '
+                    'open again.') % (name, before))
+            return True
+    except Exception as e:
+        print(as_warn(T('  Resolve stopped the tidying up: %s') % e))
+    print(as_warn(T('  Caution: the half-built project %r could not be '
+                    'deleted, or %r not\n  opened again. Please do it in '
+                    'Resolve\'s project manager.') % (name, before)))
+    return False
+
+
+def build_into_project(p, kind, name, cameras, d):
+    """Build the Timelines into the project that was created or opened.
+
+    The part of build_resolve_project after the project exists, so that
+    a stop anywhere in it can take a project this run made away again.
+    """
     # Held under its own name: the loop below binds "kind" again, and the
     # render job still has to know whose project this is.
     project_is_new = kind == "created"

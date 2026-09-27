@@ -5123,3 +5123,15 @@ msgstr "  Krediter hos auphonic.com: %s kvar, nog för de %s som den här produk
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Med gratisabonnemang får en Multitrack-produktion vara högst %s lång, och den här är %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Projektet %r från den här körningen förblir öppet -- inget som kunde öppnas\n  igen var öppet innan. Radera det i Resolves projekthanterare."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Det halvbyggda projektet %r är raderat igen, %r är öppet igen."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve avbröt städningen: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Varning: det halvbyggda projektet %r kunde inte raderas, eller %r kunde inte\n  öppnas igen. Gör det i Resolves projekthanterare."

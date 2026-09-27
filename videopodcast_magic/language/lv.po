@@ -5172,3 +5172,15 @@ msgstr "  Kredīts vietnē auphonic.com: atlikušas %s, pietiek šim producējum
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Bezmaksas plānā Multitrack producējums drīkst ilgt ne vairāk kā %s, bet šis ilgst %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Šīs palaišanas projekts %r paliek atvērts -- iepriekš nekas nebija atvērts,\n  ko varētu atvērt no jauna. Izdzēsiet to Resolve projektu pārvaldniekā."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Pusizveidotais projekts %r atkal ir izdzēsts, %r atkal ir atvērts."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve pārtrauca sakopšanu: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Uzmanību: pusizveidoto projektu %r neizdevās izdzēst vai %r neizdevās\n  atvērt no jauna. Lūdzu, izdariet to Resolve projektu pārvaldniekā."

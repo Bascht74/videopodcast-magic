@@ -5171,3 +5171,15 @@ msgstr "  Kreditas auphonic.com: liko %s, pakanka šiai produkcijai reikalingoms
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Nemokamame plane Multitrack produkcija gali trukti ne ilgiau kaip %s, o ši trunka %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Šio paleidimo projektas %r lieka atidarytas -- anksčiau nebuvo atidaryta nieko,\n  ką būtų galima vėl atidaryti. Ištrinkite jį Resolve projektų tvarkyklėje."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Iki pusės sukurtas projektas %r vėl ištrintas, %r vėl atidarytas."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve nutraukė tvarkymą: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Dėmesio: iki pusės sukurto projekto %r nepavyko ištrinti arba %r nepavyko\n  vėl atidaryti. Padarykite tai Resolve projektų tvarkyklėje."

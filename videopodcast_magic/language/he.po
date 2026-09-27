@@ -5126,3 +5126,15 @@ msgstr "  קרדיט ב-auphonic.com: נותרו %s, מספיק ל-%s שההפק
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  בתוכנית החינמית הפקת Multitrack יכולה להימשך לכל היותר %s, וזו נמשכת %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  הפרויקט %r שהריצה הזאת יצרה נשאר פתוח -- לפני כן לא היה פתוח דבר\n  שאפשר לפתוח שוב. מחקו אותו במנהל הפרויקטים של Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  הפרויקט הבנוי למחצה %r נמחק שוב, %r פתוח שוב."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve עצר את הסידור: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  זהירות: לא ניתן היה למחוק את הפרויקט הבנוי למחצה %r, או לפתוח שוב את %r.\n  נא לעשות זאת במנהל הפרויקטים של Resolve."

@@ -5084,3 +5084,15 @@ msgstr "  Kredit di auphonic.com: tersisa %s, cukup untuk %s yang diperlukan pro
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Pada paket gratis, produksi Multitrack paling lama %s, dan yang ini %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Proyek %r dari proses ini tetap terbuka -- sebelumnya tidak ada yang terbuka\n  yang bisa dibuka lagi. Hapus di pengelola proyek Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Proyek setengah jadi %r sudah dihapus lagi, %r terbuka lagi."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve menghentikan pembersihan: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Perhatian: proyek setengah jadi %r tidak dapat dihapus, atau %r tidak\n  dapat dibuka lagi. Silakan lakukan di pengelola proyek Resolve."

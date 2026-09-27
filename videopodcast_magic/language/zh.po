@@ -5078,3 +5078,15 @@ msgstr "  auphonic.com 额度：剩余 %s，足够此次制作所需的 %s。"
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  免费方案下，Multitrack 制作最长 %s，而此次制作长 %s。"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  本次运行创建的项目 %r 保持打开 -- 之前没有可以重新打开的项目\n  处于打开状态。请在 Resolve 的项目管理器中删除它。"
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  已删除建了一半的项目 %r，并重新打开了 %r。"
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve 中断了清理：%s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  注意：无法删除建了一半的项目 %r，或无法重新打开 %r。\n  请在 Resolve 的项目管理器中处理。"

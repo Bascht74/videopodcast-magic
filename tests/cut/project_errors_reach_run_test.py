@@ -166,6 +166,9 @@ class PM(object):
         p = Project(n, self.refuse); self.projects[n] = p
         return p
     def LoadProject(self, n): return self.projects.get(n)
+    # The build asks what was open before it, to open it again where it
+    # stops; nothing was, here, as in a Resolve with no project yet.
+    def GetCurrentProject(self): return None
 
 
 class R(object):

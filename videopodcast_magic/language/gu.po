@@ -5127,3 +5127,15 @@ msgstr "  auphonic.com પર ક્રેડિટ: %s બાકી, આ પ્
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  મફત પ્લાનમાં Multitrack પ્રોડક્શન વધુમાં વધુ %s લાંબું હોઈ શકે, અને આ %s છે."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  આ રને બનાવેલો પ્રોજેક્ટ %r ખુલ્લો રહે છે -- પહેલાં એવું કંઈ ખુલ્લું નહોતું\n  જે ફરી ખોલી શકાય. તેને Resolve ના પ્રોજેક્ટ મેનેજરમાં કાઢી નાખો."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  અડધો બનેલો પ્રોજેક્ટ %r ફરી કાઢી નાખ્યો, %r ફરી ખુલ્લો છે."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve એ સફાઈ અટકાવી: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  સાવધાન: અડધો બનેલો પ્રોજેક્ટ %r કાઢી શકાયો નહીં, અથવા %r ફરી\n  ખોલી શકાયો નહીં. કૃપા કરીને તે Resolve ના પ્રોજેક્ટ મેનેજરમાં કરો."

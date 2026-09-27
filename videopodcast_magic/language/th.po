@@ -5082,3 +5082,15 @@ msgstr "  เครดิตที่ auphonic.com: เหลือ %s พอส
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  ในแผนฟรี งาน Multitrack ยาวได้ไม่เกิน %s แต่งานนี้ยาว %s"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  โปรเจกต์ %r ที่การรันนี้สร้างยังคงเปิดอยู่ -- ก่อนหน้านี้ไม่มีอะไรเปิดอยู่\n  ที่จะเปิดกลับได้ ให้ลบในตัวจัดการโปรเจกต์ของ Resolve"
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  ลบโปรเจกต์ที่สร้างไว้ครึ่งเดียว %r แล้ว และเปิด %r กลับมาแล้ว"
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve หยุดการเก็บกวาด: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  ข้อควรระวัง: ลบโปรเจกต์ที่สร้างไว้ครึ่งเดียว %r ไม่ได้ หรือเปิด %r\n  กลับไม่ได้ โปรดทำในตัวจัดการโปรเจกต์ของ Resolve"

@@ -5127,3 +5127,15 @@ msgstr "  auphonic.com-இல் கிரெடிட்: %s மீதம், �
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  இலவசத் திட்டத்தில் ஒரு Multitrack தயாரிப்பு அதிகபட்சம் %s நீளமாக இருக்கலாம், இது %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  இந்த ஓட்டம் உருவாக்கிய திட்டப்பணி %r திறந்தே இருக்கும் -- முன்பு மீண்டும் திறக்கக்கூடிய\n  எதுவும் திறந்திருக்கவில்லை. அதை Resolve இன் திட்டப்பணி மேலாளரில் நீக்கவும்."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  பாதி கட்டப்பட்ட திட்டப்பணி %r மீண்டும் நீக்கப்பட்டது, %r மீண்டும் திறந்துள்ளது."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve ஒழுங்குபடுத்தலை நிறுத்தியது: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  கவனம்: பாதி கட்டப்பட்ட திட்டப்பணி %r ஐ நீக்க முடியவில்லை, அல்லது %r ஐ மீண்டும்\n  திறக்க முடியவில்லை. அதை Resolve இன் திட்டப்பணி மேலாளரில் செய்யவும்."
