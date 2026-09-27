@@ -58,6 +58,9 @@ YAML:
    holds the archive's listing against what is at this commit, both
    directions. A wrong archive is stopped here rather than found hanging
    on a tag.
+5b. **The known-good package lists.** One per system, out of this run's
+   own suite jobs, summed into the same manifest. A list missing, or one
+   that lacks a package `requirements.txt` names, stops the run here.
 6. **The tag, then the release on it** -- and this is the first step
    that changes anything outside the runner. The tag is annotated and
    made by `git` on this very commit, not left to `gh` (which would make
@@ -130,7 +133,9 @@ every merge to `main`. Nothing of the separation, off
 renamed one under both its names -- held against the separation's
 four patterns, written once in the step itself. The version is not
 asked: the short way starts a languages job of its own
-(`all_languages` in `tests.yml`), so every language runs either way.
+(`all_languages` in `tests.yml`), so every language runs either way --
+and since 27.9.2026 with the separation installed, so that the package
+lists below carry it on that way too.
 
 **What the short way gives up, and it is written here rather than
 found later.** A push runs the everyday suite, separation off;
@@ -228,8 +233,9 @@ holding a list of their own. What does not follow by itself is the
 `starts:` job in `.github/workflows/release.yml` and the fetch in `tests/first_run.sh`:
 both ask github.com for names ending in `.py`.
 
-**Two files hang on a release: the archive and the sum of it.** The sum
-is made from the archive that is about to go up and goes up beside it.
+**Five files hang on a release: the archive, the sum, and one package
+list per system** (the last three below). The sum is made from the
+archive that is about to go up and goes up beside it.
 
 **It is over the archive, not over the files in it.** An archive cannot
 be built twice into the same bytes -- it carries the times and the order
@@ -256,6 +262,48 @@ Three releases went out with nothing attached at all. That is the fault
 the attachment step in `.github/workflows/publish.yml` cannot repeat -- both files are
 named in the same `gh release create` that makes the release, so a
 release without them is no longer a thing a tired hand can produce.
+
+## The known-good package lists
+
+**The owner decided on 27.9.2026:** the machine the episodes are
+edited on installs the package versions a green suite ran on, not
+whatever pip finds newest that day. So every release carries
+`constraints-macos.txt`, `constraints-windows.txt` and
+`constraints-linux.txt`, and `docs/requirements.md` says to install
+with `pip3 install -c`.
+
+**One per system, because the packages differ per system** -- a
+Windows freeze carries what only Windows installs, Linux carries the
+CPU torch from PyTorch's own index. **Python 3.14**, the newest the
+suite runs, the one it runs on at home, and the one python.org hands
+somebody installing today; a pin is a wheel for one Python. The 3.10
+lists stay in the run as artifacts for whoever needs them.
+
+**Where they come from, on both ways, is this run.** Every bound job of
+`tests.yml` writes `python -m pip freeze` after a green suite and keeps
+it as an artifact `freeze-<system>-py<version>` (the neutral job writes
+none: it installs neither ffmpeg nor the separation). A called
+workflow's jobs belong to the calling run, so the long way's `tests`
+and the short way's `languages` both leave them in this run, for this
+commit, and `actions/download-artifact` fetches them with no other run
+asked. The pull request's own run would not do: a push runs without
+the separation, so its lists lack torch and pyannote.audio. **That is
+why `languages` installs the separation since the same day** -- about
+two minutes per job, which the long way pays anyway.
+
+**Three things are done to each list in step 5b, and nothing else.** A
+head saying what it is and how to install with it. The local label
+struck off a version: `torch==2.14.0+cpu` is not on PyPI, so `pip3 -c`
+would stop on it, and the number is the same release. And every package
+`requirements.txt` names has to be on it, with every line
+`name==version`, or the run stops before the tag. Then all three go
+into `SHA256SUMS.txt` beside the archive's line and up in the same `gh
+release create`.
+
+`.github/workflows/release.yml` asks afterwards, in its section 5, that
+each hangs, is named in the manifest with the sum of what came down,
+and is `name==version` lines only. `tests/source/source_freeze_attached_test.py`
+holds the text of all three workflows and both manuals to this.
 
 ## What it does not ask, on purpose
 

@@ -503,7 +503,16 @@ jobs:
     needs: evidence
     if: needs.evidence.outputs.tested == 'true'
     uses: ./.github/workflows/tests.yml
+    #
+    # With the separation installed, although no test here runs it:
+    # every job of this call writes down the packages it stood on, and
+    # the publish job hangs those lists on the release (step 5b). A
+    # list without torch and pyannote.audio is not what somebody who
+    # installs the program gets, and on this way this call is the only
+    # suite in the run. About two minutes of installing per job; the
+    # long way pays the same in the suite above.
     with:
+      speaker_split: true
       all_languages: true
       tests: '*_langs*'
 
@@ -841,6 +850,96 @@ jobs:
                "$(wc -c < /tmp/videopodcast_magic.zip | tr -d ' ') bytes"
 
       # ------------------------------------------------------------
+      # 5b. The known-good package lists, one per system.
+      #
+      # The owner decided on 27.9.2026: the machine the episodes are
+      # edited on installs the versions a green suite ran on, not
+      # whatever pip finds newest that day. Packages differ per system
+      # -- Windows brings pywin32's kind, Linux the CPU torch -- so one
+      # list per system, not one for all.
+      #
+      # Where they come from, on both ways: every job of tests.yml
+      # writes its pip freeze after a green suite as an artifact of the
+      # run it belongs to. A called workflow's jobs belong to this run,
+      # so the long way's "tests" and the short way's "languages" both
+      # leave them here, from this very commit -- no other run is asked.
+      # Both calls install the separation, so both lists carry it.
+      #
+      # Python 3.14 and not 3.10: it is the newest the suite runs, the
+      # one the suite runs on at home, and the one python.org hands
+      # somebody installing today. A pin is a wheel for one Python;
+      # the 3.10 lists stay in the run for whoever needs them.
+      #
+      # Three things are done to each, and nothing else: a head saying
+      # what it is; the local label struck off a version (Linux installs
+      # torch 2.14.0+cpu from PyTorch's own index, and a +cpu pin is not
+      # on PyPI, so pip3 -c would stop on it -- the number is the same
+      # release); and every package requirements.txt names has to be on
+      # it, or the list is not what an installation brings.
+      - uses: actions/download-artifact@v7
+        with:
+          pattern: freeze-*-py3.14
+          path: /tmp/freeze
+
+      - name: "5b. The known-good package lists, one per system"
+        run: |
+          ls -R /tmp/freeze || true
+          for pair in macOS:macos Windows:windows Linux:linux; do
+            label=${pair%%:*}
+            sys=${pair##*:}
+            src="/tmp/freeze/freeze-$label-py3.14/freeze.txt"
+            out="/tmp/constraints-$sys.txt"
+            if [ ! -s "$src" ]; then
+              echo "FAIL: no package list from $label py3.14 in this run."
+              echo "      tests.yml writes it after a green suite; without"
+              echo "      it this release would go out without constraints-$sys.txt."
+              exit 1
+            fi
+            {
+              echo "# constraints-$sys.txt -- videopodcast-magic $VERSION"
+              echo "# The package versions its suite ran green on:"
+              sed -n '1s/^# */#   /p' "$src"
+              echo "# pip3 install -c constraints-$sys.txt git+https://github.com/$GITHUB_REPOSITORY@$TAG"
+              sed '1{/^#/d;}' "$src" | sed -E 's/^([^#=]+==[^+;[:space:]]+)\+[^;[:space:]]*/\1/'
+            } > "$out"
+            python3 - requirements.txt "$out" "$sys" <<'PY' || exit 1
+          import re, sys
+          flat = lambda n: re.sub(r"[-_.]+", "-", n).lower()
+          wanted = set()
+          for line in open(sys.argv[1]):
+              name = re.split(r"[^A-Za-z0-9._-]", line.split("#")[0].strip(), maxsplit=1)[0]
+              if name:
+                  wanted.add(flat(name))
+          pinned, loose = set(), []
+          for line in open(sys.argv[2]):
+              line = line.strip()
+              if not line or line.startswith("#"):
+                  continue
+              m = re.match(r"^([A-Za-z0-9._-]+)==([^+\s;]+)$", line)
+              if m:
+                  pinned.add(flat(m.group(1)))
+              else:
+                  loose.append(line)
+          missing = sorted(wanted - pinned)
+          print("constraints-%s.txt: %d pinned, %d of %d from requirements.txt"
+                % (sys.argv[3], len(pinned), len(wanted) - len(missing), len(wanted)))
+          if missing or loose or not wanted:
+              print("FAIL: constraints-%s.txt is not a list pip3 -c can take"
+                    % sys.argv[3])
+              print("      missing from it: %s" % (", ".join(missing) or "none"))
+              print("      lines that are no name==version: %s"
+                    % (" | ".join(loose[:5]) or "none"))
+              sys.exit(1)
+          PY
+          done
+          # Into the same manifest as the archive, the same shape: one
+          # line each, first field 64 characters, the name last, no path.
+          ( cd /tmp && shasum -a 256 constraints-macos.txt \
+              constraints-windows.txt constraints-linux.txt \
+              >> SHA256SUMS.txt )
+          cat /tmp/SHA256SUMS.txt
+
+      # ------------------------------------------------------------
       # 6. The tag, and the release on it.
       #
       # The tag is v plus the version, letter for letter. Not a
@@ -882,7 +981,9 @@ jobs:
                  --title "$VERSION -- $TITLE" \
                  --notes-file /tmp/notes.md \
                  --latest \
-                 /tmp/videopodcast_magic.zip /tmp/SHA256SUMS.txt; then
+                 /tmp/videopodcast_magic.zip /tmp/SHA256SUMS.txt \
+                 /tmp/constraints-macos.txt /tmp/constraints-windows.txt \
+                 /tmp/constraints-linux.txt; then
             echo "FAIL: the release was not made."
             echo "      Taking $TAG down again, so that this can be"
             echo "      started afresh rather than run into its own tag."
@@ -897,7 +998,8 @@ jobs:
             echo
             echo "* tag \`$TAG\` on \`$SHA\`"
             echo "* $url"
-            echo "* the archive and \`SHA256SUMS.txt\` hang on it"
+            echo "* the archive, \`SHA256SUMS.txt\` and the three"
+            echo "  \`constraints-<system>.txt\` hang on it"
             echo
             echo "release.yml now answers for it: the archive against"
             echo "the tree at the tag, the notes against the changelog,"

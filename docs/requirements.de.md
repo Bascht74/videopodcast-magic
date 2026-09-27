@@ -63,6 +63,16 @@ der pip aus dem heraushält, was er selbst pflegt, und die Meldung
 nennt den Weg daran vorbei: `pipx install` auf dieselbe Adresse legt
 das Programm in eine eigene Umgebung und den Befehl in den Suchpfad.
 
+**Auf der Maschine, an der die Folgen geschnitten werden, die
+geprüften Fassungen statt der neuesten.** Jede Veröffentlichung trägt
+neben dem Archiv je System eine Liste der Paketfassungen, auf denen
+ihre Testreihe grün lief — `constraints-macos.txt`,
+`constraints-windows.txt`, `constraints-linux.txt`, gebaut mit Python
+3.14 —, und wer mit der für sein System installiert, `pip3 install -c
+constraints-macos.txt
+git+https://github.com/Bascht74/videopodcast-magic@v<version>`, bekommt
+genau diese.
+
 Zweierlei muss vor diesem Befehl auf der Maschine liegen, denn beides
 kann pip nicht mitbringen:
 
