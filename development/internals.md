@@ -42,10 +42,10 @@ figure of the day is that command, not this paragraph**:
   marks on the assignment table, and the speaking-time table
 * `ui/` **3270** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `player/` **3295** -- the moving picture: the player, the cut band,
+* `player/` **3294** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3275** -- who is on camera when, and what carries it out
+* `cut/` **3277** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2370** -- the DaVinci Resolve project, timelines, colour,
@@ -76,11 +76,11 @@ figure of the day is that command, not this paragraph**:
   from it
 * `hearing/` **1117** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1318** -- helpers that shape what the window shows and
+* `fittings/` **1320** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **999** -- the command line a run is given: written out of
+* `orders/` **1000** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
@@ -90,7 +90,7 @@ figure of the day is that command, not this paragraph**:
   `assignmentsheet/` and nothing else
 * `upkeep/` **724** -- which release is out, the way back, pip putting
   one in place, and what the window offers of all three
-* `herald/` **849** -- the progress bar, the stages, the console and log
+* `herald/` **866** -- the progress bar, the stages, the console and log
   redirection with the line naming the Python it runs on, and the watch over a quiet run: `RunVitals` counts the
   run's children and reads whether any of them still moves
 * `pipeline/` **660** -- the plan: the camera audio out of the
@@ -114,7 +114,7 @@ figure of the day is that command, not this paragraph**:
   material is HDR, the spellings a colour space name goes by, and the
   report on a finished file
 * `tables/` **397** -- the tables and trees the window builds
-* `running/` **427** -- what a run is offered before it starts, the
+* `running/` **429** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
   looks one up

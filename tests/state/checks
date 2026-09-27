@@ -202,7 +202,7 @@ run_stop_heard_midway	32
 run_stop_names_why	30
 run_stop_passes_through	13
 run_switch_changes_it	12
-run_switch_has_effect	8
+run_switch_has_effect	9
 run_sync_only_no_cut	20
 run_threads_keep_order	17
 run_three_ways_agree	24
@@ -472,3 +472,5 @@ window_zero_as_run	17
 window_zoom_stays_in	32
 cut_preview_seats_as_run	4
 window_words_all_blocks	8
+window_output_no_debug	2
+run_camera_audio_planned	4

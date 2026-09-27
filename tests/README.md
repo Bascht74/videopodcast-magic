@@ -1,6 +1,6 @@
 # The test suite
 
-441 tests against the program in `../videopodcast_magic/`. Every one of them stands
+443 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -249,7 +249,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-441 tests. The name is the one a red line carries, and beside it the
+443 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
