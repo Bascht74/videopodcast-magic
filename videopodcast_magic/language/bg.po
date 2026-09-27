@@ -339,12 +339,6 @@ msgstr "Разделянето на говорещите не е инстали�
 msgid "Fetching the model (about %s MB) ..."
 msgstr "Изтегляне на модела (около %s МБ) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "Изтегляне на модела (около %s МБ): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "Моделът не можа да бъде изтеглен: %s"
-
 msgid "The model could not be written: %s"
 msgstr "Моделът не можа да бъде записан: %s"
 
@@ -881,9 +875,6 @@ msgstr "  %-20s подравняването не е възможно: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s не може да се измери: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s отместване %s, дрейф на часовника %s ppm (+/- %s), остатъчно разсейване %s мс, %s от %s точки"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s отместване %s, дрейф на часовника %s ppm (+/- %s), остатъчно разсейване %s мс, %s от %s точки%s"
@@ -2205,14 +2196,8 @@ msgstr "Входната и изходната точка са достъпни,
 msgid "In point is %s before the first frame"
 msgstr "Входната точка е %s преди първия кадър"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "Входната точка сега е %s, но съществуващите файлове принадлежат на %s.\n  Звукът във видеата е изрязан по стария прозорец -- натиснете отново „Старт“\n  горе."
-
 msgid "Out point is %s after the last frame"
 msgstr "Изходната точка е %s след последния кадър"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "Изходната точка сега е %s; прозорецът би бил с дължина %s, съществуващите\n  файлове са %s -- натиснете отново „Старт“ горе."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "За рендера обикновено се използва ограниченият диапазон. Пълният не е грешен, но някои плейъри го тълкуват погрешно."
@@ -2373,9 +2358,6 @@ msgstr "Multitrack (по една писта на говорещ)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack изисква поне две входни писти. Писта е собствен запис, канал на многоканален рекордер или звукът на видеофайл, зададен на „с вътрешния звук“. Няколко блока от един и същ запис се броят за една, оставените настрана писти -- изобщо не."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "Нито един аудиофайл няма таймкод. Входната и изходната точка се броят от началото на материала -- положението на файловете един спрямо друг е измерено."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Още не се използва звук -- добавете аудиозапис или в списъка с файлове задайте за видеофайл Звук на камерата: „с вътрешния звук“."
 
@@ -2384,9 +2366,6 @@ msgstr "Няма разпределени аудиописти."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Няма разпределена камера, така че няма между какво да се реже."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "Още няма разпределени камери -- за целта включете Multitrack."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Няма връзка с Resolve.\n  Работи ли програмата? Зададен ли е външният скриптинг на „Local“\n  в Preferences > System > General?"
@@ -3211,9 +3190,6 @@ msgstr "пресетът мастерира до %s LUFS, изчислениет
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "пресетът мастерира до %s LUFS -- това остава, нищо от наша страна не се коригира."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "взето от файловете източници, без --lufs -- нищо не се коригира"
 
 msgid "the answer did not keep the floor"
 msgstr "отговорът не продължи достатъчно дълго"
@@ -4927,9 +4903,6 @@ msgstr "%s\n   звукът не е разпознат; поставен так�
 msgid "sound not recognised, placed by its timecode"
 msgstr "звукът не е разпознат, поставен по своя таймкод"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s записа и никаква картина: всеки се съединява поотделно и те не се подравняват един спрямо друг. --multitrack ги поставя на една времева ос."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", дрейфът на часовника %s ppm е оставен: не е %s пъти неговата неопределеност от %s ppm"
 
@@ -5010,3 +4983,100 @@ msgstr "    %s: %s в началото няма картина и се изпу�
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: %s в края няма картина и се изпуска"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s се върна с %s s по-дълъг, отколкото беше качен, и откъде в него започва изпратеният\n"
+"  звук, не можа да се измери -- оставен е, както е дошъл."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s не можа да бъде изрязан (%s) -- оставен е, както е дошъл."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s в %s звучи като %s в %s (сходство %s): изглежда, същият човек."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com добави %s s в края -- изрязани"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com добави %s s в началото -- изрязани"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: не беше записан файл, затова монтажът изпуска тази камера."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  Входната и изходната точка тук не действат: един запис без картина се съединява изцяло."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  Името на камерата „%s“ съдържа разделител на папка или устройство; записва се като „%s“."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  Общ план в краищата: няма -- другият глас говори само веднъж, а този единствен край беше по-кратък от най-краткия кадър"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  Общ план в краищата: само от %s -- другият глас говори само веднъж, близо до края, затова няма начален"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  Общ план в краищата: само до %s -- другият глас говори само веднъж, близо до началото, затова няма краен"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com нарече файл „%s“ -- не е обикновено име на файл, затова не се изтегля"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s не може да се постави: звукът му няма нищо общо с останалия материал, а никой запис, поставен по звука, не носи таймкод, спрямо който да се съпостави неговият собствен. Един от тях се нуждае от таймкод, който пасва на този, а той трябва да се зададе с друга програма."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name дава на %s две имена, „%s“ и „%s“; дайте на всеки запис само едно."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name посочва %s, който не е от записите в това изпълнение."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "Изтегляне на модела от %s (около %s МБ): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Входната точка се промени след последното изпълнение: тогава %s, сега %s. Монтажът и звукът във видеата още принадлежат на стария прозорец, така че Resolve няма да получи това, което маркерите казват сега -- натиснете отново „Старт“."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "Нито един аудиофайл няма таймкод. Входната и изходната точка се броят от момента, в който работят всички камери -- положението на файловете един спрямо друг е измерено."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Изходната точка се промени след последното изпълнение: тогава %s, сега %s. Монтажът и звукът във видеата още принадлежат на стария прозорец, така че Resolve няма да получи това, което маркерите казват сега -- натиснете отново „Старт“."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "Продукцията е готова, но ZIP-ът с отделните писти няма обикновено име на файл"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "Няколко камери, но няма аудиозапис. Всяка камера би имала собствен звук -- за това е Multitrack. Иначе една камера след друга."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "Архивът съдържа %s повече от веднъж, затова нищо не беше извадено от него."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "Файлът с разпределението тук именува записите, така че --speaker-name би бил пренебрегнат; дайте имената там или пропуснете --speaker-name."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "Готовата компилация не съответства на контролната си сума, затова не беше разархивирана: в списъка е %s, пристигна %s."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "Списъкът с контролни суми не можа да бъде изтеглен, затова готовата компилация не беше разархивирана: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "Списъкът с контролни суми не посочва %s, затова готовата компилация не беше разархивирана."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "Списъкът с файлове на модела посочва %s, който е извън папката на модела; нищо не беше изтеглено."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "Моделът не можа да бъде изтеглен от %s: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "Името на говорещия за %s е празно; дайте име или пропуснете --speaker-name."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "продукцията е готова, но резултатът ѝ няма обикновено име на файл"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "взето от файловете източници, --lufs source -- нищо не се коригира"

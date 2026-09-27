@@ -337,12 +337,6 @@ msgstr "مقررین کی علیحدگی یہاں انسٹال نہیں۔ یہ �
 msgid "Fetching the model (about %s MB) ..."
 msgstr "ماڈل لایا جا رہا ہے (تقریباً %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "ماڈل لایا جا رہا ہے (تقریباً %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "ماڈل نہیں لایا جا سکا: %s"
-
 msgid "The model could not be written: %s"
 msgstr "ماڈل لکھا نہیں جا سکا: %s"
 
@@ -879,9 +873,6 @@ msgstr "  %-20s سیدھ میں نہیں لایا جا سکتا: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s ناقابلِ پیمائش: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s آفسیٹ %s، گھڑی کا انحراف %s ppm (+/- %s)، باقی ماندہ بکھراؤ %s ms، %s/%s نقاط"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s آفسیٹ %s، گھڑی کا انحراف %s ppm (+/- %s)، باقی ماندہ بکھراؤ %s ms، %s/%s نقاط%s"
@@ -2203,14 +2194,8 @@ msgstr "اِن پوائنٹ اور آؤٹ پوائنٹ تب دستیاب ہوت�
 msgid "In point is %s before the first frame"
 msgstr "اِن پوائنٹ پہلے فریم سے %s پہلے ہے"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "اِن پوائنٹ اب %s ہے، لیکن موجودہ فائلیں %s کی ہیں۔\n  ویڈیوز کا آڈیو پرانے وقتی دائرے کے مطابق کٹا ہوا ہے -- اوپر\n  دوبارہ \"شروع کریں\" دبائیں۔"
-
 msgid "Out point is %s after the last frame"
 msgstr "آؤٹ پوائنٹ آخری فریم سے %s بعد ہے"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "آؤٹ پوائنٹ اب %s ہے؛ وقتی دائرہ %s لمبا ہوگا، موجودہ\n  فائلیں %s کی ہیں -- اوپر دوبارہ \"شروع کریں\" دبائیں۔"
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "ڈیلیوری میں عموماً محدود رینج لی جاتی ہے۔ Full غلط نہیں، لیکن کچھ پلیئر اسے غلط پڑھتے ہیں۔"
@@ -2371,9 +2356,6 @@ msgstr "Multitrack (ہر مقرر کے لیے ایک ٹریک)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack کو کم از کم دو ان پٹ ٹریک چاہییں۔ ٹریک یا تو الگ ریکارڈنگ ہے، یا ملٹی چینل ریکارڈر کا ایک چینل، یا کسی ویڈیو فائل کا آڈیو جو \"اندرونی آڈیو استعمال کریں\" پر طے ہو۔ ایک ہی ریکارڈنگ کے کئی بلاک ایک گنے جاتے ہیں، الگ رکھے گئے ٹریک بالکل نہیں۔"
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "کسی آڈیو فائل میں ٹائم کوڈ نہیں۔ اِن پوائنٹ اور آؤٹ پوائنٹ مواد کے آغاز سے گنے جاتے ہیں -- فائلوں کی ایک دوسرے کے لحاظ سے پوزیشن ناپی جاتی ہے۔"
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "ابھی کوئی آڈیو استعمال میں نہیں -- کوئی آڈیو ریکارڈنگ شامل کریں، یا فائلوں کی فہرست میں کسی ویڈیو فائل کا کیمرا آڈیو \"اندرونی آڈیو استعمال کریں\" پر طے کریں۔"
 
@@ -2382,9 +2364,6 @@ msgstr "کوئی آڈیو ٹریک تفویض نہیں کیا گیا۔"
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "کوئی کیمرا تفویض نہیں کیا گیا، اس لیے کٹ کرنے کے لیے کچھ نہیں۔"
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "ابھی کوئی کیمرا تفویض نہیں -- اس کے لیے Multitrack آن کریں۔"
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Resolve سے کوئی رابطہ نہیں۔\n  کیا پروگرام چل رہا ہے؟ کیا Preferences > System > General میں\n  external scripting کو 'Local' پر طے کیا گیا ہے؟"
@@ -3209,9 +3188,6 @@ msgstr "پری سیٹ %s LUFS پر ماسٹر کرتا ہے، حساب %s سے �
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "پری سیٹ %s LUFS پر ماسٹر کرتا ہے -- یہی لاگو ہے، ہماری طرف سے کچھ ایڈجسٹ نہیں ہوتا۔"
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "ماخذ فائلوں سے لیا گیا، کوئی --lufs نہیں دیا گیا -- کچھ ایڈجسٹ نہیں کیا جاتا"
 
 msgid "the answer did not keep the floor"
 msgstr "جواب جاری نہیں رہا"
@@ -4925,9 +4901,6 @@ msgstr "%s\n   آڈیو پہچانا نہیں گیا؛ جیسے رن رکھتا 
 msgid "sound not recognised, placed by its timecode"
 msgstr "آڈیو پہچانا نہیں گیا، اس کے ٹائم کوڈ سے رکھا گیا"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s ریکارڈنگز اور کوئی تصویر نہیں: ہر ایک الگ سے جوڑی جاتی ہے اور انہیں ایک دوسرے کے ساتھ ہم آہنگ نہیں کیا جاتا۔ --multitrack انہیں ایک وقتی محور پر رکھتا ہے۔"
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr "، گھڑی کا انحراف %s ppm برقرار رکھا گیا: یہ اپنی غیر یقینی کا %s گنا نہیں، جو %s ppm ہے"
 
@@ -5008,3 +4981,100 @@ msgstr "    %s: شروع کے %s میں تصویر نہیں، اس لیے اسے
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: آخر کے %s میں تصویر نہیں، اس لیے اسے چھوڑ دیا جاتا ہے"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s اپ لوڈ کے وقت سے %s s لمبا واپس آیا، اور یہ ناپا نہیں جا سکا کہ بھیجا گیا آڈیو\n"
+"  اس میں کہاں سے شروع ہوتا ہے -- جیسا آیا ویسا ہی رہنے دیا گیا۔"
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s کاٹا نہیں جا سکا (%s) -- جیسا آیا ویسا ہی رہنے دیا گیا۔"
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s، %s میں، %s جیسا لگتا ہے جو %s میں ہے (مشابہت %s): بظاہر ایک ہی شخص۔"
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com نے آخر میں %s s جوڑ دیے -- کاٹ دیے گئے"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com نے شروع میں %s s جوڑ دیے -- کاٹ دیے گئے"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: کوئی فائل نہیں لکھی گئی، اس لیے کٹ اس کیمرے کو چھوڑ دیتا ہے۔"
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  اِن پوائنٹ اور آؤٹ پوائنٹ کا یہاں کوئی اثر نہیں: بغیر تصویر کی ایک ریکارڈنگ پوری کی پوری جوڑی جاتی ہے۔"
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  کیمرے کے نام \"%s\" میں فولڈر یا ڈرائیو کا جداکار ہے؛ اسے \"%s\" کے طور پر لکھا جاتا ہے۔"
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  کناروں پر وائیڈ شاٹ: کوئی نہیں -- دوسری آواز صرف ایک بار بولتی ہے، اور وہ ایک کنارہ سب سے چھوٹے شاٹ سے بھی چھوٹا تھا"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  کناروں پر وائیڈ شاٹ: صرف %s سے -- دوسری آواز صرف ایک بار بولتی ہے، آخر کے قریب، اس لیے شروع والا نہیں ہے"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  کناروں پر وائیڈ شاٹ: صرف %s تک -- دوسری آواز صرف ایک بار بولتی ہے، شروع کے قریب، اس لیے آخر والا نہیں ہے"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com نے ایک فائل کا نام \"%s\" رکھا -- یہ سادہ فائل نام نہیں، اس لیے اسے نہیں لایا جاتا"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s کو رکھا نہیں جا سکتا: اس کے آڈیو میں باقی مواد سے کچھ مشترک نہیں، اور جن ریکارڈنگز کو آڈیو نے جگہ دی ان میں سے کسی میں ایسا ٹائم کوڈ نہیں جس سے اس کا اپنا جانچا جا سکے۔ ان میں سے ایک کو ایسا ٹائم کوڈ چاہیے جو اس سے میل کھائے، اور وہ کسی دوسرے پروگرام سے لگانا ہوگا۔"
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name %s کو دو نام دیتا ہے، \"%s\" اور \"%s\"؛ ہر ریکارڈنگ کو ایک ہی نام دیں۔"
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name %s کا نام لیتا ہے، جو اس رن کی ریکارڈنگز میں سے نہیں۔"
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "ماڈل %s سے لایا جا رہا ہے (تقریباً %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "پچھلے رن کے بعد سے اِن پوائنٹ بدل گیا ہے: تب %s، اب %s۔ کٹ اور ویڈیوز کے اندر کا آڈیو ابھی پرانے وقتی دائرے کے ہیں، اس لیے Resolve کو وہ نہیں ملے گا جو نشان اب کہتے ہیں -- دوبارہ \"شروع کریں\" دبائیں۔"
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "کسی آڈیو فائل میں ٹائم کوڈ نہیں۔ اِن پوائنٹ اور آؤٹ پوائنٹ اس لمحے سے گنے جاتے ہیں جب سب کیمرے چل رہے ہوں -- فائلوں کی ایک دوسرے کے لحاظ سے پوزیشن ناپی جاتی ہے۔"
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "پچھلے رن کے بعد سے آؤٹ پوائنٹ بدل گیا ہے: تب %s، اب %s۔ کٹ اور ویڈیوز کے اندر کا آڈیو ابھی پرانے وقتی دائرے کے ہیں، اس لیے Resolve کو وہ نہیں ملے گا جو نشان اب کہتے ہیں -- دوبارہ \"شروع کریں\" دبائیں۔"
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "پروڈکشن مکمل ہوئی، لیکن الگ الگ ٹریکوں والی ZIP کا کوئی سادہ فائل نام نہیں"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "کئی کیمرے لیکن کوئی آڈیو ریکارڈنگ نہیں۔ ہر کیمرے کا اپنا آڈیو ہوگا -- Multitrack اسی کے لیے ہے۔ ورنہ ایک کیمرے کے بعد دوسرا۔"
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "آرکائیو میں %s ایک سے زیادہ بار ہے، اس لیے اس میں سے کچھ نہیں نکالا گیا۔"
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "یہاں ریکارڈنگز کے نام تفویض فائل دیتی ہے، اس لیے --speaker-name نظرانداز ہو جاتا؛ نام وہیں دیں یا --speaker-name ہٹا دیں۔"
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "بلڈ اپنے چیک سم سے مطابقت نہیں رکھتا، اس لیے ان پیک نہیں کیا گیا: فہرست میں %s، پہنچا %s۔"
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "چیک سموں کی فہرست نہیں لائی جا سکی، اس لیے بلڈ ان پیک نہیں کیا گیا: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "چیک سموں کی فہرست میں %s کا نام نہیں، اس لیے بلڈ ان پیک نہیں کیا گیا۔"
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "ماڈل فائلوں کی فہرست میں %s ہے، جو ماڈل فولڈر سے باہر ہے؛ کچھ نہیں لایا گیا۔"
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "ماڈل %s سے نہیں لایا جا سکا: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "%s کے لیے مقرر کا نام خالی ہے؛ کوئی نام دیں یا --speaker-name ہٹا دیں۔"
+
+msgid "production finished, but its result has no plain file name"
+msgstr "پروڈکشن مکمل، لیکن اس کے نتیجے کا کوئی سادہ فائل نام نہیں"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "ماخذ فائلوں سے لیا گیا، --lufs source -- کچھ ایڈجسٹ نہیں کیا جاتا"
