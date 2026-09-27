@@ -56,6 +56,7 @@ cameras_with_a_speaker = PROGRAM.cameras_with_a_speaker
 cameras_with_own_audio = PROGRAM.cameras_with_own_audio
 colours_pick = PROGRAM.colours_pick
 desktop_is_dark = PROGRAM.desktop_is_dark
+fault_into_log = PROGRAM.fault_into_log
 ffmpeg_can_be_had = PROGRAM.ffmpeg_can_be_had
 file_timecode = PROGRAM.file_timecode
 fill_choices = PROGRAM.fill_choices
@@ -1842,6 +1843,9 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
         code = 2
         print(as_bad(broken_off_report(e, state.get("results"))))
     except Exception as e:
+        # One line in the window, the traceback in the log file: the
+        # same as a command line that stops on a fault nobody foresaw.
+        fault_into_log()
         print(as_bad(T('\nStopped: %s') % e))
     finally:
         sys.stdout, sys.stderr = old_out, old_err

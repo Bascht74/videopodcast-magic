@@ -510,6 +510,17 @@ def main():
         return stopped_on_command_line(e)
 
 
+def fault_into_log():
+    """Write the traceback of the fault being handled into the log only.
+
+    Called inside an except: the screen says "Stopped: <reason>" in one
+    line, and the trace goes where whoever reports the fault finds it.
+    The command line and the window both come here.
+    """
+    import traceback
+    logbook.log_aside(traceback.format_exc().rstrip())
+
+
 def stopped_on_command_line(e):
     """Say an unexpected fault in one line and return 1, as the window does.
 
@@ -517,8 +528,7 @@ def stopped_on_command_line(e):
     in its last line; the window says "Stopped: <reason>". The trace
     itself goes into the log, where whoever reports the fault finds it.
     """
-    import traceback
-    logbook.log_aside(traceback.format_exc().rstrip())
+    fault_into_log()
     print(livery.as_bad(T('Stopped: %s') % e))
     return 1
 

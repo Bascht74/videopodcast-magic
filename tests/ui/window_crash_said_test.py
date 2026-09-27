@@ -3,8 +3,9 @@
 
 Plain path, the window's own Start; a fault planted in the mix step, one
 the run has no answer for. The window names it, says "finished with
-errors" and not done, and Start is back, Stop gone. The limit: one
-fault, in one place.
+errors" and not done, and Start is back, Stop gone. Its traceback is
+said to the log file, which is stood in for by one of this test's own,
+and not in the window. The limit: one fault, in one place.
 """
 PLATFORM_BOUND = True
 import os
@@ -71,6 +72,10 @@ def broken(cmd, duration, text):
 
 
 vpm.run_ffmpeg_with_progress = broken
+# The log file stood in for: beside the program it would be shared with
+# every test running alongside, and this one reads it back.
+LOG = os.path.join(STORE, "window_crash.log")
+vpm.logbook.log_path = lambda: LOG
 
 
 def button(text):
@@ -108,6 +113,21 @@ try:
           % (errors, "said" if errors in text else "missing",
              finished[:40], "said" if finished in text else "not said",
              tail))
+    try:
+        with open(LOG, encoding="utf-8", errors="replace") as f:
+            logged = f.read()
+    except OSError:
+        logged = ""
+    trace = [x for x in logged.splitlines() if x.startswith("Traceback")]
+    last = (logged.strip().splitlines() or ["the log is empty"])[-1]
+    check("the log file holds the traceback of a fault the window said",
+          bool(trace) and ("ValueError: " + FAULT) in logged,
+          "%d traceback lines in %d log lines, its last %r"
+          % (len(trace), len(logged.splitlines()), last[:120]))
+    shown = [x for x in text.splitlines() if "Traceback" in x]
+    check("and the window shows no traceback, only the one line",
+          not shown, "%d traceback lines in the window, first %r"
+          % (len(shown), (shown or [""])[0][:120]))
     start, halt = button(vpm.T("Start")), button(vpm.T("Stop"))
     check("Start is back and Stop gone after a run broke unexpectedly",
           start is not None and start.isEnabled()
