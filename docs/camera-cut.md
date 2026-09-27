@@ -437,9 +437,11 @@ places it on the sentence boundary alone, which can put it up to half a
 second beside where the run puts it.
 
 A preview's run that fails is not repeated for the same settings -- it
-would fail the same way and cost the same minutes. **Start** or **Dry
-run** pressed while the preview's run is going waits for it; the button
-says **Preview running ...** meanwhile.
+would fail the same way and cost the same minutes. **Start**, **Dry
+run** or **Create Resolve project** pressed while the preview's run is
+going stops it and begins at once; the button says **Preview running
+...** for the moment that takes. The stopped run keeps nothing and
+counts as not tried: the preview asks again once the run is over.
 
 A line at the foot of the preview box, under what the preview says and
 not under this one, holds what the cut rests on, and the reason where the
