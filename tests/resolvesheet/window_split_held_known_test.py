@@ -56,9 +56,15 @@ def project_for(vpm, work, out, case):
     os.makedirs(os.path.dirname(copy))
     shutil.copy2(source, copy)          # the mtime comes along
     path = ground.project_file(vpm, os.path.join(work, "project"), out)
+    # Both spellings of the recording's path move to the copy: the file
+    # lists carry it as the fixture gives it, the stored separation and
+    # the voice keys as abspath spells it -- on Windows two strings.
     with open(path, encoding="utf-8") as f:
-        d = json.loads(f.read().replace(json.dumps(source)[1:-1],
-                                        json.dumps(copy)[1:-1]))
+        text = f.read()
+    for was, now in ((source, copy),
+                     (os.path.abspath(source), os.path.abspath(copy))):
+        text = text.replace(json.dumps(was)[1:-1], json.dumps(now)[1:-1])
+    d = json.loads(text)
     if case == "code":
         d["speakers"]["recipe"] = "0" * 12
     with open(path, "w", encoding="utf-8") as f:
