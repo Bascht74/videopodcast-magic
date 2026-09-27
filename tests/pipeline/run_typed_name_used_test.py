@@ -130,11 +130,19 @@ check("the window's dry run ran to its end, the name typed",
          "on the line" if "--dry-run" in argv else "missing"))
 pairs = [[e.get("audio"), e.get("speakers")]
          for e in (kept["plan"] or {}).get("tracks_of") or ()]
+
+
+def same_file(one, other):
+    """One file however it is spelt: on Windows the fixture folder comes
+    in with forward slashes and the window hands back backslashes."""
+    return bool(one and other) and (
+        os.path.normcase(os.path.abspath(one))
+        == os.path.normcase(os.path.abspath(other)))
+
+
 check("the window's plan hands the typed name over with its file",
-      [REC[1], TYPED] in pairs,
-      "plan rows %s, wanted %s among them"
-      % ([[os.path.basename(p or ""), n] for p, n in pairs],
-         [os.path.basename(REC[1]), TYPED]))
+      any(same_file(p, REC[1]) and n == TYPED for p, n in pairs),
+      "plan rows %s, wanted %s among them" % (pairs, [REC[1], TYPED]))
 check("the window's run lists that recording under the typed name",
       bool(plan_line(said, TYPED, REC[1])),
       "no plan line '%s  %s'; the file's name gives %r"

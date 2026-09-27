@@ -43,6 +43,24 @@ def line(width, name, verdict, numbers=""):
     return ("  %-" + str(width) + "s %s %s") % (name, verdict, numbers)
 
 
+def bash():
+    r"""Where bash is -- on Windows Git's, not the WSL stub in System32.
+
+    C:\Windows\System32\bash.exe stands first on the search path and
+    answers every call with the line to install a distribution; Git's
+    bash sets EXEPATH to its root when it runs the suite. As
+    source_material_stays finds it.
+    """
+    if sys.platform == "win32":
+        for root in (os.environ.get("EXEPATH"),
+                     os.path.join(os.environ.get("ProgramFiles", ""),
+                                  "Git")):
+            exe = os.path.join(root or "", "bin", "bash.exe")
+            if root and os.path.isfile(exe):
+                return exe
+    return shutil.which("bash") or "bash"
+
+
 # The outputs put to it, each a whole test's worth or one line of one.
 CASES = {
     "ok_named_fail": line(58, "run.sh reads a FAIL line as red", "ok"),
@@ -76,18 +94,25 @@ try:
                   newline="\n") as f:
             f.write(text + "\n")
     # One bash for every case: on Windows a process is what a run pays.
+    # The case's name after the last / or backslash: Windows hands the paths
+    # over with backslashes, and ${f##*/} would keep the whole of one.
     script = ('. "$1"; shift; for f in "$@"; do '
-              'if said_red "$(< "$f")"; then echo "${f##*/} red"; '
-              'else echo "${f##*/} green"; fi; done')
+              'if said_red "$(< "$f")"; then echo "${f##*[/\\\\]} red"; '
+              'else echo "${f##*[/\\\\]} green"; fi; done')
     ran = subprocess.run(
-        ["bash", "-c", script, "_", "verdict.sh"]
+        [bash(), "-c", script, "_", "verdict.sh"]
         + [os.path.join(D, key) for key in sorted(CASES)],
         cwd=HERE,
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=120)
-    for one in ran.stdout.decode("utf-8", "replace").splitlines():
+    heard = ran.stdout.decode("utf-8", "replace")
+    for one in heard.splitlines():
         parts = one.split()
         if len(parts) == 2 and parts[0] in CASES:
             said[parts[0]] = parts[1]
+    if not said:
+        print("  bash said nothing readable, return code %d: %s"
+              % (ran.returncode, " / ".join(heard.strip().splitlines()[-3:])
+                 [-200:]))
 except (OSError, subprocess.TimeoutExpired) as e:
     said = {}
     print("  bash could not be asked: %s" % type(e).__name__)

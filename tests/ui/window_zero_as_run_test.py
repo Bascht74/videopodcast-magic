@@ -246,14 +246,21 @@ def mark_seconds(text):
 
 
 def timeline():
-    """Where the project file puts each file on the axis, by name."""
+    """Where the project file puts each file on the axis, by name.
+
+    Matched without regard to case: the axis is keyed by path_key, so on
+    Windows the file carries the path lower-cased. The four names here
+    differ by more than case.
+    """
     try:
         with open(PROJECT, encoding="utf-8") as f:
             d = json.load(f)
     except (OSError, ValueError):
         return {}
-    return dict((os.path.basename(e.get("path") or ""), e.get("start_s"))
-                for e in d.get("timeline") or ())
+    placed = dict((os.path.basename(e.get("path") or "").lower(),
+                   e.get("start_s")) for e in d.get("timeline") or ())
+    return dict((n, placed[n.lower()]) for n in HERE_IS
+                if n.lower() in placed)
 
 
 def fields():
