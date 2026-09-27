@@ -3809,8 +3809,13 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
         others = voice_lines_here_not(voice_lines, source)
         taken = sheet_speaker_names(assign_lines, others,
                                     state.get("voiced") or ())
+        # A name this recording's own voice keeps is on the sheet too:
+        # lent to its other voice, the one recording holds it twice.
+        kept = [called[label] for label, _p in segments
+                if (called.get(label) or "").strip()]
         known = voice_names_known(
-            source, speaker_voices_stored(source, count), others, taken)
+            source, speaker_voices_stored(source, count), others,
+            taken + kept)
         speakers_keep(state, source, segments, count, dict(
             speaker_label_names(segments, called, taken, known)))
         speaker_voices_said(state, source, count)
