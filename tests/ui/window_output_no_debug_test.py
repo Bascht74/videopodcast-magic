@@ -12,7 +12,7 @@ way the window's run loop does it, and one such line is written:
 
 In memory: the tab is a list and the log file a string buffer.
 """
-PLATFORM_BOUND = False
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

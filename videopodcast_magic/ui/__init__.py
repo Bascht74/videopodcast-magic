@@ -1879,6 +1879,7 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
     try:
         sys.argv = list(argv)
         PROGRAM.RUN_KEY = getattr(argv, "key", "")
+        PROGRAM.step_forget()
         code = main()
     except SystemExit as e:
         code = e.code if isinstance(e.code, int) else 1

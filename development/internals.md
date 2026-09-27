@@ -40,7 +40,7 @@ figure of the day is that command, not this paragraph**:
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3319** -- the window and everything it shows, asks or offers,
+* `ui/` **3320** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `player/` **3311** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
@@ -76,7 +76,7 @@ figure of the day is that command, not this paragraph**:
   from it
 * `hearing/` **1341** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1320** -- helpers that shape what the window shows and
+* `fittings/` **1323** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
@@ -90,7 +90,7 @@ figure of the day is that command, not this paragraph**:
   `assignmentsheet/` and nothing else
 * `upkeep/` **724** -- which release is out, the way back, pip putting
   one in place, and what the window offers of all three
-* `herald/` **866** -- the progress bar, the stages, the console and log
+* `herald/` **885** -- the progress bar, the stages, the console and log
   redirection with the line naming the Python it runs on, and the watch over a quiet run: `RunVitals` counts the
   run's children and reads whether any of them still moves
 * `pipeline/` **671** -- the plan: the camera audio out of the
