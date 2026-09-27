@@ -21,6 +21,7 @@ MIN_SPEECH_TO_SWITCH_S = PROGRAM.MIN_SPEECH_TO_SWITCH_S
 PLATFORMS = PROGRAM.PLATFORMS
 PROGRAM_NAME = PROGRAM.PROGRAM_NAME
 SILENCE_HOLD_S = PROGRAM.SILENCE_HOLD_S
+SOUND_FINISHED = PROGRAM.SOUND_FINISHED
 SOUND_HOLDS = PROGRAM.SOUND_HOLDS
 SOUND_MIXED = PROGRAM.SOUND_MIXED
 SOUND_SPEECH = PROGRAM.SOUND_SPEECH
@@ -177,13 +178,34 @@ def run_argv(values, assignment_file_path=""):
             % (shown.get(first) or os.path.basename(first),
                shown.get(second) or os.path.basename(second),
                label_of(kind)))
+    # The finished mix is no recording of the run: it goes as a switch
+    # of its own, with its blocks, and its row is in no plan.
+    finished = finished_mix_rows(
+        values.get("sound"), [r.get("blocks") for r in
+                              (values.get("rows") or ())],
+        [p for p, a in files if a == "audio"])
+    if len(finished) > 1:
+        shown = PROGRAM.recording_labels([p for p, a in files
+                                          if a == "audio"])
+        return error(
+            T('Two finished mixes'),
+            T('%s and %s are both set to %s. One mix takes the place of '
+              'the one the run builds -- please set the other one back to '
+              'speech.')
+            % (shown.get(finished[0][0]) or os.path.basename(finished[0][0]),
+               shown.get(finished[1][0]) or os.path.basename(finished[1][0]),
+               label_of(SOUND_FINISHED)))
+    mix_blocks = set(path_key(b) for blocks in finished for b in blocks)
     # Anything set to "ignore this video" does not come along at all.
     off = set(p for p, a in clip_kind.items() if a == TYPE_IGNORED)
     argv = ["videopodcast_magic.py"] + [p for p, _a in files
                                         if p not in edge.values()
-                                        and p not in off]
+                                        and p not in off
+                                        and path_key(p) not in mix_blocks]
     for switch, file_path in sorted(edge.items()):
         argv += [switch, file_path]
+    for block in (finished[0] if finished else ()):
+        argv += ["--finished-mix", block]
     # The wide shots stay in the file list: they are cameras like any
     # other, and the switch says only that no speaker belongs to them.
     for file_path in sorted(p for p, a in clip_kind.items()
@@ -247,7 +269,9 @@ def run_argv(values, assignment_file_path=""):
                and cam.get("path") not in off]
     only_video = bool(values.get("camera_audio_only"))
     lines = [r for r in (values.get("rows") or [])
-             if r.get("camera_choice") != IGNORE_AUDIO]
+             if r.get("camera_choice") != IGNORE_AUDIO
+             and not (r.get("blocks") and path_key(r["blocks"][0])
+                      in mix_blocks)]
     # A name typed on two recordings merges them into one track on
     # either path, so both ask first; a name left empty merges nothing.
     names = [(r.get("speakers") or "").strip() for r in lines]
@@ -342,6 +366,26 @@ def run_argv(values, assignment_file_path=""):
         # recording would ask the credential store for the key just set aside.
         argv += ["--without-auphonic"]
     return RunLine(argv, key), plan, messages
+
+
+def finished_mix_rows(sound, rows, audio_files):
+    """The recordings held as the finished mix: [blocks, ...], in order.
+
+    *sound* is {first block: what its sound holds}, as the file list
+    keeps it; *rows* the blocks of each recording as the window groups
+    them; *audio_files* those in the list. A recording with no row is
+    its one file. One answer for the run's line and the window's check,
+    so both mean the same recording.
+    """
+    listed = dict((path_key(p), p) for p in audio_files or ())
+    out = []
+    for head, holds in sorted((sound or {}).items()):
+        if holds != SOUND_FINISHED or path_key(head) not in listed:
+            continue
+        out.append(next((list(r) for r in rows or ()
+                         if r and path_key(r[0]) == path_key(head)),
+                        [listed[path_key(head)]]))
+    return out
 
 
 def run_plan(values, lines, cameras, only_video):
@@ -730,6 +774,19 @@ def build_argument_parser():
     ap.add_argument("--outro", default=None, metavar="FILE",
                     help="the same for the end: it starts where the last "
                          "word ends. (default: none)")
+    ap.add_argument("--finished-mix", dest="finished_mix", action="append",
+                    default=None, metavar="FILE",
+                    help="a stereo mix finished in another recording "
+                         "chain. It is placed on the time axis as a "
+                         "recording with mixed sound is, and goes into the "
+                         "camera files and the handover as the Full-Mix, "
+                         "in place of the mix the run builds -- as it "
+                         "came, with no gain. It is no speaker: not cut, "
+                         "not taken apart by voice, not sent to "
+                         "auphonic.com. Given several times, the files are "
+                         "the blocks of one recording, in order. Needs a "
+                         "video file. "
+                         "(default: none, the run builds the mix)")
     ap.add_argument("--wide-shot", dest="wide_shot", action="append",
                     default=None, metavar="FILE",
                     help="this video file is a wide shot: a camera nobody "

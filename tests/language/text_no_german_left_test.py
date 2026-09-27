@@ -257,6 +257,12 @@ ORDINARY = {
      'of the speech detection'),
     ('Speech', '  No moment found where exactly one person speaks -- the '
      'bleed stays in the speech detection.'),
+    # The Full-Mix the run writes, whoever made it: der fertige Mix,
+    # not the recording set to the finished mix.
+    ('Finished mix', '  Question: no transcript, so no question was found '
+     'and no reaction cut\n            happened. The words are written '
+     'down from the finished mix during\n            the run; without '
+     'them the setting does nothing.'),
 }
 apart = []
 for _english in offered:

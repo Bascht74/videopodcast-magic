@@ -45,6 +45,11 @@ AUDIO_USE = (AUDIO_UNUSED, AUDIO_MATERIAL)
 # lets the phase way place it, speech keeps to the envelopes.
 SOUND_SPEECH, SOUND_MIXED = "speech", "mixed"
 SOUND_HOLDS = (SOUND_SPEECH, SOUND_MIXED)
+# A stereo mix finished in another recording chain. Placed on the axis
+# as mixed sound is, it is no speaker and no track: it stands in the
+# camera files and the handover where the mix built here would.
+SOUND_FINISHED = "finished-mix"
+SOUND_ROLES = SOUND_HOLDS + (SOUND_FINISHED,)
 # Two names easy to confuse: "do not use" leaves the audio out
 # entirely, "no camera of its own" only keeps the person off camera.
 CHOICE_LABELS = {MIX_ONLY: "no camera of its own",
@@ -58,7 +63,8 @@ CHOICE_LABELS = {MIX_ONLY: "no camera of its own",
                  TYPE_OUTRO: "Outro", TYPE_IGNORED: "ignore this video",
                  AUDIO_UNUSED: "do not use internal audio",
                  AUDIO_MATERIAL: "use internal audio",
-                 SOUND_SPEECH: "Speech", SOUND_MIXED: "Mixed"}
+                 SOUND_SPEECH: "Speech", SOUND_MIXED: "Mixed",
+                 SOUND_FINISHED: "Finished mix"}
 
 
 def label_of(value):

@@ -4860,9 +4860,6 @@ msgstr "Fala"
 msgid "Mixed"
 msgstr "Misto"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Fala: posicionada só pela sonoridade. Uma gravação que não tem nada em comum\ncom as câmeras é recusada. Misto: música ou uma mixagem fica sob as vozes,\ne onde a sonoridade não encontra nada, a fase pode posicioná-la.\nCom \"%s\" é sempre misto."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: o som dele corresponde em %s, e em %s também em outro ponto -- posicionado só pelo seu relógio"
 
@@ -5166,3 +5163,45 @@ msgstr "\nFALANTES -- MEDIDOS ANTES"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Retirado da medição guardada nesta máquina: as mesmas gravações, posições e janela de tempo."
+
+msgid "Finished mix"
+msgstr "Mixagem final"
+
+msgid "Two finished mixes"
+msgstr "Duas mixagens finais"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s e %s estão ambos em %s. Só uma mixagem substitui a que o processamento constrói -- volte a pôr a outra em Fala."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "A mixagem final tem de ser um arquivo de áudio: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "a mixagem final substitui a mixagem nos arquivos das câmeras, e sem arquivo de vídeo não há nenhum."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "a mixagem final dura %s, menos que qualquer câmera (a mais curta %s): onde ela termina, o Full-Mix fica em silêncio."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s substitui a mixagem que este processamento construiria."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  A mixagem final não encontrou lugar no eixo de tempo: não partilha som com as câmeras. O processamento para em vez de a colocar em qualquer lugar."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  A mixagem final não tem nada na janela de %s a %s: está de %s a %s. O processamento para."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  A mixagem final deixa em silêncio %s no início e %s no fim da janela."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: a mixagem final como chegou -- sem ganho e sem limitador"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"Só sincronizar\" coloca cada gravação como som misto."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "a mixagem final -- sem locutor, sem câmera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Fala: posicionada só pela sonoridade. Uma gravação que não tem nada em comum\ncom as câmeras é recusada. Misto: música ou uma mixagem fica sob as vozes,\ne onde a sonoridade não encontra nada, a fase pode posicioná-la.\nMixagem final: uma mixagem estéreo feita noutro lugar, colocada como som misto. Vai\npara os arquivos das câmeras e para a entrega no lugar da mixagem do processamento --\nsem locutor, sem cortes, sem envio para auphonic.com.\nCom \"%s\" a opção Fala não é oferecida."

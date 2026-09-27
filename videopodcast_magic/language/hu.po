@@ -4861,9 +4861,6 @@ msgstr "Beszéd"
 msgid "Mixed"
 msgstr "Kevert"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Beszéd: csak a hangosság alapján kerül a helyére. Az a felvétel, amelynek semmi köze\na kamerákhoz, elutasításra kerül. Kevert: a hangok alatt zene vagy mix szól,\nés ahol a hangosság nem talál semmit, a fázis elhelyezheti.\n„%s” esetén mindig kevert."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: a hang egyezése %s, és egy másik helyen is %s -- csak az órája alapján került a helyére"
 
@@ -5167,3 +5164,45 @@ msgstr "\nBESZÉLŐK -- KORÁBBAN MÉRVE"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Az ezen a gépen tárolt mérésből átvéve: ugyanazok a felvételek, helyek és időablak."
+
+msgid "Finished mix"
+msgstr "Kész keverés"
+
+msgid "Two finished mixes"
+msgstr "Két kész keverés"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s és %s is %s értékre van állítva. Csak egy keverés léphet a futás által épített helyébe -- állítsa vissza a másikat Beszédre."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "A kész keverésnek hangfájlnak kell lennie: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "a kész keverés a kamerafájlokban a keverés helyébe lép, videofájl nélkül pedig nincsenek ilyenek."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "a kész keverés %s hosszú, rövidebb minden kameránál (a legrövidebb %s): ahol véget ér, a Full-Mix néma."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s lép annak a keverésnek a helyébe, amelyet ez a futás építene."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  A kész keverés nem talált helyet az időtengelyen: nincs közös hangja a kamerákkal. A futás megáll, ahelyett hogy bárhová tenné."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  A kész keverésnek nincs semmije az ablakban %s és %s között: %s és %s között van. A futás megáll."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  A kész keverés az ablak elején %s, a végén %s hosszan csendet hagy."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: a kész keverés úgy, ahogy érkezett -- erősítés és limiter nélkül"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "A „Csak szinkronizálás” minden felvételt kevert hangként helyez el."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "a kész keverés -- nem beszélő, nincs kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Beszéd: csak a hangosság alapján kerül a helyére. Az a felvétel, amelynek semmi köze\na kamerákhoz, elutasításra kerül. Kevert: a hangok alatt zene vagy mix szól,\nés ahol a hangosság nem talál semmit, a fázis elhelyezheti.\nKész keverés: máshol készült sztereó keverés, kevert hangként elhelyezve. A kamerafájlokba\nés az átadásba kerül a futás által épített keverés helyett --\nnem beszélő, nincs vágva, nem megy az auphonic.com-ra.\n„%s” esetén a Beszéd nem választható."

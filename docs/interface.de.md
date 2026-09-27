@@ -203,9 +203,26 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   - **Gemischt**: Unter den Stimmen liegt Musik oder ein fertiger Mix,
     und daran kann die Lautheit scheitern. Wo sie nichts findet, darf
     dann die Phase des Tons die Aufnahme legen.
+  - **Fertige Mischung**: Die Aufnahme *ist* die Mischung, fertig
+    gemischt in einer anderen Aufnahmekette -- etwa die Stereosumme
+    eines Mischpults. Sie wird wie **Gemischt** auf die Zeitachse
+    gelegt und steht dann in den Kameradateien und in der Übergabe als
+    **Full-Mix**, anstelle der Mischung, die das Programm sonst aus den
+    Aufnahmen baut. Sie geht so hinein, wie sie kam: ohne Verstärkung,
+    ohne Limiter, gleich, was das Lautheitsziel sagt. Ein Sprecher ist
+    sie nicht -- ihre Zeile auf dem Reiter **Zuordnung** sagt **die
+    fertige Mischung -- kein Sprecher, keine Kamera** und nimmt keinen
+    Namen --, sie wird nicht geschnitten, nicht nach Stimmen zerlegt und
+    nicht an auphonic.com geschickt. Die Sprecher und die Einzelspuren
+    kommen weiter aus den übrigen Aufnahmen oder, wo es keine gibt, aus
+    dem Ton der Kameras. Nur eine Aufnahme kann die fertige Mischung
+    sein; zwei halten den Start mit **Zwei fertige Mischungen** an. Wo
+    sie nicht passt, sagen es die Prüfung und der Lauf (siehe
+    [Vorflug](preflight.de.md)).
 
-  Bei **Nur synchronisieren** steht das Feld fest auf **Gemischt** und
-  ist gesperrt, denn dort ist die Phase immer erlaubt. Was man vorher
+  Bei **Nur synchronisieren** zeigt das Feld **Gemischt**, und
+  **Sprache** lässt sich nicht wählen, denn dort ist die Phase immer
+  erlaubt. Eine fertige Mischung bleibt, was sie ist. Was man vorher
   gewählt hatte, bleibt gemerkt und kehrt mit **Schnitt nach Sprecher**
   zurück. Wer das Feld oder den Projekttyp ändert, lässt die Zeitachse
   neu messen, sofern sich damit ändert, welche Aufnahmen die Phase legen

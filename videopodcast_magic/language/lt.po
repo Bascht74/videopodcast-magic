@@ -4907,9 +4907,6 @@ msgstr "Kalbėjimas"
 msgid "Mixed"
 msgstr "Mišrus"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Kalbėjimas: išdėstoma tik pagal garsumą. Įrašas, neturintis nieko bendra\nsu kameromis, atmetamas. Mišrus: po balsais yra muzika arba miksas,\nir kur garsumas nieko neranda, jį gali išdėstyti fazė.\nSu „%s“ jis visada mišrus."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: garso atitiktis %s, o kitoje vietoje taip pat %s -- išdėstytas tik pagal jo laikrodį"
 
@@ -5213,3 +5210,45 @@ msgstr "\nKALBĖTOJAI -- IŠMATUOTA ANKSČIAU"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Paimta iš šiame kompiuteryje laikomo matavimo: tie patys įrašai, vietos ir laiko langas."
+
+msgid "Finished mix"
+msgstr "Baigtas miksas"
+
+msgid "Two finished mixes"
+msgstr "Du baigti miksai"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s ir %s abu nustatyti į %s. Tik vienas miksas pakeičia tą, kurį sukuria apdorojimas -- grąžinkite kitą į Kalbėjimas."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Baigtas miksas turi būti garso failas: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "baigtas miksas pakeičia miksą kamerų failuose, o be vaizdo failo jų nėra."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "baigtas miksas trunka %s, trumpiau už bet kurią kamerą (trumpiausia %s): kur jis baigiasi, Full-Mix tyli."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s pakeičia miksą, kurį sukurtų šis apdorojimas."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Baigtas miksas nerado vietos laiko ašyje: jis neturi bendro garso su kameromis. Apdorojimas sustoja, užuot padėjęs jį bet kur."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Baigtas miksas neturi nieko lange nuo %s iki %s: jis yra nuo %s iki %s. Apdorojimas sustoja."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Baigtas miksas palieka tylą: %s lango pradžioje ir %s pabaigoje."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: baigtas miksas toks, koks atėjo -- be stiprinimo ir be ribotuvo"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Tik sinchronizavimas“ kiekvieną įrašą deda kaip mišrų garsą."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "baigtas miksas -- ne kalbėtojas, be kameros"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Kalbėjimas: išdėstoma tik pagal garsumą. Įrašas, neturintis nieko bendra\nsu kameromis, atmetamas. Mišrus: po balsais yra muzika arba miksas,\nir kur garsumas nieko neranda, jį gali išdėstyti fazė.\nBaigtas miksas: kitur padarytas stereo miksas, dedamas kaip mišrus garsas. Jis patenka\ní kamerų failus ir perdavimą vietoj apdorojimo sukurto miksavimo --\nne kalbėtojas, nekarpomas, nesiunčiamas į auphonic.com.\nSu „%s“ Kalbėjimas nesiūlomas."

@@ -624,12 +624,21 @@ def run_from_command_line(args, ap):
             args.auphonic_preset = None
 
     audio_paths, video_paths, other = split_audio_and_video(args.files)
+    # The finished mix is no recording of the run, however it was named:
+    # out of the recordings, and an audio file or no run.
+    args.finished_mix = [os.path.abspath(p) for p in
+                         getattr(args, "finished_mix", None) or ()]
+    for p in args.finished_mix:
+        if os.path.splitext(p)[1].lower() not in AUDIO_SUFFIXES:
+            sys.exit(T('The finished mix has to be an audio file: %s') % p)
+    mixed_in = set(path_key(p) for p in args.finished_mix)
+    audio_paths = [p for p in audio_paths if path_key(p) not in mixed_in]
     recordings_shown_as(audio_paths)
     for p in other:
         print(T('Unknown extension, skipped: %s') % os.path.basename(p))
     if not audio_paths and not video_paths:
         sys.exit(T('No audio file given.'))
-    for p in audio_paths + video_paths:
+    for p in audio_paths + video_paths + args.finished_mix:
         if not os.path.exists(p):
             sys.exit(T('Not found: %s') % p)
     returned = returned_given_as_raw(audio_paths, args.auphonic_done)

@@ -31,8 +31,9 @@ ON_DARK = PROGRAM.ON_DARK
 PRESET_NONE = PROGRAM.PRESET_NONE
 ProgressPlan = PROGRAM.ProgressPlan
 RUN_STOP = PROGRAM.RUN_STOP
-SOUND_HOLDS = PROGRAM.SOUND_HOLDS
+SOUND_FINISHED = PROGRAM.SOUND_FINISHED
 SOUND_MIXED = PROGRAM.SOUND_MIXED
+SOUND_ROLES = PROGRAM.SOUND_ROLES
 SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 SPEECH_CODES = PROGRAM.SPEECH_CODES
 Stopped = PROGRAM.Stopped
@@ -679,29 +680,37 @@ def camera_audio_cell(short, used, why, quiet, beside_player=False):
     return cell, box
 
 
-def sound_cell_for(path, state, quiet):
+def sound_cell_for(path, state, quiet, after=None):
     """The In the sound field of one recording, built and tied to it.
 
-    One answer per recording, kept under its first block in
-    state["sound_holds"]: speech keeps the phase way off, mixed lets it
-    place what the loudness cannot. A change asks the time axis again,
-    and sound_cells_follow shuts the field while the project only syncs.
+    One answer per recording, under its first block in state["sound_holds"]:
+    speech keeps the phase way off, mixed lets it place, the finished mix
+    is placed as mixed and stands in for the run's mix. A change asks the
+    time axis again, one into or out of the finished mix calls *after* too:
+    it changes which recordings are tracks. See sound_cells_follow for Sync.
     """
     holds = state.setdefault("sound_holds", ByFile())
-    cell, box = choice_cell(SOUND_HOLDS, holds.get(path) or SOUND_SPEECH)
+    cell, box = choice_cell(SOUND_ROLES, holds.get(path) or SOUND_SPEECH)
     cell.layout().insertWidget(0, label(T('In the sound'), quiet))
     speaks_as(box, T('In the sound'), os.path.basename(path))
     hint(box, T('Speech: placed by its loudness alone. A recording that '
                 'shares nothing\nwith the cameras is refused. Mixed: music '
                 'or a mix lies under the voices,\nand where the loudness '
-                'finds nothing the phase may place it.\nUnder "%s" it is '
-                'always mixed.') % T('Sync only'))
+                'finds nothing the phase may place it.\nFinished mix: a '
+                'stereo mix made elsewhere, placed as mixed sound. It goes '
+                'into\nthe camera files and the handover in place of the '
+                'mix the run builds --\nno speaker, not cut, not sent to '
+                'auphonic.com.\nUnder "%s" speech is not offered.')
+         % T('Sync only'))
     box.sound_of = path
 
     def chosen(i):
         """Keep the answer, and let the time axis hear of it."""
+        was = holds.get(path)
         holds[path] = box.itemData(i)
         (state.get("axis_sound_again") or (lambda: None))()
+        if after is not None and SOUND_FINISHED in (was, holds[path]):
+            after()
 
     box.currentIndexChanged.connect(chosen)
     state["sound_boxes"] = list(state.get("sound_boxes") or ()) + [box]
@@ -712,20 +721,24 @@ def sound_cell_for(path, state, quiet):
 def sound_cells_follow(state):
     """Show every In the sound field as the project type has it.
 
-    Under "Sync only" each stands on mixed and is shut, and what was
-    chosen stays kept beside it for a return to the cut. A field whose
-    row has been built again is dropped here.
+    Under "Sync only" speech is barred and a field on it shows mixed,
+    and what was chosen stays kept beside it for a return to the cut;
+    the finished mix stays open there, as the run takes it either way.
+    A field whose row has been built again is dropped here.
     """
     sync = PROGRAM.sync_only(state)
     holds = state.get("sound_holds") or {}
     alive = []
     for box in state.get("sound_boxes") or ():
         try:
+            held = holds.get(box.sound_of) or SOUND_SPEECH
             box.blockSignals(True)
-            pick_choice(box, SOUND_MIXED if sync
-                        else holds.get(box.sound_of) or SOUND_SPEECH)
+            pick_choice(box, SOUND_MIXED if sync and held == SOUND_SPEECH
+                        else held)
             box.blockSignals(False)
-            box.setEnabled(not sync)
+            choices_shut(box, [SOUND_SPEECH] if sync else (),
+                         T('Sync only places every recording as mixed '
+                           'sound.'), COLOURS["quiet"])
         except RuntimeError:
             continue
         alive.append(box)
@@ -769,20 +782,23 @@ def moved_says_why(box, key, wide, quiet):
     return box
 
 
-def cameras_using_audio(files, kinds, uses, sound_of=None):
+def cameras_using_audio(files, kinds, uses, sound_of=None, state=None):
     """Which video files contribute their sound, and which by rule.
 
     Derived in one place for both tabs: two derivations of one answer
     drift apart, and then one tab offers what the other refuses. Only
     cameras are asked, and a wide shot is a camera. *kinds* and *uses*
-    are {path: Value}; a path missing counts as content and unused.
+    are {path: Value}; a path missing counts as content and unused. The
+    finished mix in *state*, by its first block, is no recording here.
     """
     videos = [p for p, a in files if a == "video"]
     content = [p for p in videos
                if (kinds[p].get() if p in kinds else TYPE_CONTENT)
                in CAMERA_TYPES]
+    holds = (state or {}).get("sound_holds") or {}
     return cameras_with_own_audio(
-        content, [p for p, a in files if a == "audio"],
+        content, [p for p, a in files if a == "audio"
+                  and holds.get(p) != SOUND_FINISHED],
         [p for p in content if p in uses and uses[p].get()], sound_of)
 
 
@@ -2359,7 +2375,7 @@ def gui():
                 clip_kind_value(p)
                 audio_use_value(p)
         return cameras_using_audio(files, clip_kind_values,
-                                   audio_use_values, has_sound)
+                                   audio_use_values, has_sound, state)
 
     # The rows, the findings and the output folder are the first sheet's;
     # what they reach for down here goes in as late look-ups.

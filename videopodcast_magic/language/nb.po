@@ -4859,9 +4859,6 @@ msgstr "Tale"
 msgid "Mixed"
 msgstr "Blandet"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Tale: plasseres etter lydstyrken alene. Et opptak som ikke har noe til felles\nmed kameraene, avvises. Blandet: musikk eller en miks ligger under stemmene,\nog der lydstyrken ikke finner noe, kan fasen plassere det.\nUnder «%s» er det alltid blandet."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: lyden passer med %s, og med %s et annet sted også -- plassert etter klokken sin alene"
 
@@ -5165,3 +5162,45 @@ msgstr "\nTALERE -- MÅLT TIDLIGERE"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Hentet fra målingen lagret på denne maskinen: samme opptak, plasseringer og tidsvindu."
+
+msgid "Finished mix"
+msgstr "Ferdig miks"
+
+msgid "Two finished mixes"
+msgstr "To ferdige mikser"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s og %s er begge satt til %s. Én miks trer i stedet for den kjøringen bygger -- sett den andre tilbake til Tale."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Den ferdige miksen må være en lydfil: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "den ferdige miksen trer i stedet for miksen i kamerafilene, og uten videofil finnes det ingen."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "den ferdige miksen varer %s, kortere enn hvert kamera (det korteste %s): der den slutter, er Full-Mix stille."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s trer i stedet for miksen denne kjøringen ville bygget."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Den ferdige miksen fant ingen plass på tidsaksen: den deler ingen lyd med kameraene. Kjøringen stopper heller enn å legge den et tilfeldig sted."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Den ferdige miksen har ingenting i vinduet fra %s til %s: den ligger fra %s til %s. Kjøringen stopper."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Den ferdige miksen lar %s foran og %s bak i vinduet være stille."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: den ferdige miksen slik den kom -- ingen forsterkning og ingen limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "«Bare synkronisering» plasserer hvert opptak som blandet lyd."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "den ferdige miksen -- ingen taler, intet kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Tale: plasseres etter lydstyrken alene. Et opptak som ikke har noe til felles\nmed kameraene, avvises. Blandet: musikk eller en miks ligger under stemmene,\nog der lydstyrken ikke finner noe, kan fasen plassere det.\nFerdig miks: en stereomiks laget et annet sted, plassert som blandet lyd. Den går\ninn i kamerafilene og overleveringen i stedet for kjøringens egen miks --\ningen taler, ikke klippet, ikke sendt til auphonic.com.\nUnder «%s» tilbys ikke Tale."

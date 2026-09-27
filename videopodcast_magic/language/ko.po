@@ -4815,9 +4815,6 @@ msgstr "말소리"
 msgid "Mixed"
 msgstr "혼합"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "말소리: 라우드니스만으로 배치합니다. 카메라와 공통점이 없는\n녹음은 거부됩니다. 혼합: 목소리 아래에 음악이나 믹스가 있으며,\n라우드니스가 아무것도 찾지 못하는 곳에서는 위상으로 배치할 수 있습니다.\n\"%s\"에서는 항상 혼합입니다."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: 소리 일치도 %s, 다른 위치에서도 %s -- 자체 시계만으로 배치했습니다"
 
@@ -5121,3 +5118,45 @@ msgstr "\n화자 -- 이전에 측정"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  이 컴퓨터에 보관된 측정에서 가져옴: 같은 녹음, 위치, 시간 구간."
+
+msgid "Finished mix"
+msgstr "완성 믹스"
+
+msgid "Two finished mixes"
+msgstr "완성 믹스 두 개"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s와(과) %s 모두 %s(으)로 설정되어 있습니다. 처리가 만드는 믹스를 대신할 수 있는 것은 하나뿐입니다 -- 다른 하나를 말소리로 되돌려 주세요."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "완성 믹스는 오디오 파일이어야 합니다: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "완성 믹스는 카메라 파일 속 믹스를 대신하며, 비디오 파일이 없으면 카메라 파일도 없습니다."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "완성 믹스 길이는 %s로 모든 카메라보다 짧습니다(가장 짧은 것 %s): 끝나는 곳부터 Full-Mix는 무음입니다."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s이(가) 이 처리가 만들 믹스를 대신합니다."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  완성 믹스가 시간 축에서 자리를 찾지 못했습니다: 카메라와 공유하는 소리가 없습니다. 아무 데나 두는 대신 처리를 멈춥니다."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  완성 믹스는 %s부터 %s까지의 구간에 아무것도 없습니다: %s부터 %s까지에 있습니다. 처리를 멈춥니다."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  완성 믹스는 구간의 앞 %s와 뒤 %s를 무음으로 남깁니다."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: 받은 그대로의 완성 믹스 -- 게인 없음, 리미터 없음"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"동기화만\"은 모든 녹음을 혼합 소리로 배치합니다."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "완성 믹스 -- 화자 없음, 카메라 없음"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "말소리: 라우드니스만으로 배치합니다. 카메라와 공통점이 없는\n녹음은 거부됩니다. 혼합: 목소리 아래에 음악이나 믹스가 있으며,\n라우드니스가 아무것도 찾지 못하는 곳에서는 위상으로 배치할 수 있습니다.\n완성 믹스: 다른 곳에서 만든 스테레오 믹스로, 혼합 소리처럼 배치됩니다.\n처리가 만드는 믹스 대신 카메라 파일과 인계 파일에 들어갑니다 --\n화자가 아니며, 잘리지 않고, auphonic.com으로 보내지지 않습니다.\n\"%s\"에서는 말소리를 고를 수 없습니다."

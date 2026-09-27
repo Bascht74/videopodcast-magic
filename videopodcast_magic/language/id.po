@@ -4820,9 +4820,6 @@ msgstr "Ucapan"
 msgid "Mixed"
 msgstr "Campuran"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Ucapan: ditempatkan hanya menurut kenyaringannya. Rekaman yang tidak punya kesamaan apa pun\ndengan kamera ditolak. Campuran: musik atau mix ada di bawah suara-suara,\ndan di mana kenyaringan tidak menemukan apa pun, fase boleh menempatkannya.\nDengan \"%s\" selalu campuran."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: audionya cocok sebesar %s, dan sebesar %s di tempat lain juga -- ditempatkan hanya menurut jamnya"
 
@@ -5126,3 +5123,45 @@ msgstr "\nPEMBICARA -- DIUKUR SEBELUMNYA"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Diambil dari pengukuran yang disimpan di komputer ini: rekaman, posisi, dan jendela waktu yang sama."
+
+msgid "Finished mix"
+msgstr "Mix jadi"
+
+msgid "Two finished mixes"
+msgstr "Dua mix jadi"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s dan %s sama-sama diatur ke %s. Hanya satu mix yang menggantikan mix buatan proses -- kembalikan yang lain ke Ucapan."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Mix jadi harus berupa berkas audio: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "mix jadi menggantikan mix di berkas kamera, dan tanpa berkas video tidak ada berkas kamera."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "mix jadi berdurasi %s, lebih pendek dari setiap kamera (terpendek %s): di tempat ia berakhir, Full-Mix senyap."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s menggantikan mix yang akan dibuat proses ini."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Mix jadi tidak menemukan tempat di sumbu waktu: tidak ada suara yang sama dengan kamera. Proses berhenti daripada meletakkannya di sembarang tempat."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Mix jadi tidak berisi apa pun di jendela %s sampai %s: letaknya dari %s sampai %s. Proses berhenti."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Mix jadi membiarkan %s di awal dan %s di akhir jendela senyap."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: mix jadi apa adanya -- tanpa penguatan dan tanpa limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"Hanya sinkronisasi\" meletakkan setiap rekaman sebagai suara campuran."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "mix jadi -- bukan pembicara, tanpa kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Ucapan: ditempatkan hanya menurut kenyaringannya. Rekaman yang tidak punya kesamaan apa pun\ndengan kamera ditolak. Campuran: musik atau mix ada di bawah suara-suara,\ndan di mana kenyaringan tidak menemukan apa pun, fase boleh menempatkannya.\nMix jadi: mix stereo yang dibuat di tempat lain, diletakkan seperti suara campuran. Mix ini masuk\nke berkas kamera dan serah terima menggantikan mix buatan proses --\nbukan pembicara, tidak dipotong, tidak dikirim ke auphonic.com.\nDengan \"%s\" Ucapan tidak ditawarkan."

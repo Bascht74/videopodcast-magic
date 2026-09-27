@@ -6592,9 +6592,6 @@ msgstr "Sprache"
 msgid "Mixed"
 msgstr "Gemischt"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Sprache: nur nach der Lautheit gelegt. Eine Aufnahme, die nichts\nmit den Kameras gemeinsam hat, wird abgelehnt. Gemischt: Musik oder ein Mix\nliegt unter den Stimmen, und wo die Lautheit nichts findet, darf die Phase sie legen.\nUnter „%s“ ist es immer gemischt."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: Übereinstimmung des Tons %s, an einer anderen Stelle ebenso %s -- allein nach seiner Uhr gesetzt"
 
@@ -6898,3 +6895,45 @@ msgstr "\nSPRECHER -- FRÜHER GEMESSEN"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Aus der auf diesem Rechner gespeicherten Messung übernommen: dieselben Aufnahmen, Positionen und dasselbe Zeitfenster."
+
+msgid "Finished mix"
+msgstr "Fertige Mischung"
+
+msgid "Two finished mixes"
+msgstr "Zwei fertige Mischungen"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s und %s sind beide auf %s gestellt. Eine Mischung tritt an die Stelle der, die der Lauf baut -- bitte die andere wieder auf Sprache stellen."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Die fertige Mischung muss eine Audiodatei sein: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "die fertige Mischung tritt in den Kameradateien an die Stelle der Mischung, und ohne Videodatei gibt es keine."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "die fertige Mischung läuft %s, kürzer als jede Kamera (die kürzeste %s): wo sie endet, ist der Full-Mix still."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s tritt an die Stelle der Mischung, die dieser Lauf bauen würde."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Die fertige Mischung hat keinen Platz auf der Zeitachse gefunden: Sie teilt keinen Ton mit den Kameras. Der Lauf hält an, statt sie irgendwohin zu legen."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Die fertige Mischung hat nichts im Zeitfenster von %s bis %s: Sie liegt von %s bis %s. Der Lauf hält an."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Die fertige Mischung lässt vorn %s und hinten %s des Zeitfensters still."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: die fertige Mischung, so wie sie kam -- keine Verstärkung und kein Limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Nur synchronisieren“ legt jede Aufnahme als gemischten Ton."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "die fertige Mischung -- kein Sprecher, keine Kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Sprache: nur nach der Lautheit gelegt. Eine Aufnahme, die nichts\nmit den Kameras gemeinsam hat, wird abgelehnt. Gemischt: Musik oder ein Mix\nliegt unter den Stimmen, und wo die Lautheit nichts findet, darf die Phase sie legen.\nFertige Mischung: eine anderswo gemachte Stereo-Mischung, gelegt wie gemischter Ton. Sie kommt\nin die Kameradateien und die Übergabe anstelle der Mischung, die der Lauf baut --\nkein Sprecher, nicht geschnitten, nicht an auphonic.com geschickt.\nUnter „%s“ wird Sprache nicht angeboten."

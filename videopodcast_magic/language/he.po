@@ -4862,9 +4862,6 @@ msgstr "דיבור"
 msgid "Mixed"
 msgstr "מעורב"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "דיבור: ממוקם לפי העוצמה הנתפסת בלבד. הקלטה שאין לה דבר משותף\nעם המצלמות נדחית. מעורב: מוזיקה או מיקס נמצאים מתחת לקולות,\nובמקום שהעוצמה לא מוצאת דבר, הפאזה רשאית למקם אותה.\nתחת \"%s\" זה תמיד מעורב."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: השמע שלו מתאים ברמה %s, וגם ברמה %s במקום אחר -- המיקום לפי השעון שלו בלבד"
 
@@ -5168,3 +5165,45 @@ msgstr "\nדוברים -- נמדדו קודם"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  נלקח מהמדידה השמורה במחשב הזה: אותן הקלטות, אותם מיקומים ואותו חלון זמן."
+
+msgid "Finished mix"
+msgstr "מיקס מוגמר"
+
+msgid "Two finished mixes"
+msgstr "שני מיקסים מוגמרים"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s ו-%s מוגדרים שניהם כ-%s. רק מיקס אחד מחליף את זה שהעיבוד בונה -- החזירו את השני לדיבור."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "המיקס המוגמר חייב להיות קובץ שמע: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "המיקס המוגמר מחליף את המיקס בקובצי המצלמות, ובלי קובץ וידאו אין כאלה."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "המיקס המוגמר נמשך %s, קצר מכל מצלמה (הקצרה ביותר %s): היכן שהוא נגמר, ה-Full-Mix שקט."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s מחליף את המיקס שהעיבוד הזה היה בונה."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  המיקס המוגמר לא מצא מקום על ציר הזמן: אין לו צליל משותף עם המצלמות. העיבוד נעצר במקום להניח אותו סתם במקום כלשהו."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  למיקס המוגמר אין דבר בחלון מ-%s עד %s: הוא נמצא מ-%s עד %s. העיבוד נעצר."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  המיקס המוגמר משאיר שקטים %s בתחילת החלון ו-%s בסופו."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: המיקס המוגמר כפי שהגיע -- בלי הגבר ובלי מגביל"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"סנכרון בלבד\" ממקם כל הקלטה כצליל מעורב."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "המיקס המוגמר -- לא דובר, ללא מצלמה"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "דיבור: ממוקם לפי העוצמה הנתפסת בלבד. הקלטה שאין לה דבר משותף\nעם המצלמות נדחית. מעורב: מוזיקה או מיקס נמצאים מתחת לקולות,\nובמקום שהעוצמה לא מוצאת דבר, הפאזה רשאית למקם אותה.\nמיקס מוגמר: מיקס סטריאו שנעשה במקום אחר, ממוקם כצליל מעורב. הוא נכנס\nלקובצי המצלמות ולמסירה במקום המיקס שהעיבוד בונה --\nלא דובר, לא נחתך, לא נשלח ל-auphonic.com.\nתחת \"%s\" דיבור אינו מוצע."

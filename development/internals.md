@@ -40,12 +40,12 @@ figure of the day is that command, not this paragraph**:
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3292** -- the window and everything it shows, asks or offers,
+* `ui/` **3308** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `player/` **3300** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3355** -- who is on camera when, and what carries it out
+* `cut/` **3359** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2430** -- the DaVinci Resolve project, timelines, colour,
@@ -59,7 +59,7 @@ figure of the day is that command, not this paragraph**:
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2367** -- the time base and the camera files: every
+* `timebase/` **2472** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
@@ -67,24 +67,24 @@ figure of the day is that command, not this paragraph**:
   and one bound of its own, 500 ppm
 * `auphonic/` **2106** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1873** -- whether the material fits together before the
+* `preflight/` **1919** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `setup/` **1388** -- finding ffmpeg, installing a missing module,
   keeping the key, and storing it from the terminal
 * `speech/` **1422** -- what is said and when, and what is written down
   from it
-* `hearing/` **1323** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1341** -- decoding, envelopes, bands, phase, aligning
   audio to video
 * `fittings/` **1320** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **1028** -- the command line a run is given: written out of
+* `orders/` **1085** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
-* `assignmenttable/` **780** -- the table on the second tab:
+* `assignmenttable/` **808** -- the table on the second tab:
   recordings above, the voices under them, the cameras below, what it
   keeps between builds and the camera names somebody typed; read by
   `assignmentsheet/` and nothing else
@@ -98,7 +98,7 @@ figure of the day is that command, not this paragraph**:
 * `project/` **589** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
-* `filelist/` **535** -- the list of chosen files: the tree it is
+* `filelist/` **544** -- the list of chosen files: the tree it is
   shown in, what adding and removing do to it, and a recording of
   several blocks shown as one entry
 * `prework/` **466** -- the audio, envelopes, channels and tracks
@@ -147,7 +147,7 @@ figure of the day is that command, not this paragraph**:
 * `outputsheet/` **124** -- the fourth tab: the log pane and how it
   follows a run, and the two buttons for what a run made, each with the
   reason it is greyed
-* `choices/` **123** -- the values a choice box holds, and what they are
+* `choices/` **129** -- the values a choice box holds, and what they are
   called
 `models/` is the odd one out among the folders: the speaker model lives
 there and no code at all, so `beside()` never reaches for it. There is

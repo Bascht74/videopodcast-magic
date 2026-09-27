@@ -4872,9 +4872,6 @@ msgstr "Konuşma"
 msgid "Mixed"
 msgstr "Karışık"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Konuşma: yalnızca ses yüksekliğine göre yerleştirilir. Kameralarla hiçbir ortak\nyanı olmayan kayıt reddedilir. Karışık: seslerin altında müzik ya da bir miks vardır,\nve ses yüksekliğinin bir şey bulamadığı yerde faz onu yerleştirebilir.\n\"%s\" altında her zaman karışıktır."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: ses eşleşmesi %s, başka bir yerde de %s -- yalnızca kendi saatine göre yerleştirildi"
 
@@ -5178,3 +5175,45 @@ msgstr "\nKONUŞMACILAR -- DAHA ÖNCE ÖLÇÜLDÜ"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Bu makinede saklanan ölçümden alındı: aynı kayıtlar, konumlar ve zaman penceresi."
+
+msgid "Finished mix"
+msgstr "Hazır miks"
+
+msgid "Two finished mixes"
+msgstr "İki hazır miks"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s ve %s ikisi de %s olarak ayarlı. Yalnızca bir miks işlemin kurduğu miksin yerini alır -- diğerini yeniden Konuşma yapın."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Hazır miks bir ses dosyası olmalı: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "hazır miks kamera dosyalarındaki miksin yerini alır ve video dosyası olmadan hiçbiri yoktur."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "hazır miks %s sürüyor, her kameradan kısa (en kısası %s): bittiği yerde Full-Mix sessiz kalır."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s bu işlemin kuracağı miksin yerini alıyor."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Hazır miks zaman ekseninde yer bulamadı: kameralarla ortak sesi yok. İşlem onu rastgele bir yere koymak yerine durur."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Hazır miksin %s ile %s arasındaki pencerede hiçbir şeyi yok: %s ile %s arasında. İşlem durur."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Hazır miks pencerenin başında %s, sonunda %s sessiz bırakıyor."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: hazır miks geldiği gibi -- kazanç yok, limitleyici yok"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"Yalnızca senkronizasyon\" her kaydı karışık ses olarak yerleştirir."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "hazır miks -- konuşmacı yok, kamera yok"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Konuşma: yalnızca ses yüksekliğine göre yerleştirilir. Kameralarla hiçbir ortak\nyanı olmayan kayıt reddedilir. Karışık: seslerin altında müzik ya da bir miks vardır,\nve ses yüksekliğinin bir şey bulamadığı yerde faz onu yerleştirebilir.\nHazır miks: başka yerde yapılmış stereo miks, karışık ses gibi yerleştirilir. İşlemin kurduğu\nmiksin yerine kamera dosyalarına ve teslime girer --\nkonuşmacı değil, kesilmez, auphonic.com'a gönderilmez.\n\"%s\" altında Konuşma sunulmaz."

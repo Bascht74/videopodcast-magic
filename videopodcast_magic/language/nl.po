@@ -4860,9 +4860,6 @@ msgstr "Spraak"
 msgid "Mixed"
 msgstr "Gemengd"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Spraak: alleen op de luidheid geplaatst. Een opname die niets gemeen heeft\nmet de camera’s, wordt geweigerd. Gemengd: onder de stemmen ligt muziek of een mix,\nen waar de luidheid niets vindt, mag de fase haar plaatsen.\nBij \"%s\" is het altijd gemengd."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: het geluid komt overeen met %s, en op een andere plek ook met %s -- alleen op zijn klok geplaatst"
 
@@ -5166,3 +5163,45 @@ msgstr "\nSPREKERS -- EERDER GEMETEN"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Overgenomen uit de meting die op deze computer bewaard is: dezelfde opnamen, posities en hetzelfde tijdvenster."
+
+msgid "Finished mix"
+msgstr "Afgewerkte mix"
+
+msgid "Two finished mixes"
+msgstr "Twee afgewerkte mixen"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s en %s staan allebei op %s. Eén mix vervangt de mix die de run bouwt -- zet de andere terug op Spraak."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "De afgewerkte mix moet een audiobestand zijn: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "de afgewerkte mix vervangt de mix in de camerabestanden, en zonder videobestand zijn die er niet."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "de afgewerkte mix duurt %s, korter dan elke camera (de kortste %s): waar hij eindigt, is de Full-Mix stil."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s vervangt de mix die deze run zou bouwen."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  De afgewerkte mix vond geen plek op de tijdas: hij deelt geen geluid met de camera's. De run stopt liever dan hem ergens neer te leggen."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  De afgewerkte mix heeft niets in het venster van %s tot %s: hij ligt van %s tot %s. De run stopt."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  De afgewerkte mix laat %s aan het begin en %s aan het eind van het venster stil."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: de afgewerkte mix zoals hij kwam -- geen versterking en geen limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"Alleen synchroniseren\" plaatst elke opname als gemengd geluid."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "de afgewerkte mix -- geen spreker, geen camera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Spraak: alleen op de luidheid geplaatst. Een opname die niets gemeen heeft\nmet de camera’s, wordt geweigerd. Gemengd: onder de stemmen ligt muziek of een mix,\nen waar de luidheid niets vindt, mag de fase haar plaatsen.\nAfgewerkte mix: een elders gemaakte stereomix, geplaatst als gemengd geluid. Hij gaat\nin de camerabestanden en de overdracht in plaats van de mix die de run bouwt --\ngeen spreker, niet geknipt, niet naar auphonic.com gestuurd.\nBij \"%s\" wordt Spraak niet aangeboden."

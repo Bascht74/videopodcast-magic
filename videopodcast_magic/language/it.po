@@ -4877,9 +4877,6 @@ msgstr "Parlato"
 msgid "Mixed"
 msgstr "Misto"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Parlato: collocato solo in base alla sonorità. Una registrazione che non ha nulla in comune\ncon le telecamere viene rifiutata. Misto: sotto le voci c’è musica o un mix,\ne dove la sonorità non trova nulla, la fase può collocarla.\nCon \"%s\" è sempre misto."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: il suo suono corrisponde per %s, e per %s anche in un altro punto -- collocato solo in base al suo orologio"
 
@@ -5183,3 +5180,45 @@ msgstr "\nPARLANTI -- MISURATI IN PRECEDENZA"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Preso dalla misura conservata su questa macchina: stesse registrazioni, posizioni e finestra temporale."
+
+msgid "Finished mix"
+msgstr "Mix finito"
+
+msgid "Two finished mixes"
+msgstr "Due mix finiti"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s e %s sono entrambi impostati su %s. Un solo mix prende il posto di quello costruito dall’elaborazione -- riporta l’altro su Parlato."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Il mix finito deve essere un file audio: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "il mix finito prende il posto del mix nei file delle telecamere, e senza un file video non ce ne sono."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "il mix finito dura %s, meno di ogni telecamera (la più corta %s): dove finisce, il Full-Mix è muto."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s prende il posto del mix che questa elaborazione costruirebbe."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Il mix finito non ha trovato posto sull’asse temporale: non condivide alcun suono con le telecamere. L’elaborazione si ferma invece di metterlo a caso."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Il mix finito non ha nulla nella finestra da %s a %s: si trova da %s a %s. L’elaborazione si ferma."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Il mix finito lascia muti %s all’inizio e %s alla fine della finestra."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: il mix finito così com’è arrivato -- nessun guadagno e nessun limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"Solo sincronizzazione\" posiziona ogni registrazione come suono misto."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "il mix finito -- nessun parlante, nessuna telecamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Parlato: collocato solo in base alla sonorità. Una registrazione che non ha nulla in comune\ncon le telecamere viene rifiutata. Misto: sotto le voci c’è musica o un mix,\ne dove la sonorità non trova nulla, la fase può collocarla.\nMix finito: un mix stereo fatto altrove, posizionato come suono misto. Va\nnei file delle telecamere e nella consegna al posto del mix dell’elaborazione --\nnessun parlante, nessun taglio, nessun invio ad auphonic.com.\nCon \"%s\" Parlato non viene offerto."

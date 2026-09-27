@@ -13,6 +13,7 @@ PROGRAM = PROGRAM
 # the blocks under the list say which and why.
 
 ENV_MARK = PROGRAM.ENV_MARK
+SOUND_FINISHED = PROGRAM.SOUND_FINISHED
 SOUND_MIXED = PROGRAM.SOUND_MIXED
 SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 SR = PROGRAM.SR
@@ -192,6 +193,22 @@ def decode_audio_tracks(path, rate, duration, text, streams, report=None):
     finally:
         for raw in raws:
             PROGRAM.remove_quietly(raw)
+
+
+def where_it_sounds(fresh, *beside):
+    """*fresh* and the curves *beside* it, cut to where *fresh* sounds.
+
+    A track laid on the window is digital silence outside it. On a log
+    curve silence is a cliff, and a finished mix with music under it
+    jumps from there to the bed: the cliff, not the voices, decided the
+    fit -- a second out on a mix that sat right. All are cut alike, so a
+    shift measured between them keeps its meaning.
+    """
+    live = np.flatnonzero(np.abs(fresh) > 1e-6)
+    if not len(live):
+        return (fresh,) + tuple(beside)
+    a, b = int(live[0]), int(live[-1]) + 1
+    return (fresh[a:b],) + tuple(x[a:b] for x in beside)
 
 
 def envelope_cache_folder():
@@ -849,7 +866,8 @@ def phase_way_on(paths, project_type="cut", every=SOUND_SPEECH, each=()):
     Only a person says so: *each* is {path: value} or (path, value) as
     the file list and --sound-of give it, a mark on any block standing
     for the recording, and *every* the value where none is marked. A
-    project that only synchronises takes mixed sound whatever is marked.
+    project that only synchronises takes mixed sound whatever is marked,
+    and the finished mix is mixed sound: the run places it so.
     """
     if project_type == "sync":
         return True
@@ -857,7 +875,7 @@ def phase_way_on(paths, project_type="cut", every=SOUND_SPEECH, each=()):
     marked = dict((path_key(p), v) for p, v in pairs)
     for p in paths or ():
         if path_key(p) in marked:
-            return marked[path_key(p)] == SOUND_MIXED
+            return marked[path_key(p)] in (SOUND_MIXED, SOUND_FINISHED)
     return every == SOUND_MIXED
 
 

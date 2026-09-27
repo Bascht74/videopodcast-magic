@@ -147,6 +147,21 @@ Dateien listet dann nur die Presets.
 | `--intro DATEI` | über den Anfang gelegt, auf der zweiten Bild- und Tonspur. Wird weder ausgerichtet noch aufbereitet |
 | `--outro DATEI` | dasselbe für das Ende; beginnt, wo das letzte Wort endet |
 
+## Eine fertige Mischung übergeben
+
+| Schalter | Wirkung |
+|---|---|
+| `--finished-mix DATEI` | eine Stereo-Mischung, fertig gemischt in einer anderen Aufnahmekette. Sie wird wie eine Aufnahme mit gemischtem Ton auf die Zeitachse gelegt und kommt als Full-Mix in die Kameradateien und die Übergabe, anstelle der Mischung, die der Lauf baut -- so, wie sie kam, ohne Verstärkung und ohne Limiter. Ein Sprecher ist sie nicht: Sie wird nicht geschnitten, nicht nach Stimmen zerlegt und nicht an auphonic.com geschickt. Mehrfach angegeben, sind die Dateien die Blöcke einer Aufnahme, der Reihe nach. Braucht eine Videodatei |
+
+Das Fenster schickt den Schalter für die Aufnahme, deren Feld **Im Ton**
+auf **Fertige Mischung** steht: eine Zeile, eine Regel. Steht die Datei
+zusätzlich unter den Dateien, ist sie trotzdem keine Aufnahme des
+Laufs. Der Vorflug hält einen Lauf ohne Videodatei an und merkt
+eine Mischung an, die kürzer ist als jede Kamera; auf der Zeitachse hält
+eine Mischung den Lauf an, die keinen Ton mit den Kameras teilt oder
+zwischen In- und Out-Punkt nichts hat, und eine Strecke, die sie still
+lässt, wird genannt ([Vorflug](preflight.de.md)).
+
 ## Mit DaVinci Resolve arbeiten
 
 | Schalter | Wirkung |

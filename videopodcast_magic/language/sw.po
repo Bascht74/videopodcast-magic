@@ -4863,9 +4863,6 @@ msgstr "Mazungumzo"
 msgid "Mixed"
 msgstr "Mchanganyiko"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Mazungumzo: huwekwa kwa ukubwa wa sauti pekee. Rekodi isiyoshiriki chochote\nna kamera hukataliwa. Mchanganyiko: muziki au mchanganyiko uko chini ya sauti za watu,\nna pale ukubwa wa sauti usipopata kitu, fazi inaweza kuiweka.\nChini ya \"%s\" huwa mchanganyiko daima."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: sauti yake inalingana kwa %s, na kwa %s mahali pengine pia -- imewekwa kwa saa yake tu"
 
@@ -5169,3 +5166,45 @@ msgstr "\nWAZUNGUMZAJI -- WALIPIMWA AWALI"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Imechukuliwa kutoka kwa kipimo kilichohifadhiwa kwenye kompyuta hii: rekodi, nafasi na dirisha la muda vilevile."
+
+msgid "Finished mix"
+msgstr "Mchanganyiko uliokamilika"
+
+msgid "Two finished mixes"
+msgstr "Michanganyiko miwili iliyokamilika"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s na %s zote zimewekwa kuwa %s. Mchanganyiko mmoja tu unachukua nafasi ya ule unaojengwa na uchakataji -- rudisha mwingine kuwa Mazungumzo."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Mchanganyiko uliokamilika lazima uwe faili la sauti: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "mchanganyiko uliokamilika unachukua nafasi ya mchanganyiko katika faili za kamera, na bila faili la video hakuna faili za kamera."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "mchanganyiko uliokamilika una urefu wa %s, mfupi kuliko kila kamera (fupi zaidi %s): pale unapoishia, Full-Mix ni kimya."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s inachukua nafasi ya mchanganyiko ambao uchakataji huu ungejenga."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Mchanganyiko uliokamilika haukupata nafasi kwenye mhimili wa muda: hauna sauti yoyote inayoshirikiwa na kamera. Uchakataji unasimama badala ya kuuweka popote."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Mchanganyiko uliokamilika hauna chochote katika dirisha kuanzia %s hadi %s: uko kuanzia %s hadi %s. Uchakataji unasimama."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Mchanganyiko uliokamilika unaacha kimya %s mwanzoni na %s mwishoni mwa dirisha."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: mchanganyiko uliokamilika kama ulivyofika -- bila kuongeza sauti na bila kidhibiti"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"Usawazishaji pekee\" huweka kila rekodi kama sauti mchanganyiko."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "mchanganyiko uliokamilika -- si mzungumzaji, bila kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Mazungumzo: huwekwa kwa ukubwa wa sauti pekee. Rekodi isiyoshiriki chochote\nna kamera hukataliwa. Mchanganyiko: muziki au mchanganyiko uko chini ya sauti za watu,\nna pale ukubwa wa sauti usipopata kitu, fazi inaweza kuiweka.\nMchanganyiko uliokamilika: mchanganyiko wa stereo uliotengenezwa mahali pengine, huwekwa kama sauti mchanganyiko. Huingia\nkwenye faili za kamera na makabidhiano badala ya mchanganyiko wa uchakataji --\nsi mzungumzaji, haukatwi, hautumwi kwa auphonic.com.\nChini ya \"%s\" Mazungumzo hayatolewi."

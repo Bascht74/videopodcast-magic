@@ -4952,9 +4952,6 @@ msgstr "Taħdit"
 msgid "Mixed"
 msgstr "Imħallat"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Taħdit: jitqiegħed skont il-qawwa tal-ħoss biss. Reġistrazzjoni li ma taqsam xejn\nmal-kameras tiġi rrifjutata. Imħallat: mużika jew taħlita tinsab taħt il-vuċijiet,\nu fejn il-qawwa tal-ħoss ma ssib xejn, il-fażi tista' tqegħedha.\nTaħt \"%s\" dejjem imħallat."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: il-ħoss tiegħu jaqbel b'%s, u b'%s f'post ieħor ukoll -- tqiegħed skont l-arloġġ tiegħu biss"
 
@@ -5258,3 +5255,45 @@ msgstr "\nKELLIMIN -- MKEJLA QABEL"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Meħud mill-kejl miżmum fuq dan il-kompjuter: l-istess reġistrazzjonijiet, postijiet u tieqa tal-ħin."
+
+msgid "Finished mix"
+msgstr "Taħlita lesta"
+
+msgid "Two finished mixes"
+msgstr "Żewġ taħlitiet lesti"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s u %s it-tnejn huma ssettjati għal %s. Taħlita waħda biss tieħu post dik li jibni l-proċess -- erġa' ssettja l-oħra għal Taħdit."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "It-taħlita lesta trid tkun fajl tal-awdjo: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "it-taħlita lesta tieħu post it-taħlita fil-fajls tal-kameras, u mingħajr fajl tal-vidjo ma hemmx."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "it-taħlita lesta ddum %s, iqsar minn kull kamera (l-iqsar %s): fejn tispiċċa, il-Full-Mix jibqa' sieket."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s tieħu post it-taħlita li dan il-proċess kien jibni."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  It-taħlita lesta ma sabet l-ebda post fuq l-assi tal-ħin: ma taqsam l-ebda ħoss mal-kameras. Il-proċess jieqaf minflok ipoġġiha kullimkien."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  It-taħlita lesta m'għandha xejn fit-tieqa minn %s sa %s: tinsab minn %s sa %s. Il-proċess jieqaf."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  It-taħlita lesta tħalli sieket %s fil-bidu u %s fit-tmiem tat-tieqa."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: it-taħlita lesta kif waslet -- l-ebda gwadann u l-ebda limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"Sinkronizzazzjoni biss\" tqiegħed kull reġistrazzjoni bħala ħoss imħallat."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "it-taħlita lesta -- mhux kelliem, l-ebda kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Taħdit: jitqiegħed skont il-qawwa tal-ħoss biss. Reġistrazzjoni li ma taqsam xejn\nmal-kameras tiġi rrifjutata. Imħallat: mużika jew taħlita tinsab taħt il-vuċijiet,\nu fejn il-qawwa tal-ħoss ma ssib xejn, il-fażi tista' tqegħedha.\nTaħlita lesta: taħlita stereo magħmula x'imkien ieħor, imqiegħda bħala ħoss imħallat. Tidħol\nfil-fajls tal-kameras u fil-konsenja minflok it-taħlita tal-proċess --\nmhux kelliem, mhux maqtugħa, mhux mibgħuta lil auphonic.com.\nTaħt \"%s\" it-Taħdit mhux offrut."

@@ -259,9 +259,18 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
         """What the sound of this recording holds, in its own row.
 
         In the Kind column, which a recording leaves empty: one answer
-        for the whole recording, however many blocks it is made of.
+        for the whole recording, however many blocks it is made of. The
+        finished mix set or taken back changes which recordings are
+        tracks, so the list, the table and the check are asked again.
         """
-        cell, _box = PROGRAM.sound_cell_for(head, state, COLOURS["quiet"])
+        def tracks_changed():
+            """Build the list, the table and the check again, next turn."""
+            QtCore.QTimer.singleShot(0, items_fresh)
+            QtCore.QTimer.singleShot(0, window.assignment_due.emit)
+            QtCore.QTimer.singleShot(0, preflight_kick_off)
+
+        cell, _box = PROGRAM.sound_cell_for(head, state, COLOURS["quiet"],
+                                            tracks_changed)
         items.setItemWidget(node, 3, cell)
 
     def items_fresh():

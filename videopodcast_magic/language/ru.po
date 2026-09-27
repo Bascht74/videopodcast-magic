@@ -4902,9 +4902,6 @@ msgstr "Речь"
 msgid "Mixed"
 msgstr "Смешанный"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Речь: размещается только по громкости. Запись, у которой нет ничего общего\nс камерами, отклоняется. Смешанный: под голосами лежит музыка или микс,\nи где громкость ничего не находит, её может разместить фаза.\nПри «%s» всегда смешанный."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: совпадение звука %s, и в другом месте тоже %s -- размещено только по собственным часам"
 
@@ -5208,3 +5205,45 @@ msgstr "\nГОВОРЯЩИЕ -- ИЗМЕРЕНЫ РАНЕЕ"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Взято из измерения, сохранённого на этой машине: те же записи, положения и временное окно."
+
+msgid "Finished mix"
+msgstr "Готовый микс"
+
+msgid "Two finished mixes"
+msgstr "Два готовых микса"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s и %s оба установлены на %s. Только один микс заменяет тот, что строит обработка -- верните другой на «Речь»."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Готовый микс должен быть аудиофайлом: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "готовый микс заменяет микс в файлах камер, а без видеофайла их нет."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "готовый микс длится %s, короче любой камеры (самая короткая %s): где он кончается, Full-Mix молчит."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s заменяет микс, который построила бы эта обработка."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Готовый микс не нашёл места на оси времени: у него нет общего звука с камерами. Обработка останавливается, а не кладёт его куда попало."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  У готового микса нет ничего в окне от %s до %s: он лежит от %s до %s. Обработка останавливается."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Готовый микс оставляет тишину: %s в начале и %s в конце окна."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: готовый микс в том виде, в каком пришёл -- без усиления и без лимитера"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "«Только синхронизация» размещает каждую запись как смешанный звук."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "готовый микс -- не спикер, без камеры"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Речь: размещается только по громкости. Запись, у которой нет ничего общего\nс камерами, отклоняется. Смешанный: под голосами лежит музыка или микс,\nи где громкость ничего не находит, её может разместить фаза.\nГотовый микс: стереомикс, сделанный в другом месте, размещается как смешанный звук. Он идёт\nв файлы камер и в передачу вместо микса, который строит обработка --\nне спикер, не режется, не отправляется на auphonic.com.\nПри «%s» «Речь» не предлагается."

@@ -4870,9 +4870,6 @@ msgstr "Parole"
 msgid "Mixed"
 msgstr "Mixte"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Parole : placé d’après sa seule sonie. Un enregistrement qui n’a rien en commun\navec les caméras est refusé. Mixte : de la musique ou un mix se trouve sous les voix,\net là où la sonie ne trouve rien, la phase peut le placer.\nAvec « %s », c’est toujours mixte."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s : le son concorde à %s, et à %s à un autre endroit aussi -- placé d’après sa seule horloge"
 
@@ -5176,3 +5173,45 @@ msgstr "\nLOCUTEURS -- MESURÉS AUPARAVANT"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Repris de la mesure conservée sur cette machine : mêmes enregistrements, positions et fenêtre temporelle."
+
+msgid "Finished mix"
+msgstr "Mixage final"
+
+msgid "Two finished mixes"
+msgstr "Deux mixages finaux"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s et %s sont tous deux réglés sur %s. Un seul mixage remplace celui que construit le traitement -- remettez l’autre sur Parole."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Le mixage final doit être un fichier audio : %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "le mixage final remplace le mixage dans les fichiers caméra, et sans fichier vidéo il n’y en a aucun."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "le mixage final dure %s, moins que chaque caméra (la plus courte %s) : là où il s’arrête, le Full-Mix est muet."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s remplace le mixage que ce traitement construirait."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Le mixage final n’a trouvé aucune place sur l’axe temporel : il ne partage aucun son avec les caméras. Le traitement s’arrête plutôt que de le poser n’importe où."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Le mixage final n’a rien dans la fenêtre de %s à %s : il se situe de %s à %s. Le traitement s’arrête."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Le mixage final laisse muets %s au début et %s à la fin de la fenêtre."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix : le mixage final tel qu’il est arrivé -- aucun gain, aucun limiteur"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "« Synchronisation seule » place chaque enregistrement comme son mixte."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "le mixage final -- aucun intervenant, aucune caméra"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Parole : placé d’après sa seule sonie. Un enregistrement qui n’a rien en commun\navec les caméras est refusé. Mixte : de la musique ou un mix se trouve sous les voix,\net là où la sonie ne trouve rien, la phase peut le placer.\nMixage final : un mixage stéréo fait ailleurs, placé comme un son mixte. Il va\ndans les fichiers caméra et la remise à la place du mixage du traitement --\nni intervenant, ni coupe, ni envoi à auphonic.com.\nAvec « %s », Parole n’est pas proposé."

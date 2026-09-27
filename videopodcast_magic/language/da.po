@@ -4859,9 +4859,6 @@ msgstr "Tale"
 msgid "Mixed"
 msgstr "Blandet"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Tale: placeres alene efter lydstyrken. En optagelse, der intet har til fælles\nmed kameraerne, afvises. Blandet: musik eller et mix ligger under stemmerne,\nog hvor lydstyrken intet finder, må fasen placere den.\nUnder ”%s” er den altid blandet."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: lyden passer med %s, og med %s et andet sted også -- placeret alene efter sit ur"
 
@@ -5165,3 +5162,45 @@ msgstr "\nTALERE -- MÅLT TIDLIGERE"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Taget fra målingen gemt på denne maskine: samme optagelser, placeringer og tidsvindue."
+
+msgid "Finished mix"
+msgstr "Færdigt mix"
+
+msgid "Two finished mixes"
+msgstr "To færdige mix"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s og %s er begge sat til %s. Ét mix træder i stedet for det, kørslen bygger -- sæt det andet tilbage til Tale."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Det færdige mix skal være en lydfil: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "det færdige mix træder i stedet for mixet i kamerafilerne, og uden en videofil er der ingen."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "det færdige mix varer %s, kortere end hvert kamera (det korteste %s): hvor det slutter, er Full-Mix stille."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s træder i stedet for det mix, denne kørsel ville bygge."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Det færdige mix fandt ingen plads på tidsaksen: det deler ingen lyd med kameraerne. Kørslen stopper hellere end at lægge det et tilfældigt sted."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Det færdige mix har intet i vinduet fra %s til %s: det ligger fra %s til %s. Kørslen stopper."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Det færdige mix efterlader %s forrest og %s bagerst i vinduet stille."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: det færdige mix, som det kom -- ingen forstærkning og ingen limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "”Kun synkronisering” placerer hver optagelse som blandet lyd."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "det færdige mix -- ingen taler, intet kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Tale: placeres alene efter lydstyrken. En optagelse, der intet har til fælles\nmed kameraerne, afvises. Blandet: musik eller et mix ligger under stemmerne,\nog hvor lydstyrken intet finder, må fasen placere den.\nFærdigt mix: et stereomix lavet et andet sted, placeret som blandet lyd. Det kommer\ni kamerafilerne og overdragelsen i stedet for kørslens eget mix --\ningen taler, ikke klippet, ikke sendt til auphonic.com.\nUnder ”%s” tilbydes Tale ikke."
