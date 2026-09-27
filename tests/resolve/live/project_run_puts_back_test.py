@@ -10,11 +10,11 @@ standing and open in front of somebody, exactly as a killed one does.
 
 In order -- what the run remembers is a project it can open again; a
 project Resolve has only created and never saved stands in no project
-list, a run asked to make one of its own beside it leaves itself out
-instead and leaves it open and unsaved where it was, it is therefore
-remembered as nothing, and the sweep is content without it and asks for
-nothing by hand; a decoy stands beside the open project that only looks
-like the tests' own, and a folder that has their whole shape;
+list and holds nothing, it is therefore remembered as nothing, the sweep
+is content without it and asks for nothing by hand, and a run asked to
+make one of its own beside it goes ahead; a decoy is made and saved
+beside the open project that only looks like the tests' own, and a
+folder that has their whole shape;
 a run that never tidied up leaves its project behind and
 open; the sweep takes that project and that folder and says which, leaves
 the decoy standing, and opens the project that was open at the start
@@ -108,9 +108,10 @@ def swept_and_restored(name):
 
 # What the first child does: the two steps every one of these tests takes
 # before it checks anything -- connect, and ask OwnProject for a project of
-# its own. Nothing after that, and nothing tidied up, because the point of
-# it is that nothing may be made: it runs while the decoy above is open and
-# unsaved, and a project made now would take that decoy away for good.
+# its own. Nothing after that, and nothing tidied up: it runs while the
+# spare below is open and unsaved and holds nothing, and the point of it is
+# that a run steps over such a project rather than leaving itself out. The
+# project it makes is of the tests' shape, and the sweep takes it later.
 #
 # A child rather than a call in this process, and not for honesty's sake:
 # leaving out prints SKIPPED: at the start of a line, and resolve.sh reads
@@ -208,6 +209,7 @@ decoy = "vpm-test-decoy-KEEP-%d" % os.getpid()
 folder = ground_of.a_test_name("folder")
 child = None
 made_decoy = False
+made_spare = False
 made_folder = False
 spare = decoy + "-spare"
 # A kill that can be caught becomes an ordinary exit, so the finally
@@ -223,16 +225,16 @@ try:
 
     print("\n2. A project in no project list is remembered as nothing")
     # A second name for this section: the project made here is the one
-    # a run may now step over, so it does not survive to section 3 --
-    # and the decoy has to, because the later checks are about it being
-    # left alone.
-    made_decoy = pm.CreateProject(spare) is not None
+    # a run may step over, so it does not survive to section 3 -- the
+    # decoy is made there, of its own, because the later checks are about
+    # it being left alone.
+    made_spare = pm.CreateProject(spare) is not None
     # Left unsaved on purpose, and that is the whole state. Measured on
     # Resolve 21.0.4.5 on 1.9.2026: a project that was only created stays
     # out of the project list for as long as it is the open one, and
     # LoadProject cannot fetch back a name that is not in that list.
     check("a project that was never saved is in no project list",
-          made_decoy and spare not in listed(pm),
+          made_spare and spare not in listed(pm),
           "%r among %d projects: %s"
           % (spare, len(listed(pm)), spare in listed(pm)))
     # And it holds nothing, which is why stepping over it is safe.
@@ -245,19 +247,11 @@ try:
           % (pm.GetCurrentProject().GetTimelineCount()
              if pm.GetCurrentProject() else "no project",
              spare in listed(pm)))
-    # And that state is the one a run must not walk into. Read the way
-    # resolve.sh reads it: the return code, and SKIPPED: at the start of a
-    # line of its own -- a bow-out that says neither is one nobody counts.
-    ran = subprocess.run([sys.executable, "-c", OPENS_ONE % HERE],
-                         capture_output=True, text=True)
-    loud = [line for line in ran.stdout.splitlines()
-            if line.startswith("SKIPPED:")]
-    check("a run goes ahead where the open project holds nothing",
-          ran.returncode == 0 and not loud,
-          "OwnProject.open() ended with %d and put SKIPPED at the start of "
-          "%d lines; it said %r, and %r on the error stream"
-          % (ran.returncode, len(loud), ran.stdout.strip()[:70],
-             ran.stderr.strip()[-70:]))
+    # Asked while the spare is still the open project, and that order is
+    # the point. After the run below Resolve has the run's own project
+    # open, which is of the tests' shape -- --which answers "" for that
+    # too, so asked afterwards this judgement could no longer fall on the
+    # rule it is named after.
     # No check on the spare being gone from the list: it was never in
     # it, so such a judgement could not fall and would test nothing.
     # What matters is said above -- a project in no list holds nothing.
@@ -277,12 +271,30 @@ try:
           "WOULD NOT OPEN" not in said_empty,
           "'WOULD NOT OPEN' in what the sweep printed: %s, of %d characters"
           % ("WOULD NOT OPEN" in said_empty, len(said_empty)))
-    # From here on the decoy is a project like any other: saved, in the
-    # list, and left standing while the sweep runs over everything else.
-    pm.SaveProject()
-    pm.LoadProject(before)
+    # And that state is the one a run may walk into. Read the way
+    # resolve.sh reads it: the return code, and SKIPPED: at the start of a
+    # line of its own -- a bow-out that says neither is one nobody counts.
+    ran = subprocess.run([sys.executable, "-c", OPENS_ONE % HERE],
+                         capture_output=True, text=True)
+    loud = [line for line in ran.stdout.splitlines()
+            if line.startswith("SKIPPED:")]
+    check("a run goes ahead where the open project holds nothing",
+          ran.returncode == 0 and not loud,
+          "OwnProject.open() ended with %d and put SKIPPED at the start of "
+          "%d lines; it said %r, and %r on the error stream"
+          % (ran.returncode, len(loud), ran.stdout.strip()[:70],
+             ran.stderr.strip()[-70:]))
 
     print("\n3. A decoy and a folder stand beside the open project")
+    # Made here and saved at once, so it is a project like any other: in
+    # the list, and left standing while the sweep runs over everything
+    # else. Until b28 it was never made at all -- section 2 made only the
+    # spare, and the run above took that away -- so this judgement was red
+    # on every Resolve. What is open now is the run's own project, saved,
+    # so creating the decoy beside it takes nothing away.
+    made_decoy = pm.CreateProject(decoy) is not None
+    pm.SaveProject()
+    pm.LoadProject(before)
     check("the decoy is in the project list to begin with",
           decoy in listed(pm),
           "%r among %d projects" % (decoy, len(listed(pm))))
@@ -375,10 +387,13 @@ finally:
             pm.LoadProject(before)
     except Exception as e:
         left_over.append("could not open %r again: %s" % (before, e))
-    # Both names, each on its own: the one made is the spare, and the
+    # Both names, each on its own and only where this test made it: the
     # sweep leaves either standing on purpose, so nothing else takes
-    # them away. A failure on one must not keep the other.
-    for name in ((decoy, spare) if made_decoy else ()):
+    # them away. The spare is normally gone already -- the run in section
+    # 2 stepped over it -- and is looked for all the same. A failure on
+    # one must not keep the other.
+    for name in [n for n, made in ((decoy, made_decoy), (spare, made_spare))
+                 if made]:
         try:
             if name in listed(pm):
                 pm.DeleteProject(name)
