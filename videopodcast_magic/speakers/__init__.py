@@ -3556,10 +3556,13 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         if not stored and not speaker_split_available():
             print("  %s" % speaker_split_missing())
             return [], ""
+        # Stop ends the worker there and then, not minutes later.
         segments, trouble = speaker_split_cached(
-            source, count,
+            source, count, stopping=PROGRAM.stop_wanted,
             report=lambda text, share: show_progress(text, share))
         print()
+        if PROGRAM.stop_wanted():
+            raise PROGRAM.Stopped(PROGRAM.RUN_STOP["at"])
         if trouble:
             print("  %s" % trouble)
             return [], ""
