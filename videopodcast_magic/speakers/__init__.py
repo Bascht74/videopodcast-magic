@@ -2462,9 +2462,18 @@ def voice_window_order(tracks, words, offset, origin,
     cut, complaint = PROGRAM.apply_time_window(handover, in_point, out_point)
     if complaint:
         return []
+    # An empty mark is where the run stops, not the edge of the speech:
+    # from where every camera runs, to where the first one stops.
+    lo, hi, base = float("-inf"), float("inf"), cut.get("start_s")
+    if base is not None and zero is not None and not (in_point or "").strip():
+        lo = float(zero) - float(base)
+    if base is not None and end is not None and not (out_point or "").strip():
+        hi = float(end) - float(base)
     return who_asks(
-        [(s["name"], s["sections"]) for s in cut["speakers"]],
-        [speech_word(a, b, text) for a, b, text in cut["words"]])
+        [(s["name"], [(max(a, lo), min(b, hi)) for a, b in s["sections"]
+                      if b > lo and a < hi]) for s in cut["speakers"]],
+        [speech_word(a, b, text) for a, b, text in cut["words"]
+         if b > lo and a < hi])
 
 
 def voice_proposals(order, labels):
