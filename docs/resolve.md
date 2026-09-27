@@ -221,7 +221,9 @@ that begins with the episode.
 Where measurement and clock disagree by more than a frame, the run
 prints both numbers for that camera and says that it used the
 measurement. Without that line a clock set to another day is quietly
-passed over and nobody learns of it.
+passed over and nobody learns of it. Without a timecode on the
+reference camera, every written camera carries the timecode of its
+measured place, counted from 00:00:00.
 
 **The handover file carries the answer per camera**, in `placed_by`
 beside the offset: `measured`, `clock` or `nowhere`. Whoever asks later

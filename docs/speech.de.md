@@ -63,7 +63,10 @@ eine Aufnahme. Die Trennung hört alle Blöcke, hintereinander, so wie der
 Lauf sie zusammensetzt, und die Stimmen, die sie findet, gelten für die
 ganze Aufnahme. Eine Trennung, die eine frühere Version nur aus dem
 ersten Block gemacht hat, gilt nicht für das Ganze: Sie wird einmal neu
-berechnet.
+berechnet. Auch die Wörter, die daneben mitgeschrieben werden, kommen
+aus allen Blöcken, auf der Zeit der ganzen Aufnahme; Wörter, die eine
+frühere Version nur im ersten Block gehört hat, werden einmal neu
+gehört.
 
 Die Trennung ist der Weg für **eine gemeinsame Aufnahme**, auf der alle
 zu hören sind. Sie braucht das Häkchen **Multitrack (je Sprecher eine
@@ -216,7 +219,10 @@ anderen Aufnahme schon einen Namen hat, hält das Programm sie für
 dieselbe Person, wiedererkannt; die Tabelle schlägt diesen Namen in
 ihrem Feld vor, und die beiden dürfen ihn gemeinsam tragen. Das
 Protokoll sagt, welche Stimme es wiedererkannt hat und wie ähnlich die
-beiden sind; von sich aus ändert es keinen Namen. Zwei
+beiden sind; von sich aus ändert es keinen Namen. Sitzt der geteilte
+Name über die Spur einer Aufnahme auf der einen Kamera und über die
+Stimme auf einer anderen, gilt die Kamera der Stimme: Schnitt, Übergabe
+und Vorschau zeigen die Person nur dort, und das Protokoll sagt es. Zwei
 Aufnahmen gleichen Namens sind dagegen eine Frage und keine Weigerung --
 sie sollen zu einer Spur werden, nach Timecode hintereinandergelegt
 ([Multitrack](multitrack.de.md)).

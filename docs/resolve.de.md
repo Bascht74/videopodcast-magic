@@ -244,7 +244,9 @@ wie eine, die mit der Folge beginnt.
 Gehen Messung und Uhr um mehr als ein Bild auseinander, druckt der Lauf
 für diese Kamera beide Zahlen und sagt dazu, dass er die Messung nimmt.
 Ohne diese Zeile geht eine Uhr, die auf einem anderen Tag steht, still
-durch, und niemand erfährt davon.
+durch, und niemand erfährt davon. Hat die Referenzkamera keinen
+Timecode, trägt jede geschriebene Kamera den Timecode ihres gemessenen
+Platzes, gezählt ab 00:00:00.
 
 **In der Übergabedatei steht die Antwort je Kamera**, unter `placed_by`
 neben dem Versatz: `measured`, `clock` oder `nowhere`. Wer später fragt,
