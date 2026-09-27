@@ -7,6 +7,8 @@ wanted happens; none asks whether what is offered still does anything.
 The second question is the same one a step further out -- the mark
 "[multitrack only]" was set once and printed to nobody, because --help
 builds a parser of its own and never reached the place it was set in.
+And the mark stands where it means something: --multitrack itself does
+not carry it.
 """
 PLATFORM_BOUND = True
 import os
@@ -176,6 +178,12 @@ found("every one of them carries %s in --help" % MARK,
 found("and no switch that does not need it carries %s" % MARK,
       [dest for dest, has in sorted(printed.items())
        if has and dest not in should])
+# Asked of the help and not of the list: marked, --multitrack would stand
+# in both, and the two checks above would agree with each other.
+check("--multitrack is not marked as needing itself",
+      printed.get("multitrack") is False,
+      "its block in --help: %r" % " ".join(
+          blocks.get("--multitrack", "(not printed)").split())[-120:])
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

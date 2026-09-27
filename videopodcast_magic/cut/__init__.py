@@ -2172,6 +2172,8 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         # coarser than what auphonic.com delivers.
         speech_title.setText(speech_heading(
             state.get("stat_measured"), state.get("speech_time_total") or ""))
+        # Read only by tests/cut/cut_fresh_preview_is_run_test.py; nothing
+        # in the program reads it.
         state["cut_numbers"] = numbers
         state["cut_data"] = d
         band_show(numbers)

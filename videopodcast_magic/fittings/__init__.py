@@ -1213,7 +1213,9 @@ def make_footer(Qt, QtCore, QtWidgets, window, vertical, state, files,
         """
         plan_wipe()
         cameras = len([1 for p, a in files if a == "video"])
-        stages = run_stages(bool(multitrack.get()), cameras,
+        # The cameras the run pulls audio out of, as Start worked out
+        # from its plan -- the Multitrack tick does not decide that.
+        stages = run_stages(state.get("run_camera_audio") or 0, cameras,
                             not without_auphonic(),
                             sync=PROGRAM.sync_only(state))
         run_step_order[:] = [name for name, _w, _c in stages]
