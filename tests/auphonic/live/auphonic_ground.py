@@ -21,6 +21,7 @@ made at auphonic.com -- productions whose title has the tests' shape,
 and nothing else.
 """
 import json
+import math
 import os
 import random
 import re
@@ -139,6 +140,39 @@ def tone(path, seconds, channels):
                 half = rate // (440 + 220 * c)
                 frames += struct.pack("<h", 6000 if (i // half) % 2 else -6000)
         w.writeframes(bytes(frames))
+    return path
+
+
+def syllables(path, seconds, between=None, seed=3):
+    """A mono WAV of voiced syllables with pauses, standard library only.
+
+    Each syllable a pitch of its own with its overtones, faded in and
+    out, so the loudness rises and falls the way speech does -- which is
+    how the program finds the sound it sent inside what comes back, and
+    a steady tone does not have. *between* (from, to) in seconds keeps
+    the syllables inside that span and leaves the rest silent.
+    """
+    rate = 48000
+    rng = random.Random(seed)
+    samples = [0.0] * int(seconds * rate)
+    t, end = 0, len(samples)
+    if between:
+        t, end = int(between[0] * rate), min(end, int(between[1] * rate))
+    while t < end - rate:
+        length = min(int(rng.uniform(0.3, 1.2) * rate), end - t)
+        f0 = rng.uniform(90, 190)
+        for k in range(length):
+            fade = 0.5 - 0.5 * math.cos(2 * math.pi * k / length)
+            w = 2 * math.pi * f0 * k / rate
+            samples[t + k] = 0.3 * fade * sum(
+                math.sin(h * w) / h for h in range(1, 7))
+        t += length + int(rng.uniform(0.1, 0.8) * rate)
+    with wave.open(path, "wb") as w:
+        w.setnchannels(1)
+        w.setsampwidth(2)
+        w.setframerate(rate)
+        w.writeframes(b"".join(struct.pack("<h", int(32767 * max(-1.0, min(
+            1.0, x)))) for x in samples))
     return path
 
 
