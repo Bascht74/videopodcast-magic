@@ -624,6 +624,7 @@ def run_from_command_line(args, ap):
             args.auphonic_preset = None
 
     audio_paths, video_paths, other = split_audio_and_video(args.files)
+    recordings_shown_as(audio_paths)
     for p in other:
         print(T('Unknown extension, skipped: %s') % os.path.basename(p))
     if not audio_paths and not video_paths:
@@ -814,6 +815,7 @@ take_from(orders)
 build_argument_parser = orders.build_argument_parser
 time_values_joined = orders.time_values_joined
 cameras_shown_as = orders.cameras_shown_as
+recordings_shown_as = orders.recordings_shown_as
 
 
 #-------------------------------------------------------- The interface

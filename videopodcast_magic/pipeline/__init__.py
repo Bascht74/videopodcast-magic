@@ -434,7 +434,7 @@ def speakers_given(args, audio_paths):
     ours = set(path_key(p) for p in audio_paths)
     called = {}
     for file, name in given:
-        name, shown = (name or "").strip(), os.path.basename(file)
+        name, shown = (name or "").strip(), PROGRAM.recording_shown(file)
         if path_key(file) not in ours:
             return {}, T('--speaker-name names %s, which is not one of the '
                          'recordings of this run.') % shown
@@ -597,7 +597,7 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             else label_of(MIX_ONLY)
         print("  %-20s %-34s %s%s"
               % (e.get("speakers") or T('unnamed'),
-                 os.path.basename(blocks[0])
+                 PROGRAM.recording_shown(blocks[0])
                  + ("  (+%s)" % number_text(len(blocks) - 1, 0)
                     if len(blocks) > 1 else ""),
                  as_hms(total), "  ->  " + target))
