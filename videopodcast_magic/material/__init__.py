@@ -9,15 +9,13 @@ program is handed in and every name used out of it is bound below.
 # beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What this piece uses out of the program, bound once. Five names are
-# missing; the three blocks under the list say which and why.
+# What this piece uses out of the program, bound once. Two names are
+# missing; the two blocks under the list say which and why.
 
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
 BLOCK_GAP_MAX_S = PROGRAM.BLOCK_GAP_MAX_S
 CAMERA_MATCH_ENOUGH = PROGRAM.CAMERA_MATCH_ENOUGH
-FILE_FORMAT = PROGRAM.FILE_FORMAT
 FileSet = PROGRAM.FileSet
-LIKES_PYTHON = PROGRAM.LIKES_PYTHON
 MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
 SR = PROGRAM.SR
 T = PROGRAM.T
@@ -25,7 +23,6 @@ TN = PROGRAM.TN
 TRAILING_NUMBER = PROGRAM.TRAILING_NUMBER
 TYPE_INTRO = PROGRAM.TYPE_INTRO
 TYPE_OUTRO = PROGRAM.TYPE_OUTRO
-VIDEO_SUFFIXES = PROGRAM.VIDEO_SUFFIXES
 align_envelopes = PROGRAM.align_envelopes
 as_bad = PROGRAM.as_bad
 as_head = PROGRAM.as_head
@@ -46,32 +43,24 @@ math = PROGRAM.math
 no_place_message = PROGRAM.no_place_message
 number_text = PROGRAM.number_text
 os = PROGRAM.os
+parallel_map = PROGRAM.parallel_map
 probe_remember = PROGRAM.probe_remember
-progress_from_line = PROGRAM.progress_from_line
 re = PROGRAM.re
 recipe_mark = PROGRAM.recipe_mark
+remove_quietly = PROGRAM.remove_quietly
 safe_filename = PROGRAM.safe_filename
 sample_count = PROGRAM.sample_count
 shell_quote = PROGRAM.shell_quote
-show_progress = PROGRAM.show_progress
 soxr_available = PROGRAM.soxr_available
-stop_wanted = PROGRAM.stop_wanted
 subprocess = PROGRAM.subprocess
-sys = PROGRAM.sys
-tempfile = PROGRAM.tempfile
-threading = PROGRAM.threading
 timecode_seconds = PROGRAM.timecode_seconds
 video_envelope = PROGRAM.video_envelope
 video_facts = PROGRAM.video_facts
 
-# Two of the five stand in a piece read after this one and go through
-# PROGRAM: run_ffmpeg_with_progress, and tracks_folder behind it.
+# One stands in a piece read after this one and goes through PROGRAM:
+# tracks_folder.
 
-# Two are bent while the run goes on: the window sets OUTPUT_SINK and
-# ASK_SINK on the program object, a write the pieces are never told
-# about, so a copy taken here would hold the value of the run before.
-
-# numpy is the fifth: the program binds the real module only when
+# numpy is the second: the program binds the real module only when
 # the first sum asks, which a copy taken up there would never see.
 class LateNumpy:
     """Stands in for the program's numpy until a sum wants it."""
@@ -84,13 +73,6 @@ class LateNumpy:
 
 
 np = LateNumpy()
-
-
-# What the loudness may come to, and how much of it the limiter may
-# take off. Nothing else in the program reads either one.
-CEILING_DBTP = -1.0       # true-peak ceiling of the result
-LIMIT_MAX_DB = 6.0        # most the limiter may take off
-SPEAKER_FLOOR_LUFS = -50.0  # under it a track carries no voice to match
 
 
 #---------------------------------------- Which files belong together
@@ -510,107 +492,10 @@ def find_pauses(tracks):
 #  of "whoever speaks is on screen". Every number is adjustable.
 
 
-def format_complaint(d):
-    """Say why a stored file cannot be used, or return "".
-
-    Where the format number differs the keys inside mean something else,
-    and reading it anyway would quietly assign the wrong things.
-    """
-    if not isinstance(d, dict):
-        return T("This is not a file of this program.")
-    present = int(d.get("format") or 1)
-    if present == FILE_FORMAT:
-        return ""
-    return T("This file was written by version %s in format %d; this one "
-             "writes format %d. The names inside have changed since, so it "
-             "cannot be read. Please set the run up again.",
-             d.get("version") or "?", present, FILE_FORMAT)
-
-
-def ask_choice(possible, heading, title=T('Question'), default_value=None,
-               switch="--auphonic-resume"):
-    """Ask a question -- in the terminal, in the GUI or via a switch.
-
-    *options* is [(key, text)] and the key comes back. *switch* preselects
-    the answer and is named where nobody is there to answer.
-    """
-    print("\n  %s" % heading)
-    for i, (_, text) in enumerate(possible, 1):
-        print("    %d  %s" % (i, text))
-    api_key = [k for k, _ in possible]
-
-    def write_out(label, choice):
-        """Show the visible text rather than the internal key."""
-        for i, (k, text) in enumerate(possible, 1):
-            if k == choice:
-                print("  %s: %d  %s" % (label, i, text.split("\n")[0]))
-                return
-        print("  %s: %s" % (label, choice))
-
-    if default_value in api_key:
-        write_out(T('Given'), default_value)
-        return default_value
-    if PROGRAM.ASK_SINK is not None:
-        choice = PROGRAM.ASK_SINK(possible, title)
-        write_out(T('Chosen'), choice)
-        return choice
-    if not sys.stdin.isatty():
-        raise RuntimeError(
-            T('No input possible. Use %s %s to set what should happen.') % (switch, "|".join(api_key)))
-    while True:
-        answer = input(T('  Number: ')).strip()
-        if answer.isdigit() and 1 <= int(answer) <= len(possible):
-            write_out(T('Chosen'), possible[int(answer) - 1][0])
-            return possible[int(answer) - 1][0]
-        print(T('  Please give a number between 1 and %d.') % len(possible))
-
-
 # What a camera carries beyond the time window at each end. A second is
 # more than twenty times the error the run's own cross-check tolerates,
 # and at the front the key frame usually swallows it anyway.
 CAMERA_MARGIN_S = 1.0
-
-
-def measure_loudness(file_path, duration=None, text_progress_bar=None):
-    """Measure programme loudness and true peak to EBU R128."""
-    cmd = ["ffmpeg", "-nostats", "-i", file_path, "-af", "ebur128=peak=true",
-           "-f", "null", "-"]
-    if not text_progress_bar:
-        p = subprocess.run(cmd, capture_output=True)
-        text = p.stderr.decode("utf-8", "replace")
-    else:
-        # ebur128 writes one line per second to stderr, so reading stdout
-        # first would fill its buffer: stderr goes to a file, not a pipe.
-        cmd = cmd[:1] + ["-progress", "pipe:1"] + cmd[1:]
-        fd, log = tempfile.mkstemp(suffix=".txt")
-        os.close(fd)
-        try:
-            with open(log, "wb") as f:
-                proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=f)
-                show_progress(text_progress_bar, 0.0)
-                for line in proc.stdout:
-                    share = progress_from_line(line, duration)
-                    if share is not None:
-                        show_progress(text_progress_bar, share)
-                proc.wait()
-            with open(log, "r", encoding="utf-8", errors="replace") as f:
-                text = f.read()
-        finally:
-            try:
-                os.unlink(log)
-            except OSError:
-                pass
-        show_progress(text_progress_bar, 1.0)
-        if PROGRAM.OUTPUT_SINK:
-            PROGRAM.OUTPUT_SINK("\n")
-        else:
-            sys.stdout.write("\n")
-    def get(label):
-        hit = re.findall(label + r":\s*(-?\d+(?:\.\d+)?)", text)
-        return float(hit[-1]) if hit else None
-    # LRA comes from the same pass: how far quiet and loud passages lie
-    # apart. For speech 3 to 7 LU is usual; below that it sounds squashed.
-    return get(r"I"), get(r"Peak"), get(r"LRA")
 
 
 def remove_slow_level_drift(env, window=600):
@@ -898,309 +783,6 @@ def find_master_file(*places):
     return None
 
 
-def remove_quietly(path):
-    """Delete a working file. Returns whether it went.
-
-    A file already gone is not a fault, but the answer is handed back
-    rather than swallowed, for a caller that does care.
-    """
-    try:
-        os.unlink(path)
-    except OSError:
-        return False
-    return True
-
-
-def match_speakers(tracks, tmpdir):
-    """Bring the speaker tracks to one level, each with a gain of its own.
-
-    Only where auphonic.com set no balance: one common gain keeps voices
-    six decibels apart six apart. Each is measured as normalise_loudness
-    does and moved to the voices' median; one under SPEAKER_FLOOR_LUFS
-    has no voice and stays: lifting silence lifts only noise. The moved
-    copy is its "ready". Returns [(name, LUFS, gain dB)], per track in order.
-    """
-    if len(tracks) < 2:
-        return [(track["name"], None, 0.0) for track in tracks]
-    print(as_head(T('\nSPEAKER LEVELS')))
-    heard = []
-    for track in tracks:
-        have, _peak, _lra = measure_loudness(
-            track["ready"], sample_count(track["ready"]) / float(SR),
-            T('Measuring %s') % track["name"])
-        heard.append(have)
-    voices = sorted(have for have in heard
-                    if have is not None and have > SPEAKER_FLOOR_LUFS)
-    # The median: the fewest decibels moved in all, and one quiet
-    # microphone drags nobody else down with it.
-    middle = len(voices) // 2
-    level = None
-    if len(voices) >= 2:
-        level = (voices[middle] if len(voices) % 2
-                 else (voices[middle - 1] + voices[middle]) / 2.0)
-    moved = []
-    for track, have in zip(tracks, heard):
-        gain = 0.0
-        if have is None:
-            print(T('  %-20s not measurable -- left as it is')
-                  % track["name"])
-        elif have <= SPEAKER_FLOOR_LUFS:
-            print(T('  %-20s %s LUFS -- nothing on it, left as it is')
-                  % (track["name"], number_text(have, 1)))
-        else:
-            if level is not None:
-                gain = level - have
-            print(T('  %-20s %s LUFS  ->  %s dB')
-                  % (track["name"], number_text(have, 1),
-                     number_text(gain, 1, plus=True)))
-            track["ready"] = mix_tracks(
-                [track["ready"]],
-                os.path.join(tmpdir, "level_%s.wav"
-                             % safe_filename(track["name"])),
-                gain, None, channels=kept_channels(track["ready"]))
-        moved.append((track["name"], have, gain))
-    if level is None:
-        print(T('  Only one voice -- nothing to match it against.'))
-    else:
-        print(T('  Common level:      %s LUFS, the median of the voices')
-              % number_text(level, 1))
-    return moved
-
-
-def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
-    """Compute one common gain for all tracks.
-
-    The sum is measured, not the single track, and the same gain goes on
-    every track so the speakers keep their balance -- set by auphonic.com,
-    or by match_speakers on the path without it. The finished mixdown is
-    the yardstick; *target_lufs* None still measures.
-    """
-    print(as_head(T('\nNORMALISE')))
-    keep = target_lufs is None
-    after_yardstick = False
-    if master and os.path.exists(master) and not keep:
-        m_have, m_peak, _m_lra = measure_loudness(master, None, T('Measuring the '
-                                                                  'yardstick'))
-        if m_have is not None:
-            after_yardstick = True
-            print(T('  Mixdown from auphonic.com: %s LUFS, peak %s '
-                    'dBTP (%s)')
-                  % (number_text(m_have, 1),
-                     number_text(m_peak if m_peak is not None else 0.0, 1),
-                     os.path.basename(master)))
-            target_lufs = m_have
-    total_sum = os.path.join(tmpdir, "measure_sum.wav")
-    ready = [track["ready"] for track in tracks]
-    # Measured in the form it is delivered in: a two channel mix sits a
-    # good three decibels above the same mix as one track, and a stereo
-    # track raises the count on its own.
-    channels = max(channels, widest_track(ready))
-    parts, chains, markers = [], [], []
-    for i, path in enumerate(ready):
-        parts += ["-i", path]
-        chains.append("[%d:a]%s[m%d]"
-                      % (i, channel_filter(kept_channels(path), channels), i))
-        markers.append("[m%d]" % i)
-    fc = ";".join(chains) + ";" + "".join(markers) +\
-        "amix=inputs=%d:normalize=0[out]" % len(markers)
-    duration = sample_count(tracks[0]["ready"]) / float(SR)
-    # One track with nothing to do to its channels is its own sum, and
-    # summing it copies hours of audio for the same samples. *ours* says
-    # whether this run made the file -- only then may it be deleted.
-    ours = not (len(ready) == 1 and "anull" in chains[0])
-    measured_on = total_sum if ours else ready[0]
-    if ours:
-        PROGRAM.run_ffmpeg_with_progress(
-            ["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
-             "-map", "[out]", "-c:a", "pcm_s24le"]
-                + wav_safe(total_sum) + ["-y", total_sum],
-            duration, T('Building the sum'))
-    have, peak, lra_range = measure_loudness(measured_on, duration,
-                                            T('Measuring loudness'))
-    if have is None:
-        print(T('  Loudness not measurable -- it stays as it is.'))
-        return 0.0, None
-    if keep:
-        print(T('  Sum of tracks:     %s LUFS, peak %s dBTP%s')
-              % (number_text(have, 1),
-                 number_text(peak if peak is not None else 0.0, 1),
-                 T(', range %s LU') % number_text(lra_range, 1)
-                 if lra_range is not None else ""))
-        print(T('  Not adjusted:      taken from the source files -- no gain '
-                'on any track and no\n                     limiter. The '
-                'sound leaves exactly as it came in.'))
-        if ours:
-            remove_quietly(total_sum)
-        return 0.0, None
-    gain = target_lufs - have
-    print(T('  Sum of tracks:     %s LUFS, peak %s dBTP%s')
-          % (number_text(have, 1),
-             number_text(peak if peak is not None else 0.0, 1),
-             T(', range %s LU') % number_text(lra_range, 1)
-             if lra_range is not None else ""))
-    print(T('  Target:            %s LUFS  ->  %s dB on every track')
-          % (number_text(target_lufs, 1),
-             number_text(gain, 1, plus=True)))
-    # Without a ceiling the gain would have to drop for the loudest peak
-    # alone -- a scraping chair costs eight decibels. So a limiter.
-    if peak is not None and gain > CEILING_DBTP - peak:
-        print(T('  Peaks:             %s dB above %s dBTP -- the '
-                'limiter catches them')
-              % (number_text(peak + gain - CEILING_DBTP, 1, plus=True),
-                 number_text(CEILING_DBTP, 1)))
-    # How much the limiter takes off is known only once the curve is
-    # computed. More than a handful of decibels means the target does not
-    # fit the material, and then quieter beats squashed.
-    curve, gone = limiter_curve(measured_on, tmpdir, gain)
-    # With the finished mixdown from auphonic.com beside it, that is how
-    # much limiting it needed itself, so nothing here needs capping.
-    limit = 12.0 if after_yardstick else LIMIT_MAX_DB
-    if gone > limit + 0.05:
-        back = gone - limit
-        print(T('  Too much:          the limiter would have to take %s '
-                'dB away. More than %s dB\n                     sounds '
-                'squashed -- %s dB less gain.')
-              % (number_text(gone, 1), number_text(limit, 0),
-                 number_text(back, 1)))
-        gain -= back
-        curve, gone = limiter_curve(measured_on, tmpdir, gain)
-        print(T('  Remains:           %s dB on every track, that is '
-                '%s LUFS instead of %s')
-              % (number_text(gain, 1, plus=True),
-                 number_text(have + gain, 1),
-                 number_text(target_lufs, 1)))
-    if gone > 0.05:
-        print(T('  Limiter:           at most %s dB, the same curve on '
-                'every track%s')
-              % (number_text(gone, 1),
-                 T(' (auphonic.com takes the same amount)')
-                 if after_yardstick else ""))
-    # For checking in the editor. -16 LUFS is the figure for web and
-    # podcast; broadcast measures against -23 and the meter reads higher.
-    print(T('  Result:            about %s LUFS, peak %s dBTP')
-          % (number_text(have + gain, 1),
-             number_text(CEILING_DBTP if gone > 0.05
-                         else min(CEILING_DBTP, (peak or 0.0) + gain), 1)))
-    # The loudness range measures whether any dynamics are left, and
-    # where it gets small something before the limiter squashed it.
-    if lra_range is not None:
-        if lra_range < 2.0:
-            print(as_warn(T('  Caution: range      only %s LU -- very '
-                            'tight. Speech is usually 3 to 7 LU;\n          '
-                            '           below that it sounds squashed. '
-                            'Check how strongly the leveler\n               '
-                            '      is set at auphonic.com.')
-                          % number_text(lra_range, 1)))
-        else:
-            print(T('  Range:             %s LU (speech is usually 3 to '
-                    '7 LU)') % number_text(lra_range, 1))
-    if ours:
-        remove_quietly(total_sum)
-    return gain, curve
-
-
-def limiter_curve(total_sum, tmpdir, gain, ceiling=CEILING_DBTP):
-    """Compute the limiter gain curve once, on the sum.
-
-    The same curve goes on every track, so they add up to exactly the mix
-    again: (a+b)*g equals a*g + b*g, where a limiter per track would
-    clamp the loud one harder. Block by block with one block of lookahead
-    and a linear cross-fade, or it clicks. Returns (path, reduction dB).
-    """
-    if np is None:
-        return None, 0.0
-    channels = max(1, channel_count(total_sum))
-    limit = 10.0 ** (ceiling / 20.0)
-    BLOCK = 256                       # 5.3 ms at 48 kHz
-    RECOVERY = math.exp(-BLOCK / (SR * 0.050))    # 50 ms back up
-    source = subprocess.Popen(
-        ["ffmpeg", "-v", "error", "-i", total_sum,
-         "-af", "volume=%.3fdB" % gain,
-         "-f", "f32le", "-ac", str(channels), "-ar", str(SR), "-"],
-        stdout=subprocess.PIPE)
-    raw = os.path.join(tmpdir, "level_curve.raw")
-    target = os.path.join(tmpdir, "level_curve.wav")
-    # No status before the first block: it starts where it must, or a
-    # peak in the first 5 ms goes through at full gain.
-    smallest, status, rest, done = 1.0, None, b"", False
-    frame_bytes = 4 * channels
-    try:
-        with open(raw, "wb") as f:
-            while not done:
-                chunk = source.stdout.read(1 << 20)
-                done = not chunk
-                data = rest + chunk
-                whole_blocks = len(data) // (frame_bytes * BLOCK)
-                if not done:
-                    # The last block waits for the next chunk: without
-                    # it the peak comes through a tenth of a second early.
-                    whole_blocks = max(0, whole_blocks - 1)
-                    full = whole_blocks * frame_bytes * BLOCK
-                else:
-                    full = len(data) - len(data) % frame_bytes
-                rest = data[full:]
-                if full <= 0:
-                    continue
-                # The block kept back is read too, as the lookahead of the
-                # last one here, or a peak just after a seam goes through.
-                seen = full if done else full + frame_bytes * BLOCK
-                frames = np.frombuffer(data[:seen],
-                                       dtype="<f4").reshape(-1, channels)
-                n = full // frame_bytes
-                count = int(math.ceil(n / float(BLOCK)))
-                blocks = int(math.ceil(frames.shape[0] / float(BLOCK)))
-                needed = np.ones(blocks, dtype=np.float64)
-                for k in range(blocks):
-                    piece = frames[k * BLOCK:(k + 1) * BLOCK]
-                    peak = (float(np.max(np.abs(piece)))
-                              if piece.size else 0.0)
-                    if peak > limit:
-                        needed[k] = limit / peak
-                # One block of lookahead: the reduction is in place first.
-                before = np.minimum(needed, np.append(needed[1:], needed[-1]))
-                status = before[0] if status is None else status
-                g = np.empty(n, dtype=np.float32)
-                for k in range(count):
-                    want = before[k]
-                    if want > status:      # back up, but slowly
-                        want = min(want, status * RECOVERY + (1.0 - RECOVERY))
-                    a0 = k * BLOCK
-                    a1 = min(n, a0 + BLOCK)
-                    g[a0:a1] = np.linspace(status, want, a1 - a0,
-                                           endpoint=False)
-                    status = want
-                    smallest = min(smallest, want)
-                f.write((np.repeat(g, channels) if channels > 1 else g)
-                        .astype("<f4").tobytes())
-    except Exception as e:
-        print(T('  Level curve not possible (%s) -- without limiter') % e)
-        return None, 0.0
-    finally:
-        try:
-            source.stdout.close()
-            source.wait(timeout=30)
-        except Exception:
-            pass
-    gone = -20.0 * math.log10(max(1e-6, smallest))
-    if gone <= 0.001:
-        try:
-            os.unlink(raw)
-        except OSError:
-            pass
-        return None, 0.0
-    try:
-        subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le",
-                        "-ar", str(SR), "-ac", str(channels), "-i", raw,
-                        "-c:a", "pcm_f32le"]
-                            + wav_safe(target)
-                            + ["-y", target], check=True)
-        os.unlink(raw)
-    except Exception as e:
-        print(T('  Level curve not possible (%s) -- without limiter') % e)
-        return None, 0.0
-    return target, gone
-
-
 def channel_count(file_path):
     """Return the channel count of a file."""
     return probe_remember("channels", file_path,
@@ -1246,110 +828,6 @@ def _channel_count(file_path):
         return int(a.get("channels") or 1)
     except Exception:
         return 1
-
-
-def how_many_processors():
-    """How many processors this process may actually use.
-
-    os.cpu_count() counts what the machine has, not what this process is
-    allowed: held to two of thirty-two, a pool of thirty-two means
-    threads taking turns. process_cpu_count needs Python 3.13.
-    """
-    ask = getattr(os, "process_cpu_count", None) or os.cpu_count
-    try:
-        return max(1, int(ask() or 2))
-    except Exception:
-        return 2
-
-
-def python_note():
-    """One line about the Python this is running on, for the log."""
-    now = "%d.%d.%d" % sys.version_info[:3]
-    if now == LIKES_PYTHON:
-        return "Python %s" % now
-    return "Python %s  (recommended version %s)" % (now, LIKES_PYTHON)
-
-
-def prework_standing(shares):
-    """How far the prework has got, and one line per file still at it.
-
-    Every task of a file counts the same, and every file the same
-    however many tasks it has. What is finished leaves the list.
-    """
-    per_file = {}
-    for (path, _task), value in shares.items():
-        per_file.setdefault(path, []).append(value)
-    got = dict((p, sum(v) / len(v)) for p, v in per_file.items())
-    total = sum(got.values()) / len(got)
-    lines = ["%s   %3.0f %%" % (os.path.basename(p), 100.0 * got[p])
-             for p in sorted(got, key=os.path.basename) if got[p] < 0.999]
-    return total, lines
-
-
-def prework_weight(file_path, task):
-    """How much of the bar a piece of prework is worth.
-
-    Pulling audio out of an hour of 4K and reading a wav file are one
-    step each; equal shares would make the bar stand still and jump.
-    """
-    video = os.path.splitext(file_path)[1].lower() in VIDEO_SUFFIXES
-    if task == "audio":
-        return 8.0 if video else 2.0
-    if task == "channels":
-        return 6.0 if video else 1.5
-    if task == "split":
-        return 4.0 if video else 2.0
-    return 6.0 if video else 1.0
-
-
-def parallel_map(items, work, workers=None):
-    """Run *work* over all *items* at once; answers come back in order.
-
-    Threads rather than processes: everything this waits on lets other
-    threads run. The rest is worked here where none can be started; an
-    error is raised at the end, and Stop ends it as Stopped, not gaps.
-    """
-    items = list(items)
-    if len(items) < 2:
-        return [work(x) for x in items]
-    if workers is None:
-        workers = max(2, min(8, how_many_processors()))
-    out = [None] * len(items)
-    todo = list(range(len(items)))
-    trouble = []
-
-    def work_loop():
-        while True:
-            if stop_wanted():
-                return
-            try:
-                i = todo.pop()
-            except IndexError:
-                return
-            try:
-                out[i] = work(items[i])
-            except BaseException as e:      # noqa: BLE001 -- passed on below
-                trouble.append(e)
-
-    threads = []
-    for _ in range(max(1, min(workers, len(items)))):
-        thread = threading.Thread(target=work_loop, daemon=True)
-        try:
-            thread.start()
-        except Exception:
-            break
-        threads.append(thread)
-    for thread in threads:
-        try:
-            thread.join()
-        except Exception:
-            pass
-    work_loop()             # whatever no thread got to
-    if trouble:
-        raise trouble[0]
-    if todo and stop_wanted():
-        raise PROGRAM.Stopped(PROGRAM.RUN_STOP["at"])
-    return out
 
 
 def probe_warm(paths, workers=None):
@@ -2322,87 +1800,6 @@ def channel_tracks(facts, name="Track", choice=None):
     if len(awake) == 1:
         out = [(t[0], name if t is awake[0] else t[1], t[2]) for t in out]
     return out
-
-
-def mix_width(tracks):
-    """How many channels a mix of these tracks is delivered in.
-
-    Two where there are several, that being the form a mix is delivered
-    in. One recording is the exception -- nothing to mix, so nothing is
-    widened. A stereo source raises the count on its own either way.
-    """
-    if len(tracks) > 1:
-        return 2
-    return max(1, widest_track([track.get("ready") or track.get("axis")
-                                for track in tracks])) if tracks else 1
-
-
-def mix_tracks(sources, target, gain=0.0, curve=None, channels=1):
-    """Sum several equally long tracks into one.
-
-    Gain and limiter curve are the same for all tracks, so the single
-    tracks add up to exactly the mix again. The widening happens before
-    the sum and by "c1=c0" -- a plain conversion loses three decibels.
-    """
-    have = [kept_channels(p) for p in sources]
-    channels = max(channels, max(have) if have else 1)
-    if (len(sources) == 1 and abs(gain) < 0.01 and not curve
-            and have[0] == channels):
-        return sources[0]
-    parts, chains, markers = [], [], []
-    for i, path in enumerate(sources):
-        parts += ["-i", path]
-        chains.append("[%d:a]%s[m%d]"
-                      % (i, channel_filter(have[i], channels), i))
-        markers.append("[m%d]" % i)
-    fc = ";".join(chains) + ";" + "".join(markers) +\
-        "amix=inputs=%d:normalize=0" % len(markers)
-    if abs(gain) >= 0.01:
-        fc += ",volume=%.3fdB" % gain
-    if curve:
-        # The same gain curve as on all other tracks, hence a second
-        # input: ffmpeg's equal-power law would cost another 3 dB.
-        fc += "[both]"
-        parts += ["-i", curve]
-        fc += ";[both]aformat=sample_fmts=fltp:sample_rates=%d[gm];" % SR
-        fc += "[%d:a]%s,aformat=sample_fmts=fltp:sample_rates=%d[gc];" % (
-            len(sources), channel_filter(kept_channels(curve), channels), SR)
-        fc += "[gm][gc]amultiply[out]"
-    else:
-        fc += "[out]"
-    # The clock of the first source goes with the mix: without it the
-    # levelled file has no timecode, and a recording with no clock
-    # cannot be placed against anything afterwards.
-    clock = []
-    start = bext_time_reference(sources[0])
-    if start is not None:
-        clock = ["-write_bext", "1", "-metadata",
-                 "time_reference=%d" % int(round(start))]
-    PROGRAM.run_ffmpeg_with_progress(
-        ["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
-         "-map", "[out]", "-c:a", "pcm_s24le"] + clock
-        + wav_safe(target) + ["-y", target],
-        sample_count(sources[0]) / float(SR),
-        T('Mixing %s') % mixing_label(target))
-    return target
-
-
-def mixing_label(target):
-    """The name the progress line gives a mix: the track, not the file.
-
-    The targets are mix_full, single_<speaker> and mix_<camera file>.
-    Only the overall mix is announced as the mix, and only a leading
-    prefix comes off: replacing "full" and "mix_" anywhere announced a
-    speaker Carefully as CareFull-Mixy. The overall mix is asked for
-    first, or a speaker called full would be announced as the mix again.
-    """
-    stem = os.path.splitext(os.path.basename(target))[0]
-    if stem == "mix_full":
-        return MIX_TRACK_NAME
-    for prefix in ("mix_", "single_"):
-        if stem.startswith(prefix):
-            return stem[len(prefix):]
-    return stem
 
 
 def rate_filter_chain(b):

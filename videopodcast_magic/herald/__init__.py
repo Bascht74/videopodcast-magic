@@ -8,10 +8,11 @@ it was cut out of, so the program is handed in and bound below by name.
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# Bound above the seam. Three names are missing, and the block under
-# the list says which and why.
+# Bound above the seam. Two names are missing, and the block under the
+# list says which and why.
 
 BAD_MARK = PROGRAM.BAD_MARK
+LIKES_PYTHON = PROGRAM.LIKES_PYTHON
 T = PROGRAM.T
 THREAD_BUFFER = PROGRAM.THREAD_BUFFER
 THREAD_SHARE = PROGRAM.THREAD_SHARE
@@ -32,12 +33,9 @@ threading = PROGRAM.threading
 time = PROGRAM.time
 
 
-# Two of the three are bent while the run goes on, and a copy here
-# would answer with the value of the run before: the window sets
-# OUTPUT_SINK and PROGRESS_SINK on the program object. Both stay there.
-
-# python_note is the third: it comes out of the material, read further
-# down than this piece, so it is read as PROGRAM.python_note instead.
+# Both are bent while the run goes on, and a copy here would answer
+# with the value of the run before: the window sets OUTPUT_SINK and
+# PROGRESS_SINK on the program object. Both stay there.
 
 
 def show_progress(text, share=None):
@@ -373,6 +371,14 @@ class ThreadOutput(object):
             pass
 
 
+def python_note():
+    """One line about the Python this is running on, for the log."""
+    now = "%d.%d.%d" % sys.version_info[:3]
+    if now == LIKES_PYTHON:
+        return "Python %s" % now
+    return "Python %s  (recommended version %s)" % (now, LIKES_PYTHON)
+
+
 def running_from():
     """Which copy of the script this is.
 
@@ -625,7 +631,7 @@ def redirect_console():
                     % (PROGRAM.DISPLAY_NAME, VERSION,
                        time.strftime("%Y-%m-%d %H:%M:%S"),
                        platform.system(), platform.release(),
-                       platform.machine(), PROGRAM.python_note(),
+                       platform.machine(), python_note(),
                        running_from()))
         file.write(moved)
         os.dup2(file.fileno(), 1)

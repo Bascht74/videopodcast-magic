@@ -24,8 +24,6 @@ how_many_processors = PROGRAM.how_many_processors
 os = PROGRAM.os
 path_key = PROGRAM.path_key
 pending_prework = PROGRAM.pending_prework
-prework_standing = PROGRAM.prework_standing
-prework_weight = PROGRAM.prework_weight
 probe_has = PROGRAM.probe_has
 progress_from_line = PROGRAM.progress_from_line
 safe_filename = PROGRAM.safe_filename
@@ -96,6 +94,38 @@ def prework_fetch(file_path, target, report):
 
 #-------------------------------------------------------------- The bar
 # What the window thread shows: box, bar and line, all made in gui().
+
+
+def prework_standing(shares):
+    """How far the prework has got, and one line per file still at it.
+
+    Every task of a file counts the same, and every file the same
+    however many tasks it has. What is finished leaves the list.
+    """
+    per_file = {}
+    for (path, _task), value in shares.items():
+        per_file.setdefault(path, []).append(value)
+    got = dict((p, sum(v) / len(v)) for p, v in per_file.items())
+    total = sum(got.values()) / len(got)
+    lines = ["%s   %3.0f %%" % (os.path.basename(p), 100.0 * got[p])
+             for p in sorted(got, key=os.path.basename) if got[p] < 0.999]
+    return total, lines
+
+
+def prework_weight(file_path, task):
+    """How much of the bar a piece of prework is worth.
+
+    Pulling audio out of an hour of 4K and reading a wav file are one
+    step each; equal shares would make the bar stand still and jump.
+    """
+    video = os.path.splitext(file_path)[1].lower() in VIDEO_SUFFIXES
+    if task == "audio":
+        return 8.0 if video else 2.0
+    if task == "channels":
+        return 6.0 if video else 1.5
+    if task == "split":
+        return 4.0 if video else 2.0
+    return 6.0 if video else 1.0
 
 
 def make_prework_bar(QtCore, bridge, bridge_emit, plan, prework_box,
