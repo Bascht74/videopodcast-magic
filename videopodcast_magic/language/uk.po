@@ -637,9 +637,6 @@ msgstr "Передавання"
 msgid "Wide shot after"
 msgstr "Загальний план після"
 
-msgid "no folder"
-msgstr "немає теки"
-
 msgid "no text"
 msgstr "немає тексту"
 
@@ -1692,9 +1689,6 @@ msgstr "  Не використано: %s."
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Загальний план на краях: до %s і від %s"
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Мовці ще невідомі -- нічого не виміряно, нічого не розділено, і в %s та її підтеках немає файла передачі з попереднього запуску."
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "Часове вікно лежить поза матеріалом: точка входу на %s, точка виходу на %s, а матеріал триває %s."

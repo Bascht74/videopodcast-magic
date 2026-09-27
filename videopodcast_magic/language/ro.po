@@ -2355,9 +2355,6 @@ msgstr "Aici nu se cunoaște niciun vorbitor -- fără cine vorbește când nu e
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Nicio voce nu are încă o cameră -- așa, fiecare plan ar fi același."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Încă nu se cunosc vorbitori -- nimic măsurat, nimic separat, și niciun fișier de predare al unei rulări anterioare în %s sau în subdosarele sale."
-
 msgid "Not found again after import: %s"
 msgstr "Nu s-a regăsit după import: %s"
 
@@ -3358,9 +3355,6 @@ msgstr "măsurat din înregistrări -- vorbitori: %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "din rularea încheiată -- vorbitori: %s, %s"
-
-msgid "no folder"
-msgstr "niciun dosar"
 
 msgid "no text"
 msgstr "fără text"

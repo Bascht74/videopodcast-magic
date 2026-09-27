@@ -2386,9 +2386,6 @@ msgstr "לא ידוע כאן אף דובר -- בלי לדעת מי מדבר ומ
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "לאף קול עדיין אין מצלמה -- כך כל שוט היה אותו שוט."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "עדיין לא ידועים דוברים -- דבר לא נמדד, דבר לא הופרד, ואין קובץ מסירה של הרצה קודמת ב-%s או בתיקיות המשנה שלה."
-
 msgid "Not found again after import: %s"
 msgstr "לא נמצא שוב אחרי הייבוא: %s"
 
@@ -3404,9 +3401,6 @@ msgstr "נמדד מההקלטות -- %s דוברים, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "מההרצה שהסתיימה -- %s דוברים, %s"
-
-msgid "no folder"
-msgstr "(אין תיקייה)"
 
 msgid "no text"
 msgstr "ללא טקסט"

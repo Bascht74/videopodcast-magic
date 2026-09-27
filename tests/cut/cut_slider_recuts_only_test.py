@@ -37,9 +37,8 @@ STAGES = {
     "axis": ("measure_time_axis", "axis_with_blocks",
              "build_common_timebase"),
     "speakers": ("speakers_from_tracks", "speaker_measure_loop",
-                 "speakers_for_the_cut", "speakers_all_on_window_axis",
-                 "speakers_window_all"),
-    "handover": ("build_handover", "handover_of", "write_handover"),
+                 "speakers_for_the_cut", "speakers_all_on_window_axis"),
+    "handover": ("handover_of", "write_handover"),
 }
 
 

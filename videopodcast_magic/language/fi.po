@@ -2353,9 +2353,6 @@ msgstr "Täällä ei tunneta yhtään puhujaa -- ilman tietoa siitä, kuka puhuu
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Millään puheäänellä ei ole vielä kameraa -- silloin jokainen otos olisi sama."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Puhujia ei vielä tunneta -- mitään ei ole mitattu, mitään ei ole eroteltu, eikä aiemman ajon luovutustiedostoa ole kansiossa %s tai sen alikansioissa."
-
 msgid "Not found again after import: %s"
 msgstr "Ei löytynyt enää tuonnin jälkeen: %s"
 
@@ -3354,9 +3351,6 @@ msgstr "mitattu tallenteista -- %s puhujaa, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "valmiista ajosta -- %s puhujaa, %s"
-
-msgid "no folder"
-msgstr "ei kansiota"
 
 msgid "no text"
 msgstr "ei tekstiä"

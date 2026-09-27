@@ -619,9 +619,6 @@ msgstr "Передача"
 msgid "Wide shot after"
 msgstr "Общий план после"
 
-msgid "no folder"
-msgstr "нет папки"
-
 msgid "no text"
 msgstr "нет текста"
 
@@ -3179,9 +3176,6 @@ msgstr "Здесь не известно ни одного говорящего 
 
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "Говорящие пока не известны -- они выясняются по дорожкам, как только открывается эта вкладка. Если все сидят на одной записи, путь -- «несколько говорящих» в поле Имя говорящего."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Говорящие пока не известны -- ничего не измерено, ничего не разделено, и нет файла передачи прежнего прогона в %s или во вложенных папках."
 
 msgid "No version earlier than %s is out that pip can install."
 msgstr "Нет ни одной версии раньше %s, которую pip мог бы установить."

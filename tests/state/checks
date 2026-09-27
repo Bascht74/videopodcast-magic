@@ -133,7 +133,7 @@ project_errors_reach_run	4
 project_every_offset	11
 project_file_beats_last	6
 project_grades_stay_off	8
-project_handover_built	89
+project_handover_built	51
 project_hdr_follows	49
 project_keeps_answers	14
 project_leaves_others	24
@@ -271,13 +271,13 @@ table_blocks_judged	7
 table_camera_proposed	16
 table_heard_name_offered	7
 table_lock_says_why	30
-table_names_one_order	11
+table_names_one_order	8
 table_names_reach_camera	10
 table_no_place_not_wide	26
 table_notes_in_one_row	6
 table_one_entry_greyed	45
 table_pair_named_alike	5
-table_pair_seats_apart	10
+table_pair_seats_apart	9
 table_recording_shown	15
 table_row_per_channel	11
 table_row_per_voice	43
@@ -454,7 +454,7 @@ window_speaker_langs5	17
 window_speaker_langs6	17
 window_speaker_langs7	17
 window_speaker_langs8	17
-window_speakers_as_run	15
+window_speakers_as_run	11
 window_split_held_known	5
 window_stages_named	18
 window_stands_still	2
@@ -467,7 +467,7 @@ window_title_follows	4
 window_tracks_seen_anew	5
 window_view_reaches_tabs	10
 window_voice_audio_heard	6
-window_words_caught_up	26
+window_words_caught_up	23
 window_zero_as_run	17
 window_zoom_stays_in	32
 cut_preview_seats_as_run	4
@@ -494,7 +494,7 @@ time_axis_one_store	6
 run_recordings_apart	11
 run_kept_by_its_line	10
 run_preview_says_nothing	9
-cut_preview_no_own_work	7
+cut_preview_no_own_work	4
 cut_slider_recuts_only	6
 cut_three_cuts_agree	20
 run_dry_leaves_no_trace	8

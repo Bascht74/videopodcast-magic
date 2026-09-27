@@ -2387,9 +2387,6 @@ msgstr "Siin pole ühtki kõnelejat teada -- teadmata, kes millal räägib, pole
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Ühelgi häälel pole veel kaamerat -- siis oleks iga võte sama."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Kõnelejaid pole veel teada -- midagi pole mõõdetud ega eristatud ning kaustas %s või selle alamkaustades pole varasema käituse üleandmisfaili."
-
 msgid "Not found again after import: %s"
 msgstr "Pärast importi ei leitud uuesti: %s"
 
@@ -3405,9 +3402,6 @@ msgstr "mõõdetud salvestistest -- kõnelejaid: %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "lõpetatud käitusest -- kõnelejaid: %s, %s"
-
-msgid "no folder"
-msgstr "(kaust puudub)"
 
 msgid "no text"
 msgstr "tekstita"

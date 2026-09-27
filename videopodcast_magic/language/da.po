@@ -2353,9 +2353,6 @@ msgstr "Ingen taler er kendt her -- uden hvem der taler hvornår er der intet at
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Ingen stemme har et kamera endnu -- dermed ville hvert klip være det samme."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Ingen talere kendt endnu -- intet målt, intet adskilt, og ingen overdragelsesfil fra en tidligere kørsel i %s eller dens undermapper."
-
 msgid "Not found again after import: %s"
 msgstr "Ikke fundet igen efter importen: %s"
 
@@ -3354,9 +3351,6 @@ msgstr "målt fra optagelserne -- %s talere, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "fra den færdige kørsel -- %s talere, %s"
-
-msgid "no folder"
-msgstr "ingen mappe"
 
 msgid "no text"
 msgstr "ingen tekst"

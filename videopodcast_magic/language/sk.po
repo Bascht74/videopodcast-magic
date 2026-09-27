@@ -2354,9 +2354,6 @@ msgstr "Tu nie je známy žiadny rečník -- bez toho, kto kedy hovorí, nie je 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Žiadny hlas zatiaľ nemá kameru -- s tým by bol každý záber ten istý."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Zatiaľ nie sú známi žiadni rečníci -- nič zmerané, nič oddelené a žiadny súbor odovzdania zo skoršieho behu v %s ani v jeho podpriečinkoch."
-
 msgid "Not found again after import: %s"
 msgstr "Po importe znova nenájdené: %s"
 
@@ -3357,9 +3354,6 @@ msgstr "zmerané z nahrávok -- rečníci: %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "z dokončeného behu -- rečníci: %s, %s"
-
-msgid "no folder"
-msgstr "žiadnom priečinku"
 
 msgid "no text"
 msgstr "bez textu"

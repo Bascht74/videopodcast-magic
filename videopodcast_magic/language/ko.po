@@ -2353,9 +2353,6 @@ msgstr "여기서는 알려진 화자가 없습니다 -- 누가 언제 말하는
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "아직 카메라가 있는 목소리가 없습니다 -- 이대로면 모든 샷이 같은 샷이 됩니다."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "아직 알려진 화자가 없습니다 -- 측정한 것도, 분리한 것도 없고, %s 또는 그 하위 폴더에 이전 실행의 인계 파일도 없습니다."
-
 msgid "Not found again after import: %s"
 msgstr "가져온 후 다시 찾을 수 없음: %s"
 
@@ -3351,9 +3348,6 @@ msgstr "녹음에서 측정 -- 화자 %s명, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "완료된 실행에서 -- 화자 %s명, %s"
-
-msgid "no folder"
-msgstr "(폴더 없음)"
 
 msgid "no text"
 msgstr "텍스트 없음"

@@ -2355,9 +2355,6 @@ msgstr "Nie jest tu znany żaden mówca -- bez tego, kto mówi kiedy, nie ma mi�
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Żaden głos nie ma jeszcze kamery -- przy tym każde ujęcie byłoby takie samo."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Nie są jeszcze znani żadni mówcy -- nic nie zmierzono, nic nie rozdzielono i nie ma pliku przekazania z wcześniejszego przebiegu w %s ani w jego podfolderach."
-
 msgid "Not found again after import: %s"
 msgstr "Nie odnaleziono po imporcie: %s"
 
@@ -3358,9 +3355,6 @@ msgstr "zmierzone z nagrań -- mówcy: %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "z zakończonego przebiegu -- mówcy: %s, %s"
-
-msgid "no folder"
-msgstr "(brak folderu)"
 
 msgid "no text"
 msgstr "brak tekstu"

@@ -35,7 +35,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 27.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **4373** -- who speaks and when: the separation itself,
+* `speakers/` **4337** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -45,7 +45,7 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3311** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3390** -- who is on camera when, and what carries it out
+* `cut/` **3312** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2430** -- the DaVinci Resolve project, timelines, colour,
@@ -72,7 +72,7 @@ figure of the day is that command, not this paragraph**:
   the findings
 * `setup/` **1388** -- finding ffmpeg, installing a missing module,
   keeping the key, and storing it from the terminal
-* `speech/` **1462** -- what is said and when, and what is written down
+* `speech/` **1443** -- what is said and when, and what is written down
   from it
 * `hearing/` **1341** -- decoding, envelopes, bands, phase, aligning
   audio to video
@@ -118,7 +118,7 @@ figure of the day is that command, not this paragraph**:
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
   looks one up
-* `timecode/` **603** -- timecode strings, frame rates, the clock a file
+* `timecode/` **586** -- timecode strings, frame rates, the clock a file
   carries; the rate a Timeline gets, and seconds, frames and timecode
   turned into one another
 * `filesheet/` **458** -- the first tab: the drop area or the file
@@ -323,7 +323,6 @@ only builds the interface. So far:
 | `run_argv` | the whole command line, checks and queries included |
 | `slider_numbers` | the cut sliders as numbers, defaults filled in |
 | `slider_argv` | the same sliders as switches |
-| `build_handover` | the handover, with a sentence for every no |
 | `choose_zero_point` | where programme time starts: audio first, picture as stand-in |
 | `find_project_file` | the project file for whatever was pointed at |
 | `format_complaint` | whether a stored file may be read at all |
@@ -669,7 +668,7 @@ way every window in this table was found.
 | `stowage/` | `logbook/` binds its `cache_folder` at its head; it binds `FILE_FORMAT` for `format_complaint`, which stands here since 27.9.2026 | under `FILE_FORMAT`, before `logbook/`. `kept_language` stands far above it and reaches `settings` through `PROGRAM.` |
 | `logbook/` | binds `cache_folder` above; `herald/` and `soundings/` bind its `outside_say` at their heads | after `cache_folder`, before `soundings/` |
 | `soundings/` | binds `outside_say` above; `timecode/` binds its `ffprobe_json` at its head, as do eleven pieces after it | after `outside_say`, before `timecode/` |
-| `timecode/` | 20 pieces bind its names at their heads, counted 27.9.2026. Since that day the frame-rate family stands here too -- `known_frame_rate`, `own_frame_rate`, `resolve_timeline_rate`, `file_frame_rate`, `timeline_frame_rate`, `seconds_to_frames`, `frames_to_timecode`, `timecode_to_frames`, `frames_of_the_file`, `timeline_frames_of` and `RESOLVE_FRAME_RATES` out of `resolve/`, `cameras_frame_rate` and `timeline_timecode` out of `cut/`, `timecode_seconds` out of `hearing/`, `report_timecode_check` out of `metadata/` -- and it binds `math`, `number_text` and `path_key` for them, all read above it | above all 20 |
+| `timecode/` | 20 pieces bind its names at their heads, counted 27.9.2026. Since that day the frame-rate family stands here too -- `known_frame_rate`, `own_frame_rate`, `resolve_timeline_rate`, `file_frame_rate`, `timeline_frame_rate`, `seconds_to_frames`, `frames_to_timecode`, `timecode_to_frames`, `frames_of_the_file`, `timeline_frames_of` and `RESOLVE_FRAME_RATES` out of `resolve/`, `timeline_timecode` out of `cut/`, `timecode_seconds` out of `hearing/`, `report_timecode_check` out of `metadata/` -- and it binds `math`, `number_text` and `path_key` for them, all read above it | above all 20 |
 | `tables/` | binds 8 names, the latest of them the timecode's `parse_timecode`; `ui/` binds 10 of its own and `speakers/` 8 | **both edges measured 7.9.2026**: one read earlier -- above `timecode/` -- answers `AttributeError: 'Program' object has no attribute 'parse_timecode'`, rc=1; right after it, rc=0 and the suite whole. It stands as early as it can so that any piece taking a window part of its own can bind the fifteen table names -- which `speakers/` then did, and all 8 it wanted bound at its head |
 | `metadata/` | 8 pieces bind its names at their heads, `resolve/` among them for `audio_track_count`, which stands here since 27.9.2026; it binds `file_frame_rate` and `known_frame_rate` out of `timecode/` since the same day | above all 8 |
 | `herald/` | `loudness/` and `hearing/` bind the progress line -- `progress_from_line` and `show_progress` -- at their heads. `python_note` stands here since 27.9.2026, beside `running_from` in the banner; it binds `LIKES_PYTHON` for it, and `orders/` binds it back | before both of them |

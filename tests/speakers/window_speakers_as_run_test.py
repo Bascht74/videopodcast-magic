@@ -1,30 +1,25 @@
 # -*- coding: utf-8 -*-
-"""The window's preview counts the same speakers as the run will.
+"""The run's cut holds every speaker not set aside, read on the run's clock.
 
-Both sides answer the owner's rule -- everybody is in unless somebody
-said "do not use" -- and they answer it in two different places: the run
-in speakers_for_the_cut over its tracks, the window in
-track_recordings_of and speakers_window_all over the rows of the
-assignment table. A preview built from other speakers than the run uses
-is worse than none, and both sides have really been wrong: a track whose
-row had been set to "do not use" was still measured, and a track with no
-camera of its own fell out of preview and run alike the moment any
-recording was taken apart.
+The preview is the run's own handover, so the question is the run's:
+the owner's rule -- everybody is in unless somebody said "do not use" --
+answered in speakers_for_the_cut over its tracks. It has really been
+wrong: a track whose row had been set to "do not use" was still
+measured, and a track with no camera of its own fell out of the cut
+the moment any recording was taken apart.
 
-One assignment, read both ways. In order: the run puts the separation's
-voices and both free microphones into the cut, the preview comes to the
-same list, the track with no camera of its own stands in both, a row set
-to "do not use" reaches neither, and the recording a separation speaks
-for reaches neither. Then the same question about the clock: the run
-rewrites every track onto the axis before it reads the speakers off
-it, so the window has to read on that clock too, or the two hear the
-same hour at two different lengths. Last the line on the third tab
-that says which of the two the cut in front of somebody is standing
-on, a run through auphonic.com being a run like any other.
+One assignment: the run puts the separation's voices and both free
+microphones into the cut, the track with no camera of its own among
+them, and neither the row set to "do not use" nor the recording a
+separation speaks for. Then the clock: the run rewrites every track
+onto the axis before it reads the speakers off it, so the reading has
+to go by that clock, or the same hour is heard at two different
+lengths. Last the line on the third tab that says which of the two the
+cut in front of somebody is standing on, a run through auphonic.com
+being a run like any other.
 
-The run's reading of the microphones is stood in for, and it hands back
-exactly what the window's stored measurement holds -- otherwise the two
-sides are given different material and the comparison says nothing.
+The run's reading of the microphones is stood in for, and it hands
+back what a stored measurement holds.
 """
 PLATFORM_BOUND = True
 import os
@@ -61,19 +56,18 @@ def check(name, ok, extra=""):
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
-#------------------------------------- One assignment, read two ways
+#------------------------------ One assignment, as the run reads it
 
 D = tempfile.mkdtemp(prefix="vpmwinsame_")
 MIC = os.path.join(D, "Mic_Anna.wav")
 MIC2 = os.path.join(D, "Mic_Guest.wav")
 ROOM = os.path.join(D, "room.wav")
-REC = os.path.join(D, "Recorder.wav")
 CAM = os.path.join(D, "CamOne.mov")
 for path in (MIC, MIC2):
     with wave.open(path, "wb") as f:
         f.setnchannels(1); f.setsampwidth(2); f.setframerate(8000)
         f.writeframes(b"\0" * 16000)
-for path in (ROOM, REC, CAM):
+for path in (ROOM, CAM):
     with open(path, "wb") as f:
         f.write(b"\0" * 16)
 
@@ -88,7 +82,6 @@ NO_CAMERA = "Guest"
 IN_THE_MIX = "Room"
 LEFT_OUT = "Recorder"
 VOICES = [("Bea", [(11.5, 16.5)]), ("Cid", [(31.0, 36.5)])]
-LENGTH = 36.5
 # What the window's own reading of the recordings left behind: every
 # row that stood at the time, the one since set aside included.
 MEASURED = {"segments": [(FREE, [(5.0, 10.0), (18.0, 23.0)]),
@@ -98,16 +91,6 @@ MEASURED = {"segments": [(FREE, [(5.0, 10.0), (18.0, 23.0)]),
             "length": 39.0}
 WANTED = ["Bea", "Cid", FREE, NO_CAMERA]
 
-#--- the window's side
-assign_lines = [((MIC,), vpm.Value(FREE), vpm.Value(CAM)),
-                ((MIC2,), vpm.Value(NO_CAMERA), vpm.Value(vpm.MIX_ONLY)),
-                ((ROOM,), vpm.Value(IN_THE_MIX), vpm.Value(vpm.MIX_ONLY)),
-                ((REC,), vpm.Value(LEFT_OUT), vpm.Value(vpm.IGNORE_AUDIO))]
-rows = vpm.track_recordings_of(assign_lines)
-preview, _far = vpm.speakers_window_all(VOICES, LENGTH, MEASURED, rows, APART)
-preview_names = [n for n, _p in preview]
-
-#--- the run's side
 SAID = dict(MEASURED["segments"])
 
 
@@ -145,31 +128,12 @@ finally:
     vpm.speakers_from_tracks = was
 
 print("1. What the run makes of it")
-print("   ", "run:", run_names, " preview:", preview_names)
-# First, or the comparison below is green over two empty lists and the
-# three that follow are green over nothing having reached either side.
+print("   ", "run:", run_names)
 check("the run puts the voices and every free microphone in the cut",
       run_names == WANTED, "the run holds %d names %s, wanted %d %s"
       % (len(run_names), run_names, len(WANTED), WANTED))
 
-print("\n2. And the preview beside it")
-check("the preview comes to the same speakers as the run",
-      preview_names == run_names, "the preview holds %d names %s, the run %d %s"
-      % (len(preview_names), preview_names, len(run_names), run_names))
-check("a track with no camera of its own stands in both",
-      NO_CAMERA in preview_names and NO_CAMERA in run_names,
-      "%s stands in the preview %s and in the run %s, wanted in both"
-      % (NO_CAMERA, NO_CAMERA in preview_names, NO_CAMERA in run_names))
-check("a row set to \"do not use\" reaches neither of them",
-      LEFT_OUT not in preview_names and LEFT_OUT not in run_names,
-      "%s stands in the preview %s and in the run %s, wanted in neither"
-      % (LEFT_OUT, LEFT_OUT in preview_names, LEFT_OUT in run_names))
-check("and the recording a separation speaks for reaches neither",
-      IN_THE_MIX not in preview_names and IN_THE_MIX not in run_names,
-      "%s stands in the preview %s and in the run %s, wanted in neither"
-      % (IN_THE_MIX, IN_THE_MIX in preview_names, IN_THE_MIX in run_names))
-
-print("\n3. And it reads them on the clock the run uses")
+print("\n2. And it reads them on the clock the run uses")
 import numpy as np
 CLOCKED = os.path.join(D, "Clocked.wav")
 SPEED, LONG, HZ = 1.02, 20.0, 8000
@@ -208,7 +172,7 @@ check("and one it does keeps its own speed",
         vpm.audio_clock_of(CLOCKED, {vpm.path_key(CLOCKED): SPEED}) == SPEED,
         "%r" % (vpm.audio_clock_of(CLOCKED, {vpm.path_key(CLOCKED): SPEED}),))
 
-print("\n4. And the third tab says what the cut stands on")
+print("\n3. And the third tab says what the cut stands on")
 vpm.set_language("en")
 said = dict((b, vpm.cut_basis_line(b, 3, 4163.0))
             for b in ("measured", "run", "auphonic"))

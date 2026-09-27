@@ -2387,9 +2387,6 @@ msgstr "Hakuna mzungumzaji anayejulikana hapa -- bila nani anazungumza lini haku
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Bado hakuna sauti ya mtu yenye kamera -- hivyo kila kipande kingekuwa kilekile."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Bado hakuna wazungumzaji wanaojulikana -- hakuna kilichopimwa, hakuna kilichotenganishwa, na hakuna faili ya makabidhiano ya uendeshaji wa awali katika %s wala folda zake ndogo."
-
 msgid "Not found again after import: %s"
 msgstr "Haikupatikana tena baada ya kuingiza: %s"
 
@@ -3405,9 +3402,6 @@ msgstr "imepimwa kutoka kwenye rekodi -- wazungumzaji %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "kutoka uendeshaji uliokamilika -- wazungumzaji %s, %s"
-
-msgid "no folder"
-msgstr "folda yoyote"
 
 msgid "no text"
 msgstr "hakuna maandishi"

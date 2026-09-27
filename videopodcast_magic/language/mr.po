@@ -2387,9 +2387,6 @@ msgstr "येथे कोणताही वक्ता माहीत न�
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "अद्याप कोणत्याही आवाजाला कॅमेरा नाही -- असे असल्यास प्रत्येक शॉट एकच असेल."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "अद्याप कोणतेही वक्ते माहीत नाहीत -- काहीही मोजलेले नाही, काहीही विभाजित केलेले नाही, आणि फोल्डर %s किंवा त्याच्या उप-फोल्डरमध्ये मागील रनची कोणतीही हस्तांतरण फाइल नाही."
-
 msgid "Not found again after import: %s"
 msgstr "इम्पोर्टनंतर पुन्हा सापडले नाही: %s"
 
@@ -3405,9 +3402,6 @@ msgstr "रेकॉर्डिंग्जमधून मोजले -- %s �
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "पूर्ण झालेल्या रनमधून -- %s वक्ते, %s"
-
-msgid "no folder"
-msgstr "(कोणतेही नाही)"
 
 msgid "no text"
 msgstr "मजकूर नाही"

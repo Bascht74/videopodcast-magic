@@ -649,9 +649,6 @@ msgstr "نقل"
 msgid "Wide shot after"
 msgstr "اللقطة الواسعة بعد"
 
-msgid "no folder"
-msgstr "لا مجلد"
-
 msgid "no text"
 msgstr "لا نص"
 
@@ -1713,9 +1710,6 @@ msgstr "  غير مستخدم: %s."
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  لقطة واسعة عند الأطراف: حتى %s ومن %s"
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "لا متحدثين معروفين بعد -- لم يُقس شيء ولم يُفصل شيء، ولا يوجد ملف تسليم من تشغيل سابق في %s أو مجلداته الفرعية."
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "النافذة الزمنية خارج المادة: نقطة البداية عند %s، ونقطة النهاية عند %s، ومدة المادة %s."

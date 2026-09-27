@@ -2355,9 +2355,6 @@ msgstr "Itt nem ismert beszélő -- anélkül, hogy ki mikor beszél, nincs mi k
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Még egy hangnak sincs kamerája -- így minden snitt ugyanaz lenne."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Még nem ismertek a beszélők -- semmi nincs mérve, semmi nincs szétválasztva, és nincs korábbi futásból átadási fájl itt: %s, sem az almappáiban."
-
 msgid "Not found again after import: %s"
 msgstr "Importálás után nem található újra: %s"
 
@@ -3356,9 +3353,6 @@ msgstr "a felvételekből mérve -- %s beszélő, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "a befejezett futásból -- %s beszélő, %s"
-
-msgid "no folder"
-msgstr "egyetlen mappa"
 
 msgid "no text"
 msgstr "nincs szöveg"

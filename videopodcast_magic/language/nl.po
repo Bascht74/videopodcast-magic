@@ -2353,9 +2353,6 @@ msgstr "Hier is geen spreker bekend -- zonder wie wanneer spreekt valt er niets 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Nog geen stem heeft een camera -- zo zou elk shot hetzelfde zijn."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Nog geen sprekers bekend -- niets gemeten, niets gescheiden, en geen overdrachtsbestand van een eerdere run in %s of de submappen ervan."
-
 msgid "Not found again after import: %s"
 msgstr "Na het importeren niet teruggevonden: %s"
 
@@ -3355,9 +3352,6 @@ msgstr "gemeten uit de opnamen -- %s sprekers, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "uit de voltooide run -- %s sprekers, %s"
-
-msgid "no folder"
-msgstr "(geen map)"
 
 msgid "no text"
 msgstr "geen tekst"

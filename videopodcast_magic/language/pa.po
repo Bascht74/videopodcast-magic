@@ -2389,9 +2389,6 @@ msgstr "ਇੱਥੇ ਕੋਈ ਬੁਲਾਰਾ ਪਤਾ ਨਹੀਂ -- ਕ�
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "ਹਾਲੇ ਕਿਸੇ ਆਵਾਜ਼ ਦਾ ਕੋਈ ਕੈਮਰਾ ਨਹੀਂ -- ਇਸ ਤਰ੍ਹਾਂ ਹਰ ਸ਼ਾਟ ਇੱਕੋ ਹੀ ਹੋਵੇਗਾ।"
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "ਹਾਲੇ ਕਿਸੇ ਬੁਲਾਰੇ ਦਾ ਪਤਾ ਨਹੀਂ -- ਕੁਝ ਮਾਪਿਆ ਨਹੀਂ, ਕੁਝ ਨਿਖੇੜਿਆ ਨਹੀਂ, ਅਤੇ ਫੋਲਡਰ %s ਜਾਂ ਉਸ ਦੇ ਸਬ-ਫੋਲਡਰਾਂ ਵਿੱਚ ਪਿਛਲੇ ਰਨ ਦੀ ਕੋਈ ਸਪੁਰਦਗੀ ਫ਼ਾਈਲ ਨਹੀਂ।"
-
 msgid "Not found again after import: %s"
 msgstr "ਇੰਪੋਰਟ ਤੋਂ ਬਾਅਦ ਮੁੜ ਨਹੀਂ ਲੱਭਿਆ: %s"
 
@@ -3407,9 +3404,6 @@ msgstr "ਰਿਕਾਰਡਿੰਗਾਂ ਤੋਂ ਮਾਪਿਆ -- %s ਬੁ
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "ਪੂਰੇ ਹੋਏ ਰਨ ਤੋਂ -- %s ਬੁਲਾਰੇ, %s"
-
-msgid "no folder"
-msgstr "(ਕੋਈ ਨਹੀਂ)"
 
 msgid "no text"
 msgstr "ਕੋਈ ਲਿਖਤ ਨਹੀਂ"

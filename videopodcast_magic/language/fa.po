@@ -2386,9 +2386,6 @@ msgstr "اینجا هیچ گوینده‌ای شناخته نیست -- بی آن
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "هنوز هیچ صدایی دوربین ندارد -- با این وضع همه نماها یک نما می‌شدند."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "هنوز هیچ گوینده‌ای شناخته نیست -- چیزی اندازه‌گیری نشده، چیزی تفکیک نشده، و فایل تحویل یک اجرای پیشین هم در %s یا زیرپوشه‌هایش نیست."
-
 msgid "Not found again after import: %s"
 msgstr "پس از وارد کردن دوباره پیدا نشد: %s"
 
@@ -3404,9 +3401,6 @@ msgstr "اندازه‌گیری‌شده از ضبط‌ها -- %s گوینده،
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "از اجرای تمام‌شده -- %s گوینده، %s"
-
-msgid "no folder"
-msgstr "هیچ پوشه‌ای"
 
 msgid "no text"
 msgstr "بدون متن"

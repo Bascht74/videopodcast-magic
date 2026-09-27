@@ -2355,9 +2355,6 @@ msgstr "Овде није познат ниједан говорник -- без
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Ниједан глас још нема камеру -- тако би сваки кадар био исти."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Још нису познати говорници -- ништа није измерено, ништа раздвојено, и нема датотеке предаје ранијег покретања у %s нити у њеним подфасциклама."
-
 msgid "Not found again after import: %s"
 msgstr "Није поново пронађено после увоза: %s"
 
@@ -3358,9 +3355,6 @@ msgstr "измерено из снимака -- говорника: %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "из завршеног покретања -- говорника: %s, %s"
-
-msgid "no folder"
-msgstr "ниједној фасцикли"
 
 msgid "no text"
 msgstr "без текста"

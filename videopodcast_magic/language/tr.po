@@ -626,9 +626,6 @@ msgstr "Aktarım"
 msgid "Wide shot after"
 msgstr "Şu süreden sonra geniş çekim"
 
-msgid "no folder"
-msgstr "klasör yok"
-
 msgid "no text"
 msgstr "metin yok"
 
@@ -1678,9 +1675,6 @@ msgstr "  Kullanılmayanlar: %s."
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Kenarlarda geniş çekim: %s değerine kadar ve %s değerinden itibaren"
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Henüz bilinen konuşmacı yok -- hiçbir şey ölçülmedi, hiçbir şey ayrılmadı ve %s ya da alt klasörlerinde önceki bir çalıştırmanın teslim dosyası yok."
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "Zaman aralığı malzemenin dışında: giriş noktası %s, çıkış noktası %s ve malzeme %s sürüyor."

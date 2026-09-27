@@ -614,9 +614,6 @@ msgstr "Transferir"
 msgid "Wide shot after"
 msgstr "Plano geral após"
 
-msgid "no folder"
-msgstr "sem pasta"
-
 msgid "no text"
 msgstr "sem texto"
 
@@ -1666,9 +1663,6 @@ msgstr "  Não usados: %s."
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Plano geral nas bordas: até %s e a partir de %s"
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Nenhum falante conhecido ainda -- nada medido, nada separado, e nenhum arquivo de entrega de uma execução anterior em %s ou nas suas subpastas."
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "A janela de tempo fica fora do material: ponto de entrada em %s, ponto de saída em %s, e o material dura %s."
