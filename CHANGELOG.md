@@ -97,6 +97,10 @@ nicht.
 
 ### Fixed
 
+- **Stop now ends a run's own speaker separation at once**; it used to
+  run on until the separation finished, measured 60 s. A single-track
+  run waiting for auphonic.com now says so in the bar and in a stop
+  report, where it said "Common time axis".
 - **A recording the recorder split into several files is now separated
   as one recording.** The separation heard only the first file, so from
   the second on nobody on that microphone reached the preview or the
@@ -277,6 +281,10 @@ nicht.
 
 ### Behoben
 
+- **Stopp beendet jetzt auch die Stimmentrennung eines Laufs sofort**;
+  bisher lief er weiter, bis die Trennung fertig war, gemessen 60 s. Ein
+  Einspur-Lauf, der auf auphonic.com wartet, sagt das jetzt im Balken und
+  beim Abbruch, wo „Gemeinsame Zeitachse“ stand.
 - **Eine Aufnahme, die der Rekorder in mehrere Dateien geteilt hat,
   wird jetzt als eine Aufnahme getrennt.** Die Trennung hörte nur die
   erste Datei, sodass ab der zweiten niemand von diesem Mikrofon in
