@@ -91,15 +91,24 @@ das längst bezahlt ist.
 
 Und nach einem fragt es bloß: nach der Nummer der neuesten Version,
 bei github.com, kurz nachdem das Fenster steht. Das Programm sendet
-dabei nichts und holt diese Version erst, wenn jemand es verlangt.
+dabei nichts und holt diese Version erst, wenn jemand es verlangt. Zwei
+Bibliotheken, die es mitbringt, würden von sich aus nach Hause melden,
+pyannote.audio und onnxruntime; das Programm schaltet beides ab, bevor
+sie geladen werden.
 [Die Oberfläche](interface.de.md#sich-selbst-aktuell-halten) sagt, was
 dann kommt.
 
 **Zum Modell.** Die Stimmen einer Aufnahme auseinanderzuhalten ist die
 Sprechertrennung, und sie braucht ein trainiertes Modell. Das Programm
 holt es aus seinem eigenen Repository in den Ordner `models/` im Ordner
-des Programms selbst. Es hält jede Datei gegen ihre SHA-256-Prüfsumme und
-schreibt nur, was übereinstimmt.
+des Programms selbst, und zwar in dem Stand, der zum Tag dieser Version
+gehört. Nur wo es diesen Tag nicht gibt, nimmt es das Modell vom
+Hauptzweig, und die Zeile im Bericht sagt das. Läuft die Zeit ab oder
+meldet der Server einen Fehler, bricht das Holen ab, und die Meldung
+nennt den Tag und den Grund. Jede Datei hält es gegen ihre
+SHA-256-Prüfsumme und schreibt nur, was übereinstimmt; nennt die Liste
+der Modelldateien einen Ort außerhalb des Modellordners, wird sie
+abgelehnt, bevor überhaupt etwas geholt wird.
 
 Die Trennung liest das Modell danach aus diesem Ordner, ohne Konto,
 ohne Zugangsschlüssel und ohne Netz. Das Programm holt es nur beim
@@ -312,8 +321,14 @@ Maschine hat:
 * **Windows: Es holt eines.** Windows bringt keine Paketverwaltung mit,
   also lädt das Programm einen Bau mit soxr und legt `ffmpeg.exe` und
   `ffprobe.exe` in einen eigenen Ordner unter den lokalen Daten des
-  Benutzers. Von Hand muss dafür nichts in PATH. Schlägt der Download
-  fehl, bietet es stattdessen an, ffmpeg.org zu öffnen.
+  Benutzers. Von Hand muss dafür nichts in PATH. Bevor etwas
+  ausgepackt wird, hält es den Download gegen `checksums.sha256`
+  derselben Veröffentlichung; lässt sich diese Liste nicht holen, nennt
+  sie das Archiv nicht oder steht dort eine andere Summe, wird nichts
+  ausgepackt, der Download gelöscht, und das Programm sagt, warum. Ein
+  Archiv, das eines der beiden Werkzeuge doppelt enthält, wird ebenso
+  abgelehnt. Schlägt der Download fehl, bietet es stattdessen an,
+  ffmpeg.org zu öffnen.
 * **Linux: erst die Paketverwaltung, dann ein Download.** `apt-get`,
   `dnf`, `zypper` oder `pacman`, mit `sudo` davor, wo der Lauf nicht
   ohnehin als root läuft — weil eine Paketverwaltung außerhalb des
@@ -322,7 +337,7 @@ Maschine hat:
   befragt statt geglaubt: Eine Distribution kann Erfolg melden und eine
   Fassung hingelegt haben, die Jahre unter der Untergrenze liegt. Wo
   das so ist, holt das Programm einen eigenen Bau, genau wie unter
-  Windows.
+  Windows, samt Prüfsumme.
 * **Wo ein geholter Bau landet, wird er auch benutzt.** Er kommt in den
   eigenen Ordner des Programms für solche Dinge — nicht in den
   Zwischenspeicher, den einzigen Ordner, von dem allen gesagt wird, sie

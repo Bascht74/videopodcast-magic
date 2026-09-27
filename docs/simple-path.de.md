@@ -10,11 +10,12 @@ eine Spur)**. Das Häkchen steht auf dem Reiter **Zuordnung &
 Zeitfenster** über dem Kasten **Aufbereitung bei auphonic.com
 (optional)**.
 
-Das Häkchen entscheidet, wie die Aufnahmen gruppiert werden, nicht
-welchen Weg der Lauf nimmt. Mit ihm bekommt jede Person eine eigene
-Spur, unter ihrem Namen und einer Kamera zugeordnet. Ohne es wird aller
-Ton ein Mix. Alles Weitere ist dieselbe Maschine: eine gemeinsame
-Zeitachse, ein Schreiber.
+Das Häkchen wählt keinen anderen Weg durch den Lauf. Mit ihm besteht
+das Fenster auf einer Spur je Person -- mindestens zwei, jede mit
+Namen --, und Kameras ohne Tonaufnahme geben ihren Ton je als eigene
+Spur. Ohne das Häkchen nimmt der Lauf die Aufnahmen, wie sie kommen,
+unter den Namen und Kameras, die ihnen die Tabelle gibt. Alles Weitere
+ist dieselbe Maschine: eine gemeinsame Zeitachse, ein Schreiber.
 
 Der Projekttyp ist eine andere Frage, und die beiden vertreten einander
 nicht. **Nur synchronisieren** läuft immer ohne das Häkchen -- die Zeile
@@ -55,32 +56,45 @@ Was der einfache Weg genauso kann wie Multitrack:
   wird für das Fenster und je eine Sekunde davor und danach geschrieben
   und trägt den Timecode des Bildes, mit dem sie nun anfängt
   ([Multitrack](multitrack.de.md), „Wieviel von jeder Kamera geschrieben
-  wird“).
+  wird“). Bei einer einzigen Aufnahme ohne Bild gibt es nichts, worüber
+  sich ein Fenster legen ließe: In-Punkt und Out-Punkt tun dort nichts,
+  und der Lauf sagt das in einer Zeile.
+- **Die Zuordnung.** Die unter **gehört zu** gewählte Kamera und **nicht
+  verwenden** gelten hier genauso wie mit dem Häkchen: Der Lauf setzt
+  jede Aufnahme auf ihre Kamera, lässt weg, was nicht verwendet wird,
+  und schneidet dieselben Kameras. Der Name, der für eine Aufnahme
+  getippt wurde, ist der, unter dem der Lauf mit ihr arbeitet -- im
+  Protokoll, in den Spurnamen und in den geschriebenen Tondateien.
 - **Vorschau Player.** Auf dem Reiter **Zuordnung & Zeitfenster**, mit
   denselben Knöpfen.
 - **Lautheit gemessen.** Die Summe wird gemessen, und die Zahl steht im
   Protokoll, unter `NORMALISIEREN` als **Summe der Spuren**, mit LUFS,
   Spitze und Umfang. Das Ziel kommt aus **Lautheit** in der Gruppe
-  **Produktion** (auf der Kommandozeile `--lufs`). Sind Kameras im
-  Material, verschiebt ein einziger Gewinn jede Spur um denselben Betrag,
-  und die Sprecher behalten ihr Verhältnis zueinander. Ohne Ziel wird
+  **Produktion** (auf der Kommandozeile `--lufs`, ohne den Schalter
+  −16). Sind Kameras im Material, verschiebt ein einziger Gewinn jede
+  Spur um denselben Betrag, und die Sprecher behalten ihr Verhältnis
+  zueinander. Mit **Aus Quelldateien übernehmen** (`--lufs source`) wird
   nichts angepasst ([Vorflug](preflight.de.md), Abschnitt „Welches
   Lautheitsziel gilt“).
 - **Resolve-Projekt.** Mehrere Kameras geben eine Timeline mit allen
   nebeneinander, fertig für Multicam. Eine Kamera gibt eine gerade
   Timeline, oder eine geschnittene, sobald die Sprecher getrennt sind.
 
-Je Sprecher eine Spur gibt es hier nicht. Der Mix kommt als eine Spur bei
-auphonic.com an, und ohne getrennte Spuren hat das De-Bleed nichts
-auseinanderzunehmen.
+Was zu auphonic.com geht, hängt ebenfalls nicht am Häkchen: Zwei
+Aufnahmen oder mehr auf einer Zeitachse gehen als eine
+Multitrack-Produktion hoch, jede als eigene Spur, ob das Häkchen gesetzt
+ist oder nicht ([Aufbereitung bei auphonic.com](auphonic.de.md)).
 
 Was herauskommt, hängt am Material:
 
-- **Nur Ton.** Das ist der eine Fall mit einem eigenen Weg. Die Blöcke
-  werden zu einer Datei `<Name>_joined.wav` zusammengelegt, oder eine
-  einzelne Aufnahme geht allein zu auphonic.com. Das Ziel gilt auch
-  hier, ein Gewinn je Aufnahme. Was zwischen zwei Aufnahmen an Pegel
-  steht, kommt dann vom Ziel und nicht von der Aufnahme.
+- **Nur Ton.** Eine einzelne Aufnahme wird aus ihren Blöcken zu einer
+  Datei `<Name>_joined.wav` zusammengelegt oder geht allein zu
+  auphonic.com; das Ziel gilt hier. Mehrere Aufnahmen kommen auf eine
+  Zeitachse, mit Häkchen wie ohne, genau wie
+  [Multitrack](multitrack.de.md), „Multitrack ganz ohne Kamera“, es
+  beschreibt, und gehen als eine Multitrack-Produktion zu auphonic.com.
+  Die Spuren behalten dort das Verhältnis, mit dem sie aufgenommen
+  wurden, und kein Ziel verschiebt sie.
 - **Ton und Bild.** Der Ton wird ausgerichtet und in die Videodatei gelegt.
 - **Nur ein Video.** Dessen eigener Ton, links und rechts getrennt.
 
@@ -150,14 +164,19 @@ Protokoll wie im Fenster.
 
 ### Was neben dem Mix ins Video kommt
 
-Ohne Multitrack geht aller Ton in einen Mix. Die Videodatei bekommt zwei
-Tonspuren und nicht mehr: Spur 1 den `Full-Mix`, Spur 2
-`Camera Original`, den eigenen Ton der Kamera.
+Die Kameradateien bekommen dieselben Spuren wie mit dem Häkchen
+([Multitrack](multitrack.de.md), „Was in die Kameradateien kommt“).
+Gibt es mehrere Aufnahmen und sitzt keine davon auf einer Kamera, trägt
+jede Kameradatei zuerst
+den `Full-Mix`, dann jede Aufnahme auf einer eigenen Spur, zuletzt
+`Camera Original`, den eigenen Ton der Kamera; `--no-single-tracks`
+lässt die einzelnen Aufnahmen weg, dann kommen nur der Mix und der
+eigene Ton der Kamera hinein.
 
-Die einzelnen Aufnahmen stehen nicht im Video. Sie liegen daneben im
-Ordner `auphonic-tracks/` als `final_<Name>.wav`, mit dem Timecode im
-Namen, wenn das Material einen trägt, im bext-Block und als iXML für
-Premiere und Media Composer.
+Die einzelnen Aufnahmen liegen außerdem neben dem Video, im Ordner
+`auphonic-tracks/` als `final_<Name>.wav`, mit dem Timecode im Namen,
+wenn das Material einen trägt, im bext-Block und als iXML für Premiere
+und Media Composer.
 
 Bei einer einzigen Aufnahme behält der Mix deren Kanalzahl: eine
 Mono-Aufnahme ergibt im Protokoll `Full-Mix aus 1 Spuren, 1 Kanal`, zwei
@@ -356,8 +375,10 @@ nicht.
 - **Eine Datei wurde in eine Aufnahme genommen, in die sie nicht
   gehört.** Ihre Zeile auswählen und **Entfernen** drücken; sie bleibt
   von da an draußen.
-- **Eine Aufnahme fehlt im Video.** Hinein gehen nur der Mix und der
-  eigene Ton der Kamera. Die Aufnahmen selbst stehen in
+- **Eine Aufnahme fehlt im Video.** Entweder stand `--no-single-tracks`
+  im Aufruf, oder die Aufnahme sitzt auf einer Kamera, deren Datei dann
+  die Sprecher in diesem Bild trägt ([Multitrack](multitrack.de.md),
+  „Was in die Kameradateien kommt“). Jede Aufnahme steht außerdem in
   `auphonic-tracks/`, je eine Datei.
 - **Eine Videodatei fehlt im Ergebnis.** Der Lauf konnte sie nicht
   einordnen: Ihr Ton hat mit dem übrigen Material nichts gemeinsam, und
@@ -370,8 +391,8 @@ nicht.
   Im Fenster schlägt das Programm das von selbst vor ([Die
   Oberfläche](interface.de.md)).
 
-Im Video steht jetzt der fertige Mix und der eigene Ton der Kamera, und
-die Aufnahmen liegen als Dateien daneben. Was auphonic.com mit dem Mix
+Im Video stehen jetzt der fertige Mix, die Aufnahmen und der eigene Ton
+der Kamera, und die Aufnahmen liegen außerdem als Dateien daneben. Was auphonic.com mit dem Mix
 macht, steht in
 [Aufbereitung über auphonic.com](auphonic.de.md).
 
@@ -379,12 +400,12 @@ macht, steht in
 
 Diese Optionen gibt es im Fenster nicht.
 
-- `--no-single-tracks` gilt für den Lauf ganz ohne Bild: dort entscheidet
-  er, ob die Blöcke einzeln erhalten bleiben. Wo Bild dabei ist, ändert
-  er nichts, denn das Video trägt keine Einzelspuren.
+- `--no-single-tracks` legt nur den Mix ins Video, nicht die Aufnahmen
+  daneben; im Lauf ganz ohne Bild entscheidet er, ob die Blöcke einzeln
+  erhalten bleiben.
 - `--no-camera-audio` lässt die eigene Spur der Kamera aus der neuen
   Datei weg.
-- `--help` setzt `[multitrack only]` an die drei Schalter, die ohne das
-  Häkchen nichts tun. Die Kennzeichnung bleibt englisch, auch bei
+- `--help` setzt `[multitrack only]` an die zwei Schalter, die nur dort
+  etwas bedeuten, wo mehrere Spuren gemeinsam hochgehen. Die Kennzeichnung bleibt englisch, auch bei
   `--lang de`. [Alle Schalter](command-line.de.md) sagt zu jedem
   Schalter, auf welchem Weg er wirkt.

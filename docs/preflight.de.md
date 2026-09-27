@@ -129,6 +129,11 @@ Das Programm liest nur den Container und decodiert nichts. Als
 Schwankung zählt nur, was keine ganze Bilddauer ist oder was über die
 Datei wandert.
 
+Das Programm selbst zählt eine solche Datei überall mit derselben Rate --
+im Schnitt, in der Timeline, im Timecode und auf der Seite von Resolve:
+mit der Rate, die in der Datei steht, wo das eine Kamerarate zwischen
+23,976 und 60 ist, und sonst mit dem gemessenen Mittel.
+
 ### Wie der Bericht das Übersprechen gegen die 3:1-Regel misst
 
 Bei mehreren Sprechern in einem Raum steht jede Stimme leise auch in den
@@ -157,7 +162,9 @@ Bevor der erste lange Schritt anfängt, hält der Bericht den freien Platz
 gegen das, was der Lauf schreiben wird. Diese Schätzung ist grob, und
 sie sagt das auch von sich: Sie rechnet jede Kamera als kopiert und mit
 neuen Tonspuren versehen, dazu die bearbeiteten Spuren und den Mix, und
-sie rundet durchweg nach oben auf.
+sie rundet durchweg nach oben auf. Eine Aufnahme, die ein Rekorder in
+mehrere Blöcke zerlegt hat, zählt dabei einmal, denn auf jeder Kamera
+wird sie zu einer einzigen Spur.
 
 Ein Zeitfenster macht die Kameras kürzer, und die Schätzung geht mit:
 Jede Kamera zählt mit ihrem eigenen Anteil am Fenster, eine kurze gibt
@@ -205,14 +212,17 @@ sticht diese Erinnerung: ein mit −23 LUFS
 gespeichertes Projekt öffnet auf −23 LUFS, auch wenn der Rechner sich
 **Aus Quelldateien übernehmen** gemerkt hatte.
 
-**Ohne Ziel wird nichts angepasst.** Kein `--lufs` auf der Kommandozeile
-oder **Aus Quelldateien übernehmen** im Fenster, und der Ton geht genau
-so hinaus, wie er hereinkam: kein Gewinn auf einer Spur und kein
-Limiter. auphonic.com macht weiter, was in seinem Preset steht. Die
-Summe wird trotzdem gemessen, und die Messung steht im Protokoll, unter
-`Nicht angepasst:` -- aus den Quelldateien übernommen, kein Gewinn und
-kein Limiter. Der Vorflug sagt in seiner Zeile Lautheit dasselbe: aus
-den Quelldateien übernommen, kein `--lufs` angegeben, es wird nichts
+**Auch die Kommandozeile beginnt bei −16 LUFS.** Ein Aufruf ohne
+`--lufs` steuert auf −16 aus, genau wie ein neues Projekt im Fenster.
+
+**Aus Quelldateien übernehmen passt nichts an.** Mit `--lufs source` auf
+der Kommandozeile oder **Aus Quelldateien übernehmen** im Fenster geht
+der Ton genau so hinaus, wie er hereinkam: kein Gewinn auf einer Spur
+und kein Limiter. auphonic.com macht weiter, was in seinem Preset steht.
+Die Summe wird trotzdem gemessen, und die Messung steht im Protokoll,
+unter `Nicht angepasst:` -- aus den Quelldateien übernommen, kein Gewinn
+und kein Limiter. Der Vorflug sagt in seiner Zeile Lautheit dasselbe:
+aus den Quelldateien übernommen, `--lufs source`, es wird nichts
 angepasst. Im Resolve-Projekt braucht die Lautheitsanzeige trotzdem eine
 Skala, sie wird auf −16 LUFS gesetzt, und die Zeile darüber im Protokoll
 sagt, dass das nur der Bezug der Anzeige ist.
@@ -221,10 +231,12 @@ sagt, dass das nur der Bezug der Anzeige ist.
 ohne Multitrack ([Der einfache Weg](simple-path.de.md)) wendet das Ziel
 an wie jeder andere, und ein Lauf ganz ohne Bild auch, bei dem die
 Blöcke einer Aufnahme zu einer Datei zusammengefügt werden. Im Protokoll
-stehen `Ziel:` und `Ergebnis:`; ohne Ziel wird nichts angepasst.
+stehen `Ziel:` und `Ergebnis:`; mit **Aus Quelldateien übernehmen** wird
+nichts angepasst.
 
-Ein Weg ist die Ausnahme: Multitrack ganz ohne Bild, wo die Spuren
-gegeneinander gelegt werden. Dort wird nichts ausgesteuert -- ein Gewinn
+Ein Weg ist die Ausnahme: mehrere Aufnahmen ganz ohne Bild, wo die
+Spuren gegeneinander gelegt werden, ob das Häkchen Multitrack gesetzt
+ist oder nicht. Dort wird nichts ausgesteuert -- ein Gewinn
 je Spur brächte die Stimmen um das Gleichgewicht, für das dieser Weg da
 ist --, und der Lauf sagt es in einer Zeile
 ([Multitrack](multitrack.de.md)).
@@ -321,9 +333,12 @@ die Datei einen Platz, und es wird nichts vorgeschlagen.
   geschrieben. Ein Probelauf schreibt keine Kameradatei, deshalb nennt
   er fehlenden Platz nur und läuft weiter.
 - **Das Preset mastert auf eine andere Lautheit.** `--lufs` auf den Wert
-  des Presets setzen oder das Lautheitsziel des Presets auf
-  auphonic.com ändern. Beides zusammen geht nicht: die Spuren kommen auf
-  dem einen Wert zurück, der Mix geht auf den anderen.
+  des Presets setzen, oder `--lufs source`, dann bestimmt das Preset die
+  Lautheit allein, oder das Lautheitsziel des Presets auf auphonic.com
+  ändern. Beides zusammen geht nicht: die Spuren kommen auf dem einen
+  Wert zurück, der Mix geht auf den anderen. Ohne `--lufs` gilt −16;
+  mastert das Preset auf etwas anderes, hält der Lauf deshalb vor dem
+  Hochladen an.
 - **Das Multitrack-Preset enthält keine Spur.** Auf auphonic.com eine
   Spur im Preset anlegen. Die erste Spur des Presets bestimmt die
   Bearbeitung aller Spuren; ohne sie kommen sie so zurück, wie sie

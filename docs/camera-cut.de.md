@@ -219,7 +219,12 @@ der das Wort wirklich wechselt. Fällt ein Rand kürzer aus als die
 benachbarte auf. Die Zeile im Protokoll nennt die Ränder so, wie sie im
 fertigen Schnitt stehen: Ist einer in seinem Nachbarn aufgegangen,
 heißt es dort `nur ab` oder `nur bis`, und `keiner`, wenn es beiden so
-ergangen ist.
+ergangen ist. Spricht die andere Stimme nur ein einziges Mal, hält
+dieser eine Beitrag den Weitwinkel nur an dem Rand, der ihm näher
+liegt: Nahe am Anfang sagt die Zeile `nur bis` und dass es am Ende
+keinen gibt, nahe am Ende `nur ab` und dass es am Anfang keinen gibt,
+und `keiner`, wenn dieser eine Rand kürzer ausfiel als die kürzeste
+Einstellung.
 
 **Redet mindestens** erledigt kurze Einwürfe („mhm“, „ja genau“). Eine
 Einstellung, die trotzdem zu kurz ausfällt, geht in die folgende, nicht
@@ -663,10 +668,11 @@ geht. Solange es ihn nicht gibt, nimmt das Programm die Kameradatei, die
 den Mix als erste Tonspur trägt — dieselbe Wahl wie für Perspektive 1
 des Multicam-Clips, und deutlich leiser.
 
-`start_s` ist die Uhrzeit, zu der die Programmzeit null ist. Es ist der
-früheste Tonanfang, der wirklich bekannt ist -- die gemessene Lage, oder
-der eigene Timecode der Aufnahme, wo an ihr nichts zu messen war; sonst
-der früheste Kamera-Timecode; sonst nichts.
+Die Programmzeit ist null in dem Moment, in dem jede Kamera läuft -- an
+dem Punkt, an dem auch die Timeline des Laufs beginnt --, und die
+Vorschau endet dort, wo die Timeline des Laufs endet: wo die erste
+Kamera aufhört. Schon vor jedem Lauf zeigt die Vorschau damit genau den
+Schnitt, den der Lauf bauen wird, Einstellung für Einstellung.
 In-Punkt und Out-Punkt verschieben den Nullpunkt mit. Die Stelle in jeder
 Kameradatei ist Programmzeit minus Versatz, derselbe Versatz, mit dem
 auch die Schnitt-Timeline gebaut wird.
@@ -774,9 +780,12 @@ gewähltes Preset bleibt auch dann darin stehen, wenn die Presetliste
 gerade nicht aufgebaut werden konnte -- abgelehnter Schlüssel, keine
 Leitung --, und nicht der Eintrag, auf den der Kasten zurückgefallen
 ist. **Öffnet man das Projekt, steht dieses Preset wieder im Kasten**,
-auch ein Multitrack-Preset: das Häkchen **Multitrack** wird zuerst
-gesetzt, denn in der Liste steht ein Multitrack-Preset nur in diesem
-Modus. Und eine Datei, die aus der Liste genommen wird, geht mit allem,
+auch ein Multitrack-Preset: erst kommen die Dateien und ihre Zuordnung
+zurück, dann wird die Liste für die Art von Produktion aufgebaut, die
+sie ergeben. In-Punkt und Out-Punkt, im Fenster gesetzt, stehen dort
+als Abstand vom Moment, in dem jede Kamera läuft (`+m:ss.fff`); ein
+Projekt, das sie als Timecode hält, öffnet mit ihnen an derselben
+Stelle wie bisher. Und eine Datei, die aus der Liste genommen wird, geht mit allem,
 was zu ihr geantwortet war, auch aus der Projektdatei heraus: wer sie
 später wieder hinzunimmt, fängt bei nichts an statt bei einer Antwort,
 die niemand mehr sieht.
@@ -811,6 +820,15 @@ Dateiliste, nennt die Übergabe des letzten Laufs nicht mehr genau diese
 Kameras: die Vorschau rechnet wieder mit dem, was das Fenster selbst
 ermittelt, und **Resolve-Projekt anlegen** wird grau. Legt man die
 Kamera zurück, sind Übergabe und Knopf wieder da.
+
+Genauso bei den Marken. Verschiebt man nach einem Lauf den **In-Punkt**
+oder den **Out-Punkt**, wird **Resolve-Projekt anlegen** grau und sagt,
+welche Marke sich bewegt hat, von wo nach wo, dass der Schnitt und der
+Ton in den Videos noch zum alten Fenster gehören, und dass noch einmal
+**Start** zu drücken ist. Die Vorschau auf dem Reiter
+**Resolve-Schnitt** zeigt denselben Hinweis, statt das alte Ergebnis
+ein zweites Mal zu schneiden, und auf der Kommandozeile lehnt der
+Resolve-Schritt mit denselben Worten ab.
 
 ### Wie das Programm den Weitwinkel setzt
 
