@@ -2333,9 +2333,6 @@ msgstr "Hanya mengukur -- tidak ada yang ditulis atau diunggah."
 msgid "Measuring %s (%s of %s)"
 msgstr "Mengukur %s (%s dari %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Pengukuran tidak mungkin: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Mengukur tolok ukur"
 
@@ -2359,9 +2356,6 @@ msgstr "Multitrack memerlukan setidaknya dua trek masukan. Satu trek adalah reka
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Belum ada audio yang digunakan -- tambahkan rekaman audio, atau atur Audio kamera sebuah file video ke \"gunakan audio internal\" di daftar file."
-
-msgid "No audio tracks are assigned."
-msgstr "Tidak ada trek audio yang ditetapkan."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Tidak ada kamera yang ditetapkan, jadi tidak ada yang dapat dipotong silih berganti."
@@ -2500,9 +2494,6 @@ msgstr "Tidak wajib -- YouTube lalu memakai nilai bawaan (Sony BVM-X300). Untuk 
 
 msgid "Not ready yet:"
 msgstr "Belum siap:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Tidak ada yang terdengar di trek."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Satu rekaman audio belum memiliki nama pembicara."
@@ -3915,9 +3906,6 @@ msgstr "  (hanya mengukur: tidak ada yang dipisahkan)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Trek tidak diukur, jadi %s ada di campuran dan tidak di potongan: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s belum diukur -- ada di potongan, belum di pratinjau ini."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Dari trek itu sendiri, satu suara per trek: %s."

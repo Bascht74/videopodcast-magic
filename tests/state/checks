@@ -133,7 +133,7 @@ project_errors_reach_run	4
 project_every_offset	11
 project_file_beats_last	6
 project_grades_stay_off	8
-project_handover_built	90
+project_handover_built	89
 project_hdr_follows	49
 project_keeps_answers	14
 project_leaves_others	24
@@ -326,7 +326,7 @@ time_length_is_in_to_out	24
 time_length_names_change	5
 time_lost_end_named	4
 time_marks_reach_result	8
-time_measured_place_wins	38
+time_measured_place_wins	37
 time_offset_found	6
 time_one_rate_per_file	5
 time_one_track_aligned	43
@@ -360,7 +360,7 @@ voice_close_mics_mixed	53
 voice_counts_grouped	3
 voice_cue_fits_two_lines	5
 voice_empty_marks_as_run	5
-voice_every_block_heard	7
+voice_every_block_heard	5
 voice_every_word_placed	32
 voice_failed_read_named	5
 voice_heard_again_named	12
@@ -387,7 +387,7 @@ voice_words_intact	48
 voice_zero_all_cameras	4
 window_all_come_up	6
 window_amounts_grouped	10
-window_answers_arrive	39
+window_answers_arrive	31
 window_axis_asks_again	2
 window_bare_start_stands	3
 window_block_misfit_kept	8
@@ -486,9 +486,15 @@ files_stamp_by_place	4
 files_stage_kept_by_key	29
 voice_originals_as_axis	6
 cut_voice_seat_wins	11
-time_axis_is_the_run	10
+time_axis_is_the_run	14
 window_axis_kept_by_key	6
-window_kept_cut_shown	7
+window_kept_cut_shown	5
 run_takes_dry_measure	9
 time_axis_one_store	6
 run_recordings_apart	3
+run_kept_by_its_line	10
+run_preview_says_nothing	5
+cut_preview_no_own_work	7
+cut_slider_recuts_only	6
+cut_three_cuts_agree	20
+run_dry_leaves_no_trace	8

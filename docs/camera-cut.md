@@ -390,16 +390,18 @@ counts twice**. For the source there are three answers:
   is being read. Every track lay on one axis for it, and microphones
   that hear each other were joined and separated by voice. This is the
   finest of the three.
-- **Speakers, separated by voice.** They come out of a separation on
-  this machine, before any run.
+- **Speakers, separated by voice.** The preview's own run took them out
+  of a separation already on this machine, before any real run.
 - **Speakers, self-measured from the tracks.** Levels measured against
-  each other here in the window, one microphone per person. The coarsest
-  of the three, and enough to set the cut up.
+  each other by the preview's own run, one microphone per person, the
+  way a run without auphonic.com measures them. The coarsest of the
+  three, and enough to set the cut up.
 
 Before a run the table can hold the last two at once -- voices out of a
 separation and tracks measured from their own microphone stand in it
 side by side -- and the heading then reads **Speakers, separated by
-voice** for all of them. The log tells those two apart in its own way:
+voice** for all of them. The log of a **Dry run** tells those two apart
+in its own way:
 it prints both marks, and under each one line saying who came that way
 -- how many voices out of which recording, and the names of the tracks
 measured against each other. The speaking times themselves follow after
@@ -409,32 +411,39 @@ With two speaking at once the time counts twice, as the heading says;
 for silence it does not. The rows therefore add up to more than the
 running time.
 
-Where a run has left its handover file `<Production>_resolve.json`, both
-boxes are computed from it; where there is none, from what the window
-has worked out for itself. Either way on every change, and always for
-the chosen window. Writing and uploading belong to the run, not to the
-preview.
+**The preview is a run.** The program runs what **Start** would run, as
+a dry run -- the time axis, who speaks when, the cut -- and stops before
+it writes anything; the preview shows the cut that run worked out, shot
+for shot. That run writes no file and uploads nothing, starts no
+separation and no speech recognition -- a separation already on this
+machine is read -- and says nothing: no line in the log, no progress bar. What it
+worked out stays on this machine, so a **Start** or **Dry run** that
+follows takes the time axis and who speaks when from there instead of
+measuring them a second time. Where a run has left its handover file
+`<Production>_resolve.json` and the preview has nothing of its own for
+what is set now, both boxes are computed from that file. Always for the
+chosen window.
 
-**Nothing has to be pressed for the speakers.** Opening the tab
-**Resolve cut** works them out of the tracks, which is the moment they
-are wanted. Not while one reading is already running, not after one has
-failed -- a second attempt fails the same way and costs the same minutes
--- and not where a finished run knows them already: reading the raw
-recordings again would put a coarser answer in place of the run's.
+**Nothing has to be pressed.** Opening the tab **Resolve cut** sets the
+preview's run going, which is the moment it is wanted; it waits for the
+time axis and the camera audio. From then on every change to what a run
+would do -- a file, a name, a camera, In point or Out point -- sets it
+going again a moment later, and the time axis is measured again only
+where a file changed. A changed cut value works out
+the cut alone again, over what the last run left, and stands almost at
+once. One thing that quick way goes without: the dip in the sound that
+places a wide shot to the frame. Until the next run the preview then
+places it on the sentence boundary alone, which can put it up to half a
+second beside where the run puts it.
+
+A preview's run that fails is not repeated for the same settings -- it
+would fail the same way and cost the same minutes. **Start** or **Dry
+run** pressed while the preview's run is going waits for it; the button
+says **Preview running ...** meanwhile.
 
 A line at the foot of the preview box, under what the preview says and
-not under this one, holds what the cut rests on. Where a track is neither
-covered by a separation nor measured, it names who is missing instead:
-**Name not measured yet -- in the cut, not yet in this preview**. Those
-people are in the cut -- the run measures every track it has -- and it is
-this preview that cannot show them. A reading that fails puts its reason
-in that same line.
-
-**The reading happens once.** A track that gets a name and a camera after
-the tab has been open stays in that line for the rest of the session, and
-so does everybody after a reading that failed -- unless a separation by
-voice covers them later, which does take them out of it. **Close
-project** and opening one both start over.
+not under this one, holds what the cut rests on, and the reason where the
+preview's run failed.
 
 Where no speakers are known at all, the preview box says so in place of
 its numbers and adds that they are worked out of the tracks as soon as
@@ -771,7 +780,7 @@ again.
 
 The same holds while you work. Take a camera out of the file list, and
 the last run's handover no longer names exactly these cameras: the
-preview goes back to what the window works out for itself, and **Create
+preview goes back to its own run, and **Create
 Resolve project** turns grey. Put the camera back, and the handover and
 the button return with it.
 
@@ -841,21 +850,13 @@ loudness measurement runs through each track twice.
 ### When something goes wrong
 
 * **The preview says no speakers are known, and the Speaker box is
-  empty.** They are worked out as soon as the **Resolve cut** tab is
-  opened; leave the tab and come back to it. It is the change of tab
-  that sets the reading going, so a project opened while this tab is
-  already on screen leaves the line saying that and nothing happening.
-  If the reading fails, the reason stands in the line at the foot of the
-  preview box.
-* **The Speaker box shows speakers, and the preview says somebody is not
-  measured yet.** That person is in the cut; only the preview cannot
-  show them, because their track has been neither separated nor
-  measured. The reading runs once per set of files, so somebody who was
-  given a name later stays out of this preview -- the run measures them
-  all the same. To get them into the preview, save the project, **Close
-  project**, open it again and come to this tab from another one: the
-  reading hangs on the change of tab, so a project opened while this tab
-  is already on screen does not set it going.
+  empty.** The preview's run starts once the **Resolve cut** tab has
+  been opened, and waits for the time axis and the camera audio; while
+  it goes, the line at the foot of the preview box says **working out
+  who speaks when ...**. If that run fails, the reason stands in the
+  same line, and for the same settings it is not tried again: change
+  what the reason names, and it goes again by itself. **Dry run** shows
+  the same run with its whole log.
 * **No cut comes out.** Nothing was audible on the tracks, or the
   separation found a single voice and there is only one camera. The log
   says so, under `SPEAKERS -- MEASURED HERE` or

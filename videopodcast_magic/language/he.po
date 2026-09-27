@@ -2332,9 +2332,6 @@ msgstr "מדידה בלבד -- דבר לא נכתב ולא מועלה."
 msgid "Measuring %s (%s of %s)"
 msgstr "מדידת %s (%s מתוך %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "המדידה אינה אפשרית: %s"
-
 msgid "Measuring the yardstick"
 msgstr "מדידת אמת המידה"
 
@@ -2358,9 +2355,6 @@ msgstr "Multitrack דורש לפחות שתי רצועות קלט. רצועה ה
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "עדיין אין שמע בשימוש -- יש להוסיף הקלטת שמע, או להגדיר ברשימת הקבצים את שמע המצלמה של קובץ וידאו ל\"שימוש בשמע הפנימי\"."
-
-msgid "No audio tracks are assigned."
-msgstr "לא שויכו רצועות שמע."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "לא שויכה אף מצלמה, ולכן אין בין מה לחתוך."
@@ -2499,9 +2493,6 @@ msgstr "לא חובה -- אז YouTube מחיל ערכי ברירת מחדל (Son
 
 msgid "Not ready yet:"
 msgstr "עדיין לא מוכן:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "לא נשמע דבר ברצועות."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "להקלטת שמע אחת עדיין אין שם דובר."
@@ -3914,9 +3905,6 @@ msgstr "  (מדידה בלבד: שום דבר לא הופרד)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  הרצועות לא נמדדו, ולכן אלה נמצאות במיקס ולא בחיתוך: %s; סיבה: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "עדיין ללא מדידה: %s -- כלול בחיתוך, עדיין לא בתצוגה המקדימה הזו."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  מהרצועות עצמן, קול אחד לכל רצועה: %s."

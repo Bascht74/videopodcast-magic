@@ -2334,9 +2334,6 @@ msgstr "Tikai mērīt -- nekas netiek rakstīts vai augšupielādēts."
 msgid "Measuring %s (%s of %s)"
 msgstr "Mērīšana: %s (%s no %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Mērīšana nav iespējama: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Mērauklas mērīšana"
 
@@ -2360,9 +2357,6 @@ msgstr "Multitrack vajag vismaz divus ievades celiņus. Celiņš ir atsevišķs 
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Vēl netiek izmantota neviena skaņa -- pievienojiet audio ierakstu vai failu sarakstā video faila laukā Kameras skaņa izvēlieties „izmantot iekšējo skaņu“."
-
-msgid "No audio tracks are assigned."
-msgstr "Nav piešķirts neviens audio celiņš."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nav piešķirta neviena kamera, tāpēc nav starp ko montēt."
@@ -2501,9 +2495,6 @@ msgstr "Nav obligāti -- tad YouTube piemēro noklusējuma vērtības (Sony BVM-
 
 msgid "Not ready yet:"
 msgstr "Vēl nav gatavs:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Celiņos nekas nebija dzirdams."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Vienam audio ierakstam vēl nav runātāja vārda."
@@ -3917,9 +3908,6 @@ msgstr "  (tikai mērīšana: nekas nav atdalīts)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Celiņi netika izmērīti, tāpēc %s ir miksējumā, bet ne montāžā: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s: vēl nav izmērīts -- montāžā ir, šajā priekšskatījumā vēl nav."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  No pašiem celiņiem, viena balss katram celiņam: %s."

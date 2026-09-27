@@ -1460,15 +1460,49 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         t1, curve=curve)
 
 
-def handover_key(folder, production):
-    """The name a dry run keeps its handover under: its folder and name.
+def line_words(argv, plan=None):
+    """What of a run's command line decides its handover: (words, plan).
 
-    What the window and the run both know before anything is measured,
-    so stage_get(handover_key(...)) finds what a dry run into that folder
-    worked out: the dict the run writes, less rendered files and tracks.
+    Out go --dry-run and the switches about auphonic.com -- asked or
+    not, and what it returned -- which change the sound and not the cut;
+    the plan file's path goes for what it holds -- *plan*, where the
+    window has not written it yet. The cut numbers and In and Out stay.
     """
-    return stage_key("handover", folder=path_key(os.path.abspath(folder)),
-                     production=production or 'Production')
+    words, rest = [], list(argv[1:])
+    while rest:
+        word = rest.pop(0)
+        if word in ("--dry-run", "--without-auphonic"):
+            continue
+        if word in ("--auphonic-preset", "--auphonic-done", "--assign") \
+                and rest:
+            path = rest.pop(0)
+            if word == "--assign":
+                words.append(word)
+                plan = plan if plan is not None else plan_read(path)
+            continue
+        words.append(word)
+    return words, plan
+
+
+def plan_read(path):
+    """What an assignment file holds, or None where it cannot be read."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return None
+
+
+def handover_key(words, plan=None):
+    """The name a dry run keeps its handover under: its line and plan.
+
+    Out of line_words, so the window, which knows its line before
+    anything is measured, finds what a dry run of that line worked out:
+    the dict the run writes, less rendered files and tracks. Every file
+    the line names goes in by place, time and size.
+    """
+    return stage_key("handover", [w for w in words if os.path.isfile(w)],
+                     line=list(words), plan=plan)
 
 
 def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
@@ -1507,8 +1541,10 @@ def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
                        in position.items()),
         unplaceable=unplaceable, clocked=clocked)
     handover["axis_key"] = axis
-    stage_put(handover_key(PROGRAM.output_folder(args, videos[0][0]),
-                           args.production), handover)
+    # The window hands its key in; any other line is read off sys.argv,
+    # which the command line and the window's own run both set.
+    stage_put(getattr(args, "_handover_key", None)
+              or handover_key(*line_words(sys.argv)), handover)
     shutil.rmtree(tmpdir, ignore_errors=True)
     print(T('\n  (measuring only: nothing written)'))
     return 0

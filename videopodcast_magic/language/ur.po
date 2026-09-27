@@ -2332,9 +2332,6 @@ msgstr "صرف پیمائش -- نہ کچھ لکھا جاتا ہے نہ اپ لو
 msgid "Measuring %s (%s of %s)"
 msgstr "%s کی پیمائش (%s، کل %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "پیمائش ممکن نہیں: %s"
-
 msgid "Measuring the yardstick"
 msgstr "پیمانے کی پیمائش"
 
@@ -2358,9 +2355,6 @@ msgstr "Multitrack کو کم از کم دو ان پٹ ٹریک چاہییں۔ ٹ
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "ابھی کوئی آڈیو استعمال میں نہیں -- کوئی آڈیو ریکارڈنگ شامل کریں، یا فائلوں کی فہرست میں کسی ویڈیو فائل کا کیمرا آڈیو \"اندرونی آڈیو استعمال کریں\" پر طے کریں۔"
-
-msgid "No audio tracks are assigned."
-msgstr "کوئی آڈیو ٹریک تفویض نہیں کیا گیا۔"
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "کوئی کیمرا تفویض نہیں کیا گیا، اس لیے کٹ کرنے کے لیے کچھ نہیں۔"
@@ -2499,9 +2493,6 @@ msgstr "لازمی نہیں -- تب YouTube ڈیفالٹ اقدار لگاتا �
 
 msgid "Not ready yet:"
 msgstr "ابھی تیار نہیں:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "ٹریکوں میں کچھ سنائی نہیں دیا۔"
 
 msgid "One audio recording has no speaker name yet."
 msgstr "ایک آڈیو ریکارڈنگ کو ابھی مقرر کا نام نہیں دیا گیا۔"
@@ -3914,9 +3905,6 @@ msgstr "  (صرف پیمائش: کچھ الگ نہیں کیا گیا)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ٹریک ناپے نہیں گئے، اس لیے یہ مکس میں ہیں اور کٹ میں نہیں: %s؛ وجہ: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "ابھی پیمائش باقی: %s -- کٹ میں شامل، اس پیش نظارہ میں ابھی نہیں۔"
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  خود ٹریکوں سے، ہر ٹریک پر ایک آواز: %s۔"

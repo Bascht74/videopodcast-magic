@@ -2335,9 +2335,6 @@ msgstr "ਸਿਰਫ਼ ਮਾਪ -- ਕੁਝ ਵੀ ਲਿਖਿਆ ਜਾਂ 
 msgid "Measuring %s (%s of %s)"
 msgstr "ਮਾਪ ਜਾਰੀ: %s (%s, ਕੁੱਲ %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "ਮਾਪ ਸੰਭਵ ਨਹੀਂ: %s"
-
 msgid "Measuring the yardstick"
 msgstr "ਮਾਪਦੰਡ ਮਾਪਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
@@ -2361,9 +2358,6 @@ msgstr "Multitrack ਨੂੰ ਘੱਟੋ-ਘੱਟ ਦੋ ਇਨਪੁੱਟ �
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "ਹਾਲੇ ਕੋਈ ਧੁਨੀ ਵਰਤੋਂ ਵਿੱਚ ਨਹੀਂ -- ਇੱਕ ਆਡੀਓ ਰਿਕਾਰਡਿੰਗ ਜੋੜੋ, ਜਾਂ ਫ਼ਾਈਲ ਸੂਚੀ ਵਿੱਚ ਕਿਸੇ ਵੀਡੀਓ ਫ਼ਾਈਲ ਦਾ ਕੈਮਰਾ ਆਡੀਓ \"ਅੰਦਰੂਨੀ ਆਡੀਓ ਵਰਤੋ\" 'ਤੇ ਸੈੱਟ ਕਰੋ।"
-
-msgid "No audio tracks are assigned."
-msgstr "ਕੋਈ ਆਡੀਓ ਟਰੈਕ ਨਿਰਧਾਰਤ ਨਹੀਂ ਹੈ।"
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "ਕੋਈ ਕੈਮਰਾ ਨਿਰਧਾਰਤ ਨਹੀਂ, ਇਸ ਲਈ ਕੱਟ ਕਰਕੇ ਬਦਲਣ ਲਈ ਕੁਝ ਨਹੀਂ ਹੈ।"
@@ -2502,9 +2496,6 @@ msgstr "ਲਾਜ਼ਮੀ ਨਹੀਂ -- ਤਦ YouTube ਡਿਫ਼ੌਲਟ 
 
 msgid "Not ready yet:"
 msgstr "ਹਾਲੇ ਤਿਆਰ ਨਹੀਂ:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "ਟਰੈਕਾਂ ਵਿੱਚ ਕੁਝ ਵੀ ਸੁਣਨਯੋਗ ਨਹੀਂ ਸੀ।"
 
 msgid "One audio recording has no speaker name yet."
 msgstr "ਇੱਕ ਆਡੀਓ ਰਿਕਾਰਡਿੰਗ ਨੂੰ ਹਾਲੇ ਬੁਲਾਰੇ ਦਾ ਨਾਂ ਨਹੀਂ ਮਿਲਿਆ।"
@@ -3917,9 +3908,6 @@ msgstr "  (ਸਿਰਫ਼ ਮਾਪ: ਕੁਝ ਨਹੀਂ ਨਿਖੇੜਿ�
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ਟਰੈਕ ਮਾਪੇ ਨਹੀਂ ਗਏ, ਇਸ ਲਈ ਮਿਕਸ ਵਿੱਚ ਪਰ ਕੱਟ ਵਿੱਚ ਨਹੀਂ: %s; ਕਾਰਨ: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "ਹਾਲੇ ਮਾਪ ਨਹੀਂ ਹੋਇਆ: %s -- ਕੱਟ ਵਿੱਚ ਸ਼ਾਮਲ, ਇਸ ਪ੍ਰੀਵਿਊ ਵਿੱਚ ਹਾਲੇ ਨਹੀਂ।"
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  ਟਰੈਕਾਂ ਤੋਂ ਹੀ, ਹਰ ਟਰੈਕ 'ਤੇ ਇੱਕ ਆਵਾਜ਼: %s।"

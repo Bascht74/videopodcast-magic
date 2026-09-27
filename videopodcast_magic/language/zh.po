@@ -1668,9 +1668,6 @@ msgstr "尚无已知说话人 -- 未测量、未分离，且 %s 及其子文件�
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "时间窗超出素材范围：入点在 %s，出点在 %s，素材时长为 %s。"
 
-msgid "No audio tracks are assigned."
-msgstr "未分配音轨。"
-
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "尚无已知说话人 -- 一打开此选项卡就会从音轨中得出。若所有人都在同一段录音里，请在说话人姓名栏中选择“多位说话人”。"
 
@@ -1697,9 +1694,6 @@ msgstr "剪辑使用 %s"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "没有为它分配说话人，但剪辑使用 %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s 尚未测量 -- 已在剪辑中，尚未在此预览中。"
 
 msgid "%r is not a number."
 msgstr "%r 不是数字。"
@@ -3884,9 +3878,6 @@ msgstr "  %-20s 说话 %s，%s / %s 句为提问"
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s 听起来像 %-20s %s %% 在该音轨内，领先下一个 %s 个点"
 
-msgid "Nothing was audible in the tracks."
-msgstr "音轨中没有任何可听内容。"
-
 msgid "%s is not part of this run"
 msgstr "%s 不属于本次运行"
 
@@ -3934,9 +3925,6 @@ msgstr "正在测量 %s（%s / %s）"
 
 msgid "  %-20s could be called %s"
 msgstr "  %-20s 可以叫 %s"
-
-msgid "Measuring not possible: %s"
-msgstr "无法测量：%s"
 
 msgid "  %s cannot be read: %s"
 msgstr "  无法读取 %s：%s"

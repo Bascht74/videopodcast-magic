@@ -50,7 +50,7 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--production NAME` | der Name der Produktion, nach dem die Übergabe, die Listen und das Transkript heißen; neben `--assign` nicht gelesen, dessen Datei ihren eigenen trägt (der Ordner, in dem das Material liegt) |
 | `--name-camera TEXT` | Name der Kameraspur (`Camera Original`) |
 | `--parallel ANZAHL` | so viele Videodateien gleichzeitig; 0 entscheidet selbst, 1 nacheinander (0) |
-| `--dry-run` | nur messen und berichten, nichts schreiben |
+| `--dry-run` | alles bis zum fertigen Schnitt ausrechnen und berichten, nichts schreiben |
 | `--version` | Nummer der Version, und auf welchem Python das läuft |
 | `--update` | `pip3 install -U` auf die Adresse ausführen, aus der das Programm kam, mit der neuesten Fassung hintendran, in dem Python, in dem es läuft, und schreiben, was pip sagt. Jeder andere Lauf sagt nur, dass eine neuere Version draußen ist |
 

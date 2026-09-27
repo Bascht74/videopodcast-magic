@@ -2333,9 +2333,6 @@ msgstr "కొలత మాత్రమే -- ఏదీ రాయబడదు, �
 msgid "Measuring %s (%s of %s)"
 msgstr "కొలుస్తోంది: %s (%s, మొత్తం %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "కొలవడం సాధ్యం కాదు: %s"
-
 msgid "Measuring the yardstick"
 msgstr "కొలమానాన్ని కొలుస్తోంది"
 
@@ -2359,9 +2356,6 @@ msgstr "Multitrack కు కనీసం రెండు ఇన్‌పుట�
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "ఇంకా ఏ ఆడియో వాడుకలో లేదు -- ఒక ఆడియో రికార్డింగ్ జోడించండి, లేదా ఫైల్ జాబితాలో ఒక వీడియో ఫైల్ కెమెరా ఆడియోను \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేయండి."
-
-msgid "No audio tracks are assigned."
-msgstr "ఏ ఆడియో ట్రాక్‌లూ కేటాయించబడలేదు."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "ఏ కెమెరా కేటాయించబడలేదు, కాబట్టి మార్చి కట్ చేయడానికి ఏమీ లేదు."
@@ -2500,9 +2494,6 @@ msgstr "తప్పనిసరి కాదు -- అప్పుడు YouTub
 
 msgid "Not ready yet:"
 msgstr "ఇంకా సిద్ధంగా లేదు:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "ట్రాక్‌లలో ఏమీ వినిపించలేదు."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "ఒక ఆడియో రికార్డింగ్‌కు ఇంకా వక్త పేరు లేదు."
@@ -3915,9 +3906,6 @@ msgstr "  (కొలత మాత్రమే: ఏదీ వేరుచేయ�
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ట్రాక్‌లు కొలవబడలేదు, కాబట్టి మిక్స్‌లో ఉండి కట్‌లో లేనివి: %s -- కారణం: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "ఇంకా కొలవనివి: %s -- కట్‌లో ఉన్నాయి, ఈ ప్రివ్యూలో ఇంకా లేవు."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  ట్రాక్‌ల నుండే, ఒక్కో ట్రాక్‌కు ఒక స్వరం: %s."

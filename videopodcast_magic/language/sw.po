@@ -2333,9 +2333,6 @@ msgstr "Kupima tu -- hakuna kinachoandikwa wala kupakiwa."
 msgid "Measuring %s (%s of %s)"
 msgstr "Kupima %s (%s kati ya %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Kupima hakuwezekani: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Kupima kipimo"
 
@@ -2359,9 +2356,6 @@ msgstr "Multitrack inahitaji angalau treki mbili za ingizo. Treki ni rekodi tofa
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Bado hakuna sauti inayotumika -- ongeza rekodi ya sauti, au weka Sauti ya kamera ya faili ya video kuwa \"tumia sauti ya ndani\" katika orodha ya faili."
-
-msgid "No audio tracks are assigned."
-msgstr "Hakuna treki za sauti zilizogawiwa."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Hakuna kamera iliyogawiwa, kwa hivyo hakuna cha kukata kati ya kamera."
@@ -2500,9 +2494,6 @@ msgstr "Si lazima -- basi YouTube hutumia thamani chaguo-msingi (Sony BVM-X300).
 
 msgid "Not ready yet:"
 msgstr "Bado si tayari:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Hakuna kilichosikika katika treki."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Rekodi moja ya sauti bado haina jina la mzungumzaji."
@@ -3915,9 +3906,6 @@ msgstr "  (kupima pekee: hakuna kilichotenganishwa)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Treki hazikupimwa, kwa hiyo %s -- kwenye mchanganyiko, si kwenye mkato: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Bado bila kipimo: %s -- kwenye mkato ndiyo, kwenye hakiki hii bado."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Kutoka kwenye treki zenyewe, sauti moja kwa kila treki: %s."

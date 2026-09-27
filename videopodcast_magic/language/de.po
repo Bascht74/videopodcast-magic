@@ -3526,9 +3526,6 @@ msgstr "Nur messen -- nichts wird geschrieben oder hochgeladen."
 msgid "Measuring %s (%s of %s)"
 msgstr "%s wird gemessen (%s von %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Messen nicht möglich: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Maßstab messen"
 
@@ -3576,9 +3573,6 @@ msgstr ""
 "Noch kein Ton in Verwendung -- eine Tondatei dazunehmen, oder in der "
 "Dateiliste bei einer Videodatei den Kameraton auf \"Ton verwenden\" "
 "stellen."
-
-msgid "No audio tracks are assigned."
-msgstr "Keine Tonspuren zugeordnet."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr ""
@@ -3783,9 +3777,6 @@ msgstr ""
 
 msgid "Not ready yet:"
 msgstr "Noch nicht startklar:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "In den Spuren war nichts zu hören."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Eine Tonaufnahme hat noch keinen Sprechernamen."
@@ -5679,9 +5670,6 @@ msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %
 msgstr ""
 "  Die Spuren wurden nicht gemessen, %s ist damit in der Mischung und "
 "nicht im Schnitt: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s noch nicht gemessen -- im Schnitt, in dieser Vorschau noch nicht."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Aus den Spuren selbst, eine Stimme je Spur: %s."

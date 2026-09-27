@@ -1,23 +1,21 @@
 # -*- coding: utf-8 -*-
 """What the window is told is what the calculation gets.
 
-project_handover_built_test.py checks the arithmetic on a dictionary it builds
-itself; the wiring in front of it, where the window reads its own
-fields and hands the answers over, is what nobody watched. So both
-functions are wrapped and the window is driven from the outside: an
-answer is given the way somebody at the screen gives it, and read off
-what arrived at the calculation -- never a value written into a
-variable by hand, which would check the variable and not the wiring.
-
-Six wirings, each run twice with different answers, because a check
-that is green whatever the answer is has checked nothing:
+The preview is the run, stopped before it writes: the window hands its
+answers over as a run's command line and plan, and what comes back is
+the run's handover. Both ends are wrapped -- the line the window builds
+and the numbers the preview counts -- and the window is driven from the
+outside, as somebody at the screen does, never through a variable set
+by hand. Five wirings, each twice with different answers, because a
+check green whatever the answer has checked nothing:
 
   the Kind of a file       content, wide shot, intro, ignore
   the wide shot mark       which camera, and whether anybody said so
   a speaker's camera       moved from one camera to another
   a name in a track        typed, then typed over
   the eight cut numbers    two sets, every number read back
-  the In point             marked twice from two positions
+
+The In point is window_marks_take_spot's, held against the run there.
 
 A name is asked twice over: that it reaches the calculation, and that
 it sets the calculation going by itself. Those are two wirings, and
@@ -30,12 +28,8 @@ stand at a camera is read, and not the order they stand in: the
 program puts them one way for the preview and the other way round for
 the run, and nothing has decided between the two.
 
-What this cannot see: the window builds the handover out of the same
-choosers it then answers from, so a break in the second pass over it
-that merely falls back on the first changes nothing that arrives
-here. Where that pass earns its keep is a handover left over from a
-run, and that is another test's ground. Nor that order, for as long
-as the program keeps both.
+What this cannot see: which of the two orders of names is the right
+one, for as long as the program keeps both.
 """
 PLATFORM_BOUND = True
 import os
@@ -87,6 +81,10 @@ DUMP = bool(os.environ.get("VPM_WIRING_DUMP"))
 
 SPLIT = "Presenter_REC00021.wav"          # the recording with the voices
 PLAIN = "CoPresenter_REC00018.wav"        # the recording with a name field
+# The blocks after each head: the preview is the run, and the run places
+# a recording by all of its sound, never by its first 40 s alone.
+BLOCKS = ("Presenter_REC00022.wav", "Presenter_REC00023.wav",
+          "CoPresenter_REC00019.wav", "CoPresenter_REC00020.wav")
 WIDE = "WideCam_01011855_C001.mov"
 HOSTS = "PresentersCam_01011855_C002.mov"
 GUESTS = "GuestCam_01011858_C003.mov"
@@ -96,9 +94,6 @@ VOICES = (("V0", "Host"), ("V1", "Guest"))
 # seconds in still leaves material behind.
 SEGMENTS = [["V0", 0.5, 12.0], ["V1", 13.0, 24.0],
             ["V0", 25.0, 33.0], ["V1", 34.0, 39.0]]
-# How far the player is dragged before the second In point: far enough
-# that the two marks cannot be read as one, well short of the material.
-MOVED_TO = 6.0
 
 began = time.time()
 done = 0
@@ -135,7 +130,7 @@ def own_project():
     source = fixture("interview")
     own = tempfile.mkdtemp(prefix="vpm_wiring_")
     here = {}
-    for name in (SPLIT, PLAIN) + CAMERAS:
+    for name in (SPLIT, PLAIN) + BLOCKS + CAMERAS:
         link = os.path.join(own, name)
         if not os.path.exists(link):
             os.symlink(os.path.join(source, name), link)
@@ -148,7 +143,7 @@ def own_project():
     d = {"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
          "files": [{"path": here[n],
                     "kind": "video" if n.endswith(".mov") else "audio"}
-                   for n in (SPLIT, PLAIN) + CAMERAS],
+                   for n in (SPLIT, PLAIN) + BLOCKS + CAMERAS],
          "out_folder": os.path.join(own, "Result"),
          "production": "Wiring", "multitrack": True,
          "assignment": assignment, "preset": "",
@@ -192,13 +187,13 @@ QtWidgets.QDialog.show = offstage
 
 
 # ------------------------------------------------------------- the spies
-# The window looks both functions up in the module when it calls them,
-# so replacing them here reads what passes -- unchanged -- on the way.
+# The window looks these up in the program when it calls them, so
+# replacing them here reads what passes -- unchanged -- on the way.
 seen = {"stat": [], "window": []}
 last_wide = {}
 last_window = {}
 
-_real_wide = vpm.wide_marks_applied
+_real_line = vpm.run_argv
 _real_window = vpm.apply_time_window
 _real_stat = vpm.cut_statistics
 
@@ -226,13 +221,25 @@ def by_name(camera):
         else camera
 
 
-def wide_spy(d, wide_names, speakers_on=None, marked=False):
-    last_wide.clear()
-    last_wide.update({"names": sorted(by_name(n) for n in wide_names or []),
-                      "on": dict((k, by_name(v))
-                                 for k, v in (speakers_on or {}).items()),
-                      "marked": bool(marked)})
-    return _real_wide(d, wide_names, speakers_on, marked)
+def line_spy(values, *rest):
+    """The line and plan the window hands a dry run -- the preview's.
+
+    Read as the old hand-over was: the cameras marked as the wide shot,
+    whether any was, and who sits at which camera, by file name.
+    """
+    out = _real_line(values, *rest)
+    argv, plan = out[0], out[1] or {}
+    if argv is not None and values.get("dry_run"):
+        marks = [argv[i + 1] for i, w in enumerate(argv[:-1])
+                 if w == "--wide-shot"]
+        on = dict((t.get("speakers"), by_name(t["camera"]))
+                  for t in plan.get("tracks_of") or () if t.get("camera"))
+        on.update((k, by_name(v)) for k, v in
+                  (plan.get("voices_of") or {}).items() if v)
+        last_wide.clear()
+        last_wide.update({"names": sorted(by_name(n) for n in marks),
+                          "on": on, "marked": bool(marks)})
+    return out
 
 
 def window_spy(d, in_point, out_point):
@@ -273,7 +280,7 @@ def stat_spy(d, *rest, **named):
     return out
 
 
-vpm.wide_marks_applied = wide_spy
+vpm.run_argv = line_spy
 vpm.apply_time_window = window_spy
 vpm.cut_statistics = stat_spy
 
@@ -408,66 +415,6 @@ def number_fields():
                 out[key] = w
                 break
     return out
-
-
-def button_named(text):
-    top = window_of()
-    if top is None:
-        return None
-    for b in top.findChildren(QtWidgets.QPushButton):
-        if drawn(b.text()).strip() == text:
-            return b
-    return None
-
-
-def in_point_shown():
-    """What the player writes as the In point -- the answer on screen.
-
-    Three places in this window say "In point", and the cut player on
-    the Resolve tab converts the position into the timecode of its
-    clip. Only the preview player's own line shows the answer itself,
-    as a clock time; the mark travels counted from where every camera
-    runs, so what is held against it is the moment, not the text.
-    """
-    p = preview_player()
-    head = drawn(vpm.T('In point %s')).replace("%s", "").strip()
-    if p is None:
-        return ""
-    for x in p.findChildren(QtWidgets.QLabel):
-        said = drawn(x.text()).strip()
-        if said.startswith(head):
-            return said[len(head):].strip()
-    return ""
-
-
-def clock_seconds(mark, fps):
-    """Read a clock time back as seconds -- by hand, not by the program."""
-    try:
-        h, m, s, f = (int(x) for x in str(mark).split(":"))
-    except ValueError:
-        return None
-    return h * 3600 + m * 60 + s + f / max(1.0, float(fps))
-
-
-def cut_where_shown(rec, shown):
-    """(cut at, screen at, fps): where the trimming began, and the screen."""
-    p = preview_player()
-    fps = float(getattr(p, "fps", None) or 30.0)
-    at = (rec or {}).get("left", {}).get("start")
-    return at, clock_seconds(shown, fps), fps
-
-
-def preview_player():
-    """The player the In point buttons sit in, found from the button.
-
-    Not by class and not by name: owning the "Mark In" button is the
-    only thing that tells it from the other player in this window.
-    """
-    b = button_named(drawn(vpm.T('Mark In')))
-    up = None if b is None else b.parentWidget()
-    while up is not None and not hasattr(up, "spot_s"):
-        up = up.parentWidget()
-    return up
 
 
 def tab_to(word):
@@ -616,6 +563,8 @@ def open_project():
         if drawn(b.text()).strip().startswith(
                 vpm.T('Open project ...')[:8]):
             b.click()
+            # The preview's run begins on the first look at its tab.
+            tab_to(drawn(vpm.T('Resolve cut')).split()[0])
             return
     check("the project can be opened", False, "no Open project button")
 
@@ -640,11 +589,11 @@ def ready(rec, _all):
           str([(c["stem"], c["who"]) for c in rec["d"]["cameras"]]))
     check("nobody marked a wide shot yet, and the calculation is told so",
           rec["wide"].get("marked") is False, str(rec["wide"]))
-    check("the camera without a speaker is the derived wide shot",
-          rec["wide"].get("names") == [WIDE], str(rec["wide"].get("names")))
-    # The two above read what the window hands over. These two read what
-    # came out of it, and they are the only place the second answer --
-    # "wide", which the colour and the mix source go by -- is looked at.
+    # The one above reads what the window hands over; which camera is the
+    # wide shot for want of a speaker is the run's to work out. These two
+    # read what came out of it, and they are the only place the second
+    # answer -- "wide", which the colour and the mix source go by -- is
+    # looked at.
     check("and no camera arrives marked, a derived one being no answer",
           [c["stem"] for c in rec["d"]["cameras"] if c["marked"]] == [],
           "marked %s, wanted none"
@@ -907,117 +856,6 @@ def numbers_moved(_rec, _all):
               False, "%s -> %s" % (before["out"], rec["out"]))
 
 
-# 5. the In point
-def player_ready():
-    """Has the player a file with a length, so a spot can be marked?
-
-    On a Qt without multimedia the player is a stand-in with no length,
-    so this stays False and the step says what it saw instead.
-    """
-    p = preview_player()
-    try:
-        return bool(p is not None and p.player.duration() > 0)
-    except AttributeError:
-        return False
-
-
-def wait_for_a_file():
-    """Go where the player stands and let it get its file."""
-    tab_to(drawn(vpm.T('Assignment')))
-    app.processEvents()
-
-
-def file_stands(_rec, _all):
-    p = preview_player()
-    where = os.path.basename(getattr(p, "file_path", "") or "") or "nothing"
-    how_long = 0
-    try:
-        how_long = p.player.duration()
-    except AttributeError:
-        pass
-    check("a file stands in the player, so a spot can be marked",
-          player_ready(), "%s, %d ms" % (where, how_long))
-
-
-def player_moved():
-    """Is the player where it was dragged to?"""
-    p = preview_player()
-    try:
-        return abs(p.spot_s() - MOVED_TO) < 1.5
-    except AttributeError:
-        return False
-
-
-def mark_in_first():
-    b = button_named(drawn(vpm.T('Mark In')))
-    if b is None:
-        check("the In point can be marked", False, "no Mark In button")
-        return
-    b.click()
-
-
-def in_point_arrived(rec, _all):
-    shown = in_point_shown()
-    kept["in_first"] = rec
-    kept["shown_first"] = shown
-    check("the player shows an In point after the click",
-          bool(shown) and shown != "--", repr(shown))
-    at, meant, fps = cut_where_shown(rec, shown)
-    check("and the calculation begins at the moment that text names",
-          at is not None and meant is not None
-          and abs(at - meant) <= 0.5 / fps + 0.001,
-          "cut at %s s, screen %r = %s s, sent %r" % (at, shown, meant,
-                                                     rec["in"]))
-
-
-def mark_in_later():
-    p = preview_player()
-    if p is None:
-        check("the player can be moved", False, "no player")
-        return
-    # Letting go of the position slider is what makes the player follow.
-    p.slider.setValue(int(MOVED_TO * 1000))
-    p.released()
-    app.processEvents()
-
-
-def moved(_rec, _all):
-    p = preview_player()
-    check("the player really moved", player_moved(),
-          "" if p is None else "%.2f s" % p.spot_s())
-
-
-def mark_in_second():
-    b = button_named(drawn(vpm.T('Mark In')))
-    if b is not None:
-        b.click()
-
-
-def second_in_point(rec, _all):
-    shown = in_point_shown()
-    before = kept.get("in_first")
-    check("the second mark is a different one",
-          bool(shown) and shown != kept.get("shown_first"),
-          "%r -> %r" % (kept.get("shown_first"), shown))
-    at, meant, fps = cut_where_shown(rec, shown)
-    check("and it too arrives as the moment shown",
-          at is not None and meant is not None
-          and abs(at - meant) <= 0.5 / fps + 0.001,
-          "cut at %s s, screen %r = %s s, sent %r" % (at, shown, meant,
-                                                     rec["in"]))
-    if before is None or before["left"]["length"] is None \
-            or rec["left"]["length"] is None:
-        check("the trimmed material can be compared", False,
-              "%s -> %s" % (before and before["left"]["length"],
-                            rec["left"]["length"]))
-        return
-    lost = before["left"]["length"] - rec["left"]["length"]
-    check("the material the calculation gets is that much shorter",
-          abs(lost - MOVED_TO) < 1.0,
-          "%.3f s -> %.3f s" % (before["left"]["length"],
-                                rec["left"]["length"]))
-
-
 # ------------------------------------------------------------- the running
 def start():
     top = window_of()
@@ -1067,14 +905,6 @@ step("4b. counter-check: eight other numbers", type_numbers(SECOND),
      numbers_arrived(SECOND, "second set"))
 step("4c. counter-check: nothing stayed behind", lambda: None,
      numbers_moved, watch=None)
-step("5. a file stands in the player", wait_for_a_file, file_stands,
-     watch=None, until=player_ready)
-step("5b. the In point is marked from the picture", mark_in_first,
-     in_point_arrived, watch="window")
-step("5c. the player is moved to another spot", mark_in_later, moved,
-     watch=None, until=player_moved)
-step("5d. counter-check: marked again from there", mark_in_second,
-     second_in_point, watch="window")
 
 
 QtCore.QTimer.singleShot(1200, start)

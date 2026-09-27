@@ -2299,9 +2299,6 @@ msgstr "측정만 -- 아무것도 기록하거나 업로드하지 않습니다."
 msgid "Measuring %s (%s of %s)"
 msgstr "%s 측정 중 (%s/%s)"
 
-msgid "Measuring not possible: %s"
-msgstr "측정할 수 없습니다: %s"
-
 msgid "Measuring the yardstick"
 msgstr "기준 측정"
 
@@ -2325,9 +2322,6 @@ msgstr "Multitrack에는 입력 트랙이 두 개 이상 필요합니다. 트랙
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "아직 사용 중인 소리가 없습니다 -- 오디오 녹음을 추가하거나, 파일 목록에서 비디오 파일의 카메라 오디오를 \"내장 오디오 사용\"으로 설정하세요."
-
-msgid "No audio tracks are assigned."
-msgstr "할당된 오디오 트랙이 없습니다."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "할당된 카메라가 없어서 전환할 대상이 없습니다."
@@ -2466,9 +2460,6 @@ msgstr "필수는 아닙니다 -- 그러면 YouTube가 기본값을 적용합니
 
 msgid "Not ready yet:"
 msgstr "아직 준비되지 않음:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "트랙에서 아무 소리도 들리지 않았습니다."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "오디오 녹음 하나에 아직 화자 이름이 없습니다."
@@ -3819,9 +3810,6 @@ msgstr "  (측정만 함: 분리하지 않음)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  트랙을 측정하지 못해 %s은(는) 믹스에는 있지만 편집에는 없습니다: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s: 아직 측정하지 않음 -- 편집에는 있지만 이 미리보기에는 아직 없습니다."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  트랙 자체에서, 트랙마다 목소리 하나: %s."

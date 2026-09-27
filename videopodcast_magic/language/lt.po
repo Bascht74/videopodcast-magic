@@ -2334,9 +2334,6 @@ msgstr "Tik matuoti -- niekas neįrašoma ir neįkeliama."
 msgid "Measuring %s (%s of %s)"
 msgstr "Matavimas: %s (%s iš %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Matuoti neįmanoma: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Mato matavimas"
 
@@ -2360,9 +2357,6 @@ msgstr "Multitrack reikia bent dviejų įvesties takelių. Takelis yra atskiras 
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Dar nenaudojamas joks garsas -- pridėkite garso įrašą arba failų sąraše vaizdo įrašo failo lauke „Kameros garsas“ pasirinkite „naudoti vidinį garsą“."
-
-msgid "No audio tracks are assigned."
-msgstr "Nepriskirta jokių garso takelių."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nepriskirta nė viena kamera, todėl nėra tarp ko montuoti."
@@ -2501,9 +2495,6 @@ msgstr "Neprivaloma -- tada YouTube taiko numatytąsias vertes (Sony BVM-X300). 
 
 msgid "Not ready yet:"
 msgstr "Dar neparengta:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Takeliuose nieko nebuvo girdėti."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Vienas garso įrašas dar neturi kalbėtojo vardo."
@@ -3916,9 +3907,6 @@ msgstr "  (tik matavimas: nieko neatskirta)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Takeliai nebuvo išmatuoti, todėl %s yra mikse, bet ne montaže: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s: dar neišmatuota -- montaže yra, šioje peržiūroje dar ne."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Iš pačių takelių, vienas balsas kiekvienam takeliui: %s."

@@ -2556,9 +2556,6 @@ msgstr "%s kHz frente a %s kHz"
 msgid "%s kHz instead of %s kHz -- converted during processing."
 msgstr "%s kHz en vez de %s kHz -- se convierte al preparar."
 
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s aún sin medir -- está en el corte, en esta vista previa todavía no."
-
 msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
 msgstr "%s de %s comparaciones quedan por debajo de %s dB -- cada grabación frente a todas las demás, en ambos sentidos."
 
@@ -3055,9 +3052,6 @@ msgstr "Medir, alinear, procesar, escribir archivos."
 msgid "Measuring %s (%s of %s)"
 msgstr "Midiendo %s (%s de %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "No se puede medir: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Midiendo la referencia"
 
@@ -3121,9 +3115,6 @@ msgstr "Sin ajuste preestablecido Singletrack propio -- crear uno"
 
 msgid "No audio file given."
 msgstr "No se ha indicado ningún archivo de audio."
-
-msgid "No audio tracks are assigned."
-msgstr "No hay pistas de audio asignadas."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "No hay ninguna cámara asignada, así que no hay entre qué cortar."
@@ -3211,9 +3202,6 @@ msgstr "Hasta que eso esté en orden no se ejecuta nada. Así se hace: %s"
 
 msgid "Nothing was audible in the recording."
 msgstr "En la grabación no se oía nada."
-
-msgid "Nothing was audible in the tracks."
-msgstr "En las pistas no se oía nada."
 
 msgid "Nothing was written -- there is no material yet."
 msgstr "No se ha escrito nada -- todavía no hay material."

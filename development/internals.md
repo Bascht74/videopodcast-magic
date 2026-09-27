@@ -35,17 +35,17 @@ What is in them, largest first, every folder of the program on the list
 and counted 27.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **4426** -- who speaks and when: the separation itself,
+* `speakers/` **4373** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3293** -- the window and everything it shows, asks or offers,
+* `ui/` **3292** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `player/` **3294** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3404** -- who is on camera when, and what carries it out
+* `cut/` **3355** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2430** -- the DaVinci Resolve project, timelines, colour,
@@ -55,11 +55,11 @@ figure of the day is that command, not this paragraph**:
 * `loudness/` **480** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
-* `bearings/` **2379** -- where each file and each voice sits, and how
+* `bearings/` **2404** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2331** -- the time base and the camera files: every
+* `timebase/` **2367** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
@@ -103,7 +103,7 @@ figure of the day is that command, not this paragraph**:
   several blocks shown as one entry
 * `prework/` **466** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them and what each is worth
-* `resolvesheet/` **621** -- the third tab: whether Resolve answers,
+* `resolvesheet/` **625** -- the third tab: whether Resolve answers,
   the camera cut with its settings, forecast and preview, what the
   player is fed with, and the speaker box
 * `livery/` **453** -- the colours, the clip colours of the cut band and
@@ -114,7 +114,7 @@ figure of the day is that command, not this paragraph**:
   material is HDR, the spellings a colour space name goes by, and the
   report on a finished file
 * `tables/` **397** -- the tables and trees the window builds
-* `running/` **429** -- what a run is offered before it starts, the
+* `running/` **623** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
   looks one up

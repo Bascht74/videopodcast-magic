@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Resolve cut measures no speakers while a stored separation still holds.
+"""Resolve cut shows a stored separation's voices while it still holds.
 
-way_ground's plain project on a copied recording, one window per case:
-unchanged -- the separation comes back, the first look measures nothing;
-file changed after opening -- measured; stored by other separation code
--- it comes back and is measured. The limit: no run, and no model here,
-so a changed model mark is not among the cases."""
+way_ground's plain project on a copied recording, one window per case,
+the preview being the run stopped before it writes: unchanged -- the
+separation comes back and the preview cuts by its voices; file changed
+after opening -- the run drops it and measures the recording; stored by
+other separation code -- it comes back, and the run takes it as it is.
+The limit: Start is not pressed, and no model runs here."""
 PLATFORM_BOUND = True
 import os
 import sys
@@ -72,6 +73,12 @@ def project_for(vpm, work, out, case):
     return path, copy
 
 
+def heard_in(d):
+    """Who the preview's handover says speaks, by name, sorted."""
+    return sorted(x.get("name") or "" for x in (d or {}).get("speakers")
+                  or ())
+
+
 def child(case):
     """One window, one case; prints what it saw as one RESULT line."""
     os.environ.pop("VPM_NO_SPEAKER_SPLIT", None)
@@ -96,14 +103,14 @@ def child(case):
     os.makedirs(out)
     os.makedirs(os.path.join(work, "project"))
     project, copy = project_for(vpm, work, out, case)
-    seen = {"measures": [], "kept": None}
+    seen = {"speakers": None, "kept": None}
     step = {"n": 0, "last": None, "since": 0.0}
 
     def settled(w):
         """True once the sheet stood unchanged for 1.5 s, not measuring."""
         rs = w.resolve_sheet
         now = (bool(rs.state.get("speakers_measuring")),
-               bool(rs.state.get("speakers_measured")), len(seen["measures"]))
+               heard_in(rs.state.get("cut_data")))
         if now != step["last"]:
             step["last"], step["since"] = now, time.time()
         return not now[0] and time.time() - step["since"] > 1.5
@@ -122,22 +129,17 @@ def child(case):
             if case == "file":
                 t = os.stat(copy).st_mtime + 60
                 os.utime(copy, (t, t))
-            real = rs.speaker_measure
-
-            def counted(*a, **k):
-                """The sheet's measuring, counted and handed on."""
-                seen["measures"].append(time.time())
-                return real(*a, **k)
-            rs.speaker_measure = counted
             w.tabs.setCurrentIndex(at[0])
             step["n"] = 1
             return "the look settling"
-        return "" if settled(w) else "the look settling"
+        if not settled(w) or not rs.state.get("cut_data"):
+            return "the look settling"
+        seen["speakers"] = heard_in(rs.state.get("cut_data"))
+        return ""
 
     keep = ground.window_answered_run(vpm, app, project, {}, answer,
                                       run=False)
     seen.update(why=keep["why"], unanswered=keep["unanswered"],
-                measures=len(seen["measures"]),
                 kept=[os.path.basename(p) for p in seen["kept"] or ()])
     print("RESULT " + json.dumps(seen))
     shutil.rmtree(work, ignore_errors=True)
@@ -181,8 +183,8 @@ HEARD = [os.path.basename(ground.media(ground.HEARD_IN))]
 
 def line(s):
     """The evidence for one case, for a failure line."""
-    return ("measured %s time(s) on the first look; separations in the window %s; "
-            "%s" % (s.get("measures"), s.get("kept"),
+    return ("the preview's speakers %s; separations in the window %s; "
+            "%s" % (s.get("speakers"), s.get("kept"),
                     s.get("unanswered") or s.get("why") or "settled"))
 
 
@@ -190,16 +192,16 @@ same, changed, code = seen["same"], seen["file"], seen["code"]
 print("1. Unchanged: file, measurement and code as stored")
 check("unchanged: the stored separation comes back with the project",
       same.get("kept") == HEARD, line(same))
-check("unchanged: the first look at Resolve cut measures no speakers",
-      same.get("measures") == 0, line(same))
+check("unchanged: the preview cuts by the separation's voices",
+      same.get("speakers") == ["Guest", "Presenter"], line(same))
 
 print("\n2. The recording changed after the project was opened")
-check("file changed: the first look at Resolve cut measures the speakers",
-      changed.get("measures") == 1, line(changed))
+check("file changed: the preview measures the recording instead",
+      changed.get("speakers") == ["Guest"], line(changed))
 
 print("\n3. The separation was stored by other separation code")
 check("code changed: the stored separation still comes back",
       code.get("kept") == HEARD, line(code))
-check("code changed: the first look at Resolve cut measures the speakers",
-      code.get("measures") == 1, line(code))
+check("code changed: the preview cuts by the voices, as the run does",
+      code.get("speakers") == ["Guest", "Presenter"], line(code))
 stop()

@@ -2335,9 +2335,6 @@ msgstr "Kejl biss -- xejn ma jinkiteb jew jittella'."
 msgid "Measuring %s (%s of %s)"
 msgstr "Kejl: %s (%s minn %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Il-kejl mhux possibbli: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Kejl tar-referenza"
 
@@ -2361,9 +2358,6 @@ msgstr "Multitrack jeħtieġ mill-inqas żewġ binarji tad-dħul. Binarju huwa r
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "L-ebda ħoss għadu ma qed jintuża -- żid reġistrazzjoni tal-awdjo, jew fil-lista tal-fajls issettja l-Awdjo tal-kamera ta' fajl tal-vidjo fuq \"uża l-awdjo intern\"."
-
-msgid "No audio tracks are assigned."
-msgstr "L-ebda binarju tal-awdjo mhu assenjat."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "L-ebda kamera mhi assenjata, għalhekk m'hemm xejn bejn xiex taqta'."
@@ -2502,9 +2496,6 @@ msgstr "Mhux obbligatorju -- imbagħad YouTube japplika valuri standard (Sony BV
 
 msgid "Not ready yet:"
 msgstr "Għadu mhux lest:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Ma kien jinstema' xejn fil-binarji."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Reġistrazzjoni tal-awdjo waħda għad m'għandhiex isem ta' kelliem."
@@ -3918,9 +3909,6 @@ msgstr "  (kejl biss: xejn ma ġie separat)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Il-binarji ma tkejlux, għalhekk fit-taħlita u mhux fil-muntaġġ hemm %s: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Għadu mhux imkejjel: %s -- fil-muntaġġ, iżda għadu mhux f'din id-dehra minn qabel."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Mill-binarji nfushom, leħen wieħed għal kull binarju: %s."

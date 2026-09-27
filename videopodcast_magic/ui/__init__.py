@@ -1983,7 +1983,6 @@ class Bridge(QtCore.QObject):
     run_step = QtCore.Signal(str, float)
     channels_done = QtCore.Signal(str)
     split_done = QtCore.Signal(str)
-    speaker_note = QtCore.Signal(str)
     speakers_split = QtCore.Signal(object)
     speakers_split_note = QtCore.Signal(str, float)
     speakers_heard = QtCore.Signal(object)

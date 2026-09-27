@@ -2334,9 +2334,6 @@ msgstr "Само измерване -- нищо не се записва и не
 msgid "Measuring %s (%s of %s)"
 msgstr "Измерване: %s (%s от %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Измерването не е възможно: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Измерване на еталона"
 
@@ -2360,9 +2357,6 @@ msgstr "Multitrack изисква поне две входни писти. Пи�
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Още не се използва звук -- добавете аудиозапис или в списъка с файлове задайте за видеофайл Звук на камерата: „с вътрешния звук“."
-
-msgid "No audio tracks are assigned."
-msgstr "Няма разпределени аудиописти."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Няма разпределена камера, така че няма между какво да се реже."
@@ -2501,9 +2495,6 @@ msgstr "Не е задължително -- тогава YouTube прилага 
 
 msgid "Not ready yet:"
 msgstr "Още не е готово:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "В пистите не се чуваше нищо."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Един аудиозапис още няма име на говорещ."
@@ -3916,9 +3907,6 @@ msgstr "  (само измерване: нищо не е разделено)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Пистите не бяха измерени, затова в микса, а не в монтажа: %s -- %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Още не е измерено: %s -- в монтажа е, но още не и в този преглед."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  От самите писти, по един глас на писта: %s."

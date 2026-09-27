@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-"""The window's speaker measurement hears every block, laid as the run lays them.
+"""The speaker measurement hears every block, laid as the run lays them.
 
 A guest recorded in three blocks of 40 s speaks only in the second and
 third, beside a presenter on one file. Sections: blocks with a timecode,
 blocks without one, a hole before the last block held against the
-run's own join, a block past the fence, and the window's own button --
-what it hands the measurement and what that measurement hears. The
-speech is modulated noise: what is judged is where loudness lies.
+run's own join, and a block past the fence. The window measures no
+speakers of its own any more: its preview is the run. The speech is
+modulated noise: what is judged is where loudness lies.
 """
 PLATFORM_BOUND = True
 import os
@@ -22,16 +22,12 @@ import the_program
 import shutil
 import subprocess
 import tempfile
-import threading
 import time
 import wave
 
-os.environ["QT_QPA_PLATFORM"] = "offscreen"
 SCRIPT = the_program.SCRIPT
 import numpy as np
-from PySide6 import QtCore, QtWidgets     # noqa: E402  after the platform
 
-app = QtWidgets.QApplication.instance() or QtWidgets.QApplication(sys.argv[:1])
 vpm = the_program.load()
 vpm.set_language("en")
 
@@ -149,45 +145,6 @@ try:
           worst(got, want) <= EDGE,
           "the guest was heard at %s, wanted %s within %.1f s"
           % (got, want, EDGE))
-
-    print("\n5. The window's button")
-    handed, arrived = [], threading.Event()
-
-    def caught(tracks, bridge, bridge_emit):
-        """Take what the button hands the measurement, and stop there."""
-        handed.extend(tracks)
-        arrived.set()
-
-    vpm.cut.speaker_measure_loop = caught
-    row = blocks("win", [0, BLOCK, 2 * BLOCK])
-    lines = [([HOST], vpm.Value("Presenter"), vpm.Value("")),
-             (row, vpm.Value("Guest"), vpm.Value(""))]
-    signal = type("Signal", (), {"connect": lambda s, f: None,
-                                 "emit": lambda s, *a: None})
-    bridge = type("Bridge", (), {"speakers_measured": signal(),
-                                 "speaker_note": signal()})()
-    column = QtWidgets.QVBoxLayout()
-    _compute, measure = vpm.make_preview(
-        QtCore.Qt, QtWidgets, {"axis": {}}, bridge, lambda *a: None,
-        lines, [], [], {}, [], None, None, None, None, None, None, None,
-        None, None, None, None, None, column, None, QtWidgets.QLabel(),
-        QtWidgets.QLabel(), QtWidgets.QTableWidget())
-    measure()
-    arrived.wait(30)
-    guest = [t for t in handed if t[0] == "Guest"]
-    given = list(guest[0][1]) if guest and not isinstance(
-        guest[0][1], str) else [guest[0][1]] if guest else []
-    check("the window hands the measurement every block of a recording",
-          [os.path.basename(p) for p in given]
-          == [os.path.basename(p) for p in row],
-          "handed %s, wanted %s" % ([os.path.basename(p) for p in given],
-                                    [os.path.basename(p) for p in row]))
-    out = dict(vpm.speakers_from_tracks(handed)) if handed else {}
-    got = [(round(a, 2), round(b, 2)) for a, b in out.get("Guest", [])]
-    check("what the window hands in hears the later blocks' speech",
-          worst(got, WANT) <= EDGE,
-          "the guest was heard at %s, wanted %s within %.1f s"
-          % (got, WANT, EDGE))
 finally:
     shutil.rmtree(D, True)
 

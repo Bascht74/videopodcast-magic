@@ -2300,9 +2300,6 @@ msgstr "Len zmerať -- nič sa nezapisuje ani nenahráva."
 msgid "Measuring %s (%s of %s)"
 msgstr "Meria sa %s (%s z %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Meranie nie je možné: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Meranie meradla"
 
@@ -2326,9 +2323,6 @@ msgstr "Multitrack potrebuje aspoň dve vstupné stopy. Stopa je vlastná nahrá
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Zatiaľ sa nepoužíva žiadny zvuk -- pridajte zvukovú nahrávku, alebo v zozname súborov nastavte pri videosúbore Zvuk kamery na \"použiť interný zvuk\"."
-
-msgid "No audio tracks are assigned."
-msgstr "Nie sú priradené žiadne zvukové stopy."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nie je priradená žiadna kamera, takže nie je medzi čím strihať."
@@ -2467,9 +2461,6 @@ msgstr "Povinné to nie je -- YouTube potom použije predvolené hodnoty (Sony B
 
 msgid "Not ready yet:"
 msgstr "Ešte nie je pripravené:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "V stopách nebolo nič počuť."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Jedna zvuková nahrávka zatiaľ nemá meno rečníka."
@@ -3825,9 +3816,6 @@ msgstr "  (len meranie: nič neoddelené)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Stopy neboli zmerané, %s je teda v mixe, a nie v strihu: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s zatiaľ nezmerané -- v strihu áno, v tomto náhľade zatiaľ nie."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Zo samotných stôp, jeden hlas na stopu: %s."

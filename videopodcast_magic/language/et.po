@@ -2333,9 +2333,6 @@ msgstr "Ainult mõõda -- midagi ei kirjutata ega laadita üles."
 msgid "Measuring %s (%s of %s)"
 msgstr "Mõõtmine: %s (%s/%s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Mõõtmine pole võimalik: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Mõõdupuu mõõtmine"
 
@@ -2359,9 +2356,6 @@ msgstr "Multitrack vajab vähemalt kaht sisendrada. Rada on eraldi salvestis, mi
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Ühtki heli pole veel kasutusel -- lisa helisalvestis või vali faililoendis videofaili väljal Kaamera heli „kasuta sisemist heli“."
-
-msgid "No audio tracks are assigned."
-msgstr "Ühtki helirada pole määratud."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Ühtki kaamerat pole määratud, seega pole midagi, mille vahel monteerida."
@@ -2500,9 +2494,6 @@ msgstr "Pole kohustuslik -- siis rakendab YouTube vaikeväärtused (Sony BVM-X30
 
 msgid "Not ready yet:"
 msgstr "Veel pole valmis:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Radadel polnud midagi kuulda."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Ühel helisalvestisel pole veel kõneleja nime."
@@ -3915,9 +3906,6 @@ msgstr "  (ainult mõõtmine: midagi ei eristatud)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Radu ei mõõdetud, seega %s on miksis, aga mitte montaažis: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s: veel mõõtmata -- montaažis on, selles eelvaates veel mitte."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Radadest endist, üks hääl raja kohta: %s."

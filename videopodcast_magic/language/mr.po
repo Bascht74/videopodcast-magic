@@ -2333,9 +2333,6 @@ msgstr "फक्त मोजमाप -- काहीही लिहिले
 msgid "Measuring %s (%s of %s)"
 msgstr "मोजमाप सुरू: %s (%s, एकूण %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "मोजमाप शक्य नाही: %s"
-
 msgid "Measuring the yardstick"
 msgstr "मापदंड मोजला जात आहे"
 
@@ -2359,9 +2356,6 @@ msgstr "Multitrack साठी किमान दोन इनपुट ट्
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "अद्याप कोणताही ध्वनी वापरात नाही -- ऑडिओ रेकॉर्डिंग जोडा, किंवा फाइल सूचीत एखाद्या व्हिडिओ फाइलचा कॅमेरा ऑडिओ \"अंतर्गत ऑडिओ वापरा\" वर सेट करा."
-
-msgid "No audio tracks are assigned."
-msgstr "कोणताही ऑडिओ ट्रॅक नियुक्त केलेला नाही."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "कोणताही कॅमेरा नियुक्त नाही, म्हणून कट करून बदलण्यासारखे काहीच नाही."
@@ -2500,9 +2494,6 @@ msgstr "अनिवार्य नाही -- मग YouTube डीफॉल�
 
 msgid "Not ready yet:"
 msgstr "अद्याप तयार नाही:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "ट्रॅकमध्ये काहीही ऐकू येत नव्हते."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "एका ऑडिओ रेकॉर्डिंगला अद्याप वक्त्याचे नाव नाही."
@@ -3915,9 +3906,6 @@ msgstr "  (फक्त मोजमाप: काहीही विभाज�
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ट्रॅक मोजले गेले नाहीत, म्हणून मिक्समध्ये, पण कटमध्ये नाही: %s; कारण: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "अजून मोजमाप झाले नाही: %s -- कटमध्ये आहे, या पूर्वावलोकनात अजून नाही."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  ट्रॅकमधूनच, प्रत्येक ट्रॅकवर एक आवाज: %s."

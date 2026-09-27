@@ -1723,9 +1723,6 @@ msgstr "لا متحدثين معروفين بعد -- لم يُقس شيء ولم
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "النافذة الزمنية خارج المادة: نقطة البداية عند %s، ونقطة النهاية عند %s، ومدة المادة %s."
 
-msgid "No audio tracks are assigned."
-msgstr "لم تُسند أي مسارات صوتية."
-
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "لا متحدثين معروفين بعد -- يُستخرجون من المسارات بمجرد فتح هذا التبويب. حيث يكون الجميع في تسجيل واحد، فالطريق هو \"عدة متحدثين\" في حقل اسم المتحدث."
 
@@ -1752,9 +1749,6 @@ msgstr "المونتاج يستخدم %s"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "لم يُسند إليها أي متحدث، لكن المونتاج يستخدم %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s لم يُقس بعد -- في المونتاج، وليس بعد في هذه المعاينة."
 
 msgid "%r is not a number."
 msgstr "%r ليس رقمًا."
@@ -3949,9 +3943,6 @@ msgstr "  %-20s كلام %s، %s من %s جملة سؤال"
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s يشبه %-20s %s %% منه داخل ذلك المسار، متقدّم بـ %s نقطة على التالي"
 
-msgid "Nothing was audible in the tracks."
-msgstr "لم يكن هناك شيء مسموع في المسارات."
-
 msgid "%s is not part of this run"
 msgstr "%s ليس جزءًا من هذا التشغيل"
 
@@ -3999,9 +3990,6 @@ msgstr "قياس %s (%s من %s)"
 
 msgid "  %-20s could be called %s"
 msgstr "  %-20s يمكن تسميته %s"
-
-msgid "Measuring not possible: %s"
-msgstr "القياس غير ممكن: %s"
 
 msgid "  %s cannot be read: %s"
 msgstr "  تتعذّر قراءة %s: %s"

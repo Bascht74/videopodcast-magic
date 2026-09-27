@@ -11,8 +11,8 @@ The sections: the three steps camera_place goes through and the word
 it hands back for each; which file of a row its clock is read from;
 the same three steps once more through the handover, one camera
 placed each way; the same cameras in the preview's shape, where the
-one nothing placed lands at the In point and sets no zero point, the
-preview handing it on with no start at all; the lines the run owes wherever a measurement was missing; and a camera
+one nothing placed lands at the In point and sets no zero point; the
+lines the run owes wherever a measurement was missing; and a camera
 whose sound gives nothing, which the axis places by its clock rather
 than stopping on.
 """
@@ -29,7 +29,7 @@ sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
 import io, json, struct, subprocess, sys, tempfile, time
-import contextlib, inspect
+import contextlib
 vpm = the_program.load()
 WORK = tempfile.mkdtemp(prefix="measuredplace_")
 began = time.time()
@@ -266,17 +266,6 @@ check("and without a zero point it does not set one: the earliest placed "
       "camera is the zero",
       no_zero_point.get("WideCam") == 0.0 and no_zero_point.get("Guest") == 0.0,
       "%s, wanted the wide shot and the guest both at 0.0" % (no_zero_point,))
-# The start the preview hands in comes out of camera_start, a closure
-# of make_preview no test can call on its own; so its source is read.
-# It has to hand nothing on for such a camera -- a 0.0 there would count
-# against the origin above, and the camera stood the zero point before
-# the timeline.
-preview_source = inspect.getsource(vpm.make_preview)
-check("and the preview hands such a camera on with no start at all",
-      "return float(a) if a is not None else None" in preview_source,
-      "camera_start ends in %s" % [line.strip() for line in
-                                   preview_source.splitlines()
-                                   if "return float(a)" in line])
 
 print("\nWhat the run says where a measurement was missing")
 # The program's own lines, out of the catalogue: written out here they
