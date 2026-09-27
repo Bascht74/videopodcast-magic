@@ -8,9 +8,10 @@ held as moments, since the field shows a clock time and the mark
 travels counted from where every camera runs. In order: no material
 and no mark at either door; the ground, a file with a timecode in the
 player and the time axis measured; the button; the menu entry, with its
-key; the project file; an Out point in front of the In point; and a
-step whose answer never comes, red where it stands. From the project
-file on, run_three_ways_agree has it, and this one stops there.
+key; the project file; an Out point in front of the In point; Mark In
+on a recording, where the run reads it; and a step whose answer never
+comes, red where it stands. From the project file on,
+run_three_ways_agree has it, and this one stops there.
 """
 PLATFORM_BOUND = True
 import os
@@ -82,6 +83,14 @@ OUT_AT = 20.0
 MENU_OUT_AT = 30.0
 MENU_IN_AT = 10.0
 BACK_AT = 2.0
+# A recording in front of where every camera runs (17.48 s), so its mark
+# is a timecode. Six tenths into a second: 15 frames at 25 and 18 at 30,
+# which a reading at 25 would take for 0.72 s -- three frames late.
+SOUND_AT = 10.6
+# The run reads a timecode at its reference camera's rate; every camera
+# here runs at 25, and the wide shot's clock reads 18:55:00:00.
+RUN_FPS = 25.0
+WIDE_CLOCK = 18 * 3600 + 55 * 60.0
 # How near the player has to land for the spot to count as reached. A
 # mark is written to the frame, so half a frame at 25 pictures a second
 # is the width in which the answer is still the same string.
@@ -718,6 +727,53 @@ def out_before_in(_fresh):
           % (0 if not complaint_up() else 1, COMPLAINT[:40], len(seen)))
 
 
+# a mark on a recording
+def to_recording():
+    p = preview_player()
+    if p is not None:
+        p.load(os.path.join(FOLDER, PLAIN), SOUND_AT)
+        app.processEvents()
+
+
+def on_recording():
+    p = preview_player()
+    return (p is not None and os.path.basename(p.file_path or "") == PLAIN
+            and stands_at(SOUND_AT)())
+
+
+def sound_marked(_fresh):
+    """The field's In point, read the way the run reads it, by hand.
+
+    The run's own reader, handed the wide camera the way the run hands
+    it its reference, and no window to pull the point back into.
+    """
+    import contextlib
+    import io
+    import types
+    p = preview_player()
+    said = in_shown()
+    meant = read = None
+    try:
+        meant = p.axis_s() + p.spot_s()
+        wide = os.path.join(FOLDER, WIDE)
+        with contextlib.redirect_stdout(io.StringIO()):
+            got = vpm.clip_to_time_window(
+                types.SimpleNamespace(in_point=said, out_point=None),
+                -1e6, 1e6, (wide, vpm.video_facts(wide)))
+        read = None if got[0] is None else WIDE_CLOCK + got[0]
+    except (AttributeError, TypeError):
+        pass
+    check("Mark In on a recording is the moment the run reads",
+          meant is not None and read is not None
+          and abs(read - meant) <= 1.0 / RUN_FPS,
+          "field %r on %s, player at %s s, run reads %s s, at most %.3f s "
+          "apart, player at %g fps"
+          % (said, os.path.basename(getattr(p, "file_path", "") or "-"),
+             None if meant is None else "%.3f" % meant,
+             None if read is None else "%.3f" % read, 1.0 / RUN_FPS,
+             player_fps()))
+
+
 # ------------------------------------------------------------- the running
 def start():
     top = window_of()
@@ -762,6 +818,10 @@ step("6. the player is dragged in front of the In point", move_to(BACK_AT),
      moved(BACK_AT), until=stands_at(BACK_AT))
 step("6b. Mark Out is pressed there", press('Mark Out'), out_before_in,
      until=complaint_up)
+step("7. a recording goes into the player, before every camera runs",
+     to_recording, lambda _f: None, until=on_recording)
+step("7b. Mark In is pressed there", press('Mark In'), sound_marked,
+     until=lambda: in_shown() != kept.get("in"))
 
 
 QtCore.QTimer.singleShot(1200, start)

@@ -42,7 +42,7 @@ figure of the day is that command, not this paragraph**:
   marks on the assignment table, and the speaking-time table
 * `ui/` **3292** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `player/` **3294** -- the moving picture: the player, the cut band,
+* `player/` **3300** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
 * `cut/` **3355** -- who is on camera when, and what carries it out
@@ -113,7 +113,7 @@ figure of the day is that command, not this paragraph**:
   colour space, curve and bit depth, the device it names, whether the
   material is HDR, the spellings a colour space name goes by, and the
   report on a finished file
-* `tables/` **397** -- the tables and trees the window builds
+* `tables/` **414** -- the tables and trees the window builds
 * `running/` **623** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that

@@ -1693,7 +1693,6 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         # Signal for the still fetched in the background.
         still_ready = QtCore.Signal(bytes, str, int)
 
-
         def __init__(self, parent=None):
             """Build the viewer: title, picture, rail, cut buttons, players.
 
@@ -1941,6 +1940,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             try:
                 if audio_file:
                     self.tc0 = file_timecode(file_path)
+                    self.fps = self.marks_fps()  # as the run reads marks
                 else:
                     info = video_facts(file_path)
                     self.fps = max(1.0, info.get("fps") or 30.0)
@@ -3006,6 +3006,12 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
                     or (not state["axis"] and places_here()))
 
     player.marks_on_clock = marks_on_clock
+
+    def marks_fps_here():
+        """The rate the run reads a timecode mark at: its reference's."""
+        return PROGRAM.marks_rate(player_candidates())
+
+    player.marks_fps = marks_fps_here
     player.mark_shown = lambda text: mark_shown(player, text)
     player.mark_on_clock = lambda text: mark_on_clock(player, text)
 
