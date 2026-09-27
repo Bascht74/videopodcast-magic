@@ -1,6 +1,6 @@
 # The test suite
 
-455 tests against the program in `../videopodcast_magic/`. Every one of them stands
+456 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -249,7 +249,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-455 tests. The name is the one a red line carries, and beside it the
+456 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -461,6 +461,7 @@ it is green.
 | `cut_together_read_order` | Speakers heard in one shot are named in the order a person reads. |
 | `cut_two_stay_two` | Two cameras never become one camera in the cut. |
 | `cut_voice_on_its_camera` | A multitrack run puts every voice on the camera the assignment names. |
+| `cut_voice_seat_wins` | A person on two cameras sits on the voice's camera, in every answer. |
 | `cut_wide_colour_apart` | Does the wide shot colour keep far enough from the speaker colours? |
 | `cut_wide_not_on_speech` | No wide shot is put on the short answer the speech floor keeps. |
 | `cut_window_cut_as_whole` | A window set by In and Out is cut as though it were the whole recording. |
@@ -782,7 +783,7 @@ the source, the texts and the documents as a whole.
 | `auphonic/` | `auphonic_credit_said`, `auphonic_jingle_cut_away`, `auphonic_key_answer_fits`, `auphonic_key_out_of_view`, `auphonic_kind_one_rule`, `auphonic_may_be_skipped`, `auphonic_mono_not_stereo`, `auphonic_names_stay_in`, `auphonic_none_chosen`, `auphonic_preset_checked`, `auphonic_run_delivers`, `auphonic_stays_quiet`, `auphonic_unsaved_said`, `project_each_track_set` |
 | `bearings/` | `files_colour_fair`, `files_intro_proposed`, `files_mute_clip_intro`, `files_named_by_folder`, `run_prework_listed`, `sound_camera_counts`, `table_camera_proposed`, `time_axis_keys_agree`, `time_axis_measured`, `time_block_holds_on`, `time_clock_beats_guess`, `time_fit_reports`, `time_offset_found`, `time_order_same_axis`, `time_preview_fit_as_run`, `time_short_cam_as_run`, `time_tracks_sit_together`, `time_unheard_file_named`, `time_weak_as_run`, `time_weak_at_its_clock`, `window_axis_asks_again`, `window_marks_come_back` |
 | `colour/` | `files_hdr_complete`, `files_named_as_written` |
-| `cut/` | `cut_answer_brought_early`, `cut_both_are_shown`, `cut_edges_said_as_cut`, `cut_edl_says_drop_frame`, `cut_fresh_preview_is_run`, `cut_list_rebuilt`, `cut_no_wide_silences`, `cut_one_camera_marks`, `cut_one_turn_one_edge`, `cut_opening_wide_holds`, `cut_preview_is_the_run`, `cut_preview_seats_as_run`, `cut_rebuild_keeps_all`, `cut_right_camera`, `cut_rules_hold`, `cut_short_edges_kept`, `cut_speech_time_fits`, `cut_stored_voices_used`, `cut_together_read_order`, `cut_voice_on_its_camera`, `cut_wide_not_on_speech`, `cut_window_cut_as_whole`, `project_errors_reach_run`, `project_every_offset`, `project_handover_built`, `project_real_frame`, `run_metrics_add_up`, `table_names_one_order`, `table_names_reach_camera`, `table_no_place_not_wide`, `table_sync_keeps_stem`, `table_sync_none_derived`, `time_measured_place_wins`, `time_zero_at_in_point`, `window_grey_opens_again` |
+| `cut/` | `cut_answer_brought_early`, `cut_both_are_shown`, `cut_edges_said_as_cut`, `cut_edl_says_drop_frame`, `cut_fresh_preview_is_run`, `cut_list_rebuilt`, `cut_no_wide_silences`, `cut_one_camera_marks`, `cut_one_turn_one_edge`, `cut_opening_wide_holds`, `cut_preview_is_the_run`, `cut_preview_seats_as_run`, `cut_rebuild_keeps_all`, `cut_right_camera`, `cut_rules_hold`, `cut_short_edges_kept`, `cut_speech_time_fits`, `cut_stored_voices_used`, `cut_together_read_order`, `cut_voice_on_its_camera`, `cut_voice_seat_wins`, `cut_wide_not_on_speech`, `cut_window_cut_as_whole`, `project_errors_reach_run`, `project_every_offset`, `project_handover_built`, `project_real_frame`, `run_metrics_add_up`, `table_names_one_order`, `table_names_reach_camera`, `table_no_place_not_wide`, `table_sync_keeps_stem`, `table_sync_none_derived`, `time_measured_place_wins`, `time_zero_at_in_point`, `window_grey_opens_again` |
 | `desktop/` | `run_shortcut_laid_once`, `run_starter_arch_fits` |
 | `filelist/` | `files_added_alike`, `files_block_out_and_back` |
 | `filesheet/` | `table_row_per_channel` |
