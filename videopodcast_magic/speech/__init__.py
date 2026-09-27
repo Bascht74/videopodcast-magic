@@ -1312,6 +1312,26 @@ def window_words_placed(words, offset, clock):
             for w in (words or ())]
 
 
+def window_words_kept(recordings, language=""):
+    """The window's transcript of these recordings as stored: (words, way).
+
+    Read, never heard: where window_words_heard leaves it, on the
+    window's axis -- one recording under what it holds, placed; several
+    under the mark of their mix. (None, "") where nothing is stored.
+    The run reads the window's words through here too (words_of).
+    """
+    ways = [name for _wanted, name in WORD_WAYS]
+    if len(recordings or ()) == 1:
+        path, offset, clock = recordings[0]
+        words, way = words_stored(file_content_mark(path), language, ways)
+        return ((None, "") if words is None
+                else (window_words_placed(words, offset, clock), way))
+    if not recordings:
+        return None, ""
+    return words_stored(window_words_mark(recordings, language), language,
+                        ways)
+
+
 def window_words_heard(recordings, language, mark, report):
     """The transcript of these recordings, on the axis, or [].
 
@@ -1324,8 +1344,7 @@ def window_words_heard(recordings, language, mark, report):
         report(T('Writing down what is said ...'), 0.1)
         return window_words_placed(words_at_hand(path, language),
                                    offset, clock)
-    words, _way = words_stored(mark, language,
-                               [name for _wanted, name in WORD_WAYS])
+    words, _way = window_words_kept(recordings, language)
     if words is not None:
         return words
     folder = tempfile.mkdtemp(prefix="vpm_words_")
@@ -1401,6 +1420,27 @@ def window_words_round(state, assign_lines, report=None):
                      args=(recordings, window_words_language(state), mark,
                            held, report), daemon=True).start()
     return True
+
+
+def window_words_reference(state, assign_lines):
+    """Where the window's transcript is kept, for its run's plan, or None.
+
+    Its language and recordings as window_words_kept reads them, and
+    only once the words for exactly these recordings are there: the dry
+    run and the run then cut by the same words (E-554). While they are
+    being written, or where none were, nothing.
+    """
+    # While they are written the words are None: busy says no more.
+    held = state.get("window_words") or {}
+    if not held.get("words"):
+        return None
+    recordings = window_words_recordings(state, assign_lines)
+    language = window_words_language(state)
+    if not recordings or held.get("mark") != window_words_mark(
+            recordings, language):
+        return None
+    return {"language": language,
+            "recordings": [[p, o, c] for p, o, c in recordings]}
 
 
 def window_words_joined(state, d, assign_lines):

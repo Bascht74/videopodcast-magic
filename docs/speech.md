@@ -449,9 +449,12 @@ the text.
 
 A recording listened to once is not listened to again, whatever the
 cost was. What is kept and what is worked out afresh stands above,
-under "What is kept, and what is worked out again". The window and the
-run listen to different things -- the window to the recording, the run
-to the mix it made of it -- so each of the two pays once.
+under "What is kept, and what is worked out again". A run the window
+starts once its own transcript stands listens to nothing: it takes the
+window's words, as its dry run does, so the cut and the three files
+below rest on the same words the preview showed. Only a run without
+them -- from the command line, or started before the window was done --
+listens to the mix it made.
 
 ### The three transcript files
 

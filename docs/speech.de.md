@@ -477,10 +477,14 @@ den Text trotzdem nicht taugen.
 
 Was einmal abgehört wurde, wird nicht wieder abgehört, was immer es
 gekostet hat. Was aufgehoben wird und was neu gerechnet wird, steht
-weiter oben unter „Was aufgehoben wird und was neu gerechnet wird“. Das
-Fenster und der Lauf hören verschiedenes ab -- das Fenster die
-Aufnahme, der Lauf den Mix, den er daraus gemacht hat -- also zahlt
-jeder von beiden einmal.
+weiter oben unter „Was aufgehoben wird und was neu gerechnet wird“.
+Startet das Fenster einen Lauf, wenn seine eigene Niederschrift schon
+steht, hört dieser nichts mehr ab: Er übernimmt die Wörter des
+Fensters, genau wie sein Trockenlauf, und so stehen der Schnitt und die
+drei Dateien unten auf denselben Wörtern, die schon die Vorschau
+gezeigt hat. Nur ein Lauf ohne sie -- von der Kommandozeile, oder
+gestartet, bevor das Fenster fertig war -- hört den Mix ab, den er
+selbst gemacht hat.
 
 ### Die drei Dateien des Transkripts
 

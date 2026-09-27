@@ -1505,6 +1505,43 @@ def handover_key(words, plan=None):
                      line=list(words), plan=plan)
 
 
+def words_carried(args, tracks, window):
+    """The window's stored transcript on this run's time, or None.
+
+    The plan names where it is kept (words_of); it is read, never heard,
+    and moved from the window's axis to the cut's by the place of a
+    recording both know. The dry run and the run cut by it alike, so
+    the preview's cut is the run's (E-554). None where the plan names
+    none, it is not stored, or no recording of it is in this run.
+    """
+    given = getattr(args, "_words_of", None) or {}
+    heard_in = [(str(p), float(o), float(c))
+                for p, o, c in given.get("recordings") or ()]
+    if not heard_in or not window:
+        return None
+    words, way = PROGRAM.window_words_kept(heard_in,
+                                           given.get("language") or "")
+    if not words:
+        return None
+    there = dict((path_key(p), o) for p, o, _c in heard_in)
+    shift = None
+    for track, (_n, _s, offset, _c) in zip(
+            tracks, PROGRAM.recordings_on_axis(tracks, window)):
+        first = (track.get("blocks") or [track.get("source") or ""])[0]
+        if "a" in track and path_key(first) in there:
+            shift = offset - there[path_key(first)]
+            break
+    if shift is None:
+        return None
+    length = window[1] - window[0]
+    words = [PROGRAM.speech_word(w["start"] + shift, w["end"] + shift,
+                                 w["word"]) for w in words
+             if w["end"] + shift > 0 and w["start"] + shift < length]
+    print(T('  Speech recognition (%s): %s words, read back')
+          % (way, number_text(len(words), 0)))
+    return words
+
+
 def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
                  ref_clip, axis=None):
     """The rest of a dry run once the axis stands: who speaks, the cut.
@@ -1516,7 +1553,7 @@ def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
     dips come from a sum of the raw tracks; *axis* is the axis's key.
     """
     sync = sync_only(args)
-    segment_list, cut = [], []
+    segment_list, cut, words = [], [], []
     tc_start = programme_start(ref_clip, t0)
     if not sync:
         step_begin("speakers")
@@ -1525,11 +1562,13 @@ def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
     if not sync:
         levels = mix_tracks([t["axis"] for t in tracks],
                             os.path.join(tmpdir, "levels.wav"))
+        words = words_carried(args, tracks, (t0, t1)) or []
         work = cut_list_of(args, segment_list, tracks, cameras, videos,
-                           tc_start, ref_clip, t1 - t0, sound_source=levels)
+                           tc_start, ref_clip, t1 - t0, words=words,
+                           sound_source=levels)
         cut, segment_list = ((work["cut"], work["segments"]) if work
                              else ([], []))
-        roles_said(segment_list, ())
+        roles_said(segment_list, words)
     # The handover with nothing written. With no camera file the offsets
     # are the sources', as one_camera takes them; the axis it stands on
     # goes with it, so a reader can tell it is still this material's.
@@ -1539,7 +1578,7 @@ def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
         segment_list=segment_list, length=t1 - t0,
         offsets=ByFile((v, -a / b - t0) for v, (a, b, _s)
                        in position.items()),
-        unplaceable=unplaceable, clocked=clocked)
+        words=words, unplaceable=unplaceable, clocked=clocked)
     handover["axis_key"] = axis
     # The window hands its key in; any other line is read off sys.argv,
     # which the command line and the window's own run both set.
@@ -1956,6 +1995,10 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     # the words are needed only when the cut is built, and without them
     # the wide shot looks for the longest pause, not a sentence's end.
     heard = {}
+    # The window's transcript where its plan names one: the dry run cut
+    # by it, so the run does too, and listens to nothing (E-554).
+    carried = None if sync else words_carried(
+        args, tracks, (t0, t1) if t1 is not None else None)
 
     def listen_to_the_mix():
         """Write down the words of the mix, in a thread of its own."""
@@ -1964,12 +2007,15 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         heard["words"] = words or []
 
     listening = None
-    if not sync and not getattr(args, "no_speech_recognition", False):
+    if carried is None and not sync and not getattr(
+            args, "no_speech_recognition", False):
         listening = threading.Thread(target=listen_to_the_mix, daemon=True)
         listening.start()
 
     def heard_words():
         """Wait for the recognition and return what it heard."""
+        if carried is not None:
+            return carried
         if listening is not None:
             listening.join()
         return heard.get("words") or []

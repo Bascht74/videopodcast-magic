@@ -240,8 +240,11 @@ as soon as the time axis stands: the prework bar under the tables on
 **Transcript**. While it is being written the line under the four says
 so, and they open by themselves when it is done; from then on the
 preview reckons with them. Where the separation has already written the
-words of a single recording down, those are taken as they are. A run
-writes one as well.
+words of a single recording down, those are taken as they are. Once
+the transcript is there, **Dry run** and **Start** cut by the same
+words, so a question the preview turns into a reaction cut is one in
+the run too. A run started without one, from the command line or
+before the window had finished, writes its own.
 
 ### When no camera is free of speakers
 

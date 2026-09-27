@@ -518,6 +518,8 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             # over rather than computed again: three minutes of the
             # graphics unit for a result that is already there.
             args._speakers_of = d.get("speakers_of") or {}
+            # Where the window's transcript is kept (words_carried).
+            args._words_of = d.get("words_of") or {}
             title = d.get("production") or ""
             args.production = title
         else:
