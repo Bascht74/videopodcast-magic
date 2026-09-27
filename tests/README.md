@@ -1,6 +1,6 @@
 # The test suite
 
-427 tests against the program in `../videopodcast_magic/`. Every one of them stands
+428 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -8,6 +8,7 @@ holds when it is green.
 bash run.sh              # all of them, several at a time
 WORKERS=1 bash run.sh    # one after another, easier to read
 bash run.sh voice_turns_found time_offset_found   # only those, named
+bash run.sh --last-red   # the ones the last run found red, and only those
 python3 speakers/voice_turns_found_test.py        # a single one, by hand
 bash resolve.sh --go     # the ones that need a running DaVinci Resolve
 bash auphonic.sh --online  # the ones that talk to auphonic.com itself
@@ -248,7 +249,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-427 tests. The name is the one a red line carries, and beside it the
+428 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -737,6 +738,7 @@ it is green.
 | `source_resolve_recalled` | The reminder about the Resolve tests reaches a person, not the builder. |
 | `source_sections_named` | The program divides into named sections, and the ground uses none above. |
 | `source_skills_resolve` | Every file, test and skill a skill names by name is really there. |
+| `source_suite_reads_red` | run.sh reads red from a check's verdict, never from its name. |
 | `source_test_names_swept` | A name a test gives Resolve is swept, or excepted by name. |
 
 ### By folder -- the piece each test checks
@@ -777,7 +779,7 @@ the source, the texts and the documents as a whole.
 | `running/` | `run_assign_file_gone`, `run_dry_leaves_out`, `run_stop_heard_midway`, `run_stop_passes_through`, `run_window_run_agrees`, `window_overwrite_asked`, `window_start_runs`, `window_stop_always` |
 | `setup/` | `auphonic_key_by_pipe`, `auphonic_key_in_keyring`, `auphonic_key_kept`, `auphonic_key_reg_shut`, `auphonic_key_typed`, `run_ffmpeg_new_enough`, `run_ffmpeg_not_fetched`, `run_ffmpeg_offered`, `run_ffmpeg_sum_checked`, `run_install_is_watched` |
 | `soundings/` | `files_probed_once` |
-| `source/` | `source_checks_proved`, `source_floor_needs_main`, `source_frozen_name_holds`, `source_imported_is_whole`, `source_limits_hold`, `source_line_loads_no_qt`, `source_live_asks_first`, `source_material_stays`, `source_names_said_once`, `source_names_stay_fresh`, `source_needs_lists_agree`, `source_no_loose_ends`, `source_no_real_names`, `source_no_stale_places`, `source_numpy_comes_last`, `source_pictures_seen`, `source_piece_list_holds`, `source_platform_declared`, `source_reds_carry_value`, `source_resolve_door_shut`, `source_resolve_recalled`, `source_sections_named`, `source_skills_resolve`, `source_test_names_swept`, `text_index_targets_exist`, `text_lists_match`, `text_release_has_program`, `text_release_ready`, `text_skills_listed`, `text_tests_listed`, `text_third_party_true` |
+| `source/` | `source_checks_proved`, `source_floor_needs_main`, `source_frozen_name_holds`, `source_imported_is_whole`, `source_limits_hold`, `source_line_loads_no_qt`, `source_live_asks_first`, `source_material_stays`, `source_names_said_once`, `source_names_stay_fresh`, `source_needs_lists_agree`, `source_no_loose_ends`, `source_no_real_names`, `source_no_stale_places`, `source_numpy_comes_last`, `source_pictures_seen`, `source_piece_list_holds`, `source_platform_declared`, `source_reds_carry_value`, `source_resolve_door_shut`, `source_resolve_recalled`, `source_sections_named`, `source_skills_resolve`, `source_suite_reads_red`, `source_test_names_swept`, `text_index_targets_exist`, `text_lists_match`, `text_release_has_program`, `text_release_ready`, `text_skills_listed`, `text_tests_listed`, `text_third_party_true` |
 | `speakers/` | `cut_amounts_grouped`, `cut_own_mic_own_camera`, `run_dry_reports_voices`, `table_back_to_one_name`, `table_row_per_voice`, `voice_answer_kept`, `voice_bleed_gone_first`, `voice_both_splits_stand`, `voice_both_ways_agree`, `voice_close_mics_mixed`, `voice_counts_grouped`, `voice_every_block_heard`, `voice_failed_read_named`, `voice_heard_again_said`, `voice_mhm_is_speech`, `voice_mic_reaches_cut`, `voice_model_main_on_404`, `voice_model_names_inside`, `voice_name_is_one_person`, `voice_names_when_sure`, `voice_questions_rank`, `voice_raw_times_kept`, `voice_reason_reaches_log`, `voice_source_travels`, `voice_split_hears_two`, `voice_split_mends_itself`, `voice_split_names_fault`, `voice_tracks_read_once`, `voice_turns_found`, `voice_zero_all_cameras`, `window_amounts_grouped`, `window_block_misfit_kept`, `window_hears_while_split`, `window_note_names_kind`, `window_note_names_way`, `window_note_reason_true`, `window_speakers_as_run` |
 | `speech/` | `voice_amounts_grouped`, `voice_cue_fits_two_lines`, `voice_every_word_placed`, `voice_language_arrives`, `voice_note_translated`, `voice_words_intact`, `window_silent_hears_none`, `window_words_caught_up` |
 | `stowage/` | `run_choice_kept` |

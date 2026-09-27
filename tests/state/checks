@@ -153,7 +153,7 @@ project_two_timelines_go	16
 run_assign_file_gone	4
 run_bar_never_falls	20
 run_bar_tracks_work	35
-run_cam_fault_no_half 8	0
+run_cam_fault_no_half	8
 run_choice_kept	17
 run_clock_place_travels	7
 run_command_built	78
@@ -192,7 +192,6 @@ run_space_has_margin	18
 run_starter_arch_fits	30
 run_stays_local	20
 run_stop_heard_midway	17
-run_stop_heard_midway 12	0
 run_stop_names_why	23
 run_stop_passes_through	13
 run_switch_changes_it	12
@@ -215,7 +214,7 @@ sound_both_sides_alike	16
 sound_camera_counts	17
 sound_camera_judged_too	42
 sound_camera_own_used	7
-sound_cameras_carry_cut 9	0
+sound_cameras_carry_cut	9
 sound_channels_split	35
 sound_check_reads_once	14
 sound_clipping_counted	14
@@ -386,7 +385,7 @@ window_captions_langs7	60
 window_captions_langs8	60
 window_choices_refit	4
 window_clock_sound_said	7
-window_crash_said 3	0
+window_crash_said	3
 window_cut_colours	8
 window_cut_tab_by_voice	8
 window_dark_follows	5
@@ -459,3 +458,4 @@ voice_model_names_inside	7
 auphonic_names_stay_in	12
 time_marks_reach_result	8
 run_ffmpeg_sum_checked	7
+source_suite_reads_red	6
