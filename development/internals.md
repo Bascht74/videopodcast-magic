@@ -40,7 +40,7 @@ figure of the day is that command, not this paragraph**:
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3270** -- the window and everything it shows, asks or offers,
+* `ui/` **3293** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `player/` **3294** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
@@ -65,7 +65,7 @@ figure of the day is that command, not this paragraph**:
   camera's drift goes out is `camera_drift`'s alone, by the rule every
   recording answers to (`drift_clear`: three times its uncertainty)
   and one bound of its own, 500 ppm
-* `auphonic/` **2060** -- the sending to auphonic.com and the fetching
+* `auphonic/` **2093** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
 * `preflight/` **1824** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
