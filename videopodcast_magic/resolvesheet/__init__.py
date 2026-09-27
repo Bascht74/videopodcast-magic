@@ -398,7 +398,7 @@ class ResolveSheet(QtWidgets.QScrollArea):
         """Write In point, Out point and duration into their line."""
         a = self.model.in_point.get().strip()
         b = self.model.out_point.get().strip()
-        duration = self.model.window_length()
+        duration = self.model.window_length(self.state.get("axis"))
         self.window_info_label.setText(
             T('In point: %s     Out point: %s     Duration: %s')
             % (a or T('Beginning'), b or T('End'),

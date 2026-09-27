@@ -104,16 +104,39 @@ class ProjectModel(object):
                 out.append((p, kind))
         return out
 
-    def window_length(self):
+    def window_length(self, axis=None):
         """Return the length of the window, empty if none is set."""
+        seconds = self.window_seconds(axis)
+        return as_hms(seconds) if seconds else ""
+
+    def window_seconds(self, axis=None):
+        """The window's length in seconds, or None where it is not known.
+
+        Two points from the start need nothing measured. With the time
+        *axis* measured, the run's zero and end are known -- where every
+        camera runs, where the first stops -- and an open end or one
+        counted back from it has a length too. An In point counted from
+        the end is refused by the run and has none.
+        """
         try:
-            a, _ = parse_time_point(self.in_point.get(), 30.0)
-            b, _ = parse_time_point(self.out_point.get(), 30.0)
+            a, abs_a = parse_time_point(self.in_point.get(), 30.0)
+            b, abs_b = parse_time_point(self.out_point.get(), 30.0)
         except Exception:
-            return ""
-        if a is None or b is None or b <= a:
-            return ""
-        return as_hms(b - a)
+            return None
+        if a is not None and a < 0 and not abs_a:
+            return None
+        if a is not None and b is not None and b > a \
+                and (b >= 0 or abs_b):
+            return b - a
+        cameras = [p for p, kind in self.files if kind == "video"
+                   and self.clip_kind_value(p).get() in PROGRAM.CAMERA_TYPES]
+        end = PROGRAM.marks_end(axis, cameras) if axis else None
+        if end is None or abs_a or abs_b or (a is None and b is None):
+            return None
+        zero = PROGRAM.marks_zero(axis, cameras)
+        start = zero + (a or 0.0)
+        stop = end if b is None else (end + b if b < 0 else zero + b)
+        return stop - start if stop > start else None
 
     def clip_kind_value(self, path):
         """One video file's Kind -- one value, and two places show it."""

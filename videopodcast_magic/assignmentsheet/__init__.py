@@ -210,6 +210,13 @@ class AssignmentSheet(QtWidgets.QScrollArea):
         player, window_label = self.player, self.window_label
         text = var.get()
         how = T('In point') if var is self.model.in_point else T('Out point')
+        # The run's refusal, not a jump to somewhere near the end.
+        refused = PROGRAM.in_point_refused(text) \
+            if var is self.model.in_point else ""
+        if refused:
+            window_label.setText(refused)
+            window_label.setVisible(True)
+            return
         if player.jump_to(text):
             window_label.setVisible(False)
             return

@@ -1473,6 +1473,56 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
     return CutPlayer
 
 
+def in_point_refused(text):
+    """What the run says to an In point counted from the end, or "".
+
+    "-0:00:30" counts back from the end for the Out point alone; the
+    run refuses it as an In point, so the player sets none there.
+    """
+    try:
+        value, absolute = parse_time_point(text, 30.0)
+    except Exception:
+        return ""
+    if value is None or absolute or value >= 0:
+        return ""
+    return (T('%r counts from the end -- that only works for Out point.')
+            % str(text).strip())
+
+
+def rail_length_said(p, state):
+    """The length of the configured window, said under the player *p*.
+
+    From the two settings, not from their positions in this file, or an
+    early In point shows the file's length instead. An In point counted
+    from the end gets the run's refusal instead of a length.
+    """
+    refused = in_point_refused(state["in_point"])
+    if refused:
+        return refused
+    try:
+        a, abs_a = parse_time_point(state["in_point"], p.fps)
+        b, abs_b = parse_time_point(state["out_point"], p.fps)
+    except Exception:
+        return ""
+    if a is None or b is None or abs_a != abs_b or b <= a:
+        return ""
+    missing = ""
+    if abs_a and p.tc0 is not None:
+        duration = p.player.duration() / 1000.0
+        if p.tc0 + duration <= a or p.tc0 >= b:
+            missing = T('  --  this file is outside')
+        elif p.tc0 > a:
+            missing = T('  (this file starts later)')
+        elif p.tc0 + duration < b:
+            missing = T('  (this file ends earlier)')
+    return T('Window %s%s') % (as_hms(b - a), missing)
+
+
+def in_point_used(text):
+    """The In point as the player places it: none where the run refuses it."""
+    return "" if in_point_refused(text) else text
+
+
 def end_in_file(p):
     """Where "-0:00:30" counts back from, in the file player *p* holds.
 
@@ -1904,33 +1954,10 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
 
         def window_draw(self):
             """Draw the In point and the Out point onto the rail."""
-            self.slider.set_range(self._limit(state["in_point"]),
-                                         self._limit(state["out_point"]))
+            begins = in_point_used(state["in_point"])
+            self.slider.set_range(self._limit(begins),
+                                  self._limit(state["out_point"]))
             self.spot(self.player.position())
-
-        def _window_length(self):
-            """Return the length of the configured window.
-
-            From the two settings, not from their positions in this
-            file, or an early In point shows the file's length instead.
-            """
-            try:
-                a, abs_a = parse_time_point(state["in_point"], self.fps)
-                b, abs_b = parse_time_point(state["out_point"], self.fps)
-            except Exception:
-                return ""
-            if a is None or b is None or abs_a != abs_b or b <= a:
-                return ""
-            missing = ""
-            if abs_a and self.tc0 is not None:
-                duration = self.player.duration() / 1000.0
-                if self.tc0 + duration <= a or self.tc0 >= b:
-                    missing = T('  --  this file is outside')
-                elif self.tc0 > a:
-                    missing = T('  (this file starts later)')
-                elif self.tc0 + duration < b:
-                    missing = T('  (this file ends earlier)')
-            return T('Window %s%s') % (as_hms(b - a), missing)
 
         def _place(self, text):
             """Where a time value falls in this file: (seconds, timecode?).
@@ -2484,7 +2511,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             begins, until = state["in_point"], state["out_point"]
             self.cut_left.setText(T('In point %s') % (begins or "--"))
             self.cut_right.setText(T('Out point %s') % (until or "--"))
-            self.cut_middle.setText(self._window_length())
+            self.cut_middle.setText(rail_length_said(self, state))
 
         def track_watch(self):
             """Take over where the picture has run past a boundary.
@@ -2524,7 +2551,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             """Write the line under the picture for this position."""
             # Timecode on the left, playback position on the right. With a cut
             # in set it counts from there, negative before it, as in an editor.
-            begins = self._limit(state["in_point"])
+            begins = self._limit(in_point_used(state["in_point"]))
             rel = (ms - (begins or 0)) / 1000.0
             if self._moment is not None and not ms:
                 # This camera had not begun at the moment kept for the
@@ -2887,7 +2914,8 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
                 return None
             value += marks_zero_here() - span["axis"]
         else:
-            value = span["duration"] + value
+            # Counted from the end: the run refuses it as an In point.
+            return None
         if not (0.0 <= value <= span["duration"] + 0.05):
             return None
         return max(0.0, value)

@@ -1032,26 +1032,58 @@ def voice_names_clashing(assign_lines=(), voice_lines=(), voiced=()):
     """The names of that sort a voice carries.
 
     Two recordings of one person merge into one track by design, so a
-    name twice there is a question and not a refusal. A voice cannot
-    merge with anything, so its name has to be its own.
+    name twice there is a question and not a refusal. A voice merges
+    only with its own voice heard in another recording, so its name has
+    to be its own or that voice's.
     """
-    voices = [nv.get().strip() for _k, nv, cv in voice_lines or ()
-              if cv.get() != IGNORE_AUDIO]
+    rows = [(nv.get().strip(), key, getattr(nv, "heard", None))
+            for key, nv, cv in voice_lines or () if cv.get() != IGNORE_AUDIO]
     return names_clashing(
-        sheet_speaker_names(assign_lines, voice_lines, voiced), voices)
+        sheet_speaker_names(assign_lines, voice_lines, voiced),
+        [(n, key) for n, key, _h in rows],
+        voices_alike_keys(dict((key, h) for _n, key, h in rows)))
 
 
-def names_clashing(names, voices):
+def names_clashing(names, voices, alike=()):
     """The names a voice carries that stand more than once in *names*.
 
     The one rule both doors hold: *names* is every speaker of the run,
-    the voices among them, *voices* the names of the voices alone. The
-    window reads them off its sheet, the command line off its plan and
-    the separation it was handed.
+    the voices among them, *voices* the voices alone as (name, key).
+    A name may stand on voices only, each pair of them in *alike*: one
+    person heard in several recordings, as voices_alike_keys found.
     """
     names = [n for n in names if n]
-    return sorted(set(n for n in voices
-                      if n and names.count(n) > 1))
+    out = set()
+    for n in set(n for n, _k in voices if n):
+        keys = [k for m, k in voices if m == n]
+        if names.count(n) < 2 or (names.count(n) == len(keys) and all(
+                frozenset((a, b)) in alike
+                for i, a in enumerate(keys) for b in keys[i + 1:])):
+            continue
+        out.add(n)
+    return sorted(out)
+
+
+def voices_alike_keys(prints):
+    """Which voices, {voice key: print}, are one person in two recordings.
+
+    A set of frozensets of two keys, each pair speaker_voices_alike
+    found: above the line, and each the other's closest. A voice
+    without a print is alike with nothing.
+    """
+    by = {}
+    for key, heard in (prints or {}).items():
+        source, label = voice_key_parts(key)
+        if source and heard is not None:
+            by.setdefault(path_key(source), (source, {}))[1][label] = heard
+    out = set()
+    sources = sorted(by)
+    for i, one in enumerate(sources):
+        for other in sources[i + 1:]:
+            (a, mine), (b, theirs) = by[one], by[other]
+            for x, y, _s in speaker_voices_alike(mine, theirs):
+                out.add(frozenset((voice_key(a, x), voice_key(b, y))))
+    return out
 
 
 def names_clash_said(clash):
@@ -1067,25 +1099,33 @@ def voices_clashing_of_run(args, plan):
     The recordings are the plan's rows, the voices those of the
     separation handed over, and only one the run would use. A row whose
     sound the separation was heard in speaks through its voices, as a
-    recording with voices under it does in the window.
+    recording with voices under it does in the window. The prints are
+    the ones stored beside each separation on this machine.
     """
     given = handed_over(args)[0]
     if PROGRAM.sync_only(args) or not given:
         return []
-    heard, voices = set(), []
+    heard, voices, prints = set(), [], {}
     for one in [given] + list(given.get("more") or ()):
         if one.get("source"):
             heard.add(path_key(os.path.realpath(one["source"])))
         named = dict(one.get("names") or {})
+        stored = speaker_voices_stored(one.get("source") or "",
+                                       one.get("num_speakers") or 0) \
+            if one.get("source") else {}
         labels = set(s[0] for s in one.get("segments") or () if s)
-        voices += [named[k].strip() for k in sorted(labels)
-                   if (named.get(k) or "").strip()]
+        for k in sorted(labels):
+            if (named.get(k) or "").strip():
+                key = voice_key(one.get("source") or "", k)
+                voices.append((named[k].strip(), key))
+                prints[key] = stored.get(k)
     rows = []
     for e in plan:
         own = [(e.get("blocks") or [e.get("audio")])[0], e.get("from_camera")]
         if not heard & set(path_key(os.path.realpath(p)) for p in own if p):
             rows.append((e.get("speakers") or "").strip())
-    return names_clashing(rows + voices, voices)
+    return names_clashing(rows + [n for n, _k in voices], voices,
+                          voices_alike_keys(prints))
 
 
 def speakers_on_window_axis(segments, offset, named=None):
@@ -1220,19 +1260,21 @@ def voice_name_free(name, taken=(), typed=False):
     return T('Speaker %d') % n
 
 
-def speaker_label_names(segments, called=None, taken=()):
+def speaker_label_names(segments, called=None, taken=(), known=None):
     """Name the voices: whoever spoke most is the first one.
 
     A name given by hand stays, keyed by the model's label: renaming
     somebody is no reason to measure again. *taken* are the names
     already given elsewhere in the window, and the stand-in counts
-    past them.
+    past them. *known* are what voice_names_known lends a new voice.
     """
-    called = called or {}
+    called, known = called or {}, known or {}
     used = set(taken or ()) | set(called.values())
     out = []
     for label, _parts in segments or ():
-        name = voice_name_free(called.get(label), used)
+        name = voice_name_free(called.get(label), used) \
+            if called.get(label) or label not in known \
+            else voice_name_free(known[label], used, True)
         used.add(name)
         out.append((label, name))
     return out
@@ -2970,6 +3012,63 @@ def speaker_voices_alike(mine, theirs, least=SPEAKER_SAME_VOICE):
     return out
 
 
+def voice_prints_of(state, source):
+    """The prints stored beside the window's separation of *source*."""
+    return speaker_voices_stored(
+        source, speakers_stored(state, source).get("count") or 0)
+
+
+def voices_lent(state, source, prints, called):
+    """The labels of *source* whose name one of their own voices carries.
+
+    Heard again in another recording and named alike there: such a
+    stand-in stays as it is rather than counting on past the other.
+    """
+    out = set()
+    for other, entry in sorted((state.get("speakers_by") or {}).items()):
+        if path_key(other) == path_key(source):
+            continue
+        there = dict(entry.get("names") or {})
+        for mine, theirs, _s in speaker_voices_alike(
+                prints, voice_prints_of(state, other)):
+            if called.get(mine) and called.get(mine) == there.get(theirs):
+                out.add(mine)
+    return out
+
+
+def voice_names_known(source, prints, voice_lines=(), names=()):
+    """The names another recording's voices lend this one's, {label: name}.
+
+    Where a voice of *source* is one already named in another recording
+    -- speaker_voices_alike on *prints* and the rows' own -- and the
+    name would clash with nothing: *names* is every speaker on the
+    sheet but this recording's voices. A proposal; the field stays open.
+    """
+    others = [(key, nv.get().strip(), getattr(nv, "heard", None))
+              for key, nv, cv in voice_lines_here_not(voice_lines, source)
+              if cv.get() != IGNORE_AUDIO and nv.get().strip()]
+    by = {}
+    for key, name, heard in others:
+        there, label = voice_key_parts(key)
+        if heard is not None:
+            by.setdefault(path_key(there), {})[label] = (name, heard)
+    names, voices = list(names or ()), [(n, k) for k, n, _h in others]
+    alike = voices_alike_keys(dict(
+        [(k, h) for k, _n, h in others]
+        + [(voice_key(source, x), v) for x, v in (prints or {}).items()]))
+    out = {}
+    for there in sorted(by):
+        heard = dict((label, h) for label, (_n, h) in by[there].items())
+        for mine, theirs, _s in speaker_voices_alike(prints, heard):
+            name = by[there][theirs][0]
+            trial = voices + [(name, voice_key(source, mine))]
+            if mine not in out and name not in names_clashing(
+                    names + [name], trial, alike):
+                out[mine] = name
+                names, voices = names + [name], trial
+    return out
+
+
 def speaker_voices_said(state, source, count=0):
     """Say in the log which voices of *source* spoke in another recording.
 
@@ -3688,10 +3787,13 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
         # The names are an assignment, not a measurement: a voice that
         # had one keeps it, and the stand-in counts past the sheet.
         called = dict(speakers_stored(state, source).get("names") or {})
+        others = voice_lines_here_not(voice_lines, source)
+        taken = sheet_speaker_names(assign_lines, others,
+                                    state.get("voiced") or ())
+        known = voice_names_known(
+            source, speaker_voices_stored(source, count), others, taken)
         speakers_keep(state, source, segments, count, dict(
-            speaker_label_names(segments, called, sheet_speaker_names(
-                assign_lines, voice_lines_here_not(voice_lines, source),
-                state.get("voiced") or ()))))
+            speaker_label_names(segments, called, taken, known)))
         speaker_voices_said(state, source, count)
         axis_store(state.get("axis") or {})
         state["assignment_fresh"]()
@@ -3862,12 +3964,13 @@ def assignment_marks_show(audio_fields, assign_lines, video_fields,
               'would become one track -- for Multitrack '
               'auphonic.com needs at least two different ones.'))
     fields = voice_marks_of(state).get("field") or {}
+    clash = set(voice_names_clashing(assign_lines, voice_lines, voiced))
     for key, name_value, camera_value in voice_lines or ():
         n = name_value.get().strip()
         if fields.get(key) is not None:
             PROGRAM.mark_red(
                 fields[key],
-                bool(n) and n in twice
+                bool(n) and n in clash
                 and camera_value.get() != IGNORE_AUDIO,
                 T('This name is on somebody else already. A name is '
                   'a person, and the cut puts a person on one '
@@ -4039,12 +4142,17 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
         found = voices_of(path)
         # The names of this recording, not of the window.
         called = dict(speakers_stored(state, path).get("names") or {})
+        prints = voice_prints_of(state, path)
+        lent = voices_lent(state, path, prints, called)
         for label, _parts in found:
             key = voice_key(path, label)
             named = voice_typed_back(state, remembered, key)
             name_value = PROGRAM.SpeakerName(voice_name_free(
                 remembered.get("voicename:" + key) or called.get(label),
-                [nv.get() for _k, nv, _c in voice_lines], named))
+                [nv.get() for _k, nv, _c in voice_lines],
+                named or label in lent))
+            # The print goes with the name: the clash rule reads it.
+            name_value.heard = prints.get(label)
             picked, worked_out = camera_row_cameras(
                 PROGRAM.camera_after_a_mark(
                     "voice:" + key, remembered.get("voice:" + key), wide),
