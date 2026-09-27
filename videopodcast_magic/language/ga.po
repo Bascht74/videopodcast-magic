@@ -1186,6 +1186,9 @@ msgstr "  Tabhair uimhir idir 1 agus %d, le do thoil."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Léiriúchán ag auphonic.com:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  Léiriúchán cruthaithe (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Léiriúchán ar siúl (%s)"
 

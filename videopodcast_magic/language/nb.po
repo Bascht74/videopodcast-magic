@@ -1153,6 +1153,9 @@ msgstr "  Angi et tall mellom 1 og %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produksjon hos auphonic.com:  %s"
 
+msgid "  Production created (%s)"
+msgstr "  Produksjonen er opprettet (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Produksjonen pågår (%s)"
 

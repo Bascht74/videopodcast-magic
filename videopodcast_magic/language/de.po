@@ -1626,6 +1626,9 @@ msgstr "  Bitte eine Zahl zwischen 1 und %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produktion bei auphonic.com:  %s"
 
+msgid "  Production created (%s)"
+msgstr "  Produktion angelegt (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Produktion läuft (%s)"
 
@@ -5027,7 +5030,7 @@ msgid "Transfer"
 msgstr "Uebertragung"
 
 msgid "Uploading %s tracks"
-msgstr "Hochladen %s Spuren"
+msgstr "Lade %s Spuren hoch"
 
 msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
 msgstr "%(name)s (%(prefix)s*.json);;JSON-Dateien (*.json);;Alle Dateien (*)"
@@ -5174,7 +5177,7 @@ msgid "Disk space"
 msgstr "Plattenplatz"
 
 msgid "Downloading %s"
-msgstr "Lade herunter %s"
+msgstr "Lade %s herunter"
 
 msgid "Dry run"
 msgstr "Probelauf"
@@ -5420,7 +5423,7 @@ msgid "Track template"
 msgstr "Spurvorlage"
 
 msgid "Uploading %s"
-msgstr "Hochladen %s"
+msgstr "Lade %s hoch"
 
 msgid "Value range"
 msgstr "Wertebereich"

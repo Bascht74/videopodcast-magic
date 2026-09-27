@@ -1155,6 +1155,9 @@ msgstr "  Indicați un număr între 1 și %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Producție la auphonic.com:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  Producția a fost creată (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Producția rulează (%s)"
 

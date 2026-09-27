@@ -1192,6 +1192,9 @@ msgstr "  الملف:           %s (%s, %s)"
 msgid "  (measuring only: nothing uploaded)\n"
 msgstr "  (قياس فقط: لم يُرفع شيء)\n"
 
+msgid "  Production created (%s)"
+msgstr "  أُنشئ الإنتاج (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  الإنتاج جارٍ (%s)"
 

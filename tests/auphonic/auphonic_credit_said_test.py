@@ -3,7 +3,8 @@
 
 auphonic.com is never spoken to: `_curl_call` is replaced by a stand-in
 answering /api/user.json the way its API page shows it. Sections: the
-account read, the verdict before an upload, a run that says it before
+account read, the verdict before an upload (the length needed counted in
+whole minutes, rounded up, at least one), a run that says it before
 anything goes up, and the line in the Auphonic box. The field names are
 read off the API page, not measured against the service; the twenty
 minutes a free Multitrack production may last are the pricing page's.
@@ -146,6 +147,23 @@ check("the warning names what is left and what is needed",
       and T('%d h %02d min') % (1, 30) in lines[0][0],
       "the line: %r" % (lines[0][0] if lines else "",))
 
+ENOUGH = T('  Credit at auphonic.com: %s left, enough for the '
+           '%s this production needs.')
+lines = verdict(HOUR, 20, False)
+check("a 20 s production is said to need 1 min, never 0 min",
+      len(lines) == 1 and lines[0][0]
+      == ENOUGH % (T('%d h %02d min') % (1, 0), T('%d min') % 1),
+      "1 h left for 20 s: %r" % (lines,))
+lines = verdict(HOUR, 90, False)
+check("a production of 1 min 30 s is said to need 2 min, rounded up",
+      len(lines) == 1 and lines[0][0]
+      == ENOUGH % (T('%d h %02d min') % (1, 0), T('%d min') % 2),
+      "1 h left for 90 s: %r" % (lines,))
+lines = verdict({"hours": 30 / 3600.0, "paying": True}, 20, False)
+check("30 s of credit does not carry a 20 s production charged as 1 min",
+      len(lines) == 1 and lines[0][1],
+      "30 s left for 20 s: %r" % (lines,))
+
 FREE = {"hours": 2.0, "paying": False}
 lines = verdict(FREE, 21 * 60, True)
 check("a free account's Multitrack production over 20 min is warned of",
@@ -194,13 +212,14 @@ def run_said(account):
     return said.getvalue(), stand_in.calls
 
 
-NONE_YET = T('%d min') % 0
+# Three seconds of sound are charged as a whole minute.
+ONE = T('%d min') % 1
+NONE_LEFT = T('%d min') % 0
 
-# Three seconds of sound against a thousandth of an hour, 3.6 s: enough.
-text, calls = run_said(dict(PAID, credits=0.001))
+# Three seconds of sound against a fiftieth of an hour, 72 s: enough.
+text, calls = run_said(dict(PAID, credits=0.02))
 mark = text.find("<<the upload begins here>>")
-enough = text.find(T('  Credit at auphonic.com: %s left, enough for the '
-                     '%s this production needs.') % (NONE_YET, NONE_YET))
+enough = text.find(ENOUGH % (ONE, ONE))
 check("a run asks the account before its upload, not after",
       len(calls) == 2 and calls[0][-1].endswith("/api/user.json")
       and "-F" in calls[1],
@@ -215,7 +234,7 @@ text, _ = run_said(dict(PAID, credits=0.0001))
 mark = text.find("<<the upload begins here>>")
 short = text.find(T('  Credit at auphonic.com: %s left, and this '
                     'production needs %s -- not enough.')
-                  % (NONE_YET, NONE_YET))
+                  % (NONE_LEFT, ONE))
 check("a run whose credit is short says so before its upload",
       0 <= short < mark, "the short line at %d, the upload at %d"
       % (short, mark))

@@ -2091,6 +2091,9 @@ msgstr "  Préréglage : %s"
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Production sur auphonic.com :  %s"
 
+msgid "  Production created (%s)"
+msgstr "  Production créée (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Production en cours (%s)"
 

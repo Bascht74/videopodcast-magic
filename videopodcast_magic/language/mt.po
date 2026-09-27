@@ -1183,6 +1183,9 @@ msgstr "  Jekk jogħġbok daħħal numru bejn 1 u %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produzzjoni fuq auphonic.com:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  Il-produzzjoni nħolqot (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Il-produzzjoni għaddejja (%s)"
 

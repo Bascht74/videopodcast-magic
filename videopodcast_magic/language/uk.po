@@ -1171,6 +1171,9 @@ msgstr "  Файл:   %s (%s, %s)"
 msgid "  (measuring only: nothing uploaded)\n"
 msgstr "  (лише вимірювання: нічого не вивантажено)\n"
 
+msgid "  Production created (%s)"
+msgstr "  Випуск створено (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Випуск триває (%s)"
 

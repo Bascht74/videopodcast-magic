@@ -1180,6 +1180,9 @@ msgstr "  براہ کرم 1 اور %d کے درمیان کوئی عدد دیں۔
 msgid "  Production at auphonic.com:   %s"
 msgstr "  auphonic.com پر پروڈکشن:      %s"
 
+msgid "  Production created (%s)"
+msgstr "  پروڈکشن بن گئی (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  پروڈکشن جاری ہے (%s)"
 

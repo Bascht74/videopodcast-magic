@@ -1181,6 +1181,9 @@ msgstr "  Silakan masukkan angka antara 1 dan %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produksi di auphonic.com:     %s"
 
+msgid "  Production created (%s)"
+msgstr "  Produksi dibuat (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Produksi berjalan (%s)"
 

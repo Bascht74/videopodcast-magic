@@ -1153,6 +1153,9 @@ msgstr "  Δώστε έναν αριθμό από 1 έως %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Παραγωγή στο auphonic.com:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  Η παραγωγή δημιουργήθηκε (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Η παραγωγή εκτελείται (%s)"
 

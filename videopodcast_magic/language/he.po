@@ -1180,6 +1180,9 @@ msgstr "  נא להזין מספר בין 1 ל-%d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  הפקה ב-auphonic.com:          %s"
 
+msgid "  Production created (%s)"
+msgstr "  ההפקה נוצרה (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  ההפקה פועלת (%s)"
 

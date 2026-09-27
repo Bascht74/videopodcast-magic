@@ -2089,6 +2089,9 @@ msgstr "  Пресет:  %s"
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Продукция на auphonic.com:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  Продукция создана (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Продукция выполняется (%s)"
 

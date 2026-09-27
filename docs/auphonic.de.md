@@ -222,11 +222,14 @@ AUPHONIC.COM (MULTITRACK):` bei mehreren. Darunter stehen das Preset und
 die Datei mit Größe und Kanälen, oder der Titel der Produktion, die
 Spuren mit Namen und das, was hochzuladen ist. Dann folgt das Guthaben,
 etwa `Guthaben bei auphonic.com: noch 1 Std. 20 Min., genug für die 12
-Min., die diese Produktion braucht.`
+Min., die diese Produktion braucht.` Was eine Produktion braucht, wird in
+ganzen Minuten gezählt, aufgerundet und nie unter `1 Min.`, weil
+auphonic.com nicht weniger abrechnet: Eine Probe von 20 Sekunden braucht
+`1 Min.`, nicht `0 Min.`
 
 Eine einzelne Spur geht dann diese Schritte:
 
-1. `Hochladen <Datei>` mit einem Balken. Die Datei geht zusammen mit dem
+1. `Lade <Datei> hoch` mit einem Balken. Die Datei geht zusammen mit dem
    Preset hoch.
 2. Bei einer Stereoaufnahme `Zwei Kanäle angefordert -- die Aufnahme ist
    Stereo`. Das Preset würde den Mix auf einen Kanal falten; so kommen
@@ -235,7 +238,7 @@ Eine einzelne Spur geht dann diese Schritte:
    `Zeitgrenze: 2:00:00,000`.
 4. Ein Balken mit der vergangenen Zeit und dem Stand, den auphonic.com
    meldet, etwa `Audio Processing`, bis dort `fertig` steht.
-5. `Lade herunter <Name>`: eine Tondatei, die verlustfreie, wenn das
+5. `Lade <Name> herunter`: eine Tondatei, die verlustfreie, wenn das
    Preset mehrere schreibt, und daneben nur, was Text ist -- Transkript,
    Untertitel, Kapitelmarken.
 6. Hat auphonic.com etwas angefügt, `<Name>: auphonic.com hat am Ende
@@ -249,11 +252,12 @@ Mehrere Spuren gehen diese:
    auphonic.com herstellt, kommt mit zurück, als Maß dafür, wie laut der
    eigene Mix des Programms werden soll. Ist eine Spur Stereo, folgt
    `Zwei Kanäle, weil eine Spur Stereo ist`.
-2. `Produktion läuft (…)`, dann `Hochladen 2 Spuren`: alle Spuren in
+2. `Produktion angelegt (…)`, dann `Lade 2 Spuren hoch`: alle Spuren in
    einem Zug. Eine Spur, für die auphonic.com keine Datei angenommen
    hat, hält den Lauf an.
-3. `Zeitgrenze:` und derselbe Balken.
-4. `Lade herunter <Titel>.wav.zip`, die Einzelspuren in einem Archiv,
+3. `Produktion läuft (…)`, sobald die Spuren oben sind und die
+   Produktion gestartet ist, dann `Zeitgrenze:` und derselbe Balken.
+4. `Lade <Titel>.wav.zip herunter`, die Einzelspuren in einem Archiv,
    danach jede weitere Ausgabe des Presets, darunter der fertige
    Mixdown `<Titel>_master.wav`. Alles landet in `auphonic-tracks/`.
 5. `Im Archiv: Guest.wav, Presenter.wav`, und je Sprecher eine Zeile,

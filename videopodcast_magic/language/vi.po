@@ -1153,6 +1153,9 @@ msgstr "  Hãy nhập một số từ 1 đến %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Bản sản xuất tại auphonic.com:  %s"
 
+msgid "  Production created (%s)"
+msgstr "  Đã tạo bản sản xuất (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Bản sản xuất đang chạy (%s)"
 

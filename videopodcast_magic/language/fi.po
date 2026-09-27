@@ -1153,6 +1153,9 @@ msgstr "  Anna luku väliltä 1–%d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Tuotanto auphonic.com-palvelussa:  %s"
 
+msgid "  Production created (%s)"
+msgstr "  Tuotanto luotu (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Tuotanto käynnissä (%s)"
 

@@ -1155,6 +1155,9 @@ msgstr "  Podaj liczbę od 1 do %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produkcja w auphonic.com:  %s"
 
+msgid "  Production created (%s)"
+msgstr "  Produkcja utworzona (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Produkcja w toku (%s)"
 

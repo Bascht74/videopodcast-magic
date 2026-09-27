@@ -1180,6 +1180,9 @@ msgstr "  1 முதல் %d வரை ஒரு எண்ணைத் தர�
 msgid "  Production at auphonic.com:   %s"
 msgstr "  auphonic.com-இல் தயாரிப்பு:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  தயாரிப்பு உருவாக்கப்பட்டது (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  தயாரிப்பு இயங்குகிறது (%s)"
 

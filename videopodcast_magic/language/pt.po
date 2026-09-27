@@ -1145,6 +1145,9 @@ msgstr "  Arquivo:      %s (%s, %s)"
 msgid "  (measuring only: nothing uploaded)\n"
 msgstr "  (só medição: nada enviado)\n"
 
+msgid "  Production created (%s)"
+msgstr "  Produção criada (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Produção em andamento (%s)"
 

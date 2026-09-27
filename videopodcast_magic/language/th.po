@@ -1179,6 +1179,9 @@ msgstr "  โปรดใส่ตัวเลขระหว่าง 1 ถึ�
 msgid "  Production at auphonic.com:   %s"
 msgstr "  โปรดักชันที่ auphonic.com:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  สร้างโปรดักชันแล้ว (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  โปรดักชันกำลังทำงาน (%s)"
 

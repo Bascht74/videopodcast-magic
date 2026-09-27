@@ -1181,6 +1181,9 @@ msgstr "  કૃપા કરીને 1 અને %d વચ્ચેની સ�
 msgid "  Production at auphonic.com:   %s"
 msgstr "  auphonic.com પરનું પ્રોડક્શન:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  પ્રોડક્શન બનાવાયું (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  પ્રોડક્શન ચાલી રહ્યું છે (%s)"
 
