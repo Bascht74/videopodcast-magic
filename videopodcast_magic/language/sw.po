@@ -1181,6 +1181,9 @@ msgstr "  Tafadhali weka namba kati ya 1 na %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Utayarishaji kwenye auphonic.com:  %s"
 
+msgid "  Production created (%s)"
+msgstr "  Utayarishaji umeundwa (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Utayarishaji unaendelea (%s)"
 

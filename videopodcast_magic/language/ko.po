@@ -1153,6 +1153,9 @@ msgstr "  1에서 %d 사이의 숫자를 입력하세요."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  auphonic.com 프로덕션:  %s"
 
+msgid "  Production created (%s)"
+msgstr "  프로덕션 생성됨 (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  프로덕션 진행 중 (%s)"
 

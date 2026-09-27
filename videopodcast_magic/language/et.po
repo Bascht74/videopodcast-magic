@@ -1181,6 +1181,9 @@ msgstr "  Sisesta arv vahemikus 1 kuni %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produktsioon auphonic.com-is:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  Produktsioon loodud (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Produktsioon käib (%s)"
 

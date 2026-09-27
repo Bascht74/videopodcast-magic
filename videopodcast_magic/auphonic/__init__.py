@@ -440,9 +440,17 @@ def account_credit(key):
             "paying": None if paying is None else bool(paying)}
 
 
-def credit_time(seconds):
-    """A span of credit as hours and whole minutes, rounded down."""
-    minutes = int(max(0.0, seconds) // 60)
+def credit_time(seconds, needed=False):
+    """A span of credit as hours and whole minutes.
+
+    What is left is rounded down. What a production *needed* is rounded
+    up and never below one minute: auphonic.com charges whole minutes,
+    so a twenty-second production is not free.
+    """
+    if needed:
+        minutes = max(1, int(-(-max(0.0, seconds) // 60)))
+    else:
+        minutes = int(max(0.0, seconds) // 60)
     if minutes < 60:
         return T('%d min') % minutes
     return T('%d h %02d min') % (minutes // 60, minutes % 60)
@@ -486,21 +494,22 @@ def credit_verdict(account, seconds, multitrack):
     elif seconds <= 0:
         lines.append((T('  Credit at auphonic.com: %s left.')
                       % credit_time(hours * 3600), False))
-    elif hours * 3600 < seconds:
+    elif hours * 3600 < max(1, -(-seconds // 60)) * 60:
+        # Held against the whole minutes it is charged, as the line says.
         lines.append((T('  Credit at auphonic.com: %s left, and this '
                         'production needs %s -- not enough.')
-                      % (credit_time(hours * 3600), credit_time(seconds)),
-                      True))
+                      % (credit_time(hours * 3600),
+                         credit_time(seconds, needed=True)), True))
     else:
         lines.append((T('  Credit at auphonic.com: %s left, enough for the '
                         '%s this production needs.')
-                      % (credit_time(hours * 3600), credit_time(seconds)),
-                      False))
+                      % (credit_time(hours * 3600),
+                         credit_time(seconds, needed=True)), False))
     if paying is False and multitrack and seconds > FREE_MULTITRACK_S:
         lines.append((T('  On the free plan a Multitrack production may be '
                         'at most %s long, and this one is %s.')
                       % (credit_time(FREE_MULTITRACK_S),
-                         credit_time(seconds)), True))
+                         credit_time(seconds, needed=True)), True))
     return lines
 
 
@@ -1702,12 +1711,14 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
     if sorted(created) != sorted(names):
         raise RuntimeError(T('Auphonic created different tracks than '
                              'requested: %s instead of %s') % (created, names))
-    print(T('  Production running (%s)') % uuid)
+    # Created, not yet running: the tracks go up first, then the start.
+    print(T('  Production created (%s)') % uuid)
 
     _upload_tracks(key, uuid, tracks)
 
     _curl_call(key, ["-X", "POST",
                 AUPHONIC + "/api/production/%s/start.json" % uuid])
+    print(T('  Production running (%s)') % uuid)
     p = wait_for_production(key, uuid, wait_s)
 
     return cut_what_was_added(
@@ -1946,6 +1957,7 @@ def reuse_production(key, existing, request, preset, tracks,
         print(T('  The existing files are reused -- recomputing costs nothing.'))
     _curl_call(key, ["-X", "POST",
                 AUPHONIC + "/api/production/%s/start.json" % uuid])
+    print(T('  Production running (%s)') % uuid)
     p = wait_for_production(key, uuid, wait_s)
     done = download_results(key, p, names, target_folder, base)
     return cut_what_was_added(tracks, done) if upload_again else done

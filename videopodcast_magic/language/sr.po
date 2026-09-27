@@ -1155,6 +1155,9 @@ msgstr "  Унесите број између 1 и %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Продукција на auphonic.com:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  Продукција направљена (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Продукција у току (%s)"
 

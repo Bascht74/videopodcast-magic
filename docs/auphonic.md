@@ -206,7 +206,9 @@ AUPHONIC.COM:` for a single track, `PROCESSING AT AUPHONIC.COM
 its size and channels, or the production's title, the tracks by name and
 what there is to upload. Then comes the credit, for instance
 `Credit at auphonic.com: 1 h 20 min left, enough for the 12 min this
-production needs.`
+production needs.` What a production needs is counted in whole minutes,
+rounded up and never below `1 min`, since auphonic.com charges no less:
+a 20-second sample needs `1 min`, not `0 min`.
 
 A single track then goes through these steps:
 
@@ -233,9 +235,10 @@ Several tracks go through these:
    auphonic.com makes comes back too, as the measure for how loud the
    program's own mix should end up. Where one track is stereo, `Two
    channels, because one track is stereo` follows.
-2. `Production running (…)`, then `Uploading 2 tracks`: all tracks in
+2. `Production created (…)`, then `Uploading 2 tracks`: all tracks in
    one upload. A track auphonic.com took no file for stops the run.
-3. `Time limit:` and the same bar.
+3. `Production running (…)` once the tracks are up and the production
+   is started, then `Time limit:` and the same bar.
 4. `Downloading <title>.wav.zip`, the single tracks in one archive, then
    every further output of the preset, the finished mixdown
    `<title>_master.wav` among them. All of it lands in

@@ -1155,6 +1155,9 @@ msgstr "  Adjon meg egy számot 1 és %d között."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produkció az auphonic.com-on:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  Produkció létrehozva (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Produkció fut (%s)"
 

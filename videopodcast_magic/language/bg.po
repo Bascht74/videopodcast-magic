@@ -1182,6 +1182,9 @@ msgstr "  Моля, въведете число между 1 и %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Продукция в auphonic.com:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  Продукцията е създадена (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Продукцията тече (%s)"
 

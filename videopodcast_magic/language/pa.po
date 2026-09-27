@@ -1183,6 +1183,9 @@ msgstr "  ਕਿਰਪਾ ਕਰਕੇ 1 ਅਤੇ %d ਵਿਚਕਾਰ ਕੋ�
 msgid "  Production at auphonic.com:   %s"
 msgstr "  auphonic.com 'ਤੇ ਪ੍ਰੋਡਕਸ਼ਨ:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  ਪ੍ਰੋਡਕਸ਼ਨ ਬਣਾਈ ਗਈ (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  ਪ੍ਰੋਡਕਸ਼ਨ ਚੱਲ ਰਹੀ ਹੈ (%s)"
 

@@ -1137,6 +1137,9 @@ msgstr "  ファイル：    %s (%s, %s)"
 msgid "  (measuring only: nothing uploaded)\n"
 msgstr "  （計測のみ：何もアップロードしていません）\n"
 
+msgid "  Production created (%s)"
+msgstr "  制作を作成しました（%s）"
+
 msgid "  Production running (%s)"
 msgstr "  制作を実行中（%s）"
 

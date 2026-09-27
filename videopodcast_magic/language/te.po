@@ -1181,6 +1181,9 @@ msgstr "  దయచేసి 1 నుండి %d మధ్య ఒక సంఖ�
 msgid "  Production at auphonic.com:   %s"
 msgstr "  auphonic.com లో ప్రొడక్షన్:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  ప్రొడక్షన్ సృష్టించబడింది (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  ప్రొడక్షన్ నడుస్తోంది (%s)"
 

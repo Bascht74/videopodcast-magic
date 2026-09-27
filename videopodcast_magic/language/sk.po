@@ -1154,6 +1154,9 @@ msgstr "  Zadajte prosím číslo medzi 1 a %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produkcia na auphonic.com:    %s"
 
+msgid "  Production created (%s)"
+msgstr "  Produkcia vytvorená (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Produkcia beží (%s)"
 

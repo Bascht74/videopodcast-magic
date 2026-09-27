@@ -1182,6 +1182,9 @@ msgstr "  Lūdzu, ievadiet skaitli no 1 līdz %d."
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produkcija vietnē auphonic.com:   %s"
 
+msgid "  Production created (%s)"
+msgstr "  Produkcija izveidota (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Produkcija notiek (%s)"
 

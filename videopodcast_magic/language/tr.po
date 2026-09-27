@@ -1157,6 +1157,9 @@ msgstr "  Dosya:      %s (%s, %s)"
 msgid "  (measuring only: nothing uploaded)\n"
 msgstr "  (yalnızca ölçüm: hiçbir şey yüklenmedi)\n"
 
+msgid "  Production created (%s)"
+msgstr "  Prodüksiyon oluşturuldu (%s)"
+
 msgid "  Production running (%s)"
 msgstr "  Prodüksiyon sürüyor (%s)"
 
