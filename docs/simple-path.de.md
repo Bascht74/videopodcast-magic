@@ -405,7 +405,7 @@ Diese Optionen gibt es im Fenster nicht.
   erhalten bleiben.
 - `--no-camera-audio` lässt die eigene Spur der Kamera aus der neuen
   Datei weg.
-- `--help` setzt `[multitrack only]` an die zwei Schalter, die nur dort
-  etwas bedeuten, wo mehrere Spuren gemeinsam hochgehen. Die Kennzeichnung bleibt englisch, auch bei
+- `--help` setzt `[multitrack only]` an den einen Schalter, der nur dort
+  etwas bedeutet, wo mehrere Spuren gemeinsam hochgehen: `--auphonic-resume`. Die Kennzeichnung bleibt englisch, auch bei
   `--lang de`. [Alle Schalter](command-line.de.md) sagt zu jedem
   Schalter, auf welchem Weg er wirkt.

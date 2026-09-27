@@ -75,7 +75,9 @@ field. The selector **belongs to** lists the cameras, then two special
 cases:
 
 - **no camera of its own**: in the Full-Mix, but nobody's first track.
-  For someone heard but not seen.
+  For someone heard but not seen. A camera's own sound set so is no
+  exception: nobody sits on that camera then, and it can be the wide
+  shot.
 - **do not use**: out entirely, and the speaker name goes grey and says
   **not used** in it. For a recording whose video is still missing.
 
@@ -327,6 +329,8 @@ The player shows a mark as the timecode of the camera it is playing,
 but the run gets it as a distance from the moment every camera runs. So
 a mark lands on the frame it was set on, on every camera -- one running
 at 29.97 frames included -- and preview and run cut at the same moment.
+A mark set while a sound file is in the player is counted at the
+cameras' frame rate too.
 An In point counted back from the end is refused, by the player as by
 the run. So is a window the two cannot use, and in the same words: an
 Out point in front of the In point, a window that lies wholly outside
@@ -397,6 +401,11 @@ such a camera, a camera placed by its timecode and a sound track
 without a fit of its own read `clock drift not measured`. All of them
 used to print a row of noughts there -- nought ppm, nought
 points -- which reads like a measurement and was none.
+
+Of cameras as long, the one that places the most others is the
+reference, then one with a timecode, then the first by name -- never
+the order they were added in. A camera the reference does not hear is
+placed through one that hears it; its line says through which.
 
 Wanting more than the window holds means moving **Mark In** and **Mark
 Out** apart and running again. There is no separate switch for it.

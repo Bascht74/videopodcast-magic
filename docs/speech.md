@@ -58,7 +58,10 @@ file list shows under one row -- counts as one recording here. The
 separation hears every block, one after the other as the run joins
 them, and the voices it finds cover the whole recording. A separation
 an earlier version made of the first block alone is not taken for the
-whole: it is worked out once more.
+whole: it is worked out once more. The words written down beside it
+come from every block as well, on the time of the whole recording;
+words an earlier version heard in the first block alone are heard once
+more.
 
 Separation is the way for **one common recording** that everybody is
 audible on. It does not need the tick **Multitrack (one track per
@@ -203,7 +206,10 @@ That is the one exception: where a voice sounds like a voice already
 named in another recording, the program takes it for the same person
 heard again, the table proposes that name in its field, and the two
 may carry it together. The log says which voice it heard again and how
-alike the two are; it changes no name by itself. Two
+alike the two are; it changes no name by itself. Where the shared
+name sits on one camera by a recording's track and on another by the
+voice, the voice's camera holds: the cut, the handover and the preview
+show that person there alone, and the log says so. Two
 recordings of one name are a question and not a refusal -- they are
 meant to become a single track, laid end to end by their timecode
 ([Multitrack](multitrack.md)).

@@ -77,7 +77,9 @@ zurück holt sie die Antwort im Feld. Das Auswahlfeld **gehört zu**
 listet die Kameras, danach zwei Sonderfälle:
 
 - **ohne eigene Kamera**: im Full-Mix, aber bei niemandem die erste
-  Spur. Für jemanden, der zu hören, aber nicht zu sehen ist.
+  Spur. Für jemanden, der zu hören, aber nicht zu sehen ist. Der
+  Eigenton einer Kamera ist keine Ausnahme: Auf dieser Kamera sitzt dann
+  niemand, und sie kann der Weitwinkel sein.
 - **nicht verwenden**: bleibt ganz außen vor; der Sprechername wird
   grau, und im Feld steht **ungenutzt**. Für eine Aufnahme, deren Video
   noch fehlt.
@@ -351,7 +353,9 @@ Der Player zeigt eine Marke als Timecode der Kamera, die er gerade
 spielt; der Lauf bekommt sie aber als Abstand vom Moment, in dem jede
 Kamera läuft. So landet eine Marke auf jeder Kamera auf dem Bild, auf
 dem sie gesetzt wurde -- auch auf einer, die mit 29,97 Bildern läuft --,
-und Vorschau und Lauf schneiden im selben Moment. Einen In-Punkt, der
+und Vorschau und Lauf schneiden im selben Moment. Eine Marke, die
+gesetzt wird, während eine Tondatei im Player liegt, zählt ebenfalls in
+der Bildrate der Kameras. Einen In-Punkt, der
 vom Ende zurückzählt, lehnt der Player ab, genau wie der Lauf. Beide
 lehnen auch ein Fenster ab, mit dem sich nichts anfangen lässt, und sie
 sagen es mit denselben Worten: wenn der Out-Punkt vor dem In-Punkt
@@ -425,6 +429,11 @@ einer solchen Kamera, bei einer, die ihr Timecode platziert hat, und
 bei einer Tonspur ohne eigene Messung `Uhrengang nicht gemessen`. Früher
 stand an all diesen Stellen eine Reihe Nullen -- null ppm, null
 Punkte --, die aussah wie eine Messung und keine war.
+
+Von gleich langen Kameras ist die Referenz die, die die meisten anderen
+legt, dann eine mit Timecode, dann die erste nach Namen -- nie die
+Reihenfolge des Hinzufügens. Eine Kamera, die die Referenz nicht hört,
+wird über eine gelegt, die sie hört; ihre Zeile sagt, über welche.
 
 Wer mehr braucht, als das Fenster hergibt, setzt **In markieren** und
 **Out markieren** weiter auseinander und lässt noch einmal laufen. Einen

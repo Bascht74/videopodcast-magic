@@ -386,7 +386,7 @@ These options are not in the window.
   recordings beside it; in a run entirely without picture it decides
   whether the blocks are kept singly.
 - `--no-camera-audio` leaves the camera's own track out of the new file.
-- `--help` puts `[multitrack only]` on the two switches that only mean
-  something where several tracks go up together. The marker stays English, even with
+- `--help` puts `[multitrack only]` on the one switch that only means
+  something where several tracks go up together, `--auphonic-resume`. The marker stays English, even with
   `--lang de`. [All switches](command-line.md) says of every switch
   which path it works on.

@@ -123,7 +123,10 @@ Four tabs, in the order they are needed.
   - A camera nobody is assigned to shows **Wide shot** although nobody
     marked it. **Content** is the barred entry while that lasts, because
     no speaker is assigned to it. Give that camera a speaker, or set the
-    **Kind** yourself, and the entry frees itself. Under **Sync only**
+    **Kind** yourself, and the entry frees itself. A camera whose own
+    sound is a speaker's track counts as assigned even with its name
+    field empty: the run seats the name it guesses from the file there,
+    and the field shows what the run will cut. Under **Sync only**
     nobody is asked who speaks, so no camera is worked out to be the
     wide shot there: only a camera somebody sets to **Wide shot** is
     one.
@@ -696,7 +699,8 @@ against which picture -- naming, for a recording written in several
 blocks, the block that is playing, and saying where that recording was
 not due under this picture and stayed silent on purpose -- and, at every
 start and every stop of the cut player, which camera it was showing.
-That is the part to send along with a complaint about the preview.
+They stand in the log file only, never in the Output tab. That is the
+part to send along with a complaint about the preview.
 
 Lines marked `[EXT]` hold every call to a program outside this one --
 ffmpeg and ffprobe -- with the tool, the file it was about and how long

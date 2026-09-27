@@ -138,7 +138,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
     obwohl niemand sie so gekennzeichnet hat. Gesperrt ist dann
     **Inhalt**, weil ihr kein Sprecher zugeordnet ist. Gibt man dieser
     Kamera einen Sprecher oder setzt den **Typ** selbst, ist der Eintrag
-    wieder frei. Bei **Nur synchronisieren** fragt niemand, wer spricht,
+    wieder frei. Eine Kamera, deren eigener Ton die Spur eines Sprechers
+    ist, gilt auch mit leerem Namensfeld als zugeordnet: Der Lauf setzt
+    den Namen, den er aus der Datei rät, auf sie, und das Feld zeigt, was
+    der Lauf schneiden wird. Bei **Nur synchronisieren** fragt niemand, wer spricht,
     und so wird dort auch keine Kamera zum Weitwinkel erklärt: Weitwinkel
     ist nur eine Kamera, die jemand auf **Weitwinkel** stellt.
   - Eine Datei, für die die Messung keinen Platz gefunden hat, ist
@@ -755,8 +758,9 @@ welcher Ton an welches Bild gelegt wurde -- bei einer Aufnahme aus
 mehreren Blöcken mit dem Block, der gerade läuft, und mit einem Wort
 dort, wo diese Aufnahme unter diesem Bild nicht dran ist und deshalb
 still bleibt -- und, bei jedem Start und jedem Halt des
-Schnitt-Players, welche Kamera er dabei zeigte. Genau das ist der Teil,
-den man einer Beschwerde über die Vorschau mitschickt.
+Schnitt-Players, welche Kamera er dabei zeigte. Sie stehen nur im
+Protokoll, nie im Reiter Ausgabe. Genau das ist der Teil, den man
+einer Beschwerde über die Vorschau mitschickt.
 
 Zeilen mit dem Vorsatz `[EXT]` halten jeden Aufruf eines fremden
 Programms fest -- ffmpeg und ffprobe -- mit dem Werkzeug, der Datei, um
