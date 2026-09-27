@@ -643,6 +643,47 @@ jobs:
           fi
 
           echo
+          echo "5. And the known-good package lists, one per system"
+          # The owner, 27.9.2026: the machine the episodes are edited on
+          # installs what the suite was green on. publish.yml hangs one
+          # list per system beside the archive and names each in the
+          # manifest. Asked here as they hang: there, named in
+          # SHA256SUMS.txt with the sum of what came down, and each a
+          # list pip3 -c takes -- name==version lines, and no local
+          # label like +cpu, which PyPI does not carry.
+          for sys in macos windows linux; do
+            name="constraints-$sys.txt"
+            case ",$assets," in
+              *,"$name",*) ok=1 ;;
+              *) ok=0 ;;
+            esac
+            check "$name hangs on the release" "$ok" \
+              "it carries: ${assets:-nothing}"
+            rm -f "/tmp/$name"
+            if [ "$ok" = "1" ]; then
+              url=$(python -c "import json, sys; print([a['browser_download_url'] \
+                for a in json.load(open('/tmp/release.json'))['assets'] \
+                if a['name'] == sys.argv[1]][0])" "$name")
+              curl -fsSL -o "/tmp/$name" "$url" || true
+            fi
+            want=$(awk -v n="$name" 'length($1) == 64 && $NF == n \
+                        {print $1}' /tmp/sums-release.txt 2>/dev/null | head -1)
+            got=""
+            [ -s "/tmp/$name" ] \
+              && got=$(shasum -a 256 "/tmp/$name" | awk '{print $1}')
+            [ -n "$want" ] && [ "$want" = "$got" ] && ok=1 || ok=0
+            check "the manifest names it, with its sum" "$ok" \
+              "${want:0:16}... says the manifest, ${got:0:16}... is it"
+            pins=$(grep -cE '^[A-Za-z0-9._-]+==[^+[:space:];]+$' \
+                     "/tmp/$name" 2>/dev/null || true)
+            other=$(grep -vcE '^(#|$|[A-Za-z0-9._-]+==[^+[:space:];]+$)' \
+                     "/tmp/$name" 2>/dev/null || true)
+            [ "${pins:-0}" -gt 0 ] && [ "${other:-1}" = "0" ] && ok=1 || ok=0
+            check "and it is a list pip3 -c takes" "$ok" \
+              "${pins:-0} name==version lines, ${other:-?} other lines"
+          done
+
+          echo
           [ "$fails" = "0" ] && echo "All good." \
             || { echo "FAIL: $fails of these"; exit 1; }
 

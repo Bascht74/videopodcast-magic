@@ -1333,3 +1333,46 @@ jobs:
             python "$file" 2>&1 | tail -70 || true
             echo
           done
+
+      # The packages this green run stood on, kept as a file of the run.
+      # The owner decided on 27.9.2026 that every release carries, per
+      # system, the versions its suite was green on, so that the machine
+      # the episodes are edited on can install exactly those rather than
+      # whatever pip finds newest that day. publish.yml collects these
+      # and hangs one per system on the release as constraints-<system>.txt;
+      # this step only writes down what was there.
+      #
+      # After a green suite and only then: a list off a red run is not
+      # a known-good one. Not on the neutral job, which installs neither
+      # ffmpeg nor the separation and would also collide with Linux
+      # py3.14 under one name. The first line says which machine and
+      # which Python; pip freeze leaves pip itself out. Windows' Python
+      # writes CRLF into a pipe, and tr takes the CR out here rather
+      # than in every reader.
+      - name: "Record: the packages this green run stood on"
+        if: success() && env.CHOSEN == 'true' && matrix.tests != 'neutral'
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/freeze"
+          f="$RUNNER_TEMP/freeze/freeze.txt"
+          {
+            echo "# $RUNNER_OS $RUNNER_ARCH, $(python -VV), separation $SPEAKER_SPLIT"
+            python -m pip freeze
+          } | tr -d '\r' > "$f"
+          n=$(grep -c '==' "$f" || true)
+          if [ "${n:-0}" -eq 0 ]; then
+            echo "FAIL: pip freeze named no package with a version."
+            exit 1
+          fi
+          echo "freeze: $n packages, as freeze-${{ matrix.label }}-py${{ matrix.python }}"
+          cat "$f"
+
+      # Kept for a week: publish.yml reads it inside the same run, and a
+      # push's copy is only ever looked at by somebody reading that run.
+      - uses: actions/upload-artifact@v7
+        if: success() && env.CHOSEN == 'true' && matrix.tests != 'neutral'
+        with:
+          name: freeze-${{ matrix.label }}-py${{ matrix.python }}
+          path: ${{ runner.temp }}/freeze/freeze.txt
+          if-no-files-found: error
+          retention-days: 7
