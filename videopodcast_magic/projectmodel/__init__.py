@@ -104,14 +104,22 @@ class ProjectModel(object):
                 out.append((p, kind))
         return out
 
-    def window_length(self):
-        """Return the length of the window, empty if none is set."""
+    def window_length(self, reading=None):
+        """Return the length of the window, empty if none is set.
+
+        *reading* is the player's mark_on_clock where there is one: a
+        project saved before the marks were kept counted from where
+        every camera runs can hold a timecode beside a counted mark, and
+        only on the clock are the two one length.
+        """
         try:
-            a, _ = parse_time_point(self.in_point.get(), 30.0)
-            b, _ = parse_time_point(self.out_point.get(), 30.0)
+            a, abs_a = (reading or (lambda t: parse_time_point(t, 30.0)))(
+                self.in_point.get())
+            b, abs_b = (reading or (lambda t: parse_time_point(t, 30.0)))(
+                self.out_point.get())
         except Exception:
             return ""
-        if a is None or b is None or b <= a:
+        if a is None or b is None or abs_a != abs_b or b <= a:
             return ""
         return as_hms(b - a)
 

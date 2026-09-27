@@ -116,6 +116,9 @@ class AssignmentSheet(QtWidgets.QScrollArea):
         player.find_track = self.audio_for_camera
         player.heading = self.view_title
         player.title.hide()
+        # The Resolve tab writes the marks as this player's line does.
+        state["mark_shown"] = getattr(player, "mark_shown", None)
+        state["mark_on_clock"] = getattr(player, "mark_on_clock", None)
         self.view_position.addWidget(player)
         self.axis_label = label("", COLOURS["quiet"])
         self.axis_label.setWordWrap(True)
@@ -183,19 +186,22 @@ class AssignmentSheet(QtWidgets.QScrollArea):
     def limit_set(self, target):
         """Adopt the position currently on screen as a boundary.
 
-        In the same reckoning as the readout right above these buttons:
-        two of them one widget apart put it where nobody set it. A
-        relative one counts from where every camera runs, as the run does.
+        Kept counted from where every camera runs, as the run counts it
+        (a timecode is read at the reference camera's rate); the line
+        shows it as a timecode. Before that moment it stays a timecode.
         """
         player = self.player
-        a = player.axis_spot()
-        exact = a if (a is not None and self.state.get("axis_absolute")) \
-            else player.timer_s()
-        if exact is not None:
-            target.set(timecode_string(exact, player.fps))
+        # Measured, else by its timecode, as the player's place_s.
+        here = player.axis_s()
+        here = getattr(player, "tc0", None) if here is None else here
+        if here is None:
+            target.set(as_relative_time(player.spot_s()))
             return
-        target.set(as_relative_time(a - player.marks_zero() if a is not None
-                                    else player.spot_s()))
+        at, zero = here + player.spot_s(), player.marks_zero()
+        if at < zero - 0.0005 and getattr(player, "marks_on_clock", bool)():
+            target.set(timecode_string(at, player.fps))
+            return
+        target.set(as_relative_time(at - zero))
 
     def window_remember(self):
         """Put the boundaries where the player will find them."""

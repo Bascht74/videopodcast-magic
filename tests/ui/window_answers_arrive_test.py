@@ -426,7 +426,8 @@ def in_point_shown():
     Three places in this window say "In point", and the cut player on
     the Resolve tab converts the position into the timecode of its
     clip. Only the preview player's own line shows the answer itself,
-    and the answer is what travels on.
+    as a clock time; the mark travels counted from where every camera
+    runs, so what is held against it is the moment, not the text.
     """
     p = preview_player()
     head = drawn(vpm.T('In point %s')).replace("%s", "").strip()
@@ -437,6 +438,23 @@ def in_point_shown():
         if said.startswith(head):
             return said[len(head):].strip()
     return ""
+
+
+def clock_seconds(mark, fps):
+    """Read a clock time back as seconds -- by hand, not by the program."""
+    try:
+        h, m, s, f = (int(x) for x in str(mark).split(":"))
+    except ValueError:
+        return None
+    return h * 3600 + m * 60 + s + f / max(1.0, float(fps))
+
+
+def cut_where_shown(rec, shown):
+    """(cut at, screen at, fps): where the trimming began, and the screen."""
+    p = preview_player()
+    fps = float(getattr(p, "fps", None) or 30.0)
+    at = (rec or {}).get("left", {}).get("start")
+    return at, clock_seconds(shown, fps), fps
 
 
 def preview_player():
@@ -944,8 +962,12 @@ def in_point_arrived(rec, _all):
     kept["shown_first"] = shown
     check("the player shows an In point after the click",
           bool(shown) and shown != "--", repr(shown))
-    check("and exactly that text reaches the calculation",
-          rec["in"] == shown, "%r vs %r" % (rec["in"], shown))
+    at, meant, fps = cut_where_shown(rec, shown)
+    check("and the calculation begins at the moment that text names",
+          at is not None and meant is not None
+          and abs(at - meant) <= 0.5 / fps + 0.001,
+          "cut at %s s, screen %r = %s s, sent %r" % (at, shown, meant,
+                                                     rec["in"]))
 
 
 def mark_in_later():
@@ -977,8 +999,12 @@ def second_in_point(rec, _all):
     check("the second mark is a different one",
           bool(shown) and shown != kept.get("shown_first"),
           "%r -> %r" % (kept.get("shown_first"), shown))
-    check("and it too arrives unchanged",
-          rec["in"] == shown, "%r vs %r" % (rec["in"], shown))
+    at, meant, fps = cut_where_shown(rec, shown)
+    check("and it too arrives as the moment shown",
+          at is not None and meant is not None
+          and abs(at - meant) <= 0.5 / fps + 0.001,
+          "cut at %s s, screen %r = %s s, sent %r" % (at, shown, meant,
+                                                     rec["in"]))
     if before is None or before["left"]["length"] is None \
             or rec["left"]["length"] is None:
         check("the trimmed material can be compared", False,

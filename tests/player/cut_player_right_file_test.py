@@ -276,7 +276,7 @@ if ran and not answered:
                    if covers("/x/WideCam.mov", t) is True)))
     remembered.pop("player_file")
 
-    print("\n9. A value counted from the start of the material needs the axis")
+    print("\n9. A value counted from where every camera runs needs a place")
     # The wide shot begins 1200 s into the material, so the axis is the
     # whole difference between +0:15:00 and +0:50:00 landing outside and
     # inside it.
@@ -293,12 +293,17 @@ if ran and not answered:
             "wide at +0:15:00: %s, wanted False -- 900 s along an axis the"
             " wide shot joins at %.0f s"
             % (early, SPANS["/x/WideCam.mov"]["axis"]))
-    SPANS["/x/WideCam.mov"]["axis"] = None
+    # Unmeasured, a file is placed by its timecode, as the cut places it;
+    # with neither there is nothing to count the value along.
+    tc0 = SPANS["/x/WideCam.mov"]["tc0"]
+    SPANS["/x/WideCam.mov"]["axis"] = SPANS["/x/WideCam.mov"]["tc0"] = None
     no_axis = covers("/x/WideCam.mov", "+0:50:00")
-    check("with no axis measured such a value gets no answer at all",
+    check("with no axis and no timecode such a value gets no answer",
             no_axis is None,
-            "wide without an axis at +0:50:00: %s, wanted None" % (no_axis,))
+            "wide without axis or timecode at +0:50:00: %s, wanted None"
+            % (no_axis,))
     SPANS["/x/WideCam.mov"]["axis"] = 1200.0
+    SPANS["/x/WideCam.mov"]["tc0"] = tc0
 
     print("\n10. No timecode, no answer for a clock time")
     no_clock = covers("/x/Jingle.mp4", "17:20:00:00")

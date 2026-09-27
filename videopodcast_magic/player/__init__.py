@@ -1480,9 +1480,54 @@ def end_in_file(p):
     the axis; before that, the end of the file itself.
     """
     end = getattr(p, "marks_end", lambda: None)()
-    if end is None or p.axis_s() is None:
+    here = place_s(p)
+    if end is None or here is None:
         return p.player.duration() / 1000.0
-    return end - p.axis_s()
+    return end - here
+
+
+def place_s(p):
+    """Where the file player *p* holds starts as the marks count it.
+
+    The measurement, else its timecode -- the cut's camera_start, so a
+    mark set before the measurement is in counts as well.
+    """
+    a = p.axis_s()
+    return a if a is not None else getattr(p, "tc0", None)
+
+
+def mark_on_clock(p, text):
+    """A mark as (seconds, timecode?), on the clock where it can be.
+
+    The window keeps a mark counted from where every camera runs
+    (limit_set); where the axis of player *p* knows the time of day,
+    that is the same moment as a clock time. Unreadable is None.
+    """
+    try:
+        value, absolute = parse_time_point(text, p.fps)
+    except Exception:
+        return None, False
+    zero = getattr(p, "marks_zero", None)
+    if (value is not None and not absolute and value >= 0
+            and zero is not None and getattr(p, "marks_on_clock", bool)()):
+        return zero() + value, True
+    return value, absolute
+
+
+def mark_shown(p, text):
+    """A mark as the line of player *p* writes it.
+
+    As the timecode of its moment at that file's rate where the axis
+    knows the time of day, as the readout beside it does; else as it is.
+    """
+    said = (text or "").strip()
+    try:
+        if parse_time_point(said, p.fps)[1]:
+            return said
+    except Exception:
+        return said
+    value, absolute = mark_on_clock(p, said)
+    return timecode_string(value, p.fps) if absolute else said
 
 
 def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
@@ -1914,11 +1959,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             From the two settings, not from their positions in this
             file, or an early In point shows the file's length instead.
             """
-            try:
-                a, abs_a = parse_time_point(state["in_point"], self.fps)
-                b, abs_b = parse_time_point(state["out_point"], self.fps)
-            except Exception:
-                return ""
+            a, abs_a = mark_on_clock(self, state["in_point"])
+            b, abs_b = mark_on_clock(self, state["out_point"])
             if a is None or b is None or abs_a != abs_b or b <= a:
                 return ""
             missing = ""
@@ -1933,11 +1975,12 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             return T('Window %s%s') % (as_hms(b - a), missing)
 
         def _place(self, text):
-            """Where a time value falls in this file: (seconds, timecode?).
+            """Where a time value falls in this file: (seconds, a moment?).
 
             Not held to the file: before its start comes out negative,
             past its end longer than it. Seconds are None where the value
-            cannot be placed at all -- a timecode against a file without.
+            cannot be placed at all. A moment: a timecode, or a point
+            counted from where every camera runs on a file with a place.
             """
             try:
                 value, absolute = parse_time_point(text, self.fps)
@@ -1949,9 +1992,10 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 if self.tc0 is None:
                     return None, True
                 value -= self.tc0
-            elif value >= 0 and self.axis_s() is not None:
+            elif value >= 0 and place_s(self) is not None:
                 # From where every camera runs, as in the run (the window).
-                value += getattr(self, "marks_zero", float)() - self.axis_s()
+                value += getattr(self, "marks_zero", float)() - place_s(self)
+                return value, True
             elif value < 0:
                 value += end_in_file(self)
             return value, absolute
@@ -1964,11 +2008,11 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def jump_to(self, text):
             """Jump to a time value; False where this file does not hold it.
 
-            A timecode outside the file is answered, not clamped to an
+            A moment outside the file is answered, not clamped to an
             edge: the window then looks for the file that holds it and
             names the point where none does, as without a timecode. The
             margin is the one covers() allows; a length not yet known
-            judges only the front. A relative point is held to the edges.
+            judges only the front; any other relative point is clamped.
             """
             value, absolute = self._place(text)
             length = self.player.duration() / 1000.0
@@ -2481,7 +2525,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             duration = self.player.duration() / 1000.0
             self.left_label.setText(T('Start %s') % self.time_mark(0.0))
             self.right_label.setText(T('End %s') % self.time_mark(duration))
-            begins, until = state["in_point"], state["out_point"]
+            begins, until = (mark_shown(self, state["in_point"]),
+                             mark_shown(self, state["out_point"]))
             self.cut_left.setText(T('In point %s') % (begins or "--"))
             self.cut_right.setText(T('Out point %s') % (until or "--"))
             self.cut_middle.setText(self._window_length())
@@ -2883,9 +2928,11 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
                 return None
             value -= span["tc0"]
         elif value >= 0:
-            if span["axis"] is None:
+            # Measured, else by its timecode, as places_here counts.
+            here = span["axis"] if span["axis"] is not None else span["tc0"]
+            if here is None:
                 return None
-            value += marks_zero_here() - span["axis"]
+            value += marks_zero_here() - here
         else:
             value = span["duration"] + value
         if not (0.0 <= value <= span["duration"] + 0.05):
@@ -2896,17 +2943,40 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
         """What this file knows about its place in time, on this axis."""
         return file_span(file_path, state["axis"])
 
+    def places_here():
+        """{path_key: start} of every camera the player may show.
+
+        Measured, else by its timecode, as the cut's camera_start.
+        """
+        out = {}
+        for file_path in player_candidates():
+            span = picture_span(file_path) or {}
+            at = span.get("axis")
+            at = span.get("tc0") if at is None else at
+            if at is not None:
+                out[path_key(file_path)] = float(at)
+        return out
+
     def marks_zero_here():
         """Where "+12:30" counts from on this axis: where every camera runs."""
-        return PROGRAM.marks_zero(state["axis"], player_candidates())
+        return PROGRAM.marks_zero(places_here(), player_candidates())
 
     player.marks_zero = marks_zero_here
 
     def marks_end_here():
         """Where "-0:00:30" counts back from on this axis: the first stop."""
-        return PROGRAM.marks_end(state["axis"], player_candidates())
+        return PROGRAM.marks_end(places_here(), player_candidates())
 
     player.marks_end = marks_end_here
+
+    def marks_on_clock():
+        """Whether that zero is a time of day, so a mark reads as one."""
+        return bool(state.get("axis_absolute")
+                    or (not state["axis"] and places_here()))
+
+    player.marks_on_clock = marks_on_clock
+    player.mark_shown = lambda text: mark_shown(player, text)
+    player.mark_on_clock = lambda text: mark_on_clock(player, text)
 
     def covers(file_path, text):
         """Report whether a time value lies inside this video file.
@@ -2932,13 +3002,16 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
                 return None
             value -= span["tc0"]
         elif value >= 0:
-            if span["axis"] is None:
+            # Measured, else by its timecode, as places_here counts.
+            here = span["axis"] if span["axis"] is not None else span["tc0"]
+            if here is None:
                 return None
-            value += marks_zero_here() - span["axis"]
+            value += marks_zero_here() - here
         else:
             # Back from where the first camera stops, as in the run.
-            end = marks_end_here() if span["axis"] is not None else None
-            value += span["duration"] if end is None else end - span["axis"]
+            here = span["axis"] if span["axis"] is not None else span["tc0"]
+            end = marks_end_here() if here is not None else None
+            value += span["duration"] if end is None else end - here
         return -0.05 <= value <= span["duration"] + 0.05
 
     def player_candidates():

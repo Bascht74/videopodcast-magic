@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
-"""A mark on a 25 camera is where the run's result begins or ends.
+"""A window mark is where the run's result begins or ends, at 25 and 29.97.
 
 way_ground's production: two cameras at 25, one at 29.97. The window:
 the player on the 29.97 camera to a spot, Mark In, on a 25 camera to a
 later one, Mark Out, Start -- judged: both marks taken, and its line
-carries them. The line: the window's marks as written, the same moments
-counted from the window start, and In on 25 with Out on 29.97. Judged
-on the handovers: both doors hand over one window, a 25 mark and a
-relative point land within half a frame, the shots fill the window.
-A 29.97 mark is measured, not judged: its offset in frames stands on a
-LEFT OUT line while it is off, so the repair turns nothing red.
+carries them counted from the window start. The line: the timecodes
+the window's field shows, typed; those moments counted from the window
+start; In on 25 with Out on 29.97 typed. Judged on the handovers: the
+window's marks on both rates, a 25 timecode and a relative point land
+within half a frame, the shots fill the window. A timecode typed for
+the 29.97 camera is measured, not judged: the line reads it at the
+reference camera's rate, and its offset in frames stands on a LEFT OUT
+line while it is off, so a repair turns nothing red.
 """
 PLATFORM_BOUND = True
 import os
@@ -229,11 +231,14 @@ argv = keep.get("argv") or []
 said_in = argv[argv.index("--in-point") + 1] if "--in-point" in argv else ""
 said_out = argv[argv.index("--out-point") + 1] if "--out-point" in argv \
     else ""
-check("the window's run line carries the two marks as they stand",
-      (said_in, said_out) == (made["in"], made["out"]) and said_in != "",
-      "%r %r against %r %r" % (said_in, said_out, made["in"], made["out"]))
+# The field shows a timecode; what travels counts from the window start,
+# which the run reads at no frame rate at all.
+check("the window's run line carries its marks from the window start",
+      (said_in, said_out) == (REL_IN, REL_OUT),
+      "%r %r against %r %r, the field showing %r %r"
+      % (said_in, said_out, REL_IN, REL_OUT, made["in"], made["out"]))
 
-print("\nThe line, with the window's marks as written.")
+print("\nThe line, with the marks the window's field shows, typed.")
 same_d, code, stuck = line_door("marks_same", made["in"] or "-",
                                 made["out"] or "-")
 print("\nThe line, with the same moments counted from the window start.")
@@ -243,14 +248,13 @@ swap_d, scode, sstuck = line_door("marks_swap", SWAP_IN, SWAP_OUT)
 
 # ------------------------------------------------------------ judged
 wa, wb = span(window_d)
-la, lb = span(same_d)
-check("both doors hand over the same window for the same two marks",
-      None not in (wa, wb, la, lb)
-      and abs(wa - la) < 0.001 and abs(wb - lb) < 0.001,
-      "window %s to %s s, line %s to %s s (programme)"
-      % (wa, wb, la, lb))
-
 w_in, w_out = lands(window_d, IN_AT, OUT_AT)
+check("the window's In mark on the 29.97 camera is where the result begins",
+      w_in is not None and abs(w_in) <= HALF[29.97],
+      "%s s off (%s frames at 29.97), field %r, sent %r, at most %.3f s"
+      % (None if w_in is None else round(w_in, 4),
+         None if w_in is None else frames(w_in, 29.97), made["in"], said_in,
+         HALF[29.97]))
 check("the window's Out mark on the 25 camera is where the result ends",
       w_out is not None and abs(w_out) <= HALF[25.0],
       "%s s off (%s frames at 25), mark %r, at most %.3f s"
@@ -288,12 +292,13 @@ check("every run's shots fill the window it handed over",
       ", ".join("%s shots %.3f s against %.3f s" % f for f in fills))
 
 # ------------------------------------------------------------ measured
-# The 29.97 mark: reported, not judged. While it is off by more than
-# half a frame the line below keeps the test green and names it; the
-# day it lands, the line says so and nothing turns red.
+# A timecode typed on the line for the 29.97 camera -- the one the field
+# shows, and one typed by hand: reported, not judged. The line reads
+# every timecode at the reference camera's rate; while that is off by
+# more than half a frame the line below keeps the test green and names
+# it, and the day it lands nothing turns red.
 off_by = []
 for door, off, mark, meant in (
-        ("window In", w_in, made["in"], IN_AT),
         ("line In", lands(same_d, IN_AT, OUT_AT)[0], made["in"], IN_AT),
         ("line Out", s_out, SWAP_OUT, SWAP_OUT_AT)):
     if off is None:
@@ -308,8 +313,9 @@ if w_in is not None and w_out is not None:
           % (OUT_AT - IN_AT, wb - wa, frames((wb - wa) - (OUT_AT - IN_AT),
                                               29.97)))
 if off_by:
-    left_out.append("LEFT OUT: a mark on the 29.97 camera does not land "
-                    "on its frame -- frames late at 29.97: "
-                    + ", ".join(off_by))
+    left_out.append("LEFT OUT: a timecode typed on the command line for "
+                    "the 29.97 camera does not land on its frame -- read "
+                    "at the reference camera's rate; frames late at "
+                    "29.97: " + ", ".join(off_by))
 
 stop()

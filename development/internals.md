@@ -42,7 +42,7 @@ figure of the day is that command, not this paragraph**:
   marks on the assignment table, and the speaking-time table
 * `ui/` **3256** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `player/` **3191** -- the moving picture: the player, the cut band,
+* `player/` **3264** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
 * `cut/` **3275** -- who is on camera when, and what carries it out
@@ -100,7 +100,7 @@ figure of the day is that command, not this paragraph**:
   several blocks shown as one entry
 * `prework/` **436** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them
-* `resolvesheet/` **619** -- the third tab: whether Resolve answers,
+* `resolvesheet/` **620** -- the third tab: whether Resolve answers,
   the camera cut with its settings, forecast and preview, what the
   player is fed with, and the speaker box
 * `livery/` **453** -- the colours, the clip colours of the cut band and
@@ -120,7 +120,7 @@ figure of the day is that command, not this paragraph**:
 * `filesheet/` **458** -- the first tab: the drop area or the file
   list with its channel rows and findings, the video choices, and the
   production strip with the output folder
-* `assignmentsheet/` **260** -- the second tab: the assignment boxes,
+* `assignmentsheet/` **266** -- the second tab: the assignment boxes,
   the time window beside the preview player, and which audio runs under
   a camera; the table itself is `assignmenttable/`
 * `menus/` **238** -- the menu bar and what follows it
@@ -146,7 +146,7 @@ figure of the day is that command, not this paragraph**:
 `models/` is the odd one out among the folders: the speaker model lives
 there and no code at all, so `beside()` never reaches for it. There is
 nothing to build.
-* `projectmodel/` **121** -- the production's data the window works on:
+* `projectmodel/` **129** -- the production's data the window works on:
   the files, the output folder, the assignment and the choices, read by
   the project file, the run start and the file list; no widget, no Qt
 

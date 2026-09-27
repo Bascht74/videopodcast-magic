@@ -3,13 +3,14 @@
 
 An In point taken as given says nothing about the buttons that make
 one. So the player is dragged to a spot, the mark is made, and what
-came of it is read off the screen and off what reached the trimming.
-In order: no material and no mark at either door; the ground, a file
-with a timecode in the player and the time axis measured; the button;
-the menu entry, with its key; the project file; an Out point in front
-of the In point; and a step whose answer never comes, red where it
-stands. From the project file on, run_three_ways_agree has it, and this
-one stops there.
+came of it is read off the screen and off what reached the trimming --
+held as moments, since the field shows a clock time and the mark
+travels counted from where every camera runs. In order: no material
+and no mark at either door; the ground, a file with a timecode in the
+player and the time axis measured; the button; the menu entry, with its
+key; the project file; an Out point in front of the In point; and a
+step whose answer never comes, red where it stands. From the project
+file on, run_three_ways_agree has it, and this one stops there.
 """
 PLATFORM_BOUND = True
 import os
@@ -186,7 +187,11 @@ _real_window = vpm.apply_time_window
 
 def window_spy(d, in_point, out_point):
     out = _real_window(d, in_point, out_point)
-    seen.append({"in": in_point, "out": out_point, "complaint": out[1]})
+    # Where the trimming cut, on the clock: start_s is the time of day
+    # programme time begins at, and after trimming that is the In point.
+    cut = out[0] if not out[1] and isinstance(out[0], dict) else {}
+    seen.append({"in": in_point, "out": out_point, "complaint": out[1],
+                 "start": cut.get("start_s"), "length": cut.get("length_s")})
     return out
 
 
@@ -265,7 +270,7 @@ def point_shown(caption):
     Three places in this window say "In point", and the cut player on
     the Resolve tab converts the position into the timecode of its own
     clip. Only the preview player's own line shows the answer itself,
-    and the answer is what travels on.
+    and the moment it names is what travels on.
     """
     p = preview_player()
     head = drawn(vpm.T(caption)).replace("%s", "").strip()
@@ -564,14 +569,30 @@ def trigger(caption):
     return do
 
 
+def cut_at(fresh, end=False):
+    """Where the trimming cut, in seconds of the clock, or None."""
+    if fresh is None or fresh.get("start") is None:
+        return None
+    if not end:
+        return float(fresh["start"])
+    if fresh.get("length") is None:
+        return None
+    return float(fresh["start"]) + float(fresh["length"])
+
+
 def in_marked(fresh):
     said, clock = in_shown(), player_clock()
     kept["in"] = said
     check("Mark In writes the clock time the player shows",
           bool(clock) and said == clock, "%r against %r" % (said, clock))
-    check("the In point reaches the trimming exactly as it stands on screen",
-          fresh is not None and fresh["in"] == said,
-          "%r against %r" % (None if fresh is None else fresh["in"], said))
+    fps = player_fps()
+    at, meant = cut_at(fresh), clock_seconds(said, fps)
+    check("the trimming begins at the In point the screen shows",
+          at is not None and meant is not None
+          and abs(at - meant) <= 0.5 / fps + 0.001,
+          "cut at %s s, screen %r = %s s, sent %r, at most %.3f s apart"
+          % (at, said, meant, None if fresh is None else fresh["in"],
+             0.5 / fps + 0.001))
 
 
 def out_marked(fresh):
@@ -579,10 +600,14 @@ def out_marked(fresh):
     kept["out"] = said
     check("Mark Out writes the clock time the player shows",
           bool(clock) and said == clock, "%r against %r" % (said, clock))
-    check("the Out point reaches the trimming exactly as it stands on screen",
-          fresh is not None and fresh["out"] == said,
-          "%r against %r" % (None if fresh is None else fresh["out"], said))
     fps = player_fps()
+    at, meant = cut_at(fresh, end=True), clock_seconds(said, fps)
+    check("the trimming ends at the Out point the screen shows",
+          at is not None and meant is not None
+          and abs(at - meant) <= 0.5 / fps + 0.001,
+          "cut until %s s, screen %r = %s s, sent %r, at most %.3f s apart"
+          % (at, said, meant, None if fresh is None else fresh["out"],
+             0.5 / fps + 0.001))
     a = clock_seconds(kept.get("in"), fps)
     b = clock_seconds(said, fps)
     check("the two marks lie as far apart as the player was dragged",
@@ -625,6 +650,7 @@ def menu_in_marked(fresh):
     check("and it moved that mark too, away from the button's",
           bool(said) and said != before, "%r -> %r" % (before, said))
     kept["in"] = said
+    kept["in_arrived"] = None if fresh is None else fresh["in"]
 
 
 # the project file
@@ -638,14 +664,18 @@ def save_project():
 def written_out(_fresh):
     d, path = newest_project()
     where = os.path.basename(path or "") or "nothing"
-    check("the project file carries the In point as it stands on screen",
-          bool(d) and d.get("in_point") == kept.get("in"),
-          "%s: %r against %r"
-          % (where, None if not d else d.get("in_point"), kept.get("in")))
-    check("and the Out point as it stands on screen",
-          bool(d) and d.get("out_point") == kept.get("out"),
-          "%s: %r against %r"
-          % (where, None if not d else d.get("out_point"), kept.get("out")))
+    check("the project file keeps the In point the trimming got",
+          bool(d) and d.get("in_point") == kept.get("in_arrived")
+          and bool(kept.get("in_arrived")),
+          "%s: %r against %r, the screen showing %r"
+          % (where, None if not d else d.get("in_point"),
+             kept.get("in_arrived"), kept.get("in")))
+    check("and the Out point the trimming got",
+          bool(d) and d.get("out_point") == kept.get("out_arrived")
+          and bool(kept.get("out_arrived")),
+          "%s: %r against %r, the screen showing %r"
+          % (where, None if not d else d.get("out_point"),
+             kept.get("out_arrived"), kept.get("out")))
 
 
 # an Out point in front of the In point
