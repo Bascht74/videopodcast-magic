@@ -560,14 +560,19 @@ def open_ffmpeg_page():
 
 
 # Where a built ffmpeg comes from for the two systems that compile
-# none. win64 and linux64 are both n9.0.1-11-ge47273f4d9, both carry
-# --enable-libsoxr, 121 and 161 MB.
+# none. Both carry --enable-libsoxr. The size moves with every build:
+# measured 27.9.2026, linux64 151 MB and win64 194 MB.
 
 # "latest" is a moving tag on the 9.0 line, so what arrived is asked
 # afterwards rather than promised here. Name: line, machine, licence,
 # line, kind of archive.
 FFMPEG_BUILD_PLACE = ("https://github.com/BtbN/FFmpeg-Builds/releases"
                       "/download/latest/ffmpeg-n9.0-latest-%s-gpl-9.0.%s")
+
+# The same release lists the SHA-256 of every archive in it, one line
+# each in the shape sha256sum writes: 64 hex digits, two spaces, the
+# file name. Measured 27.9.2026, 48 lines, 5 KB.
+FFMPEG_BUILD_SUMS = "checksums.sha256"
 
 
 def ffmpeg_build_url():
@@ -626,15 +631,65 @@ def fetch_archive(url, where, say=None):
     return ""
 
 
+def sha256_of(path):
+    """The SHA-256 of that file, as 64 lower-case hex digits."""
+    import hashlib
+    whole = hashlib.sha256()
+    with open(path, "rb") as f:
+        for block in iter(lambda: f.read(1 << 20), b""):
+            whole.update(block)
+    return whole.hexdigest()
+
+
+def listed_sum(listing, name):
+    """The sum that list of checksums gives for that file name, or "".
+
+    The list is what sha256sum writes: the sum, a space, a space or a
+    star, the name. A line whose sum is no SHA-256 counts as no line.
+    """
+    with open(listing, encoding="utf-8", errors="replace") as f:
+        for line in f:
+            parts = line.split()
+            if len(parts) == 2 and parts[1].lstrip("*") == name \
+                    and re.fullmatch(r"[0-9a-fA-F]{64}", parts[0]):
+                return parts[0].lower()
+    return ""
+
+
+def build_checked(url, archive):
+    """Hold the fetched archive against the release's own list. "" if it fits.
+
+    Otherwise the sentence saying why it may not be unpacked: the list
+    did not come, it does not name this archive, or the sum differs.
+    The list is fetched through fetch_archive, the one door outward.
+    """
+    listing = archive + ".sums"
+    trouble = fetch_archive(url.rsplit("/", 1)[0] + "/" + FFMPEG_BUILD_SUMS,
+                            listing)
+    if trouble:
+        return T('The list of checksums could not be fetched, so the build '
+                 'was not unpacked: %s') % trouble
+    name = os.path.basename(archive)
+    wanted = listed_sum(listing, name)
+    if not wanted:
+        return T('The list of checksums does not name %s, so the build '
+                 'was not unpacked.') % name
+    came = sha256_of(archive)
+    if came != wanted:
+        return T('The build does not match its checksum, so it was not '
+                 'unpacked: %s listed, %s arrived.') % (wanted, came)
+    return ""
+
+
 def unpack_tools(archive, folder):
     """Take ffmpeg and ffprobe out of that archive into that folder.
 
     Only those two, by their bare name, and only regular files: an
     archive is a list of paths somebody else wrote, and nothing in it
-    decides where anything lands here. Returns how many arrived.
+    decides where anything lands here. Returns how many arrived. One of
+    them twice, under any path, is a ValueError before anything lands.
     """
     wanted = ("ffmpeg", "ffprobe", "ffmpeg.exe", "ffprobe.exe")
-    done = 0
 
     def put(name, stream):
         where = os.path.join(folder, os.path.basename(name))
@@ -642,24 +697,36 @@ def unpack_tools(archive, folder):
             shutil.copyfileobj(stream, out)
         os.chmod(where, 0o755)
 
+    def refuse_twice(names):
+        """Which of two would land is the archive's choice: so neither."""
+        seen = [os.path.basename(n) for n in names]
+        twice = sorted(set(n for n in seen if seen.count(n) > 1))
+        if twice:
+            raise ValueError(T('The archive holds %s more than once, so '
+                               'nothing was taken out of it.')
+                             % ", ".join(twice))
+
     if archive.endswith(".zip"):
         import zipfile
         with zipfile.ZipFile(archive) as zf:
-            for one in zf.infolist():
-                if not one.is_dir() \
-                        and os.path.basename(one.filename) in wanted:
-                    with zf.open(one) as stream:
-                        put(one.filename, stream)
-                    done += 1
-        return done
+            chosen = [one for one in zf.infolist() if not one.is_dir()
+                      and os.path.basename(one.filename) in wanted]
+            refuse_twice([one.filename for one in chosen])
+            for one in chosen:
+                with zf.open(one) as stream:
+                    put(one.filename, stream)
+        return len(chosen)
     import tarfile
+    done = 0
     with tarfile.open(archive) as tf:
-        for one in tf:
-            if one.isfile() and os.path.basename(one.name) in wanted:
-                stream = tf.extractfile(one)
-                if stream is not None:
-                    put(one.name, stream)
-                    done += 1
+        chosen = [one for one in tf.getmembers() if one.isfile()
+                  and os.path.basename(one.name) in wanted]
+        refuse_twice([one.name for one in chosen])
+        for one in chosen:
+            stream = tf.extractfile(one)
+            if stream is not None:
+                put(one.name, stream)
+                done += 1
     return done
 
 
@@ -693,6 +760,10 @@ def fetch_ffmpeg_build(asked=False, say=None):
     archive = os.path.join(keep, name)
     try:
         trouble = fetch_archive(url, archive, say)
+        if not trouble:
+            # A moving tag and a file somebody else built: what came is
+            # held against the release's own list before any of it runs.
+            trouble = build_checked(url, archive)
         if trouble:
             tell("  " + trouble)
             return open_ffmpeg_page() if sys.platform == "win32" else False
