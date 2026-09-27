@@ -154,7 +154,7 @@ def look(case, media, folder):
     vpm.speaker_cache_write = lambda key, segments: None
     # A separation is followed by writing down what is said in it, and
     # that reaches for a speech recogniser this test has no use for.
-    vpm.words_at_hand = lambda audio_path, language="": []
+    vpm.words_at_hand = lambda audio_path, language="", blocks=(): []
 
     handed = []
     planned = []
