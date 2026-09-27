@@ -36,6 +36,7 @@ finished_tracks_deeper = PROGRAM.finished_tracks_deeper
 finished_tracks_find = PROGRAM.finished_tracks_find
 gui_log = PROGRAM.gui_log
 hint = PROGRAM.hint
+install_secret_tool = PROGRAM.install_secret_tool
 json = PROGRAM.json
 kept_channels = PROGRAM.kept_channels
 key_store_locked = PROGRAM.key_store_locked
@@ -50,6 +51,8 @@ platform = PROGRAM.platform
 re = PROGRAM.re
 report_findings = PROGRAM.report_findings
 safe_filename = PROGRAM.safe_filename
+secret_tool_command = PROGRAM.secret_tool_command
+secret_tool_missing = PROGRAM.secret_tool_missing
 show_progress = PROGRAM.show_progress
 similarity = PROGRAM.similarity
 step_begin = PROGRAM.step_begin
@@ -704,6 +707,63 @@ def finished_tracks_where(out, common):
             or finished_tracks_deeper(common))
 
 
+def secret_tool_offer(parent, arrived):
+    """Offer secret-tool in a box where the keyring needs it. True if taken.
+
+    The ffmpeg offer's way: asked on the window, installed in a thread
+    of its own with every line under Output, and *arrived* called in the
+    window's own thread once the command is really there -- that is
+    where the key is stored again. Nothing is offered in a test run,
+    where no package manager is found, or where no Output tab is up.
+    """
+    if os.environ.get("VPM_SILENT") or not secret_tool_missing():
+        return False
+    command = secret_tool_command()
+    if not command or PROGRAM.UPDATE_SINK is None:
+        return False
+    QtWidgets = PROGRAM._qt_widgets()
+    box = QtWidgets.QMessageBox(parent)
+    box.setWindowTitle("secret-tool")
+    box.setText(T('The key is kept in the desktop\'s keyring through the '
+                  'secret-tool command, and this machine does not have it.'))
+    box.setInformativeText(T('What it says appears under Output.'))
+    do = box.addButton(T('Get it: %s') % " ".join(command),
+                       QtWidgets.QMessageBox.AcceptRole)
+    box.addButton(T('Later'), QtWidgets.QMessageBox.RejectRole)
+    box.exec()
+    if box.clickedButton() is not do:
+        return False
+    ended = []
+
+    def job(say):
+        """The install, every line to *say*; trouble, or "" once it came."""
+        came = install_secret_tool(asked=True, say=say)
+        ended.append(came)
+        if came:
+            say(as_good(T('That worked.')) + "\n")
+            return ""
+        return key_store_trouble()
+
+    PROGRAM.UPDATE_SINK(job)
+    # A timer rather than a call out of that thread: the tick and the
+    # note belong to the window's own thread.
+    from PySide6 import QtCore
+    watch = QtCore.QTimer(parent)
+    watch.setInterval(300)
+
+    def look():
+        """Once the job ended, and only where secret-tool came: arrived."""
+        if not ended:
+            return
+        watch.stop()
+        if ended[0]:
+            arrived()
+
+    watch.timeout.connect(look)
+    watch.start()
+    return True
+
+
 def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
                       settings_open, buttons_check, multi_button,
                       out_folder, commonest_folder, report, tracks_now):
@@ -814,10 +874,24 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
         done_folder.set(found or "")
         done_label.setText(T('processed tracks found -- nothing is uploaded') if found else "")
 
+    def kept_after_install(key):
+        """secret-tool came: store the key it was wanted for, tick and all."""
+        if store_api_key(key):
+            keep_button.blockSignals(True)
+            remember.set(True)
+            keep_button.blockSignals(False)
+            key_note_hide()
+            return
+        key_note_show(T('The key was not saved: %s') % key_store_trouble())
+
     def remember_toggled(on):
         if on:
-            if not store_api_key(key_var.get().strip()):
+            key = key_var.get().strip()
+            if not store_api_key(key):
                 PROGRAM.tick_off_quietly(keep_button, remember)
+                if secret_tool_offer(keep_button,
+                                     lambda: kept_after_install(key)):
+                    return
                 # On the key's own line, like the refusal after Connect:
                 # a box would have to be clicked away first.
                 key_note_show(T('The key was not saved: %s')
@@ -900,11 +974,14 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
         # key that is gone at the next start. The key that goes in is the
         # one that was checked, never the field read a second time.
         unsaved = ""
-        if remember.get() and not store_api_key(
-                (checked or key_var.get()).strip()):
+        keep = (checked or key_var.get()).strip()
+        if remember.get() and not store_api_key(keep):
             PROGRAM.tick_off_quietly(keep_button, remember)
-            unsaved = T('The key was not saved: %s') % key_store_trouble()
-            key_note_show(unsaved)
+            if not secret_tool_offer(keep_button,
+                                     lambda: kept_after_install(keep)):
+                unsaved = (T('The key was not saved: %s')
+                           % key_store_trouble())
+                key_note_show(unsaved)
         button_green(True)
         presets_filter()
         note, fitting = preset_mode_note(preset_list, kind_needed())
