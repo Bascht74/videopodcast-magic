@@ -6,9 +6,10 @@ is the band where the numbers fit but only just, "the second disk" is
 the temporary files eating the same space twice, and "two folders, one
 disk" is how that is told. "What the run really writes" is what the
 estimate has to cover -- the whole length, every camera, a track per
-recording whether Multitrack is ticked or not, and with a time window
-the stretch each camera is cut down to rather than the whole shoot. "The folder that is asked about" is the one the
-answer is about.
+recording -- three blocks of one take being one -- whether Multitrack
+is ticked or not, and with a time window the stretch each camera is
+cut down to rather than the whole shoot. "The folder that is asked
+about" is the one the answer is about.
 
 What free space really is comes from the system, so it is replaced
 here: the check is about the judgement, not about this machine's disk.
@@ -254,7 +255,8 @@ check("every camera is counted, not only the longest one",
       % (three, one_camera))
 # Three recordings: every camera carries a track of each, whatever the
 # tick says, so the room follows the recordings and not the switch.
-sounds = [audio] + [os.path.join(WORK, "Sound%d.wav" % i) for i in (2, 3)]
+# Names of their own, or the numbers would make them blocks of one.
+sounds = [audio] + [os.path.join(WORK, n) for n in ("Guest.wav", "Host.wav")]
 for copy in sounds[1:]:
     vpm.shutil.copy(audio, copy)
 several = bisect_estimate(
@@ -263,6 +265,18 @@ check("three recordings in the file ask for more room than one",
       several >= one_camera * 1.4,
       "with three recordings %.3f MB against %.3f MB for one"
       % (several, one_camera))
+# Three blocks of one take are one recording and one track: numbered on
+# and seamless, they are joined. Only their own bytes are added, a
+# fraction of the track a second recording would bring.
+blocks = [os.path.join(WORK, "Take%d.wav" % i) for i in (1, 2, 3)]
+for copy in blocks:
+    vpm.shutil.copy(audio, copy)
+joined = bisect_estimate(
+    lambda free: judge(free, False, [long_video], blocks))
+check("three blocks of one recording ask no more room than one",
+      joined <= one_camera * 1.05,
+      "with three blocks %.3f MB against %.3f MB for one recording"
+      % (joined, one_camera))
 # A precondition: without this line there is nothing to compare below,
 # and "the window changed nothing" would be true of two empty hands.
 handed_on = preflight_space(1e9)

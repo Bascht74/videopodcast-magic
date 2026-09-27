@@ -35,7 +35,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **4123** -- who speaks and when: the separation itself,
+* `speakers/` **4133** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -45,7 +45,7 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3191** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3275** -- who is on camera when, and what carries it out
+* `cut/` **3294** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2509** -- the DaVinci Resolve project, timelines, colour,
@@ -64,7 +64,7 @@ figure of the day is that command, not this paragraph**:
   and one bound of its own, 500 ppm
 * `auphonic/` **1790** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1771** -- whether the material fits together before the
+* `preflight/` **1818** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `setup/` **1251** -- finding ffmpeg, installing a missing module,
@@ -81,7 +81,7 @@ figure of the day is that command, not this paragraph**:
   the window, and read back off the line
 * `metadata/` **742** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
-* `assignmenttable/` **777** -- the table on the second tab:
+* `assignmenttable/` **779** -- the table on the second tab:
   recordings above, the voices under them, the cameras below, what it
   keeps between builds and the camera names somebody typed; read by
   `assignmentsheet/` and nothing else
@@ -95,7 +95,7 @@ figure of the day is that command, not this paragraph**:
 * `project/` **589** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
-* `filelist/` **528** -- the list of chosen files: the tree it is
+* `filelist/` **535** -- the list of chosen files: the tree it is
   shown in, what adding and removing do to it, and a recording of
   several blocks shown as one entry
 * `prework/` **436** -- the audio, envelopes, channels and tracks

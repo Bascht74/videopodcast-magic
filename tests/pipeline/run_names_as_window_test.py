@@ -109,7 +109,7 @@ check("and it is processed under that name", HEAD + "\n" in log,
           HEAD.strip(), len(log), line_with(log, "PROCESSING")))
 
 print("\n3. The preflight, as the window names them")
-FACTS = "    C0003.MP4 (2)     %s fps" % vpm.number_text(25, 3)
+FACTS = "    C0003.MP4 (2)            %s fps" % vpm.number_text(25, 3)
 check("the preflight's facts line names the second camera so",
       bool(line_with(log, FACTS)),
       "no line begins %r; the preflight says %r" % (

@@ -772,8 +772,8 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
     Someone opens the round and says goodbye at the end; both belong in the
     wide frame. The opening ends where the floor first leaves the main speaker,
     the close likewise backwards; a voice the separation never hears cannot end
-    it. *latest*: "Wide shot at the latest", see edges_held_short. *said* gets
-    what was laid, for edges_said on the finished cut.
+    it; one turn only is either, at the nearer edge. *latest*: see
+    edges_held_short. *said* gets what was laid, for edges_said.
     """
     if not cut:
         return cut
@@ -785,8 +785,14 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
     if not other:
         return cut
     begin, end = cut[0][0], cut[-1][1]
-    until, from_s, most = edges_held_short(begin, end, other[0][1],
-                                           other[-1][0], latest)
+    first, last, one_side = other[0][1], other[-1][0], None
+    if len(other) == 1:
+        # Measured from the edge to the near end of the turn.
+        if other[0][0] - begin <= end - other[0][1]:
+            last, one_side = end, "opening"
+        else:
+            first, one_side = begin, "closing"
+    until, from_s, most = edges_held_short(begin, end, first, last, latest)
     out = []
     for a, b, who in cut:
         if b <= until or a >= from_s:
@@ -800,8 +806,8 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
     if said is not None:
         said.update(begin=begin, most=most, first=other[0][1],
                     last=other[-1][0], only=other[0] if len(other) == 1
-                    else None,
-                    held=(until, from_s) != (other[0][1], other[-1][0]))
+                    else None, one_side=one_side,
+                    held=(until, from_s) != (first, last))
     return merge_adjacent(out)
 
 def edges_said(cut, wide_shot, said):
@@ -821,8 +827,21 @@ def edges_said(cut, wide_shot, said):
     # and nothing was shortened that anybody could see.
     whole = len(cut) == 1 and opening is not None
     held = said["held"] and len(cut) > 1
+    one_side = said.get("one_side")
     if whole:
         out = [T('  Wide shot at the edges: the whole cut is the wide shot')]
+    elif one_side == "opening" and opening is not None:
+        out = [T('  Wide shot at the edges: only until %s -- the other '
+                 'voice speaks only once, near the start, so there is no '
+                 'closing one') % as_hms(opening - begin)]
+    elif one_side == "closing" and closing is not None:
+        out = [T('  Wide shot at the edges: only from %s -- the other '
+                 'voice speaks only once, near the end, so there is no '
+                 'opening one') % as_hms(closing - begin)]
+    elif one_side:
+        out = [T('  Wide shot at the edges: none -- the other voice '
+                 'speaks only once, and that one edge was shorter than '
+                 'the shortest shot')]
     elif opening is not None and closing is not None:
         out = [T('  Wide shot at the edges: until %s and from %s')
                % (as_hms(opening - begin), as_hms(closing - begin))]

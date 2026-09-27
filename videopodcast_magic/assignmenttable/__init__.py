@@ -463,6 +463,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         except Exception:
             tc_of_row.append(None)
     without_tc = not any(t is not None for t in tc_of_row)
+    # Two recordings of one file name are told apart as in the file list.
+    heard = PROGRAM.recording_labels(audio_files)
     state["without_tc"] = without_tc
     if not without_tc:
         state["tc_there"] = True
@@ -478,7 +480,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
             stem = piece_label[first]
         if camera_track:
             stem = remembered.get("ownname:" + first) or stem
-        caption = os.path.basename(first)
+        caption = heard.get(first) or os.path.basename(first)
         if camera_track:
             caption += T('   (camera audio)')
         elif len(row) > 1:

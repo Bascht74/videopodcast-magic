@@ -282,6 +282,12 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
         own_now, forced_now = audio_use_now()
         state["own_cameras"] = list(own_now)
         state["forced_own"] = list(forced_now)
+        # Two files of one name are two files, audio as video: the
+        # second "(2)", as the preflight and the log name it.
+        shown = PROGRAM.recording_labels(
+            [p for p, a in model.files if a == "audio"])
+        shown.update(PROGRAM.camera_labels(
+            [p for p, a in model.files if a == "video"]))
         for kind, title in (("audio", T('AUDIO')), ("video", T('VIDEO'))):
             own = [p for p, a in model.files if a == kind]
             if not own:
@@ -310,12 +316,12 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
                     if len(row) > 1:
                         node = chain_fill_in(
                             group, row, discarded, selected, item,
-                            lines_node, channel_rows_show)
+                            lines_node, channel_rows_show, shown)
                         join_row_show(node, row[0], heads)
                         sound_row_show(node, row[0])
                         continue
                     p = row[0]
-                    node = item(group, os.path.basename(p),
+                    node = item(group, shown.get(p) or os.path.basename(p),
                                     os.path.dirname(p), "audio",
                                     files_for_it=[p])
                     lines_node[p] = node
@@ -333,7 +339,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
                 continue
             for p in sorted(own,
                             key=lambda x: os.path.basename(x).lower()):
-                node = item(group, os.path.basename(p),
+                node = item(group, shown.get(p) or os.path.basename(p),
                                 os.path.dirname(p), "video", files_for_it=[p])
                 prework_node[p] = (node, os.path.dirname(p))
                 lines_node[p] = node
@@ -475,13 +481,13 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
 
 
 def chain_fill_in(group, row, discarded, selected,
-                  item, lines_node, channel_rows_show):
+                  item, lines_node, channel_rows_show, shown=None):
     """Show a multi-part recording as one entry with its blocks below.
 
     Displayed like a single file -- format, length, timecode -- because
-    that is what it is downstream. The last three arguments are the
-    window's: the row maker, the map from a file to the row a finding
-    belongs on, and the channel rows. Nothing in it needs gui().
+    that is what it is downstream. Three arguments are the window's: the
+    row maker, the map from a file to the row a finding belongs on, and
+    the channel rows; *shown* names the first block. No gui() needed.
     """
     lengths = [sample_count(p) for p in row]
     tcs = [file_timecode(p) for p in row]
@@ -493,7 +499,8 @@ def chain_fill_in(group, row, discarded, selected,
     node = item(group,
                     TN(len(row) - 1, '%s  + %s continuation',
                        '%s  + %s continuations')
-                    % (os.path.basename(row[0]), number_text(len(row) - 1, 0)),
+                    % ((shown or {}).get(row[0]) or os.path.basename(row[0]),
+                       number_text(len(row) - 1, 0)),
                     os.path.dirname(row[0]), "audio", files_for_it=row)
     # A finding about block 3 belongs to the recording, not to nowhere.
     for part in row:
