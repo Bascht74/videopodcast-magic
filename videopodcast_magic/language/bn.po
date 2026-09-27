@@ -2355,9 +2355,6 @@ msgstr "এখানে কোনো বক্তা জানা নেই -- �
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "এখনও কোনো কণ্ঠস্বরের ক্যামেরা নেই -- এতে প্রতিটি শট একই হতো।"
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "এখনও কোনো বক্তা জানা নেই -- কিছু মাপা হয়নি, কিছু পৃথক করা হয়নি, এবং %s বা এর সাবফোল্ডারে আগের কোনো চালনার হস্তান্তর ফাইল নেই।"
-
 msgid "Not found again after import: %s"
 msgstr "ইমপোর্টের পর আর পাওয়া যায়নি: %s"
 
@@ -3356,9 +3353,6 @@ msgstr "রেকর্ডিং থেকে মাপা -- %s জন বক�
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "সম্পন্ন চালনা থেকে -- %s জন বক্তা, %s"
-
-msgid "no folder"
-msgstr "(কোনো ফোল্ডার নেই)"
 
 msgid "no text"
 msgstr "কোনো লেখা নেই"

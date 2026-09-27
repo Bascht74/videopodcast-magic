@@ -2387,9 +2387,6 @@ msgstr "અહીં કોઈ વક્તા જાણીતો નથી -- �
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "હજુ કોઈ અવાજને કૅમેરા નથી -- આમ તો દરેક શૉટ એક જ હશે."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "હજુ કોઈ વક્તા જાણીતા નથી -- કશું માપ્યું નથી, કશું વિભાજિત કર્યું નથી, અને ફોલ્ડર %s અથવા તેના સબફોલ્ડરમાં અગાઉના રનની કોઈ હસ્તાંતરણ ફાઇલ નથી."
-
 msgid "Not found again after import: %s"
 msgstr "ઇમ્પોર્ટ પછી ફરી મળ્યું નહીં: %s"
 
@@ -3405,9 +3402,6 @@ msgstr "રેકોર્ડિંગમાંથી માપ્યું -- %
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "પૂરા થયેલા રનમાંથી -- %s વક્તા, %s"
-
-msgid "no folder"
-msgstr "(કોઈ નહીં)"
 
 msgid "no text"
 msgstr "કોઈ લખાણ નથી"

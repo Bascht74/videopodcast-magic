@@ -2386,9 +2386,6 @@ msgstr "இங்கே எந்தப் பேச்சாளரும் த
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "இன்னும் எந்தக் குரலுக்கும் கேமரா இல்லை -- அப்படியென்றால் ஒவ்வொரு ஷாட்டும் ஒரே ஷாட்டாக இருக்கும்."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "இன்னும் பேச்சாளர்கள் தெரியவில்லை -- எதுவும் அளவிடப்படவில்லை, எதுவும் பிரிக்கப்படவில்லை, இந்தக் கோப்புறையிலோ அதன் துணைக் கோப்புறைகளிலோ முந்தைய இயக்கத்தின் ஒப்படைப்புக் கோப்பும் இல்லை: %s"
-
 msgid "Not found again after import: %s"
 msgstr "இறக்குமதிக்குப் பின் மீண்டும் காணப்படவில்லை: %s"
 
@@ -3405,9 +3402,6 @@ msgstr "பதிவுகளிலிருந்து அளவிடப்�
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "முடிந்த இயக்கத்திலிருந்து -- %s பேச்சாளர்கள், %s"
-
-msgid "no folder"
-msgstr "கோப்புறை இல்லை"
 
 msgid "no text"
 msgstr "உரை இல்லை"

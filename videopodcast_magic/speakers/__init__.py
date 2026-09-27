@@ -1151,42 +1151,6 @@ def speakers_on_window_axis(segments, offset, named=None):
                     default=0.0)
 
 
-def track_recordings_of(assign_lines):
-    """Which recording each track that still speaks was measured off.
-
-    Every row but "do not use" -- a track with no camera of its own
-    speaks too. The names are the ones speaker_measure gives, so both
-    ends of the measurement agree without a second list.
-    """
-    out = {}
-    for row, name_value, camera_value in assign_lines or ():
-        if camera_value.get() == IGNORE_AUDIO:
-            continue
-        out.setdefault(name_value.get()
-                       or os.path.basename(row[0]), []).append(row[0])
-    return out
-
-
-def speakers_window_all(voices, length, measured, where_from, separated=()):
-    """The separations' voices and every track no separation covers.
-
-    The same sum speakers_for_the_cut makes, so the preview shows the
-    cut the run makes. *where_from* says which recording each measured
-    track came off; one taken apart is in already, through its voices.
-    """
-    apart = set(path_key(p) for p in separated or () if p)
-    out = list(voices or ())
-    for name, parts in ((measured or {}).get("segments") or ()):
-        # A name with no row behind it is nobody: set to "do not use"
-        # after it was measured.
-        paths = (where_from or {}).get(name)
-        if paths and not any(path_key(p) in apart for p in paths if p):
-            out.append((name, list(parts)))
-    out = voices_merged(out)
-    return out, max([length or 0.0]
-                    + [b for _n, parts in out for _a, b in parts])
-
-
 def speaker_segments_on_axis(segments, offset, t0=None, t1=None):
     """Move segments from the time of their file onto the common axis.
 

@@ -2353,9 +2353,6 @@ msgstr "Ở đây chưa biết người nói nào -- không biết ai nói khi n
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Chưa có giọng nói nào có máy quay -- như vậy mọi cảnh quay sẽ giống hệt nhau."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Chưa biết người nói nào -- chưa đo gì, chưa tách gì, và không có tệp bàn giao của lượt chạy trước trong %s hoặc các thư mục con của nó."
-
 msgid "Not found again after import: %s"
 msgstr "Không tìm lại được sau khi nhập: %s"
 
@@ -3352,9 +3349,6 @@ msgstr "đo từ các bản ghi -- %s người nói, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "từ lượt chạy đã xong -- %s người nói, %s"
-
-msgid "no folder"
-msgstr "(không có thư mục)"
 
 msgid "no text"
 msgstr "không có văn bản"

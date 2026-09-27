@@ -2353,9 +2353,6 @@ msgstr "Εδώ δεν είναι γνωστός κανένας ομιλητής 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Καμία φωνή δεν έχει κάμερα ακόμη -- έτσι κάθε πλάνο θα ήταν το ίδιο."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Δεν είναι γνωστοί ομιλητές ακόμη -- τίποτα μετρημένο, τίποτα διαχωρισμένο, και κανένα αρχείο παράδοσης προηγούμενης εκτέλεσης στο %s ή στους υποφακέλους του."
-
 msgid "Not found again after import: %s"
 msgstr "Δεν βρέθηκε ξανά μετά την εισαγωγή: %s"
 
@@ -3355,9 +3352,6 @@ msgstr "μετρημένο από τις ηχογραφήσεις -- %s ομιλ
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "από την ολοκληρωμένη εκτέλεση -- %s ομιλητές, %s"
-
-msgid "no folder"
-msgstr "κανέναν φάκελο"
 
 msgid "no text"
 msgstr "χωρίς κείμενο"

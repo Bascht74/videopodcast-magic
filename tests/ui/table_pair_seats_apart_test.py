@@ -4,9 +4,9 @@
 Two cards give two files C0003.MP4; a cut with Multitrack on, Host.wav
 and Guest.wav beside them. Sections: the chooser, the pair named apart,
 the whole path on each; the sheet, the Camera column named alike, Host
-on CardB and Guest on CardA; what the run and the preview are handed;
-the wide shot once Guest is taken off; the project saved and opened
-again; an older project whose answers name the file alone.
+on CardB and Guest on CardA; what the run is handed; the wide shot once
+Guest is taken off; the project saved and opened again; an older
+project whose answers name the file alone.
 """
 PLATFORM_BOUND = True
 import json
@@ -277,7 +277,7 @@ def judge_sheet():
 
 
 def judge_run():
-    print("\n3. What the run and the preview are handed")
+    print("\n3. What the run is handed")
     values, (argv, plan, _m) = handed[-1] if handed else ({}, (None, {}, []))
     on = {t.get("speakers"): t.get("camera")
           for t in ((plan or {}).get("tracks_of") or [])
@@ -288,19 +288,6 @@ def judge_run():
           "CardA/C0003.MP4; %d start(s) asked for, plan %r"
           % (short(on.get("Host")), short(on.get("Guest")), len(handed),
              sorted(plan or {}) if isinstance(plan, dict) else plan))
-    where = {r.get("speakers"): r.get("camera_choice")
-             for r in values.get("rows") or ()}
-    d, why = vpm.build_handover(
-        [("Host", [(0.0, 2.0)]), ("Guest", [(2.0, 4.0)])], 6.0, where,
-        [{"track": "Card %d" % (i + 1), "file": p, "start_s": 0.0}
-         for i, p in enumerate(PAIR)])
-    seats = [(short(c.get("file")), c.get("speakers"))
-             for c in (d or {}).get("cameras") or ()]
-    check("the preview seats each speaker on its own camera",
-          seats == [("CardA/C0003.MP4", ["Guest"]),
-                    ("CardB/C0003.MP4", ["Host"])],
-          "%s, wanted CardA ['Guest'] and CardB ['Host']; %s"
-          % (seats, why or "built"))
 
 
 def judge_wide():

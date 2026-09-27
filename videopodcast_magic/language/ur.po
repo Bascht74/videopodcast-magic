@@ -2386,9 +2386,6 @@ msgstr "یہاں کوئی مقرر معلوم نہیں -- یہ جانے بغیر
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "ابھی کسی آواز کا کوئی کیمرا نہیں -- یوں ہر شاٹ ایک ہی شاٹ ہوتا۔"
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "ابھی کوئی مقرر معلوم نہیں -- نہ کچھ ناپا گیا، نہ الگ کیا گیا، اور %s یا اس کے ذیلی فولڈروں میں کسی پچھلے رن کی حوالگی فائل بھی نہیں۔"
-
 msgid "Not found again after import: %s"
 msgstr "امپورٹ کے بعد دوبارہ نہیں ملا: %s"
 
@@ -3404,9 +3401,6 @@ msgstr "ریکارڈنگز سے ناپا گیا -- %s مقرر، %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "مکمل رن سے -- %s مقرر، %s"
-
-msgid "no folder"
-msgstr "کسی فولڈر"
 
 msgid "no text"
 msgstr "کوئی متن نہیں"

@@ -609,9 +609,6 @@ msgstr "传输"
 msgid "Wide shot after"
 msgstr "全景在"
 
-msgid "no folder"
-msgstr "无文件夹"
-
 msgid "no text"
 msgstr "无文本"
 
@@ -1658,9 +1655,6 @@ msgstr "  未使用：%s。"
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  首尾全景：至 %s，自 %s 起"
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "尚无已知说话人 -- 未测量、未分离，且 %s 及其子文件夹中没有以往运行的交接文件。"
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "时间窗超出素材范围：入点在 %s，出点在 %s，素材时长为 %s。"

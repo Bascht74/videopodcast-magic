@@ -612,9 +612,6 @@ msgstr "Transferir"
 msgid "Wide shot after"
 msgstr "Plano general tras"
 
-msgid "no folder"
-msgstr "sin carpeta"
-
 msgid "no text"
 msgstr "sin texto"
 
@@ -3169,9 +3166,6 @@ msgstr "Aquí no se conoce ningún hablante -- sin saber quién habla cuándo no
 
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "Todavía no se conoce ningún hablante -- se sacan de las pistas en cuanto se abre esta pestaña. Si todos están en una misma grabación, el camino es «varios hablantes» en el campo Nombre del hablante."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Todavía no se conoce ningún hablante -- nada medido, nada separado, y ningún archivo de entrega de una ejecución anterior en %s ni en sus subcarpetas."
 
 msgid "No version earlier than %s is out that pip can install."
 msgstr "No hay ninguna versión anterior a %s que pip pueda instalar."

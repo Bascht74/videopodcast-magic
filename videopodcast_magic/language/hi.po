@@ -614,9 +614,6 @@ msgstr "स्थानांतरण"
 msgid "Wide shot after"
 msgstr "वाइड शॉट के बाद"
 
-msgid "no folder"
-msgstr "कोई फ़ोल्डर नहीं"
-
 msgid "no text"
 msgstr "कोई पाठ नहीं"
 
@@ -1666,9 +1663,6 @@ msgstr "  उपयोग नहीं हुआ: %s."
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  किनारों पर वाइड शॉट: %s तक और %s से"
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "अभी कोई वक्ता ज्ञात नहीं -- कुछ मापा नहीं गया, कुछ अलग नहीं किया गया, और %s या उसके उप-फ़ोल्डरों में पिछले रन की कोई सौंपने की फ़ाइल नहीं है।"
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "समय खिड़की सामग्री के बाहर है: इन पॉइंट %s पर, आउट पॉइंट %s पर, और सामग्री की अवधि %s है।"

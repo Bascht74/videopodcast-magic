@@ -2388,9 +2388,6 @@ msgstr "Šeit nav zināms neviens runātājs -- nezinot, kurš kad runā, nav st
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Vēl nevienai balsij nav kameras -- tad katrs plāns būtu viens un tas pats."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Runātāji vēl nav zināmi -- nekas nav izmērīts, nekas nav atdalīts, un mapē %s vai tās apakšmapēs nav agrākas izpildes nodošanas faila."
-
 msgid "Not found again after import: %s"
 msgstr "Pēc importēšanas vairs nav atrasts: %s"
 
@@ -3407,9 +3404,6 @@ msgstr "izmērīts no ierakstiem -- runātāji: %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "no pabeigtās izpildes -- runātāji: %s, %s"
-
-msgid "no folder"
-msgstr "(nav mapes)"
 
 msgid "no text"
 msgstr "bez teksta"

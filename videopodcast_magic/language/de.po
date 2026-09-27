@@ -3624,13 +3624,6 @@ msgstr ""
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Noch hat keine Stimme eine Kamera -- damit wäre jede Einstellung dieselbe."
 
-msgid ""
-"No speakers known yet -- nothing measured, nothing separated, and no "
-"handover file of an earlier run in %s or its subfolders."
-msgstr ""
-"Noch keine Sprecher bekannt -- nichts gemessen, nichts getrennt, und "
-"keine Übergabedatei eines früheren Laufs in %s oder deren Unterordnern."
-
 msgid "Not found again after import: %s"
 msgstr "Nach dem Import nicht wiedergefunden: %s"
 
@@ -5030,9 +5023,6 @@ msgstr "gemessen aus den Aufnahmen -- %s Sprecher, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "aus dem fertigen Lauf -- %s Sprecher, %s"
-
-msgid "no folder"
-msgstr "keinem Ordner"
 
 msgid "no text"
 msgstr "ohne Text"

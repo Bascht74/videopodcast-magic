@@ -1441,22 +1441,3 @@ def window_words_reference(state, assign_lines):
         return None
     return {"language": language,
             "recordings": [[p, o, c] for p, o, c in recordings]}
-
-
-def window_words_joined(state, d, assign_lines):
-    """The window's handover with its own transcript in it.
-
-    The words where they belong to exactly these recordings; while one
-    is being written, a mark saying so, which words_missing_why reads.
-    A handover the window did not build is none of this one's business.
-    """
-    held = state.get("window_words") or {}
-    if d is None or not held:
-        return d
-    if held.get("busy"):
-        return dict(d, words_listening=True)
-    recordings = window_words_recordings(state, assign_lines)
-    if (not held.get("words") or held.get("mark") != window_words_mark(
-            recordings, window_words_language(state))):
-        return d
-    return dict(d, words=words_for_handover(held["words"]))

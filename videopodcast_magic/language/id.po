@@ -2387,9 +2387,6 @@ msgstr "Tidak ada pembicara yang diketahui di sini -- tanpa siapa berbicara kapa
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Belum ada suara yang memiliki kamera -- dengan begitu setiap bidikan akan sama."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Belum ada pembicara yang diketahui -- tidak ada yang diukur, tidak ada yang dipisahkan, dan tidak ada file serah terima dari proses sebelumnya di %s atau subfoldernya."
-
 msgid "Not found again after import: %s"
 msgstr "Tidak ditemukan lagi setelah impor: %s"
 
@@ -3405,9 +3402,6 @@ msgstr "diukur dari rekaman -- %s pembicara, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "dari proses yang sudah selesai -- %s pembicara, %s"
-
-msgid "no folder"
-msgstr "folder mana pun"
 
 msgid "no text"
 msgstr "tanpa teks"

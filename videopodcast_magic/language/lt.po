@@ -2388,9 +2388,6 @@ msgstr "Čia nežinomas nė vienas kalbėtojas -- nežinant, kas kada kalba, nė
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Dar nė vienas balsas neturi kameros -- tada kiekvienas planas būtų tas pats."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Kalbėtojų dar nežinoma -- nieko neišmatuota, nieko neatskirta, o aplanke %s ir jo poaplankiuose nėra ankstesnio vykdymo perdavimo failo."
-
 msgid "Not found again after import: %s"
 msgstr "Po importo nebeaptikta: %s"
 
@@ -3406,9 +3403,6 @@ msgstr "išmatuota iš įrašų -- kalbėtojų: %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "iš baigto vykdymo -- kalbėtojų: %s, %s"
-
-msgid "no folder"
-msgstr "(aplanko nėra)"
 
 msgid "no text"
 msgstr "be teksto"

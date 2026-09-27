@@ -2389,9 +2389,6 @@ msgstr "L-ebda kelliem mhu magħruf hawn -- mingħajr min jitkellem meta, m'hemm
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "L-ebda leħen għad m'għandu kamera -- b'hekk kull qatgħa tkun l-istess waħda."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "L-ebda kelliem għadu magħruf -- xejn imkejjel, xejn separat, u l-ebda fajl tal-konsenja minn tħaddim preċedenti fil-folder %s jew fis-sottofolders tiegħu."
-
 msgid "Not found again after import: %s"
 msgstr "Ma nstabx mill-ġdid wara l-importazzjoni: %s"
 
@@ -3408,9 +3405,6 @@ msgstr "imkejjel mir-reġistrazzjonijiet -- kellimin: %s, tul %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "mit-tħaddim li spiċċa -- kellimin: %s, tul %s"
-
-msgid "no folder"
-msgstr "l-ebda folder"
 
 msgid "no text"
 msgstr "l-ebda test"

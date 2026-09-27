@@ -2388,9 +2388,6 @@ msgstr "Тук не е известен нито един говорещ -- бе
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Още нито един глас няма камера -- така всеки план би бил един и същ."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Още няма известни говорещи -- нищо не е измерено, нищо не е разделено и няма предавателен файл от предишно изпълнение в папката %s или нейните подпапки."
-
 msgid "Not found again after import: %s"
 msgstr "Не е намерено отново след импортирането: %s"
 
@@ -3406,9 +3403,6 @@ msgstr "измерено от записите -- говорещи: %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "от завършеното изпълнение -- говорещи: %s, %s"
-
-msgid "no folder"
-msgstr "никоя папка"
 
 msgid "no text"
 msgstr "няма текст"

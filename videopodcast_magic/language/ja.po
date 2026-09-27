@@ -609,9 +609,6 @@ msgstr "受け渡し"
 msgid "Wide shot after"
 msgstr "引き画は"
 
-msgid "no folder"
-msgstr "フォルダーなし"
-
 msgid "no text"
 msgstr "テキストなし"
 
@@ -1658,9 +1655,6 @@ msgstr "  未使用: %s。"
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  両端の引き画: %s まで、%s から"
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "まだ話者が分かっていません -- 何も測定・分離されておらず、%s とそのサブフォルダーに以前の実行の受け渡しファイルもありません。"
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "時間枠が素材の外にあります: イン点 %s、アウト点 %s、素材の長さは %s です。"

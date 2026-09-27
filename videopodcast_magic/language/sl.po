@@ -2390,9 +2390,6 @@ msgstr "Tu ni znan noben govorec -- brez tega, kdo govori kdaj, ni ničesar, med
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Noben glas še nima kamere -- tako bi bil vsak kader isti."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Govorci še niso znani -- nič ni izmerjeno, nič ločeno in ni datoteke predaje iz prejšnjega zagona v mapi %s ali njenih podmapah."
-
 msgid "Not found again after import: %s"
 msgstr "Po uvozu ni bilo znova najdeno: %s"
 
@@ -3408,9 +3405,6 @@ msgstr "izmerjeno iz posnetkov -- govorcev: %s, dolžina %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "iz končanega zagona -- govorcev: %s, dolžina %s"
-
-msgid "no folder"
-msgstr "nobeni mapi"
 
 msgid "no text"
 msgstr "brez besedila"

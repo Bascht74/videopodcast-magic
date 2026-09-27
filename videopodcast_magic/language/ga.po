@@ -2392,9 +2392,6 @@ msgstr "Níl aon chainteoir ar eolas anseo -- gan fios cé a labhraíonn cathain
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Níl ceamara ag aon ghuth fós -- mar sin ba é an seat céanna gach seat."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Níl aon chainteoirí ar eolas fós -- níor tomhaiseadh aon rud, níor scaradh aon rud, agus níl aon chomhad seachadta ó rith níos luaithe san fhillteán %s ná ina fhofhillteáin."
-
 msgid "Not found again after import: %s"
 msgstr "Ní bhfuarthas arís tar éis iompórtála: %s"
 
@@ -3412,9 +3409,6 @@ msgstr "tomhaiste ó na taifeadtaí -- cainteoirí: %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "ón rith críochnaithe -- cainteoirí: %s, %s"
-
-msgid "no folder"
-msgstr "(níl fillteán ann)"
 
 msgid "no text"
 msgstr "gan téacs"

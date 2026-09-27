@@ -2387,9 +2387,6 @@ msgstr "ఇక్కడ ఏ వక్తా తెలియదు -- ఎవర�
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "ఇంకా ఏ స్వరానికీ కెమెరా లేదు -- ఇలా అయితే ప్రతి షాట్ ఒకటే అవుతుంది."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "ఇంకా వక్తలు తెలియదు -- ఏదీ కొలవలేదు, ఏదీ వేరు చేయలేదు, ఈ ఫోల్డర్‌లో గానీ దాని ఉప ఫోల్డర్‌లలో గానీ పాత రన్ యొక్క అప్పగింత ఫైల్ లేదు: %s"
-
 msgid "Not found again after import: %s"
 msgstr "ఇంపోర్ట్ తర్వాత మళ్లీ కనబడలేదు: %s"
 
@@ -3405,9 +3402,6 @@ msgstr "రికార్డింగ్‌ల నుండి కొలిచ�
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "పూర్తయిన రన్ నుండి -- %s వక్తలు, %s"
-
-msgid "no folder"
-msgstr "ఏ ఫోల్డర్ లేదు"
 
 msgid "no text"
 msgstr "పాఠ్యం లేదు"

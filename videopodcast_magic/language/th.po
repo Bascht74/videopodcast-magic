@@ -2385,9 +2385,6 @@ msgstr "ไม่รู้จักผู้พูดคนใดที่นี
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "ยังไม่มีเสียงพูดใดมีกล้อง -- แบบนี้ทุกช็อตจะเป็นช็อตเดียวกัน"
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "ยังไม่รู้จักผู้พูด -- ยังไม่ได้วัด ยังไม่ได้แยก และไม่มีไฟล์การส่งมอบจากรอบการทำงานก่อนหน้าใน %s หรือโฟลเดอร์ย่อย"
-
 msgid "Not found again after import: %s"
 msgstr "ไม่พบอีกหลังจากนำเข้า: %s"
 
@@ -3403,9 +3400,6 @@ msgstr "วัดจากการบันทึก -- ผู้พูด %s �
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "จากรอบการทำงานที่เสร็จแล้ว -- ผู้พูด %s คน ความยาว %s"
-
-msgid "no folder"
-msgstr "ไม่มีโฟลเดอร์"
 
 msgid "no text"
 msgstr "ไม่มีข้อความ"
