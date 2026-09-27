@@ -451,20 +451,35 @@ def cross_correlate(a, b):
     return best_and_next(a, b)[:2]
 
 
-def best_and_next(a, b, apart=2000):
+def best_and_next(a, b, apart=2000, hop_ms=5.0, with_shared=False,
+                  near=None, reach=0):
     """Where b fits a best, and how well the best place elsewhere fits.
 
-    (shift, match, next match): the second is the highest match more
-    than *apart* steps away from the first, 0.0 where there is none.
+    (shift, match, next match): the second is the highest more than
+    *apart* steps from the first, 0.0 where there is none. *hop_ms* is
+    the curves' step; *with_shared* adds the steps the best place shares;
+    *near* and *reach*, in steps, look only that far about one shift.
     """
     a, b = np.asarray(a, float), np.asarray(b, float)
     if min(len(a), len(b)) < 10:
-        return 0, 0.0, 0.0
-    lags, match = stretch_match(a, b)
-    i = int(np.argmax(match))
-    far = np.abs(lags - lags[i]) > apart
-    return (int(lags[i]), float(match[i]),
-            float(match[far].max()) if far.any() else 0.0)
+        return (0, 0.0, 0.0, 0) if with_shared else (0, 0.0, 0.0)
+    lags, match, shared = stretch_match(a, b, hop_ms, with_shared=True)
+    # Ranked by the match weighed by the share of the shorter curve, as
+    # ever; weighed by its root, a chance fit over 25 s outranked a true
+    # one over 100 s (interview fixture). Reported: the shared match.
+    whole = float(max(1, shared.max()))
+    score = match * (shared / whole)
+    if near is not None:
+        score = np.where(np.abs(lags - near) <= reach, score, -np.inf)
+    i = int(np.argmax(score))
+    if not np.isfinite(score[i]):
+        return (0, 0.0, 0.0, 0) if with_shared else (0, 0.0, 0.0)
+    far = (np.abs(lags - lags[i]) > apart) & np.isfinite(score)
+    # The next place in the best one's terms, so the two compare as scores.
+    at_best = shared[i] / whole or 1.0
+    found = (int(lags[i]), float(match[i]),
+             float(score[far].max() / at_best) if far.any() else 0.0)
+    return found + (int(shared[i]),) if with_shared else found
 
 
 # A camera's match must stand this far above its best place elsewhere.
@@ -472,28 +487,42 @@ def best_and_next(a, b, apart=2000):
 # peaked at 1.44; right ones (40 s+) fell under 1.5 only at a match <=0.52.
 MATCH_STANDS_OUT = 1.5
 
+# Hanging over an end, the match times the root of the seconds shared
+# has to reach this: 20 s need 0.89, a minute 0.52. Synthetic, 27.9.2026:
+# 35 of 415 strangers cleared the two rules above there, none this one.
+MATCH_SURE = 4.0
+
 
 def match_places_it(st):
     """Report whether the loudness curve alone places a camera.
 
     Its match has to reach the floor and stand clear of the best place
-    elsewhere: a short camera looked for along an hour finds a chance
-    fit over the floor somewhere, and then a second place fits nearly
-    as well. Measured without a next place, it stands clear.
+    elsewhere: a short camera finds a chance fit somewhere along an
+    hour, and a second place fits nearly as well. A place hanging over
+    an end also has to clear chance for what it shares (MATCH_SURE).
     """
     q = st.get("quality", 0.0)
+    shared = st.get("shared_s")
     return (q >= CAMERA_MATCH_ENOUGH
-            and q >= MATCH_STANDS_OUT * st.get("next_best", 0.0))
+            and q >= MATCH_STANDS_OUT * st.get("next_best", 0.0)
+            and (not st.get("hangs_over") or shared is None
+                 or q * shared ** 0.5 >= MATCH_SURE))
 
 
-def stretch_match(a, b):
+# The least sound a place has to share before it is judged at all, where
+# one curve hangs over the other's end. Measured 27.9.2026 on synthetic
+# recordings at a camera's edge: 10 s and 20 s placed the same ones.
+SHARED_LEAST_S = 20.0
+
+
+def stretch_match(a, b, hop_ms=5.0, with_shared=False):
     """How well b fits against a at every shift: (shifts, match).
 
-    Each place is judged against the stretch of the longer curve the
-    shorter one covers, so a short camera is found wherever it sits in a
-    long recording, not only in its first minutes. For two curves of one
-    length that stretch is the whole of both, as it always was.
-    """
+    Each place is judged on the sound the two share there alone, mean
+    and loudness taken over that part: counted whole, the part hanging
+    over an end drowned a recording sharing a camera's last minute. Less
+    than SHARED_LEAST_S or half the shorter matches nothing; *with_shared*
+    adds the steps each place shares."""
     nf = 1 << int(np.ceil(np.log2(len(a) + len(b))))
     lags = np.arange(-(len(a) - 1), len(b))
     if len(a) <= len(b):
@@ -504,20 +533,39 @@ def stretch_match(a, b):
         short, long_, at = b, a, -lags
     m, n = len(short), len(long_)
     cc = np.fft.irfft(np.fft.rfft(b, nf) * np.conj(np.fft.rfft(a, nf)), nf)
-    # Where the short curve begins in the long one, held inside it: a
-    # place hanging over an end is judged against the long curve's first
-    # or last stretch, and so counts only what the two share.
-    q = np.clip(at, 0, n - m)
-    s1 = np.concatenate(([0.0], np.cumsum(long_)))
-    s2 = np.concatenate(([0.0], np.cumsum(long_ ** 2)))
-    moves = (s2[q + m] - s2[q]) - (s1[q + m] - s1[q]) ** 2 / m
+    # Where the short curve begins in the long one, and the stretch of
+    # each the two share there: short[i0:i1] against long[at+i0:at+i1].
+    i0 = np.clip(-at, 0, m)
+    i1 = np.clip(n - at, 0, m)
+    k = np.maximum(i1 - i0, 0)
+    j0, j1 = np.clip(at + i0, 0, n), np.clip(at + i1, 0, n)
+
+    def sums(x, lo, hi):
+        """The sum and the sum of squares of x[lo:hi], for every place."""
+        c1 = np.concatenate(([0.0], np.cumsum(x)))
+        c2 = np.concatenate(([0.0], np.cumsum(x ** 2)))
+        return c1[hi] - c1[lo], c2[hi] - c2[lo]
+
+    s1, s2 = sums(short, i0, i1)
+    l1, l2 = sums(long_, j0, j1)
+    kk = np.maximum(k, 1).astype(float)
+    # Each side less its own mean over the shared stretch: cc summed the
+    # products there, and the means are taken out of it afterwards.
+    shared = cc[lags % nf] - s1 * l1 / kk
+    moves_short = s2 - s1 ** 2 / kk
+    moves_long = l2 - l1 ** 2 / kk
     # A stretch that does not move -- digital silence -- matches nothing.
-    still = moves <= 1e-9 * m * max(float(np.var(long_)), 1e-12)
-    energy = float((short ** 2).sum())
-    if not energy:
-        return lags, np.zeros(len(lags))
-    scale = np.sqrt(energy * np.where(still, 1.0, moves))
-    return lags, np.where(still, 0.0, cc[lags % nf] / scale)
+    floor = 1e-9 * kk
+    still = ((moves_long <= floor * max(float(np.var(long_)), 1e-12))
+             | (moves_short <= floor * max(float(np.var(short)), 1e-12)))
+    # Of two short curves half the shorter will do: two cameras of twenty
+    # seconds rolling two apart share eighteen, and belong together.
+    least = max(1, min(int(round(SHARED_LEAST_S * 1000.0 / hop_ms)),
+                       m // 2))
+    off = still | (k < least)
+    scale = np.sqrt(np.where(off, 1.0, moves_short * moves_long))
+    match = np.where(off, 0.0, shared / scale)
+    return (lags, match, np.where(off, 0, k)) if with_shared else (lags, match)
 
 
 # How far two blocks of one recording may sit apart by timecode, for
@@ -925,6 +973,132 @@ def clock_base(own, placed):
     return next((w for w, t in placed if t is not None), None)
 
 
+def camera_places_camera(st):
+    """Report whether one camera's sound places another: the run's rule.
+
+    Between two cameras there is no phase way, so the curve has to stand
+    clear of every other place, or the sample points have to lie on one
+    line (match_places_it, fit_places_it).
+    """
+    return bool(st) and (match_places_it(st) or fit_places_it(st))
+
+
+def cameras_on_one_axis(curves, clocks=None, warn=True, spread=None,
+                        hop_ms=5.0):
+    """Which heard camera carries the axis, and where the others sit.
+
+    The run's align_cameras and the window's measure_time_axis both ask
+    this. Returns (reference, placed {path: (a, b, st)}, left {path: st}
+    of those nothing placed); camera time = a + b * reference time,
+    st["via"] the camera a chained one was placed through. *spread* maps
+    a function over a list, in parallel where given."""
+    # The reference: the longest; of several as long, the one placing
+    # most others, then one with a clock, then by path -- never the order
+    # given. Unplaced ones are measured against each placed camera.
+    clocks = clocks or {}
+    spread = spread or (lambda fn, xs: [fn(x) for x in xs])
+    heard = sorted(curves, key=path_key)
+    if not heard:
+        return None, {}, {}
+    measured, quiet = {}, set()
+
+    def measure(pair):
+        """One camera measured against another: align_envelopes' answer."""
+        via, p = pair
+        density = int(max(20, min(120, len(curves[via]) * hop_ms
+                                  / 1000.0 / 30.0)))
+        # Where both clocks read they say where to look first: the second
+        # curve's time is the first's plus the first clock less the second.
+        hint = (clocks[via] - clocks[p] if clocks.get(via) is not None
+                and clocks.get(p) is not None else None)
+        try:
+            return align_envelopes(
+                curves[via], curves[p], hop_ms, sample_points=density,
+                distance_s=30.0, near_s=hint,
+                warn=(os.path.basename(p) if warn is True
+                      and pair not in quiet else False))
+        except Exception as e:
+            return 0.0, 1.0, {"quality": 0.0, "points": 0,
+                              "error": str(e)}
+
+    def fetch(pairs):
+        """Measure the pairs not measured yet, together."""
+        pairs = [q for q in pairs if q not in measured]
+        for q, got in zip(pairs, spread(measure, pairs)):
+            measured[q] = got
+
+    longest = max(len(curves[p]) for p in heard)
+    tied = [p for p in heard if len(curves[p]) == longest]
+    if len(tied) > 1:
+        # Only here are several measured as the reference: a tie between
+        # whole files is rare, and every pair costs a reading.
+        pairs = [(c, p) for c in tied for p in heard if p != c]
+        quiet.update(pairs)
+        fetch(pairs)
+
+        def standing(c):
+            """How a tied camera ranks: most placed, a clock, its path."""
+            hits = sum(1 for p in heard if p != c
+                       and camera_places_camera(measured[(c, p)][2]))
+            return (-hits, clocks.get(c) is None, path_key(c))
+        reference = min(tied, key=standing)
+    else:
+        reference = tied[0]
+    placed = {reference: (0.0, 1.0, {"points": 0})}
+    fetch([(reference, p) for p in heard if p != reference])
+    tried = set([reference])
+    while True:
+        waiting = [p for p in heard if p not in placed]
+        fresh = [w for w in heard if w in placed and w not in tried]
+        if not waiting:
+            break
+        # The ones placed in the round before are asked now; the first
+        # round asked the reference.
+        if fresh:
+            # The weak-match warning was said against the reference.
+            pairs = [(w, p) for w in fresh for p in waiting]
+            quiet.update(pairs)
+            fetch(pairs)
+            tried.update(fresh)
+        found = {}
+        for p in waiting:
+            best = None
+            for w in sorted(tried, key=path_key):
+                if w not in placed or (w, p) not in measured:
+                    continue
+                st = measured[(w, p)][2]
+                if not camera_places_camera(st):
+                    continue
+                rank = (st.get("quality", 0.0), st.get("points", 0))
+                if best is None or rank > best[0]:
+                    best = (rank, w)
+            if best is not None:
+                found[p] = best[1]
+        if not found:
+            break
+        for p, w in found.items():
+            a1, b1, st = measured[(w, p)]
+            if w == reference:
+                placed[p] = (a1, b1, st)
+                continue
+            av, bv, stv = placed[w]
+            st = dict(st)
+            st["via"] = w
+            b = b1 * bv
+            # The drift of the chain: both links, their errors together.
+            if "ppm" in st:
+                st["ppm"] = (b - 1.0) * 1e6
+                st["ppm_error"] = (st.get("ppm_error", 0.0) ** 2
+                                   + stv.get("ppm_error", 0.0) ** 2) ** 0.5
+            placed[p] = (a1 + b1 * av, b, st)
+    left = dict((p, measured.get((reference, p), (0, 1, {}))[2])
+                for p in heard if p not in placed)
+    ordered = dict((p, placed[p]) for p in
+                   sorted(placed, key=lambda q: (q != reference,
+                                                 path_key(q))))
+    return reference, ordered, left
+
+
 def files_with_no_place(weak, clocks):
     """Which of the badly fitting recordings no clock places either.
 
@@ -1028,15 +1202,22 @@ def without_outliers(tv, dt):
     return kept_t, kept_d, dropped
 
 
+# How far either side of where two clocks put a file the search looks
+# when the whole of it found no place: clocks were measured two seconds
+# apart (E-190), and ten more keep a second place in view to judge by.
+CLOCK_HINT_REACH_S = 30.0
+
+
 def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=20.0,
-                       distance_s=120.0, points_off="video", warn=True):
+                       distance_s=120.0, points_off="video", warn=True,
+                       near_s=None):
     """The same on ready-made envelopes.
 
-    Which way round: the second curve's time = a + b * the first
-    curve's time. Not "reference": align_cameras calls the *first* of
-    its two the reference, and that meaning turns the pair round.
-    *points_off* picks the curve the sample points come off; for a
-    de-bled speaker track the second, where one speaker is left.
+    The second curve's time = a + b * the first curve's time; the first
+    is what align_cameras calls the reference. *points_off* picks the
+    curve the sample points come off, for a de-bled speaker track the
+    second. *near_s*, where two clocks put the second: a hint, asked
+    only where the whole search places nothing.
     """
     if len(env_video) < 10 or len(env_audio) < 10:
         raise RuntimeError(T('too little audio to align'))
@@ -1045,8 +1226,28 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
                                       distance_s, warn=warn)
         return -a / b, 1.0 / b, st
     # The best place elsewhere ten seconds or more away: match_places_it.
-    k, g, g_next = best_and_next(env_video, env_audio,
-                                 int(round(10000.0 / HOP)))
+    k, g, g_next, shared = best_and_next(env_video, env_audio,
+                                         int(round(10000.0 / HOP)), HOP,
+                                         with_shared=True)
+    hinted = False
+    whole_len = min(len(env_video), len(env_audio))
+    if near_s is not None and not match_places_it(
+            {"quality": g, "next_best": g_next, "shared_s": shared * HOP
+             / 1000.0, "hangs_over": shared < whole_len}):
+        # The clocks as a hint: the whole search found two places nearly
+        # as good, or none; around where the clocks put it, one may stand
+        # clear. What is used is still the measurement at that place.
+        found = best_and_next(env_video, env_audio,
+                              int(round(10000.0 / HOP)), HOP,
+                              with_shared=True,
+                              near=int(round(near_s * 1000.0 / HOP)),
+                              reach=int(round(CLOCK_HINT_REACH_S * 1000.0
+                                              / HOP)))
+        if match_places_it({"quality": found[1], "next_best": found[2],
+                            "shared_s": found[3] * HOP / 1000.0,
+                            "hangs_over": found[3] < whole_len}):
+            k, g, g_next, shared = found
+            hinted = True
     coarse = k * HOP / 1000.0
     # Signed, not by size: see cross_correlate. Said out loud because
     # "found something" and "found it barely" look the same from
@@ -1095,7 +1296,11 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
         if float(cc[kk + pad] / label_text) > 0.2:
             points.append((t, coarse + kk * HOP / 1000.0))
     count_n = {"candidates": candidates, "with_signal": with_signal,
-                "points": len(points), "next_best": g_next}
+                "points": len(points), "next_best": g_next,
+                "shared_s": shared * HOP / 1000.0,
+                "hangs_over": shared < whole_len}
+    if hinted:
+        count_n["clock_hint"] = True
 
     if len(points) >= 3:
         tv = np.array([p[0] for p in points])

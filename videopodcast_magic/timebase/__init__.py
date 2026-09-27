@@ -49,6 +49,7 @@ channel_count = PROGRAM.channel_count
 check_camera_metadata = PROGRAM.check_camera_metadata
 check_colour_survived = PROGRAM.check_colour_survived
 check_data_tracks = PROGRAM.check_data_tracks
+clock_apart_lines = PROGRAM.clock_apart_lines
 clock_base = PROGRAM.clock_base
 choose_preset = PROGRAM.choose_preset
 colour_arguments = PROGRAM.colour_arguments
@@ -476,6 +477,21 @@ def phase_of_run(args, paths):
     return phase_way_on(paths, getattr(args, "project_type", "cut"),
                         getattr(args, "sound", None) or SOUND_SPEECH,
                         getattr(args, "sound_of", None) or ())
+
+
+def camera_hint(st):
+    """What a camera's axis line adds about how it was placed.
+
+    Through which camera, where the reference could not place it (the
+    chain of cameras_on_one_axis), and whether its clock showed the
+    search where to look.
+    """
+    said = []
+    if (st or {}).get("via"):
+        said.append(T('placed through %s') % PROGRAM.camera_shown(st["via"]))
+    if (st or {}).get("clock_hint"):
+        said.append(T('found where its timecode pointed'))
+    return ", ".join(said)
 
 
 def offset_line(name, a, st, hint=""):
@@ -1015,7 +1031,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         if v not in position:
             continue
         a, b, st = position[v]
-        offset_line(PROGRAM.camera_shown(v), a, st)
+        offset_line(PROGRAM.camera_shown(v), a, st, camera_hint(st))
 
     tmpdir = tempfile.mkdtemp(prefix="vpm_mt_")
     # A dozen paths leave this function before the folder is removed at the
@@ -1071,6 +1087,16 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         print(T('\nNo audio track could be aligned -- there is nothing to '
                 'put on the axis.'))
         return 1
+    # Where a clock and the measurement part, one line each: the window
+    # says the same through the same function (clock_apart_lines).
+    read = clocks_on_the_axis(videos, position, tracks, ref_clip)
+    for line in clock_apart_lines(
+            dict((c["name"], -c["a"] / c["b"]) for c in read),
+            dict([(c["name"], c["tc"]) for c in read]
+                 + [(os.path.basename(ref_clip[0]),
+                     timecode_seconds(ref_clip[1]))]),
+            os.path.basename(ref_clip[0]), ref_clip[1]["fps"]):
+        print(line)
 
     # Window: what every camera saw, limited to what there is audio for.
     # Anything outside would be uploaded silence.
@@ -1487,8 +1513,9 @@ def camera_stamp(info, cut_at, at_s):
     """The timecode a written camera file carries, or nothing.
 
     *at_s* is where its first frame sits on the wall clock, the reckoning
-    every camera gets, written at this camera's own rate. Without it the
-    camera's own timecode is moved by the cut and stands alone again.
+    every camera gets, written at this camera's own rate -- off the
+    reference's clock, or from 00:00:00 where it has none. Without it
+    the camera's own timecode is moved by the cut and stands alone.
     """
     fps = max(1.0, info.get("fps") or 30.0)
     if at_s is not None:
@@ -1720,6 +1747,13 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     if ref_clip and ref_clip[1].get("tc") and t0 is not None:
         tc_start = parse_timecode(
             ref_clip[1]["tc"], max(1.0, ref_clip[1]["fps"])) + t0
+    # No clock on the reference: every camera is stamped by its measured
+    # place from 00:00:00 at the first frame any camera shows, never by
+    # its own clock, which may be the one set wrong.
+    stamp_from = tc_start
+    if stamp_from is None and t0 is not None:
+        stamp_from = -min([-position[v][0] / position[v][1] - t0
+                           for v, _i in videos if v in position] + [0.0])
 
     def one_camera(v, info, share):
         """Finish one camera: measure, write, verify.
@@ -1837,7 +1871,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         # Where this file's first frame sits on the wall clock. a is
         # the measured place of that frame in programme time, so this
         # is the one number every camera's stamp comes from.
-        at_s = None if tc_start is None else tc_start + a
+        at_s = None if stamp_from is None else stamp_from + a
         share.segment(0.30, 0.85)
         try:
             write_camera_file(v, info, items, target, a, b, drift, args,

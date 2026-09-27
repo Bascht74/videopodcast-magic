@@ -5088,3 +5088,15 @@ msgstr "Wat het meldt verschijnt onder Uitvoer."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "het pakket libsecret-tools op Debian en Ubuntu, libsecret op Fedora en Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: het geluid komt overeen met %s over %s s gedeeld geluid, te weinig om van toeval te onderscheiden -- alleen op zijn klok geplaatst"
+
+msgid "placed through %s"
+msgstr "geplaatst via %s"
+
+msgid "found where its timecode pointed"
+msgstr "gevonden waar zijn tijdcode naar wees"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: zijn klok zegt %s, het geluid mat %s -- %s s uit elkaar; de meting geldt"

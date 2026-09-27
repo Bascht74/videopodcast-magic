@@ -5148,3 +5148,15 @@ msgstr "Що вона повідомляє, з'являється на вкла�
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "пакет libsecret-tools у Debian та Ubuntu, libsecret у Fedora та Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: збіг звуку %s на %s с спільного звуку, замало, щоб відрізнити від випадковості -- розміщено лише за власним годинником"
+
+msgid "placed through %s"
+msgstr "розміщено через %s"
+
+msgid "found where its timecode pointed"
+msgstr "знайдено там, куди вказував його таймкод"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: його годинник показує %s, звук виміряв %s -- розбіжність %s с; використовується вимірювання"

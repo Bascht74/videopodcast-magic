@@ -5091,3 +5091,15 @@ msgstr "அது சொல்வது வெளியீடு தாவலி
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian, Ubuntu-வில் libsecret-tools தொகுப்பு, Fedora, Arch-இல் libsecret"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: அதன் ஆடியோ %s அளவில் பொருந்துகிறது, %s வி. பொது ஆடியோவில், தற்செயலிலிருந்து பிரித்தறிய மிகக் குறைவு -- அதன் கடிகாரத்தை மட்டும் வைத்து இடம் தரப்பட்டது"
+
+msgid "placed through %s"
+msgstr "%s வழியாக இடம் தரப்பட்டது"
+
+msgid "found where its timecode pointed"
+msgstr "அதன் டைம்கோடு சுட்டிய இடத்தில் கண்டறியப்பட்டது"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: அதன் கடிகாரம் %s என்கிறது, ஆடியோ %s என அளந்தது -- %s வி. வேறுபாடு; அளவீடே பயன்படுத்தப்படுகிறது"

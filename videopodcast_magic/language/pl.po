@@ -5132,3 +5132,15 @@ msgstr "Komunikaty pojawiają się w zakładce Wyjście."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "pakiet libsecret-tools w systemach Debian i Ubuntu, libsecret w systemach Fedora i Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: dopasowanie dźwięku %s na %s s wspólnego dźwięku, za mało, by odróżnić od przypadku -- umieszczono tylko według własnego zegara"
+
+msgid "placed through %s"
+msgstr "umieszczono przez %s"
+
+msgid "found where its timecode pointed"
+msgstr "znaleziono tam, gdzie wskazywał jego timecode"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: jego zegar wskazuje %s, dźwięk zmierzył %s -- różnica %s s; obowiązuje pomiar"

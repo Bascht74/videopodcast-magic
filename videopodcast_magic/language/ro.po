@@ -5132,3 +5132,15 @@ msgstr "Ce spune apare sub Ieșire."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "pachetul libsecret-tools pe Debian și Ubuntu, libsecret pe Fedora și Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: potrivirea sunetului este %s pe %s s de sunet comun, prea puțin pentru a o deosebi de întâmplare -- plasată doar după ceasul ei"
+
+msgid "placed through %s"
+msgstr "plasată prin %s"
+
+msgid "found where its timecode pointed"
+msgstr "găsită acolo unde arăta timecode-ul ei"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: ceasul ei spune %s, sunetul a măsurat %s -- diferență de %s s; se folosește măsurarea"

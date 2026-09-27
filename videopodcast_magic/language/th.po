@@ -5046,3 +5046,15 @@ msgstr "ข้อความจากกระบวนการจะแสด
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "แพ็กเกจ libsecret-tools บน Debian และ Ubuntu, libsecret บน Fedora และ Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: เสียงตรงกันที่ %s บนเสียงร่วม %s วินาที น้อยเกินกว่าจะแยกจากความบังเอิญได้ -- วางตามนาฬิกาของกล้องอย่างเดียว"
+
+msgid "placed through %s"
+msgstr "วางผ่าน %s"
+
+msgid "found where its timecode pointed"
+msgstr "พบตรงที่ไทม์โค้ดชี้ไว้"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: นาฬิกาบอก %s เสียงวัดได้ %s -- ห่างกัน %s วินาที ใช้ค่าที่วัดได้"

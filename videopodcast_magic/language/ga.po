@@ -5227,3 +5227,15 @@ msgstr "Feictear faoi Aschur a n-insíonn sé."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "an pacáiste libsecret-tools ar Debian agus Ubuntu, libsecret ar Fedora agus Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: oireann a fhuaim le %s thar %s s d’fhuaim chomhroinnte, ró-bheag le hidirdhealú ó sheans -- curtha de réir a chloig amháin"
+
+msgid "placed through %s"
+msgstr "curtha trí %s"
+
+msgid "found where its timecode pointed"
+msgstr "aimsithe san áit a raibh a chód ama ag díriú"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: deir a chlog %s, thomhais an fhuaim %s -- %s s óna chéile; úsáidtear an tomhas"

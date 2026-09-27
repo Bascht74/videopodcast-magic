@@ -5130,3 +5130,15 @@ msgstr "Сообщения появляются в разделе Вывод."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "пакет libsecret-tools в Debian и Ubuntu, libsecret в Fedora и Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: совпадение звука %s на %s с общего звука, слишком мало, чтобы отличить от случайности -- размещено только по собственным часам"
+
+msgid "placed through %s"
+msgstr "размещено через %s"
+
+msgid "found where its timecode pointed"
+msgstr "найдено там, куда указывал его таймкод"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: его часы показывают %s, звук измерил %s -- расхождение %s с; используется измерение"

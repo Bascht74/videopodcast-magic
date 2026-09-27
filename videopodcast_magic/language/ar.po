@@ -5271,3 +5271,15 @@ msgstr "ما يقوله يظهر تحت الإخراج."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "الحزمة libsecret-tools على Debian وUbuntu، وlibsecret على Fedora وArch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: يتطابق صوته بدرجة %s على %s ث من الصوت المشترك، وهذا أقل من أن يُميَّز عن المصادفة -- وُضع بساعته وحدها"
+
+msgid "placed through %s"
+msgstr "وُضع عبر %s"
+
+msgid "found where its timecode pointed"
+msgstr "وُجد حيث أشار رمزه الزمني"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: ساعته تقول %s، والصوت قاس %s -- الفرق %s ث؛ تُعتمد القياسات"

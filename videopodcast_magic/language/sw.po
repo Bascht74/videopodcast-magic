@@ -5091,3 +5091,15 @@ msgstr "Inachosema huonekana chini ya Towe."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "kifurushi libsecret-tools kwenye Debian na Ubuntu, libsecret kwenye Fedora na Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: sauti yake inalingana kwa %s kwenye sekunde %s za sauti ya pamoja, kidogo mno kutofautisha na bahati -- imewekwa kwa saa yake tu"
+
+msgid "placed through %s"
+msgstr "imewekwa kupitia %s"
+
+msgid "found where its timecode pointed"
+msgstr "imepatikana pale timecode yake ilipoelekeza"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: saa yake inasema %s, sauti ilipima %s -- tofauti ya sekunde %s; kipimo ndicho kinachotumika"

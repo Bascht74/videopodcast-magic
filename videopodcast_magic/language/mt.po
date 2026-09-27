@@ -5180,3 +5180,15 @@ msgstr "Dak li jgħid jidher taħt \"Ħruġ\"."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "il-pakkett libsecret-tools fuq Debian u Ubuntu, libsecret fuq Fedora u Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: il-ħoss tiegħu jaqbel b'%s fuq %s s ta' ħoss komuni, ftit wisq biex jingħaraf mill-kumbinazzjoni -- tqiegħed skont l-arloġġ tiegħu biss"
+
+msgid "placed through %s"
+msgstr "tqiegħed permezz ta' %s"
+
+msgid "found where its timecode pointed"
+msgstr "instab fejn kien jindika t-timecode tiegħu"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: l-arloġġ tiegħu jgħid %s, il-ħoss kejjel %s -- differenza ta' %s s; jintuża l-kejl"

@@ -5136,3 +5136,15 @@ msgstr "Ziņojumi parādās cilnē „Izvade“."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "pakotne libsecret-tools sistēmās Debian un Ubuntu, libsecret sistēmās Fedora un Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: skaņas atbilstība %s pār %s s kopīgas skaņas, pārāk maz, lai atšķirtu no nejaušības -- novietots tikai pēc tā pulksteņa"
+
+msgid "placed through %s"
+msgstr "novietots caur %s"
+
+msgid "found where its timecode pointed"
+msgstr "atrasts tur, kur norādīja tā laika kods"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: tā pulkstenis rāda %s, skaņa izmērīja %s -- atšķirība %s s; tiek izmantots mērījums"

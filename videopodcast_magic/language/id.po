@@ -5048,3 +5048,15 @@ msgstr "Pesannya muncul di bawah Keluaran."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "paket libsecret-tools di Debian dan Ubuntu, libsecret di Fedora dan Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: audionya cocok sebesar %s pada %s dtk audio bersama, terlalu sedikit untuk dibedakan dari kebetulan -- ditempatkan hanya menurut jamnya"
+
+msgid "placed through %s"
+msgstr "ditempatkan melalui %s"
+
+msgid "found where its timecode pointed"
+msgstr "ditemukan di tempat yang ditunjuk timecode-nya"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: jamnya menunjukkan %s, audio mengukur %s -- selisih %s dtk; yang dipakai hasil pengukuran"

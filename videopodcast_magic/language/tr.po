@@ -5100,3 +5100,15 @@ msgstr "Söyledikleri Çıktı altında görünür."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian ve Ubuntu'da libsecret-tools paketi, Fedora ve Arch'ta libsecret"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: ses eşleşmesi %s, %s sn ortak ses üzerinde, rastlantıdan ayırmak için çok az -- yalnızca kendi saatine göre yerleştirildi"
+
+msgid "placed through %s"
+msgstr "%s üzerinden yerleştirildi"
+
+msgid "found where its timecode pointed"
+msgstr "zaman kodunun gösterdiği yerde bulundu"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: saati %s diyor, ses %s ölçtü -- %s sn fark; ölçüm kullanılır"

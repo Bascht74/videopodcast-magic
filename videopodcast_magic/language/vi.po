@@ -5044,3 +5044,15 @@ msgstr "Thông báo của nó hiện trong mục Đầu ra."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "gói libsecret-tools trên Debian và Ubuntu, libsecret trên Fedora và Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: âm thanh khớp ở mức %s trên %s giây âm thanh chung, quá ít để phân biệt với ngẫu nhiên -- chỉ được đặt theo đồng hồ của nó"
+
+msgid "placed through %s"
+msgstr "được đặt qua %s"
+
+msgid "found where its timecode pointed"
+msgstr "tìm thấy ở nơi timecode của nó chỉ tới"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: đồng hồ của nó ghi %s, âm thanh đo được %s -- lệch %s giây; dùng kết quả đo"

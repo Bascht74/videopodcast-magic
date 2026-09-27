@@ -5180,3 +5180,15 @@ msgstr "Njegova sporočila se prikažejo na zavihku „Izhod“."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "paket libsecret-tools v sistemih Debian in Ubuntu, libsecret v sistemih Fedora in Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: ujemanje zvoka %s na %s s skupnega zvoka, premalo, da bi ga ločili od naključja -- umeščeno samo po lastni uri"
+
+msgid "placed through %s"
+msgstr "umeščeno prek %s"
+
+msgid "found where its timecode pointed"
+msgstr "najdeno tam, kamor je kazala njegova časovna koda"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: njegova ura pravi %s, zvok je izmeril %s -- razlika %s s; velja meritev"

@@ -5087,3 +5087,15 @@ msgstr "Vad det säger visas under Utdata."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "paketet libsecret-tools på Debian och Ubuntu, libsecret på Fedora och Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: ljudet stämmer med %s över %s s gemensamt ljud, för lite för att skilja från slumpen -- placerad enbart efter sin klocka"
+
+msgid "placed through %s"
+msgstr "placerad via %s"
+
+msgid "found where its timecode pointed"
+msgstr "hittad där dess tidskod pekade"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: dess klocka säger %s, ljudet mätte %s -- %s s isär; mätningen används"

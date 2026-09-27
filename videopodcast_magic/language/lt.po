@@ -5135,3 +5135,15 @@ msgstr "Pranešimai rodomi kortelėje „Išvestis“."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "paketas libsecret-tools sistemose Debian ir Ubuntu, libsecret sistemose Fedora ir Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: garso atitiktis %s per %s s bendro garso, per mažai, kad būtų galima atskirti nuo atsitiktinumo -- išdėstytas tik pagal jo laikrodį"
+
+msgid "placed through %s"
+msgstr "išdėstytas per %s"
+
+msgid "found where its timecode pointed"
+msgstr "rastas ten, kur rodė jo laiko kodas"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: jo laikrodis rodo %s, garsas išmatavo %s -- skirtumas %s s; naudojamas matavimas"

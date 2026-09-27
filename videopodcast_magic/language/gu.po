@@ -5091,3 +5091,15 @@ msgstr "તે જે કહે છે તે આઉટપુટ હેઠળ �
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian અને Ubuntu પર libsecret-tools પૅકેજ, Fedora અને Arch પર libsecret"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: તેનો ધ્વનિ %s જેટલો મેળ ખાય છે, %s સે. સહિયારા ધ્વનિ પર, જે સંયોગથી અલગ પાડવા માટે ઘણું ઓછું છે -- ફક્ત તેની ઘડિયાળથી ગોઠવ્યું"
+
+msgid "placed through %s"
+msgstr "%s દ્વારા ગોઠવ્યું"
+
+msgid "found where its timecode pointed"
+msgstr "તેનો ટાઇમકોડ જ્યાં દર્શાવતો હતો ત્યાં મળ્યું"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: તેની ઘડિયાળ કહે છે %s, ધ્વનિએ %s માપ્યું -- %s સે.નો તફાવત; માપન વપરાય છે"

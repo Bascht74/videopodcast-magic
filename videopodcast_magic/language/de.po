@@ -6824,3 +6824,15 @@ msgstr "Was dabei ausgegeben wird, erscheint unter Ausgabe."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "das Paket libsecret-tools unter Debian und Ubuntu, libsecret unter Fedora und Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: Übereinstimmung des Tons %s über %s s gemeinsamen Ton, zu wenig, um sie vom Zufall zu unterscheiden -- allein nach seiner Uhr gesetzt"
+
+msgid "placed through %s"
+msgstr "über %s gesetzt"
+
+msgid "found where its timecode pointed"
+msgstr "dort gefunden, wohin sein Timecode wies"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: seine Uhr sagt %s, der Ton hat %s gemessen -- %s s auseinander; es gilt die Messung"

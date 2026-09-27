@@ -5090,3 +5090,15 @@ msgstr "מה שהוא מדווח מופיע בכרטיסייה \"פלט\"."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "החבילה libsecret-tools ב-Debian וב-Ubuntu, libsecret ב-Fedora וב-Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: השמע שלו מתאים ברמה %s על פני %s ש׳ של שמע משותף, מעט מדי כדי להבדיל ממקריות -- המיקום לפי השעון שלו בלבד"
+
+msgid "placed through %s"
+msgstr "מוקם דרך %s"
+
+msgid "found where its timecode pointed"
+msgstr "נמצא היכן שקוד הזמן שלו הצביע"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: השעון שלו אומר %s, השמע מדד %s -- הפרש של %s ש׳; המדידה היא שקובעת"

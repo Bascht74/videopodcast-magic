@@ -157,8 +157,8 @@ check("axis_measure only passes it on",
         PASSED_ON in source,
         "the line stands %d times in %d characters of source"
         % (source.count(PASSED_ON), len(source)))
-in_source = source.count("reference = max(heard or envelopes, "
-        "key=lambda p: len(envelopes[p]))")
+in_source = source.count("reference, on_axis, left = "
+                         "cameras_on_one_axis(")
 check("the computation is no longer in gui()", in_source == 1,
         "the line stands %d times in the source, wanted once" % in_source)
 

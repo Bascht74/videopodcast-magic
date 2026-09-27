@@ -5105,3 +5105,15 @@ msgstr "Ciò che dice compare sotto Uscita."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "il pacchetto libsecret-tools su Debian e Ubuntu, libsecret su Fedora e Arch"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: il suo suono corrisponde per %s su %s s di suono comune, troppo poco per distinguerlo dal caso -- collocato solo in base al suo orologio"
+
+msgid "placed through %s"
+msgstr "collocato tramite %s"
+
+msgid "found where its timecode pointed"
+msgstr "trovato dove indicava il suo timecode"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: il suo orologio dice %s, il suono ha misurato %s -- %s s di distanza; vale la misura"
