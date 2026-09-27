@@ -1992,7 +1992,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             args, segment_list, tracks, cameras, videos, folder, tc_start,
             ref_clip, t1 - t0 if t1 is not None else 0,
             words=heard_words(),
-            sound_source=single_files.get(MIX_TRACK_NAME, ""))
+            sound_source=single_files.get(MIX_TRACK_NAME, ""),
+            unwritten=[v for v, _ in videos if v not in written])
         # Who does the asking. Said, not acted on: the order is what the
         # measurement supports, and a name in the interface is a
         # person's decision.

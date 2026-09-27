@@ -10,8 +10,11 @@ Resolve switches in a child cut off from Resolve, which checks that
 before main() and stops red, main() uncalled, where it is not, no
 ffmpeg with the repair stood in for and refused, --multitrack over a
 single recording, and the one-shot jobs: --update with the look
-switched off, --hdr-check over a file that is not HDR. What they
-return when they did their work is run_one_shots_return_0's.
+switched off, --hdr-check over a file that is not HDR; a fault
+nobody foresaw, raised where the run begins, said in one line with no
+traceback; and a run that would send to auphonic.com with no key
+stored, with a picture and without, while a dry run needs none. What they return when they did their work is
+run_one_shots_return_0's.
 """
 PLATFORM_BOUND = True
 import os
@@ -323,6 +326,68 @@ check("an --hdr-check over a file that is not HDR returns 1", code == 1,
       "returned %r against 1, last line %r" % (code, last))
 check("and its last line says the file is not recognised as HDR",
       last == WANT, "last line %r against %r" % (last, WANT))
+
+print("\n8. A fault nobody foresaw, where the run begins")
+# Bent where main() looks the door up: whatever breaks behind it is
+# not one of the refusals above, so it is what nobody wrote a line for.
+FAULT = "the stand-in breaks where the run begins"
+BROKEN = "\n".join([
+    "import sys",
+    "sys.path.insert(0, %r)" % HERE,
+    "import the_program",
+    "vpm = the_program.load()",
+    "def breaks(*a, **k):",
+    "    raise RuntimeError(%r)" % FAULT,
+    "vpm.multitrack_or_single = breaks",
+    "sys.argv = ['videopodcast-magic'] + sys.argv[1:]",
+    "sys.exit(vpm.main())"])
+code, last, said = run([sys.executable, "-c", BROKEN, "--without-auphonic",
+                        "--out", os.path.join(HOME, "out8"), ALONE,
+                        CAMS[0]])
+WANT = vpm.T('Stopped: %s') % FAULT
+check("a fault nobody foresaw in a run returns 1", code == 1,
+      "returned %r against 1, last line %r" % (code, last))
+check("and its last line is Stopped: with the fault's own words",
+      last == WANT, "last line %r against %r" % (last, WANT))
+traced = [line for line in said.splitlines()
+          if line.startswith("Traceback")]
+check("and no traceback reaches the terminal", not traced,
+      "%d traceback lines among %d, last line %r"
+      % (len(traced), len(said.splitlines()), last))
+
+print("\n9. auphonic.com wanted, and no key stored")
+# The store stood in for as empty, so the owner's key is never read;
+# the proxies to nowhere stand behind it all the same.
+KEYLESS = "\n".join([
+    "import sys",
+    "sys.path.insert(0, %r)" % HERE,
+    "import the_program",
+    "vpm = the_program.load()",
+    "vpm.load_api_key = lambda: ''",
+    "sys.argv = ['videopodcast-magic'] + sys.argv[1:]",
+    "sys.exit(vpm.main())"])
+NO_KEY = vpm.T('No API key. Store it once in the interface, or with '
+               '--store-auphonic-key. The key is in the Auphonic account '
+               'settings.')
+code, last, _said = run([sys.executable, "-c", KEYLESS, "--out",
+                         os.path.join(HOME, "out9"), ALONE, CAMS[0]], FENCE)
+check("a run with a picture that would send without a key returns 1",
+      code == 1, "returned %r against 1, last line %r" % (code, last))
+check("and its last line says no key is stored, and how to store one",
+      last == NO_KEY, "last line %r against %r" % (last, NO_KEY))
+code, last, _said = run([sys.executable, "-c", KEYLESS, "--out",
+                         os.path.join(HOME, "out9b"), ALONE], FENCE)
+check("one recording that would send without a key is refused alike",
+      code == 1 and last == NO_KEY,
+      "returned %r against 1, last line %r against %r"
+      % (code, last, NO_KEY))
+code, last, said = run([sys.executable, "-c", KEYLESS, "--dry-run",
+                        "--out", os.path.join(HOME, "out9c"), ALONE], FENCE)
+check("a dry run without a key is not stopped for want of one",
+      NO_KEY not in said.splitlines(),
+      "returned %r, the no-key sentence %s, last line %r"
+      % (code, "said" if NO_KEY in said.splitlines() else "not said",
+         last))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

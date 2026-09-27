@@ -541,6 +541,16 @@ def missing_conditions(files, production, multitrack, assign_lines,
     clash = voice_names_clashing(assign_lines, voice_lines, voiced)
     if clash:
         pending[22] = PROGRAM.names_clash_said(clash)
+    # Two cameras and not one recording, without Multitrack: each camera
+    # would be a track of its own, and the run refuses that. Told apart
+    # by the ending, as the run splits its files.
+    heard, _seen, _other = PROGRAM.split_audio_and_video(
+        [f if isinstance(f, str) else f[0] for f in files])
+    if not multitrack and not heard and len(camera_lines or ()) >= 2:
+        pending[11] = T('Several cameras but no audio recording. Each '
+                        'camera would have its own audio -- that is what '
+                        'Multitrack is for. Otherwise one camera after '
+                        'another.')
     # No sound at all: a video file whose Camera audio is not in use
     # contributes none, and a run with nothing to hear has no first step.
     if files and not assign_lines:

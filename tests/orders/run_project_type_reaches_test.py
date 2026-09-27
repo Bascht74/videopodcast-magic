@@ -117,7 +117,9 @@ def run_with(*words):
     """
     del seen[:]
     del handed[:]
-    sys.argv = [SCRIPT] + list(words) + [SOUND]
+    # --without-auphonic: without it a run with no key stored is refused
+    # before the preflight, and this section is about the project type.
+    sys.argv = [SCRIPT, "--without-auphonic"] + list(words) + [SOUND]
     try:
         return vpm.main()
     except SystemExit as e:

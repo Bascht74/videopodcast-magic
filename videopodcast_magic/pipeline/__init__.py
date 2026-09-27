@@ -230,6 +230,27 @@ def name_apart(name, taken):
     return name
 
 
+def cameras_plainly_named(cameras):
+    """Make every camera's name a plain file name, and say where it moved.
+
+    The name becomes the written file, the handover's camera and the
+    cut list's reel, so it is changed once, here, for all three. A
+    separator made a folder of it, and a leading one wrote the file
+    beside the source instead of into the result folder. --new-name
+    refuses the same three signs; a name from the window is not asked.
+    """
+    taken = {cam["name"].lower() for cam in cameras}
+    for cam in cameras:
+        plain = cam["name"].translate({ord(c): "_" for c in "/\\:"})
+        if plain != cam["name"]:
+            plain = name_apart(plain, taken)
+            print(T('  The camera name "%s" holds a folder or drive '
+                    'separator; it is written as "%s".')
+                  % (cam["name"], plain))
+            cam["name"] = plain
+    return cameras
+
+
 def plan_from_camera_audio(video_paths, tmpdir, cameras=None, title=""):
     """Use each video file's own audio as a track.
 
@@ -560,6 +581,7 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                  called.get(path_key(path))
                  or os.path.splitext(os.path.basename(path))[0], taken)}
             for path in video_paths if path_key(path) not in have]
+    cameras = cameras_plainly_named(cameras)
     # One name on a recording and on a voice: the window refuses it,
     # and so does the line -- merged, each turn would count twice.
     clash = PROGRAM.voices_clashing_of_run(args, plan)
