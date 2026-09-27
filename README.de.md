@@ -9,7 +9,7 @@ zusammenpasst — bevor irgendetwas geschrieben wird.*
 
 *Am Programm arbeiten oder einen Pull Request stellen? [CONTRIBUTING.md](CONTRIBUTING.md) sagt wie: die Tests, der Gegenbeweis, den jede Prüfung schuldet, und was ein Pull Request tragen muss.*
 
-**Version 3.0.0b26.** Es macht die Arbeit, für die es geschrieben wurde,
+**Version 3.0.0b27.** Es macht die Arbeit, für die es geschrieben wurde,
 jede Woche, an echtem Material. Der Schritt auf 3 ist ein Bruch und
 kein Haufen neuer Funktionen: das Programm wird jetzt installiert, mit
 pip3, und ist danach ein Befehl namens `videopodcast-magic`. Wer es
@@ -91,7 +91,9 @@ Zweierlei kann pip nicht mitbringen, weil beides kein Python ist:
 samt `ffprobe`**. Die beiden Werkzeuge sucht das Programm im Suchpfad,
 bietet die Paketverwaltung der Maschine an und fragt, bevor es sie
 ausführt, und sonst sagt es, woher man sie bekommt. Unter 9.0.1 geht
-das Fenster auf und bleibt leer: erst diese Fassung reicht neben dem
+das Fenster mit einem Kasten auf, der die gefundene und die nötige
+Fassung nennt, und nichts, was die Werkzeuge braucht, geht, bis das
+behoben ist: erst diese Fassung reicht neben dem
 Bild auch die Angaben der Kamera unverändert durch — Farbkasten,
 Aufnahmekurve, Dolby Vision, Zeitcode.
 
@@ -127,6 +129,12 @@ videopodcast-magic VIDEO.mov                nimmt den Kameraton
 videopodcast-magic --lang fr                Sprache der Meldungen
 videopodcast-magic --help                   alle Schalter
 ```
+
+Ein Lauf von der Kommandozeile schickt seinen Ton zu auphonic.com,
+sofern nicht `--without-auphonic` darin steht, und ohne abgelegten
+Schlüssel hält er an, bevor er beginnt: den Schlüssel einmal mit
+`--store-auphonic-key` ablegen, oder `--without-auphonic` anhängen,
+dann geschieht alles auf diesem Rechner.
 
 Hat pip den Befehl in einen Ordner gelegt, den der Suchpfad nicht
 erreicht, nennt pips eigene Warnung diesen Ordner: ihn in den Suchpfad

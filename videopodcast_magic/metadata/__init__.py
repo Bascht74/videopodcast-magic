@@ -9,7 +9,7 @@ program is handed in and every name is bound below, by name.
 # beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What this piece uses out of the program. Seven names are missing, and
+# What this piece uses out of the program. Five names are missing, and
 # the blocks under the list say which and why.
 
 SR = PROGRAM.SR
@@ -19,24 +19,24 @@ as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
 channel_text = PROGRAM.channel_text
 ffprobe_json = PROGRAM.ffprobe_json
+file_frame_rate = PROGRAM.file_frame_rate
 file_timecode = PROGRAM.file_timecode
+known_frame_rate = PROGRAM.known_frame_rate
 math = PROGRAM.math
 number_text = PROGRAM.number_text
 os = PROGRAM.os
-parse_timecode = PROGRAM.parse_timecode
 picture_rate = PROGRAM.picture_rate
 sample_count = PROGRAM.sample_count
 struct = PROGRAM.struct
 subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
 timecode_string = PROGRAM.timecode_string
-unwrap_day = PROGRAM.unwrap_day
 
-# Six of the seven stand further down than this piece, so a copy here
+# Four of the five stand further down than this piece, so a copy here
 # would find nothing: MATRIX_BT2020, PRIMARIES_BT2020, camera_text,
-# colour_text, file_frame_rate, known_frame_rate.
+# colour_text.
 
-# GUI_RUNNING is the seventh: the window writes it on the program
+# GUI_RUNNING is the fifth: the window writes it on the program
 # object without telling the pieces, so a copy here would answer with
 # the run before. Read as PROGRAM.GUI_RUNNING.
 
@@ -102,6 +102,24 @@ def audio_summary(file_path):
              % (as_hms(sample_count(file_path) / float(SR)), as_data_size(size_in_mb(file_path)),
                 T('Timecode %s') % timecode_string(tc, rate) if tc is not None
                 else T('no timecode')))]
+
+
+def audio_track_count(cam):
+    """Return how many audio tracks this camera file carries.
+
+    Counted in the file, not in the handover, which lists only the
+    processed tracks and omits the camera microphone.
+    """
+    file_path = cam.get("file") or cam.get("source")
+    try:
+        d = ffprobe_json(file_path)
+        n = len([s for s in (d.get("streams") or [])
+                 if s.get("codec_type") == "audio"])
+        if n:
+            return n
+    except Exception:
+        pass
+    return max(1, len(cam.get("audio_tracks") or [1]) + 1)
 
 
 MOV_CONTAINERS = (b"moov", b"trak", b"mdia", b"minf", b"stbl", b"wave")
@@ -643,8 +661,8 @@ def video_summary(file_path, info):
                   "" if abs(measured - label_text) < 0.0005
                   else T('  (container; measured %s)')
                   % number_text(measured, 4),
-                  "" if PROGRAM.known_frame_rate(
-                      PROGRAM.file_frame_rate(info))
+                  "" if known_frame_rate(
+                      file_frame_rate(info))
                   else T('  --  no Resolve Timeline runs at this rate; '
                          'it is converted'))),
               (T('Length'), "%s  (%s)  --  %s"
@@ -689,36 +707,3 @@ def open_in_file_manager(file_path):
         return True
     except Exception:
         return False
-
-
-def report_timecode_check(audio_start, info, measured, indent="  "):
-    """Compare what the timecode says with what can be heard."""
-    if audio_start is None or not info["tc"]:
-        return
-    fps = max(1.0, info["fps"])
-    loud_tc = unwrap_day(parse_timecode(info["tc"], fps),
-                         audio_start) - audio_start
-    deviation = measured - loud_tc
-    print(T('%sTimecode check of the audio file') % indent)
-    if not PROGRAM.GUI_RUNNING:
-        print(T('%s  Audio starts per timecode at    %s')
-              % (indent, timecode_string(audio_start, fps)))
-        print(T('%s  Picture starts per timecode at  %s')
-              % (indent, timecode_string(parse_timecode(info["tc"], fps), fps)))
-    print(T('%s  Offset per timecode:            %s') % (indent, as_hms(loud_tc)))
-    print(T('%s  Offset measured:                %s') % (indent, as_hms(measured)))
-    if abs(deviation) > 60:
-        print(T('%s  Deviation:                      %s') % (indent, as_hms(deviation)))
-        print(T('%s  The audio timecode does not fit the picture at all -- '
-                'probably a clock never set. The measurement is used.')
-              % indent)
-    elif abs(deviation) > 0.5 / fps:
-        print(T('%s  Deviation:                      %s  (%s frames)')
-              % (indent, as_hms(deviation),
-                 number_text(abs(deviation) * fps)))
-        print(T('%s  The timecode does not fit what is heard. The '
-                'measurement is used.') % indent)
-    else:
-        print(T('%s  Deviation:                      %s  (%s frames) -- fits')
-              % (indent, as_hms(deviation),
-                 number_text(abs(deviation) * fps)))

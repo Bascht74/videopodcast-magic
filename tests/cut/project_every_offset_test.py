@@ -7,7 +7,10 @@ the run refused altogether is not handed over at all: it has no place
 on the axis, and nobody is assigned to it, which is what the handover
 reads as the wide shot. It is named apart, as refused. Two cameras
 nobody is assigned to keep two track names: the track name is the key
-the Resolve side files a camera under.
+the Resolve side files a camera under. What the run says is judged by
+the program's own sentence, found through T(), never by a word anywhere
+in what was printed: the hand-over prints its own path, and a word in
+the temporary folder's name would answer for it.
 """
 PLATFORM_BOUND = True
 import os
@@ -25,8 +28,7 @@ import io, json, sys, tempfile, time
 import contextlib
 began = time.time()
 vpm = the_program.load()
-# Not a prefix carrying the word this file looks for below: the
-# hand-over prints its own path, and a check reads everything printed.
+vpm.set_language("en")
 WORK = tempfile.mkdtemp(prefix="everycamera_")
 done = 0
 bad = []
@@ -46,6 +48,23 @@ def spoken(call, *a, **k):
     with contextlib.redirect_stdout(said):
         out = call(*a, **k)
     return out, said.getvalue()
+
+
+def said_line(said, sentence):
+    """The printed line carrying the program's sentence, or ''.
+
+    Found by the words before its first %s, so the names put into it do
+    not matter, and a path printed on another line cannot answer for it."""
+    head = vpm.T(sentence).split("%s")[0].strip()
+    for line in said.splitlines():
+        if head in line:
+            return line
+    return ""
+
+
+UNMEASURED = '  No measured offset for %s -- placed at the start of the axis.'
+LEFT_OUT = ('  Not handed over: the run could not place %s, so it is no '
+            'camera of this episode.')
 
 
 class Args(object):
@@ -84,8 +103,9 @@ check("the camera with a render keeps its offset",
 check("the camera without one is found by its source",
       by_camera["Guest"]["offset"] == -7.25,
       str(by_camera["Guest"]["offset"]))
-check("nothing to complain about", "offset" not in said.lower(),
-      said.strip()[:60])
+check("with both cameras measured, none is called unmeasured",
+      not said_line(said, UNMEASURED),
+      "said: %r" % said_line(said, UNMEASURED)[:70])
 # Nobody is assigned to either camera here, and one word for both would
 # put two cameras on one key -- the second would take the first's place.
 check("two cameras nobody is assigned to keep two track names",
@@ -97,7 +117,9 @@ check("two cameras nobody is assigned to keep two track names",
 out, said = spoken(vpm.write_handover, Args(), [], cameras, videos, hand,
                    0.0, (wide, videos[0][1]), [rendered], None, None,
                    0.0, None, None, {rendered: -12.5})
-check("an unmeasured camera is named", "Guest" in said, repr(said[:70]))
+check("an unmeasured camera is named",
+      "Guest" in said_line(said, UNMEASURED),
+      "the line saying so: %r" % said_line(said, UNMEASURED)[:70])
 
 # A landscape and a portrait camera give a frame one of them has.
 check("the handover frame is a real one",
@@ -135,7 +157,8 @@ check("and it reaches no entry marked as the wide shot",
       "wide flags: %s" % [(c["camera"], c.get("wide"))
                           for c in after["cameras"]])
 check("the run says which file it left out and why",
-      "Jingle" in said and "place" in said.lower(), repr(said[:90]))
+      "Jingle" in said_line(said, LEFT_OUT),
+      "the line saying so: %r" % said_line(said, LEFT_OUT)[:90])
 check("the two it could place are still there",
       sorted(names) == ["Guest", "Wide"], "handed over: %s" % sorted(names))
 

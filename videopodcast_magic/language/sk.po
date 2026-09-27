@@ -335,12 +335,6 @@ msgstr "Oddelenie rečníkov tu nie je nainštalované. Toto ho vráti: %s"
 msgid "Fetching the model (about %s MB) ..."
 msgstr "Sťahuje sa model (asi %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "Sťahuje sa model (asi %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "Model sa nepodarilo stiahnuť: %s"
-
 msgid "The model could not be written: %s"
 msgstr "Model sa nepodarilo zapísať: %s"
 
@@ -853,9 +847,6 @@ msgstr "  %-20s sa nedá zarovnať: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s nedá sa zmerať: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s posun %s, drift hodín %s ppm (+/- %s), zvyškový rozptyl %s ms, %s z %s bodov"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s posun %s, drift hodín %s ppm (+/- %s), zvyškový rozptyl %s ms, %s z %s bodov%s"
@@ -2171,14 +2162,8 @@ msgstr "Bod In a bod Out sú k dispozícii, len čo je určená časová os -- z
 msgid "In point is %s before the first frame"
 msgstr "Bod In je %s pred prvou snímkou"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "Bod In je teraz %s, ale existujúce súbory patria k %s.\n  Zvuk vo videách je zostrihaný na staré okno -- stlačte hore\n  znova Spustiť."
-
 msgid "Out point is %s after the last frame"
 msgstr "Bod Out je %s za poslednou snímkou"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "Bod Out je teraz %s; okno by bolo dlhé %s, existujúce\n  súbory majú %s -- stlačte hore znova Spustiť."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Na distribúciu sa obvykle používa obmedzený rozsah. Plný nie je nesprávny, ale niektoré prehrávače ho čítajú chybne."
@@ -2339,9 +2324,6 @@ msgstr "Multitrack (jedna stopa na rečníka)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack potrebuje aspoň dve vstupné stopy. Stopa je vlastná nahrávka, kanál viackanálového rekordéra alebo zvuk videosúboru nastaveného na \"použiť interný zvuk\". Viac blokov tej istej nahrávky sa počíta ako jedna, odložené stopy vôbec."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "Žiadny zvukový súbor nenesie časový kód. Bod In a bod Out sa počítajú od začiatku materiálu -- vzájomná poloha súborov je zmeraná."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Zatiaľ sa nepoužíva žiadny zvuk -- pridajte zvukovú nahrávku, alebo v zozname súborov nastavte pri videosúbore Zvuk kamery na \"použiť interný zvuk\"."
 
@@ -2350,9 +2332,6 @@ msgstr "Nie sú priradené žiadne zvukové stopy."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nie je priradená žiadna kamera, takže nie je medzi čím strihať."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "Zatiaľ nie sú priradené žiadne kamery -- zapnite na to Multitrack."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Žiadne pripojenie k Resolve.\n  Beží program? Je externé skriptovanie nastavené na 'Local'\n  pod Preferences > System > General?"
@@ -3171,9 +3150,6 @@ msgstr "predvoľba masteruje na %s LUFS, výpočet používa %s."
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "predvoľba masteruje na %s LUFS -- to platí, z našej strany sa nič neupravuje."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "prevzaté zo zdrojových súborov, žiadne --lufs nezadané -- nič sa neupravuje"
 
 msgid "the answer did not keep the floor"
 msgstr "odpoveď si neudržala slovo"
@@ -4966,9 +4942,6 @@ msgstr "%s\n   zvuk nerozpoznaný; umiestnené tak, ako to umiestni beh"
 msgid "sound not recognised, placed by its timecode"
 msgstr "zvuk nerozpoznaný, umiestnené podľa časového kódu"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s nahrávky a žiadny obraz: každá sa spojí samostatne a nezarovnávajú sa voči sebe. --multitrack ich položí na jednu časovú os."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", drift hodín %s ppm ponechaný: nie je %s-krát väčší ako jeho neistota %s ppm"
 
@@ -5049,3 +5022,112 @@ msgstr "    %s: %s na začiatku nemá obraz a vynecháva sa"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: %s na konci nemá obraz a vynecháva sa"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s sa vrátil o %s s dlhší, než odišiel, a kde v ňom začína odoslaný zvuk,\n"
+"  sa nepodarilo zmerať -- ponechaný, ako prišiel."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s sa nepodarilo orezať (%s) -- ponechaný, ako prišiel."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s v %s znie ako %s v %s (podobnosť %s): zrejme tá istá osoba."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com pridal na konci %s s -- odstrihnuté"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com pridal na začiatku %s s -- odstrihnuté"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: nezapísal sa žiadny súbor, takže strih túto kameru vynechá."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  Bod In a bod Out tu nemajú účinok: jedna nahrávka bez obrazu sa spojí celá."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  Názov kamery \"%s\" obsahuje oddeľovač priečinkov alebo jednotiek; zapíše sa ako \"%s\"."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  Široký záber na okrajoch: žiadny -- druhý hlas hovorí len raz a tento jediný okraj bol kratší ako najkratší záber"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  Široký záber na okrajoch: len od %s -- druhý hlas hovorí len raz, blízko konca, takže úvodný nie je"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  Široký záber na okrajoch: len do %s -- druhý hlas hovorí len raz, blízko začiatku, takže záverečný nie je"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com pomenoval súbor \"%s\" -- nie je to obyčajný názov súboru, preto sa nesťahuje"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s sa nedá umiestniť: zvuk nemá so zvyškom materiálu nič spoločné a žiadna nahrávka umiestnená podľa zvuku nenesie časový kód, s ktorým by sa dal porovnať vlastný. Jedna z nich potrebuje časový kód, ktorý zodpovedá tomuto, a ten sa musí nastaviť iným programom."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name dáva %s dve mená, \"%s\" a \"%s\"; dajte každej nahrávke jedno."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name uvádza %s, čo nie je žiadna z nahrávok tohto behu."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "Sťahuje sa model z %s (asi %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Bod In sa od posledného behu zmenil: vtedy %s, teraz %s. Strih a zvuk vo videách ešte patria k starému oknu, takže Resolve by nedostal to, čo teraz hovoria značky -- stlačte znova Spustiť."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "Žiadny zvukový súbor nenesie časový kód. Bod In a bod Out sa počítajú od okamihu, keď bežia všetky kamery -- vzájomná poloha súborov je zmeraná."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Bod Out sa od posledného behu zmenil: vtedy %s, teraz %s. Strih a zvuk vo videách ešte patria k starému oknu, takže Resolve by nedostal to, čo teraz hovoria značky -- stlačte znova Spustiť."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "Produkcia dokončená, ale ZIP s jednotlivými stopami nemá obyčajný názov súboru"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "Viac kamier, ale žiadna zvuková nahrávka. Každá kamera by mala vlastný zvuk -- na to je Multitrack. Inak jednu kameru po druhej."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "Archív obsahuje %s viac než raz, preto sa z neho nič nevybralo."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "Nahrávky tu pomenúva súbor priradenia, takže by --speaker-name bolo zahodené; zadajte mená tam alebo --speaker-name vynechajte."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "Zostavenie nezodpovedá svojmu kontrolnému súčtu, preto nebolo rozbalené: v zozname %s, prišlo %s."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "Zoznam kontrolných súčtov sa nepodarilo stiahnuť, preto zostavenie nebolo rozbalené: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "Zoznam kontrolných súčtov neuvádza %s, preto zostavenie nebolo rozbalené."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "Zoznam súborov modelu uvádza %s, čo leží mimo priečinka modelu; nič sa nestiahlo."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "Model sa nepodarilo stiahnuť z %s: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "Meno rečníka pre %s je prázdne; zadajte meno alebo --speaker-name vynechajte."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "produkcia dokončená, ale jej výsledok nemá obyčajný názov súboru"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "prevzaté zo zdrojových súborov, --lufs source -- nič sa neupravuje"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Kľúč sa uchováva v kľúčenke pracovného prostredia cez príkaz secret-tool, a ten tento počítač nemá."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Tento počítač nemá príkaz secret-tool, ktorý uchováva kľúč v kľúčenke pracovného prostredia, preto sa nič neuložilo. Ručne: %s"
+
+msgid "What it says appears under Output."
+msgstr "Čo hovorí, sa objaví pod Výstup."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "balík libsecret-tools v systémoch Debian a Ubuntu, libsecret v systémoch Fedora a Arch"

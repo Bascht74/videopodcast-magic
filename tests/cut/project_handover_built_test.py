@@ -119,7 +119,9 @@ check("without a place still a sentence", "no folder" in reason,
 d, reason = vpm.build_handover(SEG, 300.0, ASSIGN, [])
 check("no cameras -> None", d is None,
         "%s against None" % (keys_of(d),))
-check("the reason names Multitrack", "Multitrack" in reason, reason)
+check("the reason is the missing camera, ticked or not",
+      reason == vpm.T('No camera is assigned, so there is nothing to cut '
+                      'between.'), reason)
 
 print("\n5. The time window carries on from there")
 d, _r = vpm.build_handover(SEG, 300.0, ASSIGN, CAM, audio_origin=[61200.0])

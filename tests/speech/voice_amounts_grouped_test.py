@@ -136,6 +136,9 @@ try:
     try:
         vpm.cache_folder = store_folder
         vpm.macos_words = lambda path, language="": [dict(w) for w in heard]
+        # The suite runs silent, and silent mode lets the window start no
+        # recogniser by itself; here the recogniser is stood in and asked.
+        vpm.listening_unasked = lambda: True
         german = recognised("de")
         english = recognised("en")
     finally:

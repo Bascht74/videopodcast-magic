@@ -9,6 +9,8 @@ what Resolve is built from is the file, so the changed cut is read back
 off the disk and not out of the dictionary the call was handed. The
 settings come out of the project file under their own names, which is
 where the button has read them since the stored command line went.
+A window set since a run made without one has moved as well, and a
+relative one moves on material without a clock too.
 """
 PLATFORM_BOUND = True
 import os
@@ -60,8 +62,11 @@ for who in ("Wide", "A", "B"):
     open(os.path.join(cut_folder, who + ".mov"), "w").write("x")
 
 
-def a_handover(window=None):
-    """A handover file as a run writes it -- by default without a window."""
+def a_handover(window=None, named=True):
+    """A handover file as a run writes it -- by default without a window.
+
+    Not *named*: one from before a run wrote down its window at all.
+    """
     cams = []
     for who, speaks in (("Wide", []), ("A", ["A"]), ("B", ["B"])):
         path = os.path.join(cut_folder, who + ".mov")
@@ -77,7 +82,7 @@ def a_handover(window=None):
             "cameras": cams, "cut": list(STALE)}
 
 
-def refreshed(settings, window=None):
+def refreshed(settings, window=None, named=True, clock=True):
     """Put the settings in the project file and press the button.
 
     *settings* are the file's own keys, spelt the way the window writes
@@ -89,6 +94,10 @@ def refreshed(settings, window=None):
               "w", encoding="utf-8") as f:
         json.dump(held, f)
     d = a_handover(window)
+    if not named:
+        del d["in_point"], d["out_point"]
+    if not clock:
+        d["start_s"] = d["start_tc"] = None
     path = os.path.join(cut_folder, "Test_resolve.json")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(d, f)
@@ -132,15 +141,27 @@ check("and the speakers in the file are still the ones the run measured",
       == ["A", "B"],
       "the file names %s, wanted ['A', 'B']"
       % [x.get("name") for x in (short_disk.get("speakers") or [])])
-# The In point of the interface against a handover that has none: the
-# pair that was refused.
+# The In point of the interface against a handover that names no window
+# at all: the pair that was refused, held against start_s.
 with_in, in_cut, _disk = refreshed(
     {"camera_cut": {"min-edit-duration": "12"},
-     "in_point": "18:55:30:00"})
-check("an In point beside a handover without one does not refuse",
+     "in_point": "18:55:30:00"}, named=False)
+check("an In point beside a handover naming no window does not refuse",
       with_in is None, str(with_in))
 check("and gives the same cut as without it", in_cut == long_cut,
       "%d against %d" % (len(in_cut), len(long_cut)))
+# But a run that wrote down it had none: the In point came since.
+set_since, _c, _disk = refreshed(
+    {"camera_cut": {"min-edit-duration": "12"},
+     "in_point": "18:55:30:00"})
+check("an In point set since a run made without one is refused",
+      bool(set_since), "reason %r" % set_since)
+# Relative marks, and no timecode anywhere: start_s stays empty.
+relative, _c, _disk = refreshed(
+    {"camera_cut": {"min-edit-duration": "12"}, "in_point": "+0:00:40",
+     "out_point": "+0:01:40"}, window=("+0:00:30", "+0:01:40"), clock=False)
+check("a relative In point moved is refused without a clock too",
+      bool(relative), "reason %r" % relative)
 # And what may still be refused, so that the repair did not take the
 # guard with it: the window really did move since the files were made.
 moved, _c, _disk = refreshed(

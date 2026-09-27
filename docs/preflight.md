@@ -120,6 +120,11 @@ The program reads the container only and decodes nothing. Only what is
 not a whole frame duration, or what wanders over the file, counts as
 spread.
 
+The program itself counts such a file at one rate everywhere -- in the
+cut, in the Timeline, in the timecode and on the Resolve side: the rate
+the file states where that is a camera rate, between 23.976 and 60,
+and otherwise the measured average.
+
 ### How the report measures bleed against the 3:1 rule
 
 With several speakers in one room, every voice stands quietly in the
@@ -147,7 +152,9 @@ exactly one person speaks. The report says so and the run goes on.
 Before the first long step the report holds the free space against what
 the run will write. That estimate is a rough one and says so: it counts
 every camera as copied and given fresh audio tracks, adds the processed
-tracks and the mix, and rounds upward throughout.
+tracks and the mix, and rounds upward throughout. A recording a recorder
+split into several blocks counts once, as the one track it becomes on
+every camera.
 
 A time window makes the cameras shorter, and the estimate goes with it:
 each camera counts with its own share of the window, so a short camera
@@ -190,14 +197,17 @@ on it, and a loaded project file beats that memory: a project saved at
 -23 LUFS opens at -23 LUFS, even where the machine had remembered
 **Take from source files**.
 
-**Without a target nothing is adjusted.** No `--lufs` on the command
-line, or **Take from source files** in the window, and the sound leaves
-exactly as it came in: no gain on any track and no limiter. auphonic.com
-goes on doing what its preset says. The sum is measured all the same and
-the measurement goes into the log, under `Not adjusted:` -- taken from
-the source files, no gain on any track and no limiter. The preflight says
-the same in its Loudness row: taken from the source files, no `--lufs`
-given, nothing is adjusted. In the Resolve project the loudness display
+**The command line starts on -16 LUFS too.** A call without `--lufs`
+levels to -16, as a new project in the window does.
+
+**Take from source files adjusts nothing.** `--lufs source` on the
+command line, or **Take from source files** in the window, and the sound
+leaves exactly as it came in: no gain on any track and no limiter.
+auphonic.com goes on doing what its preset says. The sum is measured all
+the same and the measurement goes into the log, under `Not adjusted:` --
+taken from the source files, no gain on any track and no limiter. The
+preflight says the same in its Loudness row: taken from the source
+files, `--lufs source`, nothing is adjusted. In the Resolve project the loudness display
 still needs a scale, so it is set to -16 LUFS, and the line above it in
 the log says that this is only what the meter measures against.
 
@@ -205,10 +215,11 @@ the log says that this is only what the meter measures against.
 Multitrack ([The simple path](simple-path.md)) applies the target just as
 any other does, and so does a run with no picture at all, where the
 blocks of a recording are joined into one file. The log gives `Target:`
-and `Result:`; without a target nothing is adjusted.
+and `Result:`; with **Take from source files** nothing is adjusted.
 
-One path is the exception: Multitrack with no picture at all, where the
-tracks are laid against each other. Nothing is levelled there -- a gain
+One path is the exception: several recordings with no picture at all,
+where the tracks are laid against each other, with or without the
+Multitrack tick. Nothing is levelled there -- a gain
 per track would pull the voices out of the balance that path exists to
 keep -- and the run says so in one line
 ([Multitrack](multitrack.md)).
@@ -303,9 +314,11 @@ for it.
   the cameras are then written for that window alone. A dry run writes
   no camera file, so it only notes a shortage and goes on.
 - **The preset masters to a different loudness.** Set `--lufs` to the
-  value of the preset, or change the loudness target of the preset at
-  auphonic.com. Both at once does not work: the tracks come back at one
-  value and the mix goes to the other.
+  value of the preset, or `--lufs source` to leave the loudness to the
+  preset, or change the loudness target of the preset at auphonic.com.
+  Both at once does not work: the tracks come back at one value and the
+  mix goes to the other. A call without `--lufs` means -16, so a preset
+  that masters to anything else stops the run before the upload.
 - **The multitrack preset holds no track.** Create one track in the
   preset at auphonic.com. The first preset track sets the processing for
   all tracks; without it they come back as they were uploaded.

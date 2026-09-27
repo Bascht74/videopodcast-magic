@@ -68,7 +68,7 @@ class Bridge(object):
 
 
 class Value(object):
-    """A field of the window: a Kind, or the multitrack tick."""
+    """A field of the window: a Kind."""
 
     def __init__(self, value):
         self.value = value
@@ -105,8 +105,7 @@ for p in BLOCKS:
     rows[p] = chain
 fill_in, kick_off = vpm.make_preflight(
     state, FILES, Plan(), Bridge(), lambda *a: None, line, set_mark,
-    lambda *a: None, lambda *a: None, rows, set(), lambda: [],
-    Value(False), [], kinds)
+    lambda *a: None, lambda *a: None, rows, set(), lambda: [], [], kinds)
 
 
 def axis_says(weak=(), nowhere=()):
@@ -209,7 +208,7 @@ vpm.preflight.collect_findings = lambda *a, **k: (held.wait(60), [])[1]
 fill_in2, kick_off2 = vpm.make_preflight(
     state, FILES, Plan(), Bridge(), lambda _s, f: answered.append(f), line,
     set_mark, lambda *a: None, lambda *a: None, rows, set(), lambda: [],
-    Value(False), [], kinds)
+    [], kinds)
 kick_off2()
 running = line.text()
 axis_says(weak=[WIDE])

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """A test that calls at a door to Resolve has nailed it shut first.
 
-Four sections: the doors, read out of the program and out of the test
+Five sections: the doors, read out of the program and out of the test
 that listed them already; that every file of the suite was read -- the
 repository, not the folder; every call at a door held against the place
-where connect_to_resolve was replaced; and the switches that make the
+where connect_to_resolve was replaced; the switches that make the
 program connect in a process of its own, which no replacement reaches,
-save in the one child named here: nailed, with Resolve bolted out.
+save in the one child named here: nailed, with Resolve bolted out; and
+run.sh bolting Resolve out for every test, for the calls one step away.
 
 tests/resolve/live/ and the file that starts it are excepted, each by
 name: those talk to a Resolve that is really running, on purpose, and
@@ -15,7 +16,9 @@ are started by hand. How many may be excepted is a ratchet.
 The limit is that only the source is read. A replacement a test makes
 while it runs is not seen, and one step is followed and not two: a
 function that reaches a door through another -- write_handover through
-the --resolve in its handover -- is not counted here.
+the --resolve in its handover -- is not counted here. The last section
+is what stands behind that limit: a window showing the Resolve tab calls
+check_resolve itself, and no test file says so.
 """
 PLATFORM_BOUND = False
 import os
@@ -494,6 +497,42 @@ check("no test hands the program a switch that makes it connect",
       not carried, "%d found, and a second process is past every "
       "replacement: %s" % (len(carried), quiet("; ".join(carried[:4]))
                            or "none"))
+
+# ------------------------------------------------------------------ 5.
+print("\n5. The bolt run.sh sets for every test")
+# Both variables at the start of a line -- not inside a branch -- before
+# the workers start, not kept from what came in, and naming a place
+# run.sh never makes: then check_resolve answers "not found" unasked.
+RUNNER = "run.sh"
+runner = files.get(RUNNER, "").split("\n")
+fan_out = next((n for n, line in enumerate(runner, 1)
+                if "xargs" in line and not line.lstrip().startswith("#")),
+               0)
+made = [line for line in runner if line.lstrip().startswith("mkdir")]
+bolt_faults = []
+for name in ("RESOLVE_SCRIPT_API", "RESOLVE_SCRIPT_LIB"):
+    at, value = 0, ""
+    for number, line in enumerate(runner, 1):
+        m = re.match(r"export %s=(\S+)\s*$" % name, line)
+        if m:
+            at, value = number, m.group(1).strip("\"'")
+    if not at:
+        bolt_faults.append("%s is not exported at the start of a line"
+                           % name)
+    elif not at < fan_out:
+        bolt_faults.append("%s:%d stands after the workers start at %d"
+                           % (name, at, fan_out))
+    elif name in value or ":-" in value:
+        bolt_faults.append("%s:%d keeps what came in (%s)"
+                           % (name, at, quiet(value)))
+    elif any(value in line for line in made):
+        bolt_faults.append("%s:%d names a place run.sh makes (%s)"
+                           % (name, at, quiet(value)))
+check("run.sh points Resolve's interface at nothing for every test",
+      bool(runner[0]) and not bolt_faults,
+      "%d of 2 variables not bolted in %s (%d lines, workers at line %d): "
+      "%s" % (len(bolt_faults), RUNNER, len(runner), fan_out,
+              "; ".join(bolt_faults) or "none"))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

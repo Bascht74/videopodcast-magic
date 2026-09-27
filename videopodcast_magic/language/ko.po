@@ -334,12 +334,6 @@ msgstr "화자 분리가 여기에 설치되어 있지 않습니다. 다음으�
 msgid "Fetching the model (about %s MB) ..."
 msgstr "모델을 가져오는 중 (약 %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "모델을 가져오는 중 (약 %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "모델을 가져올 수 없었습니다: %s"
-
 msgid "The model could not be written: %s"
 msgstr "모델을 쓸 수 없었습니다: %s"
 
@@ -852,9 +846,6 @@ msgstr "  %-20s 정렬할 수 없음: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s 측정 불가: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s 오프셋 %s, 클럭 드리프트 %s ppm (+/- %s), 잔여 편차 %s ms, %s/%s 지점"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s 오프셋 %s, 클럭 드리프트 %s ppm (+/- %s), 잔여 편차 %s ms, %s/%s 지점%s"
@@ -2170,14 +2161,8 @@ msgstr "시간 축이 정해지면 인 포인트와 아웃 포인트를 사용�
 msgid "In point is %s before the first frame"
 msgstr "인 포인트가 첫 프레임보다 %s 앞"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "인 포인트는 이제 %s인데, 기존 파일은 %s 기준입니다.\n  비디오의 오디오가 이전 구간에 맞춰 잘려 있습니다 -- 위의 시작을\n  다시 누르세요."
-
 msgid "Out point is %s after the last frame"
 msgstr "아웃 포인트가 마지막 프레임보다 %s 뒤"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "아웃 포인트는 이제 %s입니다. 구간 길이는 %s이(가) 되지만 기존\n  파일은 %s입니다 -- 위의 시작을 다시 누르세요."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "납품에는 보통 제한 범위를 씁니다. 전체 범위가 틀린 것은 아니지만 일부 플레이어가 잘못 읽습니다."
@@ -2338,9 +2323,6 @@ msgstr "Multitrack (화자마다 트랙 하나)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack에는 입력 트랙이 두 개 이상 필요합니다. 트랙이란 별도 녹음, 멀티채널 레코더의 채널 하나, 또는 \"내장 오디오 사용\"으로 설정된 비디오 파일의 오디오입니다. 같은 녹음의 여러 블록은 하나로 세고, 따로 빼 둔 트랙은 세지 않습니다."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "타임코드가 있는 오디오 파일이 없습니다. 인 포인트와 아웃 포인트는 소재의 시작부터 셉니다 -- 파일 간 위치는 측정된 것입니다."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "아직 사용 중인 소리가 없습니다 -- 오디오 녹음을 추가하거나, 파일 목록에서 비디오 파일의 카메라 오디오를 \"내장 오디오 사용\"으로 설정하세요."
 
@@ -2349,9 +2331,6 @@ msgstr "할당된 오디오 트랙이 없습니다."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "할당된 카메라가 없어서 전환할 대상이 없습니다."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "아직 할당된 카메라가 없습니다 -- 할당하려면 Multitrack을 켜세요."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Resolve에 연결되지 않았습니다.\n  프로그램이 실행 중입니까? Preferences > System > General에서\n  external scripting이 'Local'로 설정되어 있습니까?"
@@ -3165,9 +3144,6 @@ msgstr "프리셋은 %s LUFS로 마스터링하고, 계산은 %s을(를) 사용�
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "프리셋이 %s LUFS로 마스터링합니다 -- 그대로 두며, 이쪽에서는 아무것도 조정하지 않습니다."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "원본 파일에서 가져옴, --lufs 지정 없음 -- 아무것도 조정하지 않음"
 
 msgid "the answer did not keep the floor"
 msgstr "답변이 발언을 이어가지 못함"
@@ -4878,9 +4854,6 @@ msgstr "%s\n   소리를 인식하지 못함; 실행이 배치하는 대로 배�
 msgid "sound not recognised, placed by its timecode"
 msgstr "소리를 인식하지 못함, 타임코드로 배치됨"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  녹음 %s개, 영상 없음: 각각 따로 이어 붙이며 서로 맞추지 않습니다. --multitrack을 쓰면 하나의 시간 축에 놓습니다."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", 클럭 드리프트 %s ppm 유지: 불확도의 %s배에 미치지 않음 (불확도 %s ppm)"
 
@@ -4961,3 +4934,112 @@ msgstr "    %s: 앞쪽 %s은(는) 영상이 없어 제외됩니다"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: 뒤쪽 %s은(는) 영상이 없어 제외됩니다"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s이(가) 올라갈 때보다 %s s 길게 돌아왔고, 보낸 소리가 그 안에서 어디서\n"
+"  시작하는지 측정할 수 없었습니다 -- 온 그대로 둡니다."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s을(를) 자를 수 없었습니다 (%s) -- 온 그대로 둡니다."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s(%s)의 소리가 %s(%s)와 비슷합니다 (유사도 %s): 같은 사람으로 보입니다."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com이 끝에 %s s를 덧붙였습니다 -- 잘라냈습니다"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com이 시작에 %s s를 덧붙였습니다 -- 잘라냈습니다"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: 파일이 쓰이지 않아 컷에서 이 카메라를 뺍니다."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  인 포인트와 아웃 포인트는 여기서 효과가 없습니다: 영상 없는 녹음 하나는 통째로 이어 붙입니다."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  카메라 이름 \"%s\"에 폴더나 드라이브 구분 문자가 들어 있습니다. \"%s\"(으)로 씁니다."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  양 끝의 와이드 샷: 없음 -- 다른 목소리가 한 번만 말하고, 그 하나의 끝이 가장 짧은 샷보다 짧았습니다"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  양 끝의 와이드 샷: %s부터만 -- 다른 목소리가 끝 무렵에 한 번만 말해서 시작 부분의 것이 없습니다"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  양 끝의 와이드 샷: %s까지만 -- 다른 목소리가 시작 무렵에 한 번만 말해서 끝 부분의 것이 없습니다"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com이 파일 이름을 \"%s\"(으)로 지었습니다 -- 단순한 파일 이름이 아니어서 가져오지 않습니다"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s을(를) 배치할 수 없습니다: 소리가 나머지 소재와 공통점이 없고, 소리로 배치된 녹음 중 자기 타임코드를 맞춰 볼 타임코드를 가진 것이 없습니다. 그중 하나에 이 파일과 맞는 타임코드가 필요하며, 그것은 다른 프로그램으로 설정해야 합니다."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name이 %s에 두 이름 \"%s\"와(과) \"%s\"을(를) 줍니다. 녹음마다 하나만 지정하세요."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name이 %s을(를) 지정하지만, 이번 실행의 녹음이 아닙니다."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "%s에서 모델을 가져오는 중 (약 %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "지난 실행 이후 인 포인트가 바뀌었습니다: 이전 %s, 지금 %s. 비디오 안의 컷과 소리는 아직 이전 구간 기준이므로 Resolve는 지금 표시가 말하는 것을 받지 못합니다 -- 시작을 다시 누르세요."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "타임코드가 있는 오디오 파일이 없습니다. 인 포인트와 아웃 포인트는 모든 카메라가 돌아가는 순간부터 셉니다 -- 파일 간 위치는 측정된 것입니다."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "지난 실행 이후 아웃 포인트가 바뀌었습니다: 이전 %s, 지금 %s. 비디오 안의 컷과 소리는 아직 이전 구간 기준이므로 Resolve는 지금 표시가 말하는 것을 받지 못합니다 -- 시작을 다시 누르세요."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "프로덕션이 끝났지만 개별 트랙이 담긴 ZIP에 단순한 파일 이름이 없습니다"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "카메라가 여러 대인데 오디오 녹음이 없습니다. 카메라마다 자체 오디오가 있게 됩니다 -- 그것이 Multitrack의 용도입니다. 아니면 카메라를 하나씩 차례로 처리하세요."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "아카이브에 %s이(가) 두 번 이상 들어 있어 아무것도 꺼내지 않았습니다."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "여기서는 할당 파일이 녹음 이름을 정하므로 --speaker-name은 버려집니다. 이름을 그 파일에서 지정하거나 --speaker-name을 빼세요."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "빌드가 체크섬과 일치하지 않아 압축을 풀지 않았습니다: 목록에는 %s, 도착한 것은 %s."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "체크섬 목록을 가져올 수 없어 빌드의 압축을 풀지 않았습니다: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "체크섬 목록에 %s이(가) 없어 빌드의 압축을 풀지 않았습니다."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "모델 파일 목록에 있는 %s은(는) 모델 폴더 밖에 있습니다. 아무것도 가져오지 않았습니다."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "%s에서 모델을 가져올 수 없었습니다: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "%s의 화자 이름이 비어 있습니다. 이름을 지정하거나 --speaker-name을 빼세요."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "프로덕션이 끝났지만 결과에 단순한 파일 이름이 없습니다"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "원본 파일에서 가져옴, --lufs source -- 아무것도 조정하지 않음"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "키는 secret-tool 명령을 통해 데스크톱 키링에 보관되는데, 이 컴퓨터에는 그 명령이 없습니다."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "이 컴퓨터에는 키를 데스크톱 키링에 보관하는 secret-tool이 없어 아무것도 저장하지 않았습니다. 직접 설치: %s"
+
+msgid "What it says appears under Output."
+msgstr "그 메시지는 출력 탭에 표시됩니다."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "Debian과 Ubuntu에서는 libsecret-tools 패키지, Fedora와 Arch에서는 libsecret"

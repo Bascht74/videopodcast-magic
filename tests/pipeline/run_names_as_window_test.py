@@ -20,6 +20,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
         and os.path.dirname(HERE) != HERE:
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
+import json
 import shutil
 import subprocess
 import tempfile
@@ -68,11 +69,15 @@ for card in ("CardA", "CardB"):
                     "-c:a", "pcm_s16le", "-shortest", CAMS[-1]], check=True)
 OUT = os.path.join(D, "out")
 os.makedirs(OUT)
-argv, _plan, _m = vpm.run_argv({
+# The window writes the plan beside the line; so does this.
+ASSIGN = os.path.join(D, "assign.json")
+argv, plan, _m = vpm.run_argv({
     "files": [(REC, "audio"), (CAMS[0], "video"), (CAMS[1], "video")],
     "clip_kinds": {}, "out_folder": OUT, "multitrack": False,
     "production": "Pilot", "cameras": [], "cut": {},
-    "wide_at_edges": False, "key": ""})
+    "wide_at_edges": False, "key": ""}, ASSIGN)
+with open(ASSIGN, "w", encoding="utf-8") as f:
+    json.dump(plan or {}, f)
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en", VPM_SILENT="1",
            VPM_NO_SPEAKER_SPLIT="1", VPM_NO_UPDATE_CHECK="1",
            QT_QPA_PLATFORM="offscreen")
@@ -104,7 +109,7 @@ check("and it is processed under that name", HEAD + "\n" in log,
           HEAD.strip(), len(log), line_with(log, "PROCESSING")))
 
 print("\n3. The preflight, as the window names them")
-FACTS = "    C0003.MP4 (2)     %s fps" % vpm.number_text(25, 3)
+FACTS = "    C0003.MP4 (2)            %s fps" % vpm.number_text(25, 3)
 check("the preflight's facts line names the second camera so",
       bool(line_with(log, FACTS)),
       "no line begins %r; the preflight says %r" % (
@@ -143,7 +148,7 @@ came = []
 _fill, kick_off = vpm.make_preflight(
     {}, [(REC, "audio"), (CAMS[0], "video"), (CAMS[1], "video")], Stub(),
     Stub(), lambda _signal, findings: came.append(findings), Stub(), None,
-    None, None, {}, set(), lambda: [], Stub(False), [], {})
+    None, None, {}, set(), lambda: [], [], {})
 kick_off()
 waited = time.time()
 while not came and time.time() - waited < 120:

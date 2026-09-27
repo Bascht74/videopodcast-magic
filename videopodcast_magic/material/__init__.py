@@ -9,16 +9,13 @@ program is handed in and every name used out of it is bound below.
 # beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What this piece uses out of the program, bound once. Seven names are
-# missing; the four blocks under the list say which and why.
+# What this piece uses out of the program, bound once. Two names are
+# missing; the two blocks under the list say which and why.
 
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
 BLOCK_GAP_MAX_S = PROGRAM.BLOCK_GAP_MAX_S
 CAMERA_MATCH_ENOUGH = PROGRAM.CAMERA_MATCH_ENOUGH
-COLOURS = PROGRAM.COLOURS
-FILE_FORMAT = PROGRAM.FILE_FORMAT
 FileSet = PROGRAM.FileSet
-LIKES_PYTHON = PROGRAM.LIKES_PYTHON
 MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
 SR = PROGRAM.SR
 T = PROGRAM.T
@@ -26,7 +23,6 @@ TN = PROGRAM.TN
 TRAILING_NUMBER = PROGRAM.TRAILING_NUMBER
 TYPE_INTRO = PROGRAM.TYPE_INTRO
 TYPE_OUTRO = PROGRAM.TYPE_OUTRO
-VIDEO_SUFFIXES = PROGRAM.VIDEO_SUFFIXES
 align_envelopes = PROGRAM.align_envelopes
 as_bad = PROGRAM.as_bad
 as_head = PROGRAM.as_head
@@ -34,8 +30,6 @@ as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
 bext_time_reference = PROGRAM.bext_time_reference
 clock_base = PROGRAM.clock_base
-colour_arguments = PROGRAM.colour_arguments
-data_track_maps = PROGRAM.data_track_maps
 datetime = PROGRAM.datetime
 decode_audio = PROGRAM.decode_audio
 envelope = PROGRAM.envelope
@@ -44,44 +38,29 @@ file_timecode = PROGRAM.file_timecode
 fit_places_it = PROGRAM.fit_places_it
 gcc_phat_offset = PROGRAM.gcc_phat_offset
 hashlib = PROGRAM.hashlib
+match_places_it = PROGRAM.match_places_it
 math = PROGRAM.math
 no_place_message = PROGRAM.no_place_message
 number_text = PROGRAM.number_text
 os = PROGRAM.os
-probe_has = PROGRAM.probe_has
+parallel_map = PROGRAM.parallel_map
 probe_remember = PROGRAM.probe_remember
-progress_from_line = PROGRAM.progress_from_line
 re = PROGRAM.re
 recipe_mark = PROGRAM.recipe_mark
+remove_quietly = PROGRAM.remove_quietly
 safe_filename = PROGRAM.safe_filename
 sample_count = PROGRAM.sample_count
 shell_quote = PROGRAM.shell_quote
-show_progress = PROGRAM.show_progress
 soxr_available = PROGRAM.soxr_available
-stop_wanted = PROGRAM.stop_wanted
 subprocess = PROGRAM.subprocess
-sys = PROGRAM.sys
-tempfile = PROGRAM.tempfile
-threading = PROGRAM.threading
-timecode_moved = PROGRAM.timecode_moved
 timecode_seconds = PROGRAM.timecode_seconds
-timecode_string = PROGRAM.timecode_string
 video_envelope = PROGRAM.video_envelope
 video_facts = PROGRAM.video_facts
 
-# Two of the seven stand in a piece read after this one and go through
-# PROGRAM: run_ffmpeg_with_progress, and tracks_folder behind it.
+# One stands in a piece read after this one and goes through PROGRAM:
+# tracks_folder.
 
-# Two are the fittings' -- hint and label -- and channel_rows_build
-# below reaches them through PROGRAM where it calls them. That is a
-# leftover from the window: the fittings are read above this piece
-# since #152, so both could be head lines here.
-
-# Two are bent while the run goes on: the window sets OUTPUT_SINK and
-# ASK_SINK on the program object, a write the pieces are never told
-# about, so a copy taken here would hold the value of the run before.
-
-# numpy is the seventh: the program binds the real module only when
+# numpy is the second: the program binds the real module only when
 # the first sum asks, which a copy taken up there would never see.
 class LateNumpy:
     """Stands in for the program's numpy until a sum wants it."""
@@ -94,13 +73,6 @@ class LateNumpy:
 
 
 np = LateNumpy()
-
-
-# What the loudness may come to, and how much of it the limiter may
-# take off. Nothing else in the program reads either one.
-CEILING_DBTP = -1.0       # true-peak ceiling of the result
-LIMIT_MAX_DB = 6.0        # most the limiter may take off
-SPEAKER_FLOOR_LUFS = -50.0  # under it a track carries no voice to match
 
 
 #---------------------------------------- Which files belong together
@@ -254,12 +226,11 @@ def _joins_seamlessly(before, after, row):
 def find_continuation_files(file_path):
     """Find every block of the same recording, forwards and backwards.
 
-    Only seamless continuations are appended, the same test both ways,
-    so which block is picked makes no difference. Both rules hold the
-    letters as written; the counter's one freedom is the number's width
-    (back from REC10 it tries REC09 and REC9), six beside eight digits
-    is refused as a doubled moment, and neither folds case -- normcase
-    would, on Windows only, and one folder must not join differently there.
+    Only seamless continuations, the same test both ways, so which block
+    is picked makes no difference. Letters count as written; the counter's
+    one freedom is its width (from REC10 back it tries REC09 and REC9), six
+    beside eight digits is refused as a doubled moment, and case never
+    folds: normcase would, on Windows only; a folder joins alike everywhere.
     """
     folder = os.path.dirname(file_path) or "."
     name, ext = os.path.splitext(os.path.basename(file_path))
@@ -475,10 +446,9 @@ def track_order_for_camera(own, every, singles=(), camera_tracks=1,
 
     Track 1 is the finished mix for this camera, so taking only the first
     is correct; then the same speakers, the overall mix, and last the
-    camera's own sound. *camera_tracks* is how many of its own the camera
-    brings -- none where it filmed without sound or --no-camera-audio was
-    given -- and *name_camera* what they are called; more than one are
-    numbered the way the written file numbers them.
+    camera's own sound: *camera_tracks* of them (none without sound or
+    with --no-camera-audio) called *name_camera*, several numbered the
+    way the written file numbers them.
     """
     sequence = []
     if own:
@@ -489,10 +459,9 @@ def track_order_for_camera(own, every, singles=(), camera_tracks=1,
     else:
         sequence.append(MIX_TRACK_NAME)
         sequence += list(singles)
-    # The overall mix under every camera that carries a speaker, also
-    # where that one camera carries them all. It is then the same sound
-    # twice under two names -- but the manual promises the track, and
-    # the cut and the handover look it up by this name, not by content.
+    # The overall mix under every camera that carries a speaker, even one
+    # carrying them all: the same sound twice, but the manual promises the
+    # track, and the cut and the handover look it up by name, not content.
     if own:
         sequence.append(MIX_TRACK_NAME)
     if camera_tracks == 1:
@@ -519,260 +488,14 @@ def find_pauses(tracks):
 
 
 # =====================================================================
-#  What the cut is decided by -- the rules a human editor follows on
-#  top of "whoever speaks is on screen". Every number is adjustable.
-# =====================================================================
-
-
-def format_complaint(d):
-    """Say why a stored file cannot be used, or return "".
-
-    Where the format number differs the keys inside mean something else,
-    and reading it anyway would quietly assign the wrong things.
-    """
-    if not isinstance(d, dict):
-        return T("This is not a file of this program.")
-    present = int(d.get("format") or 1)
-    if present == FILE_FORMAT:
-        return ""
-    return T("This file was written by version %s in format %d; this one "
-             "writes format %d. The names inside have changed since, so it "
-             "cannot be read. Please set the run up again.",
-             d.get("version") or "?", present, FILE_FORMAT)
-
-
-def ask_choice(possible, heading, title=T('Question'), default_value=None,
-               switch="--auphonic-resume"):
-    """Ask a question -- in the terminal, in the GUI or via a switch.
-
-    *options* is [(key, text)] and the key comes back. *switch* preselects
-    the answer and is named where nobody is there to answer.
-    """
-    print("\n  %s" % heading)
-    for i, (_, text) in enumerate(possible, 1):
-        print("    %d  %s" % (i, text))
-    api_key = [k for k, _ in possible]
-
-    def write_out(label, choice):
-        """Show the visible text rather than the internal key."""
-        for i, (k, text) in enumerate(possible, 1):
-            if k == choice:
-                print("  %s: %d  %s" % (label, i, text.split("\n")[0]))
-                return
-        print("  %s: %s" % (label, choice))
-
-    if default_value in api_key:
-        write_out(T('Given'), default_value)
-        return default_value
-    if PROGRAM.ASK_SINK is not None:
-        choice = PROGRAM.ASK_SINK(possible, title)
-        write_out(T('Chosen'), choice)
-        return choice
-    if not sys.stdin.isatty():
-        raise RuntimeError(
-            T('No input possible. Use %s %s to set what should happen.') % (switch, "|".join(api_key)))
-    while True:
-        answer = input(T('  Number: ')).strip()
-        if answer.isdigit() and 1 <= int(answer) <= len(possible):
-            write_out(T('Chosen'), possible[int(answer) - 1][0])
-            return possible[int(answer) - 1][0]
-        print(T('  Please give a number between 1 and %d.') % len(possible))
+#  What the cut is decided by: the rules a human editor follows on top
+#  of "whoever speaks is on screen". Every number is adjustable.
 
 
 # What a camera carries beyond the time window at each end. A second is
 # more than twenty times the error the run's own cross-check tolerates,
 # and at the front the key frame usually swallows it anyway.
 CAMERA_MARGIN_S = 1.0
-
-
-def key_frame_at_or_before(video, when):
-    """Where the last key frame at or before *when* seconds sits.
-
-    A stream copy starting between two key frames takes the picture from
-    the one before while the sound starts where asked, a group of
-    pictures apart. So the cut goes back, never forward; 0.0 if none.
-    """
-    if when <= 0:
-        return 0.0
-    for reach in (10.0, 120.0, 1200.0):
-        begin = max(0.0, when - reach)
-        try:
-            p = subprocess.run(
-                ["ffprobe", "-v", "error", "-select_streams", "v:0",
-                 "-skip_frame", "nokey", "-show_entries", "frame=pts_time",
-                 "-of", "csv=p=0", "-read_intervals",
-                 "%.3f%%%.3f" % (begin, when + 0.001), video],
-                capture_output=True, timeout=300)
-        except Exception as e:
-            print(T('  Key frames of %s cannot be read (%s) -- the copy '
-                    'starts at the beginning of the file.')
-                  % (PROGRAM.camera_shown(video), str(e)[:60]))
-            return 0.0
-        found = []
-        for line in p.stdout.decode("utf-8", "replace").splitlines():
-            try:
-                seconds = float(line.strip().rstrip(","))
-            except ValueError:
-                continue
-            if seconds <= when + 1e-6:
-                found.append(seconds)
-        if found:
-            return max(found)
-        if begin <= 0:
-            break
-    return 0.0
-
-
-def camera_window_cut(video, duration, offset, window_s):
-    """Which stretch of a camera a time window leaves: (cut_at, keep_s).
-
-    *offset* is where the camera's first frame sits in programme time.
-    The copy starts on the key frame before the window, the end is cut
-    where the window ends, and keep_s is None where neither end gives.
-    """
-    first = max(0.0, -offset - CAMERA_MARGIN_S)
-    last = min(duration, window_s - offset + CAMERA_MARGIN_S)
-    cut_at = key_frame_at_or_before(video, first)
-    if cut_at <= 0 and last >= duration - 0.001:
-        return 0.0, None
-    return cut_at, max(1.0, last - cut_at)
-
-
-def camera_stamp(info, cut_at, at_s):
-    """The timecode a written camera file carries, or nothing.
-
-    *at_s* is where its first frame sits on the wall clock, the reckoning
-    every camera gets, written at this camera's own rate. Without it the
-    camera's own timecode is moved by the cut and stands alone again.
-    """
-    fps = max(1.0, info.get("fps") or 30.0)
-    if at_s is not None:
-        return timecode_string(at_s, fps)
-    return timecode_moved(info["tc"], cut_at, fps) if info.get("tc") else ""
-
-
-def write_camera_file(video, info, audio_tracks, target, a, b, drift, args,
-                 head_s=0, tail_s=0, cut_at=0.0, keep_s=None, at_s=None):
-    """Write a new video file carrying several audio tracks.
-
-    *audio_tracks* is [(name, path)]; all get the same offset and clock
-    correction, so they stay as aligned as they were. *head_s* and
-    *tail_s* trim samples front and back before the offset; *cut_at* and
-    *keep_s* say which stretch of the camera is written.
-    """
-    kept = keep_s if keep_s else info["duration"] - cut_at
-    n_video = int(round(kept * SR))
-    if drift and abs(b - 1.0) > 1e-7:
-        intro = rate_filter_chain(b) + ","
-        k = int(round(a / b * SR))
-    else:
-        intro, k = "", int(round(a * SR))
-    cut = ("atrim=start_sample=%d,asetpts=N/SR/TB," % k) if k > 0 else\
-              ("adelay=delays=%dS:all=1," % (-k)) if k < 0 else ""
-    cmd = ["ffmpeg", "-v", "warning", "-nostats"]
-    # Both in front of the input, so they cut the camera alone: the
-    # tracks that follow are inputs of their own.
-    if cut_at > 0:
-        cmd += ["-ss", "%.6f" % cut_at]
-    if keep_s:
-        cmd += ["-t", "%.6f" % keep_s]
-    cmd += ["-i", video]
-    chains, map_args = [], ["-map", "0:v"]
-    for i, (_, file_path) in enumerate(audio_tracks):
-        cmd += ["-i", file_path]
-        edge = ""
-        if head_s or tail_s:
-            edge = ("atrim=start_sample=%d:end_sample=%d,asetpts=N/SR/TB,"
-                    % (head_s, sample_count(file_path) - tail_s))
-        chains.append("[%d:a]%s%s%sapad=whole_len=%d,atrim=end_sample=%d,"
-                      "asetpts=N/SR/TB[t%d]"
-                      % (i + 1, edge, intro, cut, n_video, n_video, i))
-        map_args += ["-map", "[t%d]" % i]
-    n_camera = 0
-    if not args.no_camera_audio:
-        for i in range(len(info["audio"])):
-            map_args += ["-map", "0:a:%d" % i]
-        n_camera = len(info["audio"])
-    # Behind the audio, so every track above keeps its place.
-    data_maps = data_track_maps(video)
-    map_args += data_maps
-    cmd += ["-filter_complex", ";".join(chains)] + map_args
-    if data_maps:
-        cmd += ["-c:d", "copy"]
-    # use_metadata_tags keeps the camera's QuickTime keys, where Resolve
-    # reads device and input colour space. No write_colr: a colr box
-    # travels either way, and the switch invents 2/2/2 where none is.
-    cmd += ["-c:v", "copy"] + colour_arguments(video)
-    cmd += ["-map_metadata", "0", "-movflags", "+use_metadata_tags"]
-    for i in range(len(audio_tracks)):
-        cmd += ["-c:a:%d" % i, "pcm_s24le"]
-    for i in range(n_camera):
-        cmd += ["-c:a:%d" % (len(audio_tracks) + i), "copy"]
-    for i, (name, _) in enumerate(audio_tracks):
-        cmd += ["-metadata:s:a:%d" % i, "title=%s" % name,
-                "-metadata:s:a:%d" % i, "handler_name=%s" % name,
-                "-disposition:a:%d" % i, "default" if i == 0 else "0"]
-        if args.speech_language:
-            cmd += ["-metadata:s:a:%d" % i, "language=%s" % args.speech_language]
-    for i in range(n_camera):
-        nm = args.name_camera if n_camera == 1 else "%s %d" % (args.name_camera,
-                                                               i + 1)
-        j = len(audio_tracks) + i
-        cmd += ["-metadata:s:a:%d" % j, "title=%s" % nm,
-                "-metadata:s:a:%d" % j, "handler_name=%s" % nm,
-                "-disposition:a:%d" % j, "0"]
-        if args.speech_language_camera:
-            cmd += ["-metadata:s:a:%d" % j, "language=%s" % args.speech_language_camera]
-    stamp = camera_stamp(info, cut_at, at_s)
-    if stamp:
-        # ffmpeg carries the source timecode through unchanged however
-        # much is cut off the front, so the real start is written here.
-        cmd += ["-timecode", stamp]
-    cmd += ["-y", target]
-    PROGRAM.run_ffmpeg_with_progress(
-        cmd, kept, T('Writing %s') % os.path.basename(target))
-
-
-def measure_loudness(file_path, duration=None, text_progress_bar=None):
-    """Measure programme loudness and true peak to EBU R128."""
-    cmd = ["ffmpeg", "-nostats", "-i", file_path, "-af", "ebur128=peak=true",
-           "-f", "null", "-"]
-    if not text_progress_bar:
-        p = subprocess.run(cmd, capture_output=True)
-        text = p.stderr.decode("utf-8", "replace")
-    else:
-        # ebur128 writes one line per second to stderr, so reading stdout
-        # first would fill its buffer: stderr goes to a file, not a pipe.
-        cmd = cmd[:1] + ["-progress", "pipe:1"] + cmd[1:]
-        fd, log = tempfile.mkstemp(suffix=".txt")
-        os.close(fd)
-        try:
-            with open(log, "wb") as f:
-                proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=f)
-                show_progress(text_progress_bar, 0.0)
-                for line in proc.stdout:
-                    share = progress_from_line(line, duration)
-                    if share is not None:
-                        show_progress(text_progress_bar, share)
-                proc.wait()
-            with open(log, "r", encoding="utf-8", errors="replace") as f:
-                text = f.read()
-        finally:
-            try:
-                os.unlink(log)
-            except OSError:
-                pass
-        show_progress(text_progress_bar, 1.0)
-        if PROGRAM.OUTPUT_SINK:
-            PROGRAM.OUTPUT_SINK("\n")
-        else:
-            sys.stdout.write("\n")
-    def get(label):
-        hit = re.findall(label + r":\s*(-?\d+(?:\.\d+)?)", text)
-        return float(hit[-1]) if hit else None
-    # LRA comes from the same pass: how far quiet and loud passages lie
-    # apart. For speech 3 to 7 LU is usual; below that it sounds squashed.
-    return get(r"I"), get(r"Peak"), get(r"LRA")
 
 
 def remove_slow_level_drift(env, window=600):
@@ -838,6 +561,124 @@ def refine_offset(axis, done, a, b, rate=16000, how_many=9):
     return float(np.median(values))
 
 
+def where_sent_sits(sent, back):
+    """Where the sound sent stands in the file that came back.
+
+    Envelopes without the leveler's slow changes, sample points off the
+    returned file and their median, then the voice for the last
+    milliseconds. Returns {"a": seconds into *back* where *sent* begins,
+    "drift", "ppm", "spread" in ms, "st", "fine" in ms or None}; raises
+    where the two cannot be laid against each other at all.
+    """
+    HOP, rate = 5.0, 4000
+    env_old = remove_slow_level_drift(envelope(decode_audio(sent, rate=rate),
+                                               HOP, rate))
+    env_fresh = remove_slow_level_drift(envelope(decode_audio(back, rate=rate),
+                                                 HOP, rate))
+    # Sample points on the processed track, not the uploaded
+    # one: after de-bleeding only one speaker is left, and the
+    # passages now empty would dominate a whole-length compare.
+    density = int(max(20, min(120, len(env_fresh) * HOP / 1000.0 / 30.0)))
+    a_corr, _b_corr, st = align_envelopes(env_old, env_fresh, HOP,
+                                          sample_points=density,
+                                          distance_s=30.0,
+                                          warn=os.path.basename(back),
+                                          points_off="audio")
+    # Median, not a regression line: Auphonic shifts a track as a
+    # whole or not at all, so there is no slope to estimate.
+    offsets = st.get("offsets") or []
+    times = st.get("times") or []
+    clock_drift, clock_drift_ppm = 1.0, 0.0
+    if offsets:
+        v = np.array(offsets)
+        a_corr = -float(np.median(v))
+        spread = float(np.median(np.abs(v - np.median(v))) * 1000)
+        # A returned file drifting against the uploaded one carries
+        # clock drift, which a fixed offset cannot mend.
+        if len(v) >= 20 and len(times) == len(v):
+            t = np.array(times)
+            slope, axis = np.polyfit(t, v, 1)
+            rest = v - (axis + slope * t)
+            if (abs(slope) * 1e6 > 2.0
+                    and float(np.std(rest) * 1000) < 30.0):
+                clock_drift = 1.0 / (1.0 + slope)
+                clock_drift_ppm = (clock_drift - 1.0) * 1e6
+                a_corr = -axis / (1.0 + slope)
+                spread = float(np.median(np.abs(rest)) * 1000)
+    else:
+        spread = st.get("spread_ms", 0.0)
+    # Where the file was coarsely trimmed to a window set later there
+    # is deliberate slack at both ends. Measured on the voice, not the
+    # envelope: a second voice becomes audible from about 20 ms.
+    fine = refine_offset(sent, back, a_corr, clock_drift)
+    if fine is not None and abs(fine) < 500.0:
+        a_corr += fine / 1000.0
+    return {"a": a_corr, "drift": clock_drift, "ppm": clock_drift_ppm,
+            "spread": spread, "st": st, "fine": fine}
+
+
+# What auphonic.com may add before it is cut: less than this is the
+# encoder's own padding at the end of a lossy file, not a jingle.
+ADDED_FLOOR_S = 0.05
+
+
+def cut_to_what_was_sent(sent, back):
+    """Cut what auphonic.com put before and after the sound it was sent.
+
+    The free plan puts a jingle in front (20 s up, 26.4 s back, 27.9.2026).
+    *back* is rewritten in place as long as *sent*: to the sample when
+    lossless, copied to the frame when lossy rather than encoded twice.
+    Returns (seconds cut in front, behind). A file no longer than what
+    went up is not measured; one that cannot be placed stays, and is said.
+    """
+    sent_s = sample_count(sent) / float(SR)
+    back_s = sample_count(back) / float(SR)
+    name = os.path.basename(back)
+    if back_s - sent_s <= ADDED_FLOOR_S:
+        return 0.0, 0.0
+    try:
+        found = where_sent_sits(sent, back)
+    except Exception:
+        found = {"st": {}}
+    # Placed by the rule a camera is placed by. The voice's correction is
+    # no test: it came out near zero on three built replies of other
+    # sound entirely (27.9.2026).
+    if not (match_places_it(found["st"]) or fit_places_it(found["st"])):
+        print(as_warn(T('  %s came back %s s longer than it went up, and '
+                        'where the sound sent\n  begins in it could not '
+                        'be measured -- left as it came.')
+                      % (name, number_text(back_s - sent_s, 1))))
+        return 0.0, 0.0
+    front = max(0.0, found["a"])
+    behind = max(0.0, back_s - front - sent_s)
+    facts = audio_stream_facts(back)
+    codec = facts.get("codec_name") or ""
+    head, suffix = os.path.splitext(back)
+    kept = head + ".cut" + suffix
+    if codec.startswith("pcm_") or codec in ("flac", "alac"):
+        how = ["-i", back, "-map", "0:a", "-af",
+               "atrim=start=%.6f:duration=%.6f,asetpts=N/SR/TB"
+               % (front, sent_s), "-c:a", codec] + wav_safe(back)
+    else:
+        how = ["-ss", "%.6f" % front, "-i", back, "-t", "%.6f" % sent_s,
+               "-map", "0", "-c", "copy"]
+    try:
+        shell_quote(["ffmpeg", "-v", "error"] + how + ["-y", kept])
+        os.replace(kept, back)
+    except Exception as e:
+        remove_quietly(kept)
+        print(as_warn(T('  %s could not be cut (%s) -- left as it came.')
+                      % (name, str(e)[:120])))
+        return 0.0, 0.0
+    if front > ADDED_FLOOR_S:
+        print(T('  %s: auphonic.com added %s s at the start -- cut away')
+              % (name, number_text(front, 1)))
+    if behind > ADDED_FLOOR_S:
+        print(T('  %s: auphonic.com added %s s at the end -- cut away')
+              % (name, number_text(behind, 1)))
+    return front, behind
+
+
 def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
     """Check what Auphonic returns against what was uploaded.
 
@@ -847,7 +688,6 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
     the envelopes flattened, and the estimate a median.
     """
     print(as_head(T('\nCHECK THE RETURN')))
-    HOP, rate = 5.0, 4000
     shaky = []
     # A stereo track coming back with one channel was folded at
     # auphonic.com, and no later step can undo that. Not an error, but
@@ -870,19 +710,7 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
             continue
         n_fresh = sample_count(done) / float(SR)
         try:
-            env_old = remove_slow_level_drift(envelope(decode_audio(track["axis"], rate=rate),
-                                         HOP, rate))
-            env_fresh = remove_slow_level_drift(envelope(decode_audio(done, rate=rate),
-                                         HOP, rate))
-            # Sample points on the processed track, not the uploaded
-            # one: after de-bleeding only one speaker is left, and the
-            # passages now empty would dominate a whole-length compare.
-            density = int(max(20, min(120, len(env_fresh) * HOP / 1000.0 / 30.0)))
-            a_corr, b_corr, st = align_envelopes(env_old, env_fresh, HOP,
-                                                sample_points=density,
-                                                distance_s=30.0,
-                                                warn=os.path.basename(done),
-                                                points_off="audio")
+            found = where_sent_sits(track["axis"], done)
         except Exception as e:
             print(T('  %-20s not measurable: %s') % (track["name"], e))
             if track.get("edge"):
@@ -894,35 +722,9 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
             else:
                 track["ready"] = done
             continue
-        # Median, not a regression line: Auphonic shifts a track as a
-        # whole or not at all, so there is no slope to estimate.
-        offsets = st.get("offsets") or []
-        times = st.get("times") or []
-        clock_drift, clock_drift_ppm = 1.0, 0.0
-        if offsets:
-            v = np.array(offsets)
-            a_corr = -float(np.median(v))
-            spread = float(np.median(np.abs(v - np.median(v))) * 1000)
-            # A returned file drifting against the uploaded one carries
-            # clock drift, which a fixed offset cannot mend.
-            if len(v) >= 20 and len(times) == len(v):
-                t = np.array(times)
-                slope, axis = np.polyfit(t, v, 1)
-                rest = v - (axis + slope * t)
-                if (abs(slope) * 1e6 > 2.0
-                        and float(np.std(rest) * 1000) < 30.0):
-                    clock_drift = 1.0 / (1.0 + slope)
-                    clock_drift_ppm = (clock_drift - 1.0) * 1e6
-                    a_corr = -axis / (1.0 + slope)
-                    spread = float(np.median(np.abs(rest)) * 1000)
-        else:
-            spread = st.get("spread_ms", 0.0)
-        # Where the file was coarsely trimmed to a window set later there
-        # is deliberate slack at both ends. Measured on the voice, not the
-        # envelope: a second voice becomes audible from about 20 ms.
-        fine = refine_offset(track["axis"], done, a_corr, clock_drift)
-        if fine is not None and abs(fine) < 500.0:
-            a_corr += fine / 1000.0
+        a_corr, clock_drift = found["a"], found["drift"]
+        clock_drift_ppm, spread = found["ppm"], found["spread"]
+        st, fine = found["st"], found["fine"]
         edge = track.get("edge", 0.0)
         ms = (a_corr - edge) * 1000.0
         track["drift_ppm"] = clock_drift_ppm
@@ -981,310 +783,6 @@ def find_master_file(*places):
     return None
 
 
-def remove_quietly(path):
-    """Delete a working file. Returns whether it went.
-
-    A file already gone is not a fault, but the answer is handed back
-    rather than swallowed, for a caller that does care.
-    """
-    try:
-        os.unlink(path)
-    except OSError:
-        return False
-    return True
-
-
-def match_speakers(tracks, tmpdir):
-    """Bring the speaker tracks to one level, each with a gain of its own.
-
-    Only where auphonic.com set no balance: one common gain keeps voices
-    six decibels apart six apart. Each track is measured as it is, the way
-    normalise_loudness measures, and moved to the median of the voices; a
-    track under SPEAKER_FLOOR_LUFS carries no voice and stays, since lifting
-    silence lifts only its noise. The moved copy becomes the track's
-    "ready". Returns [(name, LUFS, gain dB)], one per track, in order.
-    """
-    if len(tracks) < 2:
-        return [(track["name"], None, 0.0) for track in tracks]
-    print(as_head(T('\nSPEAKER LEVELS')))
-    heard = []
-    for track in tracks:
-        have, _peak, _lra = measure_loudness(
-            track["ready"], sample_count(track["ready"]) / float(SR),
-            T('Measuring %s') % track["name"])
-        heard.append(have)
-    voices = sorted(have for have in heard
-                    if have is not None and have > SPEAKER_FLOOR_LUFS)
-    # The median: the fewest decibels moved in all, and one quiet
-    # microphone drags nobody else down with it.
-    middle = len(voices) // 2
-    level = None
-    if len(voices) >= 2:
-        level = (voices[middle] if len(voices) % 2
-                 else (voices[middle - 1] + voices[middle]) / 2.0)
-    moved = []
-    for track, have in zip(tracks, heard):
-        gain = 0.0
-        if have is None:
-            print(T('  %-20s not measurable -- left as it is')
-                  % track["name"])
-        elif have <= SPEAKER_FLOOR_LUFS:
-            print(T('  %-20s %s LUFS -- nothing on it, left as it is')
-                  % (track["name"], number_text(have, 1)))
-        else:
-            if level is not None:
-                gain = level - have
-            print(T('  %-20s %s LUFS  ->  %s dB')
-                  % (track["name"], number_text(have, 1),
-                     number_text(gain, 1, plus=True)))
-            track["ready"] = mix_tracks(
-                [track["ready"]],
-                os.path.join(tmpdir, "level_%s.wav"
-                             % safe_filename(track["name"])),
-                gain, None, channels=kept_channels(track["ready"]))
-        moved.append((track["name"], have, gain))
-    if level is None:
-        print(T('  Only one voice -- nothing to match it against.'))
-    else:
-        print(T('  Common level:      %s LUFS, the median of the voices')
-              % number_text(level, 1))
-    return moved
-
-
-def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
-    """Compute one common gain for all tracks.
-
-    The sum is measured, not the single track, and the same gain goes on
-    every track so the speakers keep their balance -- set by auphonic.com,
-    or by match_speakers on the path without it. The finished mixdown is
-    the yardstick; *target_lufs* None still measures.
-    """
-    print(as_head(T('\nNORMALISE')))
-    keep = target_lufs is None
-    after_yardstick = False
-    if master and os.path.exists(master) and not keep:
-        m_have, m_peak, _m_lra = measure_loudness(master, None, T('Measuring the '
-                                                                  'yardstick'))
-        if m_have is not None:
-            after_yardstick = True
-            print(T('  Mixdown from auphonic.com: %s LUFS, peak %s '
-                    'dBTP (%s)')
-                  % (number_text(m_have, 1),
-                     number_text(m_peak if m_peak is not None else 0.0, 1),
-                     os.path.basename(master)))
-            target_lufs = m_have
-    total_sum = os.path.join(tmpdir, "measure_sum.wav")
-    ready = [track["ready"] for track in tracks]
-    # Measured in the form it is delivered in: a two channel mix sits a
-    # good three decibels above the same mix as one track, and a stereo
-    # track raises the count on its own.
-    channels = max(channels, widest_track(ready))
-    parts, chains, markers = [], [], []
-    for i, path in enumerate(ready):
-        parts += ["-i", path]
-        chains.append("[%d:a]%s[m%d]"
-                      % (i, channel_filter(kept_channels(path), channels), i))
-        markers.append("[m%d]" % i)
-    fc = ";".join(chains) + ";" + "".join(markers) +\
-        "amix=inputs=%d:normalize=0[out]" % len(markers)
-    duration = sample_count(tracks[0]["ready"]) / float(SR)
-    # One track with nothing to do to its channels is its own sum, and
-    # summing it copies hours of audio for the same samples. *ours* says
-    # whether this run made the file -- only then may it be deleted.
-    ours = not (len(ready) == 1 and "anull" in chains[0])
-    measured_on = total_sum if ours else ready[0]
-    if ours:
-        PROGRAM.run_ffmpeg_with_progress(
-            ["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
-             "-map", "[out]", "-c:a", "pcm_s24le"]
-                + wav_safe(total_sum) + ["-y", total_sum],
-            duration, T('Building the sum'))
-    have, peak, lra_range = measure_loudness(measured_on, duration,
-                                            T('Measuring loudness'))
-    if have is None:
-        print(T('  Loudness not measurable -- it stays as it is.'))
-        return 0.0, None
-    if keep:
-        print(T('  Sum of tracks:     %s LUFS, peak %s dBTP%s')
-              % (number_text(have, 1),
-                 number_text(peak if peak is not None else 0.0, 1),
-                 T(', range %s LU') % number_text(lra_range, 1)
-                 if lra_range is not None else ""))
-        print(T('  Not adjusted:      taken from the source files -- no gain '
-                'on any track and no\n                     limiter. The '
-                'sound leaves exactly as it came in.'))
-        if ours:
-            remove_quietly(total_sum)
-        return 0.0, None
-    gain = target_lufs - have
-    print(T('  Sum of tracks:     %s LUFS, peak %s dBTP%s')
-          % (number_text(have, 1),
-             number_text(peak if peak is not None else 0.0, 1),
-             T(', range %s LU') % number_text(lra_range, 1)
-             if lra_range is not None else ""))
-    print(T('  Target:            %s LUFS  ->  %s dB on every track')
-          % (number_text(target_lufs, 1),
-             number_text(gain, 1, plus=True)))
-    # Without a ceiling the gain would have to drop for the loudest peak
-    # alone -- a scraping chair costs eight decibels. So a limiter.
-    if peak is not None and gain > CEILING_DBTP - peak:
-        print(T('  Peaks:             %s dB above %s dBTP -- the '
-                'limiter catches them')
-              % (number_text(peak + gain - CEILING_DBTP, 1, plus=True),
-                 number_text(CEILING_DBTP, 1)))
-    # How much the limiter takes off is known only once the curve is
-    # computed. More than a handful of decibels means the target does not
-    # fit the material, and then quieter beats squashed.
-    curve, gone = limiter_curve(measured_on, tmpdir, gain)
-    # With the finished mixdown from auphonic.com beside it, that is how
-    # much limiting it needed itself, so nothing here needs capping.
-    limit = 12.0 if after_yardstick else LIMIT_MAX_DB
-    if gone > limit + 0.05:
-        back = gone - limit
-        print(T('  Too much:          the limiter would have to take %s '
-                'dB away. More than %s dB\n                     sounds '
-                'squashed -- %s dB less gain.')
-              % (number_text(gone, 1), number_text(limit, 0),
-                 number_text(back, 1)))
-        gain -= back
-        curve, gone = limiter_curve(measured_on, tmpdir, gain)
-        print(T('  Remains:           %s dB on every track, that is '
-                '%s LUFS instead of %s')
-              % (number_text(gain, 1, plus=True),
-                 number_text(have + gain, 1),
-                 number_text(target_lufs, 1)))
-    if gone > 0.05:
-        print(T('  Limiter:           at most %s dB, the same curve on '
-                'every track%s')
-              % (number_text(gone, 1),
-                 T(' (auphonic.com takes the same amount)')
-                 if after_yardstick else ""))
-    # For checking in the editor. -16 LUFS is the figure for web and
-    # podcast; broadcast measures against -23 and the meter reads higher.
-    print(T('  Result:            about %s LUFS, peak %s dBTP')
-          % (number_text(have + gain, 1),
-             number_text(CEILING_DBTP if gone > 0.05
-                         else min(CEILING_DBTP, (peak or 0.0) + gain), 1)))
-    # The loudness range measures whether any dynamics are left, and
-    # where it gets small something before the limiter squashed it.
-    if lra_range is not None:
-        if lra_range < 2.0:
-            print(as_warn(T('  Caution: range      only %s LU -- very '
-                            'tight. Speech is usually 3 to 7 LU;\n          '
-                            '           below that it sounds squashed. '
-                            'Check how strongly the leveler\n               '
-                            '      is set at auphonic.com.')
-                          % number_text(lra_range, 1)))
-        else:
-            print(T('  Range:             %s LU (speech is usually 3 to '
-                    '7 LU)') % number_text(lra_range, 1))
-    if ours:
-        remove_quietly(total_sum)
-    return gain, curve
-
-
-def limiter_curve(total_sum, tmpdir, gain, ceiling=CEILING_DBTP):
-    """Compute the limiter gain curve once, on the sum.
-
-    The same curve goes on every track, so they add up to exactly the mix
-    again: (a+b)*g equals a*g + b*g, where a limiter per track would
-    clamp the loud one harder. Block by block with one block of lookahead
-    and a linear cross-fade, or it clicks. Returns (path, reduction dB).
-    """
-    if np is None:
-        return None, 0.0
-    channels = max(1, channel_count(total_sum))
-    limit = 10.0 ** (ceiling / 20.0)
-    BLOCK = 256                       # 5.3 ms at 48 kHz
-    RECOVERY = math.exp(-BLOCK / (SR * 0.050))    # 50 ms back up
-    source = subprocess.Popen(
-        ["ffmpeg", "-v", "error", "-i", total_sum,
-         "-af", "volume=%.3fdB" % gain,
-         "-f", "f32le", "-ac", str(channels), "-ar", str(SR), "-"],
-        stdout=subprocess.PIPE)
-    raw = os.path.join(tmpdir, "level_curve.raw")
-    target = os.path.join(tmpdir, "level_curve.wav")
-    # No status before the first block: it starts where it must, or a
-    # peak in the first 5 ms goes through at full gain.
-    smallest, status, rest, done = 1.0, None, b"", False
-    frame_bytes = 4 * channels
-    try:
-        with open(raw, "wb") as f:
-            while not done:
-                chunk = source.stdout.read(1 << 20)
-                done = not chunk
-                data = rest + chunk
-                whole_blocks = len(data) // (frame_bytes * BLOCK)
-                if not done:
-                    # The last block waits for the next chunk: without
-                    # it the peak comes through a tenth of a second early.
-                    whole_blocks = max(0, whole_blocks - 1)
-                    full = whole_blocks * frame_bytes * BLOCK
-                else:
-                    full = len(data) - len(data) % frame_bytes
-                rest = data[full:]
-                if full <= 0:
-                    continue
-                # The block kept back is read too, as the lookahead of the
-                # last one here, or a peak just after a seam goes through.
-                seen = full if done else full + frame_bytes * BLOCK
-                frames = np.frombuffer(data[:seen],
-                                       dtype="<f4").reshape(-1, channels)
-                n = full // frame_bytes
-                count = int(math.ceil(n / float(BLOCK)))
-                blocks = int(math.ceil(frames.shape[0] / float(BLOCK)))
-                needed = np.ones(blocks, dtype=np.float64)
-                for k in range(blocks):
-                    piece = frames[k * BLOCK:(k + 1) * BLOCK]
-                    peak = (float(np.max(np.abs(piece)))
-                              if piece.size else 0.0)
-                    if peak > limit:
-                        needed[k] = limit / peak
-                # One block of lookahead: the reduction is in place first.
-                before = np.minimum(needed, np.append(needed[1:], needed[-1]))
-                status = before[0] if status is None else status
-                g = np.empty(n, dtype=np.float32)
-                for k in range(count):
-                    want = before[k]
-                    if want > status:      # back up, but slowly
-                        want = min(want, status * RECOVERY + (1.0 - RECOVERY))
-                    a0 = k * BLOCK
-                    a1 = min(n, a0 + BLOCK)
-                    g[a0:a1] = np.linspace(status, want, a1 - a0,
-                                           endpoint=False)
-                    status = want
-                    smallest = min(smallest, want)
-                f.write((np.repeat(g, channels) if channels > 1 else g)
-                        .astype("<f4").tobytes())
-    except Exception as e:
-        print(T('  Level curve not possible (%s) -- without limiter') % e)
-        return None, 0.0
-    finally:
-        try:
-            source.stdout.close()
-            source.wait(timeout=30)
-        except Exception:
-            pass
-    gone = -20.0 * math.log10(max(1e-6, smallest))
-    if gone <= 0.001:
-        try:
-            os.unlink(raw)
-        except OSError:
-            pass
-        return None, 0.0
-    try:
-        subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le",
-                        "-ar", str(SR), "-ac", str(channels), "-i", raw,
-                        "-c:a", "pcm_f32le"]
-                            + wav_safe(target)
-                            + ["-y", target], check=True)
-        os.unlink(raw)
-    except Exception as e:
-        print(T('  Level curve not possible (%s) -- without limiter') % e)
-        return None, 0.0
-    return target, gone
-
-
 def channel_count(file_path):
     """Return the channel count of a file."""
     return probe_remember("channels", file_path,
@@ -1332,108 +830,6 @@ def _channel_count(file_path):
         return 1
 
 
-def how_many_processors():
-    """How many processors this process may actually use.
-
-    os.cpu_count() counts what the machine has, not what this process is
-    allowed: held to two of thirty-two, a pool of thirty-two means
-    threads taking turns. process_cpu_count needs Python 3.13.
-    """
-    ask = getattr(os, "process_cpu_count", None) or os.cpu_count
-    try:
-        return max(1, int(ask() or 2))
-    except Exception:
-        return 2
-
-
-def python_note():
-    """One line about the Python this is running on, for the log."""
-    now = "%d.%d.%d" % sys.version_info[:3]
-    if now == LIKES_PYTHON:
-        return "Python %s" % now
-    return "Python %s  (recommended version %s)" % (now, LIKES_PYTHON)
-
-
-def prework_standing(shares):
-    """How far the prework has got, and one line per file still at it.
-
-    Every task of a file counts the same, and every file the same
-    however many tasks it has. What is finished leaves the list.
-    """
-    per_file = {}
-    for (path, _task), value in shares.items():
-        per_file.setdefault(path, []).append(value)
-    got = dict((p, sum(v) / len(v)) for p, v in per_file.items())
-    total = sum(got.values()) / len(got)
-    lines = ["%s   %3.0f %%" % (os.path.basename(p), 100.0 * got[p])
-             for p in sorted(got, key=os.path.basename) if got[p] < 0.999]
-    return total, lines
-
-
-def prework_weight(file_path, task):
-    """How much of the bar a piece of prework is worth.
-
-    Pulling audio out of an hour of 4K and reading a wav file are one
-    step each; equal shares would make the bar stand still and jump.
-    """
-    video = os.path.splitext(file_path)[1].lower() in VIDEO_SUFFIXES
-    if task == "audio":
-        return 8.0 if video else 2.0
-    if task == "channels":
-        return 6.0 if video else 1.5
-    if task == "split":
-        return 4.0 if video else 2.0
-    return 6.0 if video else 1.0
-
-
-def parallel_map(items, work, workers=None):
-    """Run *work* over all *items* at once; answers come back in order.
-
-    Threads rather than processes: everything this is used for waits on
-    ffmpeg or numpy, and both let other threads run. Where none can be
-    started the rest is worked here; an error is raised at the end.
-    """
-    items = list(items)
-    if len(items) < 2:
-        return [work(x) for x in items]
-    if workers is None:
-        workers = max(2, min(8, how_many_processors()))
-    out = [None] * len(items)
-    todo = list(range(len(items)))
-    trouble = []
-
-    def work_loop():
-        while True:
-            if stop_wanted():
-                return
-            try:
-                i = todo.pop()
-            except IndexError:
-                return
-            try:
-                out[i] = work(items[i])
-            except BaseException as e:      # noqa: BLE001 -- passed on below
-                trouble.append(e)
-
-    threads = []
-    for _ in range(max(1, min(workers, len(items)))):
-        thread = threading.Thread(target=work_loop, daemon=True)
-        try:
-            thread.start()
-        except Exception:
-            break
-        threads.append(thread)
-    for thread in threads:
-        try:
-            thread.join()
-        except Exception:
-            pass
-    work_loop()             # whatever no thread got to
-    if trouble:
-        raise trouble[0]
-    return out
-
-
 def probe_warm(paths, workers=None):
     """Ask about several files at once, so the answers are there later.
 
@@ -1458,7 +854,11 @@ def probe_warm(paths, workers=None):
                 # A file that cannot be measured is reported at its row.
                 pass
 
-    parallel_map(todo, one, workers)
+    try:
+        parallel_map(todo, one, workers)
+    except PROGRAM.Stopped:
+        # A Stop of a run beside it: the rows measure what is missing.
+        return
 
 
 # A channel counts as silent when it stays this far under the loudest
@@ -2400,251 +1800,6 @@ def channel_tracks(facts, name="Track", choice=None):
     if len(awake) == 1:
         out = [(t[0], name if t is awake[0] else t[1], t[2]) for t in out]
     return out
-
-
-def channel_rows_build(node, path, Qt, QtCore, QtWidgets, blocks_of,
-                       channel_choice, channel_node, channels_arrived,
-                       clip_kind_values, items, remembered, split_files):
-    """Build the channel rows under one recording.
-
-    Here and not in the window because it holds no state: what it needs
-    comes in as arguments, in the order the window has them.
-    """
-    api_key = os.path.abspath(path)
-    channel_node[api_key] = (node, path)
-    row = blocks_of.get(api_key) or [api_key]
-    # Where the list stands, kept over the rebuild: ticking a channel
-    # replaces every row below the file, and the list would jump to top.
-    bar_was = items.verticalScrollBar().value()
-    QtCore.QTimer.singleShot(
-        0, lambda: items.verticalScrollBar().setValue(bar_was))
-    for k in range(node.childCount() - 1, -1, -1):
-        kid = node.child(k)
-        if kid.data(0, Qt.UserRole + 2) == "channel":
-            node.removeChild(kid)
-    try:
-        how_many = channel_count(path)
-    except Exception:
-        how_many = 1
-    if how_many <= 1:
-        return
-
-    spot = [0]
-
-    def channel_row(text, value):
-        kid = QtWidgets.QTreeWidgetItem([text, "", value])
-        kid.setData(0, Qt.UserRole + 2, "channel")
-        node.insertChild(spot[0], kid)
-        spot[0] += 1
-        return kid
-
-    if not all(probe_has(channel_facts_name(), x) for x in row):
-        channel_row(T('      %s channels') % number_text(how_many, 0),
-                    T('measurement running ...'))
-        return
-    # Over the whole recording: the first block can be the soundcheck,
-    # and then it says nothing about what the channels carry.
-    facts = blocks_facts(row)
-    silent = list(facts.get("silent") or [])
-    picked = channel_choice.get(api_key) or {}
-    # What the file is decides before the measurement does, and only for
-    # a two channel intro or outro -- see kind_makes_stereo.
-    of_kind = clip_kind_values.get(api_key)
-    kind = (of_kind.get() if of_kind is not None
-            else remembered.get("kind:" + api_key))
-    joined = joined_channels(facts, picked, kind)
-    judged = {k: (stereo, sure, why)
-              for k, stereo, sure, why in channel_joins(facts, kind)}
-    # One row per channel; the tick says "this one and the next make one
-    # stereo track". On a mixer, channels 2 and 3 can be the pair.
-    second = {k + 1 for k in joined}
-    for k in range(how_many):
-        kid = channel_row(T('      Channel %d') % (k + 1), "")
-        if k in second:
-            kid.setText(2, T('with Channel %d one stereo track') % k)
-            continue
-        if silent[k:k + 1] == [True]:
-            kid.setText(2, T('unused input -- ignored'))
-            continue
-        if k >= how_many - 1 or silent[k + 1:k + 2] == [True]:
-            kid.setText(2, T('a track of its own'))
-            continue
-        stereo, sure, why = judged.get(k, (False, False, ""))
-        measured_stereo = stereo         # before any hand overrides it
-        if picked.get(k) is not None:
-            stereo = bool(picked[k])
-            why = T('set by hand -- overrides the measurement')
-            sure = True
-        # The tick and its reason side by side in the wide column: in the
-        # narrow one the word beside the box is cut off after one letter.
-        beside = QtWidgets.QWidget()
-        in_a_row = QtWidgets.QHBoxLayout(beside)
-        in_a_row.setContentsMargins(0, 0, 0, 0)
-        in_a_row.setSpacing(8)
-        # An offer, not a statement: a channel already spoken for says
-        # "with Channel N one stereo track" instead.
-        box = QtWidgets.QCheckBox(
-            T('join with Channel %d') % (k + 2))
-        box.setChecked(bool(joined.get(k)))
-        said = PROGRAM.label(why if sure else T('uncertain -- %s') % why,
-                             COLOURS["quiet"])
-        # German writes the finding half as long again as English, so it
-        # wraps: what would run past the edge is the finding itself.
-        said.setWordWrap(True)
-        in_a_row.addWidget(box)
-        in_a_row.addWidget(said, 1)
-        PROGRAM.hint(box, T('On makes one stereo track out of this channel '
-                            'and the next.\nThe next one then has no tick of '
-                            'its own -- it is spoken for.\nWhat was measured '
-                            'is in the line beside it.'))
-
-        def chosen(on, file_path=api_key, number=k,
-                   measured=measured_stereo):
-            # Only a real override is remembered: ticking a pair the
-            # measurement already found puts the row back to measured.
-            by_hand = channel_choice.setdefault(file_path, {})
-            if bool(on) == bool(measured):
-                by_hand.pop(number, None)
-            else:
-                by_hand[number] = bool(on)
-            # The cut tracks follow the old answer, so every block goes:
-            # block one's channel 1 beside block two's 1+2 otherwise.
-            for block in blocks_of.get(file_path) or [file_path]:
-                split_files.pop(block, None)
-            QtCore.QTimer.singleShot(
-                0, lambda: channels_arrived(file_path))
-
-        box.toggled.connect(chosen)
-        items.setItemWidget(kid, 2, beside)
-    # A moment later: the column still answers with its old width while
-    # it is saying that the width has changed.
-    def when_settled(*_a):
-        QtCore.QTimer.singleShot(
-            0, lambda: channel_rows_fit(items, Qt, QtCore, QtWidgets))
-
-    head = items.header()
-    if not head.property("channel_rows_fit"):
-        head.setProperty("channel_rows_fit", True)
-        head.sectionResized.connect(when_settled)
-    when_settled()
-
-
-def channel_rows_fit(items, Qt, QtCore, QtWidgets):
-    """Give every channel row the height its reason needs.
-
-    The reason stands in the column that takes what the others leave,
-    so its line count is known only once the window has a width.
-    Without this the wrapped line is drawn outside its row.
-    """
-    room = items.columnWidth(2)
-
-    def fit(kid):
-        beside = items.itemWidget(kid, 2)
-        said = beside.findChild(QtWidgets.QLabel) if beside else None
-        if said is None:
-            return
-        box = beside.findChild(QtWidgets.QCheckBox)
-        # The width it has; the column's only before the first layout.
-        # From the column both times, the rows creep taller each round.
-        left = said.width() or (
-            room - (box.sizeHint().width() if box else 0) - 8)
-        tall = said.fontMetrics().boundingRect(
-            QtCore.QRect(0, 0, max(60, left), 0), Qt.TextWordWrap,
-            said.text()).height()
-        want = max(box.sizeHint().height() if box else 0, tall) + 4
-        if kid.sizeHint(2).height() != want:
-            kid.setSizeHint(2, QtCore.QSize(0, want))
-
-    def walk(node):
-        for i in range(node.childCount()):
-            kid = node.child(i)
-            if kid.data(0, Qt.UserRole + 2) == "channel":
-                fit(kid)
-            walk(kid)
-
-    walk(items.invisibleRootItem())
-
-
-def mix_width(tracks):
-    """How many channels a mix of these tracks is delivered in.
-
-    Two where there are several, that being the form a mix is delivered
-    in. One recording is the exception -- nothing to mix, so nothing is
-    widened. A stereo source raises the count on its own either way.
-    """
-    if len(tracks) > 1:
-        return 2
-    return max(1, widest_track([track.get("ready") or track.get("axis")
-                                for track in tracks])) if tracks else 1
-
-
-def mix_tracks(sources, target, gain=0.0, curve=None, channels=1):
-    """Sum several equally long tracks into one.
-
-    Gain and limiter curve are the same for all tracks, so the single
-    tracks add up to exactly the mix again. The widening happens before
-    the sum and by "c1=c0" -- a plain conversion loses three decibels.
-    """
-    have = [kept_channels(p) for p in sources]
-    channels = max(channels, max(have) if have else 1)
-    if (len(sources) == 1 and abs(gain) < 0.01 and not curve
-            and have[0] == channels):
-        return sources[0]
-    parts, chains, markers = [], [], []
-    for i, path in enumerate(sources):
-        parts += ["-i", path]
-        chains.append("[%d:a]%s[m%d]"
-                      % (i, channel_filter(have[i], channels), i))
-        markers.append("[m%d]" % i)
-    fc = ";".join(chains) + ";" + "".join(markers) +\
-        "amix=inputs=%d:normalize=0" % len(markers)
-    if abs(gain) >= 0.01:
-        fc += ",volume=%.3fdB" % gain
-    if curve:
-        # The same gain curve as on all other tracks, hence a second
-        # input: ffmpeg's equal-power law would cost another 3 dB.
-        fc += "[both]"
-        parts += ["-i", curve]
-        fc += ";[both]aformat=sample_fmts=fltp:sample_rates=%d[gm];" % SR
-        fc += "[%d:a]%s,aformat=sample_fmts=fltp:sample_rates=%d[gc];" % (
-            len(sources), channel_filter(kept_channels(curve), channels), SR)
-        fc += "[gm][gc]amultiply[out]"
-    else:
-        fc += "[out]"
-    # The clock of the first source goes with the mix: without it the
-    # levelled file has no timecode, and a recording with no clock
-    # cannot be placed against anything afterwards.
-    clock = []
-    start = bext_time_reference(sources[0])
-    if start is not None:
-        clock = ["-write_bext", "1", "-metadata",
-                 "time_reference=%d" % int(round(start))]
-    PROGRAM.run_ffmpeg_with_progress(
-        ["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
-         "-map", "[out]", "-c:a", "pcm_s24le"] + clock
-        + wav_safe(target) + ["-y", target],
-        sample_count(sources[0]) / float(SR),
-        T('Mixing %s') % mixing_label(target))
-    return target
-
-
-def mixing_label(target):
-    """The name the progress line gives a mix: the track, not the file.
-
-    The targets are called mix_full, single_<speaker> and mix_<camera
-    file>. Only the overall mix is announced as the mix, and only a prefix
-    at the start comes off: replacing "full" and "mix_" wherever they
-    stood announced a speaker called Carefully as CareFull-Mixy. The
-    overall mix is asked for before any prefix comes off, or a speaker
-    called full would be announced as the mix again.
-    """
-    stem = os.path.splitext(os.path.basename(target))[0]
-    if stem == "mix_full":
-        return MIX_TRACK_NAME
-    for prefix in ("mix_", "single_"):
-        if stem.startswith(prefix):
-            return stem[len(prefix):]
-    return stem
 
 
 def rate_filter_chain(b):

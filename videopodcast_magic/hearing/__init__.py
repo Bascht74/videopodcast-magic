@@ -29,7 +29,6 @@ hashlib = PROGRAM.hashlib
 log_aside = PROGRAM.log_aside
 number_text = PROGRAM.number_text
 os = PROGRAM.os
-parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 progress_from_line = PROGRAM.progress_from_line
 safe_filename = PROGRAM.safe_filename
@@ -428,24 +427,26 @@ def phase_align(a, b, rate, most_s=None):
     # The whitening is the point: every frequency counts the same, so a
     # loud bass drum does not drown out the rest.
     line = np.fft.irfft(both / (np.abs(both) + 1e-12), n)
-    k = int(np.argmax(line))
-    if k > n // 2:
-        k -= n
+    # Only lags from -len(a) to +len(b) can be; cutting at n/2 instead
+    # put a file starting more than n/2 samples late n samples out.
+    k = int(np.argmax(np.concatenate((line[:len(b)],
+                                      line[n - len(a) + 1:]))))
+    if k >= len(b):
+        k -= len(a) + len(b) - 1
     if most_s is not None and abs(k) / float(rate) > most_s:
         return 0.0, 0.0
-    sharp = float(line.max() / (line.std() or 1.0))
+    sharp = float(line[k] / (line.std() or 1.0))
     return k / float(rate), sharp
 
 
 def cross_correlate(a, b):
     """Where b sits against a, and how well it fits there.
 
-    The peak is the largest positive one, not the largest by size. An
-    envelope is log loudness with its mean taken out, so it swings
-    either side of zero; two that belong together rise and fall
-    together. A strong negative peak is loud where the other is quiet,
-    and that is never where they belong, however large. The shorter is
-    looked for along the whole of the longer: see stretch_match.
+    The peak is the largest positive one, not the largest by size: an
+    envelope is log loudness less its mean, and two that belong together
+    rise and fall together. A negative peak is loud where the other is
+    quiet, never where they belong, however large. The shorter is looked
+    for along the whole of the longer: see stretch_match.
     """
     return best_and_next(a, b)[:2]
 
@@ -466,10 +467,9 @@ def best_and_next(a, b, apart=2000):
             float(match[far].max()) if far.any() else 0.0)
 
 
-# How far a camera's match has to stand above its best place elsewhere.
-# Synthetic only, 26.9.2026: unrelated cameras of 20 s to 2 min against
-# 6 and 60 min reached 1.44 at most; right ones of 40 s and more fell
-# under 1.5 only where their match was 0.52 or less.
+# A camera's match must stand this far above its best place elsewhere.
+# Synthetic only, 26.9.2026: unrelated cameras (20 s-2 min vs 6/60 min)
+# peaked at 1.44; right ones (40 s+) fell under 1.5 only at a match <=0.52.
 MATCH_STANDS_OUT = 1.5
 
 
@@ -520,10 +520,9 @@ def stretch_match(a, b):
     return lags, np.where(still, 0.0, cc[lags % nf] / scale)
 
 
-# How far two blocks of one recording may sit apart per timecode. Half
-# an hour is the fence: a clock is set wrong by whole hours, so half of
-# the smallest of those catches every one and lets a real pause through.
-# One fence for both: finding the blocks (material) and joining them.
+# How far two blocks of one recording may sit apart by timecode, for
+# finding them (material) and joining them: a clock is set wrong by whole
+# hours, so half of one catches every such error and lets a real pause by.
 BLOCK_GAP_MAX_S = 1800.0
 
 
@@ -601,11 +600,10 @@ def join_audio_parts(paths, target, keep_parts=False):
     """Join several audio files into one.
 
     With timecodes on a common axis, gaps filled with silence, a block
-    past BLOCK_GAP_MAX_S left out; without, end to end in the order they
-    came in. As many channels as the
-    widest, mono copied to both sides here rather than by ffmpeg, which
-    would take 3 dB off. With *keep_parts* each recording is written
-    alone too, but only where they overlap.
+    past BLOCK_GAP_MAX_S left out; without, end to end in given order.
+    As many channels as the widest, mono copied to both sides here, not
+    by ffmpeg, which would take 3 dB off. *keep_parts* writes each
+    recording alone too, but only where they overlap.
     """
     paths = list(paths)
     if len(paths) == 1:
@@ -637,10 +635,9 @@ def join_audio_parts(paths, target, keep_parts=False):
         same = [same[i] for i in order]
 
     if having_tc:
-        # A stamp counts at its file's own rate, a length at the working
-        # one: laid against each other in working samples, each put back
-        # at its own rate in the graph -- or two 96 kHz blocks in a row
-        # come out a quarter short, with a hole said between them.
+        # Stamps count at their file's rate, lengths at the working one,
+        # compared in working samples and put back per file in the graph; else
+        # two 96 kHz blocks in a row lose a quarter and report a hole between.
         own = dict((p, float(wav_rate(p) or SR)) for p in paths)
         stamp = dict(zip(paths, trs))
         at = [t * SR / own[p] for t, p in zip(trs, paths)]
@@ -779,10 +776,9 @@ def align_audio_to_video(audio, video, sample_points=None, window_s=20.0,
         # pairs not one gets that far, and all 85 real ones do.
         second[2]["from_bands"] = True
         return second
-    # Both curves came up empty. The phase way runs only here, where
-    # the answer was wrong anyway, no sample point backs it up, and only
-    # where the sound was said to be mixed: on speech it lays foreign
-    # recordings a hundred seconds out.
+    # Both curves came up empty. The phase way runs only here (the answer
+    # was wrong anyway, no sample point backs it) and only on sound said
+    # to be mixed: on speech it lays foreign recordings 100 s out.
     if phase:
         where, sharp = phase_align(x_video, x_audio, rate)
         st["phase_s"], st["phase_sharp"] = where, sharp
@@ -816,10 +812,9 @@ def phase_way_on(paths, project_type="cut", every=SOUND_SPEECH, each=()):
     return every == SOUND_MIXED
 
 
-# Below this the agreement between two envelopes is not worth calling a
-# match. A floor, not a measured threshold: a good alignment measures
-# 0.5 to 0.9, and 25 of 293 foreign pairs still exceed 0.05, the
-# highest at 0.124 (measured 9.2026).
+# Below this two envelopes are no match. A floor, not a measured
+# threshold: good alignments measure 0.5 to 0.9, and 25 of 293 foreign
+# pairs still exceed 0.05, the highest at 0.124 (measured 9.2026).
 WEAK_MATCH = 0.05
 
 # The shortest stretch of shared sound and picture a run works with
@@ -984,16 +979,6 @@ def no_place_message(name):
              'with the rest of the material, and the file carries no '
              'timecode. It needs one that fits the other recordings, '
              'and that has to be set with another program.') % name
-
-
-def timecode_seconds(info):
-    """The timecode in a video's facts, in seconds, or nothing."""
-    if not (info or {}).get("tc"):
-        return None
-    try:
-        return parse_timecode(info["tc"], max(1.0, info.get("fps") or 30.0))
-    except (ValueError, TypeError):
-        return None
 
 
 # How far a point may sit from the middle before it is thrown away. 3

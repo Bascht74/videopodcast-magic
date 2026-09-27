@@ -338,12 +338,6 @@ msgstr "వక్తల విభజన ఇక్కడ ఇన్‌స్టా
 msgid "Fetching the model (about %s MB) ..."
 msgstr "మోడల్‌ను తెస్తోంది (సుమారు %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "మోడల్‌ను తెస్తోంది (సుమారు %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "మోడల్‌ను తీసుకురావడం సాధ్యం కాలేదు: %s"
-
 msgid "The model could not be written: %s"
 msgstr "మోడల్‌ను రాయడం సాధ్యం కాలేదు: %s"
 
@@ -880,9 +874,6 @@ msgstr "  %-20s సమలేఖనం చేయడం సాధ్యం కా�
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s కొలవడం సాధ్యం కాదు: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s ఆఫ్‌సెట్ %s, గడియార విచలనం %s ppm (+/- %s), మిగిలిన వ్యాప్తి %s ms, %s / %s బిందువులు"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s ఆఫ్‌సెట్ %s, గడియార విచలనం %s ppm (+/- %s), మిగిలిన వ్యాప్తి %s ms, %s / %s బిందువులు%s"
@@ -2204,14 +2195,8 @@ msgstr "సమయ అక్షం స్థిరపడిన తర్వాత
 msgid "In point is %s before the first frame"
 msgstr "ఇన్ పాయింట్ మొదటి ఫ్రేమ్‌కు %s ముందు ఉంది"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "ఇన్ పాయింట్ ఇప్పుడు %s, కానీ ఉన్న ఫైళ్లు %s కి చెందినవి.\n  వీడియోల్లోని ఆడియో పాత సమయ పరిధికి కత్తిరించబడింది -- పైన ఉన్న ప్రారంభ\n  బటన్‌ను మళ్లీ నొక్కండి."
-
 msgid "Out point is %s after the last frame"
 msgstr "అవుట్ పాయింట్ చివరి ఫ్రేమ్‌కు %s తర్వాత ఉంది"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "అవుట్ పాయింట్ ఇప్పుడు %s; సమయ పరిధి నిడివి %s అవుతుంది, ఉన్న\n  ఫైళ్ల నిడివి %s -- పైన ఉన్న ప్రారంభ బటన్‌ను మళ్లీ నొక్కండి."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "డెలివరీకి సాధారణంగా పరిమిత పరిధి వాడతారు. పూర్తి పరిధి తప్పు కాదు, కానీ కొన్ని ప్లేయర్‌లు దాన్ని తప్పుగా అర్థం చేసుకుంటాయి."
@@ -2372,9 +2357,6 @@ msgstr "Multitrack (ప్రతి వక్తకు ఒక ట్రాక్
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack కు కనీసం రెండు ఇన్‌పుట్ ట్రాక్‌లు కావాలి. ట్రాక్ అంటే సొంత రికార్డింగ్, మల్టీఛానల్ రికార్డర్‌లోని ఒక ఛానల్, లేదా \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేసిన వీడియో ఫైల్ ఆడియో. ఒకే రికార్డింగ్‌లోని అనేక బ్లాక్‌లు ఒకటిగా లెక్కించబడతాయి, పక్కన పెట్టిన ట్రాక్‌లు అసలు లెక్కించబడవు."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "ఏ ఆడియో ఫైల్‌లోనూ టైమ్‌కోడ్ లేదు. ఇన్ పాయింట్, అవుట్ పాయింట్ మెటీరియల్ ప్రారంభం నుండి లెక్కించబడతాయి -- ఫైళ్ల పరస్పర స్థానం కొలవబడుతుంది."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "ఇంకా ఏ ఆడియో వాడుకలో లేదు -- ఒక ఆడియో రికార్డింగ్ జోడించండి, లేదా ఫైల్ జాబితాలో ఒక వీడియో ఫైల్ కెమెరా ఆడియోను \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేయండి."
 
@@ -2383,9 +2365,6 @@ msgstr "ఏ ఆడియో ట్రాక్‌లూ కేటాయించ
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "ఏ కెమెరా కేటాయించబడలేదు, కాబట్టి మార్చి కట్ చేయడానికి ఏమీ లేదు."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "ఇంకా ఏ కెమెరాలూ కేటాయించబడలేదు -- అందుకు Multitrack ఆన్ చేయండి."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Resolve తో కనెక్షన్ లేదు.\n  ప్రోగ్రామ్ నడుస్తోందా? Preferences > System > General కింద external scripting\n  'Local' అని సెట్ చేయబడిందా?"
@@ -3210,9 +3189,6 @@ msgstr "ప్రీసెట్ %s LUFS కు మాస్టర్ చేస�
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "ప్రీసెట్ %s LUFS కు మాస్టర్ చేస్తుంది -- అదే వర్తిస్తుంది, ప్రోగ్రామ్ వైపు నుండి ఏదీ సర్దుబాటు కాదు."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "మూల ఫైళ్ల నుండి తీసుకున్నది, --lufs ఇవ్వలేదు -- ఏదీ సర్దుబాటు కాదు"
 
 msgid "the answer did not keep the floor"
 msgstr "సమాధానం మాట్లాడే వంతును నిలుపుకోలేదు"
@@ -4926,9 +4902,6 @@ msgstr "%s\n   ఆడియో గుర్తించబడలేదు; ర�
 msgid "sound not recognised, placed by its timecode"
 msgstr "ఆడియో గుర్తించబడలేదు, దాని టైమ్‌కోడ్ ఆధారంగా ఉంచబడింది"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s రికార్డింగ్‌లు, చిత్రం లేదు: ప్రతిదీ విడిగా జోడించబడుతుంది, అవి ఒకదానికొకటి సమలేఖనం చేయబడవు. --multitrack వాటిని ఒకే సమయ అక్షంపై ఉంచుతుంది."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", గడియార విచలనం %s ppm అలాగే ఉంచబడింది: అది తన అనిశ్చితికి %s రెట్లు కాదు, అది %s ppm"
 
@@ -5009,3 +4982,112 @@ msgstr "    %s: ప్రారంభంలో %s చిత్రం లేన�
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: చివరలో %s చిత్రం లేనందున వదిలివేయబడుతుంది"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s అప్‌లోడ్ అయినదానికంటే %s s పొడవుగా తిరిగి వచ్చింది, పంపిన ఆడియో\n"
+"  దానిలో ఎక్కడ మొదలవుతుందో కొలవడం సాధ్యం కాలేదు -- వచ్చినట్లే ఉంచబడింది."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s ను కత్తిరించడం సాధ్యం కాలేదు (%s) -- వచ్చినట్లే ఉంచబడింది."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s (%s లో) %s (%s లో) లాగా వినిపిస్తోంది (పోలిక %s): ఒకే వ్యక్తిలా అనిపిస్తోంది."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com చివరన %s s జోడించింది -- కత్తిరించబడింది"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com ప్రారంభంలో %s s జోడించింది -- కత్తిరించబడింది"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: ఏ ఫైల్ రాయబడలేదు, కాబట్టి కట్ ఈ కెమెరాను వదిలివేస్తుంది."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  ఇన్ పాయింట్, అవుట్ పాయింట్ ఇక్కడ ఏమీ చేయవు: చిత్రం లేని ఒక రికార్డింగ్ మొత్తంగా జోడించబడుతుంది."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  కెమెరా పేరు \"%s\" లో ఫోల్డర్ లేదా డ్రైవ్ విభాజకం ఉంది; అది \"%s\" గా రాయబడుతుంది."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  అంచుల వద్ద వైడ్ షాట్: ఏదీ లేదు -- మరో గొంతు ఒక్కసారే మాట్లాడుతుంది, ఆ ఒక్క అంచు అతి చిన్న షాట్ కంటే చిన్నదిగా ఉంది"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  అంచుల వద్ద వైడ్ షాట్: %s నుండి మాత్రమే -- మరో గొంతు ఒక్కసారే, చివరికి దగ్గరగా మాట్లాడుతుంది, కాబట్టి మొదటిది లేదు"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  అంచుల వద్ద వైడ్ షాట్: %s వరకు మాత్రమే -- మరో గొంతు ఒక్కసారే, ప్రారంభానికి దగ్గరగా మాట్లాడుతుంది, కాబట్టి చివరిది లేదు"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com ఒక ఫైల్‌కు \"%s\" అని పేరు పెట్టింది -- ఇది సాధారణ ఫైల్ పేరు కాదు, కాబట్టి తీసుకురాబడదు"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s ఫైల్‌ను ఎక్కడా ఉంచలేము: దీని ఆడియోకు మిగతా మెటీరియల్‌తో ఉమ్మడి ఏమీ లేదు, ఆడియో ఉంచిన ఏ రికార్డింగ్‌లోనూ దీని టైమ్‌కోడ్‌ను పోల్చగలిగే టైమ్‌కోడ్ లేదు. వాటిలో ఒకదానికి దీనికి సరిపోయే టైమ్‌కోడ్ కావాలి, దాన్ని వేరే ప్రోగ్రామ్‌తో సెట్ చేయాలి."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name %s కు \"%s\", \"%s\" అనే రెండు పేర్లు ఇస్తుంది; ప్రతి రికార్డింగ్‌కు ఒక్క పేరు ఇవ్వండి."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name %s ను పేర్కొంటుంది, అది ఈ రన్ రికార్డింగ్‌లలో ఒకటి కాదు."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "%s నుండి మోడల్‌ను తెస్తోంది (సుమారు %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "ఇన్ పాయింట్ గత రన్ తర్వాత మారింది: అప్పుడు %s, ఇప్పుడు %s. వీడియోల్లోని కట్, ఆడియో ఇంకా పాత సమయ పరిధికే చెందినవి, కాబట్టి గుర్తులు ఇప్పుడు చెప్పేది Resolve కు అందదు -- ప్రారంభ బటన్‌ను మళ్లీ నొక్కండి."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "ఏ ఆడియో ఫైల్‌లోనూ టైమ్‌కోడ్ లేదు. ఇన్ పాయింట్, అవుట్ పాయింట్ అన్ని కెమెరాలు నడుస్తున్న క్షణం నుండి లెక్కించబడతాయి -- ఫైళ్ల పరస్పర స్థానం కొలవబడుతుంది."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "అవుట్ పాయింట్ గత రన్ తర్వాత మారింది: అప్పుడు %s, ఇప్పుడు %s. వీడియోల్లోని కట్, ఆడియో ఇంకా పాత సమయ పరిధికే చెందినవి, కాబట్టి గుర్తులు ఇప్పుడు చెప్పేది Resolve కు అందదు -- ప్రారంభ బటన్‌ను మళ్లీ నొక్కండి."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "ప్రొడక్షన్ పూర్తయింది, కానీ వేర్వేరు ట్రాక్‌లతో ఉన్న ZIP కు సాధారణ ఫైల్ పేరు లేదు"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "అనేక కెమెరాలు ఉన్నాయి కానీ ఆడియో రికార్డింగ్ లేదు. ప్రతి కెమెరాకు దాని సొంత ఆడియో ఉంటుంది -- అందుకే Multitrack ఉంది. లేకపోతే ఒక కెమెరా తర్వాత మరొకటి."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "ఆర్కైవ్‌లో %s ఒకటి కంటే ఎక్కువసార్లు ఉంది, కాబట్టి దాని నుండి ఏదీ తీయబడలేదు."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "ఇక్కడ రికార్డింగ్‌లకు పేర్లను కేటాయింపు ఫైల్ ఇస్తుంది, కాబట్టి --speaker-name వదిలివేయబడుతుంది; పేర్లను అక్కడ ఇవ్వండి లేదా --speaker-name ను వదిలేయండి."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "బిల్డ్ దాని చెక్‌సమ్‌తో సరిపోలలేదు, కాబట్టి అన్‌ప్యాక్ చేయబడలేదు: జాబితాలో %s, వచ్చింది %s."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "చెక్‌సమ్‌ల జాబితాను తీసుకురావడం సాధ్యం కాలేదు, కాబట్టి బిల్డ్ అన్‌ప్యాక్ చేయబడలేదు: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "చెక్‌సమ్‌ల జాబితాలో %s లేదు, కాబట్టి బిల్డ్ అన్‌ప్యాక్ చేయబడలేదు."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "మోడల్ ఫైళ్ల జాబితా %s ను పేర్కొంటుంది, అది మోడల్ ఫోల్డర్ బయట ఉంది; ఏదీ తీసుకురాబడలేదు."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "%s నుండి మోడల్‌ను తీసుకురావడం సాధ్యం కాలేదు: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "%s కోసం వక్త పేరు ఖాళీగా ఉంది; ఒక పేరు ఇవ్వండి లేదా --speaker-name ను వదిలేయండి."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "ప్రొడక్షన్ పూర్తయింది, కానీ దాని ఫలితానికి సాధారణ ఫైల్ పేరు లేదు"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "మూల ఫైళ్ల నుండి తీసుకున్నది, --lufs source -- ఏదీ సర్దుబాటు కాదు"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "కీ secret-tool ఆదేశం ద్వారా డెస్క్‌టాప్ కీరింగ్‌లో ఉంచబడుతుంది, ఈ యంత్రంలో ఆ ఆదేశం లేదు."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "కీని డెస్క్‌టాప్ కీరింగ్‌లో ఉంచే secret-tool ఈ యంత్రంలో లేదు, కాబట్టి ఏదీ నిల్వ చేయలేదు. చేతితో: %s"
+
+msgid "What it says appears under Output."
+msgstr "అది చెప్పేది అవుట్‌పుట్ ట్యాబ్‌లో కనిపిస్తుంది."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "Debian, Ubuntu లో libsecret-tools ప్యాకేజ్, Fedora, Arch లో libsecret"

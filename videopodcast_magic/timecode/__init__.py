@@ -14,7 +14,10 @@ PROGRAM_NAME = PROGRAM.PROGRAM_NAME
 SR = PROGRAM.SR
 T = PROGRAM.T
 ffprobe_json = PROGRAM.ffprobe_json
+math = PROGRAM.math
+number_text = PROGRAM.number_text
 os = PROGRAM.os
+path_key = PROGRAM.path_key
 probe_remember = PROGRAM.probe_remember
 struct = PROGRAM.struct
 
@@ -26,12 +29,11 @@ struct = PROGRAM.struct
 def timecode_string(seconds, fps=30.0, drop_frame=False):
     """A time of day since midnight as a timecode label.
 
-    The digits are the same on both clocks -- a drop-frame label reads
-    as time of day, that is what the dropped numbers buy -- so
-    *drop_frame* decides the separator alone: a semicolon before the
-    frames, which is what timecode_to_frames counts the label by. A
-    colon on a drop-frame count lands frame zero 3.6 s per hour since
-    midnight away from the camera's own clock.
+    The digits are the same on both clocks (a drop-frame label reads as
+    time of day; that is what the dropped numbers buy), so *drop_frame*
+    decides the separator alone: a semicolon before the frames, by which
+    timecode_to_frames counts the label. A colon on a drop-frame count
+    lands frame zero 3.6 s per hour since midnight off the camera's clock.
     """
     if seconds < 0:
         seconds = 0.0
@@ -195,15 +197,18 @@ def sample_count(path):
 
 
 def _sample_count(path):
-    # Out of the one description of the file, not a second call:
-    # duration_ts counts samples exactly, a duration in seconds is rounded.
+    # From the one description, exactly: duration_ts in the stream's time
+    # base, a sample in a WAV but 1/14112000 s in an MP3, where a 20 s
+    # file read as samples measured 5880 s (27.9.2026).
     d = ffprobe_json(path)
     a = next((x for x in d.get("streams", [])
               if x.get("codec_type") == "audio"), {})
     try:
         n, sr = int(a["duration_ts"]), int(a.get("sample_rate") or SR)
-        return int(round(n * SR / sr)) if sr and sr != SR else n
-    except (KeyError, TypeError, ValueError):
+        over, under = (int(x) for x in (a.get("time_base") or "1/%d" % sr)
+                       .split("/"))
+        return (n * over * SR + under // 2) // under
+    except (KeyError, TypeError, ValueError, ZeroDivisionError):
         pass
     duration = float(a.get("duration") or d.get("format", {}).get("duration") or 0)
     return int(round(duration * SR))
@@ -307,21 +312,43 @@ def clocks_apart(spans):
                 if alone(i, a, n, placed)), moved, placed)
 
 
+# The rates a camera is built to run at. A container naming one of these
+# means it; any other figure it names may be a timebase, not a format.
+STANDARD_FRAME_RATES = (23.976, 24.0, 25.0, 29.97, 30.0, 50.0, 59.94, 60.0)
+
+
+def stream_frame_rate(v):
+    """The frame rate one video stream of an ffprobe answer runs at, or None.
+
+    The one rule for every place that reads a rate. The nominal rate
+    (r_frame_rate) where it is a standard one, within a thousandth; else
+    the mean over the file (avg_frame_rate). A phone recording with a
+    variable rate says 30 and averages 29.99 or, in low light, 24: its
+    timecode track counts at 30, and so does an editor.
+    """
+    def fraction(key):
+        """One of ffprobe's fractions as a number; None where it names none."""
+        parts = str((v or {}).get(key) or "").split("/")
+        if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit() \
+                and int(parts[0]) and int(parts[1]):
+            return int(parts[0]) / float(int(parts[1]))
+        return None
+
+    nominal, mean = fraction("r_frame_rate"), fraction("avg_frame_rate")
+    if nominal and any(abs(nominal - r) <= r * 0.001
+                       for r in STANDARD_FRAME_RATES):
+        return nominal
+    return mean or nominal
+
+
 def picture_rate(probed):
     """The frame rate of the picture in an ffprobe answer, or nothing.
 
-    ffprobe writes it as a fraction, '30000/1001' for 29.97. The mean
-    over the file comes first -- frames over duration, always real; the
-    nominal rate is what the container claims, a timebase in odd files.
+    ffprobe writes it as a fraction, '30000/1001' for 29.97; which of its
+    two figures counts is stream_frame_rate's.
     """
-    v = next((s for s in probed.get("streams", ())
-              if s.get("codec_type") == "video"), None)
-    for key in ("avg_frame_rate", "r_frame_rate"):
-        parts = str((v or {}).get(key) or "").split("/")
-        if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit():
-            if int(parts[0]) and int(parts[1]):
-                return int(parts[0]) / float(int(parts[1]))
-    return None
+    return stream_frame_rate(next((s for s in probed.get("streams", ())
+                                   if s.get("codec_type") == "video"), None))
 
 
 def file_timecode(path, fps=None):
@@ -349,3 +376,228 @@ def file_timecode(path, fps=None):
             except Exception:
                 pass
     return None
+
+
+# =====================================================================
+#  Frame rates and frames
+#  ----------------------
+
+# The rate a file runs at and the rate a Timeline gets, and seconds,
+# frames and timecode turned into one another; none of it asks Resolve.
+
+def seconds_to_frames(seconds, fps):
+    """Convert a duration to frames using the true rate; 29.97 stays 29.97."""
+    return int(round(seconds * fps))
+
+
+def frames_of_the_file(length, fps, own):
+    """How many frames of a file fit into *length* frames of the Timeline.
+
+    The most that fit and never one more, or a shot runs into the next
+    one: Resolve pushes what overlaps, and the pushes add up. What a
+    shot leaves uncovered the one after it picks up; one frame is floor.
+    """
+    # A whole number of frames a division misses by a billionth is that
+    # whole number: 23.976 in a 23.976 Timeline asks one frame too many.
+    return max(1, int(math.ceil((length + 1) * own / float(fps) - 1e-9)) - 1)
+
+
+def timeline_frames_of(count, fps, own):
+    """How many frames of the Timeline a span of *count* file frames fills.
+
+    Resolve keeps whole Timeline frames, so the last part frame is lost:
+    175 frames of a 24 file fill 218 of a 30 Timeline, 176 fill 220.
+    """
+    return int(count * fps / float(own) + 1e-9)
+
+
+# Every rate Resolve offers a Timeline, and no other.
+RESOLVE_FRAME_RATES = (16.0, 18.0, 23.976, 24.0, 25.0, 29.97, 30.0, 47.952,
+                 48.0, 50.0, 59.94, 60.0, 72.0, 90.0, 95.904, 96.0, 100.0,
+                 119.88, 120.0)
+
+
+# How far a measured rate may sit from one of those and still be it.
+# Relative: one frame at 120 is a fifth of one at 24. An averaged
+# reading strays a few ten-thousandths, a foreign rate four times that.
+FRAME_RATE_TOLERANCE = 0.01
+
+
+def known_frame_rate(fps):
+    """The Resolve rate this one is, allowing for a measured reading.
+
+    A rate this answers None for is not one Resolve gives a Timeline.
+    The file is used all the same, counting in its own.
+    """
+    if not fps:
+        return None
+    near = min(RESOLVE_FRAME_RATES, key=lambda r: abs(r - fps))
+    return near if abs(near - fps) <= near * FRAME_RATE_TOLERANCE else None
+
+
+def own_frame_rate(fps):
+    """The rate a file's own frames are counted at.
+
+    A measured reading strays a few ten-thousandths from the format it
+    means, so a Resolve rate answers where it means one. Where it means
+    none the reading itself does: a file at 15 counts fifteen a second.
+    """
+    return known_frame_rate(fps) or float(fps or 30.0)
+
+
+def resolve_timeline_rate(fps):
+    """The rate a Timeline gets for material running at this one.
+
+    Not the nearest but the next one up: upwards Resolve repeats frames,
+    downwards it throws them away. 16 and 120 are the ends -- 15 and 240
+    are refused -- and a 15 file in a 16 Timeline keeps its length.
+    """
+    known = known_frame_rate(fps)
+    if known is not None:
+        return known
+    if not fps:
+        return 30.0
+    return next((r for r in RESOLVE_FRAME_RATES if r > fps),
+                RESOLVE_FRAME_RATES[-1])
+
+
+def file_frame_rate(info):
+    """The rate a video file runs at, by stream_frame_rate's one rule.
+
+    video_facts keeps it as "nominal": the file's own rate, which --fps
+    does not touch.
+    """
+    return (info or {}).get("nominal") or (info or {}).get("fps") or 0.0
+
+
+def timeline_frame_rate(args, videos, ref_clip):
+    """The rate the Timeline runs at: the highest one in the material.
+
+    Converted upwards Resolve repeats frames, downwards it throws them
+    away, so the fastest camera decides. Intro and outro do not count.
+    """
+    edges = {path_key(p) for p in (getattr(args, "intro", None),
+                                   getattr(args, "outro", None)) if p}
+    rates = [(e or {}).get("fps") or 0.0 for v, e in (videos or ())
+             if path_key(v) not in edges]
+    return max(rates) if any(rates) else (
+        ref_clip[1]["fps"] if ref_clip else 30.0)
+
+
+def frames_to_timecode(frames, fps, drop_frame=False):
+    """The other way round: a frame number since midnight as a timecode.
+
+    On the timecode clock, like timecode_to_frames: the true rate is
+    off by about a minute per hour.
+    """
+    full = int(round(own_frame_rate(fps)))
+    n = max(0, int(frames)) % (full * 86400)
+    if drop_frame:
+        dropped = 2 * full // 30
+        per_ten = full * 600 - dropped * 9
+        tens, rest = divmod(n, per_ten)
+        per_minute = full * 60 - dropped
+        # The first minute of every ten drops nothing, the nine after it do.
+        n += dropped * 9 * tens
+        if rest >= dropped:
+            n += dropped * ((rest - dropped) // per_minute)
+    f = n % full
+    s = n // full
+    return "%02d:%02d:%02d%s%02d" % (s // 3600 % 24, s % 3600 // 60, s % 60,
+                                     ";" if drop_frame else ":", f)
+
+
+def timecode_to_frames(tc, fps):
+    """Convert a timecode to a frame number since midnight.
+
+    Not with the true rate: a non-drop timecode still counts thirty
+    frames per second at 29.97. Drop frame skips numbers instead.
+    """
+    if not tc:
+        return 0
+    df = ";" in str(tc)
+    t = str(tc).replace(";", ":").split(":")
+    if len(t) != 4:
+        return 0
+    h, m, s, f = (int(x) for x in t)
+    full = int(round(own_frame_rate(fps)))                    # 30 at 29.97
+    n = ((h * 3600 + m * 60 + s) * full) + f
+    if df:
+        # Two numbers dropped per minute, except every tenth minute.
+        dropped = 2 * full // 30
+        minutes = h * 60 + m
+        n -= dropped * (minutes - minutes // 10)
+    return n
+
+
+def cameras_frame_rate(cameras):
+    """The rate the cut has to be read at, measured on a camera.
+
+    The frames of a timecode are frames, so one read at the wrong rate
+    lands whole frames out and the picture runs ahead of the sound on
+    every camera whose timecode has a frame part. Cameras ending :00 are
+    exact either way, which is how this sits unseen.
+    """
+    for cam in cameras or ():
+        path = cam.get("file") or ""
+        if path and os.path.exists(path):
+            rate = picture_rate(ffprobe_json(path))
+            if rate:
+                return float(rate)
+    return 0.0
+
+
+def timeline_timecode(seconds, zero, fps, drop_frame=False):
+    """The timecode a moment of programme time carries on the Timeline.
+
+    Frame zero of the Timeline, then the frames since it -- the two steps
+    build_cut_timeline takes, or the paper and the Timeline name frames
+    one apart wherever the zero does not sit on a whole one. *drop_frame*
+    is the Timeline's own setting: the same frame reads differently on
+    the two clocks, and Resolve reads what is written on the one it runs.
+    """
+    return frames_to_timecode(zero + seconds_to_frames(seconds, fps), fps,
+                              drop_frame)
+
+
+def timecode_seconds(info):
+    """The timecode in a video's facts, in seconds, or nothing."""
+    if not (info or {}).get("tc"):
+        return None
+    try:
+        return parse_timecode(info["tc"], max(1.0, info.get("fps") or 30.0))
+    except (ValueError, TypeError):
+        return None
+
+
+def report_timecode_check(audio_start, info, measured, indent="  "):
+    """Compare what the timecode says with what can be heard."""
+    if audio_start is None or not info["tc"]:
+        return
+    fps = max(1.0, info["fps"])
+    loud_tc = unwrap_day(parse_timecode(info["tc"], fps),
+                         audio_start) - audio_start
+    deviation = measured - loud_tc
+    print(T('%sTimecode check of the audio file') % indent)
+    if not PROGRAM.GUI_RUNNING:
+        print(T('%s  Audio starts per timecode at    %s')
+              % (indent, timecode_string(audio_start, fps)))
+        print(T('%s  Picture starts per timecode at  %s')
+              % (indent, timecode_string(parse_timecode(info["tc"], fps), fps)))
+    print(T('%s  Offset per timecode:            %s') % (indent, as_hms(loud_tc)))
+    print(T('%s  Offset measured:                %s') % (indent, as_hms(measured)))
+    if abs(deviation) > 60:
+        print(T('%s  Deviation:                      %s') % (indent, as_hms(deviation)))
+        print(T('%s  The audio timecode does not fit the picture at all -- '
+                'probably a clock never set. The measurement is used.')
+              % indent)
+    elif abs(deviation) > 0.5 / fps:
+        print(T('%s  Deviation:                      %s  (%s frames)')
+              % (indent, as_hms(deviation),
+                 number_text(abs(deviation) * fps)))
+        print(T('%s  The timecode does not fit what is heard. The '
+                'measurement is used.') % indent)
+    else:
+        print(T('%s  Deviation:                      %s  (%s frames) -- fits')
+              % (indent, as_hms(deviation),
+                 number_text(abs(deviation) * fps)))

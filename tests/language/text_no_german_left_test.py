@@ -427,7 +427,7 @@ else:
     auphonic ffmpeg ffprobe resolve blackmagic quicktime davinci
     multicam smartswitch whisper podcast intro outro codec codecs
     lang html json wave riff bext lufs dbfs dbtp ebur soxr numpy
-    lgpl gpl bsd
+    lgpl gpl bsd suse
     pyside python argparse mkdtemp tmpdir uuid ppm hdr sdr hlg
     interview interviews kandidat moderator moderatorin totale
     also normal standard programme man marker stand rate multi

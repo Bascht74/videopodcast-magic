@@ -189,6 +189,55 @@ def file_span(file_path, axis):
             "axis": (axis or {}).get(path_key(file_path))}
 
 
+def marked_camera_areas(axis, cameras):
+    """(from, to, path) of every placed camera on the axis, for the marks."""
+    areas = []
+    for file_path in cameras or ():
+        span = file_span(file_path, axis)
+        if span and span["axis"] is not None and span["duration"] > 0:
+            areas.append((float(span["axis"]),
+                          float(span["axis"]) + span["duration"], file_path))
+    return areas
+
+
+def camera_window(axis, cameras):
+    """The stretch every camera runs, as (from, to) on the window's axis.
+
+    The run's window by the run's own rule, common_window. *axis* is
+    {path_key: start}, on one clock; only placed cameras count, as in
+    the run. None where no camera has a place.
+    """
+    areas = marked_camera_areas(axis, cameras)
+    if not areas:
+        return None
+    t0, _begins_with, t1, _ends_with = PROGRAM.common_window(areas)
+    return t0, t1
+
+
+def marks_zero(axis, cameras):
+    """Where a relative In or Out point counts from, on the window's axis.
+
+    The run's zero: where camera_window begins, the moment every camera
+    runs. With no placed camera, the start of the axis, as the run
+    without a picture.
+    """
+    window = camera_window(axis, cameras)
+    if window:
+        return window[0]
+    return min((float(v) for v in (axis or {}).values()), default=0.0)
+
+
+def marks_end(axis, cameras):
+    """Where an Out point counted back from the end counts from.
+
+    The run's rule again: where camera_window ends, the moment the first
+    camera stops. None without a placed camera -- then the end of the
+    material holds, as in the run without a picture.
+    """
+    window = camera_window(axis, cameras)
+    return window[1] if window else None
+
+
 def tree_build(columns):
     """The assignment as a tree: a recording, its voices under it.
 

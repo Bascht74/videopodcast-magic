@@ -244,10 +244,9 @@ class AssignmentTable(object):
         from_s, until, absolute = window_suggestion(entries, fps)
         if not (from_s and until and absolute):
             return
-        # Nothing goes into the In point or the Out point. With and
-        # without them nothing may differ, and a value the window put
-        # there is one the run cannot tell from a chosen one -- it sent
-        # a clock time before the first frame and the run warned.
+        # Nothing goes into the In or Out point: the run cannot tell a value
+        # put there by the window from a chosen one, and one sent a clock time
+        # before the first frame and made the run warn.
         if not state["axis"] or state.get("axis_absolute"):
             state["tc_there"] = True
 
@@ -427,10 +426,9 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         # taking the last sound away.
         assignment_check()
         return
-    # The cameras first, then the two special cases. MIX_ONLY: processed
-    # and in the mix, but not the first track on any camera.
-    # IGNORE_AUDIO: left out entirely. A camera is its path: two files
-    # of one name are two cameras, and the chooser shows them apart.
+    # Cameras, then MIX_ONLY (in the mix, first track on no camera) and
+    # IGNORE_AUDIO (left out). A camera is its path: two files of one
+    # name are two cameras, and the chooser shows them apart.
     targets = list(videos) + [MIX_ONLY, IGNORE_AUDIO]
     wide = wide_bar_of(targets, *wide_cameras_now(),
                        aside=state.setdefault("wide_set_aside", {}))
@@ -445,7 +443,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     tree_audio = tree_build(columns)
     # Sync only: the columns about speakers stay in the tree, hidden,
     # so the cells keep their numbers and the project file its keys.
-    sync_only = state.get("project_type") == "sync"
+    sync_only = PROGRAM.sync_only(state)
     tree_audio.setColumnHidden(1, sync_only)
     # And "belongs to" with them: without a plan the run reads no
     # camera off a recording, so the column would promise an answer.
@@ -465,6 +463,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         except Exception:
             tc_of_row.append(None)
     without_tc = not any(t is not None for t in tc_of_row)
+    # Two recordings of one file name are told apart as in the file list.
+    heard = PROGRAM.recording_labels(audio_files)
     state["without_tc"] = without_tc
     if not without_tc:
         state["tc_there"] = True
@@ -480,7 +480,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
             stem = piece_label[first]
         if camera_track:
             stem = remembered.get("ownname:" + first) or stem
-        caption = os.path.basename(first)
+        caption = heard.get(first) or os.path.basename(first)
         if camera_track:
             caption += T('   (camera audio)')
         elif len(row) > 1:

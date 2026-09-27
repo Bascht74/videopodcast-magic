@@ -338,12 +338,6 @@ msgstr "વક્તા-વિભાજન અહીં ઇન્સ્ટૉલ
 msgid "Fetching the model (about %s MB) ..."
 msgstr "મૉડલ લવાઈ રહ્યું છે (આશરે %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "મૉડલ લવાઈ રહ્યું છે (આશરે %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "મૉડલ લાવી શકાયું નહીં: %s"
-
 msgid "The model could not be written: %s"
 msgstr "મૉડલ લખી શકાયું નહીં: %s"
 
@@ -880,9 +874,6 @@ msgstr "  %-20s સંરેખિત કરી શકાતું નથી: %s
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s માપી શકાતું નથી: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s ઑફસેટ %s, ઘડિયાળનું વિચલન %s ppm (+/- %s), બાકી ફેલાવો %s ms, %s/%s બિંદુ"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s ઑફસેટ %s, ઘડિયાળનું વિચલન %s ppm (+/- %s), બાકી ફેલાવો %s ms, %s/%s બિંદુ%s"
@@ -2204,14 +2195,8 @@ msgstr "સમય-અક્ષ નક્કી થતાં જ ઇન પૉઇ
 msgid "In point is %s before the first frame"
 msgstr "ઇન પૉઇન્ટ પહેલી ફ્રેમથી %s પહેલાં છે"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "ઇન પૉઇન્ટ હવે %s છે, પણ હાલની ફાઇલો %s ની છે.\n  વિડિયોનો ઑડિયો જૂના સમયખંડ મુજબ કપાયેલો છે -- ઉપર\n  શરૂ બટન ફરી દબાવો."
-
 msgid "Out point is %s after the last frame"
 msgstr "આઉટ પૉઇન્ટ છેલ્લી ફ્રેમથી %s પછી છે"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "આઉટ પૉઇન્ટ હવે %s છે; સમયખંડ %s લાંબો થશે, હાલની\n  ફાઇલો %s લાંબી છે -- ઉપર શરૂ બટન ફરી દબાવો."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "ડિલિવરી માટે સામાન્ય રીતે મર્યાદિત શ્રેણી લેવાય છે. પૂર્ણ શ્રેણી ખોટી નથી, પણ કેટલાક પ્લેયર તેને ખોટી રીતે વાંચે છે."
@@ -2372,9 +2357,6 @@ msgstr "Multitrack (દરેક વક્તા માટે એક ટ્ર�
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack ને ઓછામાં ઓછા બે ઇનપુટ ટ્રૅક જોઈએ. ટ્રૅક એટલે પોતાનું અલગ રેકોર્ડિંગ, મલ્ટિચૅનલ રેકોર્ડરની એક ચૅનલ, અથવા \"આંતરિક ઑડિયો વાપરો\" પર સેટ કરેલી વિડિયો ફાઇલનો ઑડિયો. એક જ રેકોર્ડિંગના અનેક બ્લોક એક ગણાય છે, બાજુએ મૂકેલા ટ્રૅક બિલકુલ નહીં."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "કોઈ ઑડિયો ફાઇલમાં ટાઇમકોડ નથી. ઇન પૉઇન્ટ અને આઉટ પૉઇન્ટ મટીરિયલની શરૂઆતથી ગણાય છે -- ફાઇલોની એકબીજા સાથેની સ્થિતિ માપવામાં આવે છે."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "હજુ કોઈ ધ્વનિ ઉપયોગમાં નથી -- ઑડિયો રેકોર્ડિંગ ઉમેરો, અથવા ફાઇલ યાદીમાં કોઈ વિડિયો ફાઇલનો કૅમેરા ઑડિયો \"આંતરિક ઑડિયો વાપરો\" પર સેટ કરો."
 
@@ -2383,9 +2365,6 @@ msgstr "કોઈ ઑડિયો ટ્રૅક ફાળવેલ નથી."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "કોઈ કૅમેરા ફાળવેલ નથી, તેથી કટ કરીને બદલવા જેવું કંઈ નથી."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "હજુ કોઈ કૅમેરા ફાળવેલ નથી -- તે માટે Multitrack ચાલુ કરો."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Resolve સાથે કોઈ જોડાણ નથી.\n  શું પ્રોગ્રામ ચાલી રહ્યો છે? શું Preferences > System > General હેઠળ\n  external scripting 'Local' પર સેટ છે?"
@@ -3210,9 +3189,6 @@ msgstr "પ્રીસેટ %s LUFS પર માસ્ટર કરે છે
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "પ્રીસેટ %s LUFS પર માસ્ટર કરે છે -- એ જ લાગુ રહે છે, અમારી તરફથી કંઈ ગોઠવાતું નથી."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "સ્રોત ફાઇલોમાંથી લીધું, --lufs આપ્યું નથી -- કંઈ ગોઠવાતું નથી"
 
 msgid "the answer did not keep the floor"
 msgstr "જવાબ ચાલુ ન રહ્યો"
@@ -4926,9 +4902,6 @@ msgstr "%s\n   ધ્વનિ ઓળખાયો નહીં; રન જે �
 msgid "sound not recognised, placed by its timecode"
 msgstr "ધ્વનિ ઓળખાયો નહીં, તેના ટાઇમકોડ મુજબ ગોઠવ્યું"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s રેકોર્ડિંગ અને કોઈ ચિત્ર નહીં: દરેક અલગથી જોડાય છે અને તેમને એકબીજા સાથે ગોઠવવામાં આવતાં નથી. --multitrack તેમને એક સમય-અક્ષ પર મૂકે છે."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", ઘડિયાળનું વિચલન %s ppm એમ જ રાખ્યું: તે તેની અનિશ્ચિતતાથી %s ગણું નથી, જે %s ppm છે"
 
@@ -5009,3 +4982,112 @@ msgstr "    %s: શરૂઆતના %s માં ચિત્ર નથી અ
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: અંતના %s માં ચિત્ર નથી અને તે છોડી દેવાય છે"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s અપલોડ થયું તેના કરતાં %s s લાંબું પાછું આવ્યું, અને તેમાં મોકલેલો ધ્વનિ ક્યાંથી\n"
+"  શરૂ થાય છે તે માપી શકાયું નહીં -- જેવું આવ્યું તેવું જ રાખ્યું."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s કાપી શકાયું નહીં (%s) -- જેવું આવ્યું તેવું જ રાખ્યું."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s (%s માં) નો અવાજ %s (%s માં) જેવો લાગે છે (સમાનતા %s): એવું લાગે છે કે એ એક જ વ્યક્તિ છે."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com એ અંતે %s s ઉમેર્યા -- કાપી નાખ્યા"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com એ શરૂઆતમાં %s s ઉમેર્યા -- કાપી નાખ્યા"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: કોઈ ફાઇલ લખાઈ નથી, તેથી કટ આ કૅમેરાને છોડી દે છે."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  ઇન પૉઇન્ટ અને આઉટ પૉઇન્ટ અહીં કંઈ કરતા નથી: ચિત્ર વિનાનું એક રેકોર્ડિંગ આખું જોડાય છે."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  કૅમેરા નામ \"%s\" માં ફોલ્ડર અથવા ડ્રાઇવનો વિભાજક છે; તે \"%s\" તરીકે લખાય છે."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  કિનારે વાઇડ શૉટ: એક પણ નહીં -- બીજો અવાજ ફક્ત એક જ વાર બોલે છે, અને તે એક કિનારો સૌથી ટૂંકા શૉટ કરતાં ટૂંકો હતો"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  કિનારે વાઇડ શૉટ: ફક્ત %s થી -- બીજો અવાજ ફક્ત એક જ વાર બોલે છે, અંતની નજીક, તેથી શરૂઆતનો નથી"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  કિનારે વાઇડ શૉટ: ફક્ત %s સુધી -- બીજો અવાજ ફક્ત એક જ વાર બોલે છે, શરૂઆતની નજીક, તેથી અંતનો નથી"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com એ એક ફાઇલને \"%s\" નામ આપ્યું -- સાદું ફાઇલ નામ નથી, તેથી તે લાવવામાં આવતી નથી"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s ને ગોઠવી શકાય તેમ નથી: તેના ધ્વનિમાં બાકીના મટીરિયલ સાથે કંઈ સામાન્ય નથી, અને ધ્વનિએ ગોઠવેલા કોઈ રેકોર્ડિંગમાં એવો ટાઇમકોડ નથી જેની સામે આનો ટાઇમકોડ સરખાવી શકાય. તેમાંથી એકને આ ફાઇલ સાથે મેળ ખાતો ટાઇમકોડ જોઈએ, અને તે બીજા પ્રોગ્રામથી લગાવવો પડશે."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name %s ને બે નામ આપે છે, \"%s\" અને \"%s\"; દરેક રેકોર્ડિંગને એક જ નામ આપો."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name માં %s છે, જે આ રનનાં રેકોર્ડિંગમાંનું એક નથી."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "મૉડલ %s પરથી લવાઈ રહ્યું છે (આશરે %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "ઇન પૉઇન્ટ છેલ્લા રન પછી બદલાયો છે: ત્યારે %s, હવે %s. વિડિયોમાંનો કટ અને ધ્વનિ હજુ જૂના સમયખંડના છે, તેથી Resolve ને માર્ક હવે જે કહે છે તે નહીં મળે -- શરૂ બટન ફરી દબાવો."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "કોઈ ઑડિયો ફાઇલમાં ટાઇમકોડ નથી. ઇન પૉઇન્ટ અને આઉટ પૉઇન્ટ બધા કૅમેરા ચાલુ હોય તે ક્ષણથી ગણાય છે -- ફાઇલોની એકબીજા સાથેની સ્થિતિ માપવામાં આવે છે."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "આઉટ પૉઇન્ટ છેલ્લા રન પછી બદલાયો છે: ત્યારે %s, હવે %s. વિડિયોમાંનો કટ અને ધ્વનિ હજુ જૂના સમયખંડના છે, તેથી Resolve ને માર્ક હવે જે કહે છે તે નહીં મળે -- શરૂ બટન ફરી દબાવો."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "પ્રોડક્શન પૂર્ણ, પણ અલગ ટ્રૅક સાથેની ZIP નું સાદું ફાઇલ નામ નથી"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "ઘણા કૅમેરા પણ કોઈ ઑડિયો રેકોર્ડિંગ નથી. દરેક કૅમેરાનો પોતાનો ઑડિયો હશે -- Multitrack એ માટે જ છે. નહીં તો એક પછી એક કૅમેરા."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "આર્કાઇવમાં %s એક કરતાં વધુ વાર છે, તેથી તેમાંથી કંઈ કાઢવામાં આવ્યું નથી."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "અહીં ફાળવણી ફાઇલ રેકોર્ડિંગને નામ આપે છે, તેથી --speaker-name અવગણાશે; નામ ત્યાં આપો અથવા --speaker-name ન આપો."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "બિલ્ડ તેના ચેકસમ સાથે મેળ ખાતું નથી, તેથી અનપૅક કરાયું નથી: યાદીમાં %s, આવ્યું %s."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "ચેકસમની યાદી લાવી શકાઈ નહીં, તેથી બિલ્ડ અનપૅક કરાયું નથી: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "ચેકસમની યાદીમાં %s નથી, તેથી બિલ્ડ અનપૅક કરાયું નથી."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "મૉડલ ફાઇલોની યાદીમાં %s છે, જે મૉડલ ફોલ્ડરની બહાર છે; કંઈ લાવવામાં આવ્યું નથી."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "મૉડલ %s પરથી લાવી શકાયું નહીં: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "%s માટે વક્તાનું નામ ખાલી છે; નામ આપો અથવા --speaker-name ન આપો."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "પ્રોડક્શન પૂરું થયું, પણ તેના પરિણામનું સાદું ફાઇલ નામ નથી"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "સ્રોત ફાઇલોમાંથી લીધું, --lufs source -- કંઈ ગોઠવાતું નથી"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "કી secret-tool આદેશ દ્વારા ડેસ્કટૉપની કીરિંગમાં રાખવામાં આવે છે, અને આ મશીન પર તે નથી."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "આ મશીન પર secret-tool નથી, જે કીને ડેસ્કટૉપની કીરિંગમાં રાખે છે, તેથી કંઈ સંગ્રહાયું નથી. જાતે: %s"
+
+msgid "What it says appears under Output."
+msgstr "તે જે કહે છે તે આઉટપુટ હેઠળ દેખાય છે."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "Debian અને Ubuntu પર libsecret-tools પૅકેજ, Fedora અને Arch પર libsecret"

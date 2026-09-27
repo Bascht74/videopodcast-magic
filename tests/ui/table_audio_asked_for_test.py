@@ -414,10 +414,12 @@ def look(media):
               written(sheet, shorts[1]) == own_name,
               "the field says %r, wanted %r"
               % (written(sheet, shorts[1]), own_name))
-        check("and now there is sound, so the run can start",
-              start_button().isEnabled(),
-              "the reason still under the button: %r"
-              % (start_reason() or ""))
+        # Not "the run can start": two cameras and no recording, without
+        # Multitrack, is a case the run refuses, and the button says so.
+        now = start_reason() or ""
+        check("and now there is sound, so the start no longer asks for it",
+              fixes_it not in now,
+              "looked for %r to be gone from %r" % (fixes_it, now))
 
     def taken_back_look():
         """Taken back beside the player: the file sheet follows."""

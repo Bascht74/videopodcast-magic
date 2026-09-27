@@ -14,11 +14,12 @@ Aufnahme bleiben eine Spur. Die Sprechertrennung hält die Stimmen darin
 auseinander und liefert den Schnitt, nicht je eine Spur
 ([Spracherkennung und Sprechertrennung](speech.de.md)).
 
-Das Häkchen entscheidet, wie die Aufnahmen zusammengefasst werden, und
-sonst nichts: mit Häkchen bekommt jede Person eine eigene Spur, mit
-Namen und Kamera; ohne Häkchen laufen alle zusammen in den Full-Mix.
-Die gemeinsame Zeitachse, der Kameraschnitt und die Dateien am Ende
-sind mit Häkchen dieselben wie ohne. Auch wer im Schnitt landet, hängt
+Das Häkchen verlangt eine Spur je Person, und sonst nichts: mit ihm
+wartet **Start**, bis die Tabelle mindestens zwei Spuren hält, jede mit
+Namen, und Kameras ganz ohne Tonaufnahme geben ihren Ton je als eigene
+Spur. Die gemeinsame Zeitachse, die Namen und Kameras in der Tabelle,
+der Kameraschnitt, die Dateien am Ende und die Art der Produktion, die
+zu auphonic.com geht, sind mit Häkchen dieselben wie ohne. Auch wer im Schnitt landet, hängt
 nicht daran, woher er kommt: eine eigene Aufnahme, der Ton einer Kamera,
 ein Kanal eines Recorders und eine Stimme, die die Trennung gefunden
 hat, zählen gleich -- draußen bleibt nur, wer auf **nicht verwenden**
@@ -108,12 +109,17 @@ eine Frage und keine Weigerung: die Zeile unter der Tabelle nennt ihn
 und sagt **kommt mehrfach vor. Die Aufnahmen werden zu einer Spur
 zusammengefasst und nach Timecode hintereinandergelegt -- richtig, wenn
 zwischendurch gestoppt wurde**, und genau dafür ist dieses
-Zusammenfassen da. Eine Stimme dagegen lässt sich mit nichts
-zusammenfassen -- sie ist eine Person in einer Trennung --, und deshalb
-sperrt eine Stimme, die einen fremden Namen trägt, den **Start**; die
-Zeile unter dem Knopf nennt ihn und sagt **steht auf mehr als einem
-Sprecher -- ein Name ist eine Person, und jede Person braucht einen
-eigenen**.
+Zusammenfassen da. Vor dem Lauf wird das noch einmal gefragt, unter
+**Mehrfach vergebene Namen**, mit dem Häkchen Multitrack wie ohne.
+
+Eine Stimme dagegen lässt sich nur mit sich selbst zusammenfassen.
+Klingt eine getrennte Stimme wie eine, die in einer anderen Aufnahme
+schon einen Namen hat, darf sie denselben Namen tragen, und die Tabelle
+schlägt ihn in ihrem Feld vor; das Protokoll sagt, welche Stimme es
+wiedererkannt hat und wie ähnlich die beiden sind. Jede andere Stimme
+mit einem fremden Namen sperrt den **Start**; die Zeile unter dem Knopf
+nennt ihn und sagt **steht auf mehr als einem Sprecher -- ein Name ist
+eine Person, und jede Person braucht einen eigenen**.
 
 Die untere Tabelle hat je Kamera eine Zeile: **Kamera**, **neue Datei
 heißt**, **bekommt Audio von**, **Typ** und **Kameraton**. Die beiden
@@ -333,15 +339,22 @@ In-Punkt** und **zu Out-Punkt** springen die beiden Marken wieder an.
 Der Reiter **Resolve-Schnitt** wiederholt beides als Zeile: In-Punkt,
 Out-Punkt, Dauer.
 
+Der Player zeigt eine Marke als Timecode der Kamera, die er gerade
+spielt; der Lauf bekommt sie aber als Abstand vom Moment, in dem jede
+Kamera läuft. So landet eine Marke auf jeder Kamera auf dem Bild, auf
+dem sie gesetzt wurde -- auch auf einer, die mit 29,97 Bildern läuft --,
+und Vorschau und Lauf schneiden im selben Moment. Einen In-Punkt, der
+vom Ende zurückzählt, lehnt der Player ab, genau wie der Lauf.
+
 Beide Grenzen nehmen diese Angaben:
 
 | Angabe        | Bedeutung                      |
 |---------------|--------------------------------|
 | `17:20:14`    | absolut, Uhrzeit               |
 | `17:20:14:00` | absolut, mit Bildern           |
-| `+12:30`      | ab Anfang des Fensters         |
+| `+12:30`      | ab Anfang des Fensters -- ab dem Moment, in dem jede Kamera läuft |
 | `90`          | dasselbe, in Sekunden          |
-| `-30`         | bei Out-Punkt: vom Ende zurück |
+| `-30`         | bei Out-Punkt: zurück von dort, wo die erste Kamera aufhört |
 
 Die Knöpfe bleiben gesperrt, solange die gemeinsame Zeitachse fehlt.
 Danach gelten sie für alle Dateien gleich, auch für die ohne Timecode.
@@ -416,8 +429,9 @@ Klammern dahinter; jetzt steht dort der bloße Name
 in Resolve hat. Die Lautheit wird über die Summe bestimmt und auf
 alle Spuren gleich angewendet, damit die Verhältnisse bleiben. Welches
 Ziel gilt, kommt aus **Lautheit** in der Gruppe **Produktion** oder von
-`--lufs`; ohne beides wird der Ton aus den Quelldateien übernommen und
-nichts angepasst ([Vorflug](preflight.de.md)).
+`--lufs`, das wie das Fenster bei −16 beginnt; mit **Aus Quelldateien
+übernehmen** oder `--lufs source` wird der Ton aus den Quelldateien
+übernommen und nichts angepasst ([Vorflug](preflight.de.md)).
 
 Die Spuren werden außerdem als Dateien abgelegt, in `auphonic-tracks/`
 als `final_<Name>_<Timecode>.wav`. Der Timecode steht im Namen und im
@@ -426,17 +440,18 @@ bext-Block, dazu iXML für Premiere und Media Composer.
 ### Multitrack ganz ohne Kamera
 
 Manchmal gibt es gar kein Bild: mehrere Mikrofone an einem Tisch, und
-nichts filmt. Ein Lauf mit dem Häkchen und ohne Videodatei wurde früher
-abgewiesen, weil die Zeitachse fehlte. Jetzt baut das Programm die Achse
-aus den Spuren selbst -- sie werden gegeneinander gelegt statt gegen
-eine Kamera.
+nichts filmt. Bei mehreren Aufnahmen ohne Videodatei baut das Programm
+die Achse aus den Spuren selbst -- sie werden gegeneinander gelegt statt
+gegen eine Kamera --, und das mit dem Häkchen Multitrack ebenso wie
+ohne.
 
 Referenz ist die längste Aufnahme, aus demselben Grund wie sonst die
 längste Kamera: sie überschneidet sich am meisten mit den übrigen. Jede
 andere Spur wird dagegen gemessen, Versatz und Uhrengang in einem Zug,
 und das Protokoll nennt die Referenz mit ihrer Laufzeit und jede Spur
-mit dem, was gefunden wurde. Eine Spur, die keinen Platz bekommt, wird
-genannt und bleibt draußen.
+mit dem, was gefunden wurde. Eine Spur, deren Ton zu nichts passt,
+steht an ihrem Timecode, so wie sie es neben einem Bild täte; eine Spur
+ohne beides wird genannt und bleibt draußen.
 
 Das Fenster fasst alles, was irgendeine Spur gehört hat. Eine Aufnahme,
 die später eingeschaltet wurde, bekommt Stille davor, eine früher
@@ -450,8 +465,10 @@ beginnend, wie die Tonaufbereitung es braucht. Ist kein Ausgabeordner
 gesetzt, landen sie neben der ersten Aufnahme. Mit Schlüssel gehen
 dieselben Spuren außerdem als **eine** Multitrack-Produktion zu
 auphonic.com, und was zurückkommt, wird gegen das gehalten, was
-hochgegangen ist; ohne Schlüssel oder mit `--without-auphonic` bleiben
-sie auf diesem Rechner.
+hochgegangen ist; bei leerem Schlüsselfeld im Fenster oder mit
+`--without-auphonic` bleiben sie auf diesem Rechner. Auf der
+Kommandozeile hält ein Lauf ohne abgelegten Schlüssel und ohne
+`--without-auphonic` an, bevor er beginnt; ein Probelauf braucht keinen.
 
 In-Punkt und Out-Punkt gelten auch hier (`--in-point`, `--out-point`),
 aber nur als Angabe ab Fensteranfang -- `+12:30`, `90`, `-30`. Eine
@@ -462,9 +479,10 @@ und hält an.
 **Ein Lautheitsziel tut dem Ton auf diesem Weg nichts.** Ein Gewinn je
 Spur brächte die Stimmen genau um das Gleichgewicht, für das dieser Weg
 da ist; die Spuren gehen also so heraus, wie sie aufgenommen wurden, und
-die Lautheit wird dort gesetzt, wo sie gemischt werden. Mit `--lufs` und
-ohne Schlüssel sagt der Lauf das in einer Zeile; mit Schlüssel wird der
-Wert weiterhin gegen das gehalten, worauf das Preset mastert
+die Lautheit wird dort gesetzt, wo sie gemischt werden. Ohne Schlüssel
+sagt der Lauf das in einer Zeile, außer bei `--lufs source`; mit
+Schlüssel wird der Wert weiterhin gegen das gehalten, worauf das Preset
+mastert
 ([Vorflug](preflight.de.md)).
 
 ### Wenn etwas klemmt
@@ -520,10 +538,13 @@ Wert weiterhin gegen das gehalten, worauf das Preset mastert
   auseinander wie die Kommandozeile. Die zweite heißt `<Name> 2`, im
   Schnitt, im vorgeschlagenen Namen unter **neue Datei heißt** und in
   Resolve, und jede behält ihr eigenes Bild. In dem, was das Fenster
-  selbst zeigt -- in der Spalte **Kamera**, in der Auswahl unter
-  **gehört zu** und im Hinweis bei einem zweiten Weitwinkel --, steht
-  die zweite als `<Name> (2)`, und wer mit der Maus darauf stehen
-  bleibt, liest den ganzen Pfad. Ein Projekt aus einer älteren Fassung
+  selbst zeigt -- in der Dateiliste, in der Spalte **Kamera**, in der
+  Auswahl unter **gehört zu** und im Hinweis bei einem zweiten
+  Weitwinkel --, steht die zweite als `<Name> (2)`, und wer mit der Maus
+  darauf stehen bleibt, liest den ganzen Pfad. Zwei Tonaufnahmen
+  desselben Dateinamens hält das Fenster genauso auseinander, in der
+  Dateiliste, auf dem Reiter **Zuordnung & Zeitfenster** und im Vorflug. Ein
+  Projekt aus einer älteren Fassung
   kannte eine Kamera nur beim Dateinamen. Öffnet man es jetzt, gehen
   alle Zeilen, die eine der beiden nannten, an die erste Datei dieses
   Namens; was der zweiten gehörte, muss man ihr von Hand wieder geben.
@@ -533,12 +554,20 @@ Wert weiterhin gegen das gehalten, worauf das Preset mastert
   eine Spur. Von selbst werden sie es nicht mehr: einer Kamera, die eine
   brauchbare Spur aufnimmt, sieht man das nicht an -- sie kann ebenso
   nur im selben Raum filmen.
+- **Mehrere Kameras, keine Tonaufnahme, Multitrack aus, und Start
+  bleibt gesperrt.** Unter **Start** steht, dass es mehrere Kameras,
+  aber keine Tonaufnahme gibt. Jede Kamera brächte ihren eigenen Ton
+  mit, und eine Spur je Kamera ist genau das, wofür Multitrack da ist.
+  **Multitrack** ankreuzen, eine Tonaufnahme hinzufügen oder die Kameras
+  nacheinander verarbeiten.
 - **Eine Stimme trägt einen Namen, den schon jemand anderes hat, und
   Start bleibt gesperrt.** Ein Name ist eine Person, und der Schnitt
   setzt eine Person auf eine Kamera; derselbe Name zweimal wäre eine
   Person an zwei Stellen. Der
   Stimme in ihrer eingerückten Zeile unter der Aufnahme einen eigenen
-  Namen geben. Zwei **Aufnahmen** desselben Namens sind etwas anderes --
+  Namen geben. Nur dieselbe Stimme, in einer anderen Aufnahme
+  wiedererkannt, darf einen Namen teilen -- den, den die Tabelle dort
+  vorgeschlagen hat. Zwei **Aufnahmen** desselben Namens sind etwas anderes --
   die werden mit Absicht zu einer Spur zusammengefasst und wollen nur
   bestätigt werden; zu ändern ist also die eingerückte Zeile, nicht die
   der Aufnahme.

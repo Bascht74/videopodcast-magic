@@ -8,10 +8,9 @@ it was cut out of, so the program is handed in and bound below by name.
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What this piece uses out of the program, bound once. Four names of
-# the window stay below the seam and are read through PROGRAM where
-# they are used: RESTART_ASK, _qt_widgets, language_of_system and
-# window_title.
+# What this piece uses out of the program, bound once. Four window names
+# below the seam are read through PROGRAM where used: RESTART_ASK,
+# _qt_widgets, language_of_system and window_title.
 
 ByFile = PROGRAM.ByFile
 FILE_FORMAT = PROGRAM.FILE_FORMAT
@@ -381,10 +380,9 @@ def make_project_file(QtWidgets, window, state, model, report, write,
         model.no_join.clear()
         model.join_to.clear()
         model.channel_choice.clear()
-        # Where the file was last written goes too, or the next folder
-        # or name moved the old project's file onto the new one's; and
-        # the handovers remembered per camera list, or the next
-        # production in this folder was handed this one's.
+        # Where the file was last written goes too, or the next folder or
+        # name moved the old project's file onto the new one's; so do the
+        # handovers per camera list, or the next production here got these.
         for name in ("wide_set_aside", "voiced", "projects_offered",
                      "speakers_source_chosen", "forced_own",
                      "result_folder", "resolve_json", "voice_marks",
@@ -430,11 +428,10 @@ def make_project_file(QtWidgets, window, state, model, report, write,
         """Read a project file back into the window, as it was saved.
 
         Emptied first through project_new, so one list says what belongs
-        to a project and the file only fills it. The order matters: the
-        type before the files, points and assignment before the tables, or
-        the window prefills what the file meant to set. Earlier results
-        come back as a sheet with their handover file; files that no longer
-        exist are reported last, after all that could be restored has been.
+        to a project and the file only fills it. The type goes before the
+        files, points and assignment before the tables, or the window
+        prefills what the file meant to set. Earlier results come back as
+        a sheet with their handover file; missing files are reported last.
         """
 
         file_path = file_path or QtWidgets.QFileDialog.getOpenFileName(

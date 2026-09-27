@@ -337,12 +337,6 @@ msgstr "הפרדת הדוברים אינה מותקנת כאן. זה מחזיר 
 msgid "Fetching the model (about %s MB) ..."
 msgstr "הורדת המודל (כ-%s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "הורדת המודל (כ-%s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "לא ניתן היה להוריד את המודל: %s"
-
 msgid "The model could not be written: %s"
 msgstr "לא ניתן היה לכתוב את המודל: %s"
 
@@ -879,9 +873,6 @@ msgstr "  %-20s לא ניתן ליישור: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s לא ניתן למדידה: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s היסט %s, סחיפת שעון %s ppm (+/- %s), פיזור שיורי %s ms, %s מתוך %s נקודות"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s היסט %s, סחיפת שעון %s ppm (+/- %s), פיזור שיורי %s ms, %s מתוך %s נקודות%s"
@@ -2203,14 +2194,8 @@ msgstr "נקודת כניסה ונקודת יציאה זמינות ברגע שצ
 msgid "In point is %s before the first frame"
 msgstr "נקודת הכניסה נמצאת %s לפני הפריים הראשון"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "נקודת הכניסה היא עכשיו %s, אבל הקבצים הקיימים שייכים ל-%s.\n  השמע בסרטונים נחתך לפי חלון הזמן הקודם -- יש ללחוץ שוב\n  על \"התחלה\" למעלה."
-
 msgid "Out point is %s after the last frame"
 msgstr "נקודת היציאה נמצאת %s אחרי הפריים האחרון"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "נקודת היציאה היא עכשיו %s; חלון הזמן יהיה באורך %s, הקבצים\n  הקיימים באורך %s -- יש ללחוץ שוב על \"התחלה\" למעלה."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "ביצוא נהוג לבחור בטווח המוגבל. טווח מלא אינו שגוי, אבל חלק מהנגנים מפרשים אותו לא נכון."
@@ -2371,9 +2356,6 @@ msgstr "Multitrack (רצועה אחת לכל דובר)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack דורש לפחות שתי רצועות קלט. רצועה היא הקלטה נפרדת, ערוץ של מקליט רב-ערוצי, או השמע של קובץ וידאו שהוגדר ל\"שימוש בשמע הפנימי\". כמה מקטעים של אותה הקלטה נספרים כאחד, ורצועות שהועברו הצידה אינן נספרות כלל."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "לאף קובץ שמע אין קוד זמן. נקודת הכניסה ונקודת היציאה נספרות מתחילת החומר -- מיקום הקבצים זה ביחס לזה נמדד."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "עדיין אין שמע בשימוש -- יש להוסיף הקלטת שמע, או להגדיר ברשימת הקבצים את שמע המצלמה של קובץ וידאו ל\"שימוש בשמע הפנימי\"."
 
@@ -2382,9 +2364,6 @@ msgstr "לא שויכו רצועות שמע."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "לא שויכה אף מצלמה, ולכן אין בין מה לחתוך."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "עדיין לא שויכו מצלמות -- לשם כך יש להפעיל את Multitrack."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "אין חיבור ל-Resolve.\n  האם התוכנה פועלת? האם external scripting מוגדר ל-'Local'\n  תחת Preferences > System > General?"
@@ -3209,9 +3188,6 @@ msgstr "הפריסט עושה מאסטרינג ל-%s LUFS, החישוב משתמ
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "הפריסט עושה מאסטרינג ל-%s LUFS -- זה נשאר, מצדנו דבר אינו מכוונן."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "נלקח מקובצי המקור, לא ניתן --lufs -- דבר אינו מכוונן"
 
 msgid "the answer did not keep the floor"
 msgstr "התשובה לא נמשכה"
@@ -4925,9 +4901,6 @@ msgstr "%s\n   השמע לא זוהה; מוקם כפי שההרצה ממקמת �
 msgid "sound not recognised, placed by its timecode"
 msgstr "השמע לא זוהה, מוקם לפי קוד הזמן שלו"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s הקלטות וללא תמונה: כל אחת מחוברת בנפרד והן אינן מיושרות זו מול זו. --multitrack מניח אותן על ציר זמן אחד."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", סחיפת שעון של %s ppm נשארה: היא אינה פי %s מאי-הוודאות שלה, %s ppm"
 
@@ -5008,3 +4981,112 @@ msgstr "    %s: ל-%s בהתחלה אין תמונה, והוא מושמט"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: ל-%s בסוף אין תמונה, והוא מושמט"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s חזר ארוך ב-%s s מאשר כשעלה, ולא ניתן היה למדוד היכן מתחיל בו השמע\n"
+"  שנשלח -- נשאר כפי שהגיע."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  לא ניתן היה לחתוך את %s (%s) -- נשאר כפי שהגיע."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s ב-%s נשמע כמו %s ב-%s (דמיון %s): כנראה אותו אדם."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com הוסיף %s s בסוף -- נחתך"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com הוסיף %s s בהתחלה -- נחתך"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: לא נכתב קובץ, ולכן העריכה משמיטה את המצלמה הזו."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  נקודת הכניסה ונקודת היציאה אינן משפיעות כאן: הקלטה אחת ללא תמונה מחוברת בשלמותה."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  שם המצלמה \"%s\" מכיל מפריד של תיקייה או כונן; הוא נכתב כ-\"%s\"."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  שוט רחב בקצוות: אין -- הקול השני מדבר רק פעם אחת, והקצה היחיד הזה היה קצר מהשוט הקצר ביותר"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  שוט רחב בקצוות: רק מ-%s -- הקול השני מדבר רק פעם אחת, קרוב לסוף, ולכן אין שוט פתיחה"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  שוט רחב בקצוות: רק עד %s -- הקול השני מדבר רק פעם אחת, קרוב להתחלה, ולכן אין שוט סיום"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com קרא לקובץ \"%s\" -- זה אינו שם קובץ פשוט, ולכן הוא אינו מורד"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "לא ניתן למקם את %s: לשמע שלו אין דבר משותף עם שאר החומר, ואף הקלטה שהשמע מיקם אינה נושאת קוד זמן שמולו אפשר למדוד את שלו. אחת מהן צריכה קוד זמן שמתאים לזה, ואותו יש להגדיר בתוכנה אחרת."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name נותן ל-%s שני שמות, \"%s\" ו-\"%s\"; יש לתת לכל הקלטה שם אחד."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name מציין את %s, שאינו אחת מההקלטות של הריצה הזו."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "הורדת המודל מ-%s (כ-%s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "נקודת הכניסה השתנתה מאז הריצה הקודמת: אז %s, עכשיו %s. העריכה והשמע בתוך הסרטונים עדיין שייכים לחלון הזמן הקודם, ולכן Resolve לא יקבל את מה שהסימונים אומרים עכשיו -- יש ללחוץ שוב על \"התחלה\"."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "לאף קובץ שמע אין קוד זמן. נקודת הכניסה ונקודת היציאה נספרות מהרגע שבו כל המצלמות פועלות -- מיקום הקבצים זה ביחס לזה נמדד."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "נקודת היציאה השתנתה מאז הריצה הקודמת: אז %s, עכשיו %s. העריכה והשמע בתוך הסרטונים עדיין שייכים לחלון הזמן הקודם, ולכן Resolve לא יקבל את מה שהסימונים אומרים עכשיו -- יש ללחוץ שוב על \"התחלה\"."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "ההפקה הסתיימה, אבל ל-ZIP עם הרצועות הנפרדות אין שם קובץ פשוט"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "כמה מצלמות אך אין הקלטת שמע. לכל מצלמה יהיה שמע משלה -- לשם כך נועד Multitrack. אחרת, מצלמה אחת אחרי השנייה."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "הארכיון מכיל את %s יותר מפעם אחת, ולכן לא הוצא ממנו דבר."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "כאן קובץ השיוך נותן את שמות ההקלטות, ולכן --speaker-name היה נזנח; יש לתת את השמות שם או להשמיט את --speaker-name."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "הגרסה הבנויה אינה תואמת לסכום הביקורת שלה, ולכן לא חולצה: ברשימה %s, הגיע %s."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "לא ניתן היה להוריד את רשימת סכומי הביקורת, ולכן הגרסה הבנויה לא חולצה: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "רשימת סכומי הביקורת אינה מציינת את %s, ולכן הגרסה הבנויה לא חולצה."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "רשימת קובצי המודל מציינת את %s, שנמצא מחוץ לתיקיית המודל; דבר לא הורד."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "לא ניתן היה להוריד את המודל מ-%s: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "שם הדובר עבור %s ריק; יש לתת שם או להשמיט את --speaker-name."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "ההפקה הסתיימה, אך לתוצאה שלה אין שם קובץ פשוט"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "נלקח מקובצי המקור, --lufs source -- דבר אינו מכוונן"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "המפתח נשמר במחזיק המפתחות של שולחן העבודה באמצעות הפקודה secret-tool, ולמחשב הזה אין אותה."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "למחשב הזה אין secret-tool, ששומר את המפתח במחזיק המפתחות של שולחן העבודה, ולכן לא נשמר דבר. ידנית: %s"
+
+msgid "What it says appears under Output."
+msgstr "מה שהוא מדווח מופיע בכרטיסייה \"פלט\"."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "החבילה libsecret-tools ב-Debian וב-Ubuntu, libsecret ב-Fedora וב-Arch"

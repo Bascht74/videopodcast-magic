@@ -102,7 +102,11 @@ auseinandernehmen könnte.
 Über die Art der Produktion entscheidet die Zahl der Spuren. Eine
 einzelne Spur geht als gewöhnliche Produktion hoch, zwei oder mehr als
 Multitrack-Produktion, und das Preset muss dazu passen: ein gewöhnliches
-für die eine, ein Multitrack-Preset für die anderen.
+für die eine, ein Multitrack-Preset für die anderen. Das Häkchen hat
+dabei nicht mitzureden: Zwei Aufnahmen mit Bild, oder zwei ganz ohne,
+gehen gemeinsam hoch, ob es gesetzt ist oder nicht, und die Liste der
+Presets bietet die Art an, die der Lauf brauchen wird. Ein Preset der
+falschen Art hält den Lauf an, bevor die Zeitachse gemessen wird.
 
 ### Den Schlüssel ohne Fenster ablegen
 
@@ -123,7 +127,8 @@ tippt, legt nichts ab. Den Schlüssel selbst schreibt man nie hinter den
 Schalter: Ein Wort dort wird abgewiesen, bevor überhaupt gefragt wird,
 denn in der Befehlsgeschichte der Shell bliebe es stehen. Unter Linux
 kommt er in den Schlüsselbund des Desktops (Secret Service, über
-`secret-tool`); antwortet keiner, wird nichts abgelegt, und die Antwort
+`secret-tool`; fehlt es, wird zuerst angeboten, es zu installieren);
+antwortet keiner, wird nichts abgelegt, und die Antwort
 sagt das -- siehe [Was gebraucht wird](requirements.de.md).
 
 ### Das Transkript entsteht hier
@@ -162,10 +167,12 @@ Kameraschnitt und Resolve-Projekt entstehen wie sonst. Es fehlt nur,
 was der Dienst tut: De-Bleed, Leveler, Rauschentfernung. Das
 Übersprechen bleibt im Ton.
 
-Die Ziellautheit setzt `--lufs`; eine kleinere Zahl ist leiser. Auf jede
-Spur kommt dieselbe Anhebung, so bleibt das Verhältnis der Sprecher
-erhalten. Ohne ihn, und mit **Aus Quelldateien übernehmen** im Fenster,
-wird gar nichts angepasst: der Ton bleibt, wie er in den Quelldateien ist.
+Die Ziellautheit setzt `--lufs`; eine kleinere Zahl ist leiser, und
+fehlt der Schalter, gilt −16, wie in einem neuen Projekt im Fenster. Auf
+jede Spur kommt dieselbe Anhebung, so bleibt das Verhältnis der
+Sprecher erhalten. Mit `--lufs source`, oder mit **Aus Quelldateien
+übernehmen** im Fenster, wird gar nichts angepasst: der Ton bleibt, wie
+er in den Quelldateien ist.
 
 Die örtliche Sprechertrennung sagt, wer wann spricht ([Spracherkennung
 und Sprechertrennung](speech.de.md)). Ohne sie misst das Programm es aus
@@ -186,10 +193,10 @@ Schlüssel, keine Leitung. Aufgeschrieben wird dann das gewählte Preset
 und nicht der Eintrag, auf den der Kasten zurückgefallen ist: ein ohne
 Verbindung gespeichertes Projekt öffnet wieder mit dem Preset, das es
 bekommen hat. Beim Wiederöffnen eines Projekts steht das gewählte
-Preset wieder im Kasten, auch ein Multitrack-Preset: erst kommt der
-Modus zurück, dann wird die Liste für ihn aufgebaut. Was nur unter
-**Multitrack** in der Liste steht, ist damit wieder da, wo es gewählt
-werden kann.
+Preset wieder im Kasten, auch ein Multitrack-Preset: erst kommen die
+Dateien und ihre Zuordnung zurück, dann wird die Liste für die Art von
+Produktion aufgebaut, die sie ergeben. Ein Multitrack-Preset ist damit
+wieder da, wo es gewählt werden kann.
 
 Ist noch gar keine Liste geholt worden, holt das Öffnen des Projekts
 eine, damit das Preset irgendwo stehen kann. Bis die Antwort da ist,
@@ -221,7 +228,18 @@ Das Programm lädt alles herunter, die Einzelspuren und jede weitere
 Ausgabe, die das Preset selbst erzeugt: Kapitelmarken, Auswertungen und
 ein eigenes Transkript, wo das Preset eines herstellt. Bezahlt ist das
 alles ohnehin mit der Produktion. Es landet in `auphonic-tracks/` neben
-den fertigen Videos, später auch die `final_*.wav`.
+den fertigen Videos, später auch die `final_*.wav`. Ein Name, den
+auphonic.com einer Datei gibt, wird auf den einfachen Dateinamen
+gekürzt; bleibt keiner übrig, wird die Datei nicht geholt, und das
+Protokoll nennt sie.
+
+Was auphonic.com um eine zurückgegebene Datei herum legt -- beim
+kostenlosen Tarif einen Jingle am Anfang --, schneidet das Programm weg.
+Es sucht, wo der hochgeschickte Ton in der Rückgabe beginnt, und behält
+genau die Länge, die hochgegangen ist; das Protokoll sagt, wie viele
+Sekunden vorne und hinten weggefallen sind. Lässt sich der
+hochgeschickte Ton in der Rückgabe nicht finden, bleibt die Datei, wie
+sie kam, und auch das steht im Protokoll.
 
 Einen nachträglich gesetzten In- oder Out-Punkt verrechnet das Programm
 hier, nicht bei Auphonic. Es beschneidet die zurückgekommenen Spuren auf

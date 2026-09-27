@@ -53,6 +53,13 @@ On a Mac with one recording the separation starts by itself as soon as
 the files are there. With more than one recording nothing starts on its
 own; the answer **several speakers** in the row starts it.
 
+A recording the recorder split into several files -- the blocks the
+file list shows under one row -- counts as one recording here. The
+separation hears every block, one after the other as the run joins
+them, and the voices it finds cover the whole recording. A separation
+an earlier version made of the first block alone is not taken for the
+whole: it is worked out once more.
+
 Separation is the way for **one common recording** that everybody is
 audible on. It does not need the tick **Multitrack (one track per
 speaker)**: the column stands there on both paths, with a single camera
@@ -191,7 +198,12 @@ person, and that one camera then stands twice at different places in the
 same cut. So a name that is already on somebody else turns its field red
 while it is being typed, and the hint on it says so. Where the second
 one is a voice, **Start** waits until it has a name of its own: a voice
-is one person in one separation and cannot be merged with anything. Two
+is one person in one separation and merges with nothing but itself.
+That is the one exception: where a voice sounds like a voice already
+named in another recording, the program takes it for the same person
+heard again, the table proposes that name in its field, and the two
+may carry it together. The log says which voice it heard again and how
+alike the two are; it changes no name by itself. Two
 recordings of one name are a question and not a refusal -- they are
 meant to become a single track, laid end to end by their timecode
 ([Multitrack](multitrack.md)).
@@ -200,13 +212,17 @@ A run from the command line holds the same rule. Where the separation it
 is handed -- in the window's assignment file or with `--speakers-from`
 -- gives a voice a name another speaker already carries, the run stops
 before anything is written, with `Abort:` and the same sentence the
-window shows. A separation the run only makes itself, on its way, is not
+window shows; the same voice heard in two recordings may share its name
+here too. A separation the run only makes itself, on its way, is not
 checked beforehand, because its names are not known yet.
 
 Once the words are written down, those names become a proposal that
 says something. Who asks the questions and who answers can be read out
 of the speech: the program counts, for every voice inside the time
-window, how many of its sentences end in a question mark, and proposes
+window -- without an In point from the moment every camera runs, without
+an Out point up to where the first camera stops, as the run cuts it --
+how many of its sentences end
+in a question mark, and proposes
 **Guest** for the one who asks least and talks longest, **Host** for
 the others. It proposes only over a name it made up itself -- a name
 somebody typed is never touched, not even one that reads like the
@@ -501,7 +517,8 @@ boundaries; the same chapter says what the wide shot does then.
   common recording there is none.
 * **Start stays locked and a name field is red.** Two speakers carry the
   same name. The line under **Start** says which name it is; give the
-  voice in its row a name of its own.
+  voice in its row a name of its own. Only a voice the table recognised
+  in another recording, and gave that recording's name, may keep it.
 * **On a Mac recognition takes the slow way.** The Command Line
   Developer Tools are missing. `xcode-select --install` fetches them;
   after that the run takes the fast way.

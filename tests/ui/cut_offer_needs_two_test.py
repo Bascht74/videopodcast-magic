@@ -549,11 +549,13 @@ for first in range(0, len(CASES), AT_ONCE):
         report[case] = listen(case, process)
 
 # Where Qt stopped rather than the program being wrong, once more on a
-# quiet machine -- and said out loud, because a repeat nobody sees is
-# a green that was bought.
+# quiet machine -- said as a LEFT OUT line, which run.sh counts under
+# "left a piece out": a repeat nobody counts is a green that was bought.
 for case in CASES:
     if "stopped inside Qt" in str((report.get(case) or {}).get("error")):
-        print("  | %s stopped inside Qt; once more, on its own" % case)
+        print("LEFT OUT the first go of %s: it stopped inside Qt after"
+              " %d s of silence; judged on a second go, on its own"
+              % (case, PATIENCE))
         report[case] = listen(case, build(case))
 
 for case in CASES:

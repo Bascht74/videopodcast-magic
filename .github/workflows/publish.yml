@@ -182,7 +182,7 @@ jobs:
       # Three files of this commit and nothing else: a few kilobytes
       # instead of 59.5 MiB. Not cone mode, because the three are
       # files and cone mode takes folders.
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.sha }}
           fetch-depth: 1
@@ -326,7 +326,10 @@ jobs:
   #
   # Four questions, asked of the API and not of a checkout, because
   # the answer is in the commit graph and the check runs and a clone
-  # of the whole history is 59.5 MiB for nothing:
+  # of the whole history is 59.5 MiB for nothing. a. to c. are asked
+  # by .github/tree_tested.sh, the one file checked out here, which
+  # tests.yml's job "gate" asks on every merge to main as well --
+  # written once, so the two cannot drift apart; d. stays here:
   #
   #   a. Is this commit a merge -- does it have two parents?
   #   b. Is its tree the tree of its second parent, the pull request's
@@ -408,6 +411,12 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       SHA: ${{ github.sha }}
     steps:
+      # The one file, as tests.yml's gate takes it; the rest is asked
+      # of the API.
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github/tree_tested.sh
+          sparse-checkout-cone-mode: false
       - name: "1. The evidence, if it already exists"
         id: look
         run: |
@@ -428,89 +437,25 @@ jobs:
             echo "way: $way -- $reason" >> "$GITHUB_STEP_SUMMARY"
           }
 
-          # a. Two parents.
-          if ! gh api "repos/$R/commits/$SHA" > /tmp/head.json; then
-            decide false "GitHub did not answer for $short, so the suite runs here"
-            exit 0
-          fi
-          parents=$(jq -r '.parents | length' /tmp/head.json)
-          tree=$(jq -r '.commit.tree.sha' /tmp/head.json)
-          if [ "$parents" != "2" ]; then
-            decide false "$short has $parents parent(s), not two: it is not the merge of a pull request, so no run of its own tree exists to point at, and the suite runs here"
-            exit 0
-          fi
-          head2=$(jq -r '.parents[1].sha' /tmp/head.json)
-          echo "merge:  $SHA"
-          echo "head:   $head2 (second parent, the pull request's head)"
-
-          # b. One tree.
-          if ! tree2=$(gh api "repos/$R/commits/$head2" \
-                         --jq .commit.tree.sha); then
-            decide false "GitHub did not answer for ${head2:0:7}, so the suite runs here"
-            exit 0
-          fi
-          echo "tree:   $tree"
-          echo "tree':  $tree2"
-          if [ "$tree" != "$tree2" ]; then
-            decide false "main moved: the tree of $short is not the tree of ${head2:0:7}, so what would be tagged was never tested as it is, and the suite runs here"
-            exit 0
-          fi
-
-          # c. Every job of the suite, green on that head. The names
-          # first, out of tests.yml as it stands at this commit -- seven
-          # since 26.9.2026: the neutral tests' job is a row of the same
-          # matrix, so it is asked for exactly as the six are.
-          gh api "repos/$R/contents/.github/workflows/tests.yml?ref=$SHA" \
-            --jq .content | base64 -d > /tmp/tests.yml
-          if ! python3 - /tmp/tests.yml > /tmp/wanted.txt 2> /tmp/why.txt <<'PY'
-          import re, sys
-          try:
-              import yaml
-          except ImportError:
-              sys.exit("no PyYAML on this runner")
-          suite = yaml.safe_load(open(sys.argv[1]))["jobs"]["suite"]
-          name = suite["name"]
-          for row in suite["strategy"]["matrix"]["include"]:
-              print(re.sub(r"\$\{\{\s*matrix\.(\w+)\s*\}\}",
-                           lambda m: str(row[m.group(1)]), name))
-          PY
-          then
-            echo "FAIL: tests.yml at $short could not be read for the"
-            echo "      names of the suite's jobs: $(cat /tmp/why.txt)"
-            echo "      Without them nothing can be held against the"
-            echo "      check runs, and a suite that cannot be named"
-            echo "      should not be run blind either."
+          # a. to c., in the file tests.yml's gate asks them with. Its
+          # reason is the fact alone; the consequence is said here. 3 is
+          # tests.yml unreadable at this commit: a suite whose jobs cannot
+          # be named cannot be reused and should not be run blind either.
+          rc=0
+          TREE_TESTED_DIR=/tmp/tt bash .github/tree_tested.sh "$SHA" "$R" || rc=$?
+          if [ "$rc" = 3 ]; then
+            echo "FAIL: $(cat /tmp/tt/reason.txt 2>/dev/null) -- without the"
+            echo "      names nothing can be held against the check runs."
             exit 1
           fi
-          n=$(grep -c '' /tmp/wanted.txt || true)
-          if [ "$n" = "0" ]; then
-            echo "FAIL: tests.yml at $short names no job in its matrix."
-            exit 1
-          fi
-
-          if ! gh api --paginate "repos/$R/commits/$head2/check-runs" \
-                 --jq '.check_runs[] | .name + "\t" + (.conclusion // "unfinished")' \
-                 > /tmp/runs.txt; then
-            decide false "GitHub did not answer for the check runs of ${head2:0:7}, so the suite runs here"
+          if [ "$rc" != 0 ]; then
+            reason=$(cat /tmp/tt/reason.txt 2>/dev/null)
+            decide false "${reason:-tree_tested.sh gave no reason (exit $rc)}, so the suite runs here"
             exit 0
           fi
-          echo "check runs of ${head2:0:7}:"
-          sed 's/^/  /' /tmp/runs.txt
-          missing=""
-          notgreen=""
-          while IFS= read -r want; do
-            [ -n "$want" ] || continue
-            got=$(awk -F'\t' -v w="$want" '$1 == w {print $2}' /tmp/runs.txt)
-            if [ -z "$got" ]; then
-              missing="$missing '$want'"
-            elif printf '%s\n' "$got" | grep -qvx success; then
-              notgreen="$notgreen '$want'"
-            fi
-          done < /tmp/wanted.txt
-          if [ -n "$missing$notgreen" ]; then
-            decide false "the tree of $short is the tree of ${head2:0:7}, but of its $n jobs these have no check run:${missing:- none}, and these did not conclude success:${notgreen:- none} -- so the suite runs here"
-            exit 0
-          fi
+          found=$(cat /tmp/tt/reason.txt)
+          head2=$(jq -r '.parents[1].sha' /tmp/tt/head.json)
+          n=$(grep -c '' /tmp/tt/wanted.txt || true)
 
           # d. Nothing of the speaker separation. The files the merge
           # brings in are its first parent against itself; a renamed
@@ -518,7 +463,7 @@ jobs:
           # -- no answer, no list in the answer, an entry without a file
           # name (jq would print "null" for it, a file nobody has), a
           # list too long to be whole -- is the long way.
-          base=$(jq -r '.parents[0].sha' /tmp/head.json)
+          base=$(jq -r '.parents[0].sha' /tmp/tt/head.json)
           if ! gh api "repos/$R/compare/$base...$SHA" > /tmp/compare.json \
              || ! jq -e '.files | type == "array" and all(.[];
                            (.filename | type) == "string"
@@ -563,7 +508,7 @@ jobs:
             exit 0
           fi
 
-          decide true "the tree of $short is the tree of ${head2:0:7}, the head of the pull request it merges, and all $n check runs of that head ($(paste -sd ',' /tmp/wanted.txt | sed 's/,/, /g')) concluded success, and none of the $nf files the merge brings in is a file of the speaker separation -- the suite is not run again; only the language slices run, in every language"
+          decide true "$found, and none of the $nf files the merge brings in is a file of the speaker separation -- the suite is not run again; only the language slices run, in every language"
 
   # The suite itself, on this very commit, in this very run -- unless
   # the job above found it has already answered for this very tree.
@@ -682,7 +627,7 @@ jobs:
             echo "way: long -- $WHY"
           fi
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           # The commit, not the branch. And the whole history, because
           # the tag is pushed from here: a shallow clone can be refused

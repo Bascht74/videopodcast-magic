@@ -40,9 +40,8 @@ without_own_camera = PROGRAM.without_own_camera
 
 
 #----------------------------------------------- What a finished run says
-# Called by the run loop, which stayed in the window. A bend put on
-# the program before the window is read reaches the window but not a
-# piece read out of it, which is how a test holds that loop still.
+# Called by the window's run loop. A test holds that loop still by bending
+# the program before the window is read, which a piece read out misses.
 
 
 def run_done_text(dry):
@@ -65,9 +64,8 @@ def run_done_text(dry):
 
 
 #--------------------------------------------------- Setting a run going
-# The summary, the command line and the thread. What lives in the
-# window -- the run loop, the break-off button, the prework's key --
-# goes through PROGRAM: at this file's head it is not there yet.
+# The summary, the command line and the thread. The window's run loop,
+# break-off button and prework key go via PROGRAM, absent at this head.
 
 
 def user_asker(window, bridge, bridge_emit):
@@ -182,7 +180,8 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         content = [p for p in videos_p if kind_now(p) in CAMERA_TYPES]
         edge = [(kind_now(p), os.path.basename(p)) for p in videos_p
                 if kind_now(p) not in CAMERA_TYPES]
-        duration = model.window_length()
+        duration = model.window_length(state.get("axis"),
+                                       state.get("mark_on_clock"))
         lines = ["%s, %s%s"
                   % (TN(len(content), '%s camera', '%s cameras')
                      % number_text(len(content), 0),
@@ -196,7 +195,7 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
             [(row, nv.get(), cv.get())
              for row, nv, cv in model.assign_lines],
             [(nv.get(), cv.get()) for _k, nv, cv in model.voice_lines],
-            bool(model.multitrack.get()), state.get("voiced") or ())
+            state.get("voiced") or ())
         lines += camera_shortfall_lines(who, model.assign_lines,
                                         model.voice_lines)
         if without_auphonic() or not state.get("presets"):
@@ -207,7 +206,7 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         lines += space_summary_lines(
             model.out_folder.get() or (os.path.dirname(videos_p[0])
                                         if videos_p else ""),
-            audio_files, content, bool(model.multitrack.get()),
+            audio_files, content,
             model.in_point.get(), model.out_point.get())
         if only_look:
             lines.append("")
@@ -222,11 +221,10 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         """Turn what the window holds into a command line and set it going.
 
         Nothing starts twice or unconfirmed: the summary comes first, and
-        while camera audio is still being extracted the button counts down
-        and calls back here. The interface is read once into plain values,
-        run_argv builds argv, wishes and questions from them -- testable
-        without a window -- and every question is put before anything is
-        written. The work runs in a thread; the timer drains its output.
+        while camera audio is being extracted the button counts down and
+        calls back here. run_argv builds argv, wishes and questions from the
+        interface read once into plain values (testable without a window);
+        questions all precede any write. A timer drains the worker thread.
         """
 
         if state["running"] or not model.files:
@@ -238,9 +236,8 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
                 only_look):
             return
         # Where the camera audio is needed and not quite there yet, wait for it
-        # -- but without freezing the window.
-        if (model.multitrack.get() and state.get("own_cameras")
-                and prework_busy()):
+        # -- but without freezing the window. Ticked or not: the plan is one.
+        if state.get("own_cameras") and prework_busy():
             if state["waiting"]:
                 return          # a wait loop is already running
             state["waiting"] = True
@@ -323,8 +320,10 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
             "speakers_wanted": state.get("speakers_wanted"),
             # Which camera each voice belongs to. The run cannot work
             # that out: a voice has no file to be assigned by.
-            "voices": [{"name": nv.get().strip(), "camera": cv.get()}
-                       for _k, nv, cv in model.voice_lines],
+            # Key and print too: one voice heard again may share a name.
+            "voices": [{"name": nv.get().strip(), "camera": cv.get(),
+                        "key": k, "heard": getattr(nv, "heard", None)}
+                       for k, nv, cv in model.voice_lines],
             # Without auphonic.com: the key stays in the field but this run
             # does not see it.
             "key": "" if without_auphonic() else model.key.get(),
@@ -337,8 +336,8 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
             "apart": sorted(model.no_join),
             "together": model.together_now(),
         }
-        assign_file, discard = assignment_file(
-            model.multitrack.get() or state.get("speakers_local"))
+        # Every run carries the plan, ticked or not: one way to the run.
+        assign_file, discard = assignment_file(True)
         argv, wishes, messages = run_argv(values, assign_file)
         for kind, title, text, button in messages:
             if kind == "question":

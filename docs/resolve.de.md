@@ -15,9 +15,10 @@ Der Knopf arbeitet auf der Übergabedatei und schickt die Werte für den
 Kameraschnitt aus den Feldern mit. Die Schnittliste wird also mit dem
 gerechnet, was jetzt dort steht. Wer wann spricht, wird dabei nicht neu
 gerechnet: das bleibt so, wie der Lauf es gemessen hat, und der Hinweis
-am Knopf sagt es. Wenn sich In-Punkt oder Out-Punkt inzwischen geändert
-haben, bricht er ab. Der Ton in den Videos gehört dann zum alten
-Fenster.
+am Knopf sagt es. In-Punkt und Out-Punkt wendet er nicht ein zweites
+Mal an: auf sie hat schon der Lauf geschnitten. Hat sich einer der
+beiden seither geändert, ist der Knopf grau, bevor jemand ihn drückt,
+denn der Ton in den Videos gehört zum alten Fenster.
 
 **Zweierlei gibt dem Knopf eine Übergabedatei in die Hand.** Das eine
 ist ein Lauf in diesem Fenster: was er geschrieben hat, ist dieses
@@ -74,6 +75,13 @@ bedienbar ist, steht der Grund an ihm:
   sagt mehr dazu.
 - **Der Lauf läuft noch.** Abwarten; wenn er durch ist, wird der Knopf
   von selbst wieder frei.
+- **Der In-Punkt hat sich seit dem letzten Lauf geändert** (oder der
+  **Out-Punkt**), mit dem alten und dem neuen Wert. Der Schnitt und der
+  Ton in den Videos gehören noch zum alten Fenster, Resolve bekäme also
+  nicht, was die Marken jetzt sagen. Noch einmal auf **Start**. Die
+  Vorschau auf dem Reiter **Resolve-Schnitt** zeigt denselben Hinweis,
+  und auf der Kommandozeile lehnt der Resolve-Schritt mit denselben
+  Worten ab, auch bei Material ohne Timecode.
 
 **Und auch eine Übergabe, die der Knopf annimmt, kann beim Öffnen noch
 abgewiesen werden.** Zweierlei macht eine unbrauchbar, und beides hält
@@ -683,8 +691,8 @@ keine Sicherungskopie an.
 
 ### Wenn etwas klemmt
 
-- **Der Knopf bricht ab, bevor er anfängt.** In-Punkt oder Out-Punkt
-  passen nicht mehr zu dem Lauf, aus dem die Dateien stammen. Noch einmal
+- **Der Knopf ist grau und sagt, eine Marke habe sich geändert.**
+  In-Punkt oder Out-Punkt passen nicht mehr zu dem Lauf, aus dem die Dateien stammen. Noch einmal
   auf **Start**, mit den alten Werten in den beiden Feldern oder mit dem
   neuen Fenster.
 - **Der Reiter sagt, dass Resolve nicht antwortet.** Die drei Ursachen

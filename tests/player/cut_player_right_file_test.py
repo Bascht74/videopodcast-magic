@@ -8,7 +8,8 @@ one time axis: what is judged is the program's code, not a copy kept
 beside it. The sections: the rules come out and answer, the order they
 put the files in, the kinds that never come into question, the file
 chosen last, what covers() says about the axis, a missing timecode and
-the ends of a file, the values it can and cannot answer, the order over
+the ends of a file -- one counted back from where the first camera
+stops --, the values it can and cannot answer, the order over
 two cards, and nothing left to play at all. What the method
 costs, in full: the three have to keep their names and stay directly
 inside make_player_choice() -- their order, their parameters and their
@@ -123,7 +124,12 @@ rules = {"os": os, "picture_span": picture_span, "files": files,
          "start_var": start_var, "end_var": end_var, "remembered": remembered,
          "parse_time_point": vpm.parse_time_point,
          "CAMERA_TYPES": vpm.CAMERA_TYPES, "path_key": vpm.path_key,
-         "MIX_ONLY": vpm.MIX_ONLY, "IGNORE_AUDIO": vpm.IGNORE_AUDIO}
+         "MIX_ONLY": vpm.MIX_ONLY, "IGNORE_AUDIO": vpm.IGNORE_AUDIO,
+         # Where every camera runs is window_zero_as_run's question; put
+         # at the start of the axis here, covers' own arithmetic is left.
+         "marks_zero_here": lambda: 0.0,
+         # And where the first camera stops: None, the file's own end.
+         "marks_end_here": lambda: None}
 trouble = ""
 if block:
     try:
@@ -270,7 +276,7 @@ if ran and not answered:
                    if covers("/x/WideCam.mov", t) is True)))
     remembered.pop("player_file")
 
-    print("\n9. A value counted from the start of the material needs the axis")
+    print("\n9. A value counted from where every camera runs needs a place")
     # The wide shot begins 1200 s into the material, so the axis is the
     # whole difference between +0:15:00 and +0:50:00 landing outside and
     # inside it.
@@ -287,12 +293,17 @@ if ran and not answered:
             "wide at +0:15:00: %s, wanted False -- 900 s along an axis the"
             " wide shot joins at %.0f s"
             % (early, SPANS["/x/WideCam.mov"]["axis"]))
-    SPANS["/x/WideCam.mov"]["axis"] = None
+    # Unmeasured, a file is placed by its timecode, as the cut places it;
+    # with neither there is nothing to count the value along.
+    tc0 = SPANS["/x/WideCam.mov"]["tc0"]
+    SPANS["/x/WideCam.mov"]["axis"] = SPANS["/x/WideCam.mov"]["tc0"] = None
     no_axis = covers("/x/WideCam.mov", "+0:50:00")
-    check("with no axis measured such a value gets no answer at all",
+    check("with no axis and no timecode such a value gets no answer",
             no_axis is None,
-            "wide without an axis at +0:50:00: %s, wanted None" % (no_axis,))
+            "wide without axis or timecode at +0:50:00: %s, wanted None"
+            % (no_axis,))
     SPANS["/x/WideCam.mov"]["axis"] = 1200.0
+    SPANS["/x/WideCam.mov"]["tc0"] = tc0
 
     print("\n10. No timecode, no answer for a clock time")
     no_clock = covers("/x/Jingle.mp4", "17:20:00:00")
@@ -318,6 +329,17 @@ if ran and not answered:
             from_end is True,
             "short at -0:00:10: %s, wanted True -- 10 s back from the end"
             " of %.1f s" % (from_end, SPANS["/x/Short.mov"]["duration"]))
+    # With cameras on the axis the run counts back from where the first
+    # of them stops -- the wide camera, at 4800 s -- not from each end.
+    rules["marks_end_here"] = lambda: 4800.0
+    back = (covers("/x/Short.mov", "-0:00:30"),
+            covers("/x/Guest.mov", "-0:00:30"))
+    rules["marks_end_here"] = lambda: None
+    check("with an axis it counts back from where the first camera stops",
+            back == (False, True),
+            "short, guest at -0:00:30: %s, %s, wanted False, True -- "
+            "4770 s along the axis, where the short file ends at 4260 s"
+            % back)
     # And how far outside is far enough. The two above hold the sign of
     # the comparison, not the slack around it: widening either end
     # tenfold leaves both green. Twelve frames is well outside any

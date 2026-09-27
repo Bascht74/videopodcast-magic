@@ -8,8 +8,9 @@ was built at all, then the wide shot mark, the cut numbers, the
 reaction gap and hold no field in the window carries, the loudness, the
 choices, the tick for the edges, the voice heard apart under one
 recording, what a typed switch does to a stored value, and the time
-window. write_cut_list is wrapped, not replaced: the cut is the real
-one, and the settings are read where the run reads them.
+window -- one counted back from the end spanning the run's length.
+write_cut_list is wrapped, not replaced: the cut is the real one, and
+the settings are read where the run reads them.
 """
 PLATFORM_BOUND = True
 import os
@@ -184,6 +185,7 @@ def shown_at(cut, second):
 # by the time the button is pressed. BEN_SPEAKS is a second inside one
 # of his stretches, far from both wide shot edges.
 VOICE_APART = (("Wide", []), ("A", ["A"]), ("B", ["Ben"]))
+FROM_END = ("+0:00:10", "-0:00:01")
 BEN_HEARD = (("A", a_speaks), ("Ben", b_speaks))
 BEN_SPEAKS = 157.5
 
@@ -202,6 +204,10 @@ try:
     # The same project file, and one number typed over it.
     beats_r, _beats_cut, beats_set, _beats_log = press(
         a_project(marked=("A", "B")), typed=["--wide-after", "55"])
+    # The window the run was made with, unchanged, its Out point counted
+    # back from the end; the handover's 300 s are the run's own length.
+    end_r, end_cut, _end_set, _end_log = press(
+        a_project(window=FROM_END), made=FROM_END)
 finally:
     vpm.write_cut_list = _real_write_cut_list
 
@@ -333,6 +339,13 @@ check("the In point in the project file is still read back",
       "19:00:00:00" in (moved_r or ""),
       "refused with %r, wanted the In point 19:00:00:00 named"
       % (moved_r or ""))
+
+span = ((end_cut[0]["start"], end_cut[-1]["end"]) if end_cut
+        else (None, None))
+check("an Out point from the end rebuilds over the run's length",
+      end_r is None and span == (0.0, 300.0),
+      "shots from %s s to %s s against 0.0 to 300.0 s, refusal %r"
+      % (span[0], span[1], end_r))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

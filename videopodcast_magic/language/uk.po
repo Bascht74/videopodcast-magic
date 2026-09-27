@@ -1651,9 +1651,6 @@ msgstr "з завершеного запуску -- мовців: %s, %s"
 msgid "measured from the recordings -- %s speakers, %s"
 msgstr "виміряно із записів -- мовців: %s, %s"
 
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "Камери ще не призначено -- для цього увімкніть Multitrack."
-
 msgid "In point or Out point cannot be read here."
 msgstr "Точку входу або точку виходу тут прочитати не вдається."
 
@@ -1686,12 +1683,6 @@ msgstr "  Кожна камера має мовця, тож загального
 
 msgid "  %s speakers, %s shots, shortest %s s"
 msgstr "  мовців: %s, планів: %s, найкоротший %s с"
-
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "Точка входу тепер %s, але наявні файли належать до %s.\n  Звук у відео обрізано за старим вікном -- натисніть угорі ще раз\n  Запуск."
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "Точка виходу тепер %s; вікно тривало б %s, наявні\n  файли тривають %s -- натисніть угорі ще раз Запуск."
 
 msgid "  The cut stays as it was."
 msgstr "  Монтаж лишається таким, як був."
@@ -2443,9 +2434,6 @@ msgstr "\nПісля об'єднання блоків залишається л�
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline отримує %s: найвищу з них або наступну частоту, яку Resolve\n  має над нею. Угору Resolve повторює кадри, униз -- відкидає\n  їх. Кожна камера зберігає власну частоту, і монтаж рахує\n  в ній."
 
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s зсув %s, дрейф годинника %s ppm (+/- %s), залишковий розкид %s мс, %s з %s точок"
-
 msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
 msgstr "\nЗвук і зображення мають спільними лише %s, і вирівнювання знайшло в них точок вибірки: %s. Цього замало, щоб щось на цьому розмістити."
 
@@ -2889,9 +2877,6 @@ msgstr "Це виникає під час запису, а не згодом: м
 
 msgid "free %s, about %s needed (%s)"
 msgstr "вільно %s, потрібно близько %s (%s)"
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "взято з вихідних файлів, --lufs не вказано -- нічого не коригується"
 
 msgid "none switched on"
 msgstr "жодної не ввімкнено"
@@ -3910,9 +3895,6 @@ msgstr "  %-20s -- це %-20s на %s dB попереду наступного �
 msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
 msgstr "Це ім'я трапляється кілька разів. Записи стали б однією доріжкою -- для Multitrack auphonic.com потребує принаймні двох різних."
 
-msgid "The model could not be fetched: %s"
-msgstr "Не вдалося завантажити модель: %s"
-
 msgid "%s does not match its checksum and was not written."
 msgstr "%s не збігається зі своєю контрольною сумою, тому не записано."
 
@@ -3978,9 +3960,6 @@ msgstr "Це ім'я вже має хтось інший. Ім'я -- це люд
 
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Усі записи мають однакове ім'я. Це дає одну доріжку -- Multitrack потребує принаймні двох."
-
-msgid "Fetching the model (about %s MB): %s"
-msgstr "Завантаження моделі (близько %s МБ): %s"
 
 msgid "The model could not be written: %s"
 msgstr "Не вдалося записати модель: %s"
@@ -4206,9 +4185,6 @@ msgstr "Переходить на початок вікна."
 
 msgid "Jumps to the end of the window."
 msgstr "Переходить у кінець вікна."
-
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "Жоден звуковий файл не має таймкоду. Точка входу й точка виходу відлічуються від початку матеріалу -- положення файлів одне щодо одного виміряно."
 
 msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
 msgstr "Одна звукова доріжка на особу, окремо аж до auphonic.com.\nПрацює й без цього -- тоді без de-bleed і leveler.\nПотрібні дві вхідні доріжки: власний запис, канал багатоканального\nрекордера або звук відеофайлу, встановленого на \"використовувати\nзвук\". Монтажу камер ця позначка не потрібна."
@@ -4983,9 +4959,6 @@ msgstr "%s\n   звук не розпізнано; розміщено так, я
 msgid "sound not recognised, placed by its timecode"
 msgstr "звук не розпізнано, розміщено за таймкодом"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s записи і жодного зображення: кожен з'єднується окремо, і вони не вирівнюються один щодо одного. --multitrack кладе їх на одну вісь часу."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", дрейф годинника %s ppm залишається: він не в %s рази більший за свою похибку %s ppm"
 
@@ -5066,3 +5039,112 @@ msgstr "    %s: %s на початку не має зображення й ві�
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: %s в кінці не має зображення й відкидається"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s повернувся на %s с довшим, ніж був при вивантаженні, і де в ньому\n"
+"  починається надісланий звук, виміряти не вдалося -- лишається, як прийшов."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s не вдалося обрізати (%s) -- лишається, як прийшов."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s у %s звучить як %s у %s (схожість %s): схоже, це та сама особа."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com додав %s с у кінці -- відрізано"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com додав %s с на початку -- відрізано"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: файл не записано, тож монтаж обходиться без цієї камери."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  Точка входу й точка виходу тут нічого не дають: один запис без зображення з'єднується цілим."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  Назва камери \"%s\" містить роздільник тек або дисків; її записано як \"%s\"."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  Загальний план на краях: немає -- інший голос звучить лише раз, і цей єдиний край був коротший за найкоротший кадр"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  Загальний план на краях: лише від %s -- інший голос звучить лише раз, ближче до кінця, тож початкового немає"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  Загальний план на краях: лише до %s -- інший голос звучить лише раз, ближче до початку, тож кінцевого немає"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com назвав файл \"%s\" -- це не проста назва файлу, тому його не завантажено"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s не вдається розмістити: його звук не має нічого спільного з рештою матеріалу, а жоден запис, розміщений за звуком, не має таймкоду, з яким можна було б звірити власний. Одному з них потрібен таймкод, що пасує до цього, і його треба задати іншою програмою."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name дає %s два імені, \"%s\" і \"%s\"; дайте кожному запису одне."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name називає %s, а це не один із записів цього запуску."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "Завантаження моделі з %s (близько %s МБ): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Точка входу змінилася після останнього запуску: тоді %s, тепер %s. Монтаж і звук у відео ще належать до старого вікна, тож Resolve отримав би не те, що зараз кажуть позначки -- натисніть ще раз Запуск."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "Жоден звуковий файл не має таймкоду. Точка входу й точка виходу відлічуються від моменту, коли працюють усі камери -- положення файлів одне щодо одного виміряно."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Точка виходу змінилася після останнього запуску: тоді %s, тепер %s. Монтаж і звук у відео ще належать до старого вікна, тож Resolve отримав би не те, що зараз кажуть позначки -- натисніть ще раз Запуск."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "Випуск завершено, але ZIP з окремими доріжками не має простої назви файлу"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "Кілька камер, але жодного звукозапису. Кожна камера мала б власний звук -- саме для цього є Multitrack. Інакше одна камера за іншою."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "Архів містить %s більше одного разу, тому з нього нічого не взято."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "Тут записи називає файл призначення, тож --speaker-name було б відкинуто; вкажіть імена там або приберіть --speaker-name."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "Збірка не збігається зі своєю контрольною сумою, тому її не розпаковано: у списку %s, надійшло %s."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "Не вдалося завантажити список контрольних сум, тому збірку не розпаковано: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "Список контрольних сум не називає %s, тому збірку не розпаковано."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "Список файлів моделі називає %s, що лежить поза текою моделі; нічого не завантажено."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "Не вдалося завантажити модель з %s: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "Ім'я мовця для %s порожнє; вкажіть ім'я або приберіть --speaker-name."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "випуск завершено, але його результат не має простої назви файлу"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "взято з вихідних файлів, --lufs source -- нічого не коригується"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Ключ зберігається у зв'язці ключів робочого столу через команду secret-tool, а на цьому комп'ютері її немає."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "На цьому комп'ютері немає команди secret-tool, яка зберігає ключ у зв'язці ключів робочого столу, тож нічого не збережено. Вручну: %s"
+
+msgid "What it says appears under Output."
+msgstr "Що вона повідомляє, з'являється на вкладці \"Вивід\"."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "пакет libsecret-tools у Debian та Ubuntu, libsecret у Fedora та Arch"

@@ -1,14 +1,31 @@
 name: codeql
 
-# GitHub's own code scanning over the Python, tried once on the owner's
-# word. By hand and once a week, never on a push: the seven checks a
-# merge waits for stay seven, and what this finds lands under Security.
-run-name: "codeql #${{ github.run_number }} on ${{ github.ref_name }} (${{ github.event_name }})"
+# GitHub's own code scanning over the Python, on the owner's word: on a
+# pull request to main and once a week, never on a push, so the builder
+# queue stays free for the suite. It is not a required check -- a merge
+# does not wait for it -- and what it finds lands under Security > Code
+# scanning. A pull request that only touches the manual, a Markdown file
+# or the tests' state files has no Python in it and does not start it.
+run-name: "codeql #${{ github.run_number }} on ${{ github.head_ref || github.ref_name }} (${{ github.event_name }})"
 
 on:
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - 'tests/state/**'
   schedule:
     - cron: '17 4 * * 1'
+  # By hand as well, which costs the queue nothing until somebody asks.
+  workflow_dispatch:
+
+# A new push to the same pull request makes the running scan worthless;
+# the weekly run and a run by hand have their own group and are left be.
+concurrency:
+  group: codeql-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: read
@@ -23,12 +40,12 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       # Python is read, not built: nothing to compile, so no build step.
-      - uses: github/codeql-action/init@v3
+      - uses: github/codeql-action/init@v4
         with:
           languages: python
           build-mode: none
-      - uses: github/codeql-action/analyze@v3
+      - uses: github/codeql-action/analyze@v4
         with:
           category: "/language:python"

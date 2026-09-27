@@ -7,9 +7,8 @@ language is a `.po` beside this one -- a translation is data, and a
 Python catalogue that fails to parse takes the whole start down.
 """
 # A new language: its .po (with Plural-Forms) beside this file, its name
-# in LANGUAGE_NAMES below, and its code under --lang in
-# docs/command-line.md and docs/command-line.de.md. The catalogue is
-# filled from LANGUAGE_NAMES, and the tests hold every .po to every text.
+# in LANGUAGE_NAMES, which fills the catalogue, and its code under --lang
+# in docs/command-line.md and .de.md. The tests hold every .po to every text.
 import io
 import os
 import re
@@ -52,12 +51,11 @@ def po_string(text):
 def read_po(path):
     """One PO file, as its texts, its plural wordings and its header.
 
-    Forgiving on purpose: a line that makes no sense costs the entry it
-    stands in and nothing more, so a typo loses a sentence rather than
-    a language. The empty msgid is gettext's header, handed back on its
-    own because the plural rule lives in it. An empty translation is
-    left out rather than kept: kept, T() would hand back the empty
-    string and the label would vanish instead of staying English.
+    Forgiving on purpose: a line that makes no sense costs only its
+    entry, so a typo loses a sentence rather than a language. The empty
+    msgid is gettext's header, handed back apart as it holds the plural
+    rule. An empty translation is left out: kept, T() would hand back ""
+    and the label would vanish instead of staying English.
     """
     texts, plurals = {}, {}
     header = ""

@@ -66,7 +66,7 @@ def judge(free_mb, dry_run):
     vpm.shutil.disk_usage = lambda _p: Usage(0, 0, free_mb * 1e6)
     vpm.on_one_disk = lambda _a, _b: False
     try:
-        return vpm.check_disk_space(WORK, [audio], [video], False,
+        return vpm.check_disk_space(WORK, [audio], [video],
                                     dry_run=dry_run)[0]
     finally:
         vpm.shutil.disk_usage = real_usage

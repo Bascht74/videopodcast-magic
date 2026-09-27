@@ -17,9 +17,9 @@ sys = PROGRAM.sys
 # __file__ is not among them: no line below reads it, so nothing here
 # can quietly answer with this folder instead of the program's own.
 
-# Four names are missing. ON_DARK and the three clip colours stand in
-# resolve/, read long after this piece, so a copy taken here would find
-# nothing: they are read as PROGRAM.<name>.
+# One name is missing. ON_DARK stands in resolve/, read long after this
+# piece, so a copy taken here would find nothing: it is read as
+# PROGRAM.ON_DARK.
 
 # Parallel runs keep output apart; text is flushed when its file is done.
 THREAD_SHARE = {}    # thread id -> progress fraction of that file
@@ -244,13 +244,74 @@ def styles_follow_scheme(app, dark):
     return changed
 
 
+# Resolve's clip colours, most distinguishable first: the first two far apart,
+# a third clear of both, and so on. Accepted names are documented nowhere, so
+# none is guessed: SetClipColor reports, one pass finds them.
+CLIP_COLOURS = ["Blue", "Orange", "Green", "Pink", "Yellow", "Violet",
+              "Teal", "Brown", "Lime", "Navy", "Apricot", "Purple",
+              "Olive", "Chocolate", "Beige", "Tan"]
+# The wide shot is the fallback, not a voice, so it gets a calm colour. In
+# Resolve it stays "Tan": the colour must not shift under graded projects.
+# On dark the interface uses another shade -- see CLIP_COLOURS_RGB_DARK.
+COLOUR_WIDE_SHOT = "Tan"
+# Approximations of the clip colours for the cut band: recognisable, not
+# exact -- what Resolve makes of them is what counts.
+CLIP_COLOURS_RGB = {
+    "Blue": "#3f7fbf", "Cyan": "#3fbfbf", "Green": "#3fbf5f",
+    "Yellow": "#d9c23a", "Red": "#bf3f3f", "Pink": "#d98fbf",
+    "Purple": "#8f5fbf", "Fuchsia": "#bf3f8f", "Rose": "#d99f9f",
+    "Lavender": "#a89fd9", "Sky": "#7fbfd9", "Mint": "#7fd9a8",
+    "Lemon": "#d9d97f", "Sand": "#d9bf8f", "Cocoa": "#8f6f4f",
+    "Cream": "#e8dfc0", "Orange": "#d98f3f", "Violet": "#7f5fbf",
+    "Teal": "#3f8f8f", "Brown": "#8f5f3f", "Lime": "#9fd93f",
+    "Navy": "#3f4f8f", "Apricot": "#e8b07f", "Olive": "#7f8f3f",
+    "Chocolate": "#6f4f3f", "Beige": "#ddd0b0", "Tan": "#c8b088"}
+# On a dark background the dark shades all but vanish. These are lightened
+# far enough to sit at least 50 CIE76 from the sheet -- computed, not felt.
+# "Tan" is there for another reason: as a warm sand brown it sits 34.9 CIE76
+# from the second camera's orange, while the pale sage keeps at least 52.9
+# from every speaker colour. In Resolve the clip is still called Tan.
+CLIP_COLOURS_RGB_DARK = {
+    "Brown": "#9d6945", "Chocolate": "#a57760", "Cocoa": "#9d7a57",
+    "Navy": "#4c5fac", "Teal": "#429696", "Tan": "#b5c9b1"}
+# And the other way round: on white the lightest shade disappears.
+CLIP_COLOURS_RGB_LIGHT = {"Beige": "#ccb989"}
+
+
+def colour_per_camera(cameras, colours):
+    """Assign a colour to each camera.
+
+    The wide shot colour is set aside first so no speaker gets it, which
+    would make the fallback look like a person; the rest are handed out
+    in order, sorted so the first two lie furthest apart. Only the first
+    wide shot gets that colour -- two of them sharing it put two names
+    behind two identical squares, and the second is a camera of its own.
+    """
+    if not colours:
+        return {}, 0
+    wide_shot_colour = COLOUR_WIDE_SHOT if COLOUR_WIDE_SHOT in colours else colours[-1]
+    rest = [f for f in colours if f != wide_shot_colour] or [wide_shot_colour]
+    wides = [cam for cam in cameras if cam.get("wide")]
+    # The further wide shots go to the back of the queue, so nobody's
+    # colour moves because a second wide shot appeared.
+    row = [cam for cam in cameras if not cam.get("wide")] + wides[1:]
+    assigned = {}
+    for i, cam in enumerate(row):
+        assigned[cam["track"]] = rest[i % len(rest)]
+    for cam in wides[:1]:
+        assigned[cam["track"]] = wide_shot_colour
+    # More angles than colours repeats the sequence, and not silently.
+    duplicate = max(0, len(row) - len(rest))
+    return assigned, duplicate
+
+
 def clip_colour_rgb(name):
     """Return the RGB approximation of a clip colour for this background."""
-    exception = (PROGRAM.CLIP_COLOURS_RGB_DARK if PROGRAM.ON_DARK[0]
-                 else PROGRAM.CLIP_COLOURS_RGB_LIGHT)
+    exception = (CLIP_COLOURS_RGB_DARK if PROGRAM.ON_DARK[0]
+                 else CLIP_COLOURS_RGB_LIGHT)
     if name in exception:
         return exception[name]
-    return PROGRAM.CLIP_COLOURS_RGB.get(name, "#888888")
+    return CLIP_COLOURS_RGB.get(name, "#888888")
 
 
 ANSI = {"heading": "\033[1;36m", "good": "\033[1;32m", "warning": "\033[33m",

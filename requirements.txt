@@ -1,6 +1,7 @@
-# What the program needs beyond the standard library. It installs both by
-# itself on first use; this file is for anyone who would rather do it
-# beforehand, or in a virtual environment.
+# What the program needs beyond the standard library -- the same list as
+# pyproject.toml, which pip3 installs with the program. This file is for
+# anyone who would rather install it beforehand, or in a virtual
+# environment.
 #
 #   python3 -m pip install -r requirements.txt
 #

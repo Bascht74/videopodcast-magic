@@ -28,6 +28,7 @@ caption_room = PROGRAM.caption_room
 channel_count = PROGRAM.channel_count
 channel_text = PROGRAM.channel_text
 check_preset = PROGRAM.check_preset
+cut_to_what_was_sent = PROGRAM.cut_to_what_was_sent
 checkbox_bind = PROGRAM.checkbox_bind
 delete_api_key = PROGRAM.delete_api_key
 field_bind = PROGRAM.field_bind
@@ -35,6 +36,7 @@ finished_tracks_deeper = PROGRAM.finished_tracks_deeper
 finished_tracks_find = PROGRAM.finished_tracks_find
 gui_log = PROGRAM.gui_log
 hint = PROGRAM.hint
+install_secret_tool = PROGRAM.install_secret_tool
 json = PROGRAM.json
 kept_channels = PROGRAM.kept_channels
 key_store_locked = PROGRAM.key_store_locked
@@ -49,6 +51,8 @@ platform = PROGRAM.platform
 re = PROGRAM.re
 report_findings = PROGRAM.report_findings
 safe_filename = PROGRAM.safe_filename
+secret_tool_command = PROGRAM.secret_tool_command
+secret_tool_missing = PROGRAM.secret_tool_missing
 show_progress = PROGRAM.show_progress
 similarity = PROGRAM.similarity
 step_begin = PROGRAM.step_begin
@@ -124,22 +128,28 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
     """Run curl with the key in a config file rather than in argv.
 
     In argv it would stand in the process list for the length of the call.
+    A key of None sends no key at all: no config file is written.
     """
-    fd, conf = tempfile.mkstemp(prefix="auph_", suffix=".conf")
-    os.close(fd)
     leftovers = []
     closing, running = [], []
+    keyed = []
+    if key is not None:
+        fd, conf = tempfile.mkstemp(prefix="auph_", suffix=".conf")
+        os.close(fd)
+        leftovers.append(conf)
+        keyed = ["--config", conf]
     try:
-        # The one file that holds the key in plain text; the finally
-        # below removes it whatever happened. Owner-readable only.
-        os.chmod(conf, 0o600)
-        # curl reads this file as configuration, so the key goes in as
-        # a value: a quotation mark or a line break in it would start a
-        # directive of its own. curl escapes with a backslash.
-        safe = (str(key).replace("\\", "\\\\").replace('"', '\\"')
-                .replace("\r", "").replace("\n", ""))
-        with open(conf, "w", encoding="utf-8") as f:
-            f.write('header = "Authorization: bearer %s"\n' % safe)
+        if key is not None:
+            # The one file that holds the key in plain text; the finally
+            # below removes it whatever happened. Owner-readable only.
+            os.chmod(conf, 0o600)
+            # curl reads this file as configuration, so the key goes in
+            # as a value: a quotation mark or a line break in it would
+            # start a directive of its own. curl escapes with a backslash.
+            safe = (str(key).replace("\\", "\\\\").replace('"', '\\"')
+                    .replace("\r", "").replace("\n", ""))
+            with open(conf, "w", encoding="utf-8") as f:
+                f.write('header = "Authorization: bearer %s"\n' % safe)
         if progress:
             # curl's own bar has no percentage and cannot be indented,
             # so its table is read and our bar drawn from it. The answer
@@ -153,14 +163,16 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
             # upload of gigabytes takes as long as it takes, but a
             # server that never answers must not hold the run.
             proc = subprocess.Popen(["curl", "-S", "-L",
-                                     "--connect-timeout", "15",
-                                     "--config", conf]
-                                    + arguments,
+                                     "--connect-timeout", "15"]
+                                    + keyed + arguments,
                                     stdout=answer_file,
                                     stderr=subprocess.PIPE)
             running.append(proc)
             # An upload runs for many minutes, so Stop has to reach it.
             PROGRAM.RUN_STOP["children"].add(proc)
+            if PROGRAM.stop_wanted():
+                # Stop came before this child was on the list.
+                PROGRAM.end_child(proc)
             text = progress if isinstance(progress, str) else T('Transfer')
             rest, last_percent, last_time = "", -1, 0.0
             moved = None         # the amounts curl last reported
@@ -216,8 +228,7 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
             # short enough to look alive. Without it the button waits.
             p = subprocess.run(["curl", "-sS", "-L",
                                 "--connect-timeout", "15",
-                                "--max-time", "60",
-                                "--config", conf] + arguments,
+                                "--max-time", "60"] + keyed + arguments,
                                capture_output=True)
             # The server answered, or gave up within the minute above.
             PROGRAM.RUN_VITALS.alive()
@@ -239,7 +250,7 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
         # The config file holds the key, so it goes whatever happened,
         # and a failure to remove it must not replace the real error.
         # What cannot be removed is overwritten: no file keeps the key.
-        for path in [conf] + leftovers:
+        for path in leftovers:
             try:
                 os.unlink(path)
             except FileNotFoundError:
@@ -257,6 +268,50 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
         # A return code is a name, not an amount: plain digits to look up.
         raise RuntimeError(error or T('curl ended with %d') % p.returncode)
     return p.stdout if output_binary else p.stdout.decode("utf-8", "replace")
+
+
+# https, auphonic.com or a name under it, then a port, a path or the end.
+# A pattern, not urlsplit: "auphonic.com@other" or a backslash in the host
+# are read differently by the two, and only what both call ours passes.
+_KEY_HOST = re.compile(r"https://([a-z0-9-]+\.)*auphonic\.com"
+                       r"(:443)?(/[^\s\\]*)?$", re.I)
+
+
+def key_goes_to(url):
+    """Whether the key may be sent with a request to *url*.
+
+    Only to auphonic.com. A download address is the server's word, and
+    it can name any host; the key would go there with it. curl itself
+    already drops the header when -L follows a redirect to another host
+    (measured with 7.86 and 8.7), so this is the second lock, for an
+    address that is foreign from the start.
+    """
+    return bool(_KEY_HOST.match(str(url or "")))
+
+
+def plain_download_name(name):
+    """The plain file name in a name auphonic.com gave, or "" if refused.
+
+    What is joined to a folder has to stay in it: the part after the
+    last slash is kept, and refused is what is then still empty, starts
+    with a dot (which takes "." and ".." with it), holds a backslash or
+    a zero byte, or starts with a drive such as "C:". The refusal is
+    said, so a file that is not fetched is never dropped silently.
+    """
+    plain = str(name or "").rsplit("/", 1)[-1]
+    if (not plain or plain.startswith(".") or "\\" in plain
+            or "\0" in plain or re.match(r"[A-Za-z]:", plain)):
+        print(as_warn(T('  auphonic.com named a file "%s" -- not a plain '
+                        'file name, so it is not fetched') % name))
+        return ""
+    return plain
+
+
+def _download(key, url, target, name):
+    """Fetch *url* into *target*, with the key only for auphonic.com."""
+    return _curl_call(key if key_goes_to(url) else None,
+                      ["-o", target, url],
+                      progress=T('Downloading %s') % name)
 
 
 def _parse_json(text):
@@ -312,6 +367,18 @@ def preset_fits_mode(mark, multitrack):
     rather than dropped, hiding one being worse than one entry too many.
     """
     return mark is None or bool(mark) == bool(multitrack)
+
+
+def production_is_multitrack(tracks, together):
+    """Whether a run's tracks go up as one Multitrack production.
+
+    The one rule the preset list, the run's early preset check and the
+    sending all ask: two tracks or more that share one time axis go up
+    together; a lone track, or recordings not laid against each other,
+    go up one Singletrack production each. *together*: a picture, or
+    two recordings or more without one -- the tick does not decide it.
+    """
+    return bool(together) and tracks >= 2
 
 
 def presets_for_mode(key, multitrack):
@@ -396,13 +463,14 @@ def choose_preset(key, wanted, multitrack=False, lufs=None,
         print(T('  Please give a number between 1 and %d.') % len(items))
 
 
-def preset_box_widget(QtWidgets, state, fetch):
+def preset_box_widget(QtWidgets, state, fetch, refill):
     """The class for the preset list, which fetches itself when opened.
 
     Opening the list is the moment somebody wants to know what
     auphonic.com has; before that nothing is asked. Fetching takes a
     moment, so it says so rather than opening on the one entry it has --
-    and whoever receives them opens it again. A factory, not a class.
+    and whoever receives them opens it again. A list already there is
+    *refill*ed first: the kind it offers follows the rows. A factory.
     """
 
     class PresetBox(QtWidgets.QComboBox):
@@ -414,6 +482,8 @@ def preset_box_widget(QtWidgets, state, fetch):
                 if state.get("presets_busy"):
                     self.addItem(T('fetching from auphonic.com ...'), "")
                     self.model().item(self.count() - 1).setEnabled(False)
+            elif state.get("presets"):
+                refill()
             QtWidgets.QComboBox.showPopup(self)
 
     return PresetBox
@@ -534,9 +604,8 @@ def preset_mode_note(preset_list, multitrack_on):
 
 
 #------------------------------------------ The box in the window
-# The key and the presets it unlocks already stand above; the box that
-# asks for both, and says what came back of them, stands here, so that
-# what is asked and what is done with it are read in one place.
+# The box that asks for the key and its presets (above) and says what
+# came back, so what is asked and what is done are read in one place.
 
 
 def make_key_note(QtWidgets, label, hint, settings_open):
@@ -641,15 +710,73 @@ def finished_tracks_where(out, common):
             or finished_tracks_deeper(common))
 
 
+def secret_tool_offer(parent, arrived):
+    """Offer secret-tool in a box where the keyring needs it. True if taken.
+
+    The ffmpeg offer's way: asked on the window, installed in a thread
+    of its own with every line under Output, and *arrived* called in the
+    window's own thread once the command is really there -- that is
+    where the key is stored again. Nothing is offered in a test run,
+    where no package manager is found, or where no Output tab is up.
+    """
+    if os.environ.get("VPM_SILENT") or not secret_tool_missing():
+        return False
+    command = secret_tool_command()
+    if not command or PROGRAM.UPDATE_SINK is None:
+        return False
+    QtWidgets = PROGRAM._qt_widgets()
+    box = QtWidgets.QMessageBox(parent)
+    box.setWindowTitle("secret-tool")
+    box.setText(T('The key is kept in the desktop\'s keyring through the '
+                  'secret-tool command, and this machine does not have it.'))
+    box.setInformativeText(T('What it says appears under Output.'))
+    do = box.addButton(T('Get it: %s') % " ".join(command),
+                       QtWidgets.QMessageBox.AcceptRole)
+    box.addButton(T('Later'), QtWidgets.QMessageBox.RejectRole)
+    box.exec()
+    if box.clickedButton() is not do:
+        return False
+    ended = []
+
+    def job(say):
+        """The install, every line to *say*; trouble, or "" once it came."""
+        came = install_secret_tool(asked=True, say=say)
+        ended.append(came)
+        if came:
+            say(as_good(T('That worked.')) + "\n")
+            return ""
+        return key_store_trouble()
+
+    PROGRAM.UPDATE_SINK(job)
+    # A timer rather than a call out of that thread: the tick and the
+    # note belong to the window's own thread.
+    from PySide6 import QtCore
+    watch = QtCore.QTimer(parent)
+    watch.setInterval(300)
+
+    def look():
+        """Once the job ended, and only where secret-tool came: arrived."""
+        if not ended:
+            return
+        watch.stop()
+        if ended[0]:
+            arrived()
+
+    watch.timeout.connect(look)
+    watch.start()
+    return True
+
+
 def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
                       settings_open, buttons_check, multi_button,
-                      multitrack, out_folder, commonest_folder, report):
+                      out_folder, commonest_folder, report, tracks_now):
     """The key for auphonic.com, and the preset a run is given.
 
     Here and not in the window because the two are one theme: the key is
     checked by fetching the presets, and what comes back is what the
-    preset box offers. gui() calls it below multi_button, which the
-    preset switches on when it says no processing is wanted.
+    preset box offers -- of the kind *tracks_now*, (tracks, on one axis),
+    needs. gui() calls it below multi_button, which the preset switches
+    on when it says no processing is wanted.
     """
     # --- In two places in the window: the key behind "Settings ...", set
     #     once; the preset under the assignment, chosen every time.
@@ -700,7 +827,8 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     run_layout.addLayout(second_line)
     second_line.addWidget(label(T('Preset:')))
     presets_wanted_now = lambda: presets_load(asked=False)
-    preset_box = preset_box_widget(QtWidgets, state, presets_wanted_now)()
+    preset_box = preset_box_widget(QtWidgets, state, presets_wanted_now,
+                                   lambda: presets_filter())()
     preset_box.setMinimumWidth(caption_room(preset_box, 320,
                                             preset_missing_rows()))
     # While no key is checked there is only the one entry, and it describes
@@ -749,10 +877,24 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
         done_folder.set(found or "")
         done_label.setText(T('processed tracks found -- nothing is uploaded') if found else "")
 
+    def kept_after_install(key):
+        """secret-tool came: store the key it was wanted for, tick and all."""
+        if store_api_key(key):
+            keep_button.blockSignals(True)
+            remember.set(True)
+            keep_button.blockSignals(False)
+            key_note_hide()
+            return
+        key_note_show(T('The key was not saved: %s') % key_store_trouble())
+
     def remember_toggled(on):
         if on:
-            if not store_api_key(key_var.get().strip()):
+            key = key_var.get().strip()
+            if not store_api_key(key):
                 PROGRAM.tick_off_quietly(keep_button, remember)
+                if secret_tool_offer(keep_button,
+                                     lambda: kept_after_install(key)):
+                    return
                 # On the key's own line, like the refusal after Connect:
                 # a box would have to be clicked away first.
                 key_note_show(T('The key was not saved: %s')
@@ -763,12 +905,16 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     keep_button.toggled.connect(remember_toggled)
 
     def presets_filter():
-        """Offer only the presets that match the mode."""
+        """Offer only the presets of the kind the run needs."""
         preset_box_fill(preset_box,
-                        preset_entries(state["presets"], multitrack.get(),
+                        preset_entries(state["presets"], kind_needed(),
                                        label_of(PRESET_NONE), PRESET_NONE),
                         state, PRESET_NONE)
         without_auphonic_toggled()
+
+    def kind_needed():
+        """True where the rows as they stand need a Multitrack preset."""
+        return production_is_multitrack(*tracks_now())
 
     def preset_plaintext():
         """Return the chosen preset name, empty where none was chosen.
@@ -831,14 +977,17 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
         # key that is gone at the next start. The key that goes in is the
         # one that was checked, never the field read a second time.
         unsaved = ""
-        if remember.get() and not store_api_key(
-                (checked or key_var.get()).strip()):
+        keep = (checked or key_var.get()).strip()
+        if remember.get() and not store_api_key(keep):
             PROGRAM.tick_off_quietly(keep_button, remember)
-            unsaved = T('The key was not saved: %s') % key_store_trouble()
-            key_note_show(unsaved)
+            if not secret_tool_offer(keep_button,
+                                     lambda: kept_after_install(keep)):
+                unsaved = (T('The key was not saved: %s')
+                           % key_store_trouble())
+                key_note_show(unsaved)
         button_green(True)
         presets_filter()
-        note, fitting = preset_mode_note(preset_list, multitrack.get())
+        note, fitting = preset_mode_note(preset_list, kind_needed())
         if note:
             # A refusal above stays in front: the line shows both, not
             # only the last sentence said to it.
@@ -929,6 +1078,7 @@ def wishes_then_start(key, uuid, stereo=False):
 def run_single_production(audio, preset, presetname, key, target_folder,
                   wait_s=7200, dry_run=False, title=None):
     """Upload a file, start the production, wait, download the result."""
+    step_begin("auphonic")
     title = title or os.path.splitext(os.path.basename(audio))[0]
     size = os.path.getsize(audio) / 1e6
     stereo = kept_channels(audio) == 2
@@ -987,17 +1137,20 @@ def run_single_production(audio, preset, presetname, key, target_folder,
         nm = (f.get("filename") or "").lower()
         return {".wav": 1, ".flac": 2, ".aiff": 3}.get(os.path.splitext(nm)[1], 9)
     best = sorted(files, key=rank)[0]
-    name = best.get("filename") or (title + ".wav")
+    name = plain_download_name(best.get("filename") or (title + ".wav"))
+    if not name:
+        raise RuntimeError(T('production finished, but its result has no '
+                             'plain file name'))
     url = best.get("download_url")
     if not url:
         raise RuntimeError(T('no download address for %s') % name)
     os.makedirs(target_folder, exist_ok=True)
     target = os.path.join(target_folder, name)
-    _curl_call(key, ["-o", target, url],
-          progress=T('Downloading %s') % name)
+    _download(key, url, target, name)
     if os.path.getsize(target) < 1000:
         raise RuntimeError(T('downloaded file is only %s bytes')
                            % number_text(os.path.getsize(target), 0))
+    cut_to_what_was_sent(audio, target)
     print(T('  Result: %s (%s) -- stays next to the video file\n')
           % (os.path.basename(target), as_data_size(os.path.getsize(target) / 1e6)))
     fetch_text_outputs(key, files, target_folder, skip=best)
@@ -1019,6 +1172,9 @@ def fetch_text_outputs(key, files, target_folder, skip=None):
             continue
         if not name.lower().endswith(TRANSCRIPT_SUFFIXES):
             continue
+        name = plain_download_name(name)
+        if not name:
+            continue
         # Two outputs of one name land in the same file, and the second
         # download overwrites the first though both were paid for.
         if name in fetched:
@@ -1027,9 +1183,11 @@ def fetch_text_outputs(key, files, target_folder, skip=None):
         fetched.add(name)
         target = os.path.join(target_folder, name)
         try:
-            _curl_call(key, ["-o", target, url],
-                       progress=T('Downloading %s') % name)
+            _download(key, url, target, name)
             print(T('  Also fetched: %s') % name)
+        except PROGRAM.Stopped:
+            # Stop ends the run; it is no failure of this step.
+            raise
         except Exception as e:
             print(T('  %s could not be fetched: %s') % (name, e))
 
@@ -1060,6 +1218,9 @@ def find_output_format(key, find, avoid=()):
     """
     try:
         d = _parse_json(_curl_call(key, [AUPHONIC + "/api/info/output_files.json"]))
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception:
         return None
     kinds = d.get("data")
@@ -1381,7 +1542,22 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
                 AUPHONIC + "/api/production/%s/start.json" % uuid])
     p = wait_for_production(key, uuid, wait_s)
 
-    return download_results(key, p, names, target_folder, base)
+    return cut_what_was_added(
+        tracks, download_results(key, p, names, target_folder, base))
+
+
+def cut_what_was_added(tracks, done):
+    """Cut what auphonic.com put around each track, in place.
+
+    *done* is {name: returned file}, each held against the "axis" sent
+    under that name -- only in the run that uploaded it: files of an
+    earlier day carry that day's window. Returns *done*.
+    """
+    for track in tracks:
+        back = done.get(track["name"])
+        if back:
+            cut_to_what_was_sent(track["axis"], back)
+    return done
 
 
 def download_results(key, p, names, target_folder, base):
@@ -1394,15 +1570,21 @@ def download_results(key, p, names, target_folder, base):
     if not zip_file:
         raise RuntimeError(T('Production finished, but no ZIP with the '
                              'individual tracks'))
+    zip_name = plain_download_name(zip_file.get("filename"))
+    if not zip_name:
+        raise RuntimeError(T('Production finished, but the ZIP with the '
+                             'individual tracks has no plain file name'))
     cache = tracks_folder(target_folder)
-    target = os.path.join(cache, zip_file.get("filename"))
-    _curl_call(key, ["-o", target, zip_file.get("download_url")],
-          progress=T('Downloading %s') % zip_file.get("filename"))
+    target = os.path.join(cache, zip_name)
+    _download(key, zip_file.get("download_url"), target, zip_name)
     # Whatever else the preset produces belongs here: it is paid for.
     already = set()
     for f in (p.get("output_files") or []):
         name = f.get("filename") or ""
         if not name or not f.get("download_url") or f is zip_file:
+            continue
+        name = plain_download_name(name)
+        if not name:
             continue
         if name.lower() in already:
             # Two output kinds of one file name: the second overwrites.
@@ -1412,8 +1594,10 @@ def download_results(key, p, names, target_folder, base):
         already.add(name.lower())
         extra_file = os.path.join(cache, name)
         try:
-            _curl_call(key, ["-o", extra_file, f["download_url"]],
-                  progress=T('Downloading %s') % name)
+            _download(key, f["download_url"], extra_file, name)
+        except PROGRAM.Stopped:
+            # Stop ends the run; it is no failure of this step.
+            raise
         except Exception as e:
             print(T('  %s could not be fetched: %s') % (name, e))
     return match_zip_entries_to_tracks(target, names, target_folder)
@@ -1604,7 +1788,8 @@ def reuse_production(key, existing, request, preset, tracks,
     _curl_call(key, ["-X", "POST",
                 AUPHONIC + "/api/production/%s/start.json" % uuid])
     p = wait_for_production(key, uuid, wait_s)
-    return download_results(key, p, names, target_folder, base)
+    done = download_results(key, p, names, target_folder, base)
+    return cut_what_was_added(tracks, done) if upload_again else done
 
 
 def wait_for_production(key, uuid, wait_s):
@@ -1665,7 +1850,14 @@ def match_zip_entries_to_tracks(zip_file_path, names, target_folder):
     with zipfile.ZipFile(zip_file_path) as zf:
         files = [n for n in zf.namelist()
                    if not n.endswith("/") and not os.path.basename(n).startswith(".")]
-        zf.extractall(folder)
+        # One entry at a time, for the path each really went to: zipfile
+        # drops "../" and a leading "/" while writing, so the entry's own
+        # name joined to the folder can point at a file never written.
+        landed = {}
+        for entry in zf.namelist():
+            written = zf.extract(entry, folder)
+            if entry in files:
+                landed[entry] = written
     assignment, pending = {}, list(files)
     print(T('  In the archive: %s') % ", ".join(os.path.basename(d) for d in files))
     try:
@@ -1689,7 +1881,7 @@ def match_zip_entries_to_tracks(zip_file_path, names, target_folder):
         best = max(pending, key=lambda d: similarity(name, telling[d]))
         quality = similarity(name, telling[best])
         if name.lower() in telling[best].lower() or quality > 0.4:
-            assignment[name] = os.path.join(folder, best)
+            assignment[name] = landed[best]
             pending.remove(best)
             print("    %-20s <- %s" % (name, os.path.basename(best)))
         else:

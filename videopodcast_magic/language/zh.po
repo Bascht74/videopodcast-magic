@@ -1617,9 +1617,6 @@ msgstr "来自已完成的运行 -- %s 位说话人，%s"
 msgid "measured from the recordings -- %s speakers, %s"
 msgstr "从录音测得 -- %s 位说话人，%s"
 
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "尚未分配摄像机 -- 请为此开启多轨。"
-
 msgid "In point or Out point cannot be read here."
 msgstr "此处无法读取入点或出点。"
 
@@ -1652,12 +1649,6 @@ msgstr "  每台摄像机都对应一位说话人，因此没有全景：四项�
 
 msgid "  %s speakers, %s shots, shortest %s s"
 msgstr "  %s 位说话人，%s 个镜头，最短 %s 秒"
-
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "入点现在是 %s，但现有文件属于 %s。\n  视频中的声音是按旧时间窗剪切的 -- 请再次点击上方的\n  “开始”。"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "出点现在是 %s；时间窗将长 %s，现有\n  文件长 %s -- 请再次点击上方的“开始”。"
 
 msgid "  The cut stays as it was."
 msgstr "  剪辑保持不变。"
@@ -2405,9 +2396,6 @@ msgstr "\n合并片段后只剩一条音轨，而 Multitrack 需要每个声音�
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline 采用 %s：其中最高的一个，或 Resolve 在其之上的\n  下一个帧率。向上转换时 Resolve 会重复帧，向下时\n  会丢弃帧。每台摄像机保留自己的帧率，镜头切换也\n  按它计算。"
 
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s 偏移 %s，时钟漂移 %s ppm (+/- %s)，残余离散 %s ms，%s / %s 个点"
-
 msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
 msgstr "\n声音和画面只有 %s 的重叠，对齐在其中找到了 %s 个采样点。太少了，无法据此放置任何东西。"
 
@@ -2851,9 +2839,6 @@ msgstr "这源于录音本身，而非后期：麦克风彼此离得太近，或
 
 msgid "free %s, about %s needed (%s)"
 msgstr "可用 %s，约需 %s（%s）"
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "取自源文件，未指定 --lufs -- 不做任何调整"
 
 msgid "none switched on"
 msgstr "均未开启"
@@ -3872,9 +3857,6 @@ msgstr "  %-20s 是 %-20s 比下一支麦克风高 %s dB，已扣除录音电平
 msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
 msgstr "该名称出现了多次。这些录音会合成一条音轨 -- auphonic.com 的 Multitrack 至少需要两个不同的名称。"
 
-msgid "The model could not be fetched: %s"
-msgstr "无法获取模型：%s"
-
 msgid "%s does not match its checksum and was not written."
 msgstr "%s 与其校验和不符，未写入。"
 
@@ -3940,9 +3922,6 @@ msgstr "该名称已被其他人使用。一个名称代表一个人，而剪辑
 
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  所有录音名称相同。这样只会得到一条音轨 -- Multitrack 至少需要两条。"
-
-msgid "Fetching the model (about %s MB): %s"
-msgstr "正在获取模型（约 %s MB）：%s"
 
 msgid "The model could not be written: %s"
 msgstr "无法写入模型：%s"
@@ -4168,9 +4147,6 @@ msgstr "跳到时间窗的开头。"
 
 msgid "Jumps to the end of the window."
 msgstr "跳到时间窗的结尾。"
-
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "没有任何音频文件带有时间码。入点和出点从素材开头算起——文件之间的相对位置是测得的。"
 
 msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
 msgstr "每人一条音轨，一直分开保持到 auphonic.com。\n不勾选也能工作——但就没有 De-Bleed 和 Leveler。\n需要两条输入音轨：单独的录音、多声道录音机的\n一个声道，或设为“使用其音频”的\n视频文件的音频。镜头切换不需要这个勾选。"
@@ -4877,9 +4853,6 @@ msgstr "%s\n   未识别出声音；按运行的放置方式放置"
 msgid "sound not recognised, placed by its timecode"
 msgstr "未识别出声音，按其时间码放置"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s 个录音且没有画面：每个单独拼接，彼此之间不对齐。--multitrack 会把它们放到同一时间轴上。"
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr "，保留 %s ppm 的时钟漂移：未达到其不确定度的 %s 倍（不确定度 %s ppm）"
 
@@ -4960,3 +4933,112 @@ msgstr "    %s：开头 %s 没有画面，不予保留"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s：结尾 %s 没有画面，不予保留"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s 返回时比上传时长了 %s 秒，而且无法测出所发送的声音\n"
+"  在其中从哪里开始 -- 保持原样。"
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  无法剪切 %s（%s） -- 保持原样。"
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s（%s 中）听起来像 %s（%s 中）（相似度 %s）：看来是同一个人。"
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s：auphonic.com 在结尾添加了 %s 秒 -- 已剪掉"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s：auphonic.com 在开头添加了 %s 秒 -- 已剪掉"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s：没有写入文件，因此剪辑中不含这台摄像机。"
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  入点和出点在这里不起作用：一段没有画面的录音会被整段拼接。"
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  摄像机名称 \"%s\" 含有文件夹或驱动器的分隔符；将写作 \"%s\"。"
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  首尾全景：无 -- 另一个声音只说了一次，而那唯一的一端比最短镜头还短"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  首尾全景：仅自 %s 起 -- 另一个声音只说了一次，且靠近结尾，因此开头没有全景"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  首尾全景：仅至 %s -- 另一个声音只说了一次，且靠近开头，因此结尾没有全景"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com 把一个文件命名为 \"%s\" -- 不是简单的文件名，因此不会获取"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "无法放置 %s：其声音与其余素材毫无共同之处，而由声音放置的录音中没有一个带有可供对照的时间码。其中一个需要一个与此文件相符的时间码，而这必须用其他程序设置。"
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name 给了 %s 两个名字，\"%s\" 和 \"%s\"；每段录音只给一个。"
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name 指定了 %s，但它不是本次运行的录音之一。"
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "正在从 %s 获取模型（约 %s MB）：%s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "入点自上次运行以来已改变：当时 %s，现在 %s。视频中的剪辑和声音仍属于旧时间窗，因此 Resolve 得到的不会是标记现在所示的内容 -- 请再次点击“开始”。"
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "没有任何音频文件带有时间码。入点和出点从所有摄像机都在运行的那一刻算起 -- 文件之间的相对位置是测得的。"
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "出点自上次运行以来已改变：当时 %s，现在 %s。视频中的剪辑和声音仍属于旧时间窗，因此 Resolve 得到的不会是标记现在所示的内容 -- 请再次点击“开始”。"
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "制作已完成，但包含各条单独音轨的 ZIP 没有简单的文件名"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "多台摄像机，却没有录音。每台摄像机都会有自己的声音 -- 这正是多轨的用途。否则请一台接一台地处理。"
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "压缩包中 %s 出现了不止一次，因此没有从中取出任何内容。"
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "这里由分配文件为录音命名，因此 --speaker-name 会被丢弃；请在那里给出名称，或去掉 --speaker-name。"
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "预编译版本与其校验和不符，因此未解压：列表中为 %s，收到的是 %s。"
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "无法获取校验和列表，因此未解压预编译版本：%s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "校验和列表中没有 %s，因此未解压预编译版本。"
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "模型文件列表中列出了 %s，它位于模型文件夹之外；未获取任何内容。"
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "无法从 %s 获取模型：%s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "%s 的说话人姓名为空；请给出一个姓名，或去掉 --speaker-name。"
+
+msgid "production finished, but its result has no plain file name"
+msgstr "制作已完成，但其结果没有简单的文件名"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "取自源文件，--lufs source -- 不做任何调整"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "密钥通过 secret-tool 命令保存在桌面的密钥环中，而这台机器上没有这个命令。"
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "这台机器上没有 secret-tool（它负责把密钥保存在桌面的密钥环中），因此什么也没有保存。手动安装：%s"
+
+msgid "What it says appears under Output."
+msgstr "其输出显示在“输出”下。"
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "Debian 和 Ubuntu 上的 libsecret-tools 软件包，Fedora 和 Arch 上的 libsecret"

@@ -938,6 +938,10 @@ print("=" * 66)
 # relative one promises "from where the window now starts" and moves
 # once more, never twice. Both are held.
 base = json.load(open(open_run.files["handover"], encoding="utf-8"))
+# The trimming itself: a run's own handover, naming its window, is never
+# cut again -- window_moved_since answers for it instead.
+base.pop("in_point", None)
+base.pop("out_point", None)
 
 
 def section_starts(x):

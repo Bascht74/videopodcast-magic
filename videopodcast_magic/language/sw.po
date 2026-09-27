@@ -338,12 +338,6 @@ msgstr "Utenganishaji wa wazungumzaji haujasakinishwa hapa. Hiki kinaurudisha: %
 msgid "Fetching the model (about %s MB) ..."
 msgstr "Kuleta modeli (takriban %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "Kuleta modeli (takriban %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "Modeli haikuweza kuletwa: %s"
-
 msgid "The model could not be written: %s"
 msgstr "Modeli haikuweza kuandikwa: %s"
 
@@ -880,9 +874,6 @@ msgstr "  %-20s haiwezi kupangwa sawa: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s haipimiki: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s msogeo %s, mkengeuko wa saa %s ppm (+/- %s), mtawanyiko uliobaki %s ms, %s kati ya pointi %s"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s msogeo %s, mkengeuko wa saa %s ppm (+/- %s), mtawanyiko uliobaki %s ms, %s kati ya pointi %s%s"
@@ -2204,14 +2195,8 @@ msgstr "Alama ya kuingia na alama ya kutoka zinapatikana mara mhimili wa muda un
 msgid "In point is %s before the first frame"
 msgstr "Alama ya kuingia iko %s kabla ya fremu ya kwanza"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "Alama ya kuingia sasa ni %s, lakini faili zilizopo ni za %s.\n  Sauti katika video imekatwa kwa masafa ya zamani -- bonyeza Anza\n  hapo juu tena."
-
 msgid "Out point is %s after the last frame"
 msgstr "Alama ya kutoka iko %s baada ya fremu ya mwisho"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "Alama ya kutoka sasa ni %s; masafa yangekuwa na urefu wa %s, faili\n  zilizopo ni %s -- bonyeza Anza hapo juu tena."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Uwasilishaji kwa kawaida hutumia masafa yenye mipaka. Full si kosa, lakini baadhi ya vicheza huyasoma vibaya."
@@ -2372,9 +2357,6 @@ msgstr "Multitrack (treki moja kwa mzungumzaji)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack inahitaji angalau treki mbili za ingizo. Treki ni rekodi tofauti, chaneli ya kinasa sauti cha chaneli nyingi, au sauti ya faili ya video iliyowekwa \"tumia sauti ya ndani\". Bloku kadhaa za rekodi moja huhesabiwa kuwa moja, na treki zilizowekwa kando hazihesabiwi kabisa."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "Hakuna faili ya sauti yenye timecode. Alama ya kuingia na alama ya kutoka huhesabiwa kuanzia mwanzo wa nyenzo -- nafasi ya faili kati yao hupimwa."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Bado hakuna sauti inayotumika -- ongeza rekodi ya sauti, au weka Sauti ya kamera ya faili ya video kuwa \"tumia sauti ya ndani\" katika orodha ya faili."
 
@@ -2383,9 +2365,6 @@ msgstr "Hakuna treki za sauti zilizogawiwa."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Hakuna kamera iliyogawiwa, kwa hivyo hakuna cha kukata kati ya kamera."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "Bado hakuna kamera zilizogawiwa -- washa Multitrack ili kufanya hivyo."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Hakuna muunganisho na Resolve.\n  Je, programu inaendeshwa? Je, skripti za nje zimewekwa kuwa 'Local'\n  chini ya Preferences > System > General?"
@@ -3210,9 +3189,6 @@ msgstr "mpangilio awali unafanya mastering hadi %s LUFS, hesabu inatumia %s."
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "mpangilio awali unafanya mastering hadi %s LUFS -- hilo linabaki, hatubadilishi chochote."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "imechukuliwa kutoka faili chanzo, hakuna --lufs iliyotolewa -- hakuna kinachorekebishwa"
 
 msgid "the answer did not keep the floor"
 msgstr "jibu halikuendelea kushika zamu ya kuzungumza"
@@ -4926,9 +4902,6 @@ msgstr "%s\n   sauti haikutambuliwa; imewekwa jinsi uendeshaji unavyoiweka"
 msgid "sound not recognised, placed by its timecode"
 msgstr "sauti haikutambuliwa, imewekwa kwa timecode yake"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  Rekodi %s na hakuna picha: kila moja inaunganishwa peke yake na hazipangwi dhidi ya nyingine. --multitrack huziweka kwenye mhimili mmoja wa muda."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", mkengeuko wa saa %s ppm umeachwa: si mara %s ya kutokuwa na uhakika kwake kwa %s ppm"
 
@@ -5009,3 +4982,112 @@ msgstr "    %s: %s mwanzoni haina picha na inaachwa nje"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: %s mwishoni haina picha na inaachwa nje"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s ilirudi ikiwa ndefu kwa %s s kuliko ilipopakiwa, na mahali sauti iliyotumwa\n"
+"  inapoanzia ndani yake hapakuweza kupimwa -- imeachwa kama ilivyokuja."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s haikuweza kukatwa (%s) -- imeachwa kama ilivyokuja."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s katika %s inasikika kama %s katika %s (ufanano %s): inaonekana ni mtu yuleyule."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com iliongeza %s s mwishoni -- imekatwa"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com iliongeza %s s mwanzoni -- imekatwa"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: hakuna faili iliyoandikwa, kwa hiyo mkato unaiacha kamera hii."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  Alama ya kuingia na alama ya kutoka hazifanyi kitu hapa: rekodi moja isiyo na picha inaunganishwa yote."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  Jina la kamera \"%s\" lina kitenganishi cha folda au hifadhi; linaandikwa kama \"%s\"."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  Picha pana kwenye ncha: hakuna -- sauti nyingine inazungumza mara moja tu, na ncha hiyo moja ilikuwa fupi kuliko picha fupi zaidi"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  Picha pana kwenye ncha: kuanzia %s tu -- sauti nyingine inazungumza mara moja tu, karibu na mwisho, kwa hiyo hakuna ya mwanzo"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  Picha pana kwenye ncha: hadi %s tu -- sauti nyingine inazungumza mara moja tu, karibu na mwanzo, kwa hiyo hakuna ya mwisho"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com iliipa faili jina \"%s\" -- si jina la kawaida la faili, kwa hiyo hailetwi"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s haiwezi kuwekwa: sauti yake haina kitu cha pamoja na nyenzo nyingine, na hakuna rekodi iliyowekwa na sauti iliyo na timecode ya kulinganisha yake nayo. Mojawapo inahitaji timecode inayolingana na hii, na hiyo lazima iwekwe kwa programu nyingine."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name inaipa %s majina mawili, \"%s\" na \"%s\"; ipe kila rekodi jina moja."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name inataja %s, ambayo si mojawapo ya rekodi za uendeshaji huu."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "Kuleta modeli kutoka %s (takriban %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Alama ya kuingia imebadilika tangu uendeshaji uliopita: %s wakati huo, %s sasa. Mkato na sauti ndani ya video bado ni za masafa ya zamani, kwa hiyo Resolve isingepata kile alama zinachosema sasa -- bonyeza Anza tena."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "Hakuna faili ya sauti yenye timecode. Alama ya kuingia na alama ya kutoka huhesabiwa kuanzia wakati kamera zote zinapofanya kazi -- nafasi ya faili kati yao hupimwa."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Alama ya kutoka imebadilika tangu uendeshaji uliopita: %s wakati huo, %s sasa. Mkato na sauti ndani ya video bado ni za masafa ya zamani, kwa hiyo Resolve isingepata kile alama zinachosema sasa -- bonyeza Anza tena."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "Utayarishaji umekamilika, lakini ZIP yenye treki moja moja haina jina la kawaida la faili"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "Kamera kadhaa lakini hakuna rekodi ya sauti. Kila kamera ingekuwa na sauti yake -- hiyo ndiyo kazi ya Multitrack. Vinginevyo kamera moja baada ya nyingine."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "Jalada lina %s zaidi ya mara moja, kwa hiyo hakuna kilichotolewa ndani yake."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "Faili ya ugawaji inazipa rekodi majina hapa, kwa hiyo --speaker-name ingepuuzwa; toa majina humo au acha --speaker-name."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "Kifurushi kilichojengwa hakilingani na checksum yake, kwa hiyo hakikufunguliwa: %s kwenye orodha, %s kilifika."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "Orodha ya checksum haikuweza kuletwa, kwa hiyo kifurushi kilichojengwa hakikufunguliwa: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "Orodha ya checksum haitaji %s, kwa hiyo kifurushi kilichojengwa hakikufunguliwa."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "Orodha ya faili za modeli inataja %s, ambayo iko nje ya folda ya modeli; hakuna kilicholetwa."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "Modeli haikuweza kuletwa kutoka %s: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "Jina la mzungumzaji la %s ni tupu; toa jina au acha --speaker-name."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "utayarishaji umekamilika, lakini tokeo lake halina jina la kawaida la faili"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "imechukuliwa kutoka faili chanzo, --lufs source -- hakuna kinachorekebishwa"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Ufunguo huhifadhiwa kwenye keyring ya eneo-kazi kupitia amri ya secret-tool, na mashine hii haina amri hiyo."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Mashine hii haina secret-tool, inayohifadhi ufunguo kwenye keyring ya eneo-kazi, kwa hiyo hakuna kilichohifadhiwa. Kwa mkono: %s"
+
+msgid "What it says appears under Output."
+msgstr "Inachosema huonekana chini ya Towe."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "kifurushi libsecret-tools kwenye Debian na Ubuntu, libsecret kwenye Fedora na Arch"

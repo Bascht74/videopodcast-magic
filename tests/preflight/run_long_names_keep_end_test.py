@@ -8,7 +8,9 @@ columns. Then every place that names a file: the facts line of a camera
 and of a recording, a camera without picture, a file that could not be
 read, the short recording, the second recording in sync, the unset
 clock, a block with no timecode and a gap between two, and the camera
-colour comparison.
+colour comparison. Last, one width for all of them: a note gives a name
+the room its facts line gives it, and the report's second column starts
+in one place whether the name beside it is long or short.
 """
 PLATFORM_BOUND = True
 import os
@@ -175,6 +177,25 @@ check("the colour comparison keeps both long cameras' ends",
       and rows[1].split()[1] == "(2)",
       "%d rows for %r and %r: %r" % (len(rows), labels[first],
                                      labels[second], rows))
+
+print("\n4. One width for every name")
+facts = [b.field for b in vpm.check_audio_file(voice)[0] if b.kind == "good"]
+note = [b.field for b in vpm.compare_audio_tracks(
+    [{"name": REC, "duration": 10.0, "path": voice},
+     {"name": "Guest.wav", "duration": 100.0, "path": ""}])]
+check("a note gives a name the room its facts line gives it",
+      bool(facts) and bool(note) and len(note[0]) == len(facts[0]),
+      "note %r, %d letters, facts line %r, %d letters"
+      % (note[0] if note else None, len(note[0]) if note else 0,
+         facts[0] if facts else None, len(facts[0]) if facts else 0))
+# The long camera's field from the facts line above, beside a short one:
+# where the text begins is where the column ends.
+long_line = vpm.Finding("good", one, "LONGTEXT").line()
+short_line = vpm.Finding("good", "Guest.mov", "SHORTTEXT").line()
+check("the report's text column starts alike for every name",
+      long_line.index("LONGTEXT") == short_line.index("SHORTTEXT"),
+      "after %r at column %d, after 'Guest.mov' at column %d"
+      % (one, long_line.index("LONGTEXT"), short_line.index("SHORTTEXT")))
 
 shutil.rmtree(D, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

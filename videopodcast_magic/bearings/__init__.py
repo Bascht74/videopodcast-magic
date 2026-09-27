@@ -86,9 +86,8 @@ np = LateNumpy()
 #---------------------------------------- What a run works out
 
 # =====================================================================
-#  Metrics and colour comparison -- what was measured at the end of an
-#  episode belongs in a file, not only in the log the next run wipes.
-# =====================================================================
+#  Metrics and colour comparison -- what an episode measured belongs in
+#  a file, not only in the log the next run wipes.
 
 def measure_picture_levels(file_path, spots=5, t0=0.0, t1=None):
     """Measure brightness and colour balance of a camera file from samples.
@@ -184,10 +183,9 @@ def report_picture_comparison(cameras, t0=0.0, t1=None):
             dy = values.get("y", 0) - middle.get("y", 0)
             du = values.get("u", 0) - middle.get("u", 0)
             dv = values.get("v", 0) - middle.get("v", 0)
-            # Padded as text, not formatted as a number: the widths are
-            # what keep this a table. Every level is on the 8-bit scale,
-            # so brightness fits its six places; colour grows past five
-            # only beyond 99.9 steps.
+            # Padded as text, not formatted as a number: the widths keep this a
+            # table. Levels are 8-bit, so brightness fits its six places;
+            # colour grows past five only beyond 99.9 steps.
             distance = "%6s  %5s  %5s" % (number_text(dy, 1, plus=True),
                                           number_text(du, 1, plus=True),
                                           number_text(dv, 1, plus=True))
@@ -235,14 +233,14 @@ def preview_handover(state):
     return d
 
 
-def preview_out_of_date(state, multitrack_on):
+def preview_out_of_date(state):
     """Whether the preview has to be worked out from the handover again.
 
     Stale again when the same file is rewritten: "Create Resolve project"
     works the cut out from the numbers set now and writes it back under
-    the name it had.
+    the name it had. With or without multitrack: both leave one.
     """
-    if state.get("running") or not multitrack_on:
+    if state.get("running"):
         return False
     js = state.get("resolve_json")
     return bool(js) and (not state.get("statistics")
@@ -480,6 +478,9 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
           % tracks[0]["name"])
     try:
         measurements, lines = measure_offsets_by_crosstalk(tracks)
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception as e:
         print(T('    not possible: %s') % e)
         return
@@ -567,6 +568,9 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
                  if abs(k) >= limit_ppm else ""))
     try:
         measurements2, _ = measure_offsets_by_crosstalk(tracks)
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception as e:
         print(T('    Cross-check not possible: %s') % e)
         return
@@ -768,12 +772,11 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
                       phase_of=lambda p: True):
     """Determine how all files sit relative to each other.
 
-    The longest camera is the reference, as in the run -- the longest
-    file only where no camera is heard; a timecode from *tc_of* hangs
-    the axis off it; a weak camera stands at its clock, a weak
-    recording where the run lays it, the phase way on where *phase_of*
-    says. Returns (result, text), by path_key: "axis", "clock", and
-    lists -- "weak", "no_place", "unplaceable", "clock_alone", "brief".
+    The longest heard camera is the reference, as in the run, else the longest
+    file; a timecode from *tc_of* hangs the axis off it; a weak camera stands
+    at its clock, a weak recording where the run lays it, the phase way on
+    where *phase_of* says. Returns (result, text) by path_key: "axis", "clock",
+    lists "weak", "no_place", "unplaceable", "clock_alone", "brief".
     """
     # Every file at once: each envelope is read on its own, and over
     # hours of 4K this is the longest part of the measurement.
@@ -889,10 +892,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
         elif w in axis:
             axis[p] = axis[w] + clocks[p] - clocks[w]
             clock_speed[p] = 1.0
-    # The median offset is used so one outlier cannot skew everything.
-    # A file whose sound was not recognised has no vote: what it holds
-    # is the measurement that failed, and beside its clock that would
-    # pull the middle towards a place nothing found.
+    # The median offset, so one outlier cannot skew everything. A file whose
+    # sound was not recognised has no vote: it holds the failed measurement,
+    # which beside its clock would pull the middle to a place nothing found.
     offsets = sorted(t - axis[p] for p in axis if p not in weak
                        for t in [tc_of(p)] if t is not None)
     absolute = bool(offsets)
@@ -953,10 +955,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
             refused.add(p)
     nowhere = [p for p in weak if p in refused]
     lost = [p for p in nowhere if p in under]
-    # A silent file has no curve to read a length off, so its container
-    # says how long it runs (one saying nothing has none, not 0). That
-    # judges it alone: in the middle, two short silent clips would stop
-    # a sounding jingle counting as short.
+    # A silent file has no curve to read a length off, so its container gives
+    # it (silent there: none, not 0), judged alone: in the middle, two short
+    # silent clips would stop a sounding jingle counting as short.
     length_of = dict((p, len(e) * HOP / 1000.0)
                      for p, e in envelopes.items())
     silent_length = {}
@@ -1130,12 +1131,11 @@ def file_fingerprint(file_path):
 def timeline_entries(axis, clocks, marks=None):
     """The measured place of every file, as the project file keeps it.
 
-    The clock speed rides along: measuring it again costs the same
-    minutes, and a changed file is caught by its size and time anyway.
-    So does the verdict on a file that did not fit, one word under "fit"
-    out of *marks* (the measurement's "weak", "no_place", "brief"):
-    "weak" is placed by its clock, "nowhere" by nothing, "brief" nowhere
-    and far shorter; "clock_alone" rides along as a flag of its own.
+    The clock speed rides along: measuring it again costs the same minutes, and
+    a changed file is caught by size and time anyway. So does the verdict on a
+    file that did not fit, one word under "fit" from *marks* ("weak",
+    "no_place", "brief"): "weak" is placed by its clock, "nowhere" by nothing,
+    "brief" nowhere and far shorter; "clock_alone" is a flag of its own.
     """
     fit = {}
     for word, key in (("weak", "weak"), ("nowhere", "no_place"),
@@ -1172,12 +1172,11 @@ def timeline_entries(axis, clocks, marks=None):
 def axis_still_valid(d, paths, fingerprint=file_fingerprint):
     """Report whether a measured axis still applies to these files.
 
-    All or nothing: the axis is a statement about their relationship, and
-    a half valid one would be worse than none because it would look
-    right. Returns {"axis", "clock", "weak", "no_place", "brief",
-    "clock_alone", "absolute"} or None, lists as the paths came; without a
-    stored clock speed a file comes back at 1.0, and one stored without
-    a verdict fits, as every file did before one was kept.
+    All or nothing: the axis states how the files relate, and a half valid one
+    would look right and be worse than none. Returns {"axis", "clock", "weak",
+    "no_place", "brief", "clock_alone", "absolute"} or None, lists as the paths
+    came; no stored clock speed reads 1.0, and a file stored without a verdict
+    fits, as every file did before one was kept.
     """
     known = {}
     for e in ((d or {}).get("timeline") or []):
@@ -1740,12 +1739,11 @@ def every_audio_block(files, blocks_of, using_audio=()):
 def camera_offset(cameras, origin=None, fps=30.0):
     """Return how far each camera is shifted against programme time.
 
-    A handover file carries an ``offset`` per camera, negative where the
-    camera started before In point: position in the file is programme
-    time minus offset, and deciding it again here is how the player and
-    Resolve came apart. Failing that ``start_s`` against *origin*; a
-    camera without one -- nothing measured, no clock -- sits at the In
-    point, offset 0.0, as the run answers "nowhere" for it.
+    A handover file carries an ``offset`` per camera, negative where it started
+    before the In point: file position is programme time minus offset; deciding
+    it again here is how the player and Resolve came apart. Failing that
+    ``start_s`` against *origin*; a camera with neither -- nothing measured, no
+    clock -- sits at the In point, 0.0, as the run says "nowhere".
     """
     out = {}
     # A stored offset that disagrees with the camera's own timecode is
@@ -1918,18 +1916,18 @@ def camera_shortfall_lines(who, rows, voices):
     return out
 
 
-def without_own_camera(rows, voices, multitrack_on, voiced=()):
+def without_own_camera(rows, voices, voiced=()):
     """Who goes into the mix but gets no shot of their own.
 
     Information, not a complaint: whoever set somebody to "no camera of
     its own" wanted it that way, and this is the list of them in one
     place before the hours of computing. Passed over, as nobody left out
-    of the picture: a recording whose voices stand under it, and every
-    recording at all without multitrack. *rows* are (blocks, name, camera).
+    of the picture: a recording whose voices stand under it. With or
+    without multitrack alike. *rows* are (blocks, name, camera).
     """
     voiced = set(voiced or ())
     pairs = [(name, camera) for blocks, name, camera in rows
-             if multitrack_on and os.path.abspath(blocks[0]) not in voiced]
+             if os.path.abspath(blocks[0]) not in voiced]
     out = []
     for name, camera in pairs + list(voices):
         name = (name or "").strip()

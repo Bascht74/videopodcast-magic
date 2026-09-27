@@ -144,9 +144,12 @@ OUT = os.path.join(HOME, "out")
 #----------------------------------------------------------------- 1. Run
 
 print("1. A mute camera with a clock and one without, beside recordings")
+# --anyway: Sync takes one recording and the preflight stops a second,
+# as the window does; the cameras behind it are what is asked here.
 code, said, stuck, took = run([sys.executable, SCRIPT, "--project-type",
                                "sync", "--without-auphonic", "--multitrack",
-                               "--out", OUT] + TAKEN + [HEARD, MUTE, NEITHER])
+                               "--anyway", "--out", OUT]
+                              + TAKEN + [HEARD, MUTE, NEITHER])
 lines = [line.strip() for line in said.splitlines() if line.strip()]
 check("a run with two mute cameras goes through",
       code == 0 and not stuck,

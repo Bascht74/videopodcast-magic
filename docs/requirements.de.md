@@ -91,15 +91,24 @@ das längst bezahlt ist.
 
 Und nach einem fragt es bloß: nach der Nummer der neuesten Version,
 bei github.com, kurz nachdem das Fenster steht. Das Programm sendet
-dabei nichts und holt diese Version erst, wenn jemand es verlangt.
+dabei nichts und holt diese Version erst, wenn jemand es verlangt. Zwei
+Bibliotheken, die es mitbringt, würden von sich aus nach Hause melden,
+pyannote.audio und onnxruntime; das Programm schaltet beides ab, bevor
+sie geladen werden.
 [Die Oberfläche](interface.de.md#sich-selbst-aktuell-halten) sagt, was
 dann kommt.
 
 **Zum Modell.** Die Stimmen einer Aufnahme auseinanderzuhalten ist die
 Sprechertrennung, und sie braucht ein trainiertes Modell. Das Programm
 holt es aus seinem eigenen Repository in den Ordner `models/` im Ordner
-des Programms selbst. Es hält jede Datei gegen ihre SHA-256-Prüfsumme und
-schreibt nur, was übereinstimmt.
+des Programms selbst, und zwar in dem Stand, der zum Tag dieser Version
+gehört. Nur wo es diesen Tag nicht gibt, nimmt es das Modell vom
+Hauptzweig, und die Zeile im Bericht sagt das. Läuft die Zeit ab oder
+meldet der Server einen Fehler, bricht das Holen ab, und die Meldung
+nennt den Tag und den Grund. Jede Datei hält es gegen ihre
+SHA-256-Prüfsumme und schreibt nur, was übereinstimmt; nennt die Liste
+der Modelldateien einen Ort außerhalb des Modellordners, wird sie
+abgelehnt, bevor überhaupt etwas geholt wird.
 
 Die Trennung liest das Modell danach aus diesem Ordner, ohne Konto,
 ohne Zugangsschlüssel und ohne Netz. Das Programm holt es nur beim
@@ -312,8 +321,14 @@ Maschine hat:
 * **Windows: Es holt eines.** Windows bringt keine Paketverwaltung mit,
   also lädt das Programm einen Bau mit soxr und legt `ffmpeg.exe` und
   `ffprobe.exe` in einen eigenen Ordner unter den lokalen Daten des
-  Benutzers. Von Hand muss dafür nichts in PATH. Schlägt der Download
-  fehl, bietet es stattdessen an, ffmpeg.org zu öffnen.
+  Benutzers. Von Hand muss dafür nichts in PATH. Bevor etwas
+  ausgepackt wird, hält es den Download gegen `checksums.sha256`
+  derselben Veröffentlichung; lässt sich diese Liste nicht holen, nennt
+  sie das Archiv nicht oder steht dort eine andere Summe, wird nichts
+  ausgepackt, der Download gelöscht, und das Programm sagt, warum. Ein
+  Archiv, das eines der beiden Werkzeuge doppelt enthält, wird ebenso
+  abgelehnt. Schlägt der Download fehl, bietet es stattdessen an,
+  ffmpeg.org zu öffnen.
 * **Linux: erst die Paketverwaltung, dann ein Download.** `apt-get`,
   `dnf`, `zypper` oder `pacman`, mit `sudo` davor, wo der Lauf nicht
   ohnehin als root läuft — weil eine Paketverwaltung außerhalb des
@@ -322,7 +337,7 @@ Maschine hat:
   befragt statt geglaubt: Eine Distribution kann Erfolg melden und eine
   Fassung hingelegt haben, die Jahre unter der Untergrenze liegt. Wo
   das so ist, holt das Programm einen eigenen Bau, genau wie unter
-  Windows.
+  Windows, samt Prüfsumme.
 * **Wo ein geholter Bau landet, wird er auch benutzt.** Er kommt in den
   eigenen Ordner des Programms für solche Dinge — nicht in den
   Zwischenspeicher, den einzigen Ordner, von dem allen gesagt wird, sie
@@ -334,8 +349,8 @@ Maschine hat:
   installiert“ und tut nichts. Das Programm kennt den Unterschied und
   nimmt den anderen Befehl — unter macOS `brew reinstall --yes
   homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`.
-* **Wenn nichts installiert wird**, bleibt das Fenster leer und sagt,
-  was auf dieser Maschine zu tun ist. Die Frage mit nein zu beantworten
+* **Wenn nichts installiert wird**, lässt sich nichts ins Fenster
+  legen, und sein Kasten sagt, was auf dieser Maschine zu tun ist. Die Frage mit nein zu beantworten
   lässt es genauso stehen.
 
 In `requirements.txt` stehen dieselben Python-Pakete, die pip aus
@@ -349,10 +364,15 @@ es ebenfalls, mit zwei Unterschieden:
 
 * Der Schlüssel liegt im Schlüsselbund des Desktops, erreicht über den
   Secret Service, und dafür braucht es `secret-tool` (Paket
-  `libsecret-tools` unter Debian/Ubuntu, `libsecret` unter Fedora).
-  Fehlt es, wird nichts abgelegt: auphonic.com ist dann nur aus dem
-  Fenster erreichbar, mit dem Schlüssel, der für diese Sitzung ins Feld
-  getippt wird, und ein Lauf von der Kommandozeile kommt ohne aus.
+  `libsecret-tools` unter Debian/Ubuntu, `libsecret` unter Fedora und
+  Arch, `secret-tool` unter openSUSE). Fehlt es, bietet das Speichern
+  des Schlüssels an, es über die Paketverwaltung zu installieren -- im
+  Fenster in einem Kasten, im Terminal als Ja/Nein-Frage -- und legt den
+  Schlüssel ab, sobald es da ist. Bei Nein, oder wo niemand antworten
+  kann, wird nichts abgelegt und der Befehl zum Selbsteintippen genannt;
+  auphonic.com ist dann nur aus dem Fenster erreichbar, mit dem
+  Schlüssel, der für diese Sitzung ins Feld getippt wird, und ein Lauf
+  von der Kommandozeile kommt ohne aus.
 * Der Zwischenspeicher liegt unter `XDG_CACHE_HOME`.
 
 ## Wenn etwas klemmt
@@ -394,8 +414,8 @@ es ebenfalls, mit zwei Unterschieden:
 * **`ffmpeg` wird auch nach der Installation nicht gefunden.** Der
   Ordner, in dem es liegt, steht nicht im Suchpfad. Ihn dort
   aufnehmen und neu starten.
-* **Das Fenster geht auf und bleibt leer, und die Meldung nennt eine
-  ffmpeg-Fassung.** Dieses ffmpeg ist älter als 9.0.1. Der Knopf in
+* **Das Fenster geht auf, ein Kasten nennt eine ffmpeg-Fassung, und
+  es lässt sich nichts hineinlegen.** Dieses ffmpeg ist älter als 9.0.1. Der Knopf in
   diesem Kasten holt ein neues; was er dabei tut, erscheint unter
   **Ausgabe**. Von Hand heißt das unter macOS `brew reinstall --yes
   homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`, sonst ein Bau von

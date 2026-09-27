@@ -384,12 +384,6 @@ msgstr "Die Sprechertrennung ist hier nicht installiert. Das holt sie zurück: %
 msgid "Fetching the model (about %s MB) ..."
 msgstr "Modell wird geholt (etwa %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "Modell wird geholt (etwa %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "Das Modell ließ sich nicht holen: %s"
-
 msgid "The model could not be written: %s"
 msgstr "Das Modell ließ sich nicht schreiben: %s"
 
@@ -1181,13 +1175,6 @@ msgstr "  %-20s lässt sich nicht ausrichten: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s nicht messbar: %s"
-
-msgid ""
-"  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s "
-"ms, %s of %s points"
-msgstr ""
-"  %-20s Versatz %s, Uhrengang %s ppm (+/- %s), Reststreuung %s ms, "
-"%s von %s Punkten"
 
 msgid ""
 "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s "
@@ -3319,24 +3306,8 @@ msgstr ""
 msgid "In point is %s before the first frame"
 msgstr "In-Punkt liegt %s vor dem ersten Bild"
 
-msgid ""
-"In point is now %s, but the existing files belong to %s.\n"
-"  The audio in the videos is cut to the old window -- press Start\n"
-"  above again."
-msgstr ""
-"In-Punkt steht auf %s, die vorhandenen Dateien gehören zu %s.\n"
-"  Der Ton der Videos ist auf das alte Fenster geschnitten -- bitte oben\n"
-"  neu auf Start."
-
 msgid "Out point is %s after the last frame"
 msgstr "Out-Punkt liegt %s hinter dem letzten Bild"
-
-msgid ""
-"Out point is now %s; the window would be %s long, the existing\n"
-"  files are %s -- press Start above again."
-msgstr ""
-"Out-Punkt steht auf %s; das Fenster wäre %s lang, die vorhandenen\n"
-"  Dateien sind %s lang -- bitte oben neu auf Start."
 
 msgid ""
 "Delivery usually takes the limited range. Full is not wrong, but some "
@@ -3603,14 +3574,6 @@ msgstr ""
 "derselben Aufnahme zählen als eine, beiseitegelegte Spuren gar nicht."
 
 msgid ""
-"No audio file carries a timecode. In point and Out point count from the "
-"start of the material -- the position of the files to each other is "
-"measured."
-msgstr ""
-"Keine Tondatei trägt einen Timecode. In-Punkt und Out-Punkt zählen ab dem "
-"Anfang des Materials -- die Lage der Dateien zueinander ist gemessen."
-
-msgid ""
 "No sound in use yet -- add an audio recording, or set a video file's "
 "Camera audio to \"use internal audio\" in the file list."
 msgstr ""
@@ -3625,9 +3588,6 @@ msgid "No camera is assigned, so there is nothing to cut between."
 msgstr ""
 "Es ist keine Kamera zugeordnet, also ist nichts da, wozwischen "
 "geschnitten werden könnte."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "Noch keine Kameras zugeordnet -- dazu Multitrack einschalten."
 
 msgid ""
 "No connection to Resolve.\n"
@@ -4830,11 +4790,6 @@ msgstr "das Preset mastert auf %s LUFS, gerechnet wird mit %s."
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "das Preset mastert auf %s LUFS -- das gilt, von uns passt nichts an."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr ""
-"aus den Quelldateien übernommen, kein --lufs angegeben -- es wird nichts "
-"angepasst"
 
 msgid "the answer did not keep the floor"
 msgstr "die Antwort behielt das Wort nicht"
@@ -6680,9 +6635,6 @@ msgstr "%s\n   Ton nicht erkannt; so platziert, wie der Lauf ihn platziert"
 msgid "sound not recognised, placed by its timecode"
 msgstr "Ton nicht erkannt, über den Timecode platziert"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s Aufnahmen und kein Bild: Jede wird für sich zusammengefügt, und sie werden nicht aneinander ausgerichtet. --multitrack legt sie auf eine Zeitachse."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", Gang %s ppm bleibt stehen: nicht %s-mal so groß wie seine Unsicherheit von %s ppm"
 
@@ -6763,3 +6715,112 @@ msgstr "    %s: %s am Anfang hat kein Bild und bleibt weg"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: %s am Ende hat kein Bild und bleibt weg"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s kam %s s länger zurück, als es hochging, und wo der gesendete Ton\n"
+"  darin beginnt, war nicht messbar -- bleibt, wie es kam."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s ließ sich nicht schneiden (%s) -- bleibt, wie es kam."
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com hat am Anfang %s s angefügt -- weggeschnitten"
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com hat am Ende %s s angefügt -- weggeschnitten"
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s in %s klingt wie %s in %s (Ähnlichkeit %s): offenbar dieselbe Person."
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: Es wurde keine Datei geschrieben, daher lässt der Schnitt diese Kamera aus."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  In-Punkt und Out-Punkt wirken hier nicht: Eine Aufnahme ohne Bild wird ganz zusammengefügt."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  Der Kameraname \"%s\" enthält ein Ordner- oder Laufwerkstrennzeichen; geschrieben wird er als \"%s\"."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  Weitwinkel am Rand: keiner -- die andere Stimme spricht nur einmal, und dieser eine Rand war kürzer als die kürzeste Einstellung"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  Weitwinkel am Rand: nur ab %s -- die andere Stimme spricht nur einmal, nahe am Ende, also gibt es keinen am Anfang"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  Weitwinkel am Rand: nur bis %s -- die andere Stimme spricht nur einmal, nahe am Anfang, also gibt es keinen am Ende"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com nannte eine Datei \"%s\" -- kein einfacher Dateiname, sie wird nicht geholt"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s lässt sich nicht einordnen: Der Ton hat mit dem übrigen Material nichts gemeinsam, und keine Aufnahme, die über den Ton eingeordnet wurde, trägt einen Timecode, mit dem sich der eigene abgleichen ließe. Eine dieser Aufnahmen braucht einen Timecode, der zu dem dieser Datei passt, und der muss mit einem anderen Programm gesetzt werden."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name gibt %s zwei Namen, \"%s\" und \"%s\"; jeder Aufnahme nur einen geben."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name nennt %s, und das ist keine der Aufnahmen dieses Laufs."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "Modell wird von %s geholt (etwa %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Der In-Punkt hat sich seit dem letzten Lauf geändert: damals %s, jetzt %s. Der Schnitt und der Ton in den Videos gehören noch zum alten Fenster, Resolve bekäme also nicht, was die Marken jetzt sagen -- bitte noch einmal auf Start."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "Keine Tondatei trägt einen Timecode. In-Punkt und Out-Punkt zählen ab dem Moment, ab dem alle Kameras laufen -- die Lage der Dateien zueinander ist gemessen."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Der Out-Punkt hat sich seit dem letzten Lauf geändert: damals %s, jetzt %s. Der Schnitt und der Ton in den Videos gehören noch zum alten Fenster, Resolve bekäme also nicht, was die Marken jetzt sagen -- bitte noch einmal auf Start."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "Produktion fertig, aber das ZIP mit den Einzelspuren hat keinen einfachen Dateinamen"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "Mehrere Kameras, aber keine Tonaufnahme. Jede Kamera hätte eigenen Ton -- dafür ist Multitrack da. Sonst bitte eine Kamera nach der anderen."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "Das Archiv enthält %s mehr als einmal, deshalb wurde nichts daraus genommen."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "Die Zuordnungsdatei benennt hier die Aufnahmen, also würde --speaker-name übergangen; die Namen dort angeben oder --speaker-name weglassen."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "Der fertige Bau passt nicht zu seiner Prüfsumme, deshalb wurde er nicht ausgepackt: %s steht in der Liste, %s ist angekommen."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "Die Liste der Prüfsummen ließ sich nicht holen, deshalb wurde der fertige Bau nicht ausgepackt: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "Die Liste der Prüfsummen nennt %s nicht, deshalb wurde der fertige Bau nicht ausgepackt."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "Die Liste der Modelldateien nennt %s, das außerhalb des Modellordners liegt; nichts wurde geholt."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "Das Modell ließ sich von %s nicht holen: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "Der Sprechername für %s ist leer; einen Namen angeben oder --speaker-name weglassen."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "Produktion fertig, aber ihr Ergebnis hat keinen einfachen Dateinamen"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "aus den Quelldateien übernommen, „--lufs source“ -- es wird nichts angepasst"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Der Schlüssel wird über den Befehl secret-tool im Schlüsselbund des Desktops abgelegt, und diesen Befehl hat dieser Rechner nicht."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Dieser Rechner hat kein secret-tool, das den Schlüssel im Schlüsselbund des Desktops ablegt, deshalb wurde nichts gespeichert. Von Hand: %s"
+
+msgid "What it says appears under Output."
+msgstr "Was dabei ausgegeben wird, erscheint unter Ausgabe."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "das Paket libsecret-tools unter Debian und Ubuntu, libsecret unter Fedora und Arch"

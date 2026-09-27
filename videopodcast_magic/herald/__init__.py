@@ -8,10 +8,11 @@ it was cut out of, so the program is handed in and bound below by name.
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# Bound above the seam. Three names are missing, and the block under
-# the list says which and why.
+# Bound above the seam. Two names are missing, and the block under the
+# list says which and why.
 
 BAD_MARK = PROGRAM.BAD_MARK
+LIKES_PYTHON = PROGRAM.LIKES_PYTHON
 T = PROGRAM.T
 THREAD_BUFFER = PROGRAM.THREAD_BUFFER
 THREAD_SHARE = PROGRAM.THREAD_SHARE
@@ -32,12 +33,9 @@ threading = PROGRAM.threading
 time = PROGRAM.time
 
 
-# Two of the three are bent while the run goes on, and a copy here
-# would answer with the value of the run before: the window sets
-# OUTPUT_SINK and PROGRESS_SINK on the program object. Both stay there.
-
-# python_note is the third: it comes out of the material, read further
-# down than this piece, so it is read as PROGRAM.python_note instead.
+# Both are bent while the run goes on, and a copy here would answer
+# with the value of the run before: the window sets OUTPUT_SINK and
+# PROGRESS_SINK on the program object. Both stay there.
 
 
 def show_progress(text, share=None):
@@ -181,12 +179,13 @@ def step_report(share):
             pass
 
 
-def run_stages(multitrack, cameras, auphonic, speakers=None):
+def run_stages(multitrack, cameras, auphonic, sync=False):
     """The stages of a run and what share of the bar each is worth.
 
     The weights are proportions measured on real jobs: writing the camera
     files re-encodes every camera in full and takes longer than
-    everything before it together. A stage that will not happen is out.
+    everything before it together. A stage that will not happen is out:
+    who speaks is asked on every run but a *sync* one, tick or no tick.
     """
     cameras = max(0, int(cameras))
     out = [("plan", 1.0, T('Reading the plan'))]
@@ -200,7 +199,7 @@ def run_stages(multitrack, cameras, auphonic, speakers=None):
         out.append(("auphonic", 8.0, T('Processing at auphonic.com')))
     else:
         out.append(("loudness", 4.0, T('Loudness and levels')))
-    if multitrack if speakers is None else speakers:
+    if not sync:
         out.append(("speakers", 3.0, T('Who speaks when')))
     if cameras:
         out.append(("cameras", 12.0 * cameras,
@@ -372,6 +371,14 @@ class ThreadOutput(object):
             pass
 
 
+def python_note():
+    """One line about the Python this is running on, for the log."""
+    now = "%d.%d.%d" % sys.version_info[:3]
+    if now == LIKES_PYTHON:
+        return "Python %s" % now
+    return "Python %s  (recommended version %s)" % (now, LIKES_PYTHON)
+
+
 def running_from():
     """Which copy of the script this is.
 
@@ -391,17 +398,20 @@ GUI_MARK = "[GUI]"
 SPEAKER_STATE = ("measure_failed", "speakers_measured", "speakers_measuring")
 
 
-def speakers_still_wanted(state):
+def speakers_still_wanted(state, assign_lines=(), voice_lines=None):
     """Whether the speakers still have to be worked out.
 
     Not while one run is under way and not after one failed -- it would
-    fail the same way and cost the same minutes. And not where a
-    finished run knows them: measuring again would relabel its preview.
+    fail the same way and cost the same minutes. Not where a finished
+    run knows them: measuring again would relabel its preview. Nor where
+    a stored separation still holds for every track in *assign_lines*.
     """
     return not (state.get("speakers_measured")
                 or state.get("speakers_measuring")
                 or state.get("measure_failed")
-                or state.get("cut_basis") in ("run", "auphonic"))
+                or state.get("cut_basis") in ("run", "auphonic")
+                or PROGRAM.tracks_all_separated(state, assign_lines,
+                                                voice_lines))
 
 # How close a player has to be to a jump before it counts as arrived.
 # One second: a seek lands on the key frame before the mark, which on
@@ -579,10 +589,9 @@ def redirect_console():
                 kept.close()
         except Exception:
             kept = None
-    # What this run wrote aside before now belongs to this run: it is cut
-    # off the old log and written again after the head -- but only off
-    # the file the aside handle wrote, not off a log another copy has put
-    # in its place since, which would be cut short or padded with zeros.
+    # What this run wrote aside is cut off the old log and written again
+    # after the head -- but only off the file the aside handle wrote: a log
+    # another copy put in its place would be cut short or padded with zeros.
     moved = ""
     if begun is not None:
         try:
@@ -603,10 +612,9 @@ def redirect_console():
             os.unlink(old)          # from older versions
     except OSError:
         pass
-    # Where the old log cannot be renamed -- on Windows while another
-    # copy holds it open -- this run follows it in the same file rather
-    # than going unwritten, and the lines moved above follow its head.
-    # An empty one is not renamed: it would put nothing over the kept one.
+    # A log that cannot be renamed (Windows: another copy holds it open) is
+    # followed in the same file, moved lines after its head, rather than
+    # left unwritten. An empty one is not renamed over the kept one.
     mode = "w"
     try:
         if os.path.exists(file_path) and os.path.getsize(file_path):
@@ -623,7 +631,7 @@ def redirect_console():
                     % (PROGRAM.DISPLAY_NAME, VERSION,
                        time.strftime("%Y-%m-%d %H:%M:%S"),
                        platform.system(), platform.release(),
-                       platform.machine(), PROGRAM.python_note(),
+                       platform.machine(), python_note(),
                        running_from()))
         file.write(moved)
         os.dup2(file.fileno(), 1)

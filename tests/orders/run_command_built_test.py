@@ -9,11 +9,11 @@ Two sections hold the window to calling this and keeping no
 assembly of its own, since two builders of one command line drift
 apart. The window is gui(), every make_* function beside it and
 every class, collected out of the program rather than listed here, and
-held against a plain search for their definitions. The last section is the camera's
-name where no plan carries it: it goes as a switch pair the run's
-parser reads back, under Sync only too, and two cameras of one name,
-case aside, are refused on that path; the production's name, and the
-window's name for the second of two files of one name, ride the same way."""
+held against a plain search for their definitions. The last two
+sections: one plan, ticked or not -- names, production, each
+recording's camera and "do not use" in it, the same word for word, and
+one question for a name typed twice -- and the window's name for the
+second of two files of one name."""
 PLATFORM_BOUND = False
 import os
 import sys
@@ -107,8 +107,12 @@ check("both files there", a[1:3] == ["/x/a.wav", "/x/G.mov"],
         "1. a[1:3] is %s, wanted ['/x/a.wav', '/x/G.mov']" % (a[1:3],))
 check("--out behind them", a[3:5] == ["--out", "/out"],
         "1. a[3:5] is %s, wanted ['--out', '/out']" % (a[3:5],))
-check("no plan", plan is None,
-        "1. plan is %s, wanted None" % brief(plan))
+check("a plan all the same, with nothing in it to assign",
+        plan is not None and plan.get("tracks_of") == []
+        and plan.get("cameras") == [],
+        "1. plan is %s with tracks %r and cameras %r, wanted a plan with "
+        "none of either" % (brief(plan), (plan or {}).get("tracks_of"),
+                            (plan or {}).get("cameras")))
 check("no message", m == [],
         "1. %d messages, titles %s, wanted 0"
         % (len(m), [x[1] for x in m]))
@@ -519,44 +523,53 @@ check("a key and a preset keep it off the line",
         "18. a key and a preset gave %s, wanted no --without-auphonic"
         % shown(a))
 
-print("\n19. A camera's name rides on the line where no plan carries it")
-# The window's "new file name" field: with Multitrack it travels in the
-# plan, without one there is no plan, so it goes as a pair behind
-# --new-name. An empty field sends nothing and the run names the file
-# after itself; the pair count is the whole of that judgement.
+print("\n19. One plan, ticked or not")
+# The window writes one assignment file on both paths; the tick only
+# groups the recordings. So the camera's typed name, the production,
+# each recording's camera and a recording set to "do not use" all ride
+# in the plan, never as switch pairs the plain run would half read.
 NAMED = [{"path": "/x/G.mov", "name": " Presenter "},
          {"path": "/x/H.mov", "name": ""}]
 THREE = [("/x/a.wav", "audio"), ("/x/G.mov", "video"), ("/x/H.mov", "video")]
+PAIRS = ("--new-name", "--speaker-name", "--production", "--speakers-from")
+ASSIGN = "/x/assign.json"
 
 
-def name_pairs(argv):
-    """Every FILE NAME pair behind --new-name, in the order sent."""
-    return [argv[i + 1:i + 3] for i, w in enumerate(argv) if w == "--new-name"]
+def pair_switches(argv):
+    """The switches of the old second carrier still on the line."""
+    return [w for w in argv if w in PAIRS]
 
 
-a, plan, m = vpm.run_argv(values(files=THREE, cameras=NAMED))
+a, plan, m = vpm.run_argv(values(files=THREE, cameras=NAMED), ASSIGN)
 a = a or []
-check("the typed name goes as a pair and the plan stays away",
-        name_pairs(a) == [["/x/G.mov", "Presenter"]] and plan is None
-        and "--assign" not in a,
-        "19. pairs %s and plan %s, wanted [['/x/G.mov', 'Presenter']] "
-        "and None; the line is %s" % (name_pairs(a), brief(plan), shown(a)))
+check("the typed camera name travels in the plan with the tick off",
+        (plan or {}).get("cameras") == [
+            {"video": "/x/G.mov", "name": "Presenter"},
+            {"video": "/x/H.mov", "name": "H"}]
+        and not pair_switches(a),
+        "19. cameras %r and pair switches %s, wanted G.mov as Presenter, "
+        "H.mov as H and none; the line is %s"
+        % ((plan or {}).get("cameras"), pair_switches(a), shown(a)))
 space, rest = vpm.build_argument_parser().parse_known_args(a[1:])
-check("and the run's parser reads the pair back as file and name",
-        getattr(space, "new_name", None) == [["/x/G.mov", "Presenter"]]
-        and rest == [],
-        "19. new_name read back as %r with %d words left over %s, wanted "
-        "[['/x/G.mov', 'Presenter']] and none"
-        % (getattr(space, "new_name", None), len(rest), rest[:4]))
+check("and the run's parser reads the plan's file off the line",
+        getattr(space, "assign", None) == ASSIGN and rest == []
+        and not getattr(space, "multitrack", True),
+        "19. assign read back as %r, multitrack %r, %d words left over "
+        "%s, wanted %r, False and none"
+        % (getattr(space, "assign", None), getattr(space, "multitrack", None),
+           len(rest), rest[:4], ASSIGN))
 a, plan, m = vpm.run_argv(values(files=THREE, cameras=NAMED,
-                                 project_type="sync"))
+                                 project_type="sync"), ASSIGN)
 a = a or []
-check("under Sync only the pair rides along just the same",
-        name_pairs(a) == [["/x/G.mov", "Presenter"]]
+check("under Sync only the plan rides along just the same",
+        (plan or {}).get("cameras", [{}])[0].get("name") == "Presenter"
+        and "--assign" in a
         and a[a.index("--project-type") + 1:][:1] == ["sync"],
-        "19. pairs %s behind --project-type %s, wanted [['/x/G.mov', "
-        "'Presenter']] and 'sync'; the line is %s"
-        % (name_pairs(a), a[a.index("--project-type") + 1:][:1]
+        "19. cameras %r, --assign %s, behind --project-type %s, wanted "
+        "Presenter first, the switch there and 'sync'; the line is %s"
+        % ((plan or {}).get("cameras"),
+           "there" if "--assign" in a else "missing",
+           a[a.index("--project-type") + 1:][:1]
            if "--project-type" in a else "missing", shown(a)))
 a, _p, m = vpm.run_argv(values(
     files=THREE, cameras=[{"path": "/x/G.mov", "name": "same"},
@@ -572,26 +585,63 @@ check("and so are two whose names differ only in case",
         a is None and bool(m) and m[-1][1] == "File names",
         "19. named 'Same' and 'same' gave %s with the titles %s, wanted "
         "None and 'File names' last" % (shown(a), [x[1] for x in m]))
+ROWS = [{"blocks": ["/x/a.wav"], "speakers": "Guest",
+         "camera_choice": "/x/G.mov"},
+        {"blocks": ["/x/b.wav"], "speakers": "Presenter",
+         "camera_choice": "/x/H.mov"},
+        {"blocks": ["/x/c.wav"], "speakers": "CoPresenter",
+         "camera_choice": vpm.IGNORE_AUDIO}]
+FIVE = [("/x/a.wav", "audio"), ("/x/b.wav", "audio"), ("/x/c.wav", "audio"),
+        ("/x/G.mov", "video"), ("/x/H.mov", "video")]
+_a, plain, _m = vpm.run_argv(values(files=FIVE, rows=ROWS, cameras=NAMED,
+                                    production=" Pilot "), ASSIGN)
+_a, ticked, _m = vpm.run_argv(values(files=FIVE, rows=ROWS, cameras=NAMED,
+                                     production=" Pilot ",
+                                     multitrack=True), ASSIGN)
+seats = [(e["audio"], e["speakers"], e["camera"])
+         for e in (plain or {}).get("tracks_of", [])]
+check("without the tick each recording goes to its chosen camera",
+        seats == [("/x/a.wav", "Guest", "/x/G.mov"),
+                  ("/x/b.wav", "Presenter", "/x/H.mov")],
+        "19. the plan seats %s, wanted a.wav as Guest on G.mov and b.wav "
+        "as Presenter on H.mov, c.wav (do not use) left out" % seats)
+check("and the plan is the one Multitrack writes, word for word",
+        plain is not None and plain == ticked,
+        "19. keys %s against %s, tracks %d against %d"
+        % (brief(plain), brief(ticked),
+           len((plain or {}).get("tracks_of", [])),
+           len((ticked or {}).get("tracks_of", []))))
+
+TWICE = [{"blocks": ["/x/a.wav"], "speakers": "Guest",
+          "camera_choice": "/x/G.mov"},
+         {"blocks": ["/x/b.wav"], "speakers": "Guest",
+          "camera_choice": "/x/G.mov"},
+         {"blocks": ["/x/c.wav"], "speakers": "Presenter",
+          "camera_choice": "/x/H.mov"}]
+_a, _p, plain = vpm.run_argv(values(files=FIVE, rows=TWICE, cameras=NAMED))
+_a, _p, ticked = vpm.run_argv(values(files=FIVE, rows=TWICE, cameras=NAMED,
+                                     multitrack=True))
+check("a name typed twice is asked about without the tick, as with it",
+      [x[1] for x in plain] == ["Names used more than once"]
+      and plain == ticked,
+      "19. titles %s without the tick against %s with it, wanted "
+      "['Names used more than once'] on both"
+      % ([x[1] for x in plain], [x[1] for x in ticked]))
 
 print("\n20. The production's name and a camera's window name ride along")
-# Without a plan the production field reached no run, and the run named
-# its handover after the material's folder. And two cameras of one file
-# name: the window calls the second "(2)", and the run's log is to say
-# the same, so that name travels too -- only where it is not the file's.
-a, plan, m = vpm.run_argv(values(files=THREE, production=" Pilot "))
+# The production field travels in the plan on both paths. Two cameras
+# of one file name: the window calls the second "(2)", and the run's
+# log is to say the same, so that name goes as a switch -- only where
+# it is not the file's.
+a, plan, m = vpm.run_argv(values(files=THREE, production=" Pilot "), ASSIGN)
 a = a or []
-said = [a[i + 1:i + 2] for i, w in enumerate(a) if w == "--production"]
-check("the production's name goes as a switch where no plan does",
-        said == [["Pilot"]] and plan is None,
-        "20. --production carries %s and the plan is %s, wanted "
-        "[['Pilot']] and None; the line is %s" % (said, brief(plan),
-                                                  shown(a)))
-space, rest = vpm.build_argument_parser().parse_known_args(a[1:])
-check("and the run's parser reads it back as the production",
-        getattr(space, "production", None) == "Pilot" and rest == [],
-        "20. production read back as %r with %d words left over %s, "
-        "wanted 'Pilot' and none"
-        % (getattr(space, "production", None), len(rest), rest[:4]))
+check("the production's name travels in the plan with the tick off",
+        (plan or {}).get("production") == "Pilot"
+        and "--production" not in a,
+        "20. the plan's production %r, --production %s, wanted 'Pilot' "
+        "and no switch; the line is %s"
+        % ((plan or {}).get("production"),
+           "on the line" if "--production" in a else "absent", shown(a)))
 PAIR = [("/x/a.wav", "audio"), ("/x/A/C0003.MP4", "video"),
         ("/x/B/C0003.MP4", "video")]
 a, _p, m = vpm.run_argv(values(files=PAIR))

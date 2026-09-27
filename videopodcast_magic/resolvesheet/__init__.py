@@ -373,9 +373,10 @@ class ResolveSheet(QtWidgets.QScrollArea):
         if not self.state.get("resolve_checked"):
             self.state["resolve_checked"] = True
             self.resolve_check_run_kick_off()
-        if self.state.get("project_type") == "sync":
+        if PROGRAM.sync_only(self.state):
             return          # no cut, so no speakers to measure
-        if speakers_still_wanted(self.state):
+        if speakers_still_wanted(self.state, self.model.assign_lines,
+                                 self.model.voice_lines):
             gui_log("cut tab opened with no speakers known -- measuring")
             self.speaker_measure()
 
@@ -395,9 +396,11 @@ class ResolveSheet(QtWidgets.QScrollArea):
 
     def window_info_show(self):
         """Write In point, Out point and duration into their line."""
-        a = self.model.in_point.get().strip()
-        b = self.model.out_point.get().strip()
-        duration = self.model.window_length()
+        shown = self.state.get("mark_shown") or (lambda text: text)
+        a = shown(self.model.in_point.get()).strip()
+        b = shown(self.model.out_point.get()).strip()
+        duration = self.model.window_length(self.state.get("axis"),
+                                            self.state.get("mark_on_clock"))
         self.window_info_label.setText(
             T('In point: %s     Out point: %s     Duration: %s')
             % (a or T('Beginning'), b or T('End'),
@@ -580,8 +583,7 @@ class ResolveSheet(QtWidgets.QScrollArea):
         """
         heard = PROGRAM.window_words_round(
             self.state, self.model.assign_lines, self.words_report)
-        if preview_out_of_date(self.state, self.model.multitrack.get()) \
-                or heard:
+        if preview_out_of_date(self.state) or heard:
             self.preview_compute()
 
     def speakers_build(self, column, state):

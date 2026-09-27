@@ -10,7 +10,9 @@ A piece of the program; the program is handed in and bound below.
 PROGRAM = PROGRAM
 
 # Bound above the seam, so each is a copy and none is read late.
+FILE_FORMAT = PROGRAM.FILE_FORMAT
 FROZEN_NAME = PROGRAM.FROZEN_NAME
+T = PROGRAM.T
 json = PROGRAM.json
 os = PROGRAM.os
 sys = PROGRAM.sys
@@ -227,3 +229,22 @@ def keep_setting(name, value):
     write_beside_then_move(path, data)
     forget_settings()
     return read_settings(path).get(name) == value
+
+
+#-------------------------------------- Whether a stored file may be read
+
+def format_complaint(d):
+    """Say why a stored file cannot be used, or return "".
+
+    Where the format number differs the keys inside mean something else,
+    and reading it anyway would quietly assign the wrong things.
+    """
+    if not isinstance(d, dict):
+        return T("This is not a file of this program.")
+    present = int(d.get("format") or 1)
+    if present == FILE_FORMAT:
+        return ""
+    return T("This file was written by version %s in format %d; this one "
+             "writes format %d. The names inside have changed since, so it "
+             "cannot be read. Please set the run up again.",
+             d.get("version") or "?", present, FILE_FORMAT)

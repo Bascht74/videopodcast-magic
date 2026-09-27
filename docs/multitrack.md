@@ -14,11 +14,12 @@ recording stays one track. The speaker separation tells the voices in it
 apart and gives the cut, not a track each
 ([Speech recognition and speaker separation](speech.md)).
 
-The tick decides how the recordings are grouped, and nothing else: with
-it every person gets a track of their own, with a name and a camera;
-without it they all run into the Full-Mix together. The common time
-axis, the camera cut and the files that come out are the same with the
-tick and without it. Who ends up in the cut does not hang on where they
+The tick asks for one track per person, and nothing else: with it
+**Start** waits until the table holds two tracks at least, each with a
+name, and cameras without any audio recording give their sound as a
+track each. The common time axis, the names and cameras in the table,
+the camera cut, the files that come out and the kind of production that
+goes to auphonic.com are the same with the tick and without it. Who ends up in the cut does not hang on where they
 came in by either: a recording of one person, the sound of a camera, a
 channel of a recorder and a voice a separation found all count alike,
 and only **do not use** keeps somebody out.
@@ -102,12 +103,17 @@ What follows from that is two different things. Two recordings of one
 name are a question and not a refusal: the line under the table names it
 and says **occurs more than once. These recordings are merged into one
 track and placed in sequence by their timecode -- correct if recording
-was stopped in between**, which is exactly what that grouping is for. A
-voice cannot be merged with anything -- it is one person inside one
-separation -- so a voice carrying a name somebody else has locks
-**Start**, and the line under the button names it and says **is on more
-than one speaker -- a name is a person, and every person needs their
-own**.
+was stopped in between**, which is exactly what that grouping is for.
+Before the run the same thing is asked once more, under **Names used
+more than once**, with the Multitrack tick and without it.
+
+A voice merges only with itself. Where a separated voice sounds like a
+voice already named in another recording, it may carry the same name,
+and the table proposes that name in its field; the log says which voice
+it heard again and how alike the two are. Any other voice carrying a
+name somebody else has locks **Start**, and the line under the button
+names it and says **is on more than one speaker -- a name is a person,
+and every person needs their own**.
 
 The lower table has a row per camera: **Camera**, **new file name**,
 **gets audio from**, **Kind** and **Camera audio**. The last two stand
@@ -310,15 +316,22 @@ In point** and **to Out point** jump back to the two marks. The
 **Resolve cut** tab repeats both as a line: In point, Out point,
 Duration.
 
+The player shows a mark as the timecode of the camera it is playing,
+but the run gets it as a distance from the moment every camera runs. So
+a mark lands on the frame it was set on, on every camera -- one running
+at 29.97 frames included -- and preview and run cut at the same moment.
+An In point counted back from the end is refused, by the player as by
+the run.
+
 Both boundaries take these entries:
 
 | Entry         | Meaning                      |
 |---------------|------------------------------|
 | `17:20:14`    | absolute, clock time         |
 | `17:20:14:00` | absolute, with frames        |
-| `+12:30`      | from the window start        |
+| `+12:30`      | from the window start -- the moment every camera runs |
 | `90`          | the same, in seconds         |
-| `-30`         | Out point: back from the end |
+| `-30`         | Out point: back from where the first camera stops |
 
 The buttons stay locked until the common time axis is there. After that
 they hold for every file alike, including those without a timecode.
@@ -388,9 +401,10 @@ ingredients in brackets behind it; it is the bare `Full-Mix` now, the
 same name the written track carries and the same one it has in Resolve.
 The program measures loudness over the sum and
 applies it to every track alike, so their balance stays. Which target it
-uses comes from **Loudness** in the **Production** box, or from `--lufs`;
-without either, the sound is taken from the source files and nothing is
-adjusted ([Preflight](preflight.md)).
+uses comes from **Loudness** in the **Production** box, or from `--lufs`,
+which starts on -16 as the window does; with **Take from source files**
+or `--lufs source` the sound is taken from the source files and nothing
+is adjusted ([Preflight](preflight.md)).
 
 The program also writes the tracks as files, into `auphonic-tracks/` as
 `final_<name>_<timecode>.wav`. The timecode is in the name and in the
@@ -399,16 +413,17 @@ bext chunk, and iXML comes along for Premiere and Media Composer.
 ### Multitrack with no camera at all
 
 Sometimes there is no picture: several microphones on one table, and
-nothing filming. A run with the tick and no video file used to be turned
-away for want of a time axis. It now builds the axis out of the tracks
-themselves -- they are laid against each other instead of against a
-camera.
+nothing filming. With several recordings and no video file the program
+builds the axis out of the tracks themselves -- they are laid against
+each other instead of against a camera -- and it does so with the
+Multitrack tick and without it.
 
 The longest recording is the reference, for the same reason the longest
 camera is: it overlaps most with the others. Every other track is
 measured against it, offset and clock drift in one go, and the log names
 the reference with its running time and each track with what was found.
-A track that cannot be placed is named and stays out.
+A track whose sound matches nothing stands at its timecode, as it would
+beside a picture; a track with neither is named and stays out.
 
 The window holds everything any track heard. A recording switched on
 late gets silence in front of it, one switched off early silence behind,
@@ -420,8 +435,10 @@ What comes out is one file per voice in the output folder, called
 the same moment, which is what the processing of the sound wants. With
 no output folder set they land beside the first recording. With a key
 the same tracks go up to auphonic.com as **one** multitrack production
-as well, and what comes back is held against what went up; without a
-key, or with `--without-auphonic`, they stay on this machine.
+as well, and what comes back is held against what went up; with the
+key field empty in the window, or with `--without-auphonic`, they stay
+on this machine. On the command line a run with no key stored and no
+`--without-auphonic` stops before it starts, and a dry run needs none.
 
 In point and Out point hold here too (`--in-point`, `--out-point`), but
 only as a value counting from the start of the window -- `+12:30`, `90`,
@@ -432,9 +449,9 @@ stops.
 **A loudness target does nothing to the sound on this path.** A gain per
 track would pull the voices out of the very balance this path exists to
 keep, so the tracks leave as they were recorded and the loudness is set
-where they are mixed. Given `--lufs` and no key, the run says that in
-one line; given a key, the value is still held against what the preset
-masters to ([Preflight](preflight.md)).
+where they are mixed. Without a key the run says that in one line,
+unless `--lufs source` was given; with a key, the value is still held
+against what the preset masters to ([Preflight](preflight.md)).
 
 ### When something goes wrong
 
@@ -482,9 +499,12 @@ masters to ([Preflight](preflight.md)).
   of its own -- lock nothing: the window tells them apart as the command
   line does. The second is `<name> 2` in the cut, in the **new file
   name** offered to it and in Resolve, and each keeps its own picture.
-  In what the window itself shows -- the column **Camera**, the choice
-  under **belongs to** and the note at a second wide shot -- the second
-  stands as `<name> (2)`, and resting on it shows the whole path. A
+  In what the window itself shows -- the file list, the column
+  **Camera**, the choice under **belongs to** and the note at a second
+  wide shot -- the second stands as `<name> (2)`, and resting on it
+  shows the whole path. Two audio recordings of one file name are told
+  apart the same way, in the file list, on the **Assignment & time
+  window** tab and in the preflight. A
   project saved by an older version knew a camera by its file name
   alone: opened now, every row that named one
   of the two goes to the first file of that name, so the rows meant for
@@ -495,10 +515,17 @@ masters to ([Preflight](preflight.md)).
   a track.
   They no longer become tracks by themselves: a camera recording a
   usable track cannot be told from one merely filming in the same room.
+- **Several cameras, no audio recording, Multitrack off, and Start
+  stays locked.** The line under **Start** says **Several cameras but no
+  audio recording**. Each camera would bring its own sound, and a track
+  per camera is what Multitrack is for. Tick **Multitrack**, add an
+  audio recording, or run the cameras one after another.
 - **A voice carries a name somebody else has, and Start stays locked.**
   A name is a person, and the cut puts a person on one camera; the same
   name twice would be one person in two places. Give the voice a name of
-  its own, in its indented row under the recording. Two **recordings**
+  its own, in its indented row under the recording. Only the same voice
+  heard again in another recording may share a name -- the one the table
+  proposed there. Two **recordings**
   of one name are another matter -- those are joined into one track on
   purpose and only want confirming, so what has to change is the
   indented row, not the recording's.

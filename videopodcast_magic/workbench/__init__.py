@@ -9,15 +9,17 @@ handed in and every name used out of it is bound below.
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# Read straight after the catalogue, so only what stands above that
-# line can be bound here. AUDIO_SUFFIXES, RUN_STOP and ffprobe_json
-# stand below it and are read through PROGRAM where they are used.
+# Read straight after the catalogue, so only what stands above that line
+# is bound here. AUDIO_SUFFIXES, RUN_STOP, ffprobe_json and ASK_SINK, which
+# the window writes, stand below it: read through PROGRAM where used.
 T = PROGRAM.T
 TN = PROGRAM.TN
 as_written = PROGRAM.as_written
 os = PROGRAM.os
 re = PROGRAM.re
 subprocess = PROGRAM.subprocess
+sys = PROGRAM.sys
+threading = PROGRAM.threading
 
 
 # The program holds a stand-in for numpy until the first sum asks and
@@ -79,10 +81,9 @@ def number_text(number, places=1, plus=False):
 
     Not in two passes over the finished text: one language's thousands
     mark is another's decimal mark, and on German the second pass reads
-    what the first wrote -- "1,234,5". *places* None writes as many
-    places as the number needs, and *plus* signs a positive one. A
-    signed number is held together as_written(), or a right-to-left
-    line puts its sign behind it: "-16 LUFS" read as "LUFS 16-".
+    what the first wrote -- "1,234,5". *places* None writes the places
+    needed, *plus* signs a positive one. as_written() holds a signed number
+    together, or right-to-left puts the sign behind: "-16 LUFS" as "LUFS 16-".
     """
     # French and Russian group with a space, so nothing here may look
     # for a particular character: the cut is made at the point "%f"
@@ -174,14 +175,9 @@ def video_facts(path, fps_default=None, tc_default_value=None):
     if v is None:
         raise RuntimeError(T('no video track in %s') % os.path.basename(path))
     a = [s for s in d.get("streams", []) if s.get("codec_type") == "audio"]
-    fps = fps_default
-    if not fps:
-        r = v.get("avg_frame_rate") or v.get("r_frame_rate") or "30/1"
-        try:
-            num, the_one = (int(x) for x in r.split("/"))
-            fps = num / the_one if the_one else 30.0
-        except Exception:
-            fps = 30.0
+    # The file's own rate, by the one rule; --fps overrides it for the run.
+    own = PROGRAM.stream_frame_rate(v) or 30.0
+    fps = fps_default or own
     tc = tc_default_value
     if tc is None:
         # The tracks before the file, for the reason in file_timecode:
@@ -193,16 +189,9 @@ def video_facts(path, fps_default=None, tc_default_value=None):
                 tc = source["timecode"]
                 break
     dur = float(d.get("format", {}).get("duration") or v.get("duration") or 0.0)
-    label_text = 0.0
-    try:
-        num, the_one = (float(x) for x in str(v.get("r_frame_rate")
-                                          or "0/0").split("/"))
-        label_text = num / the_one if the_one else 0.0
-    except Exception:
-        label_text = 0.0
     return {"fps": fps, "tc": tc, "duration": dur, "audio": a, "video": v,
             "width": v.get("width"), "height": v.get("height"),
-            "nominal": label_text or fps,
+            "nominal": own,
             "tags": (d.get("format") or {}).get("tags") or {}}
 
 
@@ -234,3 +223,145 @@ class Stopped(Exception):
 def stop_wanted():
     """Whether somebody has asked for the run to stop."""
     return bool(PROGRAM.RUN_STOP["wanted"])
+
+
+def end_child(proc):
+    """End a child of the run, and on Windows what it started in turn.
+
+    A Chocolatey or Scoop ffmpeg is a shim that starts the real one;
+    ended alone, the real one writes on and holds the pipe the run
+    reads. taskkill /T, on every Windows, ends the tree. Says whether
+    the ending was sent: a child already gone is no fault.
+    """
+    try:
+        if os.name == "nt":
+            subprocess.run(["taskkill", "/T", "/F", "/PID", str(proc.pid)],
+                           stdout=subprocess.DEVNULL,
+                           stderr=subprocess.DEVNULL,
+                           creationflags=subprocess.CREATE_NO_WINDOW)
+        proc.terminate()
+    except Exception:
+        # It ended by itself in the meantime. Nothing to do.
+        return False
+    return True
+
+
+#------------------------------------------------- Asking whoever runs it
+
+def ask_choice(possible, heading, title=T('Question'), default_value=None,
+               switch="--auphonic-resume"):
+    """Ask a question -- in the terminal, in the GUI or via a switch.
+
+    *options* is [(key, text)] and the key comes back. *switch* preselects
+    the answer and is named where nobody is there to answer.
+    """
+    print("\n  %s" % heading)
+    for i, (_, text) in enumerate(possible, 1):
+        print("    %d  %s" % (i, text))
+    api_key = [k for k, _ in possible]
+
+    def write_out(label, choice):
+        """Show the visible text rather than the internal key."""
+        for i, (k, text) in enumerate(possible, 1):
+            if k == choice:
+                print("  %s: %d  %s" % (label, i, text.split("\n")[0]))
+                return
+        print("  %s: %s" % (label, choice))
+
+    if default_value in api_key:
+        write_out(T('Given'), default_value)
+        return default_value
+    if PROGRAM.ASK_SINK is not None:
+        choice = PROGRAM.ASK_SINK(possible, title)
+        write_out(T('Chosen'), choice)
+        return choice
+    if not sys.stdin.isatty():
+        raise RuntimeError(
+            T('No input possible. Use %s %s to set what should happen.') % (switch, "|".join(api_key)))
+    while True:
+        answer = input(T('  Number: ')).strip()
+        if answer.isdigit() and 1 <= int(answer) <= len(possible):
+            write_out(T('Chosen'), possible[int(answer) - 1][0])
+            return possible[int(answer) - 1][0]
+        print(T('  Please give a number between 1 and %d.') % len(possible))
+
+
+#-------------------------------------------------- A working file let go
+
+def remove_quietly(path):
+    """Delete a working file. Returns whether it went.
+
+    A file already gone is not a fault, but the answer is handed back
+    rather than swallowed, for a caller that does care.
+    """
+    try:
+        os.unlink(path)
+    except OSError:
+        return False
+    return True
+
+
+#----------------------------------------------------------- Many at once
+
+def how_many_processors():
+    """How many processors this process may actually use.
+
+    os.cpu_count() counts what the machine has, not what this process is
+    allowed: held to two of thirty-two, a pool of thirty-two means
+    threads taking turns. process_cpu_count needs Python 3.13.
+    """
+    ask = getattr(os, "process_cpu_count", None) or os.cpu_count
+    try:
+        return max(1, int(ask() or 2))
+    except Exception:
+        return 2
+
+
+def parallel_map(items, work, workers=None):
+    """Run *work* over all *items* at once; answers come back in order.
+
+    Threads rather than processes: everything this waits on lets other
+    threads run. The rest is worked here where none can be started; an
+    error is raised at the end, and Stop ends it as Stopped, not gaps.
+    """
+    items = list(items)
+    if len(items) < 2:
+        return [work(x) for x in items]
+    if workers is None:
+        workers = max(2, min(8, how_many_processors()))
+    out = [None] * len(items)
+    todo = list(range(len(items)))
+    trouble = []
+
+    def work_loop():
+        while True:
+            if stop_wanted():
+                return
+            try:
+                i = todo.pop()
+            except IndexError:
+                return
+            try:
+                out[i] = work(items[i])
+            except BaseException as e:      # noqa: BLE001 -- passed on below
+                trouble.append(e)
+
+    threads = []
+    for _ in range(max(1, min(workers, len(items)))):
+        thread = threading.Thread(target=work_loop, daemon=True)
+        try:
+            thread.start()
+        except Exception:
+            break
+        threads.append(thread)
+    for thread in threads:
+        try:
+            thread.join()
+        except Exception:
+            pass
+    work_loop()             # whatever no thread got to
+    if trouble:
+        raise trouble[0]
+    if todo and stop_wanted():
+        raise PROGRAM.Stopped(PROGRAM.RUN_STOP["at"])
+    return out

@@ -100,10 +100,9 @@ def take_from(piece):
             globals()[name] = what
 
 
-# take_from places every name long before, so the `X = piece.X` lines
-# below say nothing about the binding order: they are for a reader, and
-# for source_no_loose_ends, which wants an origin for every name read.
-# What each read binds, and why it stands there: development/internals.md.
+# take_from binds every name long before: the `X = piece.X` lines below
+# are for a reader and for source_no_loose_ends (an origin per name
+# read). What each binds, and why there: development/internals.md.
 
 
 #---------------------------------------------------------------- Language
@@ -150,6 +149,8 @@ take_from(workbench)
 
 count_process_starts = workbench.count_process_starts
 only_reading = workbench.only_reading
+parallel_map = workbench.parallel_map
+remove_quietly = workbench.remove_quietly
 
 
 # What this program answers for. soxr is no part of it: without soxr
@@ -215,7 +216,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "3.0.0b26"
+VERSION = "3.0.0b27"
 PROJECT_PREFIX = FROZEN_NAME + "_"  # project file: prefix + production
 # It counts up whenever a stored key or value is renamed. An older
 # file is refused with a clear message rather than half-read.
@@ -232,7 +233,12 @@ take_from(choices)
 livery = beside("livery", program=PROGRAM)
 take_from(livery)
 
+CLIP_COLOURS = livery.CLIP_COLOURS
+CLIP_COLOURS_RGB = livery.CLIP_COLOURS_RGB
+CLIP_COLOURS_RGB_DARK = livery.CLIP_COLOURS_RGB_DARK
+CLIP_COLOURS_RGB_LIGHT = livery.CLIP_COLOURS_RGB_LIGHT
 as_warn = livery.as_warn
+colour_per_camera = livery.colour_per_camera
 enable_colour_output = livery.enable_colour_output
 force_utf8_output = livery.force_utf8_output
 
@@ -258,6 +264,7 @@ take_from(stowage)
 
 cache_folder = stowage.cache_folder
 clean_kept_stores = stowage.clean_kept_stores
+format_complaint = stowage.format_complaint
 kept_in_use = stowage.kept_in_use
 
 
@@ -279,11 +286,19 @@ ffprobe_json = soundings.ffprobe_json
 timecode = beside("timecode", program=PROGRAM)
 take_from(timecode)
 
+file_frame_rate = timecode.file_frame_rate
+frames_to_timecode = timecode.frames_to_timecode
+known_frame_rate = timecode.known_frame_rate
+own_frame_rate = timecode.own_frame_rate
+resolve_timeline_rate = timecode.resolve_timeline_rate
+seconds_to_frames = timecode.seconds_to_frames
+timecode_to_frames = timecode.timecode_to_frames
+timeline_frame_rate = timecode.timeline_frame_rate
+
 
 #----------------------------------------------------- The window's tables
-# Read here and not by the window, so any piece that shows a table
-# binds these names at its head instead of reaching for them at
-# every use. It needs nothing later than the timecode above it.
+# Read here, not by the window, so a piece showing a table binds these
+# at its head rather than at every use. Needs nothing after the timecode.
 tables = beside("tables", program=PROGRAM)
 take_from(tables)
 
@@ -317,6 +332,7 @@ PROGRESS_SINK = None
 herald = beside("herald", program=PROGRAM)
 take_from(herald)
 
+python_note = herald.python_note
 redirect_console = herald.redirect_console
 running_from = herald.running_from
 watch_outside_calls = herald.watch_outside_calls
@@ -324,16 +340,14 @@ write_through = herald.write_through
 
 
 #------------------------------------------------ Beside the window
-# What is running right now, so that breaking off can end it. A flag
-# alone would not do: the run waits on ffmpeg for most of its minutes,
-# and a child nobody tells goes on writing after the window has stopped.
+# What runs now, so breaking off can end it -- not a flag alone: the run
+# waits on ffmpeg, and an untold child writes on after the window stops.
 RUN_STOP = {"wanted": False, "children": set(), "at": ""}
 
 
 #----------------------------------------------- The window's toolbox
-# Read here and not by the window, so any piece that takes a window
-# part of its own binds these names at its head instead of reaching
-# for them at every use. Neither needs anything later than the herald.
+# Read here, not by the window, so a piece with its own window part binds
+# these at its head, not at every use. Neither needs a thing past the herald.
 player = beside("player", program=PROGRAM)
 take_from(player)
 
@@ -424,12 +438,11 @@ def returned_given_as_raw(audio_paths, done_folder):
 def main():
     """The way in: a command line means a run, a bare start means the window.
 
-    The order is the point. Help and version answer before any tool is
-    looked for, --update before ffmpeg, because a broken installation is
-    why it is typed; a bare start (or --lang alone) ends in the window,
-    the console redirected into the log first. Everything else is a run:
-    the one-shot jobs return on their own, the rest goes through
-    preflight and one door, multitrack_or_single. Faults are said, not raised.
+    The order is the point: help and version before any tool is looked
+    for, --update before ffmpeg, since a broken install is why it is typed.
+    A bare start (or --lang alone) opens the window, console into the log
+    first; else a run: one-shot jobs return alone, the rest pass preflight
+    and one door, multitrack_or_single. Faults are said, not raised.
     """
 
     force_utf8_output()
@@ -442,7 +455,7 @@ def main():
         build_argument_parser().parse_args()
         return 0
     ap = build_argument_parser()
-    args = ap.parse_args()
+    args = ap.parse_args(time_values_joined(sys.argv[1:]))
     # Before the first sentence is made, not before the first is
     # printed: the ffmpeg complaint below is written here and shown
     # much later. Only where one was typed, or the kept one is lost.
@@ -499,6 +512,46 @@ def main():
             # The window took itself down for a chosen language; the
             # choice is read back so the next one speaks it.
             set_language(kept_language() or system_locale())
+    try:
+        return run_from_command_line(args, ap)
+    except workbench.Stopped:
+        raise
+    except Exception as e:
+        # The window's run comes through here too, and says it itself.
+        if OUTPUT_SINK is not None:
+            raise
+        return stopped_on_command_line(e)
+
+
+def fault_into_log():
+    """Write the traceback of the fault being handled into the log only.
+
+    Called inside an except: the screen says "Stopped: <reason>" in one
+    line, and the trace goes where whoever reports the fault finds it.
+    The command line and the window both come here.
+    """
+    import traceback
+    logbook.log_aside(traceback.format_exc().rstrip())
+
+
+def stopped_on_command_line(e):
+    """Say an unexpected fault in one line and return 1, as the window does.
+
+    A traceback in the terminal reads as a crash and hides the reason
+    in its last line; the window says "Stopped: <reason>". The trace
+    itself goes into the log, where whoever reports the fault finds it.
+    """
+    fault_into_log()
+    print(livery.as_bad(T('Stopped: %s') % e))
+    return 1
+
+
+def run_from_command_line(args, ap):
+    """The run a command line asks for: said, preflight, then the one door.
+
+    Split from main() so that a fault anywhere in it is caught in one
+    place. Returns the code the process ends with.
+    """
     force_utf8_output()
     enable_colour_output()
     # Whoever typed a command line has a console: said there, after the
@@ -537,10 +590,9 @@ def main():
         setattr(args, long, getattr(args, long, False))
     args.name_camera = getattr(args, "name_camera", "Camera Original")
     # One word for the whole run. "sync" means no speakers, no speech
-    # recognition and no transcript, and the three switches that say so
-    # are set here, once -- the pipeline reads one flag, and each of the
-    # three keeps working on its own.
-    if args.project_type == "sync":
+    # recognition, no transcript; the three switches are set here, once:
+    # the pipeline reads one flag, and each switch still works on its own.
+    if cut.sync_only(args):
         args.no_speakers_local = True
         args.no_speech_recognition = True
         args.no_transcript_file = True
@@ -556,6 +608,15 @@ def main():
             return 1
     if not args.files:
         return ap.error(T('No files given.'))
+    # A run that sends and has no key to send with: with a picture it
+    # failed only after the axis was measured, and without one it stayed
+    # local unasked. A dry run sends nothing, so it needs none.
+    if (timebase.run_uploads(args) and not args.auphonic_key
+            and not args.dry_run):
+        print(livery.as_bad(T('No API key. Store it once in the interface, or '
+                       'with --store-auphonic-key. The key is in the '
+                       'Auphonic account settings.')))
+        return 1
     if args.auphonic_preset:
         e = os.path.splitext(args.auphonic_preset)[1].lower()
         if e in AUDIO_SUFFIXES + VIDEO_SUFFIXES or os.path.exists(args.auphonic_preset):
@@ -577,8 +638,9 @@ def main():
                    'raw recordings, so name the raw one here instead.')
                  % returned)
 
-    # Preflight: once for both modes, before any fork.
-    if run_preflight(args, audio_paths, video_paths):
+    # Preflight: once for both modes, before any fork, and with the
+    # project type, so Sync refuses here what the window refuses.
+    if run_preflight(args, audio_paths, video_paths, args.project_type):
         return 1
     if args.multitrack and not audio_paths:
         # Cameras only: their own audio becomes the track, and how many
@@ -619,16 +681,18 @@ channel_count = material.channel_count
 channel_filter = material.channel_filter
 expand_chains_to_tracks = material.expand_chains_to_tracks
 find_continuation_files = material.find_continuation_files
-format_complaint = material.format_complaint
 kept_channels = material.kept_channels
-parallel_map = material.parallel_map
 place_track_on_axis = material.place_track_on_axis
-python_note = material.python_note
-remove_quietly = material.remove_quietly
 shapes_match = material.shapes_match
 together_chains = material.together_chains
 wav_safe = material.wav_safe
 widest_track = material.widest_track
+
+
+#---------------------------------------------------------- The loudness
+
+loudness = beside("loudness", program=PROGRAM)
+take_from(loudness)
 
 
 #---------------------------------------------------------- The bearings
@@ -710,22 +774,9 @@ take_from(project)
 resolve = beside("resolve", program=PROGRAM)
 take_from(resolve)
 
-CLIP_COLOURS = resolve.CLIP_COLOURS
-CLIP_COLOURS_RGB = resolve.CLIP_COLOURS_RGB
-CLIP_COLOURS_RGB_DARK = resolve.CLIP_COLOURS_RGB_DARK
-CLIP_COLOURS_RGB_LIGHT = resolve.CLIP_COLOURS_RGB_LIGHT
 ON_DARK = resolve.ON_DARK
 build_resolve_project = resolve.build_resolve_project
-colour_per_camera = resolve.colour_per_camera
-file_frame_rate = resolve.file_frame_rate
-frames_to_timecode = resolve.frames_to_timecode
-known_frame_rate = resolve.known_frame_rate
-own_frame_rate = resolve.own_frame_rate
 print_audio_track_mapping = resolve.print_audio_track_mapping
-resolve_timeline_rate = resolve.resolve_timeline_rate
-seconds_to_frames = resolve.seconds_to_frames
-timecode_to_frames = resolve.timecode_to_frames
-timeline_frame_rate = resolve.timeline_frame_rate
 
 
 #-------------------------------------------------------------- The cut
@@ -761,6 +812,7 @@ orders = beside("orders", program=PROGRAM)
 take_from(orders)
 
 build_argument_parser = orders.build_argument_parser
+time_values_joined = orders.time_values_joined
 cameras_shown_as = orders.cameras_shown_as
 
 
@@ -793,9 +845,8 @@ pieces_answer_together()
 
 
 #--------------------------------------------------------------- Catalogue
-# One file per language in language/, read for every name in
-# LANGUAGE_NAMES but the source language -- that dict is the one list of
-# languages. How to add one: see the top of language/__init__.py.
+# Read from language/, one file per LANGUAGE_NAMES entry, the one list of
+# languages, bar the source one. How to add one: top of language/__init__.py.
 for code in language.LANGUAGE_NAMES:
     if code != SOURCE_LANG:
         # A missing .po answers {} and so English, quietly; section 4 of

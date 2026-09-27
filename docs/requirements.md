@@ -88,15 +88,21 @@ last small piece of something already paid for.
 And one it only asks after: the number of the newest version, from
 github.com, a moment after the window is up. The program sends nothing
 while it asks, and it fetches that version only when somebody says so.
+Two libraries it brings would report home by themselves, pyannote.audio
+and onnxruntime; the program switches both off before they load.
 [The interface](interface.md#keeping-itself-up-to-date) says what
 happens then.
 
 **The model.** Telling the voices on a recording apart is the speaker
 separation, and it needs a trained model. The program fetches it from
 its own repository into the folder `models/` inside the program's own
-folder. It
-holds every file against its SHA-256 checksum and writes only what
-matches.
+folder, in the state that belongs to this version's tag; only where that
+tag does not exist does it take the model from the main branch, and the
+report line says so. A timeout or a fault on the server stops the fetch
+with a message naming the tag and the reason. It holds every file
+against its SHA-256 checksum and writes only what matches, and a list
+of model files naming a place outside the model folder is refused
+before anything is fetched.
 
 The separation then reads the model from that folder, without an
 account, a token or a network. The program fetches it only the first
@@ -262,7 +268,7 @@ back at every start over something that is not broken is a box people
 learn to click away. It is not asked at all where this machine has no
 way of getting a better build.
 
-**Missing or too old: the window opens and stays empty.** Everything
+**Missing or too old: the window opens, a box says so, and nothing can be added.** Everything
 that needs the two tools is barred, not the run alone -- adding files,
 opening a project, measuring the time axis. The message names what was
 found and what is needed, and beside it stands a button that gets it.
@@ -298,8 +304,13 @@ machine has:
 * **Windows: it fetches one.** Windows brings no package manager, so
   the program downloads a build that has soxr and puts `ffmpeg.exe` and
   `ffprobe.exe` in a folder of its own, under the user's own local
-  data. Nothing has to go into PATH by hand. Where the download fails
-  it offers to open ffmpeg.org instead.
+  data. Nothing has to go into PATH by hand. The download is held
+  against `checksums.sha256` of the same release before anything is
+  unpacked; where that list cannot be fetched, does not name the
+  archive or gives another sum, nothing is unpacked, the download is
+  deleted and the program says why. An archive holding either tool
+  twice is refused as well. Where the download fails it offers to open
+  ffmpeg.org instead.
 * **Linux: the package manager first, then a download.** `apt-get`,
   `dnf`, `zypper` or `pacman`, with `sudo` in front where the run is
   not root already -- because a package manager writes outside the
@@ -307,7 +318,7 @@ machine has:
   run. Afterwards the tools are asked again rather than taken on
   trust: a distribution can report success having laid down a version
   years under the floor. Where it has, the program fetches a build of
-  its own, exactly as on Windows.
+  its own, exactly as on Windows, checksum included.
 * **Where a fetched build lands, it is used.** It goes into the
   program's own folder for such things -- not the cache, which is the
   one folder everybody is told they may delete -- and in front of the
@@ -317,8 +328,8 @@ machine has:
   package manager answers "already installed" and does nothing. The
   program knows the difference and gives the other command -- on macOS
   `brew reinstall --yes homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`.
-* **When nothing gets installed**, the window stays empty and says what
-  to do on this machine. Answering the question with no leaves it the
+* **When nothing gets installed**, nothing can be added to the window,
+  and its box says what to do on this machine. Answering the question with no leaves it the
   same way.
 
 `requirements.txt` holds the Python packages under the same names pip
@@ -332,9 +343,14 @@ well, with two differences:
 
 * The key is stored in the desktop's keyring through the Secret
   Service, and needs `secret-tool` (package `libsecret-tools` on
-  Debian/Ubuntu, `libsecret` on Fedora). Without it nothing is stored,
-  auphonic.com is reached only from the window with the key typed in
-  for that session, and a command-line run goes without it.
+  Debian/Ubuntu, `libsecret` on Fedora and Arch, `secret-tool` on
+  openSUSE). Where it is missing, saving the key offers to install it
+  with the package manager -- in a box in the window, as a yes/no
+  question in the terminal -- and stores the key once it is there.
+  Answered no, or with nobody to answer, nothing is stored and the
+  command to type by hand is named; auphonic.com is then reached only
+  from the window with the key typed in for that session, and a
+  command-line run goes without it.
 * The cache goes to `XDG_CACHE_HOME`.
 
 ## When something goes wrong
@@ -372,8 +388,8 @@ well, with two differences:
   may point at it.
 * **`ffmpeg` is still not found after installing it.** The folder
   holding it is not on the search path. Put it there and start again.
-* **The window opens and stays empty, and the message names an ffmpeg
-  version.** This ffmpeg is older than 9.0.1. The button in that box
+* **The window opens, a box names an ffmpeg version, and nothing can
+  be added.** This ffmpeg is older than 9.0.1. The button in that box
   gets a new one; what it does appears under **Output**. By hand it is
   `brew reinstall --yes homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`
   on macOS, otherwise a build from ffmpeg.org with its folder on the

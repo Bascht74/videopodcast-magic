@@ -299,12 +299,11 @@ def back_pick(older):
 def newer_release(asked=False):
     """(tag, page, what changed, trouble) of a newer release.
 
-    All four are "" where nothing newer was found. *trouble* carries a
-    sentence where the looking itself could not happen -- no network,
-    an unreadable certificate store, the switch set -- and must not
-    read as "nothing newer". A pre-release is never the answer. The
-    release text comes with it. *asked* is a direct question;
-    VPM_NO_UPDATE_CHECK beats it, and says so to whoever asked.
+    All four are "" where nothing newer was found. *trouble* is a
+    sentence where looking could not happen (no network, an unreadable
+    certificate store, the switch set), never to read as "nothing newer".
+    Never a pre-release; the release text comes along. *asked* is a direct
+    question; VPM_NO_UPDATE_CHECK beats it, and says so to whoever asked.
     """
     if UPDATE_OFF:
         # The one answer for the switch, given here and nowhere else:
@@ -475,9 +474,8 @@ def start_again():
 
 
 #------------------------------------------ What the window offers
-# The boxes behind Help: look now, fetch it, go back a version. They
-# stand here because what they offer is this piece's; only the box
-# itself is the window's, asked through the program where it is used.
+# The boxes behind Help (look now, fetch it, go back a version): what they
+# offer is this piece's; the box itself is the window's, asked via PROGRAM.
 
 
 def make_update_sink(state, write, show, timer):

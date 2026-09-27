@@ -33,7 +33,7 @@ def line(finding):
 
 
 print("1. tc comparison: recorder at 00:00:48, cameras at 17:14")
-data = [{"name": "Full-Mix-016_Zoom.wav", "path": "/x/zoom.wav",
+data = [{"name": "Full-Mix-016_Studio_Zoom.wav", "path": "/x/zoom.wav",
           "tc": 48.0, "duration": 5216.0},
          {"name": "Guest_0007A.wav", "path": "/x/guest.wav",
           "tc": 61676.0, "duration": 4100.0},
@@ -55,7 +55,7 @@ check("said as a hint, not as a fault", one and out[0].kind == "hint",
 # Longer than the column: cut in the middle, both ends of the name kept.
 check("the field names the file it is about", one
       and out[0].field.startswith("Full-")
-      and out[0].field.endswith("Zoom.wav") and len(out[0].field) <= 17,
+      and out[0].field.endswith("Zoom.wav") and len(out[0].field) <= 24,
       "shown %r for %r" % (out[0].field if out else "nothing reported",
                            data[0]["name"]))
 check("the text carries both clocks", one

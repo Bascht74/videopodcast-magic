@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 3.0.0b26.
+gone through for 3.0.0b27.
 
 ## Where the program stands today
 
-**Version 3.0.0b26.** It runs every week, on real material.
+**Version 3.0.0b27.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -119,14 +119,12 @@ the major number.
 
 ## What comes next
 
-**3.0.0b26, and the four versions after it, in short.** 3.0.0b26 did what it was set
-to: it took the window apart into pieces, split the assignment table
-and the run's pipeline the same way, and built tests against
-auphonic.com beside those against a real Resolve -- both run only on
-the owner's machine, when a change calls for them. It also brought the
-first of the whole-way tests forward. 3.0.0b27 takes the whole-way
-tests further and fixes what the window visibly still does wrong.
-3.0.0b28 makes the time axis and the hand-over to Resolve more exact,
+**3.0.0b27, and the three versions after it, in short.** 3.0.0b27
+fixed what the window visibly still did wrong: In and Out count from
+the moment every camera runs, as the run does; a recording the recorder
+split into several files is separated as one; Stop is heard in every
+stage of a run; the command line masters to -16 LUFS by default; and a
+live test now covers the Auphonic path with several tracks. 3.0.0b28 makes the time axis and the hand-over to Resolve more exact,
 with the rest of the whole-way tests. 3.0.0b29 opens more of the
 Auphonic options, takes more than two channels, replaces set thresholds
 with measured ones and shows the preview in HDR. 3.0.0b30 gives the
@@ -150,9 +148,7 @@ that one against a stand-in -- and a fifth test holds the assignment
 table; each runs the same production once from the window and once
 from the command line and holds the two against each other. The
 program opening, In and Out, and the change to the third tab are still
-open. A test of In and Out on a 29.97 camera found the window's mark
-landing about three frames late, and what to do about it is not yet
-decided. The survey that counted those gaps is several versions old and
+open. The survey that counted those gaps is several versions old and
 most of what it named has been covered since, so it is worth taking
 again before anything is built on it.
 
@@ -201,9 +197,9 @@ Coarser, and in no fixed order.
 * **The edges of the program get tests.** What the coverage is, a run
   says: coverage.py over `bash run.sh`, with `COVERAGE_PROCESS_START`
   set so the runs the tests start are counted too. The last such run
-  found about seven statements in ten entered. It is read as a band and
-  never as a target, and it was taken while the program was still one
-  file, so it wants taking again. What is worth having out of such a run
+  found 88 statements in a hundred entered (87 with the branches), on
+  the program as it is laid out today (26.9.2026). It is read as a band
+  and never as a target. What is worth having out of such a run
   is the list of places no test ever enters. Two are known without it:
   the messages the program stops with when something unexpected goes
   wrong, and the way that takes the sound from the cameras alone when

@@ -41,7 +41,7 @@ jobs:
     steps:
       # No checkout. Nothing of the program is measured here, only ffmpeg
       # and the disk under it, and every clip is made on the spot.
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python }}
 
@@ -461,7 +461,7 @@ jobs:
       # into one table afterwards instead of by eye out of six logs.
       - name: "Keep: the numbers of this system"
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ffmpeg-probe-${{ matrix.os }}-py${{ matrix.python }}
           path: ${{ runner.temp }}/ffmpeg-probe.json

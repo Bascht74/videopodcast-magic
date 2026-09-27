@@ -37,10 +37,9 @@ time = PROGRAM.time
 # the program, so the place is asked of PROGRAM.__file__, never of this.
 
 
-# Set to answer yes before the question is asked: a test run, a build
-# machine, anything with nobody in front of it. It answers for both
-# places here that ask, the package manager and pip -- and nothing
-# installs without it, or without somebody saying yes.
+# Answers yes before asking, for the package manager and pip alike: a
+# test run, a build machine, anything nobody sits at. Nothing installs
+# without it or without somebody saying yes.
 INSTALL_TOOLS = bool(os.environ.get("VPM_INSTALL_TOOLS"))
 
 
@@ -351,18 +350,32 @@ def package_manager_command(update=False):
     if sys.platform == "win32":
         # No manager here; install_ffmpeg fetches a built one instead.
         return ()
-    for tool, rest, lift in (
-            ("apt-get", ("install", "-y", "ffmpeg"),
-             ("install", "--only-upgrade", "-y", "ffmpeg")),
-            ("dnf", ("install", "-y", "ffmpeg"),
-             ("upgrade", "-y", "ffmpeg")),
-            ("zypper", ("--non-interactive", "install", "ffmpeg"),
-             ("--non-interactive", "update", "ffmpeg")),
-            # pacman's -S is both, so there is nothing else to say.
-            ("pacman", ("-S", "--noconfirm", "ffmpeg"),
-             ("-S", "--noconfirm", "ffmpeg"))):
+    return linux_install_command(
+        [(tool, "ffmpeg") for tool, _rest, _lift in LINUX_MANAGERS], update)
+
+
+# The Linux managers in the order they are looked for, each with how it
+# installs and how it updates, both without asking a second time.
+LINUX_MANAGERS = (
+    ("apt-get", ("install", "-y"), ("install", "--only-upgrade", "-y")),
+    ("dnf", ("install", "-y"), ("upgrade", "-y")),
+    ("zypper", ("--non-interactive", "install"),
+     ("--non-interactive", "update")),
+    # pacman's -S is both, so there is nothing else to say.
+    ("pacman", ("-S", "--noconfirm"), ("-S", "--noconfirm")))
+
+
+def linux_install_command(packages, update=False):
+    """How the first Linux manager found installs a package, or ().
+
+    *packages* pairs each manager with the package's name there: the
+    same program is packaged under different names. On Linux with sudo
+    unless the run is root already.
+    """
+    for tool, rest, lift in LINUX_MANAGERS:
         if shutil.which(tool):
-            whole = (tool,) + (lift if update else rest)
+            whole = (tool,) + (lift if update else rest) \
+                + (dict(packages)[tool],)
             if hasattr(os, "geteuid") and os.geteuid() == 0:
                 return whole
             return ("sudo",) + whole if shutil.which("sudo") else whole
@@ -481,20 +494,22 @@ def run_watched(command, env=None, say=None, started=None):
 
 
 def install_over_package_manager(update=False, asked=False, say=None,
-                                 started=None):
+                                 started=None, command=None):
     """Offer the package manager, and run it if that is wanted.
 
-    True when ffmpeg was installed. Asked only where somebody can
-    answer: a window started from the desktop has no console, and a
+    True when the manager said it installed. Asked only where somebody
+    can answer: a window started from the desktop has no console, and a
     question nobody sees would hang the start for good. *say* takes
-    every line; without one they go to print.
+    every line; without one they go to print. *command* is what to run
+    where it is not ffmpeg -- secret-tool comes the same way.
     """
     tell = (lambda text: say(text + "\n")) if say else print
     if os.environ.get("VPM_SILENT"):
         # A test run installs nothing and asks nobody. Before the
         # platforms, because the Windows branch asks a question too.
         return False
-    command = package_manager_command(update)
+    if command is None:
+        command = package_manager_command(update)
     if not command:
         # No manager here; install_ffmpeg goes on from this point.
         return False
@@ -561,14 +576,19 @@ def open_ffmpeg_page():
 
 
 # Where a built ffmpeg comes from for the two systems that compile
-# none. win64 and linux64 are both n9.0.1-11-ge47273f4d9, both carry
-# --enable-libsoxr, 121 and 161 MB.
+# none. Both carry --enable-libsoxr. The size moves with every build:
+# measured 27.9.2026, linux64 151 MB and win64 194 MB.
 
 # "latest" is a moving tag on the 9.0 line, so what arrived is asked
 # afterwards rather than promised here. Name: line, machine, licence,
 # line, kind of archive.
 FFMPEG_BUILD_PLACE = ("https://github.com/BtbN/FFmpeg-Builds/releases"
                       "/download/latest/ffmpeg-n9.0-latest-%s-gpl-9.0.%s")
+
+# The same release lists the SHA-256 of every archive in it, one line
+# each in the shape sha256sum writes: 64 hex digits, two spaces, the
+# file name. Measured 27.9.2026, 48 lines, 5 KB.
+FFMPEG_BUILD_SUMS = "checksums.sha256"
 
 
 def ffmpeg_build_url():
@@ -627,15 +647,65 @@ def fetch_archive(url, where, say=None):
     return ""
 
 
+def sha256_of(path):
+    """The SHA-256 of that file, as 64 lower-case hex digits."""
+    import hashlib
+    whole = hashlib.sha256()
+    with open(path, "rb") as f:
+        for block in iter(lambda: f.read(1 << 20), b""):
+            whole.update(block)
+    return whole.hexdigest()
+
+
+def listed_sum(listing, name):
+    """The sum that list of checksums gives for that file name, or "".
+
+    The list is what sha256sum writes: the sum, a space, a space or a
+    star, the name. A line whose sum is no SHA-256 counts as no line.
+    """
+    with open(listing, encoding="utf-8", errors="replace") as f:
+        for line in f:
+            parts = line.split()
+            if len(parts) == 2 and parts[1].lstrip("*") == name \
+                    and re.fullmatch(r"[0-9a-fA-F]{64}", parts[0]):
+                return parts[0].lower()
+    return ""
+
+
+def build_checked(url, archive):
+    """Hold the fetched archive against the release's own list. "" if it fits.
+
+    Otherwise the sentence saying why it may not be unpacked: the list
+    did not come, it does not name this archive, or the sum differs.
+    The list is fetched through fetch_archive, the one door outward.
+    """
+    listing = archive + ".sums"
+    trouble = fetch_archive(url.rsplit("/", 1)[0] + "/" + FFMPEG_BUILD_SUMS,
+                            listing)
+    if trouble:
+        return T('The list of checksums could not be fetched, so the build '
+                 'was not unpacked: %s') % trouble
+    name = os.path.basename(archive)
+    wanted = listed_sum(listing, name)
+    if not wanted:
+        return T('The list of checksums does not name %s, so the build '
+                 'was not unpacked.') % name
+    came = sha256_of(archive)
+    if came != wanted:
+        return T('The build does not match its checksum, so it was not '
+                 'unpacked: %s listed, %s arrived.') % (wanted, came)
+    return ""
+
+
 def unpack_tools(archive, folder):
     """Take ffmpeg and ffprobe out of that archive into that folder.
 
     Only those two, by their bare name, and only regular files: an
     archive is a list of paths somebody else wrote, and nothing in it
-    decides where anything lands here. Returns how many arrived.
+    decides where anything lands here. Returns how many arrived. One of
+    them twice, under any path, is a ValueError before anything lands.
     """
     wanted = ("ffmpeg", "ffprobe", "ffmpeg.exe", "ffprobe.exe")
-    done = 0
 
     def put(name, stream):
         where = os.path.join(folder, os.path.basename(name))
@@ -643,24 +713,36 @@ def unpack_tools(archive, folder):
             shutil.copyfileobj(stream, out)
         os.chmod(where, 0o755)
 
+    def refuse_twice(names):
+        """Which of two would land is the archive's choice: so neither."""
+        seen = [os.path.basename(n) for n in names]
+        twice = sorted(set(n for n in seen if seen.count(n) > 1))
+        if twice:
+            raise ValueError(T('The archive holds %s more than once, so '
+                               'nothing was taken out of it.')
+                             % ", ".join(twice))
+
     if archive.endswith(".zip"):
         import zipfile
         with zipfile.ZipFile(archive) as zf:
-            for one in zf.infolist():
-                if not one.is_dir() \
-                        and os.path.basename(one.filename) in wanted:
-                    with zf.open(one) as stream:
-                        put(one.filename, stream)
-                    done += 1
-        return done
+            chosen = [one for one in zf.infolist() if not one.is_dir()
+                      and os.path.basename(one.filename) in wanted]
+            refuse_twice([one.filename for one in chosen])
+            for one in chosen:
+                with zf.open(one) as stream:
+                    put(one.filename, stream)
+        return len(chosen)
     import tarfile
+    done = 0
     with tarfile.open(archive) as tf:
-        for one in tf:
-            if one.isfile() and os.path.basename(one.name) in wanted:
-                stream = tf.extractfile(one)
-                if stream is not None:
-                    put(one.name, stream)
-                    done += 1
+        chosen = [one for one in tf.getmembers() if one.isfile()
+                  and os.path.basename(one.name) in wanted]
+        refuse_twice([one.name for one in chosen])
+        for one in chosen:
+            stream = tf.extractfile(one)
+            if stream is not None:
+                put(one.name, stream)
+                done += 1
     return done
 
 
@@ -694,6 +776,10 @@ def fetch_ffmpeg_build(asked=False, say=None):
     archive = os.path.join(keep, name)
     try:
         trouble = fetch_archive(url, archive, say)
+        if not trouble:
+            # A moving tag and a file somebody else built: what came is
+            # held against the release's own list before any of it runs.
+            trouble = build_checked(url, archive)
         if trouble:
             tell("  " + trouble)
             return open_ffmpeg_page() if sys.platform == "win32" else False
@@ -764,10 +850,9 @@ def soxr_note():
              'comes out in steps of 21 ppm instead of 0.21.')
 
 
-# The API key lives in the OS credential store -- macOS keychain,
-# Windows registry, the Secret Service elsewhere. Never in a file: the
-# script gets copied around. All three names stand only here, two the
-# frozen name: a rename must not lose the stored key.
+# The API key lives in the OS credential store (macOS keychain, Windows
+# registry, Secret Service elsewhere), never in a file the script travels
+# with. Named only here, twice as FROZEN_NAME, so a rename keeps the key.
 KEY_STORE_REAL = (FROZEN_NAME, "auphonic", "Software\\" + FROZEN_NAME)
 KEY_SERVICE, KEY_ACCOUNT, REG_PATH = KEY_STORE_REAL
 
@@ -856,6 +941,47 @@ def secret_tool(words, given=b""):
                               start_new_session=True)
     except (OSError, subprocess.TimeoutExpired):
         return None
+
+
+# The package secret-tool comes in, under each distribution's own name.
+SECRET_TOOL_PACKAGES = (("apt-get", "libsecret-tools"), ("dnf", "libsecret"),
+                        ("zypper", "secret-tool"), ("pacman", "libsecret"))
+
+
+def secret_tool_missing():
+    """True where the key would go to secret-tool and there is none."""
+    if sys.platform == "darwin" or os.name == "nt":
+        return False
+    return not shutil.which("secret-tool")
+
+
+def secret_tool_command():
+    """How this machine installs secret-tool, or () where it cannot."""
+    return linux_install_command(SECRET_TOOL_PACKAGES)
+
+
+def install_secret_tool(asked=False, say=None):
+    """Offer secret-tool the way ffmpeg is offered. True when it is there.
+
+    The same door and the same question: asked in the terminal where one
+    can answer, not at all where nobody can, and never in a test run.
+    What decides is the command being found afterwards, not what the
+    package manager said.
+    """
+    command = secret_tool_command()
+    if not command:
+        return False
+    install_over_package_manager(asked=asked, say=say, command=command)
+    return not secret_tool_missing()
+
+
+def secret_tool_by_hand():
+    """What installs secret-tool here by hand, as one sentence."""
+    command = " ".join(secret_tool_command())
+    if command:
+        return command
+    return T('the package libsecret-tools on Debian and Ubuntu, libsecret '
+             'on Fedora and Arch')
 
 
 def registry_rule(sid):
@@ -977,6 +1103,11 @@ def store_key_from_terminal(words=()):
     if not key:
         print(T('No key was typed, so nothing was stored.'))
         return 1
+    if secret_tool_missing():
+        # Asked after the key, so a no leaves only this to be done.
+        print(T('The key is kept in the desktop\'s keyring through the '
+                'secret-tool command, and this machine does not have it.'))
+        install_secret_tool()
     if store_api_key(key):
         print(T('The key is stored, and reading it back gave the same key.'))
         return 0
@@ -1038,6 +1169,10 @@ def key_store_trouble():
                  'say why.')
     if os.name == "nt":
         return T('The registry did not take the key.')
+    if secret_tool_missing():
+        return T('This machine has no secret-tool, which keeps the key in '
+                 'the desktop\'s keyring, so nothing was stored. By hand: '
+                 '%s') % secret_tool_by_hand()
     return T('No Secret Service keyring answered, so nothing was stored. '
              'Off Mac and Windows the key is kept in the desktop\'s '
              'keyring, through the secret-tool command from libsecret. '

@@ -14,9 +14,10 @@ and builds the timelines. It writes the run along to
 The button works on the handover file and sends the camera-cut values
 from the fields along. So it recomputes the cut list with what stands
 there now. Who speaks when is not recomputed: that stays as the run
-measured it, and the tooltip on the button says so. If In point or Out
-point have changed since, it stops. The audio in the videos belongs to
-the old window.
+measured it, and the tooltip on the button says so. In point and Out
+point it does not apply a second time: the run has already cut to them.
+If either has changed since, the button is grey before it is pressed,
+because the audio in the videos belongs to the old window.
 
 **Two things put a handover into the button's hands.** One is a run in
 this window: what it wrote is this material by definition, and the
@@ -67,6 +68,12 @@ at once. Where the button is not usable, the reason stands at it:
   on the **Resolve cut** tab says more.
 - **The run is still going.** Wait for it; the button frees itself when
   the run is done.
+- **In point has changed since the last run** (or **Out point**), with
+  the old and the new value. The cut and the sound inside the videos
+  still belong to the old window, so Resolve would not get what the
+  marks say now. Press **Start** again. The preview on the **Resolve
+  cut** tab shows the same notice, and on the command line the Resolve
+  step refuses in the same words, on material without timecode too.
 
 **And a handover the button does take can still be turned away when it
 is opened.** Two things make one unusable, and both stop the work
@@ -631,9 +638,10 @@ backup copy.
 
 ### When something goes wrong
 
-- **The button stops before it starts.** In point or Out point no longer
-  match the run the files came out of. Press **Start** again, with the
-  old values back in the two fields or with the new window.
+- **The button is grey and says a mark has changed.** In point or Out
+  point no longer match the run the files came out of. Press **Start**
+  again, with the old values back in the two fields or with the new
+  window.
 - **The tab says Resolve does not answer.** The three causes stand
   above, in the box **Connection to Resolve**. Clear one and press
   **Check again**.

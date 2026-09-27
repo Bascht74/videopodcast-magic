@@ -334,12 +334,6 @@ msgstr "Ο διαχωρισμός ομιλητών δεν είναι εγκατ�
 msgid "Fetching the model (about %s MB) ..."
 msgstr "Λήψη του μοντέλου (περίπου %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "Λήψη του μοντέλου (περίπου %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "Το μοντέλο δεν ήταν δυνατό να ληφθεί: %s"
-
 msgid "The model could not be written: %s"
 msgstr "Το μοντέλο δεν ήταν δυνατό να γραφτεί: %s"
 
@@ -852,9 +846,6 @@ msgstr "  %-20s δεν μπορεί να ευθυγραμμιστεί: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s μη μετρήσιμο: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s μετατόπιση %s, ολίσθηση ρολογιού %s ppm (+/- %s), υπολειπόμενη διασπορά %s ms, %s από %s σημεία"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s μετατόπιση %s, ολίσθηση ρολογιού %s ppm (+/- %s), υπολειπόμενη διασπορά %s ms, %s από %s σημεία%s"
@@ -2170,14 +2161,8 @@ msgstr "Το σημείο In και το σημείο Out είναι διαθέ�
 msgid "In point is %s before the first frame"
 msgstr "Το σημείο In είναι %s πριν από το πρώτο καρέ"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "Το σημείο In είναι τώρα %s, αλλά τα υπάρχοντα αρχεία ανήκουν στο %s.\n  Ο ήχος στα βίντεο είναι κομμένος στο παλιό παράθυρο -- πατήστε ξανά\n  Έναρξη παραπάνω."
-
 msgid "Out point is %s after the last frame"
 msgstr "Το σημείο Out είναι %s μετά το τελευταίο καρέ"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "Το σημείο Out είναι τώρα %s· το παράθυρο θα διαρκούσε %s, τα υπάρχοντα\n  αρχεία διαρκούν %s -- πατήστε ξανά Έναρξη παραπάνω."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Η παράδοση συνήθως χρησιμοποιεί το περιορισμένο εύρος. Το πλήρες δεν είναι λάθος, αλλά ορισμένα προγράμματα αναπαραγωγής το ερμηνεύουν λανθασμένα."
@@ -2338,9 +2323,6 @@ msgstr "Multitrack (ένα κομμάτι ανά ομιλητή)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Το Multitrack χρειάζεται τουλάχιστον δύο κομμάτια εισόδου. Κομμάτι είναι μια δική του ηχογράφηση, ένα κανάλι πολυκάναλης συσκευής εγγραφής ή ο ήχος ενός αρχείου βίντεο ορισμένου σε \"χρήση εσωτερικού ήχου\". Πολλά μπλοκ της ίδιας ηχογράφησης μετρούν ως ένα, τα κομμάτια που τέθηκαν στην άκρη καθόλου."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "Κανένα αρχείο ήχου δεν φέρει timecode. Το σημείο In και το σημείο Out μετρούν από την αρχή του υλικού -- η θέση των αρχείων μεταξύ τους μετριέται."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Δεν χρησιμοποιείται ήχος ακόμη -- προσθέστε μια ηχογράφηση, ή ορίστε στη λίστα αρχείων τον Ήχο κάμερας ενός αρχείου βίντεο σε «χρήση εσωτερικού ήχου»."
 
@@ -2349,9 +2331,6 @@ msgstr "Δεν έχουν αντιστοιχιστεί κομμάτια ήχου
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Δεν έχει αντιστοιχιστεί κάμερα, οπότε δεν υπάρχει τίποτα ανάμεσα στο οποίο να γίνει μοντάζ."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "Δεν έχουν αντιστοιχιστεί κάμερες ακόμη -- ενεργοποιήστε το Multitrack για αυτό."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Καμία σύνδεση με το Resolve.\n  Εκτελείται το πρόγραμμα; Είναι το εξωτερικό scripting ρυθμισμένο σε 'Local'\n  στο Preferences > System > General;"
@@ -3169,9 +3148,6 @@ msgstr "η προρύθμιση κάνει mastering στα %s LUFS, ο υπολ
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "η προρύθμιση κάνει mastering στα %s LUFS -- αυτό ισχύει, τίποτα δικό μας δεν προσαρμόζει."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "λήφθηκε από τα αρχεία προέλευσης, χωρίς --lufs -- τίποτα δεν προσαρμόζεται"
 
 msgid "the answer did not keep the floor"
 msgstr "η απάντηση δεν κράτησε τον λόγο"
@@ -4923,9 +4899,6 @@ msgstr "%s\n   ήχος μη αναγνωρισμένος· τοποθετήθη
 msgid "sound not recognised, placed by its timecode"
 msgstr "ήχος μη αναγνωρισμένος, τοποθετήθηκε κατά το timecode του"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s ηχογραφήσεις και καμία εικόνα: η καθεμία ενώνεται χωριστά και δεν ευθυγραμμίζονται μεταξύ τους. Το --multitrack τις βάζει σε έναν άξονα χρόνου."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", η ολίσθηση ρολογιού %s ppm παραμένει: δεν είναι %s φορές η αβεβαιότητά της των %s ppm"
 
@@ -5006,3 +4979,112 @@ msgstr "    %s: %s στην αρχή δεν έχει εικόνα και παρ�
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: %s στο τέλος δεν έχει εικόνα και παραλείπεται"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  Το %s επέστρεψε %s s μεγαλύτερο απ' ό,τι ανέβηκε, και το σημείο όπου αρχίζει μέσα του ο ήχος που στάλθηκε\n"
+"  δεν ήταν δυνατό να μετρηθεί -- αφέθηκε όπως ήρθε."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  Το %s δεν ήταν δυνατό να κοπεί (%s) -- αφέθηκε όπως ήρθε."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  Το %s στο %s ακούγεται σαν το %s στο %s (ομοιότητα %s): φαίνεται πως είναι το ίδιο πρόσωπο."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: το auphonic.com πρόσθεσε %s s στο τέλος -- αποκόπηκαν"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: το auphonic.com πρόσθεσε %s s στην αρχή -- αποκόπηκαν"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: δεν γράφτηκε κανένα αρχείο, οπότε το μοντάζ αφήνει έξω αυτή την κάμερα."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  Το σημείο In και το σημείο Out δεν κάνουν τίποτα εδώ: μία ηχογράφηση χωρίς εικόνα ενώνεται ολόκληρη."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  Το όνομα κάμερας \"%s\" περιέχει διαχωριστικό φακέλου ή μονάδας δίσκου· γράφεται ως \"%s\"."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  Γενικό πλάνο στα άκρα: κανένα -- η άλλη φωνή μιλά μόνο μία φορά, και εκείνο το ένα άκρο ήταν μικρότερο από το συντομότερο πλάνο"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  Γενικό πλάνο στα άκρα: μόνο από %s -- η άλλη φωνή μιλά μόνο μία φορά, κοντά στο τέλος, οπότε δεν υπάρχει αρχικό"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  Γενικό πλάνο στα άκρα: μόνο έως %s -- η άλλη φωνή μιλά μόνο μία φορά, κοντά στην αρχή, οπότε δεν υπάρχει τελικό"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  Το auphonic.com ονόμασε ένα αρχείο \"%s\" -- δεν είναι απλό όνομα αρχείου, οπότε δεν λαμβάνεται"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "Το %s δεν μπορεί να τοποθετηθεί: ο ήχος του δεν έχει τίποτα κοινό με το υπόλοιπο υλικό, και καμία ηχογράφηση που τοποθέτησε ο ήχος δεν φέρει timecode με το οποίο να συγκριθεί το δικό του. Μία από αυτές χρειάζεται ένα timecode που να ταιριάζει με αυτό, και αυτό πρέπει να οριστεί με άλλο πρόγραμμα."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "Το --speaker-name δίνει στο %s δύο ονόματα, \"%s\" και \"%s\"· δώστε μόνο ένα σε κάθε ηχογράφηση."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "Το --speaker-name ονομάζει το %s, που δεν είναι καμία από τις ηχογραφήσεις αυτής της εκτέλεσης."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "Λήψη του μοντέλου από %s (περίπου %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Το σημείο In άλλαξε από την τελευταία εκτέλεση: τότε %s, τώρα %s. Το μοντάζ και ο ήχος μέσα στα βίντεο ανήκουν ακόμη στο παλιό παράθυρο, οπότε το Resolve δεν θα έπαιρνε αυτό που λένε τώρα τα σημάδια -- πατήστε ξανά Έναρξη."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "Κανένα αρχείο ήχου δεν φέρει timecode. Το σημείο In και το σημείο Out μετρούν από τη στιγμή που τρέχουν όλες οι κάμερες -- η θέση των αρχείων μεταξύ τους μετριέται."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Το σημείο Out άλλαξε από την τελευταία εκτέλεση: τότε %s, τώρα %s. Το μοντάζ και ο ήχος μέσα στα βίντεο ανήκουν ακόμη στο παλιό παράθυρο, οπότε το Resolve δεν θα έπαιρνε αυτό που λένε τώρα τα σημάδια -- πατήστε ξανά Έναρξη."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "Η παραγωγή ολοκληρώθηκε, αλλά το ZIP με τα επιμέρους κομμάτια δεν έχει απλό όνομα αρχείου"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "Πολλές κάμερες αλλά καμία ηχογράφηση. Κάθε κάμερα θα είχε τον δικό της ήχο -- γι' αυτό υπάρχει το Multitrack. Αλλιώς μία κάμερα μετά την άλλη."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "Το συμπιεσμένο αρχείο περιέχει το %s περισσότερες από μία φορές, οπότε δεν εξήχθη τίποτα από αυτό."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "Εδώ τις ηχογραφήσεις τις ονομάζει το αρχείο αντιστοίχισης, οπότε το --speaker-name θα απορριπτόταν· δώστε τα ονόματα εκεί ή παραλείψτε το --speaker-name."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "Η έτοιμη έκδοση δεν ταιριάζει με το άθροισμα ελέγχου της, οπότε δεν αποσυμπιέστηκε: στη λίστα %s, έφτασε %s."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "Η λίστα των αθροισμάτων ελέγχου δεν ήταν δυνατό να ληφθεί, οπότε η έτοιμη έκδοση δεν αποσυμπιέστηκε: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "Η λίστα των αθροισμάτων ελέγχου δεν αναφέρει το %s, οπότε η έτοιμη έκδοση δεν αποσυμπιέστηκε."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "Η λίστα των αρχείων του μοντέλου αναφέρει το %s, που βρίσκεται έξω από τον φάκελο του μοντέλου· δεν λήφθηκε τίποτα."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "Το μοντέλο δεν ήταν δυνατό να ληφθεί από %s: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "Το όνομα ομιλητή για το %s είναι κενό· δώστε ένα όνομα ή παραλείψτε το --speaker-name."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "η παραγωγή ολοκληρώθηκε, αλλά το αποτέλεσμά της δεν έχει απλό όνομα αρχείου"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "λήφθηκε από τα αρχεία προέλευσης, --lufs source -- τίποτα δεν προσαρμόζεται"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Το κλειδί φυλάσσεται στην κλειδοθήκη της επιφάνειας εργασίας μέσω της εντολής secret-tool, και αυτός ο υπολογιστής δεν την έχει."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Αυτός ο υπολογιστής δεν έχει την εντολή secret-tool, που φυλάσσει το κλειδί στην κλειδοθήκη της επιφάνειας εργασίας, οπότε δεν αποθηκεύτηκε τίποτα. Χειροκίνητα: %s"
+
+msgid "What it says appears under Output."
+msgstr "Ό,τι λέει εμφανίζεται στην Έξοδο."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "το πακέτο libsecret-tools σε Debian και Ubuntu, libsecret σε Fedora και Arch"

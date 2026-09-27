@@ -33,6 +33,36 @@ case "$VPM_TESTS" in
   *) echo "VPM_TESTS is '$VPM_TESTS'; it takes all, bound or neutral" >&2
      exit 2 ;;
 esac
+# The tests that were red in the last run that got to its end, one name
+# a line under a line saying when; every such run writes it, a whole
+# one or a few named, so it is always the last answer and never a
+# collection of old ones. Kept beside the other state, and not in git:
+# it is this checkout's last run, which nobody else has had.
+# --last-red runs exactly those, through the same machinery as names
+# typed out; after a green run it runs nothing and says so.
+LAST_RED="$HERE/state/last_red"
+FROM_LAST_RED=0
+if [ "${1:-}" = --last-red ]; then
+  if [ $# -gt 1 ]; then
+    echo "--last-red runs what the last run found red, and takes no" \
+         "names beside it" >&2
+    exit 2
+  fi
+  if [ ! -f "$LAST_RED" ]; then
+    echo "--last-red: no run has got to its end here yet, so there is" \
+         "nothing remembered -- bash run.sh runs them all" >&2
+    exit 2
+  fi
+  remembered=$(grep -v '^#' "$LAST_RED")
+  if [ -z "$remembered" ]; then
+    echo "--last-red: no test was red in the last run, so there is" \
+         "nothing to run ($(head -1 "$LAST_RED" | sed 's/^# *//'))"
+    exit 0
+  fi
+  echo "--last-red: $(head -1 "$LAST_RED" | sed 's/^# *//')"
+  set -- $remembered
+  FROM_LAST_RED=1
+fi
 # Tests named on the command line run whichever half they are in: the
 # name is the more precise wish, and a test that starts run.sh itself
 # would otherwise hand its own half on to the run it starts.
@@ -153,6 +183,17 @@ RUN_TEMP_SETTINGS="${TMPDIR:-/tmp}/vpm_settings_$(id -u)_$$"
 mkdir -p "$RUN_TEMP_SETTINGS"
 export VPM_SETTINGS="$RUN_TEMP_SETTINGS"
 
+# And no test reaches a Resolve that is really running. A window test
+# that shows the Resolve tab starts check_resolve(), and on a machine
+# with Resolve installed that connects and asks the program its name --
+# measured 26.9.2026: fifteen tests did, against whatever Resolve was open.
+# Pointed at a folder that is never made, the interface is "not found"
+# before anything is asked. Set whatever came in: a shell pointed at the
+# real Resolve must not carry it into the suite. A test that wants its
+# own stand-in sets these itself; tests/resolve.sh runs apart from this.
+export RESOLVE_SCRIPT_API="$RUN_TEMP_SETTINGS/no-resolve-here"
+export RESOLVE_SCRIPT_LIB="$RUN_TEMP_SETTINGS/no-resolve-here/fusionscript"
+
 # Two suites on one machine share VPM_FIXTURES, and fixtures.sh deletes a
 # folder before building it again. The lock that keeps them apart stands
 # in fixture_lock.sh, because resolve.sh builds the same folders.
@@ -165,6 +206,9 @@ fixtures_out() {
 }
 trap fixtures_out EXIT
 trap 'exit 130' INT TERM
+# What counts as red in a test's output: one function, in a file of its
+# own so a test can ask it without starting a whole run.
+. "$HERE/verdict.sh"
 fixtures_hold
 
 # The shared fixture folders are read-only. Building them here, before
@@ -248,11 +292,25 @@ WHOLE=1
 # same name; a name that is not in the folder stops here, said.
 if [ $# -gt 0 ]; then
   asked=$(printf '%s\n' "$@" | sed 's|.*/||; s/_test\.py$//')
+  gone=""
   for t in $asked; do
     printf '%s\n' "$TESTS" | grep -qx "$t" && continue
+    # Remembered, not typed: renamed or removed since that run, so it is
+    # said and left out, and the others still run.
+    if [ "$FROM_LAST_RED" = 1 ]; then gone="$gone $t"; continue; fi
     echo "no test named $t in $HERE or a folder under it -- stopping." >&2
     exit 2
   done
+  if [ -n "$gone" ]; then
+    echo "--last-red: red last time, and no test of that name here any" \
+         "more -- left out:$gone"
+    asked=$(printf '%s\n' $asked | grep -vxF "$(printf '%s\n' $gone)")
+    if [ -z "$asked" ]; then
+      echo "--last-red: none of the tests it remembers is here any more," \
+           "so there is nothing to run" >&2
+      exit 2
+    fi
+  fi
   # A folder given with the name is not asked, only the name is: say so
   # where the test lies elsewhere, and run it by its name all the same.
   for a in "$@"; do
@@ -382,15 +440,44 @@ SILENT="|"
 # the shell's own complaint, not the loop's, so a 2>/dev/null on the
 # loop never silences it -- and a missing state file would print a line
 # that looks like a fault in the suite.
+#
+# A row is a name, a tab and a number, or silent, a tab and a name. Read
+# by the whitespace in it, so a row with a space where the tab belongs
+# still holds its test to its floor; but it is said, and the run is red
+# for it. Four such rows stood here on 27.9.2026, typed in by hand, and
+# the writer below, splitting on the tab, had turned each into a name
+# with a space in it and a floor of 0 -- a row for no test, holding
+# nothing, which overview.py skipped without a word.
+ROWS_WRONG=""
+TAB=$(printf '\t')
 if [ -f "$CHECKS" ]; then
-  while read -r what which rest; do
-    case "$what" in ""|"#"*) continue ;; esac
+  while IFS= read -r row || [ -n "$row" ]; do
+    case "$row" in ""|"#"*) continue ;; esac
+    what=${row%%"$TAB"*}; which=${row#*"$TAB"}
+    right=1
+    case "$row" in *"$TAB"*) ;; *) right=0 ;; esac
+    case "$what" in ""|*[!A-Za-z0-9_]*) right=0 ;; esac
+    case "$which" in ""|*[!A-Za-z0-9_]*) right=0 ;; esac
+    [ "$what" = silent ] || case "$which" in *[!0-9]*) right=0 ;; esac
+    if [ "$right" = 0 ]; then
+      ROWS_WRONG="$ROWS_WRONG
+      '${row//"$TAB"/<TAB>}'"
+      # By its spaces, as this loop read every row until 27.9.2026.
+      loose=${row//"$TAB"/ }
+      what=${loose%% *}; which=${loose#"$what"}
+      which=${which#"${which%%[! ]*}"}; which=${which%% *}
+    fi
     if [ "$what" = silent ]; then
       SILENT="$SILENT$which|"
     else
       FLOORS="$FLOORS$what=$which|"
     fi
   done < "$CHECKS"
+fi
+if [ -n "$ROWS_WRONG" ]; then
+  echo "FAIL state/checks has rows that are not <name><TAB><number> or"
+  echo "     silent<TAB><name>. They are read by their spaces, and the run"
+  echo "     is red until they are put right:$ROWS_WRONG"
 fi
 # Nothing to hold anything to. Said out loud and then measured, the way
 # ratchet.py answers a state file that is not there: a run that silently
@@ -455,7 +542,7 @@ run_one() {
     out=$(VPM_COUNT_STARTS="$STARTS/$t" \
           $LIMIT "$PY" "$file" 2>&1); rc=$?
     fell=0
-    if [ $rc -ne 0 ] || echo "$out" | grep -qE "^Traceback|FAIL"; then
+    if [ $rc -ne 0 ] || said_red "$out"; then
       fell=1
     fi
     if [ $fell -eq 0 ] || [ "$try" -ge "$TRIES" ] || [ $rc -le 128 ] \
@@ -487,9 +574,8 @@ run_one() {
   # and a test that printed SKIPPED: is not counted green anyway -- it
   # has named the piece it could not do, and fewer judgements follow
   # from that rather than from anything being wrong.
-  if [ "$rc" -eq 0 ] \
-     && ! printf '%s\n' "$out" | grep -qE "^Traceback|FAIL|^SKIPPED:"; then
-    short=""
+  short=""
+  if [ "$fell" -eq 0 ] && ! printf '%s\n' "$out" | grep -q "^SKIPPED:"; then
     if [ -n "$floor" ] && [ -z "$judged" ]; then
       short="FAIL the test got as far as its closing line -- it printed no count of judgements, where $floor were counted last time"
     elif [ -n "$floor" ] && [ "$judged" -eq 0 ]; then
@@ -519,7 +605,9 @@ $short"
   # leaves out the part this machine cannot do and falls over the rest.
   # Asking after the skip first makes such a test read "skipped", with
   # the failure not shown and not counted, which is the same lie as green.
-  if [ $rc -ne 0 ] || echo "$out" | grep -qE "^Traceback|FAIL"; then
+  # $fell was said of this very output by the loop above; what can have
+  # come since is the one line run.sh wrote into it, and that is red.
+  if [ "$fell" -ne 0 ] || [ -n "$short" ]; then
     { echo "RED (rc=$rc)"
       # 124 is what the time limit returns when it kills a test, 137 when
       # a polite TERM was not enough and it had to go further.
@@ -622,7 +710,7 @@ $short"
     "$(head -1 "$OUT/$t")" "$((SECONDS - began))" \
     "$( [ -s "$STARTS/$t" ] && wc -l < "$STARTS/$t" | tr -d ' ' || echo 0)"
 }
-export -f run_one crash_block crash_said test_file
+export -f run_one crash_block crash_said test_file said_red
 export OUT HERE LIMIT TOTAL TRIES PY
 
 # A test that measures real time cannot share the machine. Playing a
@@ -703,6 +791,13 @@ for t in $TESTS; do
              tail -n +2 "$OUT/$t" ;;
   esac
 done
+# state/checks read with rows in a shape it does not hold (see where it
+# is read): red, and named where the tests are.
+if [ -n "$ROWS_WRONG" ]; then
+  bad=$((bad+1)); names="$names state/checks"
+  printf "  %-24s %s\n" "state/checks" "RED (rows not <name><TAB><number>)"
+  echo "$ROWS_WRONG" | tail -n +2
+fi
 # The whole run's processes, and the five that start most of them. Read
 # together with state/longest: a test that is slow here and one that is
 # slow on the builder are not the same test, and this is the number
@@ -837,7 +932,10 @@ if [ -n "$raised$census" ] && "$PY" -c \
     { grep -v '^#' "$CHECKS" 2> /dev/null
       for r in $raised; do printf '%s\t%s\n' "${r%%=*}" "${r#*=}"; done
       for t in $census; do printf 'silent\t%s\n' "$t"; done
-    } | awk -F'\t' '
+    } | awk '
+        # Split on any whitespace, as the reader above does: a space
+        # typed where the tab belongs then names the test and its number
+        # rather than a test called "name 8" with a floor of 0.
         NF < 2 { next }
         $1 == "silent" { quiet[$2] = 1; next }
         # Of two numbers for one test the larger stands. Two runs
@@ -948,6 +1046,15 @@ if [ -z "${CI:-}" ] && [ -z "${GITHUB_ACTIONS:-}" ]; then
     fi
   done
 fi
+# What --last-red will run: the tests this run found red, and nothing
+# when it found none. Only here, at the end: a run stopped half way has
+# not answered, and its half answer would hide the last whole one.
+# state/checks is no test and cannot be run by name, so it is left out.
+{ reds=$(printf '%s\n' $names | grep -vx 'state/checks')
+  echo "# $(date '+%Y-%m-%d %H:%M'), $(echo $reds | wc -w | tr -d ' ') red" \
+       "of the $(echo $TESTS | wc -w | tr -d ' ') that ran"
+  if [ -n "$reds" ]; then printf '%s\n' $reds; fi
+} > "$LAST_RED.$$" 2> /dev/null && mv "$LAST_RED.$$" "$LAST_RED"
 echo "(started in the background? then do the next thing while it runs.)"
 # Red if anything failed, and red if more was left out than the barrier
 # allows: the second is a failure too, because this run then proved

@@ -832,6 +832,24 @@ def use_certificates():
     return bundle
 
 
+def onnxruntime_quiet():
+    """Keep onnxruntime from reporting home. True where its switch was thrown.
+
+    faster-whisper's voice filter runs on it, and from its import on it
+    keeps events under the home folder and a thread that posts them to
+    Microsoft; that thread has aborted Python at exit. The variable
+    stops both, but only before the import; the call is its own switch.
+    """
+    # An onnxruntime too old for the switch, or none, is no reason to stop.
+    os.environ["ORT_DISABLE_TELEMETRY"] = "1"
+    try:
+        import onnxruntime
+        onnxruntime.disable_telemetry_events()
+        return True
+    except Exception:
+        return False
+
+
 def whisper_words(audio_path, language="", install=True):
     """Recognise with faster-whisper where macOS cannot.
 
@@ -841,6 +859,7 @@ def whisper_words(audio_path, language="", install=True):
     applied, or None where the package is not there.
     """
     import importlib
+    onnxruntime_quiet()
     try:
         module = importlib.import_module("faster_whisper")
     except ImportError:
@@ -1042,14 +1061,25 @@ def recognise_speech(audio_path, language="", way=""):
     return words, took
 
 
+def listening_unasked():
+    """Whether the window may set a recogniser going by itself.
+
+    Not in silent mode: VPM_SILENT marks a test or a picture run, which
+    opens projects nobody is listening to, and every one would start
+    Apple's recogniser at once. Stored words are read either way; a run
+    still writes its own down. Asked at every call, never at loading.
+    """
+    return not os.environ.get("VPM_SILENT")
+
+
 def words_at_hand(audio_path, language="", mark=""):
     """Write the words down with what the machine already has.
 
     A run may install faster-whisper and fetch a 1.5 GB model: somebody
-    started it and is watching. The window may not -- nobody asked for
-    a download by adding files to a list. So macOS first, faster-whisper
-    only where a run already installed it. [] where nothing can listen.
-    *mark* stores a mix under what it was made of, not what it holds.
+    started it and is watching. The window may not: adding files to a
+    list asks for no download. So macOS first, faster-whisper only where
+    a run installed it; [] where nothing can listen or nobody may (see
+    listening_unasked). *mark* files a mix under its sources, not content.
     """
     started = time.time()
     mark = mark or file_content_mark(audio_path)
@@ -1059,6 +1089,8 @@ def words_at_hand(audio_path, language="", mark=""):
         print(T('  Speech recognition (%s): %s words, read back')
               % (took, number_text(len(words), 0)))
         return words
+    if not listening_unasked():
+        return []
     words = macos_words(audio_path, language)
     took = "macOS"
     if words is None:
@@ -1152,20 +1184,19 @@ def words_of_recording(state, source):
 
 
 #------------------------------------- The window's transcript, caught up
-# The run writes one out of its mix. The window writes its own as soon
-# as the time axis stands, so the settings that need words work before
-# any run: a mix of the tracks on that axis, heard once and stored.
+# Besides the run's, the window writes one as soon as the time axis stands,
+# from a mix on it heard once and stored, so word settings work before a run.
 
 
 def window_words_may(state):
     """Whether the window may listen by itself now.
 
     Not where nothing may compute unasked -- the switch that keeps the
-    separation from starting by itself -- not for a project that only
-    synchronises, and not before the time axis stands.
+    separation from starting by itself, or silent mode -- not for a
+    project that only synchronises, and not before the time axis stands.
     """
-    return bool(not PROGRAM.SPEAKER_SPLIT_OFF
-                and state.get("project_type") != "sync"
+    return bool(not PROGRAM.SPEAKER_SPLIT_OFF and listening_unasked()
+                and not PROGRAM.sync_only(state)
                 and state.get("axis") and not state.get("axis_running"))
 
 

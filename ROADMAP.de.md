@@ -11,11 +11,11 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
-zuletzt für 3.0.0b26 durchgegangen worden.
+zuletzt für 3.0.0b27 durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 3.0.0b26.** Es läuft jede Woche, an echtem Material.
+**Version 3.0.0b27.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
@@ -126,15 +126,13 @@ die es bricht, hebt die erste Stelle der Versionsnummer.
 
 ## Was als Nächstes kommt
 
-**3.0.0b26 und die vier Fassungen danach, kurz.** 3.0.0b26 hat getan, was
-vorgesehen war: Die Fassung hat das Fenster in Stücke
-auseinandergenommen, die Zuordnungstabelle und die Kette des Laufs
-ebenso geteilt und neben den Tests gegen ein echtes Resolve Tests gegen
-auphonic.com gebaut -- beide
-laufen nur auf der Maschine des Eigners, wenn eine Änderung sie
-verlangt. Die ersten Tests über den ganzen Weg hat sie außerdem
-vorgezogen. 3.0.0b27 bringt die Tests über den ganzen Weg weiter und
-behebt, was das Fenster sichtbar noch falsch macht. 3.0.0b28 macht die
+**3.0.0b27 und die drei Fassungen danach, kurz.** 3.0.0b27 hat
+behoben, was das Fenster sichtbar noch falsch machte: In und Out zählen
+ab dem Moment, in dem jede Kamera läuft, wie im Lauf; eine Aufnahme,
+die der Rekorder in mehrere Dateien geteilt hat, wird als eine
+getrennt; Stopp wirkt in jedem Schritt eines Laufs; die Kommandozeile
+bringt den Ton von sich aus auf -16 LUFS; und ein Live-Test deckt jetzt
+den Auphonic-Weg mit mehreren Spuren ab. 3.0.0b28 macht die
 Zeitachse und die Übergabe an Resolve genauer, mit dem Rest dieser
 Tests. 3.0.0b29 öffnet mehr von den Auphonic-Optionen, nimmt mehr als
 zwei Kanäle, ersetzt gesetzte Schwellen durch gemessene und zeigt die
@@ -160,9 +158,7 @@ nach Resolve, dieser gegen eine Attrappe --, und ein fünfter Test hält
 die Zuordnungstabelle; jeder lässt dieselbe Produktion einmal aus dem
 Fenster und einmal von der Kommandozeile laufen und hält beides
 gegeneinander. Das Öffnen des Programms, In und Out und der Wechsel auf
-Reiter 3 stehen noch aus. Ein Test von In und Out an einer
-29,97-Kamera hat gefunden, dass die Marke des Fensters etwa drei Bilder
-zu spät landet, und was daraus folgt, ist noch nicht entschieden. Die
+Reiter 3 stehen noch aus. Die
 Erhebung, die diese Lücken gezählt hat, ist mehrere Fassungen alt, und
 das meiste, was sie nannte, ist seither gedeckt — sie lohnt sich noch
 einmal, bevor darauf gebaut wird.
@@ -215,9 +211,9 @@ Gröber, und in keiner festen Reihenfolge.
   reichen, sagt ein Lauf: coverage.py über `bash run.sh`, mit gesetztem
   `COVERAGE_PROCESS_START`, damit die Läufe mitzählen, die die Tests
   selbst starten. Beim letzten solchen Lauf betrat die
-  Suite rund sieben von zehn Anweisungen. Die Zahl wird als Spanne gelesen und nie als
-  Ziel, und sie stammt aus der Zeit, als das Programm noch eine einzige
-  Datei war — sie will neu erhoben werden. Was so ein Lauf wirklich wert
+  Suite 88 von hundert Anweisungen (87 mit den Verzweigungen), am
+  Programm in seiner heutigen Gestalt (26.9.2026). Die Zahl wird als
+  Spanne gelesen und nie als Ziel. Was so ein Lauf wirklich wert
   ist, ist die Liste der Stellen, die kein Test betritt. Zwei sind auch
   ohne ihn bekannt: die Meldungen, mit denen das Programm abbricht, wenn
   unterwegs etwas Unerwartetes schiefgeht, und der Weg, der den Ton

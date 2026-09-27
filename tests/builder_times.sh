@@ -84,6 +84,20 @@ version_of() {
     | sed -n 's/^VERSION = "\(.*\)"$/\1/p' | head -1
 }
 
+# The suite's jobs are the ones named "<system> py<version>". Since
+# 26.9.2026 a push to main first asks a job "gate" whether the pull
+# request's run already tested this very tree; where it did, the suite
+# is skipped and the run still concludes success -- with no progress
+# line in it. So a run counts here only if a suite job ran and came
+# back green; the version's other run, the pull request's head, is the
+# one that measured.
+SUITE='select(.name | test(" py[0-9.]+$"))'
+suite_green() {
+  gh run view "$1" --json jobs \
+     --jq "[.jobs[] | $SUITE | select(.conclusion == \"success\")] | length" \
+     2>/dev/null
+}
+
 # The run is found by the version its commit carries, on any branch --
 # for the record and for the queue alike. The newest green run on main
 # is not it while the merge's own run is still going: 3.0.0b24's times
@@ -104,37 +118,50 @@ if [ -n "$WANT" ] && [ -z "$RUN" ]; then
   for pair in $(gh run list --workflow tests --status success --limit 20 \
                   --json databaseId,headSha \
                   --jq '.[] | "\(.databaseId):\(.headSha)"' 2>/dev/null); do
-    if [ "$(version_of "${pair#*:}")" = "$WANT" ]; then
+    [ "$(version_of "${pair#*:}")" = "$WANT" ] || continue
+    if [ "$(suite_green "${pair%%:*}")" -gt 0 ] 2>/dev/null; then
       RUN=${pair%%:*}
       break
     fi
+    sha=${pair#*:}
+    echo "run ${pair%%:*} on ${sha:0:7} says $WANT, but no job of the"\
+         "suite ran there (the tree was tested on the branch); looking"\
+         "further"
   done
   if [ -z "$RUN" ]; then
     echo "no green run among the last 20 stands on a commit that says"\
-         "VERSION = \"$WANT\" -- has its run finished? Or name one:"\
-         "bash builder_times.sh ${RECORD:+--record $RECORD }<run id>" >&2
+         "VERSION = \"$WANT\" and ran the suite -- has its run finished?"\
+         "Or name one: bash builder_times.sh ${RECORD:+--record $RECORD }<run id>" >&2
     exit 2
   fi
   echo "green run of $WANT: $RUN"
-elif [ -n "$RECORD" ]; then
-  sha=$(gh run view "$RUN" --json headSha --jq .headSha 2>/dev/null)
-  said=$(version_of "$sha")
-  if [ "$said" != "$RECORD" ]; then
-    echo "run $RUN stands on ${sha:0:7}, which says VERSION = \"$said\","\
-         "not \"$RECORD\" -- that is another release's run" >&2
+else
+  if [ -n "$RECORD" ]; then
+    sha=$(gh run view "$RUN" --json headSha --jq .headSha 2>/dev/null)
+    said=$(version_of "$sha")
+    if [ "$said" != "$RECORD" ]; then
+      echo "run $RUN stands on ${sha:0:7}, which says VERSION = \"$said\","\
+           "not \"$RECORD\" -- that is another release's run" >&2
+      exit 2
+    fi
+  fi
+  if ! [ "$(suite_green "$RUN")" -gt 0 ] 2>/dev/null; then
+    echo "run $RUN has no green job of the suite: skipped, because the"\
+         "branch's run had tested this tree, or not finished. Name the"\
+         "branch's run instead." >&2
     exit 2
   fi
 fi
 
 # The slowest job of this run, by wall clock, unless one was named.
 #
-# Every job of the tests workflow, and no filter on the name. It used
+# Every job of the suite, by the name above, and not the gate. It used
 # to keep only the ones with a "/" in them, from the day they were
 # called "macos-latest / py3.14"; they are called "macOS py3.14" now,
 # so the filter kept nothing and the slowest job came back as null.
 if [ -z "$JOB" ]; then
   JOB=$(gh run view "$RUN" --json jobs --jq '
-    [.jobs[]
+    [.jobs[] | '"$SUITE"'
      | {name, s: ((.completedAt | fromdate) - (.startedAt | fromdate))}]
     | sort_by(-.s) | .[0] | "\(.name)\t\(.s)"' 2>/dev/null)
   said=${JOB#*$'\t'}
@@ -235,7 +262,7 @@ if grep -q "^## $RECORD -- " "$DURATIONS"; then
   echo "$DURATIONS already has a section for $RECORD; nothing appended" >&2
   exit 2
 fi
-jobs=$(gh run view "$RUN" --json jobs --jq '.jobs[]
+jobs=$(gh run view "$RUN" --json jobs --jq '.jobs[] | '"$SUITE"'
   | "\(.name)\t\((.completedAt | fromdate) - (.startedAt | fromdate))"' 2>/dev/null)
 meta=$(gh run view "$RUN" --json headBranch,headSha,createdAt,displayTitle \
        --jq '"\(.headBranch)\t\(.headSha[0:7])\t\(.createdAt[0:10])\t\(.displayTitle)"' 2>/dev/null)

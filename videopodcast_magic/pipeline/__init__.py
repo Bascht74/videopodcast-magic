@@ -11,10 +11,9 @@ and every name this piece uses out of it is bound below, by name.
 # and the line under that binds it to a name of this file's own.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# chain reads as it did in the one file. None is missing and none is
-# read late: not one of the names below is bent while the run goes on,
-# so a copy taken here cannot go stale under it.
+# What the program has and this piece uses, bound once so the chain
+# reads as in the one file. None is missing or read late: none is bent
+# while the run goes on, so a copy taken here cannot go stale.
 
 ByFile = PROGRAM.ByFile
 MIX_ONLY = PROGRAM.MIX_ONLY
@@ -59,10 +58,9 @@ video_facts = PROGRAM.video_facts
 wav_safe = PROGRAM.wav_safe
 
 
-# =====================================================================
-#  The chain, in the order a run takes it: the camera audio out of the
-#  pictures, and the plan timebase/ puts on one axis and back on them.
-# =====================================================================
+# ================  The chain, in the order a run takes it  ==========
+#  The camera audio out of the pictures, and the plan timebase/ puts
+#  on one axis and back on them.
 
 
 def unpack_kind(file_path):
@@ -232,6 +230,27 @@ def name_apart(name, taken):
     return name
 
 
+def cameras_plainly_named(cameras):
+    """Make every camera's name a plain file name, and say where it moved.
+
+    The name becomes the written file, the handover's camera and the
+    cut list's reel, so it is changed once, here, for all three. A
+    separator made a folder of it, and a leading one wrote the file
+    beside the source instead of into the result folder. --new-name
+    refuses the same three signs; a name from the window is not asked.
+    """
+    taken = {cam["name"].lower() for cam in cameras}
+    for cam in cameras:
+        plain = cam["name"].translate({ord(c): "_" for c in "/\\:"})
+        if plain != cam["name"]:
+            plain = name_apart(plain, taken)
+            print(T('  The camera name "%s" holds a folder or drive '
+                    'separator; it is written as "%s".')
+                  % (cam["name"], plain))
+            cam["name"] = plain
+    return cameras
+
+
 def plan_from_camera_audio(video_paths, tmpdir, cameras=None, title=""):
     """Use each video file's own audio as a track.
 
@@ -357,11 +376,10 @@ def names_given(args, video_paths):
     """The names --new-name gives, by file, or why they cannot be used.
 
     Before anything is written: a plain file name, for a camera of the
-    run, one name per file, and no two cameras in one file -- without
-    case, as the writer and the disks compare; the window asks that
-    too, a command line never passes it. Two cameras sharing a stem and
-    given no name pass: where the run names cameras after their files,
-    name_apart tells them apart with a number.
+    run, one name per file, no two cameras in one file -- without case,
+    as the writer and the disks compare; the window asks that too, a
+    command line never passes it. Two unnamed cameras sharing a stem
+    pass: named after their files, name_apart numbers them apart.
     """
     cameras = {path_key(p): p for p in video_paths}
     called = {}
@@ -396,6 +414,37 @@ def names_given(args, video_paths):
                          '%s and %s.') % (
                 first + (getattr(args, "suffix", "") or "_audio") + ".mov",
                 os.path.basename(cameras[other]), os.path.basename(path))
+    return called, ""
+
+
+def speakers_given(args, audio_paths):
+    """The names --speaker-name gives, by block, or why they cannot be used.
+
+    Before anything is written: for a recording of this run, not empty,
+    and one name per file. Beside --assign it would be dropped without
+    a word, since the assignment file names the rows itself, so it is
+    refused there. What no switch names is guessed from the file name.
+    """
+    given = getattr(args, "speaker_name", None) or ()
+    if given and getattr(args, "assign", None):
+        return {}, T('The assignment file names the recordings here, so '
+                     '--speaker-name would be dropped; give the names '
+                     'there or leave --speaker-name out.')
+    ours = set(path_key(p) for p in audio_paths)
+    called = {}
+    for file, name in given:
+        name, shown = (name or "").strip(), os.path.basename(file)
+        if path_key(file) not in ours:
+            return {}, T('--speaker-name names %s, which is not one of the '
+                         'recordings of this run.') % shown
+        if not name:
+            return {}, T('The speaker name for %s is empty; give a name or '
+                         'leave --speaker-name out.') % shown
+        if called.get(path_key(file), name) != name:
+            return {}, T('--speaker-name gives %s two names, "%s" and "%s"; '
+                         'give each recording one.') % (
+                shown, called[path_key(file)], name)
+        called[path_key(file)] = name
     return called, ""
 
 
@@ -438,6 +487,8 @@ def show_multitrack_plan(args, audio_paths, video_paths):
     """Show the detected plan without doing anything yet."""
     step_begin("plan")
     called, complaint = names_given(args, video_paths)
+    if not complaint:
+        spoken, complaint = speakers_given(args, audio_paths)
     if complaint:
         print(as_bad(T('Abort: %s') % complaint))
         return 1
@@ -479,18 +530,22 @@ def show_multitrack_plan(args, audio_paths, video_paths):
     if title:
         print(T('  Production at auphonic.com:   %s') % title)
     if not plan and audio_paths:
-        # A block taken out by hand is carried as such into the plan.
-        # Grouping alone was not enough: the rows are merged by speaker
-        # name further down, and two blocks of one recorder guess the
-        # same name, so what was separated here was joined again there.
+        # A block taken out by hand is carried as such into the plan: rows
+        # merge by speaker name below, and two blocks of one recorder guess the
+        # same name, so grouping alone would join again what was split here.
         kept_apart = {path_key(x)
                       for x in (getattr(args, "apart", ()) or ())}
         for row, _ in group_recording_parts(audio_paths,
                                             args.no_follow_ups,
                                             getattr(args, "apart", ()),
                                             getattr(args, "together", ())):
+            # The name typed for the recording, on whichever block it
+            # came; the file name is only the proposal.
+            typed = [spoken[path_key(b)] for b in row
+                     if path_key(b) in spoken] + [guess_speaker_name(row[0])]
             plan.append({"audio": row[0], "blocks": row,
-                         "speakers": guess_speaker_name(row[0]), "camera": "",
+                         "speakers": typed[0],
+                         "camera": "",
                          "apart": any(path_key(b) in kept_apart
                                       for b in row)})
     if any(e.get("camera_audio") for e in plan):
@@ -515,10 +570,9 @@ def show_multitrack_plan(args, audio_paths, video_paths):
         if not cameras:
             cameras = cameras_named_by_tracks(plan, sync_only(args))
     if named_here and video_paths:
-        # One entry per video file nothing has named yet -- every file, or
-        # a mute one no track names: as --new-name says or after the stem
-        # it is written under; equal names told apart, or two handover
-        # tracks point at one written file. The ending is hung on later.
+        # One entry per video file nothing names yet (every file, or a mute one
+        # no track names), by --new-name or its written stem, ending put last;
+        # equal names told apart, or two handover tracks hit one written file.
         taken = {cam["name"].lower() for cam in cameras}
         have = {path_key(cam["video"]) for cam in cameras}
         cameras = cameras + [
@@ -527,6 +581,7 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                  called.get(path_key(path))
                  or os.path.splitext(os.path.basename(path))[0], taken)}
             for path in video_paths if path_key(path) not in have]
+    cameras = cameras_plainly_named(cameras)
     # One name on a recording and on a voice: the window refuses it,
     # and so does the line -- merged, each turn would count twice.
     clash = PROGRAM.voices_clashing_of_run(args, plan)
@@ -587,10 +642,9 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                     track_order_for_camera(own, every, singles,
                                            camera_tracks,
                                            args.name_camera), 1):
-                # The track number names the track, it does not count
-                # anything: it is what the editor sees in the strip and
-                # what the writer below numbers by. Plain digits, the
-                # way Resolve's own track numbers stay plain.
+                # The track number names the track, counts nothing: it is
+                # what the editor sees in the strip and what the writer below
+                # numbers by -- plain digits, as Resolve's own stay plain.
                 print(T('        Track %d: %s') % (idx, what))
     return build_common_timebase(args, plan, cameras, video_paths, title)
 

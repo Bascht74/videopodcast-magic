@@ -336,12 +336,6 @@ msgstr "বক্তা পৃথকীকরণ এখানে ইনস্ট
 msgid "Fetching the model (about %s MB) ..."
 msgstr "মডেল আনা হচ্ছে (প্রায় %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "মডেল আনা হচ্ছে (প্রায় %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "মডেলটি আনা যায়নি: %s"
-
 msgid "The model could not be written: %s"
 msgstr "মডেলটি লেখা যায়নি: %s"
 
@@ -854,9 +848,6 @@ msgstr "  %-20s সারিবদ্ধ করা যায় না: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s মাপা যায় না: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s অফসেট %s, ঘড়ির বিচ্যুতি %s ppm (+/- %s), অবশিষ্ট বিস্তার %s ms, %sটি বিন্দু (মোট %sটির মধ্যে)"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s অফসেট %s, ঘড়ির বিচ্যুতি %s ppm (+/- %s), অবশিষ্ট বিস্তার %s ms, %sটি বিন্দু (মোট %sটির মধ্যে)%s"
@@ -2172,14 +2163,8 @@ msgstr "সময়-অক্ষ ঠিক হলে ইন পয়েন্�
 msgid "In point is %s before the first frame"
 msgstr "ইন পয়েন্ট প্রথম ফ্রেমের %s আগে"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "ইন পয়েন্ট এখন %s, কিন্তু বিদ্যমান ফাইলগুলো %s-এর।\n  ভিডিওর অডিও পুরোনো সময়-পরিসরে কাটা -- ওপরে আবার\n  শুরু করুন চাপুন।"
-
 msgid "Out point is %s after the last frame"
 msgstr "আউট পয়েন্ট শেষ ফ্রেমের %s পরে"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "আউট পয়েন্ট এখন %s; সময়-পরিসর হতো %s দীর্ঘ, বিদ্যমান\n  ফাইলগুলো %s -- ওপরে আবার শুরু করুন চাপুন।"
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "ডেলিভারিতে সাধারণত সীমিত পরিসর নেওয়া হয়। পূর্ণ ভুল নয়, তবে কিছু প্লেয়ার এটি ভুল পড়ে।"
@@ -2340,9 +2325,6 @@ msgstr "Multitrack (প্রতি বক্তার জন্য একটি
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack-এর জন্য অন্তত দুটি ইনপুট ট্র্যাক দরকার। একটি ট্র্যাক হলো নিজস্ব একটি রেকর্ডিং, মাল্টিচ্যানেল রেকর্ডারের একটি চ্যানেল, অথবা এমন ভিডিও ফাইলের অডিও যা \"ভেতরের অডিও ব্যবহার করুন\"-এ সেট করা। একই রেকর্ডিংয়ের একাধিক ব্লক একটি হিসেবে গোনা হয়, সরিয়ে রাখা ট্র্যাক একেবারেই নয়।"
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "কোনো অডিও ফাইলে টাইমকোড নেই। ইন পয়েন্ট ও আউট পয়েন্ট উপাদানের শুরু থেকে গোনা হয় -- ফাইলগুলোর পারস্পরিক অবস্থান মাপা হয়েছে।"
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "এখনও কোনো শব্দ ব্যবহারে নেই -- একটি অডিও রেকর্ডিং যোগ করুন, অথবা ফাইল তালিকায় কোনো ভিডিও ফাইলের ক্যামেরার অডিও \"ভেতরের অডিও ব্যবহার করুন\"-এ সেট করুন।"
 
@@ -2351,9 +2333,6 @@ msgstr "কোনো অডিও ট্র্যাক বরাদ্দ ন�
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "কোনো ক্যামেরা বরাদ্দ নেই, তাই কাট করার মতো কিছু নেই।"
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "এখনও কোনো ক্যামেরা বরাদ্দ হয়নি -- এর জন্য Multitrack চালু করুন।"
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Resolve-এর সঙ্গে সংযোগ নেই।\n  প্রোগ্রামটি কি চলছে? Preferences > System > General-এ\n  external scripting কি 'Local'-এ সেট করা আছে?"
@@ -3170,9 +3149,6 @@ msgstr "প্রিসেটটি %s LUFS-এ মাস্টার করে,
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "প্রিসেটটি %s LUFS-এ মাস্টার করে -- সেটাই থাকে, আমাদের কিছুই সমন্বয় করে না।"
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "উৎস ফাইল থেকে নেওয়া, কোনো --lufs দেওয়া হয়নি -- কিছুই সমন্বয় করা হয় না"
 
 msgid "the answer did not keep the floor"
 msgstr "উত্তরটি বলার পালা ধরে রাখেনি"
@@ -4924,9 +4900,6 @@ msgstr "%s\n   শব্দ চেনা যায়নি; চালনা য
 msgid "sound not recognised, placed by its timecode"
 msgstr "শব্দ চেনা যায়নি, টাইমকোড অনুযায়ী বসানো হয়েছে"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %sটি রেকর্ডিং এবং কোনো ছবি নেই: প্রতিটি আলাদাভাবে জোড়া হয় এবং একটিকে অন্যটির সঙ্গে মেলানো হয় না। --multitrack এগুলোকে একটি সময়-অক্ষে বসায়।"
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", ঘড়ির বিচ্যুতি %s ppm রেখে দেওয়া হয়েছে: এটি এর অনিশ্চয়তার %s গুণ নয়, যা %s ppm"
 
@@ -5007,3 +4980,112 @@ msgstr "    %s: শুরুর %s-এ কোনো ছবি নেই, তা�
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: শেষের %s-এ কোনো ছবি নেই, তাই বাদ দেওয়া হয়"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s যা পাঠানো হয়েছিল তার চেয়ে %s s লম্বা হয়ে ফিরে এসেছে, আর পাঠানো শব্দ এর মধ্যে কোথায়\n"
+"  শুরু হয় তা মাপা যায়নি -- যেমন এসেছে তেমনই রাখা হয়েছে।"
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s কাটা যায়নি (%s) -- যেমন এসেছে তেমনই রাখা হয়েছে।"
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s (%s-এ) শুনতে %s-এর (%s-এ) মতো (মিল %s): মনে হয় একই ব্যক্তি।"
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com শেষে %s s যোগ করেছে -- কেটে ফেলা হয়েছে"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com শুরুতে %s s যোগ করেছে -- কেটে ফেলা হয়েছে"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: কোনো ফাইল লেখা হয়নি, তাই কাট এই ক্যামেরাটি বাদ দেয়।"
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  ইন পয়েন্ট ও আউট পয়েন্ট এখানে কিছু করে না: ছবি ছাড়া একটি রেকর্ডিং পুরোটাই জোড়া হয়।"
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  ক্যামেরার নাম \"%s\"-এ একটি ফোল্ডার বা ড্রাইভের বিভাজক আছে; এটি \"%s\" হিসেবে লেখা হয়।"
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  প্রান্তে ওয়াইড শট: নেই -- অন্য কণ্ঠটি মাত্র একবার কথা বলে, আর সেই একটি প্রান্ত সবচেয়ে ছোট শটের চেয়েও ছোট ছিল"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  প্রান্তে ওয়াইড শট: শুধু %s থেকে -- অন্য কণ্ঠটি মাত্র একবার কথা বলে, শেষের কাছে, তাই শুরুরটি নেই"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  প্রান্তে ওয়াইড শট: শুধু %s পর্যন্ত -- অন্য কণ্ঠটি মাত্র একবার কথা বলে, শুরুর কাছে, তাই শেষেরটি নেই"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com একটি ফাইলের নাম দিয়েছে \"%s\" -- এটি সাধারণ ফাইলের নাম নয়, তাই আনা হয় না"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s বসানো যাচ্ছে না: এর শব্দের সঙ্গে বাকি উপাদানের কোনো মিল নেই, আর শব্দ যে রেকর্ডিংগুলো বসিয়েছে তাদের কোনোটিতে এমন টাইমকোড নেই যার সঙ্গে এর নিজেরটা মেলানো যায়। সেগুলোর একটির এমন টাইমকোড দরকার যা এটির সঙ্গে মেলে, আর সেটি অন্য কোনো প্রোগ্রাম দিয়ে সেট করতে হবে।"
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name %s-কে দুটি নাম দেয়, \"%s\" এবং \"%s\"; প্রতিটি রেকর্ডিংকে কেবল একটি নাম দিন।"
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name-এ %s দেওয়া হয়েছে, যা এই চালনার রেকর্ডিংগুলোর কোনোটি নয়।"
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "%s থেকে মডেল আনা হচ্ছে (প্রায় %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "শেষ চালনার পর থেকে ইন পয়েন্ট বদলেছে: তখন %s, এখন %s। কাট এবং ভিডিওর ভেতরের অডিও এখনও পুরোনো সময়-পরিসরের, তাই চিহ্নগুলো এখন যা বলে Resolve তা পেত না -- আবার শুরু করুন চাপুন।"
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "কোনো অডিও ফাইলে টাইমকোড নেই। ইন পয়েন্ট ও আউট পয়েন্ট সেই মুহূর্ত থেকে গোনা হয় যখন সব ক্যামেরা চলছে -- ফাইলগুলোর পারস্পরিক অবস্থান মাপা হয়েছে।"
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "শেষ চালনার পর থেকে আউট পয়েন্ট বদলেছে: তখন %s, এখন %s। কাট এবং ভিডিওর ভেতরের অডিও এখনও পুরোনো সময়-পরিসরের, তাই চিহ্নগুলো এখন যা বলে Resolve তা পেত না -- আবার শুরু করুন চাপুন।"
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "প্রোডাকশন শেষ, কিন্তু আলাদা আলাদা ট্র্যাকসহ ZIP-এর কোনো সাধারণ ফাইলের নাম নেই"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "একাধিক ক্যামেরা, কিন্তু কোনো অডিও রেকর্ডিং নেই। প্রতিটি ক্যামেরার নিজস্ব অডিও থাকত -- Multitrack ঠিক এর জন্যই। নইলে একটির পর একটি ক্যামেরা।"
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "আর্কাইভে %s একাধিকবার আছে, তাই এর থেকে কিছুই বের করা হয়নি।"
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "এখানে বরাদ্দ ফাইলই রেকর্ডিংগুলোর নাম দেয়, তাই --speaker-name বাদ পড়ে যেত; নামগুলো সেখানে দিন অথবা --speaker-name বাদ দিন।"
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "তৈরি বিল্ডটি তার চেকসামের সঙ্গে মেলে না, তাই আনপ্যাক করা হয়নি: তালিকায় %s, এসেছে %s।"
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "চেকসামের তালিকা আনা যায়নি, তাই তৈরি বিল্ডটি আনপ্যাক করা হয়নি: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "চেকসামের তালিকায় %s নেই, তাই তৈরি বিল্ডটি আনপ্যাক করা হয়নি।"
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "মডেল ফাইলের তালিকায় %s আছে, যা মডেল ফোল্ডারের বাইরে; কিছুই আনা হয়নি।"
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "মডেলটি %s থেকে আনা যায়নি: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "%s-এর বক্তার নাম খালি; একটি নাম দিন অথবা --speaker-name বাদ দিন।"
+
+msgid "production finished, but its result has no plain file name"
+msgstr "প্রোডাকশন শেষ, কিন্তু এর ফলাফলের কোনো সাধারণ ফাইলের নাম নেই"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "উৎস ফাইল থেকে নেওয়া, --lufs source -- কিছুই সমন্বয় করা হয় না"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "কী-টি secret-tool কমান্ডের মাধ্যমে ডেস্কটপের কী-রিংয়ে রাখা হয়, আর এই কম্পিউটারে সেটি নেই।"
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "এই কম্পিউটারে secret-tool নেই, যা কী-টি ডেস্কটপের কী-রিংয়ে রাখে, তাই কিছুই রাখা হয়নি। নিজে হাতে: %s"
+
+msgid "What it says appears under Output."
+msgstr "এটি যা বলে তা আউটপুট-এর নিচে দেখা যায়।"
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "Debian ও Ubuntu-তে libsecret-tools প্যাকেজ, Fedora ও Arch-এ libsecret"

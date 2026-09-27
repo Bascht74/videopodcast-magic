@@ -42,6 +42,7 @@ clean_old_files = PROGRAM.clean_old_files
 clipping_facts = PROGRAM.clipping_facts
 clocks_apart = PROGRAM.clocks_apart
 decode_audio = PROGRAM.decode_audio
+end_child = PROGRAM.end_child
 ffprobe_json = PROGRAM.ffprobe_json
 file_timecode = PROGRAM.file_timecode
 group_recording_parts = PROGRAM.group_recording_parts
@@ -72,10 +73,9 @@ timecode_string = PROGRAM.timecode_string
 unwrap_day = PROGRAM.unwrap_day
 write_beside_then_move = PROGRAM.write_beside_then_move
 
-# Two stand in a piece read after this one: read_preset in the
-# processing (a circle: choose_preset there asks check_preset here),
-# and MATRIX_BT2020 in the colour reading. The other four of the six
-# that stood here are head lines now -- the fittings moved above.
+# Two stand in a piece read after this one: read_preset in the processing (a
+# circle: choose_preset there asks check_preset here), and MATRIX_BT2020 in the
+# colour reading.
 
 # Three are bent while the run goes on, and a copy taken here would
 # answer with the run before: set_language rebinds LANG, and the window
@@ -106,6 +106,11 @@ np = LateNumpy()
 # is about 9.5 dB quieter -- 20*log10(3). Below that it combs the mix.
 THREE_TO_ONE_DB = 9.5
 
+# How many columns a file's name gets in the report, and so how wide its
+# first column is: one width for every place that names a file, or a
+# name cut to fit one note pushes the row beside it to the right.
+NAME_COLUMN = 24
+
 class Finding(object):
     """One item from the preflight report.
 
@@ -126,10 +131,11 @@ class Finding(object):
         # no mark looks forgotten -- but its finding holds nothing up.
         self.set_aside = False
 
-    def line(self, width=17):
+    def line(self, width=None):
         label = {"good": "", "hint": T('Note: '), "fixed": T('fixed: '),
                  "abort": T('Caution: ')}[self.kind]
-        out = "    %-*s %s%s" % (width, self.field, label, self.text)
+        out = "    %-*s %s%s" % (NAME_COLUMN if width is None else width,
+                                  self.field, label, self.text)
         return as_warn(out) if self.kind == "abort" else out
 
 
@@ -168,10 +174,9 @@ def name_to_fit(name, room):
     return head + "\u2026" + tail
 
 
-# Part of the fingerprint: raising it makes every old measurement stale,
-# else the window shows the old result for weeks. The recipe mark below
-# sees the three checks change by themselves; this number is for a
-# change in what they call.
+# Part of the fingerprint: raising it makes every old measurement stale, else
+# the window shows the old result for weeks. The recipe mark below sees the
+# three checks change; this number is for a change in what they call.
 MEASUREMENT_VERSION = 3
 
 
@@ -274,7 +279,8 @@ def measure_cached(file_path, label, measure, fresh=False):
             findings, data = measure(file_path)
         except Exception as e:
             findings = [Finding("hint",
-                                name_to_fit(os.path.basename(file_path), 24),
+                                name_to_fit(os.path.basename(file_path),
+                                            NAME_COLUMN),
                                 T('not readable: %s') % str(e)[:80]
                                 if str(e) else T('not readable'))]
             data = {}
@@ -393,7 +399,7 @@ def inspect_frame_rate(file_path):
         except Exception:
             return 0.0
 
-    label_text = rate("r_frame_rate") or rate("avg_frame_rate")
+    label_text = PROGRAM.stream_frame_rate(v) or 0.0
     duration = float(d.get("format", {}).get("duration")
                   or v.get("duration") or 0.0)
     try:
@@ -422,9 +428,9 @@ def check_camera_file(file_path):
     name = os.path.basename(file_path)
     b = inspect_frame_rate(file_path)
     if not b:
-        return [Finding("hint", name_to_fit(name, 24),
+        return [Finding("hint", name_to_fit(name, NAME_COLUMN),
                         T('no video track'))], {}
-    out = [Finding("good", name_to_fit(name, 24),
+    out = [Finding("good", name_to_fit(name, NAME_COLUMN),
                    T('%s fps -- %s, %dx%d, %s frames in %s')
                    % (number_text(b["nominal"], 3),
                       b["codec"] or "?", b["width"] or 0, b["height"] or 0,
@@ -554,10 +560,9 @@ def compare_cameras(data):
             % ", ".join("%dx%d" % g for g in sizes),
             T('Resolve scales to the Timeline resolution. Anything smaller '
               'is scaled up and gets softer.')))
-    # One recording added twice: said, never stopped. Size and length
-    # only pick the candidates -- a codec that writes every frame at one
-    # size gives two recordings of one length the same bytes count -- so
-    # the ends of the files decide, and only those are read.
+    # One recording added twice: said, never stopped. Size and length only pick
+    # candidates (a codec writing every frame at one size gives two recordings
+    # of one length equal bytes); the file ends decide, only they are read.
     alike = {}
     for d in data:
         try:
@@ -622,7 +627,7 @@ def find_camera_gaps(video_paths):
             t1, t2 = file_timecode(p1), file_timecode(p2)
             if t1 is None or t2 is None:
                 out.append(Finding(
-                    "hint", name_to_fit(stem, 17),
+                    "hint", name_to_fit(stem, NAME_COLUMN),
                     T('multi-part, no timecode -- gaps in between cannot '
                       'be detected.'), "",
                     os.path.abspath(p2)))
@@ -634,7 +639,7 @@ def find_camera_gaps(video_paths):
             gap = unwrap_day(t2, t1 + d1) - (t1 + d1)
             if gap > 0.5:
                 out.append(Finding(
-                    "hint", name_to_fit(stem, 17),
+                    "hint", name_to_fit(stem, NAME_COLUMN),
                     T('Gap of %s between block %d and %d -- the camera '
                       'stopped.') % (as_hms(gap), n1, n2),
                     T('The cut has no picture there. When the Timeline is '
@@ -661,7 +666,7 @@ def check_audio_file(file_path):
     else:
         said = T('%s kHz, %s bit, %s, %s') % (
             khz, depth, channel_text(channels), as_hms(duration))
-    out = [Finding("good", name_to_fit(name, 24), said)]
+    out = [Finding("good", name_to_fit(name, NAME_COLUMN), said)]
     if rate and rate != SR:
         out.append(Finding(
             "fixed", "",
@@ -734,20 +739,21 @@ def by_recording(audio_data, chains):
     return out
 
 
-def one_recording_only(chains):
+def one_recording_only(chains, labels=None):
     """Sync only: every audio recording past the first is a reason to stop.
 
     A recording is a chain, not a file -- a recorder that cuts a take
     into blocks at 2 GB still delivers one recording -- and a camera
     using its own sound is a track, never in this list. The first is
     the first in the order the chains already have: by file name of the
-    block that heads it, which is how the list and the log show them.
+    block that heads it, as the list and the log show them (*labels*).
     """
     out = []
     for row, _rest in chains[1:]:
-        name = recording_name(os.path.basename(row[0]), len(row))
+        head = (labels or {}).get(row[0]) or os.path.basename(row[0])
+        name = recording_name(head, len(row))
         out.append(Finding(
-            "abort", name_to_fit(name, 17),
+            "abort", name_to_fit(name, NAME_COLUMN),
             T('Sync only takes one audio recording; this is one more: %s')
             % name, "", row[0]))
     return out
@@ -764,7 +770,7 @@ def compare_audio_tracks(data):
     for name, d, file_path in lengths:
         if longer > 0 and d < 0.5 * longer:
             out.append(Finding(
-                "hint", name_to_fit(name, 17),
+                "hint", name_to_fit(name, NAME_COLUMN),
                 T('only %s long, the longest recording has %s.')
                 % (as_hms(d), as_hms(longer)),
                 T('Started late or stopped early -- this voice is then '
@@ -807,7 +813,8 @@ def timecode_comparison(data):
         other = sorted((b0, j) for b0, _m, j in placed if j != i)
         middle, other_row = other[len(other) // 2]
         out.append(Finding(
-            "hint", name_to_fit(rows[i].get("name") or "?", 17),
+            "hint",
+            name_to_fit(rows[i].get("name") or "?", NAME_COLUMN),
             T('Timecode %s, the other files are at %s -- this clock was '
               'not set.')
             % (timecode_string(a0, rows[i].get("nominal") or 30.0),
@@ -923,13 +930,13 @@ def microphones_apart_db(audio_paths):
 
 
 def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
-                    min_len_long=4.0):
+                    min_len_long=4.0, labels=None):
     """Say in words how much of each voice sits in the other microphones.
 
     The yardstick is the 3:1 rule: with the other microphone three times
     as far from the speaker as their own, the neighbouring voice is
     about 9.5 dB quieter. A statement about the *room* and about nothing
-    afterwards; it can only be changed next time.
+    afterwards; it can only be changed next time. *labels*: the "(2)".
     """
     if len(audio_paths) < 2:
         return []
@@ -937,7 +944,11 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
                                 min_len_long)
     if why:
         return [Finding("hint", T('Bleed'), why)]
-    names = [os.path.splitext(os.path.basename(p))[0][:28] for p in audio_paths]
+    names = []
+    for p in audio_paths:
+        name = os.path.basename(p)
+        shown = (labels or {}).get(p) or name
+        names.append(os.path.splitext(name)[0][:28] + shown[len(name):])
     out, bad = [], 0
     for i, j, separation in rows:
         good = separation >= THREE_TO_ONE_DB
@@ -1014,12 +1025,15 @@ def window_from_points(args, fps=30.0):
                           getattr(args, "out_point", None), fps)
 
 
-def space_needed_mb(audio_paths, video_paths, multitrack, window_s=None):
+def space_needed_mb(audio_paths, video_paths, window_s=None,
+                    recordings=None):
     """What a run writes, and how much of that goes to the temp folder too.
 
     Erring upward: every camera is copied and gets audio tracks added,
     plus the processed tracks and the mix. With a window each camera
     shrinks by its own share, not by the longest one's. In megabytes.
+    One reckoning whatever --multitrack says. *recordings*: how many
+    *audio_paths* make, grouped here where not given.
     """
     video_mb, delivered = 0.0, 0.0
     for p in video_paths:
@@ -1038,19 +1052,18 @@ def space_needed_mb(audio_paths, video_paths, multitrack, window_s=None):
     # written uncompressed: 48 kHz, 24 bit, two channels are 0.29 MB per
     # second and per track. The given audio files are no measure of it.
     per_second = 48000 * 3 * 2 / 1e6
-    if multitrack:
-        # Every camera carries its own mix, its speakers, the overall mix
-        # and the camera original. Two plus the speakers is the upper end.
-        per_camera = 2 + (len(audio_paths) or 1)
-    else:
-        per_camera = 2
+    # Every camera carries the mix, one track per recording and the
+    # camera original: per recording, since three blocks are one track.
+    if recordings is None:
+        recordings = len(group_recording_parts(audio_paths)
+                         if audio_paths else [])
+    per_camera = 2 + (recordings or 1)
     added = delivered * per_second * per_camera * max(1, len(video_paths))
     # The processed tracks come back and are mixed once more.
-    return (video_mb * 1.05 + added
-            + audio_mb * (3.0 if multitrack else 2.0)), added
+    return (video_mb * 1.05 + added + audio_mb * 3.0), added
 
 
-def space_summary_lines(target, audio_paths, video_paths, multitrack,
+def space_summary_lines(target, audio_paths, video_paths,
                         in_point="", out_point=""):
     """What the run writes and what is free, for the summary before it.
 
@@ -1061,8 +1074,7 @@ def space_summary_lines(target, audio_paths, video_paths, multitrack,
     where = target or T('the source folder')
     try:
         needed, _temporary = space_needed_mb(
-            audio_paths, video_paths, multitrack,
-            window_between(in_point, out_point))
+            audio_paths, video_paths, window_between(in_point, out_point))
         free = shutil.disk_usage(target or ".").free / 1e6
     except Exception:
         return [T('Target: %s') % where]
@@ -1073,8 +1085,8 @@ def space_summary_lines(target, audio_paths, video_paths, multitrack,
             T('Free space there: %s') % as_data_size(free)]
 
 
-def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
-                        window_s=None, dry_run=False):
+def check_disk_space(target_folder, audio_paths, video_paths,
+                        window_s=None, dry_run=False, recordings=None):
     """Report whether there is enough disk space for what will be created.
 
     Rough but erring upward, so a run stops before it starts rather than
@@ -1094,8 +1106,8 @@ def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
         free = shutil.disk_usage(folder or ".").free / 1e6
     except Exception:
         return []
-    needed, added = space_needed_mb(audio_paths, video_paths, multitrack,
-                                    window_s)
+    needed, added = space_needed_mb(audio_paths, video_paths, window_s,
+                                    recordings)
     # The temporary files go to the system temp folder, and on the same
     # disk as the output they eat the same space twice.
     if on_one_disk(tempfile.gettempdir(), folder or "."):
@@ -1263,21 +1275,21 @@ def loudness_field_build(into, value):
     return box
 
 
-def lufs_does_nothing(args, videos):
+def lufs_does_nothing(args, videos, recordings):
     """Whether --lufs changes anything on the path this run takes.
 
-    Several voices and no picture: the tracks leave as recorded, a gain
-    per track being what would put the voices out of balance, and that
-    balance is what the path exists to keep. With a key the preset masters
-    the mix, and check_preset holds its target to --lufs before anything
-    is uploaded; the number itself never travels to auphonic.com.
+    Several *recordings* and no picture, tick or no tick: the tracks
+    leave as recorded, a gain per track being what would put the voices
+    out of balance. With a key the preset masters the mix, and
+    check_preset holds its target to --lufs before anything is
+    uploaded; the number itself never travels to auphonic.com.
     """
-    return (not videos and bool(getattr(args, "multitrack", False))
+    return (not videos and recordings > 1
             and getattr(args, "lufs", None) is not None
             and not getattr(args, "auphonic_key", None))
 
 
-def check_loudness_target(args, videos=()):
+def check_loudness_target(args, videos=(), recordings=1):
     """Report the loudness target in force. It only reports.
 
     It sets nothing: a check that quietly changes what it is checking
@@ -1287,14 +1299,14 @@ def check_loudness_target(args, videos=()):
     """
     if getattr(args, "lufs", None) is None:
         return [Finding("good", T('Loudness'),
-                       T('taken from the source files, no --lufs given -- '
+                       T('taken from the source files, --lufs source -- '
                          'nothing is adjusted'))]
     near = [n for n, (lufs, _) in PLATFORMS.items() if abs(lufs - args.lufs) < 0.05]
     # as_written, as in loudness_choices: in Arabic script the minus
     # would otherwise move behind the number, -16 reading as 16.
     text = as_written(T('%.0f LUFS (%s)') % (args.lufs, T(PLATFORMS[near[0]][1]))
                       if near else T('%.0f LUFS') % args.lufs)
-    if lufs_does_nothing(args, videos):
+    if lufs_does_nothing(args, videos, recordings):
         return [Finding("good", T('Loudness'),
                        T('%s is set, and nothing is adjusted here: the '
                          'tracks leave as they were recorded, and the '
@@ -1310,6 +1322,9 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
     """
     try:
         p = PROGRAM.read_preset(key, uuid)
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception as e:
         return [Finding("hint", T('Preset'),
                        T('not readable (%s) -- unchecked.') % str(e)[:60])]
@@ -1408,13 +1423,32 @@ def camera_named(file_path, findings_, data, labels=None):
     the facts line and the comparisons say it so too. The window's own
     check hands its names in as *labels*, {path: name}.
     """
-    name = os.path.basename(file_path)
     shown = (labels or {}).get(file_path) or PROGRAM.camera_shown(file_path)
+    return named_as(os.path.basename(file_path), findings_, data, shown)
+
+
+def recording_labels(audio_paths):
+    """{path: name} for audio files, a second one of one name numbered.
+
+    Two recorders that both write ZOOM0001.WAV made two recordings, and
+    the second is "ZOOM0001.WAV (2)" as a camera is (camera_labels), in
+    the order they are given. The file list and the log sort by file
+    name, and a sort keeps two of one name in that order.
+    """
+    return ByFile(PROGRAM.camera_labels(list(audio_paths)))
+
+
+def named_as(name, findings_, data, shown):
+    """Findings and data measured under the file's *name*, as *shown*.
+
+    The cache holds them under the file's own name, which two files of
+    one name share; renamed here after it, cameras and recordings alike.
+    """
     if shown == name:
         return findings_, data
     for b in findings_:
-        if b.field == name_to_fit(name, 24):
-            b.field = name_to_fit(shown, 24)
+        if b.field == name_to_fit(name, NAME_COLUMN):
+            b.field = name_to_fit(shown, NAME_COLUMN)
     return findings_, (dict(data, name=shown) if data else data)
 
 
@@ -1423,12 +1457,11 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
                     labels=None):
     """Collect all findings about the material.
 
-    Each file is measured and cached on its own, so adding one measures
-    only that one; what shows in comparison comes off the cached data.
-    *set_aside* are files that do not take part -- ignored ones, intro,
-    outro. They are checked so their row is not the only one without a
-    mark, and stay out of the comparisons. *project_type* "sync" takes
-    one audio recording and refuses more; *labels* see camera_named.
+    Each file is measured and cached on its own, so adding one measures only
+    that one; comparisons come off the cached data. *set_aside* files take no
+    part -- ignored ones, intro, outro: checked so their row is not the only
+    one without a mark, kept out of the comparisons. *project_type* "sync"
+    takes one audio recording and refuses more; *labels* see camera_named.
     """
     set_aside = {path_key(x) for x in (set_aside or ())}
 
@@ -1452,9 +1485,12 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     having_video = [p for p in video_paths if path_key(p) not in set_aside]
     if having_video:
         findings += find_camera_gaps(having_video)
+    heard = recording_labels(audio_paths)
     for p, (b, d) in zip(audio_paths, parallel_map(
             audio_paths,
             lambda x: measure_cached(x, "audio", check_audio_file, fresh))):
+        b, d = named_as(os.path.basename(p), b, d,
+                        heard.get(p) or os.path.basename(p))
         findings += counts_not(b, p)
         if d and path_key(p) not in set_aside:
             audio_data.append(d)
@@ -1469,15 +1505,21 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     findings += timecode_comparison(video_data + recordings)
     heads = [row[0] for row, _rest in chains]
     if project_type == "sync":
-        findings += one_recording_only(chains)
+        findings += one_recording_only(chains, heard)
     if crosstalk and len(heads) > 1:
-        # Crosstalk is about the interplay, so it is cached per set.
+        # Crosstalk is about the interplay, so it is cached per set, and
+        # under the names it gives them where two share one.
         audio_paths = heads
+        shown = [heard.get(x) or os.path.basename(x) for x in heads]
         fingerprint = 'crosstalk_%s' % _fingerprint(audio_paths)
+        if shown != [os.path.basename(x) for x in heads]:
+            import hashlib
+            fingerprint += "_" + hashlib.sha1(
+                "\n".join(shown).encode("utf-8")).hexdigest()[:8]
         d = None if fresh else cache_read(fingerprint)
         if d is None:
             try:
-                found = check_crosstalk(audio_paths)
+                found = check_crosstalk(audio_paths, labels=heard)
             except Exception as e:
                 found = [Finding("hint", T('Bleed'),
                                    T('not measurable: %s') % str(e)[:80])]
@@ -1496,26 +1538,31 @@ def run_preflight(args, audio_paths, video_paths, project_type=None):
     """
     if getattr(args, "no_preflight", False):
         return 0
+    # Bleed and room are asked of the material, never of --multitrack:
+    # the run makes a track per recording whatever the tick says.
     findings = collect_findings(audio_paths, video_paths,
                               bool(getattr(args, "preflight_again", False)),
-                              bool(getattr(args, "multitrack", False)),
                               apart=getattr(args, "apart", ()),
                               together=getattr(args, "together", ()),
                               project_type=project_type or "cut")
+    # Counted as the run counts them: blocks of one recording are one.
+    recordings = len(group_recording_parts(
+        audio_paths, getattr(args, "no_follow_ups", False),
+        getattr(args, "apart", ()), getattr(args, "together", ()))
+        if audio_paths else [])
     # These two depend on the call and the machine, not the material.
     findings += check_disk_space(getattr(args, "out", None), audio_paths, video_paths,
-                             bool(getattr(args, "multitrack", False)),
                              window_from_points(args),
-                             bool(getattr(args, "dry_run", False)))
-    findings += check_loudness_target(args, video_paths)
+                             bool(getattr(args, "dry_run", False)),
+                             recordings)
+    findings += check_loudness_target(args, video_paths, recordings)
     return 1 if report_findings(findings, T('does the material fit together?'),
                                getattr(args, "anyway", False)) else 0
 
 
 #--------------------------------------- The check in the window
-# What the window makes of these findings: the marks in the file
-# list and the line under it. Here, with what they are about, so
-# that a finding and the row it lands in are changed in one place.
+# The window's marks in the file list and the line under it, kept beside the
+# findings they show so a finding and its row change in one place.
 
 
 def rows_off_the_axis(nodes, state):
@@ -1538,10 +1585,9 @@ def rows_off_the_axis(nodes, state):
         odd = out + [p for p in paths if path_key(p) in weak]
         if not odd:
             continue
-        # A file set to be left out takes no part, so it is no fault
-        # of the material: the line does not count it, whatever ink
-        # its row wears.
-        kind = PROGRAM.weak_kind(state.get("clip_kinds"), odd[0])
+        # Left out, a file is no fault of the material, whatever ink its
+        # row wears. The Kind is the first block's, and holds for all.
+        kind = PROGRAM.weak_kind(state.get("clip_kinds"), paths[0])
         if kind == TYPE_IGNORED:
             continue
         # The row's own ink, asked of the piece that draws it; that
@@ -1604,7 +1650,7 @@ def preflight_sentence(findings, audio_file_list, recordings, videos_n,
 
 def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
                    set_mark, append_findings, show_overall, lines_node,
-                   no_join, together_now, multitrack, assign_lines,
+                   no_join, together_now, assign_lines,
                    clip_kind_values):
     """Checking the files in the background, and showing what came back.
 
@@ -1666,13 +1712,13 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
     # the time axis lands after the check as often as not.
     state["preflight_sentence_again"] = sentence_again
 
-    def preflight_work_loop(audio_files, videos_p, label_run, crosstalk,
+    def preflight_work_loop(audio_files, videos_p, label_run,
                          set_aside=(), apart=(), together=(),
                          project_type="cut", labels=None):
         """Measure in the background so the interface does not freeze."""
         try:
             findings = collect_findings(audio_files, videos_p, False,
-                                        crosstalk, set_aside, apart,
+                                        True, set_aside, apart,
                                         together, project_type, labels)
         except Exception as e:
             # An empty list would read as "nothing to fault", and the run
@@ -1712,12 +1758,11 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
         state["preflight_waiting"] = True
         preflight_line.setText(T('checking ...'))
         preflight_line.setStyleSheet("color: %s;" % COLOURS["quiet"])
-        # Crosstalk is a question about per-speaker tracks. Without
-        # multitrack there are none, and nothing is assigned yet. The
+        # Bleed is asked wherever there are two recordings, as the run
+        # asks it: the tick groups them and changes nothing else. The
         # project type is the window's state; unset reads as cut.
         threading.Thread(target=preflight_work_loop,
-                         args=(audio_files, videos_p, label_run,
-                               bool(multitrack.get()), gone,
+                         args=(audio_files, videos_p, label_run, gone,
                                frozenset(no_join),
                                tuple(tuple(g) for g in together_now()),
                                state.get("project_type") or "cut",
@@ -1744,6 +1789,11 @@ def run_ffmpeg_with_progress(cmd, duration, text):
             # This is where a run spends its minutes, so this is where
             # breaking off has to reach. The window ends the child.
             RUN_STOP["children"].add(proc)
+            if stop_wanted():
+                # Stop came before this child was on the list, so it
+                # never reached it: a camera still queued behind others
+                # on a machine with few cores starts after Stop.
+                end_child(proc)
             try:
                 show_progress(text, 0.0)
                 for line in proc.stdout:
@@ -1754,7 +1804,9 @@ def run_ffmpeg_with_progress(cmd, duration, text):
             finally:
                 RUN_STOP["children"].discard(proc)
         if stop_wanted():
-            # Ended by us, so the error it left behind says nothing.
+            # Ended by us: its error says nothing, and what it wrote is
+            # cut short. The output comes last, and goes with the stop.
+            PROGRAM.remove_quietly(cmd[-1])
             raise Stopped(RUN_STOP["at"] or text)
         show_progress(text, 1.0)
         if THREAD_SHARE.get(threading.get_ident()) is None:

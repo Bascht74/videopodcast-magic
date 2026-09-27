@@ -9,7 +9,8 @@ function it calls. In order: the file is found, read and given back
 whole; a line is built out of it and the parser takes every switch on
 it; the cut numbers and the cut rules; the five kinds a clip
 can have; the assignment; the time window, the wide shot at the edges,
-the loudness and a spoken language typed another way; and last the census -- no setting the window writes
+the loudness -- its default and "source" alike at both doors -- and a
+spoken language typed another way; and last the census -- no setting the window writes
 stops half way, and the five that carry no switch are named.
 """
 PLATFORM_BOUND = True
@@ -85,7 +86,9 @@ assert all(os.path.exists(p) for p, _a in FILES), folder
 
 PRODUCTION = "Three Ways"
 IN_POINT, OUT_POINT = "00:00:10:00", "00:12:30:00"
-LUFS = -16.0
+# Not the line's default either: a --lufs that went missing on the way
+# would arrive as -16 all the same.
+LUFS = -19.0
 LANGUAGE_TAG = "eng"
 CUT = {"min-edit-duration": "2.5", "min-speech-to-switch": "0.9",
        "edit-change-delay": "0.4", "reaction-lead": "2.0",
@@ -100,6 +103,7 @@ CUT = {"min-edit-duration": "2.5", "min-speech-to-switch": "0.9",
 # defaults would otherwise look exactly like one that carried them.
 assert all(CUT[s] != d for s, _c, d, _u, _k, _l in vpm.CUT_FIELDS), CUT
 assert all(CUT[s] != d for s, _c, d, _v, _k, _l in vpm.CUT_CHOICES), CUT
+assert LUFS != vpm.LUFS_DEFAULT, LUFS
 
 KIND_OF = {CAM_A: vpm.TYPE_CONTENT, CAM_B: vpm.TYPE_CONTENT,
            WIDE: vpm.TYPE_WIDE, OPENING: vpm.TYPE_INTRO,
@@ -340,6 +344,37 @@ check("the edges are only taken away where the file turned them off",
       % (got("no_wide_edges"), getattr(edges_ns, "no_wide_edges", None)))
 check("the loudness reaches the run as the file has it",
       got("lufs") == LUFS, "--lufs is %r, wanted %r" % (got("lufs"), LUFS))
+# The owner's choice: both doors level to -16 unless told otherwise. A
+# fresh window's default is read with nothing remembered in the cache.
+bare, _over, bare_refused = read_back(["videopodcast_magic.py"])
+remembered = os.environ.get("VPM_CACHE")
+os.environ["VPM_CACHE"] = tempfile.mkdtemp(dir=folder)
+fresh = vpm.loudness_last()
+if remembered is None:
+    del os.environ["VPM_CACHE"]
+else:
+    os.environ["VPM_CACHE"] = remembered
+check("no --lufs on the line levels to -16, as a fresh window does",
+      getattr(bare, "lufs", None) == -16.0 and fresh == -16.0,
+      "the line gives %r %s, a fresh window %r, wanted -16.0 both"
+      % (getattr(bare, "lufs", None), bare_refused, fresh))
+kept_argv, _plan, _messages = vpm.run_argv(dict(back, lufs=None),
+                                           assign_path)
+kept_ns, _over, kept_refused = read_back(
+    list(kept_argv or ["videopodcast_magic.py"]))
+check("Take from source files reaches the run as no target",
+      getattr(kept_ns, "lufs", -16.0) is None
+      and "--lufs" in (kept_argv or []),
+      "--lufs is %r, the line carries %s %s, wanted None"
+      % (getattr(kept_ns, "lufs", -16.0),
+         (kept_argv or [])[(kept_argv or []).index("--lufs"):][:2]
+         if "--lufs" in (kept_argv or []) else "no --lufs", kept_refused))
+typed_source, _over, source_refused = read_back(
+    ["videopodcast_magic.py", "--lufs", "source"])
+check("--lufs source, the manual's word, leaves the sound alone",
+      getattr(typed_source, "lufs", -16.0) is None,
+      "--lufs source gives %r %s, wanted None"
+      % (getattr(typed_source, "lufs", -16.0), source_refused))
 # The window takes "de" or "deu" out of a project file as the tag its
 # field offers. Typed on the command line the same spelling reached
 # ffmpeg as it stood, ffmpeg dropped it, and the track went out untagged.

@@ -6,7 +6,8 @@ it. curl is never started and the key store is stood in for: the place
 that starts a process reads what it was handed -- the arguments, the
 environment, and the file behind --config while it still exists. The
 sections: the quiet call, the two ways one can go wrong, the transfer
-with a bar, what is left lying about, and the project file. Where a
+with a bar, what is left lying about, the project file, and where a
+download goes -- the key to auphonic.com alone. Where a
 file mode carries no rights -- Windows -- the two judgements about it
 are left out by name. The key is invented and no line prints it.
 """
@@ -22,6 +23,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import io
 import json
+import shutil
 import stat
 import subprocess
 import tempfile
@@ -491,5 +493,70 @@ try:
     os.rmdir(room)
 except OSError:
     pass
+
+# ------------------------------------------ 6. Where a download goes
+print("\n6. Where a download goes")
+
+# A download address is the server's word and can name any host. It is
+# fetched the way the program fetches it -- fetch_text_outputs, the
+# first of the downloading functions -- and what the one start of curl
+# was handed is read: the config file behind --config, the arguments.
+fetch_room = tempfile.mkdtemp(prefix="vpm_key_host_")
+
+
+def fetched_with(url):
+    """The start of curl one download to *url* made, or None."""
+    before = len(STARTS)
+    try:
+        with io.StringIO() as said:
+            old_out, sys.stdout = sys.stdout, said
+            try:
+                vpm.fetch_text_outputs(
+                    KEY, [{"filename": "chapters.txt", "download_url": url}],
+                    fetch_room)
+            finally:
+                sys.stdout = old_out
+    except BaseException:
+        pass
+    return STARTS[before] if len(STARTS) > before else None
+
+
+def carries(start):
+    """Where in one start of curl the key stands, or "nowhere"."""
+    if start is None:
+        return "no start"
+    if KEY in start.conf_text:
+        return "the config file"
+    if any(KEY in one for one in start.argv):
+        return "an argument"
+    return "nowhere"
+
+
+home = fetched_with("https://auphonic.com/api/download/chapters.txt")
+check("a download from auphonic.com is handed the key",
+      carries(home) == "the config file",
+      "the key stands in %s" % carries(home))
+
+foreign = fetched_with("http://127.0.0.1:9/chapters.txt")
+check("a download from another host is handed no key",
+      carries(foreign) == "nowhere"
+      and "--config" not in (foreign.argv if foreign else []),
+      "the key stands in %s, --config %s"
+      % (carries(foreign), "on the line" if foreign
+         and "--config" in foreign.argv else "not on the line"))
+
+# Each of these begins, ends or is spelled like auphonic.com and names
+# another host, or the right one without https.
+LOOKALIKES = ["https://auphonic.com@vpm-test.invalid/chapters.txt",
+              "https://auphonic.com.vpm-test.invalid/chapters.txt",
+              "https://vpm-testauphonic.com/chapters.txt",
+              "https://vpm-test.invalid/?auphonic.com/chapters.txt",
+              "http://auphonic.com/chapters.txt"]
+given = [url for url in LOOKALIKES
+         if carries(fetched_with(url)) != "nowhere"]
+check("an address that only looks like auphonic.com is handed no key",
+      not given,
+      "%d of %d handed it: %s" % (len(given), len(LOOKALIKES), given))
+shutil.rmtree(fetch_room, ignore_errors=True)
 
 stop()

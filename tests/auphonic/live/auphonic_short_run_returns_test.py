@@ -2,12 +2,17 @@
 """A short mono file goes through a real production and comes back as audio.
 
 Against auphonic.com itself, and it spends credit: twenty seconds of
-tone through the account's first single-track preset, or the one
+syllables through the account's first single-track preset, or the one
 VPM_LIVE_PRESET names. In order -- the program uploads and starts in one
-call, waits, and fetches the result; the result is a file of about the
-length sent; and the production, found again by its title, is deleted.
-The title has the tests' own shape, so a run killed half way is cleared
-by the sweep auphonic.sh makes at both ends.
+call, waits, and fetches the result; the file the program leaves is as
+long as the one sent, whatever auphonic.com put around it; and the
+production, found again by its title, is deleted. The title has the
+tests' own shape, so a run killed half way is cleared by the sweep
+auphonic.sh makes at both ends.
+
+Syllables and not a steady tone: the free plan puts a jingle in front
+(26.4 s came back for 20 s, 27.9.2026), and the program finds the sound
+it sent by its rises and falls, which a steady tone does not have.
 
 A step that throws is a failed judgement and not a traceback, so the
 closing count is reached whatever happens.
@@ -28,6 +33,9 @@ began = time.time()
 done = 0
 bad = []
 SECONDS = 20
+# How far the file left may differ from the one sent: a jingle is
+# seconds, a lossy file cut to its frames keeps hundredths.
+SLACK_S = 0.1
 
 
 def check(name, ok, extra=""):
@@ -49,7 +57,7 @@ preset = ground.a_preset(vpm, key, multitrack=False)
 folder = tempfile.mkdtemp(prefix="vpm_auphonic_live_")
 title = ground.a_test_title("mono")
 try:
-    audio = ground.tone(os.path.join(folder, "tone.wav"), SECONDS, 1)
+    audio = ground.syllables(os.path.join(folder, "syllables.wav"), SECONDS)
 
     print("1. Upload, start, wait and fetch, the way a run does")
     result, why = None, ""
@@ -64,17 +72,18 @@ try:
           why or "the program returned %r"
           % (os.path.basename(result) if result else result,))
 
-    print("\n2. What came back")
+    print("\n2. What the program leaves")
     length = None
     if result and os.path.isfile(result):
         try:
             length = ground.measured(result)[0]
         except (OSError, ValueError) as e:
             why = said(e)
-    check("the file that came back is about as long as the one sent",
-          length is not None and abs(length - SECONDS) < 1.5,
-          "%s s back against %d s sent%s"
-          % (length, SECONDS, (" -- " + why) if length is None else ""))
+    check("the file the program leaves is as long as the one sent",
+          length is not None and abs(length - SECONDS) <= SLACK_S,
+          "%s s left against %d s sent, %.1f s allowed%s"
+          % (length, SECONDS, SLACK_S,
+             (" -- " + why) if length is None else ""))
 
     print("\n3. The production is taken away again")
     found, why = None, ""

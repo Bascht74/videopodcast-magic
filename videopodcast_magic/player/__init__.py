@@ -116,22 +116,34 @@ def pause_if_running(QtMultimedia, *players):
             pass
 
 
+def stop_if_running(QtMultimedia, *players):
+    """Stop the players that are not stopped, and leave the others alone.
+
+    stop() on a player that never started builds what lies behind it,
+    as pause() does above, and waits for the same lock. Paused counts
+    as running: a paused player still holds its file. tests/let_go.py
+    asks the same question before it stops a player.
+    """
+    for one in players:
+        if (one.playbackState()
+                != QtMultimedia.QMediaPlayer.StoppedState):
+            one.stop()
+
+
 # The same nine point font runs 1.89 times as wide on Windows as on
-# macOS, so the fields grow there and nowhere else: the Mac layout is
-# the one the manual's pictures show, and the one four cut buttons and
-# a checkbox were weighed against in a row 480 px wide.
+# macOS, so fields grow there only: the Mac layout is what the manual
+# shows, where four cut buttons and a checkbox share a 480 px row.
 WIDE_FONT = sys.platform == "win32"
 
 
 def caption_room(widget, base, captions=()):
     """How wide a field has to be, and never narrower than designed.
 
-    Measured in the font that is drawing rather than added as a
-    constant: a surcharge in pixels fits one font and misses the next.
-    Sans Serif 9.0 is not the same font file on two systems, and fixed
-    numbers left "+10 s" 9 px short on Linux. Where several fields
-    share one width every caption is handed in, because the widest of
-    them decides; one average character is left as air.
+    Measured in the font that is drawing, not added as a constant: a
+    pixel surcharge fits one font and misses the next -- Sans Serif 9.0
+    is not the same file on two systems, and fixed numbers left "+10 s"
+    9 px short on Linux. Fields sharing one width get every caption, as
+    the widest decides; one average character is left as air.
     """
     metrics = widget.fontMetrics()
     want = widget.sizeHint().width()
@@ -556,13 +568,11 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                       QtMultimediaWidgets, label, hint, COLOURS):
     """Play the computed cut without rendering anything.
 
-    Two video surfaces sit on top of each other: one shows, the other
-    is already loading the next shot. At the cut it only switches over,
-    which costs no frame; the audio comes from one file throughout.
-
-    Seeking is a request in Qt, not a command -- setPosition is
-    silently discarded before loading, before the first frame and in
-    mid-playback -- so every seek goes through a Seeker that retries.
+    Two stacked video surfaces: one shows, the other already loads the
+    next shot, so a cut only switches over and costs no frame; the audio
+    comes from one file throughout. Seeking is a request in Qt --
+    setPosition is silently dropped before loading, before the first frame
+    and mid-playback -- so every seek goes through a Seeker that retries.
     """
 
     # The box the pictures sit in. It is also what a stretch with no
@@ -793,10 +803,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 p = QtMultimedia.QMediaPlayer(self)
                 p.setVideoOutput(f)
                 self.stack.addWidget(f)
-                # Make the window now, while no player has a file yet.
-                # Made later it is made while the players are starting
-                # up, and two threads reach for the same lock inside Qt
-                # -- QWidget::createWinId then never comes back.
+                # Make the window now, while no player has a file yet. Made
+                # later, while the players start up, two threads reach for one
+                # lock inside Qt -- QWidget::createWinId then never comes back.
                 f.winId()
                 self.surfaces.append(f)
                 self.videos.append(p)
@@ -1464,6 +1473,113 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
     return CutPlayer
 
 
+def in_point_refused(text):
+    """What the run says to an In point counted from the end, or "".
+
+    "-0:00:30" counts back from the end for the Out point alone; the
+    run refuses it as an In point, so the player sets none there.
+    """
+    try:
+        value, absolute = parse_time_point(text, 30.0)
+    except Exception:
+        return ""
+    if value is None or absolute or value >= 0:
+        return ""
+    return (T('%r counts from the end -- that only works for Out point.')
+            % str(text).strip())
+
+
+def rail_length_said(p, state):
+    """The length of the configured window, said under the player *p*.
+
+    From the two settings, not from their positions in this file, or an
+    early In point shows the file's length instead. An In point counted
+    from the end gets the run's refusal instead of a length.
+    """
+    refused = in_point_refused(state["in_point"])
+    if refused:
+        return refused
+    try:
+        a, abs_a = mark_on_clock(p, state["in_point"])
+        b, abs_b = mark_on_clock(p, state["out_point"])
+    except Exception:
+        return ""
+    if a is None or b is None or abs_a != abs_b or b <= a:
+        return ""
+    missing = ""
+    if abs_a and p.tc0 is not None:
+        duration = p.player.duration() / 1000.0
+        if p.tc0 + duration <= a or p.tc0 >= b:
+            missing = T('  --  this file is outside')
+        elif p.tc0 > a:
+            missing = T('  (this file starts later)')
+        elif p.tc0 + duration < b:
+            missing = T('  (this file ends earlier)')
+    return T('Window %s%s') % (as_hms(b - a), missing)
+
+
+def in_point_used(text):
+    """The In point as the player places it: none where the run refuses it."""
+    return "" if in_point_refused(text) else text
+
+
+def end_in_file(p):
+    """Where "-0:00:30" counts back from, in the file player *p* holds.
+
+    Where the first camera stops, as in the run, once the file stands on
+    the axis; before that, the end of the file itself.
+    """
+    end = getattr(p, "marks_end", lambda: None)()
+    here = place_s(p)
+    if end is None or here is None:
+        return p.player.duration() / 1000.0
+    return end - here
+
+
+def place_s(p):
+    """Where the file player *p* holds starts as the marks count it.
+
+    The measurement, else its timecode -- the cut's camera_start, so a
+    mark set before the measurement is in counts as well.
+    """
+    a = p.axis_s()
+    return a if a is not None else getattr(p, "tc0", None)
+
+
+def mark_on_clock(p, text):
+    """A mark as (seconds, timecode?), on the clock where it can be.
+
+    The window keeps a mark counted from where every camera runs
+    (limit_set); where the axis of player *p* knows the time of day,
+    that is the same moment as a clock time. Unreadable is None.
+    """
+    try:
+        value, absolute = parse_time_point(text, p.fps)
+    except Exception:
+        return None, False
+    zero = getattr(p, "marks_zero", None)
+    if (value is not None and not absolute and value >= 0
+            and zero is not None and getattr(p, "marks_on_clock", bool)()):
+        return zero() + value, True
+    return value, absolute
+
+
+def mark_shown(p, text):
+    """A mark as the line of player *p* writes it.
+
+    As the timecode of its moment at that file's rate where the axis
+    knows the time of day, as the readout beside it does; else as it is.
+    """
+    said = (text or "").strip()
+    try:
+        if parse_time_point(said, p.fps)[1]:
+            return said
+    except Exception:
+        return said
+    value, absolute = mark_on_clock(p, said)
+    return timecode_string(value, p.fps) if absolute else said
+
+
 def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                      ffplay_preview, real_tc, state):
     """The building blocks of the preview: rail, video surface, player.
@@ -1661,10 +1777,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             cut_row.addStretch(1)
             self.cut_right = label("", COLOURS["value"], True)
             cut_row.addWidget(self.cut_right)
-            # The window length on a line of its own, under the two
-            # boundaries it spans: In point, Out point and the gaps take
-            # 300 of the 560 px, and the German sentence about a file
-            # that starts later wants 288 of the 260 left over.
+            # The window length on its own line, under the two boundaries it
+            # spans: In, Out and gaps take 300 of the 560 px, and the German
+            # sentence about a file starting later wants 288 of the 260 left.
             window_row = QtWidgets.QHBoxLayout()
             position.addLayout(window_row)
             window_row.addStretch(1)
@@ -1884,40 +1999,18 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
 
         def window_draw(self):
             """Draw the In point and the Out point onto the rail."""
-            self.slider.set_range(self._limit(state["in_point"]),
-                                         self._limit(state["out_point"]))
+            begins = in_point_used(state["in_point"])
+            self.slider.set_range(self._limit(begins),
+                                  self._limit(state["out_point"]))
             self.spot(self.player.position())
 
-        def _window_length(self):
-            """Return the length of the configured window.
-
-            From the two settings, not from their positions in this
-            file, or an early In point shows the file's length instead.
-            """
-            try:
-                a, abs_a = parse_time_point(state["in_point"], self.fps)
-                b, abs_b = parse_time_point(state["out_point"], self.fps)
-            except Exception:
-                return ""
-            if a is None or b is None or abs_a != abs_b or b <= a:
-                return ""
-            missing = ""
-            if abs_a and self.tc0 is not None:
-                duration = self.player.duration() / 1000.0
-                if self.tc0 + duration <= a or self.tc0 >= b:
-                    missing = T('  --  this file is outside')
-                elif self.tc0 > a:
-                    missing = T('  (this file starts later)')
-                elif self.tc0 + duration < b:
-                    missing = T('  (this file ends earlier)')
-            return T('Window %s%s') % (as_hms(b - a), missing)
-
         def _place(self, text):
-            """Where a time value falls in this file: (seconds, timecode?).
+            """Where a time value falls in this file: (seconds, a moment?).
 
             Not held to the file: before its start comes out negative,
             past its end longer than it. Seconds are None where the value
-            cannot be placed at all -- a timecode against a file without.
+            cannot be placed at all. A moment: a timecode, or a point
+            counted from where every camera runs on a file with a place.
             """
             try:
                 value, absolute = parse_time_point(text, self.fps)
@@ -1929,11 +2022,12 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 if self.tc0 is None:
                     return None, True
                 value -= self.tc0
-            elif value >= 0 and self.axis_s() is not None:
-                # Relative values count from the material, not from this file.
-                value -= self.axis_s()
+            elif value >= 0 and place_s(self) is not None:
+                # From where every camera runs, as in the run (the window).
+                value += getattr(self, "marks_zero", float)() - place_s(self)
+                return value, True
             elif value < 0:
-                value = self.player.duration() / 1000.0 + value
+                value += end_in_file(self)
             return value, absolute
 
         def _limit(self, text):
@@ -1944,11 +2038,11 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def jump_to(self, text):
             """Jump to a time value; False where this file does not hold it.
 
-            A timecode outside the file is answered, not clamped to an
+            A moment outside the file is answered, not clamped to an
             edge: the window then looks for the file that holds it and
             names the point where none does, as without a timecode. The
             margin is the one covers() allows; a length not yet known
-            judges only the front. A relative point is held to the edges.
+            judges only the front; any other relative point is clamped.
             """
             value, absolute = self._place(text)
             length = self.player.duration() / 1000.0
@@ -2283,7 +2377,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             if not wanted_value:
                 self.track_path, self.track_blocks = None, []
                 self._track_basis = ""
-                self.track.stop()
+                stop_if_running(QtMultimedia, self.track)
                 self.track.setSource(QtCore.QUrl())
                 self.audio_adjust()
             else:
@@ -2461,10 +2555,11 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             duration = self.player.duration() / 1000.0
             self.left_label.setText(T('Start %s') % self.time_mark(0.0))
             self.right_label.setText(T('End %s') % self.time_mark(duration))
-            begins, until = state["in_point"], state["out_point"]
+            begins, until = (mark_shown(self, state["in_point"]),
+                             mark_shown(self, state["out_point"]))
             self.cut_left.setText(T('In point %s') % (begins or "--"))
             self.cut_right.setText(T('Out point %s') % (until or "--"))
-            self.cut_middle.setText(self._window_length())
+            self.cut_middle.setText(rail_length_said(self, state))
 
         def track_watch(self):
             """Take over where the picture has run past a boundary.
@@ -2504,7 +2599,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             """Write the line under the picture for this position."""
             # Timecode on the left, playback position on the right. With a cut
             # in set it counts from there, negative before it, as in an editor.
-            begins = self._limit(state["in_point"])
+            begins = self._limit(in_point_used(state["in_point"]))
             rel = (ms - (begins or 0)) / 1000.0
             if self._moment is not None and not ms:
                 # This camera had not begun at the moment kept for the
@@ -2592,10 +2687,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                      % (os.path.basename(self.file_path or "-"),
                         self.player.errorString() or "no reason given",
                         error))
-            # A codec refused while this file is open with a picture in
-            # it is the sound track: the picture runs on and the line says
-            # what cannot be played. Open is asked too -- at a refusal
-            # during loading hasVideo() still answers for the file before.
+            # A codec refused on an open file with a picture is the sound
+            # track: the picture runs on and the line says what cannot play.
+            # Open is asked too, as while loading hasVideo() is the old file's.
             opened = (QtMultimedia.QMediaPlayer.LoadedMedia,
                       QtMultimedia.QMediaPlayer.BufferingMedia,
                       QtMultimedia.QMediaPlayer.BufferedMedia,
@@ -2606,7 +2700,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 self._title_show(T('%s   --   the sound cannot be played')
                                    % os.path.basename(self.file_path or ""))
                 return
-            self.player.stop()
+            stop_if_running(QtMultimedia, self.player)
             self.video.hide()
             self.extern.show()
             self._title_show(T('%s   --   the app does not know this format')
@@ -2815,10 +2909,9 @@ def make_log_view(QtGui, QtWidgets, Cursor):
     return LogView
 
 
-# The three the window handed over with the player: which file the
-# player shows and where it starts, the cut band with the player
-# under it, and the menu entry for the whole of it. gui() calls the
-# first two and the menus the third, each by name off the program.
+# Handed over by the window with the player: which file it shows from
+# where, the cut band with the player under it, the menu entry for it
+# all. gui() calls the first two, the menus the third, by name off the program.
 
 
 def make_player_choice(files, clip_kind_values, assign_lines, start_var,
@@ -2865,11 +2958,14 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
                 return None
             value -= span["tc0"]
         elif value >= 0:
-            if span["axis"] is None:
+            # Measured, else by its timecode, as places_here counts.
+            here = span["axis"] if span["axis"] is not None else span["tc0"]
+            if here is None:
                 return None
-            value -= span["axis"]
+            value += marks_zero_here() - here
         else:
-            value = span["duration"] + value
+            # Counted from the end: the run refuses it as an In point.
+            return None
         if not (0.0 <= value <= span["duration"] + 0.05):
             return None
         return max(0.0, value)
@@ -2877,6 +2973,41 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
     def picture_span(file_path):
         """What this file knows about its place in time, on this axis."""
         return file_span(file_path, state["axis"])
+
+    def places_here():
+        """{path_key: start} of every camera the player may show.
+
+        Measured, else by its timecode, as the cut's camera_start.
+        """
+        out = {}
+        for file_path in player_candidates():
+            span = picture_span(file_path) or {}
+            at = span.get("axis")
+            at = span.get("tc0") if at is None else at
+            if at is not None:
+                out[path_key(file_path)] = float(at)
+        return out
+
+    def marks_zero_here():
+        """Where "+12:30" counts from on this axis: where every camera runs."""
+        return PROGRAM.marks_zero(places_here(), player_candidates())
+
+    player.marks_zero = marks_zero_here
+
+    def marks_end_here():
+        """Where "-0:00:30" counts back from on this axis: the first stop."""
+        return PROGRAM.marks_end(places_here(), player_candidates())
+
+    player.marks_end = marks_end_here
+
+    def marks_on_clock():
+        """Whether that zero is a time of day, so a mark reads as one."""
+        return bool(state.get("axis_absolute")
+                    or (not state["axis"] and places_here()))
+
+    player.marks_on_clock = marks_on_clock
+    player.mark_shown = lambda text: mark_shown(player, text)
+    player.mark_on_clock = lambda text: mark_on_clock(player, text)
 
     def covers(file_path, text):
         """Report whether a time value lies inside this video file.
@@ -2902,11 +3033,16 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
                 return None
             value -= span["tc0"]
         elif value >= 0:
-            if span["axis"] is None:
+            # Measured, else by its timecode, as places_here counts.
+            here = span["axis"] if span["axis"] is not None else span["tc0"]
+            if here is None:
                 return None
-            value -= span["axis"]
+            value += marks_zero_here() - here
         else:
-            value = span["duration"] + value
+            # Back from where the first camera stops, as in the run.
+            here = span["axis"] if span["axis"] is not None else span["tc0"]
+            end = marks_end_here() if here is not None else None
+            value += span["duration"] if end is None else end - here
         return -0.05 <= value <= span["duration"] + 0.05
 
     def player_candidates():

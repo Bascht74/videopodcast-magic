@@ -336,12 +336,6 @@ msgstr "Separarea vorbitorilor nu este instalată aici. Aceasta o readuce: %s"
 msgid "Fetching the model (about %s MB) ..."
 msgstr "Se preia modelul (circa %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "Se preia modelul (circa %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "Modelul nu a putut fi preluat: %s"
-
 msgid "The model could not be written: %s"
 msgstr "Modelul nu a putut fi scris: %s"
 
@@ -854,9 +848,6 @@ msgstr "  %-20s nu se poate alinia: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s nemăsurabil: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s decalaj %s, deriva ceasului %s ppm (+/- %s), dispersie reziduală %s ms, puncte: %s din %s"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s decalaj %s, deriva ceasului %s ppm (+/- %s), dispersie reziduală %s ms, puncte: %s din %s%s"
@@ -2172,14 +2163,8 @@ msgstr "Punctul In și punctul Out sunt disponibile de îndată ce axa timpului 
 msgid "In point is %s before the first frame"
 msgstr "Punctul In este cu %s înaintea primului cadru"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "Punctul In este acum %s, dar fișierele existente aparțin lui %s.\n  Audio-ul din videoclipuri este tăiat pe vechea fereastră -- apăsați din nou\n  Start, mai sus."
-
 msgid "Out point is %s after the last frame"
 msgstr "Punctul Out este cu %s după ultimul cadru"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "Punctul Out este acum %s; fereastra ar dura %s, fișierele existente\n  durează %s -- apăsați din nou Start, mai sus."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Livrarea folosește de obicei intervalul limitat. Complet nu este greșit, dar unele playere îl interpretează greșit."
@@ -2340,9 +2325,6 @@ msgstr "Multitrack (o pistă per vorbitor)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack are nevoie de cel puțin două piste de intrare. O pistă este o înregistrare proprie, un canal al unui recorder multicanal sau audio-ul unui fișier video setat pe \"folosiți audio intern\". Mai multe blocuri ale aceleiași înregistrări se numără ca una, pistele puse deoparte deloc."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "Niciun fișier audio nu poartă un timecode. Punctul In și punctul Out se numără de la începutul materialului -- poziția fișierelor unul față de altul este măsurată."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Niciun sunet în uz încă -- adăugați o înregistrare audio sau setați în lista de fișiere Audio cameră al unui fișier video pe „folosiți audio intern”."
 
@@ -2351,9 +2333,6 @@ msgstr "Nu este atribuită nicio pistă audio."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nicio cameră nu este atribuită, deci nu există nimic între care să se monteze."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "Încă nu s-au atribuit camere -- porniți Multitrack pentru asta."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Nicio conexiune la Resolve.\n  Rulează programul? Este scriptingul extern setat pe 'Local'\n  la Preferences > System > General?"
@@ -3172,9 +3151,6 @@ msgstr "presetarea masterizează la %s LUFS, calculul folosește %s."
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "presetarea masterizează la %s LUFS -- asta rămâne, nimic de-al nostru nu ajustează."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "preluat din fișierele sursă, fără --lufs indicat -- nu se ajustează nimic"
 
 msgid "the answer did not keep the floor"
 msgstr "răspunsul nu a păstrat cuvântul"
@@ -4967,9 +4943,6 @@ msgstr "%s\n   sunet nerecunoscut; așezat cum îl așază rularea"
 msgid "sound not recognised, placed by its timecode"
 msgstr "sunet nerecunoscut, așezat după timecode-ul său"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s înregistrări și nicio imagine: fiecare este unită separat și nu sunt aliniate una față de alta. --multitrack le pune pe o singură axă a timpului."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", deriva ceasului de %s ppm rămâne: nu este de %s ori incertitudinea ei de %s ppm"
 
@@ -5050,3 +5023,112 @@ msgstr "    %s: %s la început nu are imagine și se omite"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: %s la sfârșit nu are imagine și se omite"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s a revenit cu %s s mai lung decât a plecat, iar locul unde începe în el sunetul trimis\n"
+"  nu a putut fi măsurat -- lăsat cum a venit."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s nu a putut fi tăiat (%s) -- lăsat cum a venit."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s din %s sună ca %s din %s (similaritate %s): pare aceeași persoană."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com a adăugat %s s la final -- tăiat"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com a adăugat %s s la început -- tăiat"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: nu s-a scris niciun fișier, deci montajul omite această cameră."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  Punctul In și punctul Out nu au efect aici: o înregistrare fără imagine este unită întreagă."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  Numele camerei \"%s\" conține un separator de dosar sau de unitate; se scrie ca \"%s\"."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  Plan larg la margini: niciunul -- cealaltă voce vorbește o singură dată, iar acea unică margine a fost mai scurtă decât cel mai scurt cadru"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  Plan larg la margini: doar de la %s -- cealaltă voce vorbește o singură dată, aproape de final, deci nu există unul la început"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  Plan larg la margini: doar până la %s -- cealaltă voce vorbește o singură dată, aproape de început, deci nu există unul la final"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com a numit un fișier \"%s\" -- nu este un nume simplu de fișier, deci nu este preluat"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s nu poate fi plasat: sunetul său nu are nimic în comun cu restul materialului, iar nicio înregistrare plasată după sunet nu poartă un timecode cu care să se compare al său. Una dintre ele are nevoie de un timecode care să se potrivească cu acesta, iar acela trebuie setat cu alt program."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name îi dă lui %s două nume, \"%s\" și \"%s\"; dați fiecărei înregistrări unul singur."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name numește %s, care nu este una dintre înregistrările acestei rulări."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "Se preia modelul de la %s (circa %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Punctul In s-a schimbat de la ultima rulare: atunci %s, acum %s. Montajul și sunetul din videoclipuri aparțin încă vechii ferestre, deci Resolve nu ar primi ce spun acum marcajele -- apăsați din nou Start."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "Niciun fișier audio nu poartă un timecode. Punctul In și punctul Out se numără din momentul în care rulează toate camerele -- poziția fișierelor unul față de altul este măsurată."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Punctul Out s-a schimbat de la ultima rulare: atunci %s, acum %s. Montajul și sunetul din videoclipuri aparțin încă vechii ferestre, deci Resolve nu ar primi ce spun acum marcajele -- apăsați din nou Start."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "Producție încheiată, dar ZIP-ul cu pistele individuale nu are un nume simplu de fișier"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "Mai multe camere, dar nicio înregistrare audio. Fiecare cameră ar avea propriul audio -- pentru asta există Multitrack. Altfel, o cameră după alta."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "Arhiva conține %s de mai multe ori, deci nu s-a extras nimic din ea."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "Aici fișierul de atribuire numește înregistrările, deci --speaker-name ar fi ignorat; indicați numele acolo sau omiteți --speaker-name."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "Versiunea compilată nu corespunde sumei sale de control, deci nu a fost despachetată: %s în listă, %s sosit."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "Lista sumelor de control nu a putut fi preluată, deci versiunea compilată nu a fost despachetată: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "Lista sumelor de control nu numește %s, deci versiunea compilată nu a fost despachetată."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "Lista fișierelor modelului numește %s, care se află în afara dosarului modelului; nu s-a preluat nimic."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "Modelul nu a putut fi preluat de la %s: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "Numele vorbitorului pentru %s este gol; indicați un nume sau omiteți --speaker-name."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "producție încheiată, dar rezultatul ei nu are un nume simplu de fișier"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "preluat din fișierele sursă, --lufs source -- nu se ajustează nimic"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Cheia e păstrată în portcheiul desktopului prin comanda secret-tool, iar acest calculator nu o are."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Acest calculator nu are secret-tool, care păstrează cheia în portcheiul desktopului, așa că nu s-a păstrat nimic. Manual: %s"
+
+msgid "What it says appears under Output."
+msgstr "Ce spune apare sub Ieșire."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "pachetul libsecret-tools pe Debian și Ubuntu, libsecret pe Fedora și Arch"

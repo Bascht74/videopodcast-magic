@@ -339,12 +339,6 @@ msgstr "Runātāju atdalīšana šeit nav instalēta. Atjaunot var tā: %s"
 msgid "Fetching the model (about %s MB) ..."
 msgstr "Modeļa lejupielāde (apmēram %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "Modeļa lejupielāde (apmēram %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "Modeli neizdevās lejupielādēt: %s"
-
 msgid "The model could not be written: %s"
 msgstr "Modeli neizdevās ierakstīt: %s"
 
@@ -881,9 +875,6 @@ msgstr "  %-20s nav iespējams salāgot: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s nav izmērāms: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s nobīde %s, pulksteņa dreifs %s ppm (+/- %s), atlikusī izkliede %s ms, %s no %s punktiem"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s nobīde %s, pulksteņa dreifs %s ppm (+/- %s), atlikusī izkliede %s ms, %s no %s punktiem%s"
@@ -2205,14 +2196,8 @@ msgstr "Sākuma punkts un beigu punkts ir pieejami, tiklīdz ir noteikta laika a
 msgid "In point is %s before the first frame"
 msgstr "Sākuma punkts ir %s pirms pirmā kadra"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "Sākuma punkts tagad ir %s, bet esošie faili atbilst %s.\n  Video skaņa ir izgriezta pēc vecā loga -- vēlreiz nospiediet\n  „Sākt“ augšā."
-
 msgid "Out point is %s after the last frame"
 msgstr "Beigu punkts ir %s pēc pēdējā kadra"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "Beigu punkts tagad ir %s; logs būtu %s garš, esošie\n  faili ir %s -- vēlreiz nospiediet „Sākt“ augšā."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Gala failam parasti izmanto ierobežoto diapazonu. Pilns diapazons nav kļūda, taču daži atskaņotāji to nolasa nepareizi."
@@ -2373,9 +2358,6 @@ msgstr "Multitrack (celiņš katram runātājam)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack vajag vismaz divus ievades celiņus. Celiņš ir atsevišķs ieraksts, daudzkanālu ierakstītāja kanāls vai video faila skaņa, kam iestatīts „izmantot iekšējo skaņu“. Vairāki viena ieraksta bloki skaitās kā viens, noliktie celiņi netiek skaitīti vispār."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "Nevienam audio failam nav laika koda. Sākuma punkts un beigu punkts tiek skaitīti no materiāla sākuma -- failu savstarpējais novietojums ir izmērīts."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Vēl netiek izmantota neviena skaņa -- pievienojiet audio ierakstu vai failu sarakstā video faila laukā Kameras skaņa izvēlieties „izmantot iekšējo skaņu“."
 
@@ -2384,9 +2366,6 @@ msgstr "Nav piešķirts neviens audio celiņš."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nav piešķirta neviena kamera, tāpēc nav starp ko montēt."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "Kameras vēl nav piešķirtas -- lai to izdarītu, ieslēdziet Multitrack."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Nav savienojuma ar Resolve.\n  Vai programma darbojas? Vai External scripting ir iestatīts uz „Local“\n  sadaļā Preferences > System > General?"
@@ -3212,9 +3191,6 @@ msgstr "priekšiestatījuma mērķis ir %s LUFS, aprēķinā izmanto %s."
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "priekšiestatījuma mērķis ir %s LUFS -- tas paliek spēkā, no mūsu puses nekas netiek pielāgots."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "ņemts no avota failiem, --lufs nav norādīts -- nekas netiek pielāgots"
 
 msgid "the answer did not keep the floor"
 msgstr "atbilde nenoturējās"
@@ -4971,9 +4947,6 @@ msgstr "%s\n   skaņa nav atpazīta; novietots tā, kā to novieto izpilde"
 msgid "sound not recognised, placed by its timecode"
 msgstr "skaņa nav atpazīta, vieta noteikta pēc laika koda"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  Ieraksti: %s, attēla nav: katrs tiek apvienots atsevišķi, un tie netiek salāgoti savā starpā. --multitrack tos novieto uz vienas laika ass."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", pulksteņa dreifs %s ppm atstāts: tas nav %s reizes lielāks par savu nenoteiktību %s ppm"
 
@@ -5054,3 +5027,112 @@ msgstr "    %s: %s sākumā nav attēla un tiek izlaists"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: %s beigās nav attēla un tiek izlaists"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s atgriezās par %s s garāks, nekā tika augšupielādēts, un kur tajā sākas nosūtītā\n"
+"  skaņa, nevarēja izmērīt -- atstāts, kā atnāca."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s neizdevās izgriezt (%s) -- atstāts, kā atnāca."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s ierakstā %s izklausās pēc %s ierakstā %s (līdzība %s): šķiet, tā pati persona."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com beigās pievienoja %s s -- nogriezts"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com sākumā pievienoja %s s -- nogriezts"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: fails netika ierakstīts, tāpēc griezums šo kameru izlaiž."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  Sākuma punkts un beigu punkts šeit neiedarbojas: viens ieraksts bez attēla tiek apvienots pilnībā."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  Kameras nosaukumā „%s“ ir mapes vai diska atdalītājs; tas tiek rakstīts kā „%s“."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  Kopplāns malās: nav -- otra balss runā tikai vienreiz, un šī viena mala bija īsāka par īsāko kadru"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  Kopplāns malās: tikai no %s -- otra balss runā tikai vienreiz, tuvu beigām, tāpēc sākuma kopplāna nav"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  Kopplāns malās: tikai līdz %s -- otra balss runā tikai vienreiz, tuvu sākumam, tāpēc beigu kopplāna nav"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com nosauca failu „%s“ -- tas nav vienkāršs faila nosaukums, tāpēc tas netiek lejupielādēts"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s nevar novietot: tā skaņai nav nekā kopīga ar pārējo materiālu, un nevienam pēc skaņas novietotajam ierakstam nav laika koda, ar ko salīdzināt tā paša laika kodu. Vienam no tiem vajag laika kodu, kas atbilst šim, un tas jāiestata ar citu programmu."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name ierakstam %s dod divus vārdus, „%s“ un „%s“; katram ierakstam dodiet vienu."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name nosauc %s, bet tas nav neviens no šīs izpildes ierakstiem."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "Modeļa lejupielāde no %s (apmēram %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Sākuma punkts ir mainījies kopš pēdējās izpildes: toreiz %s, tagad %s. Griezums un skaņa video vēl atbilst vecajam logam, tāpēc Resolve nesaņemtu to, ko tagad rāda atzīmes -- vēlreiz nospiediet „Sākt“."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "Nevienam audio failam nav laika koda. Sākuma punkts un beigu punkts tiek skaitīti no brīža, kad darbojas visas kameras -- failu savstarpējais novietojums ir izmērīts."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Beigu punkts ir mainījies kopš pēdējās izpildes: toreiz %s, tagad %s. Griezums un skaņa video vēl atbilst vecajam logam, tāpēc Resolve nesaņemtu to, ko tagad rāda atzīmes -- vēlreiz nospiediet „Sākt“."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "Produkcija pabeigta, bet ZIP ar atsevišķajiem celiņiem nav vienkārša faila nosaukuma"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "Vairākas kameras, bet nav audio ieraksta. Katrai kamerai būtu sava skaņa -- tam ir paredzēts Multitrack. Citādi viena kamera pēc otras."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "Arhīvā %s ir vairāk nekā vienu reizi, tāpēc no tā nekas netika atpakots."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "Piešķiršanas fails šeit nosauc ierakstus, tāpēc --speaker-name tiktu ignorēts; norādiet vārdus tur vai izlaidiet --speaker-name."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "Gatavais būvējums neatbilst savai kontrolsummai, tāpēc tas netika atpakots: sarakstā %s, pienāca %s."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "Kontrolsummu sarakstu neizdevās lejupielādēt, tāpēc gatavais būvējums netika atpakots: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "Kontrolsummu sarakstā nav %s, tāpēc gatavais būvējums netika atpakots."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "Modeļa failu sarakstā ir %s, kas atrodas ārpus modeļa mapes; nekas netika lejupielādēts."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "Modeli neizdevās lejupielādēt no %s: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "Runātāja vārds ierakstam %s ir tukšs; norādiet vārdu vai izlaidiet --speaker-name."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "produkcija pabeigta, bet tās rezultātam nav vienkārša faila nosaukuma"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "ņemts no avota failiem, --lufs source -- nekas netiek pielāgots"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Atslēgu glabā darbvirsmas atslēgu saišķī ar komandu secret-tool, un šajā datorā tās nav."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Šajā datorā nav komandas secret-tool, kas glabā atslēgu darbvirsmas atslēgu saišķī, tāpēc nekas netika saglabāts. Manuāli: %s"
+
+msgid "What it says appears under Output."
+msgstr "Ziņojumi parādās cilnē „Izvade“."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "pakotne libsecret-tools sistēmās Debian un Ubuntu, libsecret sistēmās Fedora un Arch"

@@ -56,6 +56,7 @@ cameras_with_a_speaker = PROGRAM.cameras_with_a_speaker
 cameras_with_own_audio = PROGRAM.cameras_with_own_audio
 colours_pick = PROGRAM.colours_pick
 desktop_is_dark = PROGRAM.desktop_is_dark
+fault_into_log = PROGRAM.fault_into_log
 ffmpeg_can_be_had = PROGRAM.ffmpeg_can_be_had
 file_timecode = PROGRAM.file_timecode
 fill_choices = PROGRAM.fill_choices
@@ -105,6 +106,7 @@ soxr_available = PROGRAM.soxr_available
 soxr_note = PROGRAM.soxr_note
 speakers_project_block = PROGRAM.speakers_project_block
 start_again = PROGRAM.start_again
+stop_if_running = PROGRAM.stop_if_running
 strip_marks = PROGRAM.strip_marks
 styles_follow_scheme = PROGRAM.styles_follow_scheme
 subprocess = PROGRAM.subprocess
@@ -159,10 +161,9 @@ def language_of_system():
     Only a suggestion for the empty field: the operating system does not
     know what language was spoken in a recording.
     """
-    # The locale is read directly, not through known_language: that
-    # one answers which language the *interface* speaks and falls back
-    # to English. A Spanish system would then suggest English, and the
-    # recording would be tagged wrongly.
+    # The locale is read directly: known_language answers which language
+    # the *interface* speaks and falls back to English, so a Spanish
+    # system would suggest English and the recording be tagged wrongly.
     head = (system_locale() or "").replace("_", "-").split("-")[0]
     head = head.strip().lower()
     if len(head) != 2:
@@ -487,17 +488,34 @@ def camera_tracks_of(camera_lines):
             for p, n in zip(files, guessed)]
 
 
+def run_tracks_of(model):
+    """How many tracks a run gets from these rows, and whether on one axis.
+
+    As the run takes them: a recording set to "do not use" is none, and
+    rows of one name are one track -- an unnamed row counts alone. A
+    video that is not intro, outro or ignored is a picture. A picture
+    lays the tracks on one axis, and so do two or more without one,
+    whatever the Multitrack tick says -- as the run's time base does.
+    """
+    names = [v.get().strip() for _r, v, choice in model.assign_lines
+             if choice.get() != IGNORE_AUDIO]
+    pictures = [p for p, kind in model.files if kind == "video"
+                and (model.clip_kinds.get(p) or Value(TYPE_CONTENT)).get()
+                not in (TYPE_INTRO, TYPE_OUTRO, TYPE_IGNORED)]
+    count = len(set(n for n in names if n)) + names.count("")
+    return count, bool(pictures) or count >= 2
+
+
 def missing_conditions(files, production, multitrack, assign_lines,
                        camera_lines, voice_lines=(), voiced=(),
                        project_type="cut"):
     """Report what is still missing, and where it is missing.
 
     Returns {key: reason}; empty means everything is there. Reasons go
-    under the start button and are in plain words -- greyed out without
-    one is a dead end. The key says which sheet: 1 and 11 the file tab,
-    21 and 23 the production strip on it, 22 the assignment tab. 1 is
-    empty. *project_type* "" is unanswered; a caller without a window
-    has the answer the command line has, which is "cut".
+    under the start button in plain words -- greyed out without one is a
+    dead end. Keys by sheet: 1 and 11 the file tab, 21 and 23 its
+    production strip, 22 the assignment tab; 1 is empty. *project_type*
+    "" is unanswered; without a window it is "cut", as on the command line.
     """
     pending = {}
     if not files:
@@ -524,6 +542,16 @@ def missing_conditions(files, production, multitrack, assign_lines,
     clash = voice_names_clashing(assign_lines, voice_lines, voiced)
     if clash:
         pending[22] = PROGRAM.names_clash_said(clash)
+    # Two cameras and not one recording, without Multitrack: each camera
+    # would be a track of its own, and the run refuses that. Told apart
+    # by the ending, as the run splits its files.
+    heard, _seen, _other = PROGRAM.split_audio_and_video(
+        [f if isinstance(f, str) else f[0] for f in files])
+    if not multitrack and not heard and len(camera_lines or ()) >= 2:
+        pending[11] = T('Several cameras but no audio recording. Each '
+                        'camera would have its own audio -- that is what '
+                        'Multitrack is for. Otherwise one camera after '
+                        'another.')
     # No sound at all: a video file whose Camera audio is not in use
     # contributes none, and a run with nothing to hear has no first step.
     if files and not assign_lines:
@@ -665,7 +693,7 @@ def sound_cells_follow(state):
     chosen stays kept beside it for a return to the cut. A field whose
     row has been built again is dropped here.
     """
-    sync = state.get("project_type") == "sync"
+    sync = PROGRAM.sync_only(state)
     holds = state.get("sound_holds") or {}
     alive = []
     for box in state.get("sound_boxes") or ():
@@ -855,11 +883,10 @@ def project_file_follows(state, where, retitle, report=None):
     """Move the project file to where() says, its name and folder.
 
     Named after the production, in the output folder; both change, and
-    it is moved rather than written twice. Where the open project's
-    file moved, *retitle* is handed the new title; where nothing moved,
-    the title bar keeps naming the file on the disk. Another project's
-    file is never moved onto (project_refused), and a name still being
-    typed moves nothing (name_settles).
+    it is moved, not written twice. Where the open project's file moved,
+    *retitle* gets the new title; else the title bar keeps naming the file
+    on disk. Never moved onto another project's file (project_refused);
+    a name still being typed moves nothing (name_settles).
     """
     if state.get("name_typing"):
         return
@@ -955,9 +982,8 @@ def window_title(project=""):
 
 
 #------------------------------------------------------------ The player
-# A piece of its own, in "player". The way in reads it above this
-# file now, so these are ordinary head lines; the names no code
-# here reads have gone, and take_from() puts them on the program.
+# A piece of its own, in "player", read in above this file: the names
+# no code here reads have gone, and take_from() puts them on the program.
 make_player_choice = PROGRAM.make_player_choice
 make_player_widgets = PROGRAM.make_player_widgets
 
@@ -977,9 +1003,8 @@ voices_of_values = orders.voices_of_values
 
 
 #---------------------------------------- The settings sheet and the log
-# The Settings window: the language box, and the sheet the boxes for
-# the key and for Resolve are set into -- each of those two is built in
-# the piece it is about. The log way at the end.
+# The Settings window: the language box, and the sheet holding the key
+# and Resolve boxes, each built in its own piece. The log at the end.
 
 
 # What gui() answers with when the window is to be built again in
@@ -990,10 +1015,9 @@ LANGUAGE_AGAIN = 7
 # not, or think better of it. The three ways out all ask the same one.
 RESTART_ASK = [None]
 
-# The one question about a production the window asks by itself: cut
-# by speaker, or only synchronised. Asked once, on the first look at
-# the assignment tab, and reached through this hook so a test can
-# answer it without a window standing in the way.
+# The one production question the window asks by itself: cut by
+# speaker, or only synchronised. Asked once, on the first look at the
+# assignment tab, through this hook so a test can answer without a window.
 PROJECT_TYPE_ASK = [None]
 
 
@@ -1147,9 +1171,12 @@ def resolve_button_say(state, env_curve, button):
         reason_set(env_curve, button, False, T('The run is still going.'), "")
         return
     js = state.get("resolve_json")
-    what_for = resolve_what_for(state.get("project_type") == "sync")
+    what_for = resolve_what_for(PROGRAM.sync_only(state))
+    moved = js and handover_marks_moved(state, js)
     if js and resolve_installed():
-        reason_set(env_curve, button, True, "", what_for)
+        # Marks moved since the run: the command line would refuse the
+        # same, so the button says it before anything is pressed.
+        reason_set(env_curve, button, not moved, moved, what_for)
         button.setText(T('Create Resolve project'))
     else:
         reason_set(env_curve, button, False,
@@ -1158,6 +1185,27 @@ def resolve_button_say(state, env_curve, button):
                    if resolve_installed() else
                    T('The Resolve interface is not where it should be.'),
                    what_for)
+
+
+def handover_marks_moved(state, js):
+    """Why the handover *js* no longer fits the marks set now, else "".
+
+    Only its window is read, and once per state of the file: the marks
+    ask again on every keystroke. The rule is window_moved_since's.
+    """
+    mark = PROGRAM.handover_mark(js)
+    kept = state.get("handover_window")
+    if not kept or kept[0] != mark:
+        try:
+            with open(js, encoding="utf-8") as f:
+                d = PROGRAM.json.load(f)
+        except (OSError, ValueError):
+            d = {}
+        kept = state["handover_window"] = (mark, dict(
+            (k, d[k]) for k in ("in_point", "out_point", "fps",
+                                "fps_measured") if k in d))
+    return PROGRAM.window_moved_since(kept[1], state.get("in_point"),
+                                      state.get("out_point"))
 
 
 def handover_cameras_of(file_path):
@@ -1175,12 +1223,11 @@ def handover_cameras_of(file_path):
 def handover_follows(state, cameras, again=False):
     """Take up the handover over the cameras the table holds now.
 
-    Asked when the cameras changed, or *again* when the output folder
-    did, never on every rebuild: the run's own handover leaves out a
-    camera it refused, and is kept for a name typed. Else one over
-    exactly these, from the output folder -- beside the videos without
-    one -- the project's or beside the last; failing that, what the
-    button offered this list before, lying there and naming no other.
+    Asked when the cameras or (*again*) the output folder changed, never
+    per rebuild: the run's own handover omits a refused camera and is kept
+    for a typed name. Else one over exactly these, from the output folder
+    (beside the videos without one), the project's or beside the last;
+    else the button's earlier offer for this list, if there, naming no other.
     """
     now = sorted(path_key(p) for p in cameras)
     before, js = state.get("handover_cameras"), state.get("resolve_json")
@@ -1260,7 +1307,7 @@ def unless_sync(state, compute, *said):
     it would still promise speakers worked out and a wide shot to set.
     """
     def guarded(*args, **named):
-        if state.get("project_type") != "sync":
+        if not PROGRAM.sync_only(state):
             return compute(*args, **named)
         for words in said:
             words.setText("")
@@ -1432,9 +1479,8 @@ def log_entry(act, where, window):
 
 
 #---------------------------------------------------------- The fittings
-# A piece of its own, in "fittings". The way in reads it above this
-# file now, so these are ordinary head lines; the names no code
-# here reads have gone, and take_from() puts them on the program.
+# A piece of its own, in "fittings", read in above this file: the names
+# no code here reads have gone, and take_from() puts them on the program.
 checkbox_bind = PROGRAM.checkbox_bind
 hint = PROGRAM.hint
 label = PROGRAM.label
@@ -1706,17 +1752,40 @@ def question_dialog(f, window, QtWidgets, label):
     f.event.set()
 
 
+def run_result(path, state):
+    """Whether *path*, said on a line of its own, is a result of the run.
+
+    Not the project file and not the program itself, which the banner
+    names; and with an output folder named, only what lies inside it.
+    """
+    def plain(p):
+        """The path as the file system spells it, for a comparison."""
+        return os.path.normcase(os.path.realpath(p))
+
+    if not (os.path.isabs(path) and os.path.exists(path)):
+        return False
+    name = os.path.basename(path)
+    if name.startswith(PROGRAM.PROJECT_PREFIX) and name.endswith(".json"):
+        return False
+    held = state.get("out_folder")
+    out = held.get().strip() if held is not None else ""
+    within = plain(out) if out else plain(os.path.dirname(PROGRAM.__file__))
+    inside = plain(path).startswith(within.rstrip(os.sep) + os.sep)
+    return inside if out else not inside
+
+
 def make_log_writer(state, post):
     """The window's own way of taking a line of output.
 
-    Every absolute path that really exists is kept as a result on the
-    way through, so the button that opens the result folder has a target.
+    Every path the run said that is one of its results (run_result) is
+    kept on the way through, so the button that opens the result folder
+    has a target and a stop can say what was finished.
     """
     def write(text):
         PROGRAM.RUN_VITALS.heard(text)
         for line in text.splitlines():
             path = line.strip()
-            if os.path.isabs(path) and os.path.exists(path):
+            if run_result(path, state):
                 if path not in state["results"]:
                     state["results"].append(path)
         post.put(text)
@@ -1774,6 +1843,9 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
         code = 2
         print(as_bad(broken_off_report(e, state.get("results"))))
     except Exception as e:
+        # One line in the window, the traceback in the log file: the
+        # same as a command line that stops on a fault nobody foresaw.
+        fault_into_log()
         print(as_bad(T('\nStopped: %s') % e))
     finally:
         sys.stdout, sys.stderr = old_out, old_err
@@ -1781,6 +1853,10 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
         PROGRAM.OUTPUT_SINK = None
         PROGRAM.ASK_SINK = PROGRAM.PROGRESS_SINK = None
         PROGRAM.RUN_VITALS.end()
+        # A Stop belongs to this run: left standing, the window's own
+        # measuring comes back empty until the next Start.
+        stop_forget()
+        state.pop("run_step", None)
     # However it ended, nothing of it is still running.
     for name in list(run_step_order):
         bridge_emit(bridge.run_step, name, 1.0)
@@ -1796,10 +1872,9 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
             state["results"][-1])
     state["running"] = False
 
-# What a finished track can be called when it comes back from the
-# service: our own name first, then the two spellings it hands back
-# instead. Not a second name for MIX_TRACK_NAME -- these are foreign,
-# and only the first of them is ours.
+# What a finished track may be called when the service returns it: our
+# own name first, then the two spellings it hands back instead -- not
+# second names for MIX_TRACK_NAME: those two are foreign.
 MIX_TRACK_ALIASES = (MIX_TRACK_NAME, "Fullmix", "Mix")
 
 
@@ -1808,11 +1883,10 @@ def audio_under_camera(camera_path, kind_of, done,
     """Return the audio recording belonging to this camera.
 
     For the preview the assigned audio plays instead of the camera's:
-    preferably the processed track, at delivery level, else the raw
-    recording; with several speakers the first. A voice heard inside a
-    recording occupies a camera like a recording does. With no speaker
-    -- the wide shot -- the overall mix plays; before it exists, the
-    one recording that carries every voice, where there is just one.
+    the processed track at delivery level, else the raw recording; with
+    several speakers the first. A voice heard inside a recording occupies
+    a camera like a recording. With no speaker -- the wide shot -- the
+    mix plays; before it exists, the sole recording holding every voice.
     """
     # An intro or outro stands before or after the episode, so nothing
     # off the episode's own axis belongs under it.
@@ -1863,9 +1937,8 @@ def app_language_set(QtCore, Qt, app):
 
 
 #----------------------------------------------------- The window itself
-# MainWindow holds the tabs, the footer and the menu; the four sheets are
-# pieces of their own. gui() still assembles what goes into them and
-# closes over it, the largest function in the program for now.
+# MainWindow holds tabs, footer and menu; the four sheets are pieces of
+# their own, filled by gui() -- for now the program's largest function.
 
 
 class Bridge(QtCore.QObject):
@@ -2136,10 +2209,8 @@ def gui():
         lambda *a, **k: real_tc(*a, **k), state)
 
     # ------------------------------------------------------------------
-    # The one bar: measuring runs in the background and across every tab,
-    # and a bar that lives on one page is invisible when it matters.
-    # Declared here because the pieces that feed it come before the footer.
-    # ------------------------------------------------------------------
+    # The one bar: measuring runs behind every tab, so a bar on one page is
+    # unseen when it matters. Here because what feeds it precedes the footer.
     plan = ProgressPlan()
 
     # ----------------------------------------------------- Tab 1: the files
@@ -2503,11 +2574,10 @@ def gui():
     # ------------------------------------------------------------------
     # The check in the background -- the three lifted out of here. Below
     # clip_kind_values, which preflight_kick_off reads.
-    # ------------------------------------------------------------------
     preflight_fill_in, preflight_kick_off = make_preflight(
         state, files, plan, bridge, bridge_emit, preflight_line,
         set_mark, append_findings, show_overall, lines_node,
-        no_join, together_now, multitrack, assign_lines,
+        no_join, together_now, assign_lines,
         clip_kind_values)
 
     # Below clip_kind_values, which player_candidates reads: the eight are
@@ -2529,7 +2599,7 @@ def gui():
                                cameras_with_a_speaker(
                                    assign_lines, voice_lines,
                                    state.get("voiced") or ()),
-                               state.get("no_place") or (), state.get("project_type") == "sync")
+                               state.get("no_place") or (), PROGRAM.sync_only(state))
 
     state["wide_cameras_now"] = wide_cameras_now
 
@@ -2560,7 +2630,7 @@ def gui():
      several_set) = make_speaker_split(
         QtCore, state, bridge, bridge_emit, plan, files, assign_lines,
         voice_lines, remembered, split_run, split_line, split_label,
-        split_never, axis_store)
+        split_never, axis_store, blocks_of)
 
     # The assignment table is the sheet's, with what it keeps between
     # two builds: the voice rows below reach for two of its own, and
@@ -2598,7 +2668,7 @@ def gui():
         if files:
             window.table_show(tab2, T('Assignment && time window'), 1)
             window.table_show(tab3, T('Resolve cut'), 2)
-        # What gets checked hangs on this decision.
+        # Checked again, though nothing the check asks hangs on the tick.
         preflight_kick_off()
         presets_filter()
         # Camera cut and forecast live off the speakers being told apart,
@@ -2659,8 +2729,8 @@ def gui():
      without_auphonic, preset_plaintext, presets_filter,
      presets_wanted_now, finished_tracks_check) = make_auphonic_box(
          QtWidgets, state, bridge, bridge_emit, tab2.run_layout,
-         settings_open, buttons_check, multi_button, multitrack,
-         out_folder, commonest_folder, report)
+         settings_open, buttons_check, multi_button, out_folder,
+         commonest_folder, report, lambda: run_tracks_of(model))
 
     # Tab 3: the Resolve check, the camera cut and its preview stand in
     # ResolveSheet. Below settings_open, which its Resolve line reaches.
@@ -2684,9 +2754,7 @@ def gui():
     result_button_check = output.result_button_check
     resolve_button_check = output.resolve_button_check
 
-    # ------------------------------------------------------------------
-    # Footer
-    # ------------------------------------------------------------------
+    # ---------------------------------------------------------- Footer
     # What comes back is what the rest of the window reaches for, down to
     # the timer that has to be stopped when the window goes.
     (start_run, start_run_env_curve, preview_button, break_off,
@@ -2697,7 +2765,6 @@ def gui():
     # ------------------------------------------------------------------
     # Project file -- writing, closing and opening it stand in
     # make_project_file(); this one asks for a folder first.
-    # ------------------------------------------------------------------
     def project_save():
         """Write the project file now, without running anything.
 
@@ -2733,16 +2800,15 @@ def gui():
     # ------------------------------------------------------------------
     # The file list changing -- the five lifted out of here. Above the
     # project file, which takes items_fresh; take_paths goes back.
-    # ------------------------------------------------------------------
     items_fresh, take_paths, add_files, remove = make_file_changes(
         Qt, QtCore, QtWidgets, window, state, model, ask, report,
         preflight_fill_in, preflight_kick_off, lines_node, prework_node,
         video_kind_again, channel_rows_show, audio_use_now,
         video_choices_show)
-    wire(window.files_redrawn, show_weak, finished_tracks_check,
-         buttons_check, window.settings_show, assignment_fresh)
+    wire(window.files_redrawn, show_weak, finished_tracks_check, buttons_check,
+         window.settings_show, assignment_fresh, presets_filter)
     wire(window.files_leaving, prework_clean_up)
-    wire(window.assignment_due, assignment_fresh)
+    wire(window.assignment_due, assignment_fresh, presets_filter)
 
     # A file dropped straight onto the list lands here; the buttons above
     # stand long before the five exist and are hung on them here.
@@ -2753,7 +2819,6 @@ def gui():
     # ------------------------------------------------------------------
     # Project file -- the three lifted out of here. Below the writer,
     # which goes in; what answers its signals is said here.
-    # ------------------------------------------------------------------
     wire(window.material_leaving, lambda paths: PROGRAM.measuring_stop(
         state, paths, prework_clean_up, split_stop, split_run, plan_wipe))
     wire(window.project_closed, items_fresh, folder_show, window_enable,
@@ -2784,7 +2849,6 @@ def gui():
     # ------------------------------------------------------------------
     # Setting a run going -- the four lifted out of here. Below the
     # footer, the project file and the timer, which go in as arguments.
-    # ------------------------------------------------------------------
     wire(window.run_starting, buttons_check)
     wire(window.run_begun, run_plan_build, result_button_check,
          lambda dry: dry or project_write())
@@ -2809,8 +2873,8 @@ def gui():
             total_clock.stop()
             output_timer.stop()
             if getattr(player, "player", None) is not None:
-                player.player.stop()
-                player.track.stop()
+                stop_if_running(QtMultimedia, player.player,
+                                player.track)
         except Exception:
             pass
 
