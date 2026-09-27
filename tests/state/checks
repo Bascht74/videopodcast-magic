@@ -119,7 +119,7 @@ files_order_kept	7
 files_probed_once	79
 files_project_first	17
 files_project_offered	35
-files_same_names_apart	8
+files_same_names_apart	9
 files_set_aside_skipped	14
 files_split_found_again	10
 files_sync_one_recording	19
@@ -420,7 +420,7 @@ window_idle_bar_hidden	6
 window_key_off_line	6
 window_marks_come_back	6
 window_marks_moved_grey	7
-window_marks_take_spot	27
+window_marks_take_spot	28
 window_menu_greys_along	27
 window_no_full_screen	5
 window_not_started_said	4
@@ -491,7 +491,7 @@ window_axis_kept_by_key	6
 window_kept_cut_shown	5
 run_takes_dry_measure	9
 time_axis_one_store	6
-run_recordings_apart	3
+run_recordings_apart	6
 run_kept_by_its_line	10
 run_preview_says_nothing	5
 cut_preview_no_own_work	7
