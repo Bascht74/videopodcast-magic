@@ -1,15 +1,4 @@
 #
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
 #   Rewording one check voids that one row and leaves its neighbours
 #   The wording alone is not the key: nineteen wordings stand in more
 #   alone. A counter-proof from yesterday says nothing about a check
@@ -6748,7 +6737,6 @@ window_run_beats_kept	2026-09-27	a run without a plan afterwards keeps the run's
 window_marks_take_spot	2026-09-27	Mark In on a 29.97 camera is the moment the run reads at 25	assignmentsheet/__init__.py, limit_set(): 'timecode_string(at, PROGRAM.marks_fps_of(player))' made 'timecode_string(at, player.fps)', so a mark on a 29.97 camera is written at the camera's own rate	Mark In on a 29.97 camera is the moment the run reads at 25 FAIL field '18:55:12:18' on CoPresenterCam_01011855_C004.mov, player at 68112.600 s, run reads 68112.720 s, at most 0.040 s apart, player at 29.97 fps
 window_marks_take_spot	2026-09-27	and 'to In point' goes back there, on the 29.97 camera	player/__init__.py, Player._place(): 'parse_time_point(text, marks_fps_of(self))' made 'parse_time_point(text, self.fps)', so the player reads a mark at the file's own 29.97	and 'to In point' goes back there, on the 29.97 camera FAIL field '18:55:12:15', player at 8.500 s against 8.600 s marked, at most 0.040 s apart, on CoPresenterCam_01011855_C004.mov
 window_marks_take_spot	2026-09-27	Mark In on a recording is the moment the run reads	player/__init__.py, make_player_choice(), marks_fps_here(): 'state.get("axis_reference")' made 'None', so the rate is the longest camera's by container (the silent 29.97 one), not the run's reference's	Mark In on a recording is the moment the run reads FAIL field '18:55:10:18' on CoPresenter_REC00018.wav, player at 68110.600 s, run reads 68110.720 s, at most 0.040 s apart, player at 29.97 fps
-window_marks_take_spot	2026-09-27	Mark In on a 29.97 camera is the moment the run reads at 25	second break, same check: marks_fps_here() without the reference (as the recording row)	Mark In on a 29.97 camera is the moment the run reads at 25 FAIL field '18:55:12:18' on CoPresenterCam_01011855_C004.mov, player at 68112.600 s, run reads 68112.720 s, at most 0.040 s apart, player at 29.97 fps
 run_preview_says_nothing	2026-09-27	the held preview's child was ended by Start's stop	running, preview_stop(): 'PROGRAM.stop_asked_for()' changed to 'PROGRAM.RUN_STOP["wanted"] = True', so the stop is pulled but the preview's running child is not ended	the held preview's child was ended by Start's stop         FAIL the held step going after - s of 120 s
 run_preview_says_nothing	2026-09-27	Start's run began before the held preview's could end	running, make_run_start(), start_now(): the 'preview_stop()' under 'if held():' changed to 'pass', so Start waits the preview's run out again	Start's run began before the held preview's could end      FAIL Start's run began never s after the press, the held step lasts 120 s
 run_preview_says_nothing	2026-09-27	the stopped run tells the tab that nothing ran	running, preview_run(), work(): 'done((None, 0, "") if stopped else (request["key"], code, why))' changed to 'done((request["key"], code, why))', so a stopped run reports its key and failure	the stopped run tells the tab that nothing ran             FAIL it handed back ('handover_3c0dcbdb85bcd7476ce3d73da8ce8f46e592d6ef', 1, 'held')
