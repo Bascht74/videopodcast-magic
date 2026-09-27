@@ -489,13 +489,13 @@ def camera_tracks_of(camera_lines):
 
 
 def run_tracks_of(model):
-    """How many tracks a run gets from these rows, and whether on one axis.
+    """How many tracks a run gets from these rows, on one axis, how long.
 
     As the run takes them: a recording set to "do not use" is none, and
     rows of one name are one track -- an unnamed row counts alone. A
-    video that is not intro, outro or ignored is a picture. A picture
-    lays the tracks on one axis, and so do two or more without one,
-    whatever the Multitrack tick says -- as the run's time base does.
+    video not intro, outro or ignored is a picture, and lays the tracks
+    on one axis; so do two or more without one, whatever the Multitrack
+    tick says. The length is run_seconds_of's.
     """
     names = [v.get().strip() for _r, v, choice in model.assign_lines
              if choice.get() != IGNORE_AUDIO]
@@ -503,7 +503,30 @@ def run_tracks_of(model):
                 and (model.clip_kinds.get(p) or Value(TYPE_CONTENT)).get()
                 not in (TYPE_INTRO, TYPE_OUTRO, TYPE_IGNORED)]
     count = len(set(n for n in names if n)) + names.count("")
-    return count, bool(pictures) or count >= 2
+    together = bool(pictures) or count >= 2
+    return count, together, run_seconds_of(
+        model, PROGRAM.production_is_multitrack(count, together))
+
+
+def run_seconds_of(model, multitrack):
+    """How long the rows' productions at auphonic.com last, in seconds.
+
+    A row lasts as long as its blocks end to end, a track as its
+    longest row. One Multitrack production lasts as long as its longest
+    track; Singletrack productions are charged each, so they add up. The
+    run lays the tracks on one axis first, which only lengthens them, so
+    this is the least it needs. 0 where nothing is measured.
+    """
+    tracks = {}
+    for i, (chain, name, choice) in enumerate(model.assign_lines):
+        if choice.get() == IGNORE_AUDIO:
+            continue
+        row = sum(PROGRAM.sample_count(p) for p in (chain or ())
+                  ) / float(PROGRAM.SR)
+        track = name.get().strip() or i
+        tracks[track] = max(tracks.get(track, 0.0), row)
+    lengths = list(tracks.values()) or [0.0]
+    return max(lengths) if multitrack else sum(lengths)
 
 
 def missing_conditions(files, production, multitrack, assign_lines,

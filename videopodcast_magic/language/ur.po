@@ -5097,9 +5097,6 @@ msgstr "Debian اور Ubuntu پر libsecret-tools پیکیج، Fedora اور Arc
 msgid "%d min"
 msgstr "%d منٹ"
 
-msgid "%d h %02d min"
-msgstr "%d گھنٹے %02d منٹ"
-
 msgid "Credit at auphonic.com: %s left"
 msgstr "auphonic.com پر کریڈٹ: %s باقی"
 
@@ -5108,9 +5105,6 @@ msgstr "auphonic.com پر کریڈٹ: نامعلوم"
 
 msgid "%s -- free plan"
 msgstr "%s -- مفت پلان"
-
-msgid "On the free plan a Multitrack production may be at most %s long."
-msgstr "مفت پلان میں Multitrack پروڈکشن زیادہ سے زیادہ %s لمبی ہو سکتی ہے۔"
 
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  auphonic.com پر کریڈٹ: نامعلوم -- اکاؤنٹ نے جواب نہیں دیا۔"
@@ -5127,8 +5121,23 @@ msgstr "  auphonic.com پر کریڈٹ: %s باقی، اور اس پروڈکشن
 msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
 msgstr "  auphonic.com پر کریڈٹ: %s باقی، اس پروڈکشن کو درکار %s کے لیے کافی۔"
 
-msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
-msgstr "  مفت پلان میں Multitrack پروڈکشن زیادہ سے زیادہ %s لمبی ہو سکتی ہے، اور یہ %s کی ہے۔"
+msgid "  Account at auphonic.com: paying."
+msgstr "  auphonic.com پر اکاؤنٹ: ادا شدہ۔"
+
+msgid "  Account at auphonic.com: free."
+msgstr "  auphonic.com پر اکاؤنٹ: مفت۔"
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  auphonic.com پر اکاؤنٹ: نامعلوم۔"
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  نوٹ: رن پھر بھی کوشش کرتا ہے۔ پروڈکشن شروع ہو گی یا نہیں، یہ auphonic.com طے کرتا ہے، اور نہ ہو تو بتا دیتا ہے۔"
+
+msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  نوٹ: مفت پلان میں auphonic.com کوئی Multitrack پروڈکشن صرف تب قبول کرتا ہے جب وہ %s سے کم ہو، اور یہ %s کی ہے۔ رن پھر بھی کوشش کرتا ہے؛ اگر auphonic.com انکار کرے تو اس کا اپنا پیغام آتا ہے۔"
+
+msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
+msgstr "مفت پلان میں auphonic.com کوئی Multitrack پروڈکشن صرف تب قبول کرتا ہے جب وہ %s سے کم ہو۔"
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  اس رن کا بنایا ہوا پروجیکٹ %r کھلا رہتا ہے -- پہلے ایسا کچھ کھلا نہیں تھا\n  جسے دوبارہ کھولا جا سکے۔ اسے Resolve کے پروجیکٹ مینیجر میں حذف کریں۔"

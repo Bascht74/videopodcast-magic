@@ -5137,9 +5137,6 @@ msgstr "пакет libsecret-tools в Debian и Ubuntu, libsecret в Fedora и A
 msgid "%d min"
 msgstr "%d мин"
 
-msgid "%d h %02d min"
-msgstr "%d ч %02d мин"
-
 msgid "Credit at auphonic.com: %s left"
 msgstr "Кредит на auphonic.com: осталось %s"
 
@@ -5148,9 +5145,6 @@ msgstr "Кредит на auphonic.com: неизвестен"
 
 msgid "%s -- free plan"
 msgstr "%s -- бесплатный тариф"
-
-msgid "On the free plan a Multitrack production may be at most %s long."
-msgstr "На бесплатном тарифе продукция Multitrack может длиться не более %s."
 
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Кредит на auphonic.com: неизвестен -- аккаунт не ответил."
@@ -5167,8 +5161,23 @@ msgstr "  Кредит на auphonic.com: осталось %s, а этой пр�
 msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
 msgstr "  Кредит на auphonic.com: осталось %s, хватает на %s, нужные этой продукции."
 
-msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
-msgstr "  На бесплатном тарифе продукция Multitrack может длиться не более %s, а эта длится %s."
+msgid "  Account at auphonic.com: paying."
+msgstr "  Аккаунт на auphonic.com: платный."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Аккаунт на auphonic.com: бесплатный."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Аккаунт на auphonic.com: неизвестно."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Замечание: запуск всё равно попробует. Начнётся ли продукция, решает auphonic.com, и если нет, он сам это скажет."
+
+msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Замечание: на бесплатном тарифе auphonic.com принимает продукцию Multitrack, только если она короче %s, а эта длится %s. Запуск всё равно попробует; если auphonic.com откажет, последует его собственное сообщение."
+
+msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
+msgstr "На бесплатном тарифе auphonic.com принимает продукцию Multitrack, только если она короче %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Проект %r, созданный этим запуском, остаётся открытым -- раньше не было открыто ничего,\n  что можно открыть снова. Удалите его в менеджере проектов Resolve."

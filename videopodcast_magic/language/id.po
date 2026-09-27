@@ -5055,9 +5055,6 @@ msgstr "paket libsecret-tools di Debian dan Ubuntu, libsecret di Fedora dan Arch
 msgid "%d min"
 msgstr "%d mnt"
 
-msgid "%d h %02d min"
-msgstr "%d j %02d mnt"
-
 msgid "Credit at auphonic.com: %s left"
 msgstr "Kredit di auphonic.com: tersisa %s"
 
@@ -5066,9 +5063,6 @@ msgstr "Kredit di auphonic.com: tidak diketahui"
 
 msgid "%s -- free plan"
 msgstr "%s -- paket gratis"
-
-msgid "On the free plan a Multitrack production may be at most %s long."
-msgstr "Pada paket gratis, produksi Multitrack paling lama %s."
 
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Kredit di auphonic.com: tidak diketahui -- akun tidak menjawab."
@@ -5085,8 +5079,23 @@ msgstr "  Kredit di auphonic.com: tersisa %s, dan produksi ini perlu %s -- tidak
 msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
 msgstr "  Kredit di auphonic.com: tersisa %s, cukup untuk %s yang diperlukan produksi ini."
 
-msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
-msgstr "  Pada paket gratis, produksi Multitrack paling lama %s, dan yang ini %s."
+msgid "  Account at auphonic.com: paying."
+msgstr "  Akun di auphonic.com: berbayar."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Akun di auphonic.com: gratis."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Akun di auphonic.com: tidak diketahui."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Catatan: proses tetap mencoba. auphonic.com yang memutuskan apakah produksi dimulai, dan mengatakannya jika tidak."
+
+msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Catatan: pada paket gratis, auphonic.com hanya menerima produksi Multitrack yang lebih pendek dari %s, dan yang ini %s. Proses tetap mencoba; jika auphonic.com menolak, pesannya sendiri menyusul."
+
+msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
+msgstr "Pada paket gratis, auphonic.com hanya menerima produksi Multitrack yang lebih pendek dari %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Proyek %r dari proses ini tetap terbuka -- sebelumnya tidak ada yang terbuka\n  yang bisa dibuka lagi. Hapus di pengelola proyek Resolve."

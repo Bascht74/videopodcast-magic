@@ -509,7 +509,7 @@ it is green.
 
 | Test | Green means |
 |---|---|
-| `auphonic_credit_said` | What auphonic.com has left is said, and a production it cannot carry too. |
+| `auphonic_credit_said` | The account's plan and credit are said, as hints, in the log and the box. |
 | `auphonic_jingle_cut_away` | What auphonic.com puts around the sound sent is cut from what it returns. |
 | `auphonic_key_answer_fits` | What comes back is said about the key that went out, not another. |
 | `auphonic_key_by_pipe` | The macOS key store is reached without a leak and without a prompt. |

@@ -9,8 +9,8 @@ the key named in VPM_STANDIN_WATCH came in its configuration; the key
 itself is never written. A key containing VPM_STANDIN_REFUSED is turned
 away with a 401, the way auphonic.com turns away one it does not know.
 
-What it knows is the few calls the live tests make: the presets, one
-preset by its uuid, a simple production with its settings changed and
+What it knows is the few calls the live tests make: the account, the
+presets, one preset by its uuid, a simple production with its settings changed and
 started, its state, one download, the list of productions and a delete.
 A production is finished the first time it is asked after, and the file
 it hands back is twenty seconds long, with two channels only where the
@@ -64,6 +64,13 @@ elif "-o" in args:
     uuid = between(url, "/download/", "/")
     tone(args[args.index("-o") + 1], 2 if uuid in state["two"] else 1)
     answer = None
+elif url.endswith("/api/user.json"):
+    # The fields auphonic.com answers with, the personal ones made up.
+    answer = {"status_code": 200, "data": {
+        "credits": 1.5, "recurring_credits": 0.5, "onetime_credits": 1.0,
+        "recharge_recurring_credits": 1.0, "is_paying_user": False,
+        "username": "standin", "email": "standin@example.invalid",
+        "user_id": "standin0001"}}
 elif url.endswith("/api/presets.json?minimal_data=1&limit=100"):
     answer = {"status_code": 200, "data": [
         {"preset_name": "Stand-in", "uuid": "standin0001",

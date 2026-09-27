@@ -5053,9 +5053,6 @@ msgstr "แพ็กเกจ libsecret-tools บน Debian และ Ubuntu, li
 msgid "%d min"
 msgstr "%d นาที"
 
-msgid "%d h %02d min"
-msgstr "%d ชม. %02d นาที"
-
 msgid "Credit at auphonic.com: %s left"
 msgstr "เครดิตที่ auphonic.com: เหลือ %s"
 
@@ -5064,9 +5061,6 @@ msgstr "เครดิตที่ auphonic.com: ไม่ทราบ"
 
 msgid "%s -- free plan"
 msgstr "%s -- แผนฟรี"
-
-msgid "On the free plan a Multitrack production may be at most %s long."
-msgstr "ในแผนฟรี งาน Multitrack ยาวได้ไม่เกิน %s"
 
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  เครดิตที่ auphonic.com: ไม่ทราบ -- บัญชีไม่ตอบกลับ"
@@ -5083,8 +5077,23 @@ msgstr "  เครดิตที่ auphonic.com: เหลือ %s แต่
 msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
 msgstr "  เครดิตที่ auphonic.com: เหลือ %s พอสำหรับ %s ที่งานนี้ต้องใช้"
 
-msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
-msgstr "  ในแผนฟรี งาน Multitrack ยาวได้ไม่เกิน %s แต่งานนี้ยาว %s"
+msgid "  Account at auphonic.com: paying."
+msgstr "  บัญชีที่ auphonic.com: แบบชำระเงิน"
+
+msgid "  Account at auphonic.com: free."
+msgstr "  บัญชีที่ auphonic.com: ฟรี"
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  บัญชีที่ auphonic.com: ไม่ทราบ"
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  หมายเหตุ: การรันยังคงลองต่อไป auphonic.com เป็นผู้ตัดสินว่างานจะเริ่มหรือไม่ และจะบอกหากไม่เริ่ม"
+
+msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  หมายเหตุ: ในแผนฟรี auphonic.com รับงาน Multitrack เฉพาะเมื่อสั้นกว่า %s และงานนี้ยาว %s การรันยังคงลองต่อไป หาก auphonic.com ปฏิเสธ ข้อความของมันเองจะตามมา"
+
+msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
+msgstr "ในแผนฟรี auphonic.com รับงาน Multitrack เฉพาะเมื่อสั้นกว่า %s"
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  โปรเจกต์ %r ที่การรันนี้สร้างยังคงเปิดอยู่ -- ก่อนหน้านี้ไม่มีอะไรเปิดอยู่\n  ที่จะเปิดกลับได้ ให้ลบในตัวจัดการโปรเจกต์ของ Resolve"
