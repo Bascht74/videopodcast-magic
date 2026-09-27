@@ -5098,3 +5098,15 @@ msgstr "Ce qu’il dit apparaît sous Sortie."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "le paquet libsecret-tools sous Debian et Ubuntu, libsecret sous Fedora et Arch"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Le projet %r créé par cette exécution reste ouvert -- rien n’était ouvert avant\n  qui puisse être rouvert. Supprimez-le dans le gestionnaire de projets de Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Le projet à moitié construit %r est de nouveau supprimé, %r est de nouveau ouvert."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve a interrompu le rangement : %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Attention : le projet à moitié construit %r n’a pas pu être supprimé, ou %r n’a pas\n  pu être rouvert. Faites-le dans le gestionnaire de projets de Resolve."

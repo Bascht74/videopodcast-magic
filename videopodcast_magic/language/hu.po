@@ -5089,3 +5089,15 @@ msgstr "Amit mond, a Kimenet alatt jelenik meg."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "a libsecret-tools csomag Debian és Ubuntu rendszeren, a libsecret Fedora és Arch rendszeren"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  A futás által létrehozott %r projekt nyitva marad -- előtte semmi sem volt nyitva,\n  amit újra meg lehetne nyitni. Törölje a Resolve projektkezelőjében."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  A félig felépített %r projekt ismét törölve, a(z) %r ismét nyitva van."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  A Resolve megszakította a rendrakást: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Figyelem: a félig felépített %r projektet nem sikerült törölni, vagy a(z) %r nem\n  nyílt meg újra. Kérjük, tegye meg a Resolve projektkezelőjében."

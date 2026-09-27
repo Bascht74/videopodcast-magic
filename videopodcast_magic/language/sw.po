@@ -5091,3 +5091,15 @@ msgstr "Inachosema huonekana chini ya Towe."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "kifurushi libsecret-tools kwenye Debian na Ubuntu, libsecret kwenye Fedora na Arch"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Mradi %r ulioundwa na uendeshaji huu unabaki wazi -- hapo awali hakuna kilichokuwa wazi\n  ambacho kingeweza kufunguliwa tena. Ufute katika kidhibiti cha miradi cha Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Mradi uliojengwa nusu %r umefutwa tena, %r uko wazi tena."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve ilisimamisha usafishaji: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Tahadhari: mradi uliojengwa nusu %r haukuweza kufutwa, au %r haukuweza\n  kufunguliwa tena. Tafadhali fanya hivyo katika kidhibiti cha miradi cha Resolve."

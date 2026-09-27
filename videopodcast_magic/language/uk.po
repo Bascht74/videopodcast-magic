@@ -5148,3 +5148,15 @@ msgstr "Що вона повідомляє, з'являється на вкла�
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "пакет libsecret-tools у Debian та Ubuntu, libsecret у Fedora та Arch"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Проєкт %r, створений цим запуском, лишається відкритим -- раніше не було відкрито нічого,\n  що можна відкрити знову. Видаліть його в менеджері проєктів Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Наполовину побудований проєкт %r знову видалено, %r знову відкрито."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve перервав прибирання: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Увага: наполовину побудований проєкт %r не вдалося видалити, або %r не вдалося\n  відкрити знову. Зробіть це в менеджері проєктів Resolve."

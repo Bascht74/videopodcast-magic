@@ -706,6 +706,14 @@ keine Sicherungskopie an.
   Schreiben nennt er sie. Der Datei einen Timecode geben, der zu
   den übrigen Aufnahmen passt, und noch einmal laufen lassen -- oder
   sie von Hand nach Resolve holen.
+- **Der Lauf hat beim Bauen abgebrochen, und das Projekt ist weg.**
+  Resolve hat eine Datei nicht genommen, der Lauf hat angehalten. Das
+  Projekt, das er gerade angelegt hatte, hat er gelöscht und das vorher
+  offene wieder geöffnet; beides nennt er beim Namen. Ein Projekt, das
+  es vor dem Lauf schon gab, wird nie gelöscht. War vorher nichts offen,
+  das sich wieder laden lässt -- ein frisch gestartetes Resolve --,
+  bleibt das neue Projekt offen, und der Lauf sagt es: in der
+  Projektverwaltung von Resolve löschen.
 - **Die letzten Zeilen des Laufs sagen, das Projekt sei nicht
   vollständig.** Resolve hat eine Spur abgelehnt, ist ein zweites Mal
   gefragt worden und hat wieder abgelehnt. Der Lauf hat es gesagt, als

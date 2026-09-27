@@ -5088,3 +5088,15 @@ msgstr "Wat het meldt verschijnt onder Uitvoer."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "het pakket libsecret-tools op Debian en Ubuntu, libsecret op Fedora en Arch"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Het project %r van deze run blijft open -- er stond vooraf niets open\n  dat weer geopend kon worden. Verwijder het in de projectmanager van Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Het half gebouwde project %r is weer verwijderd, %r is weer open."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve heeft het opruimen afgebroken: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Let op: het half gebouwde project %r kon niet worden verwijderd, of %r niet\n  opnieuw geopend. Doe dat in de projectmanager van Resolve."

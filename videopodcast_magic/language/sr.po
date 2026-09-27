@@ -5132,3 +5132,15 @@ msgstr "Оно што каже појављује се под Излаз."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "пакет libsecret-tools на системима Debian и Ubuntu, libsecret на системима Fedora и Arch"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Пројекат %r из овог покретања остаје отворен -- пре није било отворено ништа\n  што би могло поново да се отвори. Обришите га у Resolve-овом управљачу пројеката."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Напола изграђени пројекат %r поново је обрисан, %r је поново отворен."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve је прекинуо поспремање: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Пажња: напола изграђени пројекат %r није могао бити обрисан, или %r није\n  могао поново да се отвори. Урадите то у Resolve-овом управљачу пројеката."

@@ -5042,3 +5042,15 @@ msgstr "其输出显示在“输出”下。"
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian 和 Ubuntu 上的 libsecret-tools 软件包，Fedora 和 Arch 上的 libsecret"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  本次运行创建的项目 %r 保持打开 -- 之前没有可以重新打开的项目\n  处于打开状态。请在 Resolve 的项目管理器中删除它。"
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  已删除建了一半的项目 %r，并重新打开了 %r。"
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve 中断了清理：%s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  注意：无法删除建了一半的项目 %r，或无法重新打开 %r。\n  请在 Resolve 的项目管理器中处理。"

@@ -5180,3 +5180,15 @@ msgstr "Dak li jgħid jidher taħt \"Ħruġ\"."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "il-pakkett libsecret-tools fuq Debian u Ubuntu, libsecret fuq Fedora u Arch"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Il-proġett %r ta' din it-tħaddima jibqa' miftuħ -- qabel ma kien miftuħ xejn\n  li seta' jerġa' jinfetaħ. Ħassru fil-maniġer tal-proġetti ta' Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Il-proġett mibni bin-nofs %r tħassar mill-ġdid, %r huwa miftuħ mill-ġdid."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve waqqaf it-tindif: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Attenzjoni: il-proġett mibni bin-nofs %r ma setax jitħassar, jew %r ma setax\n  jerġa' jinfetaħ. Jekk jogħġbok agħmel dan fil-maniġer tal-proġetti ta' Resolve."

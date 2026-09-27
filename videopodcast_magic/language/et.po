@@ -5091,3 +5091,15 @@ msgstr "Teated ilmuvad vahekaardile „Väljund“."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "pakett libsecret-tools süsteemides Debian ja Ubuntu, libsecret süsteemides Fedora ja Arch"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Selle käivituse projekt %r jääb avatuks -- varem ei olnud avatud midagi,\n  mida saaks uuesti avada. Kustutage see Resolve'i projektihalduris."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Pooleldi ehitatud projekt %r on jälle kustutatud, %r on jälle avatud."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve katkestas koristamise: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Tähelepanu: pooleldi ehitatud projekti %r ei õnnestunud kustutada või %r ei\n  avanenud uuesti. Tehke seda Resolve'i projektihalduris."

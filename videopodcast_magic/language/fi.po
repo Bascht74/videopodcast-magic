@@ -5087,3 +5087,15 @@ msgstr "Sen tuloste näkyy Tuloste-välilehdellä."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "paketti libsecret-tools Debian- ja Ubuntu-järjestelmissä, libsecret Fedora- ja Arch-järjestelmissä"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Tämän ajon tekemä projekti %r jää auki -- aiemmin auki ei ollut mitään,\n  minkä voisi avata uudelleen. Poista se Resolven projektinhallinnassa."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Puoliksi rakennettu projekti %r on taas poistettu, %r on taas auki."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve keskeytti siivouksen: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Varoitus: puoliksi rakennettua projektia %r ei voitu poistaa, tai %r ei\n  auennut uudelleen. Tee se Resolven projektinhallinnassa."

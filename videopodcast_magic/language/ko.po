@@ -5043,3 +5043,15 @@ msgstr "그 메시지는 출력 탭에 표시됩니다."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian과 Ubuntu에서는 libsecret-tools 패키지, Fedora와 Arch에서는 libsecret"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  이번 실행에서 만든 프로젝트 %r은(는) 열린 채로 남습니다 -- 이전에 다시 열 수 있는\n  프로젝트가 열려 있지 않았습니다. Resolve 프로젝트 관리자에서 삭제하십시오."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  절반만 만들어진 프로젝트 %r을(를) 다시 삭제했고, %r이(가) 다시 열렸습니다."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve가 정리를 중단했습니다: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  주의: 절반만 만들어진 프로젝트 %r을(를) 삭제하지 못했거나 %r을(를) 다시\n  열지 못했습니다. Resolve 프로젝트 관리자에서 해 주십시오."

@@ -5044,3 +5044,15 @@ msgstr "Thông báo của nó hiện trong mục Đầu ra."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "gói libsecret-tools trên Debian và Ubuntu, libsecret trên Fedora và Arch"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Dự án %r do lần chạy này tạo vẫn mở -- trước đó không có gì đang mở\n  có thể mở lại. Hãy xóa nó trong trình quản lý dự án của Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Dự án dựng dở %r đã được xóa lại, %r đã được mở lại."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve đã dừng việc dọn dẹp: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Cảnh báo: không xóa được dự án dựng dở %r, hoặc không mở lại được\n  %r. Hãy làm việc đó trong trình quản lý dự án của Resolve."

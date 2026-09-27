@@ -5088,3 +5088,15 @@ msgstr "Ό,τι λέει εμφανίζεται στην Έξοδο."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "το πακέτο libsecret-tools σε Debian και Ubuntu, libsecret σε Fedora και Arch"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Το έργο %r αυτής της εκτέλεσης μένει ανοιχτό -- πριν δεν ήταν ανοιχτό τίποτα\n  που θα μπορούσε να ανοίξει ξανά. Διαγράψτε το στη διαχείριση έργων του Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Το μισοχτισμένο έργο %r διαγράφηκε ξανά, το %r είναι ξανά ανοιχτό."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Το Resolve διέκοψε το συμμάζεμα: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Προσοχή: το μισοχτισμένο έργο %r δεν μπόρεσε να διαγραφεί, ή το %r δεν\n  άνοιξε ξανά. Κάντε το στη διαχείριση έργων του Resolve."

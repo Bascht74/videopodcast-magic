@@ -5091,3 +5091,15 @@ msgstr "तो जे सांगतो ते आउटपुट खाली 
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian आणि Ubuntu वर libsecret-tools पॅकेज, Fedora आणि Arch वर libsecret"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  या रनने बनवलेला प्रकल्प %r उघडाच राहतो -- आधी असे काही उघडे नव्हते\n  जे पुन्हा उघडता येईल. तो Resolve च्या प्रोजेक्ट मॅनेजरमध्ये हटवा."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  अर्धवट बनलेला प्रकल्प %r पुन्हा हटवला, %r पुन्हा उघडा आहे."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve ने आवराआवर थांबवली: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  सावधान: अर्धवट बनलेला प्रकल्प %r हटवता आला नाही, किंवा %r पुन्हा\n  उघडता आला नाही. कृपया ते Resolve च्या प्रोजेक्ट मॅनेजरमध्ये करा."

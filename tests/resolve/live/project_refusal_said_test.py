@@ -7,7 +7,8 @@ the run told to stop: the build stops, says that nothing was created,
 makes no second project beside it and leaves the one of that name as it
 was; then the ground, that Resolve imports nothing of a file it cannot
 read; and a camera file of that kind in the handover: the build stops,
-names that file, and leaves no timeline behind.
+names that file, deletes the project it made for itself, and opens the
+test's own project again as it was.
 
 The limit: a track Resolve refuses cannot be brought about in a real
 Resolve on purpose, so that stays with project_refusal_heeded's stand-in.
@@ -158,15 +159,21 @@ try:
           said == vpm.T('Not found again after import: %s')
           % UNREADABLE_NAME,
           "it said %r" % said[:80])
-    # Only the timelines. The project the build made, and the good clip
-    # already in its pool, are the owner's question (see the report of
-    # E-331), and a judgement on them would pin today's answer.
+    # The build made that project itself, so it takes it away again:
+    # opens what was open before -- which writes the unsaved project out
+    # under its name -- and then deletes it. The list is the evidence,
+    # not what DeleteProject answered.
+    check("the project a stopped build made is deleted again",
+          second not in listed(pm) and open_now(pm) != second,
+          "%r in the project list: %s; Resolve has %r open"
+          % (second, second in listed(pm), open_now(pm)))
     now = pm.GetCurrentProject()
-    check("a refused camera file leaves no timeline behind",
-          open_now(pm) == second and now.GetTimelineCount() == 0,
-          "Resolve has %r open, the build made %r; it holds %s timelines"
-          % (open_now(pm), second,
-             now.GetTimelineCount() if now else "no"))
+    check("and the project open before the build is open again, as it was",
+          open_now(pm) == ground.name
+          and now.GetTimelineCount() == held,
+          "Resolve has %r open with %s timelines; %r held %d"
+          % (open_now(pm), now.GetTimelineCount() if now else "no",
+             ground.name, held))
 except Exception as e:
     import traceback
     traceback.print_exc()
