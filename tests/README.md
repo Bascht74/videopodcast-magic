@@ -351,6 +351,7 @@ it is green.
 | `time_marks_reach_result` | A window mark is where the run's result begins or ends, at 25 and 29.97. |
 | `time_measured_place_wins` | A camera stands where it was measured; its clock is the last resort. |
 | `time_offset_found` | Sound path and a track's own offset are told apart out of the bleed. |
+| `time_one_rate_per_file` | Every place counts a file at one rate: the nominal one, where standard. |
 | `time_one_track_aligned` | The simple path: one recording into the video files. |
 | `time_over_midnight` | Midnight is one night, not a day apart. |
 | `time_phase_late_placed` | The phase way places a file starting past half of the pair's length. |
@@ -789,7 +790,7 @@ the source, the texts and the documents as a whole.
 | `speech/` | `voice_amounts_grouped`, `voice_cue_fits_two_lines`, `voice_every_word_placed`, `voice_language_arrives`, `voice_note_translated`, `voice_words_intact`, `window_silent_hears_none`, `window_words_caught_up` |
 | `stowage/` | `run_choice_kept` |
 | `timebase/` | `run_cam_fault_no_half`, `time_camera_drift_clear`, `time_colour_own_camera`, `time_lost_end_named`, `time_marks_reach_result` |
-| `timecode/` | `time_all_ways_agree`, `time_bext_at_own_rate`, `time_clock_read_at_rate`, `time_clock_track_first`, `time_drop_label_kept`, `time_length_is_in_to_out`, `time_over_midnight` |
+| `timecode/` | `time_all_ways_agree`, `time_bext_at_own_rate`, `time_clock_read_at_rate`, `time_clock_track_first`, `time_drop_label_kept`, `time_length_is_in_to_out`, `time_one_rate_per_file`, `time_over_midnight` |
 | `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_pair_named_alike`, `table_pair_seats_apart`, `table_sync_stem_shown`, `table_tick_keeps_camera`, `table_typed_name_stays`, `window_all_come_up`, `window_answers_arrive`, `window_bare_start_stands`, `window_captions_fit`, `window_captions_langs1`, `window_captions_langs2`, `window_captions_langs3`, `window_captions_langs4`, `window_captions_langs5`, `window_captions_langs6`, `window_captions_langs7`, `window_captions_langs8`, `window_crash_said`, `window_grey_says_why`, `window_handover_follows`, `window_handover_found`, `window_key_off_line`, `window_marks_moved_grey`, `window_marks_take_spot`, `window_offers_restart`, `window_pair_said_apart`, `window_point_named`, `window_project_type_set`, `window_run_handover_kept`, `window_setup_kept_apart`, `window_sheets_fit`, `window_sound_sync_fixed`, `window_stands_still`, `window_symbol_from_file`, `window_title_follows`, `window_tracks_seen_anew`, `window_voice_audio_heard`, `window_zero_as_run` |
 | `upkeep/` | `run_only_newer_offered`, `run_update_says_it_landed`, `run_way_back_offered` |
 

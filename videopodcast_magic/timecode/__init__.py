@@ -306,21 +306,43 @@ def clocks_apart(spans):
                 if alone(i, a, n, placed)), moved, placed)
 
 
+# The rates a camera is built to run at. A container naming one of these
+# means it; any other figure it names may be a timebase, not a format.
+STANDARD_FRAME_RATES = (23.976, 24.0, 25.0, 29.97, 30.0, 50.0, 59.94, 60.0)
+
+
+def stream_frame_rate(v):
+    """The frame rate one video stream of an ffprobe answer runs at, or None.
+
+    The one rule for every place that reads a rate. The nominal rate
+    (r_frame_rate) where it is a standard one, within a thousandth; else
+    the mean over the file (avg_frame_rate). A phone recording with a
+    variable rate says 30 and averages 29.99 or, in low light, 24: its
+    timecode track counts at 30, and so does an editor.
+    """
+    def fraction(key):
+        """One of ffprobe's fractions as a number; None where it names none."""
+        parts = str((v or {}).get(key) or "").split("/")
+        if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit() \
+                and int(parts[0]) and int(parts[1]):
+            return int(parts[0]) / float(int(parts[1]))
+        return None
+
+    nominal, mean = fraction("r_frame_rate"), fraction("avg_frame_rate")
+    if nominal and any(abs(nominal - r) <= r * 0.001
+                       for r in STANDARD_FRAME_RATES):
+        return nominal
+    return mean or nominal
+
+
 def picture_rate(probed):
     """The frame rate of the picture in an ffprobe answer, or nothing.
 
-    ffprobe writes it as a fraction, '30000/1001' for 29.97. The mean
-    over the file comes first -- frames over duration, always real; the
-    nominal rate is what the container claims, a timebase in odd files.
+    ffprobe writes it as a fraction, '30000/1001' for 29.97; which of its
+    two figures counts is stream_frame_rate's.
     """
-    v = next((s for s in probed.get("streams", ())
-              if s.get("codec_type") == "video"), None)
-    for key in ("avg_frame_rate", "r_frame_rate"):
-        parts = str((v or {}).get(key) or "").split("/")
-        if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit():
-            if int(parts[0]) and int(parts[1]):
-                return int(parts[0]) / float(int(parts[1]))
-    return None
+    return stream_frame_rate(next((s for s in probed.get("streams", ())
+                                   if s.get("codec_type") == "video"), None))
 
 
 def file_timecode(path, fps=None):

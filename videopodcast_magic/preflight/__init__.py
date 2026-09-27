@@ -398,7 +398,7 @@ def inspect_frame_rate(file_path):
         except Exception:
             return 0.0
 
-    label_text = rate("r_frame_rate") or rate("avg_frame_rate")
+    label_text = PROGRAM.stream_frame_rate(v) or 0.0
     duration = float(d.get("format", {}).get("duration")
                   or v.get("duration") or 0.0)
     try:

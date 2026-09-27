@@ -115,7 +115,7 @@ figure of the day is that command, not this paragraph**:
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
   looks one up
-* `timecode/` **350** -- timecode strings, frame rates, the clock a file
+* `timecode/` **372** -- timecode strings, frame rates, the clock a file
   carries
 * `filesheet/` **458** -- the first tab: the drop area or the file
   list with its channel rows and findings, the video choices, and the
@@ -124,7 +124,7 @@ figure of the day is that command, not this paragraph**:
   the time window beside the preview player, and which audio runs under
   a camera; the table itself is `assignmenttable/`
 * `menus/` **238** -- the menu bar and what follows it
-* `workbench/` **235** -- what more than one piece reaches over for:
+* `workbench/` **223** -- what more than one piece reaches over for:
   numbers as words, a channel count, one tool run, two recordings in
   step, what a video file says of itself, and the four the way in used
   itself
