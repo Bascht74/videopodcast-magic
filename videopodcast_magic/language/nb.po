@@ -5087,3 +5087,39 @@ msgstr "Det den sier, vises under Utdata."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "pakken libsecret-tools på Debian og Ubuntu, libsecret på Fedora og Arch"
+
+msgid "%d min"
+msgstr "%d min"
+
+msgid "%d h %02d min"
+msgstr "%d t %02d min"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Kreditt hos auphonic.com: %s igjen"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Kreditt hos auphonic.com: ukjent"
+
+msgid "%s -- free plan"
+msgstr "%s -- gratisabonnement"
+
+msgid "On the free plan a Multitrack production may be at most %s long."
+msgstr "Med gratisabonnement kan en Multitrack-produksjon vare høyst %s."
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Kreditt hos auphonic.com: ukjent -- kontoen svarte ikke."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Kreditt hos auphonic.com: ukjent."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Kreditt hos auphonic.com: %s igjen."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Kreditt hos auphonic.com: %s igjen, og denne produksjonen trenger %s -- ikke nok."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Kreditt hos auphonic.com: %s igjen, nok til de %s denne produksjonen trenger."
+
+msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
+msgstr "  Med gratisabonnement kan en Multitrack-produksjon vare høyst %s, og denne varer %s."

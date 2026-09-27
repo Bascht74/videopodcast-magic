@@ -109,28 +109,31 @@ skip turns the run red.
 
 ---
 
-## The Auphonic key: what shuts the file is not the same everywhere
+## The Auphonic key: no file holds it, because no file shut it everywhere
 
-One file holds it, for the length of one call: the config file curl
-reads it from, so that it is never in the process list. **What shuts
-that file is not the same on every system, and saying "mode 0600" for
-all three was untrue.** Measured on 31.8.2026:
+**curl reads the key from its input (`--config -`), and no file holds
+it at any moment.** Measured 27.9.2026 with curl 7.86 and 8.7.1 against
+a local server: the header arrives, and during every call the temporary
+folder holds no file with the key in it -- where the old way left one in
+three calls out of three. Windows and Linux were read, not measured:
+`--config -` is the same option in their curl.
+
+**Why the file went.** Until b28 one file held the key for the length
+of one call, the config file curl read it from, so that it was never in
+the process list. **What shut that file was not the same on every
+system, and saying "mode 0600" for all three was untrue.** Measured on
+31.8.2026:
 
 * **macOS and Linux** -- mode 0600, the owner and nobody else.
 * **Windows** -- `os.chmod` sets only the read-only flag there and
-  `st_mode` answers 0666, so the mode shuts nothing. What shuts it is
+  `st_mode` answers 0666, so the mode shut nothing. What shut it was
   the folder: `%TEMP%` lies inside the user's profile and inherits its
-  access list. The program does not set that list and does not check it.
+  access list. The program did not set that list and did not check it.
 
-Two guards hold everywhere and are the program's own doing: the name is
-unpredictable (`mkstemp`, never a fixed path), and the file lives only
-as long as the call -- removed on every path, and overwritten first
-where it cannot be removed.
-
-Whoever tightens this on Windows sets an access list of its own
-(`icacls`, pywin32) and writes the third bullet again. **Until then the
-rule promises less there, and says so rather than claiming a mode it
-does not have.**
+The rule then promised less on Windows and said so. CodeQL called the
+same file the key stored in clear text, and it was right: a file lies
+on the disc, however briefly and however it is shut. The input needs no
+access list, no mode and no clean-up, and it is the same on all three.
 
 ---
 

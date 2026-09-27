@@ -49,11 +49,11 @@ gesucht wird, wo er liegt. Nach **Verbinden** ist es der Schlüssel aus
 dem Feld, und die Zeile sagt nur noch, was auphonic.com geantwortet hat.
 
 * Auf dem Weg zu auphonic.com steht der Schlüssel nie in der
-  Prozessliste: curl liest ihn aus einer Konfigurationsdatei, die nur
-  ihrem Eigentümer lesbar ist. Das Programm löscht die Datei danach und
-  überschreibt sie vorher, wenn sie sich nicht löschen lässt. Der
-  Schlüssel geht maskiert hinein, damit ein Anführungszeichen oder ein
-  Zeilenumbruch darin keine eigenen Direktiven anfügen kann.
+  Prozessliste und liegt nie in einer Datei: curl liest ihn von seiner
+  Eingabe, als einzige Zeile seiner Konfiguration, und diese Eingabe
+  sieht sonst niemand am Rechner. Der Schlüssel geht maskiert in diese
+  Zeile, damit ein Anführungszeichen oder ein Zeilenumbruch darin keine
+  eigenen Direktiven anfügen kann.
 
 Das Ablegen im macOS-Schlüsselbund übergibt ihn dem Programm `security`
 über dessen Eingabe, nicht als Argument; auch auf diesem Weg steht er
@@ -91,6 +91,16 @@ Auf dem Reiter **Zuordnung & Zeitfenster** steht im Kasten
 **Aufbereitung bei auphonic.com (optional)**, was dieser Lauf tut: das
 Preset unter **Preset:** (auf der Kommandozeile `--auphonic-preset`).
 Aus diesem Preset baut das Programm die Produktion neu.
+
+Ist der Schlüssel geprüft, zeigt eine Zeile unter dem Preset das
+restliche Guthaben bei auphonic.com und sagt es, wenn das Konto im
+kostenlosen Tarif ist. Im Multitrack-Modus erinnert sie in der Farbe
+einer Warnung daran, dass eine kostenlose Multitrack-Produktion höchstens
+20 Minuten dauern darf. Das Konto wird zusammen mit den Presets gefragt
+und sonst nie. Vor jedem Hochladen sagt das Protokoll, ob das Guthaben
+für diese Produktion reicht, und warnt, wenn eine kostenlose
+Multitrack-Produktion länger als 20 Minuten ist. Es warnt nur: der Lauf
+geht weiter, und das letzte Wort hat auphonic.com.
 
 Das Häkchen **Multitrack (je Sprecher eine Spur)** steht nicht im
 Auphonic-Kasten und braucht keinen Schlüssel. Es entscheidet hier, ob

@@ -260,9 +260,9 @@ try:
           quiet(summary[0] if summary else "no summary line"))
 
     print("\n4. The key it was given")
-    check("the key reached curl in its own file",
+    check("the key reached curl on its input",
           any(c["key_in_config"] for c in seen),
-          "%d of %d calls had it in the file"
+          "%d of %d calls had it on their input"
           % (len([c for c in seen if c["key_in_config"]]), len(seen)))
     in_args = [c["args"] for c in seen if any(KEY in a for a in c["args"])]
     check("the key stands in no argument curl was handed", not in_args,

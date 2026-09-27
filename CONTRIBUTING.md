@@ -207,8 +207,8 @@ a workstation.
 
 **The Auphonic API key never goes into a file, a script, a document or
 a command line.** It lives in the macOS Keychain or the Windows
-Registry, and reaches curl through a temporary config file with mode
-0600 so that it is never in the process list. A patch that puts it
+Registry, and reaches curl on its input (`--config -`), so that it is
+never in the process list and never in a file. A patch that puts it
 anywhere else will not be taken.
 
 **The program never uploads to auphonic.com on its own** — only when

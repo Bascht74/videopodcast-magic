@@ -5135,3 +5135,39 @@ msgstr "Pranešimai rodomi kortelėje „Išvestis“."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "paketas libsecret-tools sistemose Debian ir Ubuntu, libsecret sistemose Fedora ir Arch"
+
+msgid "%d min"
+msgstr "%d min"
+
+msgid "%d h %02d min"
+msgstr "%d val. %02d min"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Kreditas auphonic.com: liko %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Kreditas auphonic.com: nežinomas"
+
+msgid "%s -- free plan"
+msgstr "%s -- nemokamas planas"
+
+msgid "On the free plan a Multitrack production may be at most %s long."
+msgstr "Nemokamame plane Multitrack produkcija gali trukti ne ilgiau kaip %s."
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Kreditas auphonic.com: nežinomas -- paskyra neatsakė."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Kreditas auphonic.com: nežinomas."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Kreditas auphonic.com: liko %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Kreditas auphonic.com: liko %s, o šiai produkcijai reikia %s -- nepakanka."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Kreditas auphonic.com: liko %s, pakanka šiai produkcijai reikalingoms %s."
+
+msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
+msgstr "  Nemokamame plane Multitrack produkcija gali trukti ne ilgiau kaip %s, o ši trunka %s."

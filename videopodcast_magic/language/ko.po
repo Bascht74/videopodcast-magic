@@ -5043,3 +5043,39 @@ msgstr "그 메시지는 출력 탭에 표시됩니다."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian과 Ubuntu에서는 libsecret-tools 패키지, Fedora와 Arch에서는 libsecret"
+
+msgid "%d min"
+msgstr "%d분"
+
+msgid "%d h %02d min"
+msgstr "%d시간 %02d분"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "auphonic.com 크레딧: %s 남음"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "auphonic.com 크레딧: 알 수 없음"
+
+msgid "%s -- free plan"
+msgstr "%s -- 무료 요금제"
+
+msgid "On the free plan a Multitrack production may be at most %s long."
+msgstr "무료 요금제에서 Multitrack 프로덕션은 최대 %s까지입니다."
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  auphonic.com 크레딧: 알 수 없음 -- 계정이 응답하지 않았습니다."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  auphonic.com 크레딧: 알 수 없음."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  auphonic.com 크레딧: %s 남음."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  auphonic.com 크레딧: %s 남음, 이 프로덕션에는 %s 필요 -- 부족합니다."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  auphonic.com 크레딧: %s 남음, 이 프로덕션에 필요한 %s에 충분합니다."
+
+msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
+msgstr "  무료 요금제에서 Multitrack 프로덕션은 최대 %s까지인데, 이것은 %s입니다."

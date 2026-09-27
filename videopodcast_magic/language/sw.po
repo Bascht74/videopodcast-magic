@@ -5091,3 +5091,39 @@ msgstr "Inachosema huonekana chini ya Towe."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "kifurushi libsecret-tools kwenye Debian na Ubuntu, libsecret kwenye Fedora na Arch"
+
+msgid "%d min"
+msgstr "dak %d"
+
+msgid "%d h %02d min"
+msgstr "saa %d dak %02d"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Salio kwenye auphonic.com: zimebaki %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Salio kwenye auphonic.com: haijulikani"
+
+msgid "%s -- free plan"
+msgstr "%s -- mpango wa bure"
+
+msgid "On the free plan a Multitrack production may be at most %s long."
+msgstr "Katika mpango wa bure uzalishaji wa Multitrack unaweza kudumu %s zaidi."
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Salio kwenye auphonic.com: haijulikani -- akaunti haikujibu."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Salio kwenye auphonic.com: haijulikani."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Salio kwenye auphonic.com: zimebaki %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Salio kwenye auphonic.com: zimebaki %s, na uzalishaji huu unahitaji %s -- haitoshi."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Salio kwenye auphonic.com: zimebaki %s, zinatosha kwa %s zinazohitajika na uzalishaji huu."
+
+msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
+msgstr "  Katika mpango wa bure uzalishaji wa Multitrack unaweza kudumu %s zaidi, na huu ni %s."

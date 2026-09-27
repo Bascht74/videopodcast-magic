@@ -65,7 +65,7 @@ figure of the day is that command, not this paragraph**:
   camera's drift goes out is `camera_drift`'s alone, by the rule every
   recording answers to (`drift_clear`: three times its uncertainty)
   and one bound of its own, 500 ppm
-* `auphonic/` **1889** -- the sending to auphonic.com and the fetching
+* `auphonic/` **2048** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
 * `preflight/` **1824** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
@@ -990,20 +990,28 @@ each through its own address (`.../multi_input_files/<Name>.json`).
 
 ## How the key reaches curl
 
-The key reaches curl through a temporary config file. `mkstemp` creates
-that file readable by its owner alone, and a `chmod` to `0600` says so
-again for the reader. On Windows the `chmod` only toggles the read-only
-bit, and the protection there comes from the temporary directory. The
-file holds one line, `header = "Authorization: bearer <key>"`, and the
-key goes in escaped. Backslash and quotation mark get a backslash;
-carriage return and line feed are dropped. curl reads this file as
-configuration. Without that escaping a quotation mark or a line break
-inside the key would start a directive of its own.
+The key reaches curl on its input, never through a file. `_curl_call`
+starts curl with `--config -`, which makes curl read its configuration
+from its input, and writes one line there, built by `curl_config`:
+`header = "Authorization: bearer <key>"`, with the key escaped.
+Backslash and quotation mark get a backslash; carriage return and line
+feed are dropped. Without that escaping a quotation mark or a line
+break inside the key would start a directive of its own. The quiet
+call hands the line over as `input=`; a transfer with a bar writes it
+into the pipe and closes it before reading curl's progress, so curl
+never waits for more. Measured 27.9.2026 with curl 7.86 and 8.7.1: the
+header arrives, and no file in the temporary folder holds the key at
+any moment of a call. `--config -` is the same option in the curl.exe
+of Windows 10 and later and on Linux; read, not measured there.
 
-The file is removed in a `finally`, whatever happened. If it cannot be
-removed it is overwritten with a single line first, so a file left
-behind no longer holds the key. A failure to remove it never replaces
-the real error.
+Until b28 the line stood in a `mkstemp` file of mode 0600 for the
+length of the call. What shut that file was not the same on every
+system (`decisions.md`), and a scanner rightly called it the key in
+clear text on disc. The input shuts it everywhere alike.
+
+Only the answer of a transfer still goes through a file, because an
+unread pipe fills up and stalls curl. It holds what auphonic.com sent,
+never the key, and is removed in a `finally` whatever happened.
 
 ## Track names and the MOV target
 

@@ -5089,3 +5089,39 @@ msgstr "Amit mond, a Kimenet alatt jelenik meg."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "a libsecret-tools csomag Debian és Ubuntu rendszeren, a libsecret Fedora és Arch rendszeren"
+
+msgid "%d min"
+msgstr "%d perc"
+
+msgid "%d h %02d min"
+msgstr "%d óra %02d perc"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Kredit az auphonic.com-on: %s maradt"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Kredit az auphonic.com-on: ismeretlen"
+
+msgid "%s -- free plan"
+msgstr "%s -- ingyenes csomag"
+
+msgid "On the free plan a Multitrack production may be at most %s long."
+msgstr "Az ingyenes csomagban egy Multitrack produkció legfeljebb %s hosszú lehet."
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Kredit az auphonic.com-on: ismeretlen -- a fiók nem válaszolt."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Kredit az auphonic.com-on: ismeretlen."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Kredit az auphonic.com-on: %s maradt."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Kredit az auphonic.com-on: %s maradt, ennek a produkciónak %s kell -- nem elég."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Kredit az auphonic.com-on: %s maradt, elég a produkcióhoz szükséges %s időre."
+
+msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
+msgstr "  Az ingyenes csomagban egy Multitrack produkció legfeljebb %s hosszú lehet, ez pedig %s."
