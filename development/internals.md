@@ -50,16 +50,16 @@ figure of the day is that command, not this paragraph**:
   reach it named, out of `speakers/`
 * `resolve/` **2430** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
-* `material/` **2017** -- channels, chains, continuation files, and what
+* `material/` **2009** -- channels, chains, continuation files, and what
   a track is made of
 * `loudness/` **480** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
-* `bearings/` **2182** -- where each file and each voice sits, and how
+* `bearings/` **2213** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2062** -- the time base and the camera files: every
+* `timebase/` **2096** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
@@ -74,7 +74,7 @@ figure of the day is that command, not this paragraph**:
   keeping the key, and storing it from the terminal
 * `speech/` **1422** -- what is said and when, and what is written down
   from it
-* `hearing/` **1117** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1322** -- decoding, envelopes, bands, phase, aligning
   audio to video
 * `fittings/` **1320** -- helpers that shape what the window shows and
   hold none of its state
