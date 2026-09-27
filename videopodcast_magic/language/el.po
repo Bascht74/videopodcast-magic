@@ -5076,3 +5076,15 @@ msgstr "η παραγωγή ολοκληρώθηκε, αλλά το αποτέλ
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "λήφθηκε από τα αρχεία προέλευσης, --lufs source -- τίποτα δεν προσαρμόζεται"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Το κλειδί φυλάσσεται στην κλειδοθήκη της επιφάνειας εργασίας μέσω της εντολής secret-tool, και αυτός ο υπολογιστής δεν την έχει."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Αυτός ο υπολογιστής δεν έχει την εντολή secret-tool, που φυλάσσει το κλειδί στην κλειδοθήκη της επιφάνειας εργασίας, οπότε δεν αποθηκεύτηκε τίποτα. Χειροκίνητα: %s"
+
+msgid "What it says appears under Output."
+msgstr "Ό,τι λέει εμφανίζεται στην Έξοδο."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "το πακέτο libsecret-tools σε Debian και Ubuntu, libsecret σε Fedora και Arch"

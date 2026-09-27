@@ -5078,3 +5078,15 @@ msgstr "ההפקה הסתיימה, אך לתוצאה שלה אין שם קובץ
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "נלקח מקובצי המקור, --lufs source -- דבר אינו מכוונן"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "המפתח נשמר במחזיק המפתחות של שולחן העבודה באמצעות הפקודה secret-tool, ולמחשב הזה אין אותה."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "למחשב הזה אין secret-tool, ששומר את המפתח במחזיק המפתחות של שולחן העבודה, ולכן לא נשמר דבר. ידנית: %s"
+
+msgid "What it says appears under Output."
+msgstr "מה שהוא מדווח מופיע בכרטיסייה \"פלט\"."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "החבילה libsecret-tools ב-Debian וב-Ubuntu, libsecret ב-Fedora וב-Arch"

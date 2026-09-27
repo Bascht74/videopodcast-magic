@@ -5034,3 +5034,15 @@ msgstr "โปรดักชันเสร็จแล้ว แต่ผล�
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "นำมาจากไฟล์ต้นฉบับ --lufs source -- ไม่มีการปรับใดๆ"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "คีย์จะเก็บไว้ในพวงกุญแจของเดสก์ท็อปผ่านคำสั่ง secret-tool และเครื่องนี้ไม่มีคำสั่งนั้น"
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "เครื่องนี้ไม่มี secret-tool ซึ่งใช้เก็บคีย์ไว้ในพวงกุญแจของเดสก์ท็อป จึงไม่ได้เก็บอะไรไว้ ด้วยตนเอง: %s"
+
+msgid "What it says appears under Output."
+msgstr "ข้อความจากกระบวนการจะแสดงในแท็บเอาต์พุต"
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "แพ็กเกจ libsecret-tools บน Debian และ Ubuntu, libsecret บน Fedora และ Arch"

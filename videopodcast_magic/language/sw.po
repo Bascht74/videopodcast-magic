@@ -5079,3 +5079,15 @@ msgstr "utayarishaji umekamilika, lakini tokeo lake halina jina la kawaida la fa
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "imechukuliwa kutoka faili chanzo, --lufs source -- hakuna kinachorekebishwa"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Ufunguo huhifadhiwa kwenye keyring ya eneo-kazi kupitia amri ya secret-tool, na mashine hii haina amri hiyo."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Mashine hii haina secret-tool, inayohifadhi ufunguo kwenye keyring ya eneo-kazi, kwa hiyo hakuna kilichohifadhiwa. Kwa mkono: %s"
+
+msgid "What it says appears under Output."
+msgstr "Inachosema huonekana chini ya Towe."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "kifurushi libsecret-tools kwenye Debian na Ubuntu, libsecret kwenye Fedora na Arch"

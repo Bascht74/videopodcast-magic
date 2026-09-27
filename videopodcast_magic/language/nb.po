@@ -5075,3 +5075,15 @@ msgstr "produksjonen er ferdig, men resultatet har ikke et enkelt filnavn"
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "tatt fra kildefilene, --lufs source -- ingenting justeres"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Nøkkelen ligger i skrivebordets nøkkelring via kommandoen secret-tool, og den har ikke denne maskinen."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Denne maskinen har ikke secret-tool, som legger nøkkelen i skrivebordets nøkkelring, så ingenting ble lagret. For hånd: %s"
+
+msgid "What it says appears under Output."
+msgstr "Det den sier, vises under Utdata."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "pakken libsecret-tools på Debian og Ubuntu, libsecret på Fedora og Arch"

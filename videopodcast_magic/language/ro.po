@@ -5120,3 +5120,15 @@ msgstr "producție încheiată, dar rezultatul ei nu are un nume simplu de fiși
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "preluat din fișierele sursă, --lufs source -- nu se ajustează nimic"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Cheia e păstrată în portcheiul desktopului prin comanda secret-tool, iar acest calculator nu o are."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Acest calculator nu are secret-tool, care păstrează cheia în portcheiul desktopului, așa că nu s-a păstrat nimic. Manual: %s"
+
+msgid "What it says appears under Output."
+msgstr "Ce spune apare sub Ieșire."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "pachetul libsecret-tools pe Debian și Ubuntu, libsecret pe Fedora și Arch"

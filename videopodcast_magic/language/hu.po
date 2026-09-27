@@ -5077,3 +5077,15 @@ msgstr "a produkció befejeződött, de az eredményének nincs egyszerű fájln
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "a forrásfájlokból átvéve, --lufs source -- semmi sincs állítva"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "A kulcs az asztali környezet kulcstartójában van, a secret-tool parancson keresztül, és ezen a gépen ez a parancs nincs meg."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Ezen a gépen nincs secret-tool, amely a kulcsot az asztali környezet kulcstartójában tárolja, ezért semmi sem lett eltárolva. Kézzel: %s"
+
+msgid "What it says appears under Output."
+msgstr "Amit mond, a Kimenet alatt jelenik meg."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "a libsecret-tools csomag Debian és Ubuntu rendszeren, a libsecret Fedora és Arch rendszeren"

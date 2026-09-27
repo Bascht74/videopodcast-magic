@@ -5077,3 +5077,15 @@ msgstr "প্রোডাকশন শেষ, কিন্তু এর ফল�
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "উৎস ফাইল থেকে নেওয়া, --lufs source -- কিছুই সমন্বয় করা হয় না"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "কী-টি secret-tool কমান্ডের মাধ্যমে ডেস্কটপের কী-রিংয়ে রাখা হয়, আর এই কম্পিউটারে সেটি নেই।"
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "এই কম্পিউটারে secret-tool নেই, যা কী-টি ডেস্কটপের কী-রিংয়ে রাখে, তাই কিছুই রাখা হয়নি। নিজে হাতে: %s"
+
+msgid "What it says appears under Output."
+msgstr "এটি যা বলে তা আউটপুট-এর নিচে দেখা যায়।"
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "Debian ও Ubuntu-তে libsecret-tools প্যাকেজ, Fedora ও Arch-এ libsecret"

@@ -5086,3 +5086,15 @@ msgstr "production terminée, mais son résultat n’a pas de simple nom de fich
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "repris des fichiers source, --lufs source -- rien n’est ajusté"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "La clé est gardée dans le trousseau du bureau par la commande secret-tool, et cette machine ne l’a pas."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Cette machine n’a pas secret-tool, qui garde la clé dans le trousseau du bureau, donc rien n’a été conservé. À la main : %s"
+
+msgid "What it says appears under Output."
+msgstr "Ce qu’il dit apparaît sous Sortie."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "le paquet libsecret-tools sous Debian et Ubuntu, libsecret sous Fedora et Arch"

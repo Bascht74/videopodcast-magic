@@ -5259,3 +5259,15 @@ msgstr "انتهى الإنتاج، ولكن نتيجته ليس لها اسم �
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "مأخوذ من ملفات المصدر، --lufs source -- لا يُعدَّل شيء"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "يُحفظ المفتاح في سلسلة مفاتيح سطح المكتب عبر الأمر secret-tool، وهذا الجهاز لا يملكه."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "لا يوجد secret-tool على هذا الجهاز، وهو الذي يحفظ المفتاح في سلسلة مفاتيح سطح المكتب، لذلك لم يُحفظ شيء. يدويًا: %s"
+
+msgid "What it says appears under Output."
+msgstr "ما يقوله يظهر تحت الإخراج."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "الحزمة libsecret-tools على Debian وUbuntu، وlibsecret على Fedora وArch"

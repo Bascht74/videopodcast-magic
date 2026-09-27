@@ -5215,3 +5215,15 @@ msgstr "léiriúchán críochnaithe, ach níl gnáthainm comhaid ar a thoradh"
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "tógtha ó na comhaid foinse, --lufs source -- ní choigeartaítear aon rud"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Coinnítear an eochair i bhfáinne eochracha an deisce tríd an ordú secret-tool, agus níl sé ar an ríomhaire seo."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Níl secret-tool ar an ríomhaire seo, a choinníonn an eochair i bhfáinne eochracha an deisce, mar sin níor stóráladh aon rud. De láimh: %s"
+
+msgid "What it says appears under Output."
+msgstr "Feictear faoi Aschur a n-insíonn sé."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "an pacáiste libsecret-tools ar Debian agus Ubuntu, libsecret ar Fedora agus Arch"

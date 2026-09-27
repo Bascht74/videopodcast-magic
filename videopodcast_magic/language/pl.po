@@ -5120,3 +5120,15 @@ msgstr "produkcja zakończona, ale jej wynik nie ma zwykłej nazwy pliku"
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "przejęte z plików źródłowych, --lufs source -- nic nie jest dostosowywane"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Klucz jest przechowywany w pęku kluczy pulpitu przez polecenie secret-tool, a ten komputer go nie ma."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Ten komputer nie ma polecenia secret-tool, które przechowuje klucz w pęku kluczy pulpitu, więc nic nie zostało zapisane. Ręcznie: %s"
+
+msgid "What it says appears under Output."
+msgstr "Komunikaty pojawiają się w zakładce Wyjście."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "pakiet libsecret-tools w systemach Debian i Ubuntu, libsecret w systemach Fedora i Arch"
