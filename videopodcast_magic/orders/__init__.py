@@ -454,6 +454,21 @@ class SoundOf(argparse.Action):
                 list(getattr(space, self.dest, None) or []) + [list(words)])
 
 
+def time_values_joined(argv):
+    """argv with a word after --in-point or --out-point kept as its value.
+
+    Before Python 3.14 argparse takes "-0:00:20" for a switch of its
+    own and stops the run; joined as "--out-point=-0:00:20" it is read
+    as the time it is, on every version.
+    """
+    out = list(argv)
+    for i in range(len(out) - 2, -1, -1):
+        if out[i] in ("--in-point", "--out-point") \
+                and out[i + 1].startswith("-"):
+            out[i:i + 2] = ["%s=%s" % (out[i], out[i + 1])]
+    return out
+
+
 def build_argument_parser():
     """Define all command line switches."""
     ap = argparse.ArgumentParser(

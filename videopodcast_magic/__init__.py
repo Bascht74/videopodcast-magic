@@ -455,7 +455,7 @@ def main():
         build_argument_parser().parse_args()
         return 0
     ap = build_argument_parser()
-    args = ap.parse_args()
+    args = ap.parse_args(time_values_joined(sys.argv[1:]))
     # Before the first sentence is made, not before the first is
     # printed: the ffmpeg complaint below is written here and shown
     # much later. Only where one was typed, or the kept one is lost.
@@ -812,6 +812,7 @@ orders = beside("orders", program=PROGRAM)
 take_from(orders)
 
 build_argument_parser = orders.build_argument_parser
+time_values_joined = orders.time_values_joined
 cameras_shown_as = orders.cameras_shown_as
 
 
