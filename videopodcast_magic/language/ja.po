@@ -2318,9 +2318,6 @@ msgstr "  共通の枠：  %s から %s（%s）"
 msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
 msgstr "    %s で始まり %s で終わる -- すべてのカメラが捉えた区間"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  （計測のみ: API キーがないのでここで止まります）"
-
 msgid "\nMIXING"
 msgstr "\nミックス"
 
@@ -5110,3 +5107,12 @@ msgstr "  %s: 時計は %s、音声の測定では %s -- 差は %s 秒。測定�
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s は2台のカメラに割り当てられています: トラックでは %s、声では %s。声が優先されるため、カットは %s を %s にのみ映します。"
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  このマシンに保存された計測から取得しました: ファイルと設定が同じなので、再計測はしていません。"
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\n話者 -- 以前に計測"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  このマシンに保存された計測から取得しました: 録音、位置、時間範囲が同じです。"

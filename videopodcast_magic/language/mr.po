@@ -599,9 +599,6 @@ msgstr "ही फाइल आवृत्ती %s ने फॉरमॅट %
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (फक्त मोजमाप: काहीही लिहिले नाही)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (फक्त मोजमाप: API किल्लीशिवाय हे इथे थांबते)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  गळतीवरून तपासणी -- संदर्भ %s आहे:"
 
@@ -5157,3 +5154,12 @@ msgstr "  %s: त्याचे घड्याळ सांगते %s, ध�
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s दोन कॅमेऱ्यांवर आहे: ट्रॅकनुसार %s, आवाजानुसार %s. आवाज ग्राह्य धरला जातो, म्हणून कट %s ला फक्त %s वर दाखवतो."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  या संगणकावर ठेवलेल्या मोजमापातून घेतले: त्याच फाइल्स आणि सेटिंग्ज, म्हणून काहीही पुन्हा मोजले जात नाही."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nवक्ते -- आधी मोजलेले"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  या संगणकावर ठेवलेल्या मोजमापातून घेतले: तीच रेकॉर्डिंग्ज, स्थाने आणि वेळ-खिडकी."

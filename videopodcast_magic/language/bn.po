@@ -573,9 +573,6 @@ msgstr "এই ফাইলটি সংস্করণ %s দিয়ে ফ�
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (শুধু মাপা: কিছু লেখা হয়নি)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (শুধু মাপা: API কী ছাড়া এখানেই থামে)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  ব্লিডের সঙ্গে যাচাই -- রেফারেন্স হলো %s:"
 
@@ -5155,3 +5152,12 @@ msgstr "  %s: এর ঘড়ি বলে %s, শব্দ মেপেছে 
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s দুটি ক্যামেরায় আছেন: ট্র্যাক অনুযায়ী %s, কণ্ঠস্বর অনুযায়ী %s। কণ্ঠস্বরই প্রাধান্য পায়, তাই কাট %s-কে শুধু %s-এ দেখায়।"
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  এই কম্পিউটারে রাখা মাপ থেকে নেওয়া: একই ফাইল ও সেটিংস, তাই নতুন করে কিছু মাপা হয় না।"
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nবক্তারা -- আগে মাপা"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  এই কম্পিউটারে রাখা মাপ থেকে নেওয়া: একই রেকর্ডিং, অবস্থান ও সময়-পরিসর।"

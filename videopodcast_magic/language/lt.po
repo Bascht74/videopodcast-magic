@@ -600,9 +600,6 @@ msgstr "Šį failą įrašė versija %s formatu %d; ši versija rašo formatu %d
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (tik matavimas: nieko neįrašyta)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (tik matavimas: be API rakto čia sustojama)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Patikra pagal garso nuotėkį -- atskaitos takelis %s:"
 
@@ -5201,3 +5198,12 @@ msgstr "  %s: jo laikrodis rodo %s, garsas išmatavo %s -- skirtumas %s s; naudo
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s yra dviejose kamerose: %s pagal takelį, %s pagal balsą. Pirmenybė teikiama balsui, todėl montažas rodo %s tik kameroje %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Paimta iš šiame kompiuteryje laikomo matavimo: tie patys failai ir nustatymai, todėl niekas nematuojama iš naujo."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nKALBĖTOJAI -- IŠMATUOTA ANKSČIAU"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Paimta iš šiame kompiuteryje laikomo matavimo: tie patys įrašai, vietos ir laiko langas."

@@ -601,9 +601,6 @@ msgstr "Dan il-fajl inkiteb mill-verżjoni %s fil-format %d; din tikteb il-forma
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (kejl biss: ma nkiteb xejn)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (kejl biss: mingħajr ċavetta tal-API jieqaf hawn)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontroll kontra t-tnixxija -- ir-referenza hija %s:"
 
@@ -5246,3 +5243,12 @@ msgstr "  %s: l-arloġġ tiegħu jgħid %s, il-ħoss kejjel %s -- differenza ta'
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s qiegħed fuq żewġ kameras: %s skont it-track, %s skont il-vuċi. Il-vuċi tirbaħ, għalhekk il-qatgħa turi lil %s fuq %s biss."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Meħud mill-kejl miżmum fuq dan il-kompjuter: l-istess fajls u settings, għalhekk xejn ma jitkejjel mill-ġdid."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nKELLIMIN -- MKEJLA QABEL"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Meħud mill-kejl miżmum fuq dan il-kompjuter: l-istess reġistrazzjonijiet, postijiet u tieqa tal-ħin."

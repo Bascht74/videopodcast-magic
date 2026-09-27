@@ -696,13 +696,6 @@ msgstr ""
 
 msgid ""
 "\n"
-"  (measuring only: without an API key it stops here)"
-msgstr ""
-"\n"
-"  (nur messen: ohne API-Schlüssel geht es nicht weiter)"
-
-msgid ""
-"\n"
 "  Check against the bleed -- reference is %s:"
 msgstr ""
 "\n"
@@ -6890,3 +6883,12 @@ msgstr "  %s: seine Uhr sagt %s, der Ton hat %s gemessen -- %s s auseinander; es
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s ist auf zwei Kameras: %s über die Spur, %s über die Stimme. Die Stimme gilt, der Schnitt zeigt %s also nur auf %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Aus der auf diesem Rechner gespeicherten Messung übernommen: dieselben Dateien und Einstellungen, also wird nichts neu gemessen."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nSPRECHER -- FRÜHER GEMESSEN"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Aus der auf diesem Rechner gespeicherten Messung übernommen: dieselben Aufnahmen, Positionen und dasselbe Zeitfenster."

@@ -1895,26 +1895,42 @@ def place_camera_by_clock(v, position, clocks, said, quality=None):
     position[v] = (position[w][0] + clocks[w] - own, 1.0, st)
 
 
-def align_cameras(videos):
+def cameras_heard(videos):
+    """What the cameras' sound says: (reference, placed, left).
+
+    The measuring half of align_cameras, and the only half that reads
+    the files: placed {path: (a, b, st)} and left {path: st} as
+    cameras_on_one_axis gives them. A camera in neither was not heard.
+    """
+    heard = dict((v, envelope_heard(v)) for v, _info in videos)
+    clocks = dict((v, timecode_seconds(i)) for v, i in videos)
+    curves = dict((v, e) for v, e in heard.items() if e is not None)
+    if curves:
+        return PROGRAM.cameras_on_one_axis(curves, clocks)
+    # Never the order the files came in: the longest by its container
+    # where none was heard, by path where nothing else decides.
+    ref = max(sorted(videos, key=lambda vi: PROGRAM.path_key(vi[0])),
+              key=lambda vi: vi[1]["duration"])[0]
+    return ref, {ref: (0.0, 1.0, {"points": 0})}, {}
+
+
+def align_cameras(videos, heard=None):
     """Put all cameras on one time axis: (reference, {path: (a, b, st)}).
 
     Which camera carries it, and the chain through the others, is
     cameras_on_one_axis's, as in the window. A camera the sound cannot
     place stands at its clock; one with no clock is left out, a camera
     laid down at a guess being worse than a missing one the log names.
+    *heard* is what cameras_heard said, where it was kept.
     """
-    heard = dict((v, envelope_heard(v)) for v, _info in videos)
     info_of = dict(videos)
     clocks = dict((v, timecode_seconds(i)) for v, i in videos)
-    curves = dict((v, e) for v, e in heard.items() if e is not None)
     # Never the order the files came in: by path where nothing else
-    # decides, the longest by its container where none was heard.
+    # decides.
     in_order = sorted(videos, key=lambda vi: PROGRAM.path_key(vi[0]))
-    if curves:
-        ref, position, left = PROGRAM.cameras_on_one_axis(curves, clocks)
-    else:
-        ref = max(in_order, key=lambda vi: vi[1]["duration"])[0]
-        position, left = {ref: (0.0, 1.0, {"points": 0})}, {}
+    ref, position, left = heard or cameras_heard(videos)
+    position = dict(position)
+    left = dict((v, dict(st)) for v, st in (left or {}).items())
     ref_clip = (ref, info_of[ref])
     # Laid down after every camera the sound places, whose clocks they
     # are set against: (path, the line saying why the sound did not,

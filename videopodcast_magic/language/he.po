@@ -598,9 +598,6 @@ msgstr "הקובץ הזה נכתב בגרסה %s בפורמט %d; הגרסה ה�
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (מדידה בלבד: לא נכתב דבר)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (מדידה בלבד: ללא מפתח API זה נעצר כאן)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  בדיקה מול הזליגה -- הייחוס הוא %s:"
 
@@ -5156,3 +5153,12 @@ msgstr "  %s: השעון שלו אומר %s, השמע מדד %s -- הפרש של
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s משויך לשתי מצלמות: %s לפי הערוץ, %s לפי הקול. הקול קובע, ולכן החיתוך מציג את %s רק ב-%s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  נלקח מהמדידה השמורה במחשב הזה: אותם קבצים ואותן הגדרות, ולכן דבר אינו נמדד שוב."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nדוברים -- נמדדו קודם"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  נלקח מהמדידה השמורה במחשב הזה: אותן הקלטות, אותם מיקומים ואותו חלון זמן."

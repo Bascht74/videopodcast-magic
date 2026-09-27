@@ -600,9 +600,6 @@ msgstr "Този файл е записан от версия %s във форм
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (само измерване: нищо не е записано)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (само измерване: без API ключ спира дотук)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Проверка срещу просмукването -- еталонът е %s:"
 
@@ -5158,3 +5155,12 @@ msgstr "  %s: часовникът му показва %s, звукът изме
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s е на две камери: %s по пистата, %s по гласа. Гласът има предимство, така че монтажът показва %s само на %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Взето от измерването, запазено на този компютър: същите файлове и настройки, затова нищо не се измерва отново."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nГОВОРЕЩИ -- ИЗМЕРЕНИ ПО-РАНО"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Взето от измерването, запазено на този компютър: същите записи, позиции и времеви прозорец."

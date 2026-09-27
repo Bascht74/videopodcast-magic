@@ -573,9 +573,6 @@ msgstr "Ten plik zapisała wersja %s w formacie %d; ta wersja zapisuje format %d
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (tylko pomiar: nic nie zapisano)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (tylko pomiar: bez klucza API tu się kończy)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontrola na podstawie przesłuchu -- odniesienie: %s:"
 
@@ -5198,3 +5195,12 @@ msgstr "  %s: jego zegar wskazuje %s, dźwięk zmierzył %s -- różnica %s s; o
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s jest na dwóch kamerach: %s według ścieżki, %s według głosu. Pierwszeństwo ma głos, więc montaż pokazuje %s tylko na %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Wzięte z pomiaru zachowanego na tym komputerze: te same pliki i ustawienia, więc nic nie jest mierzone ponownie."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nMÓWCY -- ZMIERZENI WCZEŚNIEJ"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Wzięte z pomiaru zachowanego na tym komputerze: te same nagrania, położenia i okno czasowe."

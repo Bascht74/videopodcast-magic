@@ -3620,9 +3620,6 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     run picks. Where the microphones hear each other too well, all are
     mixed instead. Returns (segments, where from) or ([], "").
     """
-    # Where the cut's window lies, so speakers_for_the_cut can read each
-    # recording at its place instead of the tracks written onto it.
-    args._axis_window = (t0, t1)
     given, _seats, where_from = handed_over(args, say=True)
     source, why, dropped = "", "", None
     # Whichever carrier brought it: both hand over one recording's.
@@ -3735,11 +3732,6 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         args._separated += [p for track in (tracks or ())
                             for p in (track.get("blocks")
                                       or [track.get("source")]) if p]
-    if getattr(args, "dry_run", False):
-        # A dry run stops before the cut is built, so what the voices
-        # amount to is said here or nowhere.
-        print(as_head(T('\nSPEAKERS -- SEPARATED BY VOICE')))
-        voices_reported(out)
     return out, where_from
 
 
@@ -3792,7 +3784,6 @@ def speakers_for_the_cut(args, tracks, window=None):
     not in it is named in the log instead of going quietly missing.
     *window* is the cut's (t0, t1) on the axis.
     """
-    window = window or getattr(args, "_axis_window", None)
     voices, where_from = getattr(args, "_speakers", None) or ([], "")
     left = [t for t in tracks
             if not separated_already(t, getattr(args, "_separated", None))]

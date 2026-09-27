@@ -2340,9 +2340,6 @@ msgstr "  Ortak aralık:    %s - %s (%s)"
 msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
 msgstr "    %s ile başlar ve %s ile biter -- her kameranın gördüğü kesit"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (yalnızca ölçüm: API anahtarı olmadan burada durur)"
-
 msgid "\nMIXING"
 msgstr "\nKARIŞTIRMA"
 
@@ -5166,3 +5163,12 @@ msgstr "  %s: saati %s diyor, ses %s ölçtü -- %s sn fark; ölçüm kullanıl�
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s iki kamerada: ize göre %s, sese göre %s. Ses önceliklidir, bu yüzden kurgu %s kişisini yalnızca %s üzerinde gösterir."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Bu makinede saklanan ölçümden alındı: aynı dosyalar ve ayarlar, bu yüzden hiçbir şey yeniden ölçülmüyor."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nKONUŞMACILAR -- DAHA ÖNCE ÖLÇÜLDÜ"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Bu makinede saklanan ölçümden alındı: aynı kayıtlar, konumlar ve zaman penceresi."

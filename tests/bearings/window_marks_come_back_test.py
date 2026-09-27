@@ -151,7 +151,8 @@ if REOPEN:
     project_path, jingle = sys.argv[2], sys.argv[3]
     measured = [0]
 
-    def nothing_measured(paths, tc_of=None, HOP=5.0, phase_of=None):
+    def nothing_measured(paths, tc_of=None, HOP=5.0, phase_of=None,
+                         raw=None):
         """Stricter than the real one: it finds no axis at all."""
         measured[0] += 1
         return {}, ""
@@ -285,7 +286,8 @@ def drive():
         # marked above would still be there and read as the answer.
         measured_here = [0]
 
-        def nothing_measured_here(paths, tc_of=None, HOP=5.0, phase_of=None):
+        def nothing_measured_here(paths, tc_of=None, HOP=5.0, phase_of=None,
+                                  raw=None):
             measured_here[0] += 1
             return {}, ""
 

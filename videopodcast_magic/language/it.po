@@ -2344,9 +2344,6 @@ msgstr "  Finestra comune:   %s a %s (%s)"
 msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
 msgstr "    comincia con %s e finisce con %s -- il tratto che ogni telecamera ha visto"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (solo misurazione: senza chiave API si ferma qui)"
-
 msgid "\nMIXING"
 msgstr "\nMIXAGGIO"
 
@@ -5171,3 +5168,12 @@ msgstr "  %s: il suo orologio dice %s, il suono ha misurato %s -- %s s di distan
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s è su due telecamere: %s secondo la traccia, %s secondo la voce. Prevale la voce, quindi il montaggio mostra %s solo su %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Preso dalla misura conservata su questa macchina: stessi file e impostazioni, quindi nulla viene misurato di nuovo."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nPARLANTI -- MISURATI IN PRECEDENZA"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Preso dalla misura conservata su questa macchina: stesse registrazioni, posizioni e finestra temporale."

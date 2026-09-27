@@ -599,9 +599,6 @@ msgstr "Faili hii iliandikwa na toleo %s katika muundo %d; toleo hili huandika m
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (kupima tu: hakuna kilichoandikwa)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (kupima tu: bila ufunguo wa API inasimama hapa)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Ukaguzi dhidi ya uvujaji wa sauti -- marejeo ni %s:"
 
@@ -5157,3 +5154,12 @@ msgstr "  %s: saa yake inasema %s, sauti ilipima %s -- tofauti ya sekunde %s; ki
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s yuko kwenye kamera mbili: %s kwa wimbo, %s kwa sauti. Sauti ndiyo inayoshinda, kwa hiyo uhariri unamwonyesha %s kwenye %s pekee."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Imechukuliwa kutoka kwa kipimo kilichohifadhiwa kwenye kompyuta hii: faili na mipangilio ileile, kwa hiyo hakuna kinachopimwa upya."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nWAZUNGUMZAJI -- WALIPIMWA AWALI"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Imechukuliwa kutoka kwa kipimo kilichohifadhiwa kwenye kompyuta hii: rekodi, nafasi na dirisha la muda vilevile."

@@ -597,9 +597,6 @@ msgstr "ไฟล์นี้เขียนโดยเวอร์ชัน %s
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (วัดอย่างเดียว: ไม่ได้เขียนอะไร)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (วัดอย่างเดียว: ไม่มีคีย์ API จึงหยุดที่นี่)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  ตรวจสอบเทียบกับเสียงรั่ว -- ตัวอ้างอิงคือ %s:"
 
@@ -5112,3 +5109,12 @@ msgstr "  %s: นาฬิกาบอก %s เสียงวัดได้ %
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s อยู่บนกล้องสองตัว: %s ตามแทร็ก และ %s ตามเสียงพูด เสียงพูดมีผลเหนือกว่า การตัดต่อจึงแสดง %s บน %s เท่านั้น"
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  นำมาจากผลการวัดที่เก็บไว้บนเครื่องนี้: ไฟล์และการตั้งค่าเดิม จึงไม่มีการวัดใหม่"
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nผู้พูด -- วัดไว้ก่อนแล้ว"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  นำมาจากผลการวัดที่เก็บไว้บนเครื่องนี้: การบันทึก ตำแหน่ง และช่วงเวลาเดิม"

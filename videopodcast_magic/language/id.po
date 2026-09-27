@@ -599,9 +599,6 @@ msgstr "File ini ditulis oleh versi %s dalam format %d; versi ini menulis format
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (hanya mengukur: tidak ada yang ditulis)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (hanya mengukur: tanpa kunci API proses berhenti di sini)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Pemeriksaan terhadap kebocoran suara -- referensinya %s:"
 
@@ -5114,3 +5111,12 @@ msgstr "  %s: jamnya menunjukkan %s, audio mengukur %s -- selisih %s dtk; yang d
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s ada di dua kamera: %s menurut trek, %s menurut suara. Suara yang berlaku, jadi potongan menampilkan %s hanya di %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Diambil dari pengukuran yang disimpan di komputer ini: berkas dan pengaturan yang sama, jadi tidak ada yang diukur ulang."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nPEMBICARA -- DIUKUR SEBELUMNYA"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Diambil dari pengukuran yang disimpan di komputer ini: rekaman, posisi, dan jendela waktu yang sama."

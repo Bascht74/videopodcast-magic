@@ -573,9 +573,6 @@ msgstr "Ezt a fájlt a(z) %s verzió írta %d formátumban; ez a verzió a(z) %d
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (csak mérés: semmi nem íródott)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (csak mérés: API key nélkül itt megáll)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Ellenőrzés az áthallás alapján -- a viszonyítási alap %s:"
 
@@ -5155,3 +5152,12 @@ msgstr "  %s: az órája szerint %s, a hang %s értéket mért -- %s s eltérés
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s két kamerán szerepel: a sáv szerint %s, a hang szerint %s. A hang dönt, így a vágás %s szereplőt csak ezen mutatja: %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Az ezen a gépen tárolt mérésből átvéve: ugyanazok a fájlok és beállítások, így semmit sem mérünk újra."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nBESZÉLŐK -- KORÁBBAN MÉRVE"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Az ezen a gépen tárolt mérésből átvéve: ugyanazok a felvételek, helyek és időablak."

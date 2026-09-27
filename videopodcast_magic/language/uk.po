@@ -2356,9 +2356,6 @@ msgstr "  Спільне вікно:   %s до %s (%s)"
 msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
 msgstr "    починається з %s і закінчується %s -- відрізок, який бачила кожна камера"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (лише вимірювання: без API-ключа тут зупиняється)"
-
 msgid "\nMIXING"
 msgstr "\nЗВЕДЕННЯ"
 
@@ -5214,3 +5211,12 @@ msgstr "  %s: його годинник показує %s, звук виміря
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s призначено на дві камери: %s за доріжкою, %s за голосом. Перевагу має голос, тож монтаж показує %s лише на %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Взято з вимірювання, збереженого на цьому комп'ютері: ті самі файли й налаштування, тож нічого не вимірюється заново."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nМОВЦІ -- ВИМІРЯНО РАНІШЕ"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Взято з вимірювання, збереженого на цьому комп'ютері: ті самі записи, положення і часове вікно."

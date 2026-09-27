@@ -572,9 +572,6 @@ msgstr "Tento soubor zapsala verze %s ve formátu %d; tato verze zapisuje formá
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (jen měření: nic se nezapisuje)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (jen měření: bez API klíče to tady končí)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontrola podle přeslechu -- referencí je %s:"
 
@@ -5197,3 +5194,12 @@ msgstr "  %s: jeho hodiny říkají %s, zvuk naměřil %s -- rozdíl %s s; plat�
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s je na dvou kamerách: %s podle stopy, %s podle hlasu. Přednost má hlas, takže střih ukazuje %s jen na %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Převzato z měření uloženého na tomto počítači: stejné soubory a nastavení, takže se nic neměří znovu."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nMLUVČÍ -- ZMĚŘENI DŘÍVE"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Převzato z měření uloženého na tomto počítači: stejné nahrávky, pozice a časové okno."

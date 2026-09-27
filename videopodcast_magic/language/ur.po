@@ -598,9 +598,6 @@ msgstr "یہ فائل ورژن %s نے فارمیٹ %d میں لکھی تھی؛ 
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (صرف پیمائش: کچھ نہیں لکھا گیا)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (صرف پیمائش: API کلید کے بغیر یہیں رک جاتا ہے)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  رساؤ کے مقابل جانچ -- حوالہ %s ہے:"
 
@@ -5156,3 +5153,12 @@ msgstr "  %s: اس کی گھڑی کہتی ہے %s، آڈیو نے %s ناپا --
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s دو کیمروں پر ہے: ٹریک کے مطابق %s، آواز کے مطابق %s۔ آواز کو ترجیح ملتی ہے، اس لیے کٹ %s کو صرف %s پر دکھاتا ہے۔"
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  اسی مشین پر رکھی گئی پیمائش سے لیا گیا: وہی فائلیں اور ترتیبات، اس لیے کچھ بھی دوبارہ نہیں ناپا جاتا۔"
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nمقررین -- پہلے ناپے گئے"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  اسی مشین پر رکھی گئی پیمائش سے لیا گیا: وہی ریکارڈنگز، مقامات اور وقت کی کھڑکی۔"

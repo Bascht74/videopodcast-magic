@@ -604,9 +604,6 @@ msgstr "Scríobh leagan %s an comhad seo i bhformáid %d; scríobhann an leagan 
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (tomhas amháin: níor scríobhadh aon rud)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (tomhas amháin: gan eochair API stopann sé anseo)"
-
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Seiceáil in aghaidh an sceite fuaime -- is é %s an tagairt:"
 
@@ -5293,3 +5290,12 @@ msgstr "  %s: deir a chlog %s, thomhais an fhuaim %s -- %s s óna chéile; úsá
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  Tá %s ar dhá cheamara: %s de réir an rian, %s de réir an ghutha. Is é an guth a bhuaileann, mar sin taispeánann an gearradh %s ar %s amháin."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Tógtha ón tomhas a coinníodh ar an ríomhaire seo: na comhaid agus na socruithe céanna, mar sin ní thomhaistear aon rud arís."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nCAINTEOIRÍ -- TOMHAISTE ROIMHE SEO"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Tógtha ón tomhas a coinníodh ar an ríomhaire seo: na taifeadtaí, na suíomhanna agus an fhuinneog ama céanna."

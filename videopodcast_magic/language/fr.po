@@ -1056,9 +1056,6 @@ msgstr "\n  %s : aucun audio à extraire (%s)"
 msgid "\n  (measuring only: nothing written)"
 msgstr "\n  (mesure seulement : rien n’est écrit)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (mesure seulement : sans clé d’API on ne va pas plus loin)"
-
 msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
 msgstr "\n  IL EXISTE DÉJÀ UN PROJET DE CE NOM : %r"
 
@@ -5164,3 +5161,12 @@ msgstr "  %s : son horloge indique %s, le son a mesuré %s -- écart de %s s ; l
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s est sur deux caméras : %s d'après la piste, %s d'après la voix. La voix l'emporte, le montage montre donc %s uniquement sur %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Repris de la mesure conservée sur cette machine : mêmes fichiers et réglages, donc rien n'est mesuré à nouveau."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nLOCUTEURS -- MESURÉS AUPARAVANT"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Repris de la mesure conservée sur cette machine : mêmes enregistrements, positions et fenêtre temporelle."

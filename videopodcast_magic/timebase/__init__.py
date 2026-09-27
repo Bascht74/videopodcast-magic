@@ -43,7 +43,9 @@ as_head = PROGRAM.as_head
 as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
 atexit = PROGRAM.atexit
+axis_stage_key = PROGRAM.axis_stage_key
 build_ixml = PROGRAM.build_ixml
+cameras_heard = PROGRAM.cameras_heard
 cannot_be_placed = PROGRAM.cannot_be_placed
 channel_count = PROGRAM.channel_count
 check_camera_metadata = PROGRAM.check_camera_metadata
@@ -55,6 +57,7 @@ choose_preset = PROGRAM.choose_preset
 colour_arguments = PROGRAM.colour_arguments
 copy_mov_atoms = PROGRAM.copy_mov_atoms
 cross_correlate = PROGRAM.cross_correlate
+cut_list_of = PROGRAM.cut_list_of
 data_track_maps = PROGRAM.data_track_maps
 decode_audio = PROGRAM.decode_audio
 decode_audio_tracks = PROGRAM.decode_audio_tracks
@@ -66,6 +69,7 @@ find_master_file = PROGRAM.find_master_file
 finish_without_auphonic = PROGRAM.finish_without_auphonic
 futures = PROGRAM.futures
 guess_production_name = PROGRAM.guess_production_name
+handover_of = PROGRAM.handover_of
 how_many_processors = PROGRAM.how_many_processors
 is_drop_frame = PROGRAM.is_drop_frame
 join_with_report = PROGRAM.join_with_report
@@ -934,47 +938,82 @@ def recording_at_its_clock(own_tc, position, clocks):
             {"points": 0, "unplaceable": True, "by_clock_only": True})
 
 
-def axis_key(args, plan, videos):
-    """The name the measured axis is kept under in the stage store.
+def run_axis_key(args, plan, video_paths):
+    """The name the run's axis is kept under: the window's, axis_stage_key.
 
-    Everything the measurement reads: every camera and every block by
-    its fingerprint, how the plan joins them and whose sound is whose,
-    the rate and clock asked for, and what the phase way may do. The
-    In and Out point are not in it: the window is cut after it.
+    Every camera and block, the recordings made of blocks, the files the
+    phase way may place, each asked with all its blocks; a camera's own
+    sound is its camera. --tc and --fps go in, and the window gives
+    none, so without them the two name one axis alike.
     """
-    sound_of = getattr(args, "sound_of", None) or ()
-    pairs = sound_of.items() if isinstance(sound_of, dict) else sound_of
-    inputs = {
-        "plan": [[track_name_of(e), len(e.get("blocks") or [e["audio"]]),
-                  path_key(e["from_camera"]) if e.get("from_camera") else ""]
-                 for e in plan],
-        "fps": getattr(args, "fps", None), "tc": getattr(args, "tc", None),
-        "kind": getattr(args, "project_type", "cut"),
-        "sound": getattr(args, "sound", None) or SOUND_SPEECH,
-        "sound_of": sorted([path_key(p), v] for p, v in pairs)}
-    return stage_key(
-        "axis", [v for v, _i in videos]
-        + [b for e in plan for b in (e.get("blocks") or [e["audio"]])],
-        **inputs)
+    rows = dict((os.path.abspath(e["blocks"][0]),
+                 [os.path.abspath(b) for b in e["blocks"]])
+                for e in plan if len(e.get("blocks") or ()) > 1
+                and not e.get("from_camera"))
+    paths = [os.path.abspath(v) for v in video_paths] + [
+        os.path.abspath(b) for e in plan if not e.get("from_camera")
+        for b in (e.get("blocks") or [e["audio"]])]
+    row_of = ByFile(rows)
+    return axis_stage_key(
+        paths, rows,
+        [p for p in paths if phase_of_run(args, row_of.get(p) or [p])],
+        tc=getattr(args, "tc", None), fps=getattr(args, "fps", None))
 
 
-def axis_kept(kept, videos, entries):
-    """An axis out of the stage store, shaped as measuring gives it.
+def raw_place(blocks):
+    """Where a recording's own measurement stands in a kept axis.
 
-    Returns {"reference", "cameras", "tracks"}, or None where nothing
-    fits: the reference as (path, facts), the cameras as the position
-    align_cameras returns, the tracks one placing per plan entry.
+    Joined and alone are two measurements of one head, kept apart.
+    """
+    return ("joined" if len(blocks) > 1 else "recordings",
+            path_key(blocks[0]))
+
+
+def axis_raw(heard, videos):
+    """What the cameras' sound said, as the stage store keeps it.
+
+    By path_key, so the window finds it under its own spelling: the
+    reference, the placed cameras, those left and those not heard.
+    """
+    ref, placed, left = heard
+    return {"reference": path_key(ref),
+            "cameras": dict((path_key(v), list(at))
+                            for v, at in placed.items()),
+            "left": dict((path_key(v), dict(st)) for v, st in left.items()),
+            "unheard": [path_key(v) for v, _i in videos
+                        if v not in placed and v not in left],
+            "recordings": {}, "joined": {}}
+
+
+def axis_raw_taken(raw, videos, plan):
+    """The kept measurement, where it answers everything this run asks.
+
+    Returns (what cameras_heard would say, one placing per plan entry)
+    or None: every camera heard, left or unheard in it and no other, and
+    every recording not a camera's own sound measured -- a placing may
+    be None, a measurement that failed. Whoever measured it, the window
+    or a run, the rest is worked out here as after measuring.
     """
     try:
-        cameras = dict((v, (at[0], at[1], at[2])) for (v, _i), at
-                       in zip(videos, kept["cameras"]) if at)
-        if len(kept["cameras"]) != len(videos) \
-                or len(kept["tracks"]) != entries:
+        found = dict((path_key(v), v) for v, _i in videos)
+        placed, left = raw["cameras"], raw.get("left") or {}
+        heard = set(placed) | set(left)
+        if raw["reference"] not in placed or not heard <= set(found) \
+                or set(found) - heard - set(raw.get("unheard") or ()):
             return None
-        return {"reference": videos[kept["reference"]], "cameras": cameras,
-                "tracks": kept["tracks"]}
-    except (TypeError, KeyError, IndexError):
+        placings = []
+        for e in plan:
+            part, head = raw_place(e.get("blocks") or [e["audio"]])
+            if not e.get("from_camera") and head not in raw[part]:
+                return None
+            placings.append(None if e.get("from_camera")
+                            else raw[part][head])
+    except (TypeError, KeyError, AttributeError):
         return None
+    return ((found[raw["reference"]],
+             dict((found[k], tuple(at)) for k, at in placed.items()),
+             dict((found[k], dict(st)) for k, st in left.items())),
+            placings)
 
 
 def tracks_placed(args, plan, joined, ref_clip, position, clocks, kept=None):
@@ -982,8 +1021,8 @@ def tracks_placed(args, plan, joined, ref_clip, position, clocks, kept=None):
 
     A recording no measurement and no clock places is refused rather
     than laid down somewhere, where it would look exactly like one that
-    fits. *kept* is one placing per entry out of the stage store, used
-    instead of measuring. Returns the tracks and the placings made.
+    fits. *kept* is one measurement per entry out of the stage store,
+    used instead of measuring. Returns the tracks and the measurements.
     """
     tracks, placings = [], []
     placed = ByFile(position)
@@ -1000,19 +1039,18 @@ def tracks_placed(args, plan, joined, ref_clip, position, clocks, kept=None):
             hint = (hint + ", " if hint else "") + (
                 T("placed with its camera, by that camera's clock")
                 if st.get("by_clock_only") else T("placed with its camera"))
-        elif e.get("from_camera") or (kept and not kept[i]):
+        elif e.get("from_camera"):
             # Its camera got no place: laid on its own it would stand on
             # the axis beside a picture handed over nowhere.
             print(as_bad("  " + no_place_message(name)))
             continue
-        elif kept:
-            a, b, st, hint = kept[i]
         else:
             # Every way came up empty and the clock answers: it stands
             # there, never at the failed measurement -- as without one.
-            got = sound_places(name, source, ref_clip[0],
-                               ref_clip[1]["duration"],
-                               phase_of_run(args, blocks or [source]))
+            got = kept[i] if kept else sound_places(
+                name, source, ref_clip[0], ref_clip[1]["duration"],
+                phase_of_run(args, blocks or [source]))
+            placings[-1] = list(got) if got else None
             got = got and sound_or_clock(
                 name, got, hint,
                 (file_timecode(blocks[0], ref_clip[1]["fps"])
@@ -1021,7 +1059,6 @@ def tracks_placed(args, plan, joined, ref_clip, position, clocks, kept=None):
             if not got:
                 continue
             a, b, st, hint = got
-            placings[-1] = [a, b, st, hint]
         tracks.append({"name": name, "source": source, "a": a, "b": b,
                        "st": st, "camera": e.get("camera") or "",
                        # Which recording the sound came from, apart from
@@ -1039,17 +1076,15 @@ def speakers_key(args, tracks, window):
     What the measurement reads: each recording by its blocks and where
     it lies on the axis, the window, and what a separation handed on.
     """
-    inputs = {
-        "tracks": [[t["name"], t.get("a"), t.get("b"), bool(t.get("drift")),
-                    len(t.get("blocks") or ())] for t in tracks],
-        "window": list(window or ()),
-        "voices": getattr(args, "_speakers", None),
-        "separated": sorted(path_key(p) for p in
-                            getattr(args, "_separated", None) or ()),
-        "mixed": bool(getattr(args, "_speakers_mixed", False))}
     return stage_key(
         "speakers", [b for t in tracks for b in t.get("blocks") or ()],
-        **inputs)
+        tracks=[[t["name"], t.get("a"), t.get("b"), bool(t.get("drift")),
+                 len(t.get("blocks") or ())] for t in tracks],
+        window=list(window or ()),
+        voices=getattr(args, "_speakers", None),
+        separated=sorted(path_key(p) for p in
+                         getattr(args, "_separated", None) or ()),
+        mixed=bool(getattr(args, "_speakers_mixed", False)))
 
 
 def speakers_of_the_run(args, tracks, window):
@@ -1222,14 +1257,17 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         print(T('  Of no consequence for the sound.'))
 
     print(as_head(T('\nMEASURING THE TIME AXIS')))
-    key = axis_key(args, plan, videos)
-    kept = axis_kept(stage_get(key), videos, len(plan))
+    key = run_axis_key(args, plan, video_paths)
+    kept = axis_raw_taken((stage_get(key) or {}).get("raw"), videos, plan)
     if kept:
-        ref_clip, position = kept["reference"], kept["cameras"]
+        heard = kept[0]
         print(T('  Taken from the measurement kept on this machine: the '
                 'same files and settings, so nothing is measured again.'))
     else:
-        ref_clip, position = align_cameras(videos)
+        heard = cameras_heard(videos)
+        # Before align_cameras lays the rest down by their clocks.
+        raw = axis_raw(heard, videos)
+    ref_clip, position = align_cameras(videos, heard)
     print(T('  Reference: %s (%s, longest running time)')
           % (PROGRAM.camera_shown(ref_clip[0]),
              as_hms(ref_clip[1]["duration"])))
@@ -1248,14 +1286,15 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     joined = join_the_plan(plan, tmpdir)
     clocks = dict((v, timecode_seconds(i)) for v, i in videos)
     tracks, placings = tracks_placed(args, plan, joined, ref_clip, position,
-                                     clocks, kept and kept["tracks"])
+                                     clocks, kept and kept[1])
     if not kept:
-        # Kept by the order of the files, never by their spelling: the next
-        # run reads it back onto its own paths (axis_kept).
-        order = [v for v, _i in videos]
-        stage_put(key, {"reference": order.index(ref_clip[0]),
-                        "cameras": [position.get(v) for v in order],
-                        "tracks": placings})
+        # Only what was measured: the window works its view out of it,
+        # and one it kept before is no longer this measurement's.
+        for e, got in zip(plan, placings):
+            if not e.get("from_camera"):
+                part, head = raw_place(e.get("blocks") or [e["audio"]])
+                raw[part][head] = got
+        stage_put(key, {"raw": raw})
     if not tracks:
         print(T('\nNo audio track could be aligned -- there is nothing to '
                 'put on the axis.'))
@@ -1379,8 +1418,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     rest = (args, tracks, cameras, videos, tmpdir, position, t0, t1,
             ref_clip)
     if getattr(args, "without_auphonic", False) and not args.auphonic_done:
-        return (dry_run_ends if args.dry_run
-                else finish_without_auphonic)(*rest)
+        if args.dry_run:
+            return dry_run_ends(*rest, axis=key)
+        return finish_without_auphonic(*rest)
     if args.auphonic_done:
         # Already processed: the files are there. Saves a second upload and,
         # more to the point, the credit.
@@ -1390,7 +1430,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                 t0 - full0):
             return 1
         if args.dry_run:
-            return dry_run_ends(*rest)
+            return dry_run_ends(*rest, axis=key)
         if not verify_returned_tracks(tracks, t1 - t0, tmpdir):
             return 1
         folder = os.path.abspath(args.auphonic_done)
@@ -1410,7 +1450,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         if stop is not None:
             return stop
     if args.dry_run:
-        return dry_run_ends(*rest)
+        return dry_run_ends(*rest, axis=key)
     gain, curve = normalise_loudness(
         tracks, args.lufs, tmpdir,
         find_master_file(folder, args.out, os.path.dirname(video_paths[0])),
@@ -1427,20 +1467,19 @@ def handover_key(folder, production):
     so stage_get(handover_key(...)) finds what a dry run into that folder
     worked out: the dict the run writes, less rendered files and tracks.
     """
-    inputs = {"folder": path_key(os.path.abspath(folder)),
-              "production": production or 'Production'}
-    return stage_key("handover", **inputs)
+    return stage_key("handover", folder=path_key(os.path.abspath(folder)),
+                     production=production or 'Production')
 
 
 def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
-                 ref_clip):
+                 ref_clip, axis=None):
     """The rest of a dry run once the axis stands: who speaks, the cut.
 
     Everything a run works out before it writes, the handover included,
     and nothing it writes: no camera file, mix, single track or loudness,
     no upload, metrics, colour comparison or Resolve. A separation is
     only read where one is kept, and no speech is recognised. The level
-    dips come from a sum of the raw tracks in the temporary folder.
+    dips come from a sum of the raw tracks; *axis* is the axis's key.
     """
     sync = sync_only(args)
     segment_list, cut = [], []
@@ -1452,30 +1491,24 @@ def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
     if not sync:
         levels = mix_tracks([t["axis"] for t in tracks],
                             os.path.join(tmpdir, "levels.wav"))
-        # p451a2: cut.cut_list_of works the cut out and writes nothing.
-        if hasattr(PROGRAM, "cut_list_of"):
-            work = PROGRAM.cut_list_of(
-                args, segment_list, tracks, cameras, videos, tc_start,
-                ref_clip, t1 - t0, sound_source=levels)
-            cut, segment_list = ((work["cut"], work["segments"]) if work
-                                 else ([], []))
-        else:
-            cut, segment_list = write_cut_list(
-                args, segment_list, tracks, cameras, videos, tmpdir,
-                tc_start, ref_clip, t1 - t0, sound_source=levels)
+        work = cut_list_of(args, segment_list, tracks, cameras, videos,
+                           tc_start, ref_clip, t1 - t0, sound_source=levels)
+        cut, segment_list = ((work["cut"], work["segments"]) if work
+                             else ([], []))
         roles_said(segment_list, ())
-    # p451a2: cut.handover_of is the handover with nothing written. With
-    # no camera file the offsets are the sources', as one_camera takes them.
-    if hasattr(PROGRAM, "handover_of"):
-        unplaceable, clocked = placing_notes(cameras, position)
-        handover = PROGRAM.handover_of(
-            args, tracks, cameras, videos, tc_start, ref_clip, cut=cut,
-            segment_list=segment_list, length=t1 - t0,
-            offsets=ByFile((v, -a / b - t0) for v, (a, b, _s)
-                           in position.items()),
-            unplaceable=unplaceable, clocked=clocked)
-        stage_put(handover_key(PROGRAM.output_folder(args, videos[0][0]),
-                               args.production), handover)
+    # The handover with nothing written. With no camera file the offsets
+    # are the sources', as one_camera takes them; the axis it stands on
+    # goes with it, so a reader can tell it is still this material's.
+    unplaceable, clocked = placing_notes(cameras, position)
+    handover = handover_of(
+        args, tracks, cameras, videos, tc_start, ref_clip, cut=cut,
+        segment_list=segment_list, length=t1 - t0,
+        offsets=ByFile((v, -a / b - t0) for v, (a, b, _s)
+                       in position.items()),
+        unplaceable=unplaceable, clocked=clocked)
+    handover["axis_key"] = axis
+    stage_put(handover_key(PROGRAM.output_folder(args, videos[0][0]),
+                           args.production), handover)
     shutil.rmtree(tmpdir, ignore_errors=True)
     print(T('\n  (measuring only: nothing written)'))
     return 0

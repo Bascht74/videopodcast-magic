@@ -2318,9 +2318,6 @@ msgstr "  共同时间窗：  %s 至 %s（%s）"
 msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
 msgstr "    以 %s 开始、以 %s 结束 —— 每台摄像机都拍到的一段"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  （仅测量：没有 API 密钥，到此为止）"
-
 msgid "\nMIXING"
 msgstr "\n混音"
 
@@ -5108,3 +5105,12 @@ msgstr "  %s：其时钟显示 %s，声音测得 %s -- 相差 %s 秒；采用测
 
 msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
 msgstr "  %s 被分配到两台摄像机：按音轨是 %s，按声音是 %s。以声音为准，因此剪辑只把 %s 显示在 %s 上。"
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  取自本机保存的测量：文件和设置相同，因此不再重新测量。"
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\n说话人 -- 之前已测量"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  取自本机保存的测量：录音、位置和时间窗口相同。"

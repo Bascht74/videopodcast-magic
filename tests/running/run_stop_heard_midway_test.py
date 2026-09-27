@@ -468,8 +468,16 @@ def time_axis():
     real, real_begin = vpm.decode_audio, vpm.step_begin
 
     def noted(name):
-        """The run begins a stage: noted here, in the run's own thread."""
+        """The run begins a stage: noted here, in the run's own thread.
+
+        At the axis the stage store is emptied: the window measured this
+        material's axis when it opened, and so did the runs above, and a
+        run that takes it measures nothing to be stopped in.
+        """
         measuring["stage"] = name
+        if name == "time base":
+            shutil.rmtree(vpm.cache_folder("stages") or "",
+                          ignore_errors=True)
         return real_begin(name)
 
     def held(*a, **k):
