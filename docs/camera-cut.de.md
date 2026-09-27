@@ -254,8 +254,9 @@ Einstellung grau dasteht.
 Die Niederschrift schreibt das Fenster selbst, im Hintergrund, sobald
 die Zeitachse steht: der Balken der Vorarbeit unter den Tabellen auf
 **Zuordnung & Zeitfenster** führt sie als eigene Zeile,
-**Niederschrift**. Ist sie fertig, werden die vier von selbst frei; von
-da an rechnet die Vorschau mit ihnen. Hat die Trennung die Wörter einer
+**Niederschrift**. Solange sie entsteht, sagt die Zeile unter den vier
+genau das, und ist sie fertig, werden die vier von selbst frei; von da
+an rechnet die Vorschau mit ihnen. Hat die Trennung die Wörter einer
 einzelnen Aufnahme schon aufgeschrieben, werden diese so übernommen,
 wie sie sind. Steht die Niederschrift, schneiden **Trockenlauf** und
 **Start** nach denselben Wörtern: Wird aus einer Frage in der Vorschau

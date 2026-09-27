@@ -2014,7 +2014,8 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         state["words_there"] = bool(words_from_handover(d))
         if state.get("cut_box_there"):
             words_settings_grey(cut_parts, question_note,
-                                words_missing_why(d),
+                                words_missing_why(
+                                    PROGRAM.window_words_listening(state, d)),
                                 bool(wide_cameras_now()[0]), COLOURS["quiet"])
         try:
             numbers = cut_statistics(d, number["min-edit-duration"],
