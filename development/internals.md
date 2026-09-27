@@ -55,7 +55,7 @@ figure of the day is that command, not this paragraph**:
 * `loudness/` **480** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
-* `bearings/` **2213** -- where each file and each voice sits, and how
+* `bearings/` **2286** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
