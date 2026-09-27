@@ -1681,7 +1681,8 @@ def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
     step_begin("result")
     if not sync:
         levels = mix_tracks([t["axis"] for t in tracks],
-                            os.path.join(tmpdir, "levels.wav"))
+                            os.path.join(tmpdir, "levels.wav"),
+                            label=T('Building the sum'))
         words = words_carried(args, tracks, (t0, t1)) or []
         work = cut_list_of(args, segment_list, tracks, cameras, videos,
                            tc_start, ref_clip, t1 - t0, words=words,

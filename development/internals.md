@@ -52,14 +52,14 @@ figure of the day is that command, not this paragraph**:
   markers, and the box in the window that says whether Resolve answers
 * `material/` **2025** -- channels, chains, continuation files, and what
   a track is made of
-* `loudness/` **480** -- loudness and mixing: EBU R128 measured, the
+* `loudness/` **482** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
 * `bearings/` **2451** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2545** -- the time base and the camera files: every
+* `timebase/` **2546** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""While mixing, a track is named by its speaker, and only the mix as the mix.
+"""While mixing, each sum is named by speaker, mix or label -- never by file.
 
 The line shown while a track is mixed took the target's file name and
 replaced "full" and the two prefixes wherever they stood, so a speaker
@@ -7,8 +7,10 @@ called Carefully was announced as CareFull-Mixy.
 
 The sections: the file names the run gives its targets, taken out of
 the run rather than written down here; the overall mix under its name;
-three speakers whose names only look like the mix or its prefixes; and
-whether the mixing call asks this rather than a replace of its own.
+three speakers whose names only look like the mix or its prefixes;
+whether the mixing call asks this rather than a replace of its own; and
+every mixing call in the program, read out of its source, announced by
+a name or a label of its own -- the dry run's sum said "levels".
 """
 PLATFORM_BOUND = False
 import os
@@ -20,6 +22,8 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
         and os.path.dirname(HERE) != HERE:
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
+import ast
+import glob
 import inspect
 import re
 import time
@@ -84,6 +88,59 @@ check("the progress line of a mix is named by mixing_label",
       "mixing_label(target)" in _body,
       "mix_tracks %s mixing_label(target)"
       % ("calls" if "mixing_label(target)" in _body else "does not call"))
+
+print("\n5. Every mixing call in the program")
+# Read, not run: a call nobody reaches in a test still prints its line
+# in somebody's run. A target the label function turns into the name
+# put into it is announced by that name; any other needs a label, or
+# its file's stem stands in the line untranslated.
+NAME = "Guest"
+calls, stems = 0, []
+for module in sorted(glob.glob(os.path.join(HERE, "*", "__init__.py"))
+                     + [os.path.join(HERE, "__init__.py")]):
+    tree = ast.parse(open(module, encoding="utf-8").read())
+    for node in ast.walk(tree):
+        if not (isinstance(node, ast.Call) and getattr(
+                node.func, "id", getattr(node.func, "attr", "")) ==
+                "mix_tracks"):
+            continue
+        calls += 1
+        if any(k.arg == "label" for k in node.keywords):
+            continue
+        files = [c.value for c in ast.walk(node.args[1])
+                 if isinstance(c, ast.Constant) and isinstance(c.value, str)
+                 and c.value.endswith(".wav")] if len(node.args) > 1 else []
+        file = (files[0] % NAME if "%s" in files[0] else files[0]) \
+            if files else ""
+        said = vpm.mixing_label(os.path.join("work", file))
+        if said not in (NAME, vpm.MIX_TRACK_NAME):
+            stems.append("%s:%d %r said as %r" % (
+                os.path.basename(os.path.dirname(module)), node.lineno,
+                file, said))
+check("no mixing call in the program is announced by its file",
+      calls > 0 and not stems,
+      "%d calls read; %s" % (calls, "; ".join(stems) or "none by its file"))
+
+# A label handed in has to reach the line: taken past, the call above
+# would pass and the line say the file after all. ffmpeg and the reads
+# of the files are stood in for, in memory, and put back.
+shown = []
+LOUD = vpm.loudness
+kept = (LOUD.kept_channels, LOUD.sample_count, LOUD.bext_time_reference,
+        LOUD.PROGRAM.run_ffmpeg_with_progress)
+LOUD.kept_channels = lambda path: 1
+LOUD.sample_count = lambda path: 48000
+LOUD.bext_time_reference = lambda path: None
+LOUD.PROGRAM.run_ffmpeg_with_progress = lambda cmd, s, text: shown.append(text)
+try:
+    vpm.mix_tracks(["a.wav", "b.wav"], os.path.join("work", "levels.wav"),
+                   label="a label of its own")
+finally:
+    (LOUD.kept_channels, LOUD.sample_count, LOUD.bext_time_reference,
+     LOUD.PROGRAM.run_ffmpeg_with_progress) = kept
+check("a sum handed a label is announced by that label",
+      shown == ["a label of its own"],
+      "the line said %r, wanted 'a label of its own'" % shown)
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
