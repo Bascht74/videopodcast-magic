@@ -6763,3 +6763,19 @@ msgstr "    %s: %s am Anfang hat kein Bild und bleibt weg"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: %s am Ende hat kein Bild und bleibt weg"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s kam %s s länger zurück, als es hochging, und wo der gesendete Ton\n"
+"  darin beginnt, war nicht messbar -- bleibt, wie es kam."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s ließ sich nicht schneiden (%s) -- bleibt, wie es kam."
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com hat am Anfang %s s angefügt -- weggeschnitten"
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com hat am Ende %s s angefügt -- weggeschnitten"

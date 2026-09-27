@@ -50,7 +50,7 @@ figure of the day is that command, not this paragraph**:
   reach it named, out of `speakers/`
 * `resolve/` **2509** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
-* `material/` **2540** -- channels, chains, continuation files, and what
+* `material/` **2620** -- channels, chains, continuation files, and what
   a track is made of
 * `bearings/` **2182** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
@@ -62,7 +62,7 @@ figure of the day is that command, not this paragraph**:
   camera's drift goes out is `camera_drift`'s alone, by the rule every
   recording answers to (`drift_clear`: three times its uncertainty)
   and one bound of its own, 500 ppm
-* `auphonic/` **1790** -- the sending to auphonic.com and the fetching
+* `auphonic/` **1808** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
 * `preflight/` **1771** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
@@ -115,7 +115,7 @@ figure of the day is that command, not this paragraph**:
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
   looks one up
-* `timecode/` **350** -- timecode strings, frame rates, the clock a file
+* `timecode/` **353** -- timecode strings, frame rates, the clock a file
   carries
 * `filesheet/` **458** -- the first tab: the drop area or the file
   list with its channel rows and findings, the video choices, and the
