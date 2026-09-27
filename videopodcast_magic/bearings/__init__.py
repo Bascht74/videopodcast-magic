@@ -1866,6 +1866,8 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
         state["axis"] = axis
         state["axis_clock"] = (data or {}).get("clock") or {}
         state["axis_absolute"] = bool((data or {}).get("absolute"))
+        # The run's reference, whose rate every mark is written at.
+        state["axis_reference"] = (data or {}).get("reference")
         state["weak"] = set(path_key(p) for p in ((data or {}).get("weak") or []))
         state["no_place"] = set(path_key(p)
                                 for p in ((data or {}).get("no_place") or []))

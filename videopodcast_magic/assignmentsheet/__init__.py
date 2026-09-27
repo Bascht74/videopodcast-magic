@@ -199,7 +199,7 @@ class AssignmentSheet(QtWidgets.QScrollArea):
             return
         at, zero = here + player.spot_s(), player.marks_zero()
         if at < zero - 0.0005 and getattr(player, "marks_on_clock", bool)():
-            target.set(timecode_string(at, player.fps))
+            target.set(timecode_string(at, PROGRAM.marks_fps_of(player)))
             return
         target.set(as_relative_time(at - zero))
 
