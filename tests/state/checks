@@ -167,7 +167,7 @@ run_ffmpeg_offered	21
 run_findings_reach_both	6
 run_install_is_watched	42
 run_log_within_reach	30
-run_long_names_keep_end	14
+run_long_names_keep_end	16
 run_metrics_add_up	51
 run_mute_camera_placed	6
 run_name_twice_refused	4
@@ -188,7 +188,7 @@ run_quiet_judged	16
 run_rate_way_said_right	5
 run_shortcut_laid_once	34
 run_simple_path_agrees	26
-run_space_has_margin	18
+run_space_has_margin	19
 run_starter_arch_fits	30
 run_stays_local	20
 run_stop_heard_midway	17
@@ -459,3 +459,6 @@ auphonic_names_stay_in	12
 time_marks_reach_result	8
 run_ffmpeg_sum_checked	7
 source_suite_reads_red	6
+window_first_kind_holds	6
+files_same_names_apart	8
+cut_one_turn_one_edge	7

@@ -1449,7 +1449,8 @@ def weak_nodes_mark(nodes, weak, no_place=(), kinds=None, alone=()):
         p = weak_row_worst(paths, weak, nowhere, kinds)
         placeless = path_key(p) in nowhere
         odd = path_key(p) in weak or placeless
-        kind = weak_kind(kinds, p)
+        # The row's Kind is its first block's, whichever block is worst.
+        kind = weak_kind(kinds, paths[0])
         ink = _qg.QBrush(_qg.QColor(weak_colour(odd, placeless, kind)))
         try:
             # Column 1 keeps the check mark: two inks in one cell
@@ -1461,7 +1462,7 @@ def weak_nodes_mark(nodes, weak, no_place=(), kinds=None, alone=()):
             if odd:
                 item.setText(2, weak_note(
                     os.path.dirname(p), placeless, kind,
-                    intro_free_of(kinds, p), path_key(p) in alone,
+                    intro_free_of(kinds, paths[0]), path_key(p) in alone,
                     p.lower().endswith(VIDEO_SUFFIXES)))
                 item.setData(2, _qc.Qt.UserRole, "weak")
             elif item.data(2, _qc.Qt.UserRole) == "weak":
@@ -1477,12 +1478,20 @@ def weak_row_worst(paths, weak, nowhere, kinds=None):
 
     The one whose colour weighs most -- refused, then warned about,
     then plain -- and the first of them where two weigh the same, so
-    the note names the block that does not fit.
+    the note names the block that does not fit, also where the Kind
+    makes every colour plain. The Kind is the first block's for all.
     """
     weight = {COLOURS["error"]: 2, COLOURS["warning"]: 1}
-    return max(paths, key=lambda p: weight.get(weak_colour(
-        path_key(p) in weak or path_key(p) in nowhere,
-        path_key(p) in nowhere, weak_kind(kinds, p)), 0))
+    kind = weak_kind(kinds, paths[0]) if paths else ""
+
+    def weighs(p):
+        """The block's colour, then whether it has no place, or is weak."""
+        placeless = path_key(p) in nowhere
+        odd = placeless or path_key(p) in weak
+        return (weight.get(weak_colour(odd, placeless, kind), 0),
+                placeless, odd)
+
+    return max(paths, key=weighs)
 
 
 def weak_marks_show(state, nodes):
@@ -1530,10 +1539,11 @@ def weak_rows_mark(rows, weak, no_place=(), kinds=None, alone=(), nodes=None):
     for row, p, plain in rows:
         if not p:
             continue
+        head = p
         p = weak_row_worst(row_blocks(nodes, p), weak, nowhere, kinds)
         placeless = path_key(p) in nowhere
         odd = path_key(p) in weak or placeless
-        kind = weak_kind(kinds, p)
+        kind = weak_kind(kinds, head)
         ink = _qg.QBrush(_qg.QColor(weak_colour(odd, placeless, kind)))
         try:
             for cell in row:
@@ -1544,7 +1554,7 @@ def weak_rows_mark(rows, weak, no_place=(), kinds=None, alone=(), nodes=None):
             said = plain
             if odd:
                 said = weak_note(plain, placeless, kind,
-                                 intro_free_of(kinds, p),
+                                 intro_free_of(kinds, head),
                                  path_key(p) in alone,
                                  p.lower().endswith(VIDEO_SUFFIXES))
             row[0].setText(said)
