@@ -130,6 +130,9 @@ nicht.
   rounded up**: a 20-second sample needs 1 min, where the line said
   "0 min".
 
+- **The progress line now names only the speaker while levelling one**:
+  "Mixing Guest", no longer "Mixing level_Guest".
+
 ### Security
 
 - **The Auphonic key no longer touches the disc**: curl now reads it
@@ -257,6 +260,9 @@ nicht.
 - **Was eine Produktion an Guthaben braucht, zählt jetzt in ganzen
   Minuten, aufgerundet**: Eine 20-Sekunden-Probe braucht 1 Min., wo die
   Zeile „0 Min.“ sagte.
+
+- **Beim Angleichen eines Sprechers nennt die Fortschrittszeile jetzt
+  nur seinen Namen**: „Mische Guest“ statt „Mische level_Guest“.
 
 ### Sicherheit
 
