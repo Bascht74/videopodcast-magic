@@ -475,3 +475,4 @@ window_words_all_blocks	8
 window_output_no_debug	2
 run_camera_audio_planned	4
 source_freeze_attached	22
+run_no_own_camera_kept	5

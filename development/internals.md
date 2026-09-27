@@ -93,7 +93,7 @@ figure of the day is that command, not this paragraph**:
 * `herald/` **866** -- the progress bar, the stages, the console and log
   redirection with the line naming the Python it runs on, and the watch over a quiet run: `RunVitals` counts the
   run's children and reads whether any of them still moves
-* `pipeline/` **660** -- the plan: the camera audio out of the
+* `pipeline/` **661** -- the plan: the camera audio out of the
   pictures, the names and the plan the time base runs
 * `project/` **589** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
