@@ -4900,9 +4900,6 @@ msgstr "Reč"
 msgid "Mixed"
 msgstr "Zmiešané"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Reč: umiestni sa len podľa hlasitosti. Nahrávka, ktorá nemá nič spoločné\ns kamerami, sa odmietne. Zmiešané: pod hlasmi je hudba alebo mix,\na kde hlasitosť nič nenájde, smie ju umiestniť fáza.\nPri „%s“ je vždy zmiešané."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: zhoda zvuku %s, a na inom mieste tiež %s -- zaradené len podľa vlastných hodín"
 
@@ -5206,3 +5203,45 @@ msgstr "\nREČNÍCI -- ZMERANÍ SKÔR"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Prevzaté z merania uloženého na tomto počítači: rovnaké nahrávky, pozície a časové okno."
+
+msgid "Finished mix"
+msgstr "Hotový mix"
+
+msgid "Two finished mixes"
+msgstr "Dva hotové mixy"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s a %s sú oba nastavené na %s. Len jeden mix nahradí ten, ktorý zostaví beh -- vráťte ten druhý na Reč."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Hotový mix musí byť zvukový súbor: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "hotový mix nahrádza mix v súboroch kamier, a bez videosúboru nie sú žiadne."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "hotový mix trvá %s, kratšie než každá kamera (najkratšia %s): kde končí, je Full-Mix tichý."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s nahrádza mix, ktorý by tento beh zostavil."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Hotový mix nenašiel miesto na časovej osi: nezdieľa s kamerami žiadny zvuk. Beh sa zastaví, namiesto aby ho položil hocikam."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Hotový mix nemá nič v okne od %s do %s: leží od %s do %s. Beh sa zastaví."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Hotový mix necháva ticho: %s na začiatku a %s na konci okna."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: hotový mix tak, ako prišiel -- bez zosilnenia a bez limitera"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Len synchronizácia“ umiestni každú nahrávku ako zmiešaný zvuk."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "hotový mix -- žiadny hovoriaci, žiadna kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Reč: umiestni sa len podľa hlasitosti. Nahrávka, ktorá nemá nič spoločné\ns kamerami, sa odmietne. Zmiešané: pod hlasmi je hudba alebo mix,\na kde hlasitosť nič nenájde, smie ju umiestniť fáza.\nHotový mix: stereo mix vytvorený inde, umiestnený ako zmiešaný zvuk. Ide\ndo súborov kamier a do odovzdania namiesto mixu, ktorý zostaví beh --\nžiadny hovoriaci, nestrihá sa, neposiela sa na auphonic.com.\nPri „%s“ sa Reč neponúka."

@@ -20,6 +20,7 @@ AXIS_MIN_WINDOW_S = PROGRAM.AXIS_MIN_WINDOW_S
 ByFile = PROGRAM.ByFile
 CAMERA_MARGIN_S = PROGRAM.CAMERA_MARGIN_S
 MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
+SOUND_FINISHED = PROGRAM.SOUND_FINISHED
 SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 SR = PROGRAM.SR
 Share = PROGRAM.Share
@@ -75,6 +76,7 @@ is_drop_frame = PROGRAM.is_drop_frame
 join_with_report = PROGRAM.join_with_report
 json = PROGRAM.json
 kept_channels = PROGRAM.kept_channels
+label_of = PROGRAM.label_of
 known_frame_rate = PROGRAM.known_frame_rate
 log_curve_from_atom = PROGRAM.log_curve_from_atom
 lufs_does_nothing = PROGRAM.lufs_does_nothing
@@ -127,6 +129,7 @@ video_envelope = PROGRAM.video_envelope
 video_facts = PROGRAM.video_facts
 voice_names_report = PROGRAM.voice_names_report
 voices_reported = PROGRAM.voices_reported
+where_it_sounds = PROGRAM.where_it_sounds
 which_way_placed = PROGRAM.which_way_placed
 who_asks = PROGRAM.who_asks
 write_cut_list = PROGRAM.write_cut_list
@@ -1190,6 +1193,93 @@ def dropped_said(tracks):
                     'out') % (track["name"], as_hms(back)))
 
 
+def finished_mix_homeless(args):
+    """Whether a finished mix was given to a run with no picture: said.
+
+    The preflight says it first; this is the net under --anyway.
+    """
+    if not getattr(args, "finished_mix", None):
+        return False
+    print(as_bad("\n" + T('the finished mix takes the place of the mix in '
+                          'the camera files, and without a video file '
+                          'there are none.')))
+    return True
+
+
+def finished_mix_placed(args, ref_clip, position, clocks, tmpdir):
+    """Put the finished mix on the axis the cameras hold, as a recording.
+
+    Its blocks joined as a recording's are, placed with the phase way on
+    as mixed sound is, and by its clock where the sound finds nothing.
+    The placing is kept by its blocks and the reference, so a dry run
+    for the preview does not measure it again. None without one, False
+    where nothing places it: the run stops rather than lay it anywhere.
+    """
+    blocks = [os.path.abspath(p) for p in
+              getattr(args, "finished_mix", None) or ()]
+    if not blocks:
+        return None
+    name = label_of(SOUND_FINISHED)
+    print(T('  %s takes the place of the mix this run would build.')
+          % PROGRAM.recording_shown(blocks[0]))
+    made = join_the_plan([{"blocks": blocks, "name": name}], tmpdir)[0]
+    key = stage_key("finished", made["blocks"] + [ref_clip[0]])
+    got = stage_get(key)
+    if got is None:
+        got = sound_places(name, made["source"], ref_clip[0],
+                           ref_clip[1]["duration"], True)
+        stage_put(key, list(got) if got else None)
+    got = got and sound_or_clock(
+        name, got, made["hint"],
+        file_timecode(made["blocks"][0], ref_clip[1]["fps"]),
+        list(clocks.values()),
+        lambda tc: recording_at_its_clock(tc, position, clocks))
+    if not got:
+        print(as_bad(T('  The finished mix found no place on the time axis: '
+                       'it shares no sound with the cameras. The run stops '
+                       'rather than lay it anywhere.')))
+        return False
+    a, b, st, hint = got
+    offset_line(name, a, st, hint)
+    return {"name": name, "source": made["source"], "a": a, "b": b,
+            "st": st, "blocks": made["blocks"], "hint": hint}
+
+
+def finished_mix_onto_axis(args, finished, t0, t1, tmpdir):
+    """Lay the finished mix onto the window from *t0* to *t1*.
+
+    What it leaves silent at either end is said; one that has nothing
+    in the window stops the run. A dry run measures, and writes nothing.
+    Kept in args for distribute_tracks_to_cameras. False to stop.
+    """
+    args._finished = None
+    if not finished:
+        return True
+    n = sample_count(finished["source"]) / float(SR)
+    b0 = -finished["a"] / finished["b"]
+    b1 = (n - finished["a"]) / finished["b"]
+    if b1 <= t0 or b0 >= t1:
+        print(as_bad(T('  The finished mix has nothing in the window from %s '
+                       'to %s: it lies from %s to %s. The run stops.')
+                     % (as_hms(t0), as_hms(t1), as_hms(max(0.0, b0)),
+                        as_hms(max(0.0, b1)))))
+        return False
+    front, back = max(0.0, b0 - t0), max(0.0, t1 - b1)
+    if max(front, back) > 0.25:
+        print(as_warn(T('  The finished mix leaves %s at the front and %s '
+                        'at the back of the window silent.')
+                      % (as_hms(front), as_hms(back))))
+    if args.dry_run:
+        return True
+    finished["drift"] = (not getattr(args, "no_drift", False)
+                         and drift_clear(finished["b"], finished.get("st")))
+    finished["axis"] = place_track_on_axis(
+        finished["source"], os.path.join(tmpdir, "axis_finished_mix.wav"),
+        finished["a"], finished["b"], t0, t1, finished["drift"])
+    args._finished = finished
+    return True
+
+
 def build_common_timebase(args, plan, cameras, video_paths, title=""):
     """Put all audio tracks on one common time axis.
 
@@ -1238,6 +1328,8 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         if video_paths:
             print(T('\nNo usable video file -- without camera audio there '
                     'is no common time axis.'))
+            return 1
+        if finished_mix_homeless(args):
             return 1
         if args.multitrack and len(plan) < 2:
             # Multitrack means one track per voice. Joining what is
@@ -1322,6 +1414,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     if not tracks:
         print(T('\nNo audio track could be aligned -- there is nothing to '
                 'put on the axis.'))
+        return 1
+    finished = finished_mix_placed(args, ref_clip, position, clocks, tmpdir)
+    if finished is False:
         return 1
     # Where a clock and the measurement part, one line each: the window
     # says the same through the same function (clock_apart_lines).
@@ -1422,6 +1517,8 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                    T('from %s'))
 
     tracks_onto_axis(args, tracks, t0, t1, tmpdir, "axis_%s.wav")
+    if not finished_mix_onto_axis(args, finished, t0, t1, tmpdir):
+        return 1
 
     # Who speaks when, before any upload or processing: the axis stands,
     # so a separation can be placed on it -- only on cameras that have a
@@ -1639,6 +1736,7 @@ def check_written_file(target, items, n_camera, args, fps):
             print(T('  Check:           one of the two tracks is not in the '
                     'written file, so nothing was measured.'))
             return
+        fresh, cam = where_it_sounds(fresh, cam)
         k, g = cross_correlate(envelope(cam, HOP, rate),
                                envelope(fresh, HOP, rate))
     except Exception as e:
@@ -2012,12 +2110,19 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     # as many as recorded: the mix is delivered and measured, the single
     # track worked with in the edit. One recording: nothing mixed or widened.
     wide = mix_width(tracks)
-    full_mix = mix_tracks([track["ready"] for track in tracks],
-                        os.path.join(tmpdir, "mix_full.wav"), gain,
-                        curve, channels=wide)
-    print(TN(wide, '  Full-Mix from %s tracks, %s channel',
-             '  Full-Mix from %s tracks, %s channels')
-          % (number_text(len(tracks), 0), number_text(wide, 0)))
+    finished = getattr(args, "_finished", None)
+    if finished:
+        # Finished elsewhere, so taken as it came: no gain, no limiter.
+        full_mix = finished["axis"]
+        print(T('  Full-Mix: the finished mix, as it came -- no gain on '
+                'it and no limiter'))
+    else:
+        full_mix = mix_tracks([track["ready"] for track in tracks],
+                              os.path.join(tmpdir, "mix_full.wav"), gain,
+                              curve, channels=wide)
+        print(TN(wide, '  Full-Mix from %s tracks, %s channel',
+                 '  Full-Mix from %s tracks, %s channels')
+              % (number_text(len(tracks), 0), number_text(wide, 0)))
 
     # What is said and when, from the finished mix, beside the cameras:
     # the words are needed only when the cut is built, and without them

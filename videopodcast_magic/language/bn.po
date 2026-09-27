@@ -4858,9 +4858,6 @@ msgstr "কথা"
 msgid "Mixed"
 msgstr "মিশ্র"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "কথা: শুধু লাউডনেস দিয়ে বসানো হয়। যে রেকর্ডিংয়ের ক্যামেরার সঙ্গে\nকোনো মিল নেই, তা বাতিল হয়। মিশ্র: কণ্ঠের নিচে সংগীত বা মিক্স থাকে,\nআর যেখানে লাউডনেস কিছু পায় না, সেখানে ফেজ দিয়ে বসানো যেতে পারে।\n\"%s\"-এ এটি সবসময় মিশ্র।"
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: এর শব্দ %s মাত্রায় মেলে, আর অন্য এক জায়গায়ও %s মাত্রায় -- শুধু নিজের ঘড়ি অনুযায়ী বসানো হয়েছে"
 
@@ -5164,3 +5161,45 @@ msgstr "\nবক্তারা -- আগে মাপা"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  এই কম্পিউটারে রাখা মাপ থেকে নেওয়া: একই রেকর্ডিং, অবস্থান ও সময়-পরিসর।"
+
+msgid "Finished mix"
+msgstr "তৈরি মিক্স"
+
+msgid "Two finished mixes"
+msgstr "দুটি তৈরি মিক্স"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s এবং %s দুটিই %s-এ সেট করা। প্রক্রিয়াকরণ যে মিক্স বানায় তার জায়গা কেবল একটি মিক্স নেয় -- অন্যটিকে আবার কথা-এ ফেরান।"
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "তৈরি মিক্সকে একটি অডিও ফাইল হতে হবে: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "তৈরি মিক্স ক্যামেরা ফাইলে মিক্সের জায়গা নেয়, আর ভিডিও ফাইল ছাড়া কোনো ক্যামেরা ফাইল নেই।"
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "তৈরি মিক্সের দৈর্ঘ্য %s, প্রতিটি ক্যামেরার চেয়ে ছোট (সবচেয়ে ছোট %s): যেখানে এটি শেষ হয়, সেখানে Full-Mix নীরব।"
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s সেই মিক্সের জায়গা নেয় যা এই প্রক্রিয়াকরণ বানাত।"
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  তৈরি মিক্স সময় অক্ষে কোনো জায়গা পায়নি: ক্যামেরার সঙ্গে এর কোনো শব্দ মেলে না। যেকোনো জায়গায় রাখার বদলে প্রক্রিয়াকরণ থামে।"
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  %s থেকে %s জানালায় তৈরি মিক্সের কিছুই নেই: এটি %s থেকে %s-এ আছে। প্রক্রিয়াকরণ থামে।"
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  তৈরি মিক্স জানালার শুরুতে %s আর শেষে %s নীরব রাখে।"
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: তৈরি মিক্স যেমন এসেছে -- গেইন নেই, লিমিটার নেই"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"শুধু সিঙ্ক\" প্রতিটি রেকর্ডিং মিশ্র শব্দ হিসেবে রাখে।"
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "তৈরি মিক্স -- বক্তা নয়, ক্যামেরা নেই"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "কথা: শুধু লাউডনেস দিয়ে বসানো হয়। যে রেকর্ডিংয়ের ক্যামেরার সঙ্গে\nকোনো মিল নেই, তা বাতিল হয়। মিশ্র: কণ্ঠের নিচে সংগীত বা মিক্স থাকে,\nআর যেখানে লাউডনেস কিছু পায় না, সেখানে ফেজ দিয়ে বসানো যেতে পারে।\nতৈরি মিক্স: অন্য কোথাও বানানো স্টেরিও মিক্স, মিশ্র শব্দের মতো রাখা হয়। এটি প্রক্রিয়াকরণের মিক্সের বদলে\nক্যামেরা ফাইল ও হস্তান্তরে যায় --\nবক্তা নয়, কাটা হয় না, auphonic.com-এ পাঠানো হয় না।\n\"%s\"-এ কথা বিকল্প দেওয়া হয় না।"

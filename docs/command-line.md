@@ -146,6 +146,20 @@ only lists the presets.
 | `--intro FILE` | laid over the beginning, on the second picture and audio track. Neither aligned nor processed |
 | `--outro FILE` | the same for the end; starts where the last word ends |
 
+## Handing in a finished mix
+
+| Switch | Does |
+|---|---|
+| `--finished-mix FILE` | a stereo mix finished in another recording chain. Placed on the time axis as a recording with mixed sound is, it goes into the camera files and the handover as the Full-Mix, in place of the mix the run builds -- as it came, with no gain and no limiter. It is no speaker: not cut, not taken apart by voice, not sent to auphonic.com. Given several times, the files are the blocks of one recording, in order. Needs a video file |
+
+The window sends it for the recording whose **In the sound** says
+**Finished mix**; one line, one rule. Named among the files as well, the
+file is still no recording of the run. The preflight stops a run with no
+video file, and notes a mix shorter than every camera; on the time axis
+a mix that shares no sound with the cameras, or has nothing between In
+and Out point, stops the run, and a silent stretch it leaves is named
+([Preflight](preflight.md)).
+
 ## Working with DaVinci Resolve
 
 | Switch | Does |

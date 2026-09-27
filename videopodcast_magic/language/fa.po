@@ -4859,9 +4859,6 @@ msgstr "گفتار"
 msgid "Mixed"
 msgstr "ترکیبی"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "گفتار: فقط بر اساس بلندی صدا جای‌گذاری می‌شود. ضبطی که هیچ اشتراکی\nبا دوربین‌ها ندارد رد می‌شود. ترکیبی: موسیقی یا میکس زیر صداها قرار دارد،\nو جایی که بلندی صدا چیزی نمی‌یابد، فاز می‌تواند آن را جای‌گذاری کند.\nدر «%s» همیشه ترکیبی است."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: صدای آن با میزان %s تطبیق دارد، و در جای دیگری هم با میزان %s -- فقط با ساعت خودش جای‌گذاری شد"
 
@@ -5165,3 +5162,45 @@ msgstr "\nگویندگان -- پیش‌تر اندازه‌گیری‌شده"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  از اندازه‌گیری نگه‌داشته‌شده روی همین رایانه برداشته شد: همان ضبط‌ها، جایگاه‌ها و بازهٔ زمانی."
+
+msgid "Finished mix"
+msgstr "میکس آماده"
+
+msgid "Two finished mixes"
+msgstr "دو میکس آماده"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s و %s هر دو روی %s تنظیم شده‌اند. فقط یک میکس جای میکسی را می‌گیرد که پردازش می‌سازد -- دیگری را به گفتار برگردانید."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "میکس آماده باید فایل صوتی باشد: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "میکس آماده جای میکس را در فایل‌های دوربین می‌گیرد، و بدون فایل ویدئو هیچ فایلی نیست."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "میکس آماده %s طول دارد، کوتاه‌تر از هر دوربین (کوتاه‌ترین %s): جایی که تمام می‌شود، Full-Mix ساکت است."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s جای میکسی را می‌گیرد که این پردازش می‌ساخت."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  میکس آماده روی محور زمان جایی پیدا نکرد: هیچ صدای مشترکی با دوربین‌ها ندارد. پردازش متوقف می‌شود به‌جای آنکه آن را هر جایی بگذارد."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  میکس آماده در پنجرهٔ %s تا %s چیزی ندارد: از %s تا %s قرار دارد. پردازش متوقف می‌شود."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  میکس آماده %s در آغاز و %s در پایان پنجره را ساکت می‌گذارد."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: میکس آماده همان‌طور که رسید -- بدون افزایش بهره و بدون محدودکننده"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "«فقط همگام‌سازی» هر ضبط را به‌عنوان صدای ترکیبی قرار می‌دهد."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "میکس آماده -- گوینده نیست، بدون دوربین"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "گفتار: فقط بر اساس بلندی صدا جای‌گذاری می‌شود. ضبطی که هیچ اشتراکی\nبا دوربین‌ها ندارد رد می‌شود. ترکیبی: موسیقی یا میکس زیر صداها قرار دارد،\nو جایی که بلندی صدا چیزی نمی‌یابد، فاز می‌تواند آن را جای‌گذاری کند.\nمیکس آماده: میکس استریویی که جای دیگری ساخته شده، مانند صدای ترکیبی قرار می‌گیرد. به‌جای میکس پردازش\nوارد فایل‌های دوربین و تحویل می‌شود --\nگوینده نیست، بریده نمی‌شود، به auphonic.com فرستاده نمی‌شود.\nدر «%s» گفتار پیشنهاد نمی‌شود."

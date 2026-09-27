@@ -1501,16 +1501,20 @@ def named_as(name, findings_, data, shown):
 
 def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
                     set_aside=(), apart=(), together=(), project_type="cut",
-                    labels=None):
+                    labels=None, finished=()):
     """Collect all findings about the material.
 
     Each file is measured and cached on its own, so adding one measures only
     that one; comparisons come off the cached data. *set_aside* files take no
-    part -- ignored ones, intro, outro: checked so their row is not the only
-    one without a mark, kept out of the comparisons. *project_type* "sync"
-    takes one audio recording and refuses more; *labels* see camera_named.
+    part -- ignored ones, intro, outro, the *finished* mix (finished_mix_fits
+    holds it to the cameras): checked so their row has a mark, kept out of
+    the comparisons. "sync" takes one recording; *labels* see camera_named.
     """
-    set_aside = {path_key(x) for x in (set_aside or ())}
+    finished = list(finished or ())
+    mix_keys = {path_key(x) for x in finished}
+    audio_paths = [p for p in audio_paths
+                   if path_key(p) not in mix_keys] + finished
+    set_aside = {path_key(x) for x in list(set_aside or ()) + finished}
 
     def counts_not(findings_, file_path):
         if path_key(file_path) in set_aside:
@@ -1533,6 +1537,7 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     if having_video:
         findings += find_camera_gaps(having_video)
     heard = recording_labels(audio_paths)
+    mix_data = []
     for p, (b, d) in zip(audio_paths, parallel_map(
             audio_paths,
             lambda x: measure_cached(x, "audio", check_audio_file, fresh))):
@@ -1541,6 +1546,10 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
         findings += counts_not(b, p)
         if d and path_key(p) not in set_aside:
             audio_data.append(d)
+        elif d and path_key(p) in mix_keys:
+            mix_data.append(d)
+    if finished:
+        findings += finished_mix_fits(mix_data, video_data, finished[0])
     # Comparisons work with recordings, not with blocks: two blocks of
     # one recording run in turn, are each shorter and never overlap.
     audio_paths = [p for p in audio_paths if path_key(p) not in set_aside]
@@ -1576,6 +1585,37 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     return findings
 
 
+def finished_mix_fits(mix_data, video_data, head):
+    """Whether the finished mix can stand in for the mix, as far as seen.
+
+    Without a camera it has nothing to stand in: the mix goes into the
+    camera files, so it would change nothing, and the run stops. Shorter
+    than every camera, it cannot cover the stretch they all saw, and the
+    Full-Mix falls silent where it ends: said, not stopped. Whether it
+    shares sound with the cameras only the time axis can say.
+    """
+    if not mix_data:
+        return []
+    name = name_to_fit(mix_data[0].get("name") or os.path.basename(head),
+                       NAME_COLUMN)
+    if not video_data:
+        return [Finding(
+            "abort", name,
+            T('the finished mix takes the place of the mix in the camera '
+              'files, and without a video file there are none.'),
+            file=os.path.abspath(head))]
+    length = sum(d.get("duration") or 0.0 for d in mix_data)
+    shortest = min(d.get("duration") or 0.0 for d in video_data)
+    if length + 1.0 < shortest:
+        return [Finding(
+            "hint", name,
+            T('the finished mix runs %s, shorter than every camera (the '
+              'shortest %s): where it ends, the Full-Mix is silent.')
+            % (as_hms(length), as_hms(shortest)),
+            file=os.path.abspath(head))]
+    return []
+
+
 def run_preflight(args, audio_paths, video_paths, project_type=None):
     """Run the preflight report on the material. Returns 1 to abort.
 
@@ -1591,7 +1631,8 @@ def run_preflight(args, audio_paths, video_paths, project_type=None):
                               bool(getattr(args, "preflight_again", False)),
                               apart=getattr(args, "apart", ()),
                               together=getattr(args, "together", ()),
-                              project_type=project_type or "cut")
+                              project_type=project_type or "cut",
+                              finished=getattr(args, "finished_mix", ()))
     # Counted as the run counts them: blocks of one recording are one.
     chains = (group_recording_parts(
         audio_paths, getattr(args, "no_follow_ups", False),
@@ -1763,12 +1804,13 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
 
     def preflight_work_loop(audio_files, videos_p, label_run,
                          set_aside=(), apart=(), together=(),
-                         project_type="cut", labels=None):
+                         project_type="cut", labels=None, finished=()):
         """Measure in the background so the interface does not freeze."""
         try:
             findings = collect_findings(audio_files, videos_p, False,
                                         True, set_aside, apart,
-                                        together, project_type, labels)
+                                        together, project_type, labels,
+                                        finished)
         except Exception as e:
             # An empty list would read as "nothing to fault", and the run
             # would start on material nobody looked at.
@@ -1800,6 +1842,10 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
             if value.get() == TYPE_IGNORED:
                 gone.add(path_key(file_path))
         audio_files = [p for p, a in files if a == "audio"]
+        # The finished mix by the run's own rule, so both check one file.
+        finished = [b for blocks in PROGRAM.finished_mix_rows(
+            state.get("sound_holds"), [row for row, _nv, _cv in assign_lines],
+            audio_files) for b in blocks]
         videos_p = [p for p, a in files if a == "video"]
         label_run = state.get("preflight_run", 0) + 1
         state["preflight_run"] = label_run
@@ -1817,7 +1863,7 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
                                state.get("project_type") or "cut",
                                # Named as the window names them: the
                                # run's camera_shown knows no labels here.
-                               PROGRAM.camera_labels(videos_p)),
+                               PROGRAM.camera_labels(videos_p), finished),
                          daemon=True).start()
 
     return preflight_fill_in, preflight_kick_off

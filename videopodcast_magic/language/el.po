@@ -4857,9 +4857,6 @@ msgstr "Ομιλία"
 msgid "Mixed"
 msgstr "Μεικτό"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Ομιλία: τοποθετείται μόνο με βάση την ακουστότητα. Μια ηχογράφηση που δεν έχει τίποτα κοινό\nμε τις κάμερες απορρίπτεται. Μεικτό: μουσική ή μίξη βρίσκεται κάτω από τις φωνές,\nκαι όπου η ακουστότητα δεν βρίσκει τίποτα, μπορεί να την τοποθετήσει η φάση.\nΣτο «%s» είναι πάντα μεικτό."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: ο ήχος της ταιριάζει κατά %s, και κατά %s σε άλλο σημείο επίσης -- τοποθετήθηκε μόνο με βάση το ρολόι της"
 
@@ -5163,3 +5160,45 @@ msgstr "\nΟΜΙΛΗΤΕΣ -- ΜΕΤΡΗΜΕΝΟΙ ΠΡΙΝ"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Λήφθηκε από τη μέτρηση που φυλάσσεται σε αυτό το μηχάνημα: ίδιες ηχογραφήσεις, θέσεις και χρονικό παράθυρο."
+
+msgid "Finished mix"
+msgstr "Έτοιμη μίξη"
+
+msgid "Two finished mixes"
+msgstr "Δύο έτοιμες μίξεις"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "Τα %s και %s έχουν οριστεί και τα δύο σε %s. Μόνο μία μίξη παίρνει τη θέση αυτής που φτιάχνει η επεξεργασία -- επαναφέρετε την άλλη σε Ομιλία."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Η έτοιμη μίξη πρέπει να είναι αρχείο ήχου: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "η έτοιμη μίξη παίρνει τη θέση της μίξης στα αρχεία των καμερών, και χωρίς αρχείο βίντεο δεν υπάρχουν."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "η έτοιμη μίξη διαρκεί %s, λιγότερο από κάθε κάμερα (η συντομότερη %s): όπου τελειώνει, το Full-Mix σωπαίνει."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  Το %s παίρνει τη θέση της μίξης που θα έφτιαχνε αυτή η επεξεργασία."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Η έτοιμη μίξη δεν βρήκε θέση στον άξονα χρόνου: δεν μοιράζεται ήχο με τις κάμερες. Η επεξεργασία σταματά αντί να την τοποθετήσει οπουδήποτε."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Η έτοιμη μίξη δεν έχει τίποτα στο παράθυρο από %s έως %s: βρίσκεται από %s έως %s. Η επεξεργασία σταματά."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Η έτοιμη μίξη αφήνει σιωπηλά %s στην αρχή και %s στο τέλος του παραθύρου."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: η έτοιμη μίξη όπως ήρθε -- χωρίς ενίσχυση και χωρίς limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "Το «Μόνο συγχρονισμός» τοποθετεί κάθε ηχογράφηση ως μεικτό ήχο."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "η έτοιμη μίξη -- όχι ομιλητής, όχι κάμερα"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Ομιλία: τοποθετείται μόνο με βάση την ακουστότητα. Μια ηχογράφηση που δεν έχει τίποτα κοινό\nμε τις κάμερες απορρίπτεται. Μεικτό: μουσική ή μίξη βρίσκεται κάτω από τις φωνές,\nκαι όπου η ακουστότητα δεν βρίσκει τίποτα, μπορεί να την τοποθετήσει η φάση.\nΈτοιμη μίξη: στερεοφωνική μίξη φτιαγμένη αλλού, τοποθετημένη ως μεικτός ήχος. Μπαίνει\nστα αρχεία των καμερών και στην παράδοση στη θέση της μίξης της επεξεργασίας --\nόχι ομιλητής, χωρίς κόψιμο, χωρίς αποστολή στο auphonic.com.\nΣτο «%s» η Ομιλία δεν προσφέρεται."

@@ -183,9 +183,24 @@ Four tabs, in the order they are needed.
   - **Mixed**: music or a finished mix lies under the voices, so the
     loudness may find nothing. Where it does, the phase of the sound
     may place the recording instead.
+  - **Finished mix**: the recording *is* the mix, finished in another
+    recording chain -- a stereo sum off a mixing desk, say. It is
+    placed on the time axis as **Mixed** is, and then stands in the
+    camera files and the handover as the **Full-Mix**, in place of the
+    mix the program would build from the recordings. It goes in as it
+    came: no gain, no limiter, whatever the loudness target says. It is
+    no speaker -- its row on the **Assignment** tab says **the finished
+    mix -- no speaker, no camera** and takes no name --, it is not cut,
+    not taken apart by voice and not sent to auphonic.com. The speakers
+    and the single tracks still come from the other recordings, or from
+    the cameras' own sound where there are none. One recording can be
+    the finished mix; two stop the start with **Two finished mixes**.
+    Where it does not fit, the check and the run say so (see
+    [Preflight](preflight.md)).
 
-  Under **Sync only** the field stands on **Mixed** and is shut: there
-  the phase is always allowed. What was chosen is kept beside it and
+  Under **Sync only** the field shows **Mixed** and **Speech** cannot
+  be picked: there the phase is always allowed. A finished mix stays
+  what it is. What was chosen is kept beside it and
   comes back with **Cut by speaker**. Changing the field, or the project
   type, measures the time axis again where that changes which
   recordings the phase may place. The project file keeps the answer

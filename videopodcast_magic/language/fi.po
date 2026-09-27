@@ -4856,9 +4856,6 @@ msgstr "Puhe"
 msgid "Mixed"
 msgstr "Sekoitettu"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Puhe: sijoitetaan pelkän äänekkyyden mukaan. Tallenne, jolla ei ole mitään yhteistä\nkameroiden kanssa, hylätään. Sekoitettu: äänten alla on musiikkia tai miksaus,\nja missä äänekkyys ei löydä mitään, vaihe saa sijoittaa sen.\nKohdassa ”%s” se on aina sekoitettu."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: sen ääni vastaa arvolla %s, ja toisessa kohdassa myös arvolla %s -- sijoitettu pelkän kellonsa mukaan"
 
@@ -5162,3 +5159,45 @@ msgstr "\nPUHUJAT -- MITATTU AIEMMIN"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Otettu tälle koneelle tallennetusta mittauksesta: samat tallenteet, paikat ja aikaikkuna."
+
+msgid "Finished mix"
+msgstr "Valmis miksaus"
+
+msgid "Two finished mixes"
+msgstr "Kaksi valmista miksausta"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s ja %s on molemmat asetettu tilaan %s. Yksi miksaus korvaa ajon rakentaman -- aseta toinen takaisin tilaan Puhe."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Valmiin miksauksen on oltava äänitiedosto: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "valmis miksaus korvaa miksauksen kameratiedostoissa, eikä ilman videotiedostoa niitä ole."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "valmis miksaus kestää %s, lyhyemmän ajan kuin mikään kamera (lyhin %s): siitä, mihin se loppuu, Full-Mix on hiljaa."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s korvaa miksauksen, jonka tämä ajo rakentaisi."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Valmis miksaus ei löytänyt paikkaa aika-akselilta: sillä ei ole yhteistä ääntä kameroiden kanssa. Ajo pysähtyy mieluummin kuin asettaa sen minne sattuu."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Valmiilla miksauksella ei ole mitään ikkunassa %s–%s: se sijoittuu välille %s–%s. Ajo pysähtyy."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Valmis miksaus jättää ikkunan alusta %s ja lopusta %s hiljaiseksi."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: valmis miksaus sellaisenaan -- ei vahvistusta eikä limitteriä"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "”Vain synkronointi” sijoittaa jokaisen äänityksen sekoitettuna äänenä."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "valmis miksaus -- ei puhujaa, ei kameraa"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Puhe: sijoitetaan pelkän äänekkyyden mukaan. Tallenne, jolla ei ole mitään yhteistä\nkameroiden kanssa, hylätään. Sekoitettu: äänten alla on musiikkia tai miksaus,\nja missä äänekkyys ei löydä mitään, vaihe saa sijoittaa sen.\nValmis miksaus: muualla tehty stereomiksaus, sijoitettu kuin sekoitettu ääni. Se menee\nkameratiedostoihin ja luovutukseen ajon oman miksauksen tilalle --\nei puhuja, ei leikata, ei lähetetä auphonic.comiin.\nKohdassa ”%s” Puhetta ei tarjota."

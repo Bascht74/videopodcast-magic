@@ -4855,9 +4855,6 @@ msgstr "Habla"
 msgid "Mixed"
 msgstr "Mezclado"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Habla: se coloca solo por su sonoridad. Una grabación que no comparte nada\ncon las cámaras se rechaza. Mezclado: bajo las voces hay música o una mezcla,\ny donde la sonoridad no encuentra nada, la fase puede colocarla.\nCon «%s» siempre es mezclado."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: su sonido coincide en %s, y en %s también en otro lugar -- colocado solo por su reloj"
 
@@ -5161,3 +5158,45 @@ msgstr "\nHABLANTES -- MEDIDOS ANTES"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Tomado de la medición guardada en esta máquina: las mismas grabaciones, posiciones y ventana de tiempo."
+
+msgid "Finished mix"
+msgstr "Mezcla final"
+
+msgid "Two finished mixes"
+msgstr "Dos mezclas finales"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s y %s están ambos en %s. Una sola mezcla sustituye a la que construye el proceso -- vuelva a poner la otra en Habla."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "La mezcla final tiene que ser un archivo de audio: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "la mezcla final sustituye a la mezcla en los archivos de cámara, y sin archivo de vídeo no hay ninguno."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "la mezcla final dura %s, menos que cualquier cámara (la más corta %s): donde termina, el Full-Mix queda en silencio."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s sustituye a la mezcla que este proceso construiría."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  La mezcla final no encontró sitio en el eje de tiempo: no comparte sonido con las cámaras. El proceso se detiene en vez de colocarla en cualquier parte."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  La mezcla final no tiene nada en la ventana de %s a %s: está de %s a %s. El proceso se detiene."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  La mezcla final deja en silencio %s al principio y %s al final de la ventana."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: la mezcla final tal como llegó -- sin ganancia y sin limitador"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "«Solo sincronizar» coloca cada grabación como sonido mezclado."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "la mezcla final -- sin hablante, sin cámara"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Habla: se coloca solo por su sonoridad. Una grabación que no comparte nada\ncon las cámaras se rechaza. Mezclado: bajo las voces hay música o una mezcla,\ny donde la sonoridad no encuentra nada, la fase puede colocarla.\nMezcla final: una mezcla estéreo hecha en otro sitio, colocada como sonido mezclado. Va\na los archivos de cámara y a la entrega en lugar de la mezcla del proceso --\nsin hablante, sin cortes, sin envío a auphonic.com.\nCon «%s» no se ofrece Habla."

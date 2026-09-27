@@ -4917,9 +4917,6 @@ msgstr "Мовлення"
 msgid "Mixed"
 msgstr "Змішаний"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Мовлення: розміщується лише за гучністю. Запис, що не має нічого спільного\nз камерами, відхиляється. Змішаний: під голосами лежить музика чи мікс,\nі де гучність нічого не знаходить, його може розмістити фаза.\nЗа «%s» завжди змішаний."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: збіг звуку %s, і в іншому місці також %s -- розміщено лише за власним годинником"
 
@@ -5223,3 +5220,45 @@ msgstr "\nМОВЦІ -- ВИМІРЯНО РАНІШЕ"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Взято з вимірювання, збереженого на цьому комп'ютері: ті самі записи, положення і часове вікно."
+
+msgid "Finished mix"
+msgstr "Готовий мікс"
+
+msgid "Two finished mixes"
+msgstr "Два готові мікси"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s і %s обидва встановлено на %s. Лише один мікс замінює той, що будує обробка -- поверніть інший на «Мовлення»."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Готовий мікс має бути аудіофайлом: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "готовий мікс замінює мікс у файлах камер, а без відеофайлу їх немає."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "готовий мікс триває %s, коротше за будь-яку камеру (найкоротша %s): де він закінчується, Full-Mix мовчить."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s замінює мікс, який побудувала б ця обробка."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Готовий мікс не знайшов місця на осі часу: він не має спільного звуку з камерами. Обробка зупиняється, а не кладе його будь-куди."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Готовий мікс не має нічого у вікні від %s до %s: він лежить від %s до %s. Обробка зупиняється."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Готовий мікс залишає тишу: %s на початку і %s в кінці вікна."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: готовий мікс у тому вигляді, як прийшов -- без підсилення і без лімітера"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "«Лише синхронізація» розміщує кожен запис як змішаний звук."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "готовий мікс -- не мовець, без камери"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Мовлення: розміщується лише за гучністю. Запис, що не має нічого спільного\nз камерами, відхиляється. Змішаний: під голосами лежить музика чи мікс,\nі де гучність нічого не знаходить, його може розмістити фаза.\nГотовий мікс: стереомікс, зроблений деінде, розміщується як змішаний звук. Він іде\nу файли камер і в передачу замість міксу, який будує обробка --\nне мовець, не ріжеться, не надсилається на auphonic.com.\nЗа «%s» «Мовлення» не пропонується."

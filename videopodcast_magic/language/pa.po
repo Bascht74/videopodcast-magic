@@ -4862,9 +4862,6 @@ msgstr "ਗੱਲਬਾਤ"
 msgid "Mixed"
 msgstr "ਮਿਸ਼ਰਤ"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "ਗੱਲਬਾਤ: ਸਿਰਫ਼ ਲਾਊਡਨੈੱਸ ਨਾਲ ਰੱਖੀ ਜਾਂਦੀ ਹੈ। ਜਿਸ ਰਿਕਾਰਡਿੰਗ ਦਾ ਕੈਮਰਿਆਂ ਨਾਲ ਕੁਝ ਵੀ\nਸਾਂਝਾ ਨਹੀਂ, ਉਹ ਰੱਦ ਕੀਤੀ ਜਾਂਦੀ ਹੈ। ਮਿਸ਼ਰਤ: ਆਵਾਜ਼ਾਂ ਹੇਠ ਸੰਗੀਤ ਜਾਂ ਮਿਕਸ ਹੁੰਦਾ ਹੈ,\nਅਤੇ ਜਿੱਥੇ ਲਾਊਡਨੈੱਸ ਨੂੰ ਕੁਝ ਨਹੀਂ ਮਿਲਦਾ, ਉੱਥੇ ਫੇਜ਼ ਇਸ ਨੂੰ ਰੱਖ ਸਕਦਾ ਹੈ।\n\"%s\" ਹੇਠ ਇਹ ਹਮੇਸ਼ਾ ਮਿਸ਼ਰਤ ਹੁੰਦੀ ਹੈ।"
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: ਇਸ ਦੀ ਧੁਨੀ %s ਤੱਕ ਮੇਲ ਖਾਂਦੀ ਹੈ, ਅਤੇ ਕਿਸੇ ਹੋਰ ਥਾਂ ਵੀ %s ਤੱਕ -- ਸਿਰਫ਼ ਉਸ ਦੀ ਘੜੀ ਨਾਲ ਰੱਖਿਆ ਗਿਆ"
 
@@ -5168,3 +5165,45 @@ msgstr "\nਬੁਲਾਰੇ -- ਪਹਿਲਾਂ ਮਾਪੇ ਗਏ"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  ਇਸ ਕੰਪਿਊਟਰ 'ਤੇ ਰੱਖੇ ਮਾਪ ਤੋਂ ਲਿਆ: ਉਹੀ ਰਿਕਾਰਡਿੰਗਾਂ, ਥਾਵਾਂ ਅਤੇ ਸਮਾਂ-ਖਿੜਕੀ।"
+
+msgid "Finished mix"
+msgstr "ਤਿਆਰ ਮਿਕਸ"
+
+msgid "Two finished mixes"
+msgstr "ਦੋ ਤਿਆਰ ਮਿਕਸ"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s ਅਤੇ %s ਦੋਵੇਂ %s ਉੱਤੇ ਹਨ। ਪ੍ਰੋਸੈਸਿੰਗ ਜੋ ਮਿਕਸ ਬਣਾਉਂਦੀ ਹੈ ਉਸ ਦੀ ਥਾਂ ਸਿਰਫ਼ ਇੱਕ ਮਿਕਸ ਲੈਂਦਾ ਹੈ -- ਦੂਜੇ ਨੂੰ ਵਾਪਸ ਗੱਲਬਾਤ ਉੱਤੇ ਕਰੋ।"
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "ਤਿਆਰ ਮਿਕਸ ਇੱਕ ਆਡੀਓ ਫ਼ਾਈਲ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "ਤਿਆਰ ਮਿਕਸ ਕੈਮਰਾ ਫ਼ਾਈਲਾਂ ਵਿੱਚ ਮਿਕਸ ਦੀ ਥਾਂ ਲੈਂਦਾ ਹੈ, ਅਤੇ ਵੀਡੀਓ ਫ਼ਾਈਲ ਤੋਂ ਬਿਨਾਂ ਕੋਈ ਕੈਮਰਾ ਫ਼ਾਈਲ ਨਹੀਂ।"
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "ਤਿਆਰ ਮਿਕਸ %s ਦਾ ਹੈ, ਹਰ ਕੈਮਰੇ ਤੋਂ ਛੋਟਾ (ਸਭ ਤੋਂ ਛੋਟਾ %s): ਜਿੱਥੇ ਇਹ ਖ਼ਤਮ ਹੁੰਦਾ ਹੈ, ਉੱਥੇ Full-Mix ਚੁੱਪ ਹੈ।"
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s ਉਸ ਮਿਕਸ ਦੀ ਥਾਂ ਲੈਂਦਾ ਹੈ ਜੋ ਇਹ ਪ੍ਰੋਸੈਸਿੰਗ ਬਣਾਉਂਦੀ।"
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  ਤਿਆਰ ਮਿਕਸ ਨੂੰ ਸਮਾਂ ਧੁਰੇ ਉੱਤੇ ਥਾਂ ਨਹੀਂ ਮਿਲੀ: ਇਸ ਦੀ ਕੋਈ ਆਵਾਜ਼ ਕੈਮਰਿਆਂ ਨਾਲ ਸਾਂਝੀ ਨਹੀਂ। ਕਿਤੇ ਵੀ ਰੱਖਣ ਦੀ ਬਜਾਏ ਪ੍ਰੋਸੈਸਿੰਗ ਰੁਕ ਜਾਂਦੀ ਹੈ।"
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  ਤਿਆਰ ਮਿਕਸ ਕੋਲ %s ਤੋਂ %s ਦੀ ਵਿੰਡੋ ਵਿੱਚ ਕੁਝ ਨਹੀਂ: ਇਹ %s ਤੋਂ %s ਤੱਕ ਹੈ। ਪ੍ਰੋਸੈਸਿੰਗ ਰੁਕ ਜਾਂਦੀ ਹੈ।"
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  ਤਿਆਰ ਮਿਕਸ ਵਿੰਡੋ ਦੇ ਸ਼ੁਰੂ ਵਿੱਚ %s ਅਤੇ ਅੰਤ ਵਿੱਚ %s ਚੁੱਪ ਛੱਡਦਾ ਹੈ।"
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: ਤਿਆਰ ਮਿਕਸ ਜਿਵੇਂ ਆਇਆ -- ਨਾ ਗੇਨ, ਨਾ ਲਿਮਿਟਰ"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"ਸਿਰਫ਼ ਸਿੰਕ\" ਹਰ ਰਿਕਾਰਡਿੰਗ ਨੂੰ ਮਿਸ਼ਰਤ ਆਵਾਜ਼ ਵਜੋਂ ਰੱਖਦਾ ਹੈ।"
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "ਤਿਆਰ ਮਿਕਸ -- ਬੁਲਾਰਾ ਨਹੀਂ, ਕੈਮਰਾ ਨਹੀਂ"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "ਗੱਲਬਾਤ: ਸਿਰਫ਼ ਲਾਊਡਨੈੱਸ ਨਾਲ ਰੱਖੀ ਜਾਂਦੀ ਹੈ। ਜਿਸ ਰਿਕਾਰਡਿੰਗ ਦਾ ਕੈਮਰਿਆਂ ਨਾਲ ਕੁਝ ਵੀ\nਸਾਂਝਾ ਨਹੀਂ, ਉਹ ਰੱਦ ਕੀਤੀ ਜਾਂਦੀ ਹੈ। ਮਿਸ਼ਰਤ: ਆਵਾਜ਼ਾਂ ਹੇਠ ਸੰਗੀਤ ਜਾਂ ਮਿਕਸ ਹੁੰਦਾ ਹੈ,\nਅਤੇ ਜਿੱਥੇ ਲਾਊਡਨੈੱਸ ਨੂੰ ਕੁਝ ਨਹੀਂ ਮਿਲਦਾ, ਉੱਥੇ ਫੇਜ਼ ਇਸ ਨੂੰ ਰੱਖ ਸਕਦਾ ਹੈ।\nਤਿਆਰ ਮਿਕਸ: ਕਿਤੇ ਹੋਰ ਬਣਿਆ ਸਟੀਰੀਓ ਮਿਕਸ, ਮਿਸ਼ਰਤ ਆਵਾਜ਼ ਵਾਂਗ ਰੱਖਿਆ ਜਾਂਦਾ ਹੈ। ਇਹ ਪ੍ਰੋਸੈਸਿੰਗ ਦੇ ਮਿਕਸ ਦੀ ਥਾਂ\nਕੈਮਰਾ ਫ਼ਾਈਲਾਂ ਅਤੇ ਸੌਂਪਣੀ ਵਿੱਚ ਜਾਂਦਾ ਹੈ --\nਬੁਲਾਰਾ ਨਹੀਂ, ਕੱਟਿਆ ਨਹੀਂ ਜਾਂਦਾ, auphonic.com ਨੂੰ ਨਹੀਂ ਭੇਜਿਆ ਜਾਂਦਾ।\n\"%s\" ਹੇਠ ਗੱਲਬਾਤ ਦੀ ਚੋਣ ਨਹੀਂ ਮਿਲਦੀ।"

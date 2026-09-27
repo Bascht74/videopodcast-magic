@@ -4860,9 +4860,6 @@ msgstr "பேச்சு"
 msgid "Mixed"
 msgstr "கலப்பு"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "பேச்சு: லவுட்னஸ் மூலம் மட்டுமே வைக்கப்படும். கேமராக்களுடன் எதையும்\nபகிராத பதிவு நிராகரிக்கப்படும். கலப்பு: குரல்களுக்குக் கீழே இசை அல்லது மிக்ஸ் உள்ளது,\nலவுட்னஸ் எதையும் காணாத இடத்தில் கட்டம் அதை வைக்கலாம்.\n\"%s\" இல் இது எப்போதும் கலப்பு."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: அதன் ஆடியோ %s அளவில் பொருந்துகிறது, வேறோர் இடத்திலும் %s அளவில் -- அதன் கடிகாரத்தை மட்டும் வைத்து இடம் தரப்பட்டது"
 
@@ -5166,3 +5163,45 @@ msgstr "\nபேச்சாளர்கள் -- முன்பே அளவ�
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  இந்தக் கணினியில் வைக்கப்பட்ட அளவீட்டிலிருந்து எடுக்கப்பட்டது: அதே பதிவுகள், இடங்கள், நேரச் சாளரம்."
+
+msgid "Finished mix"
+msgstr "முடிந்த மிக்ஸ்"
+
+msgid "Two finished mixes"
+msgstr "இரண்டு முடிந்த மிக்ஸ்கள்"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s, %s இரண்டும் %s என அமைக்கப்பட்டுள்ளன. செயலாக்கம் உருவாக்கும் மிக்ஸின் இடத்தை ஒரு மிக்ஸ் மட்டுமே எடுக்கும் -- மற்றதை மீண்டும் பேச்சு என மாற்றுங்கள்."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "முடிந்த மிக்ஸ் ஒரு ஒலிக் கோப்பாக இருக்க வேண்டும்: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "முடிந்த மிக்ஸ் கேமரா கோப்புகளில் உள்ள மிக்ஸின் இடத்தை எடுக்கிறது; வீடியோ கோப்பு இல்லையெனில் கேமரா கோப்புகளும் இல்லை."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "முடிந்த மிக்ஸின் நீளம் %s, ஒவ்வொரு கேமராவையும் விடக் குறைவு (மிகக் குறைவு %s): அது முடியும் இடத்தில் Full-Mix அமைதியாக இருக்கும்."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  இந்தச் செயலாக்கம் உருவாக்கியிருக்கும் மிக்ஸின் இடத்தை %s எடுக்கிறது."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  முடிந்த மிக்ஸுக்கு நேர அச்சில் இடம் கிடைக்கவில்லை: கேமராக்களுடன் பொதுவான ஒலி எதுவும் இல்லை. எங்காவது வைப்பதற்குப் பதில் செயலாக்கம் நிற்கிறது."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  %s முதல் %s வரையிலான சாளரத்தில் முடிந்த மிக்ஸுக்கு எதுவும் இல்லை: அது %s முதல் %s வரை உள்ளது. செயலாக்கம் நிற்கிறது."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  முடிந்த மிக்ஸ் சாளரத்தின் தொடக்கத்தில் %s, முடிவில் %s அமைதியாக விடுகிறது."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: வந்தபடியே முடிந்த மிக்ஸ் -- கெயின் இல்லை, லிமிட்டர் இல்லை"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"ஒத்திசைவு மட்டும்\" ஒவ்வொரு பதிவையும் கலப்பு ஒலியாக வைக்கிறது."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "முடிந்த மிக்ஸ் -- பேச்சாளர் அல்ல, கேமரா இல்லை"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "பேச்சு: லவுட்னஸ் மூலம் மட்டுமே வைக்கப்படும். கேமராக்களுடன் எதையும்\nபகிராத பதிவு நிராகரிக்கப்படும். கலப்பு: குரல்களுக்குக் கீழே இசை அல்லது மிக்ஸ் உள்ளது,\nலவுட்னஸ் எதையும் காணாத இடத்தில் கட்டம் அதை வைக்கலாம்.\nமுடிந்த மிக்ஸ்: வேறு இடத்தில் செய்த ஸ்டீரியோ மிக்ஸ், கலப்பு ஒலியாக வைக்கப்படுகிறது. செயலாக்கத்தின் மிக்ஸுக்குப் பதில்\nகேமரா கோப்புகளிலும் ஒப்படைப்பிலும் செல்கிறது --\nபேச்சாளர் அல்ல, வெட்டப்படாது, auphonic.com-க்கு அனுப்பப்படாது.\n\"%s\" இல் பேச்சு தேர்வு இல்லை."

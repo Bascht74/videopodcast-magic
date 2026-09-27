@@ -4905,9 +4905,6 @@ msgstr "Runa"
 msgid "Mixed"
 msgstr "Jaukts"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Runa: novieto tikai pēc skaļuma. Ieraksts, kam nav nekā kopīga\nar kamerām, tiek noraidīts. Jaukts: zem balsīm ir mūzika vai miksējums,\nun kur skaļums neko neatrod, to drīkst novietot fāze.\nAr „%s“ tas vienmēr ir jaukts."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: skaņas atbilstība %s, un arī citā vietā %s -- novietots tikai pēc tā pulksteņa"
 
@@ -5211,3 +5208,45 @@ msgstr "\nRUNĀTĀJI -- IZMĒRĪTI IEPRIEKŠ"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Ņemts no šajā datorā saglabātā mērījuma: tie paši ieraksti, vietas un laika logs."
+
+msgid "Finished mix"
+msgstr "Gatavs mikss"
+
+msgid "Two finished mixes"
+msgstr "Divi gatavi miksi"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s un %s abiem iestatīts %s. Tikai viens mikss aizstāj to, ko būvē apstrāde -- iestatiet otru atpakaļ uz Runa."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Gatavajam miksam jābūt audio failam: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "gatavais mikss aizstāj miksu kameru failos, un bez video faila to nav."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "gatavais mikss ilgst %s, īsāk par jebkuru kameru (īsākā %s): kur tas beidzas, Full-Mix klusē."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s aizstāj miksu, ko šī apstrāde būvētu."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Gatavais mikss neatrada vietu laika asī: tam nav kopīgas skaņas ar kamerām. Apstrāde apstājas, nevis noliek to kaut kur."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Gatavajam miksam logā no %s līdz %s nav nekā: tas atrodas no %s līdz %s. Apstrāde apstājas."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Gatavais mikss atstāj klusumu: %s loga sākumā un %s beigās."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: gatavais mikss, kāds tas atnāca -- bez pastiprinājuma un bez limitera"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Tikai sinhronizācija“ novieto katru ierakstu kā jauktu skaņu."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "gatavais mikss -- nav runātājs, nav kameras"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Runa: novieto tikai pēc skaļuma. Ieraksts, kam nav nekā kopīga\nar kamerām, tiek noraidīts. Jaukts: zem balsīm ir mūzika vai miksējums,\nun kur skaļums neko neatrod, to drīkst novietot fāze.\nGatavs mikss: citur veidots stereo mikss, novietots kā jaukta skaņa. Tas nonāk\nkameru failos un nodošanā apstrādes paša miksa vietā --\nnav runātājs, netiek griezts, netiek sūtīts uz auphonic.com.\nAr „%s“ Runa netiek piedāvāta."

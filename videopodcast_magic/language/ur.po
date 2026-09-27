@@ -4859,9 +4859,6 @@ msgstr "بول چال"
 msgid "Mixed"
 msgstr "مخلوط"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "بول چال: صرف لاؤڈنیس کے مطابق رکھی جاتی ہے۔ جس ریکارڈنگ میں کیمروں کے ساتھ کچھ بھی\nمشترک نہ ہو، وہ رد کر دی جاتی ہے۔ مخلوط: آوازوں کے نیچے موسیقی یا مکس ہوتا ہے،\nاور جہاں لاؤڈنیس کو کچھ نہ ملے، وہاں فیز اسے رکھ سکتا ہے۔\n\"%s\" کے تحت یہ ہمیشہ مخلوط ہوتی ہے۔"
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: اس کا آڈیو %s کی حد تک میل کھاتا ہے، اور کسی دوسری جگہ بھی %s کی حد تک -- صرف اس کی گھڑی کے مطابق جگہ دی گئی"
 
@@ -5165,3 +5162,45 @@ msgstr "\nمقررین -- پہلے ناپے گئے"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  اسی مشین پر رکھی گئی پیمائش سے لیا گیا: وہی ریکارڈنگز، مقامات اور وقت کی کھڑکی۔"
+
+msgid "Finished mix"
+msgstr "تیار مکس"
+
+msgid "Two finished mixes"
+msgstr "دو تیار مکس"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s اور %s دونوں %s پر ہیں۔ صرف ایک مکس اس مکس کی جگہ لیتا ہے جو پروسیسنگ بناتی ہے -- دوسرے کو واپس بول چال پر کریں۔"
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "تیار مکس ایک آڈیو فائل ہونا چاہیے: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "تیار مکس کیمرا فائلوں میں مکس کی جگہ لیتا ہے، اور ویڈیو فائل کے بغیر کوئی کیمرا فائل نہیں۔"
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "تیار مکس %s کا ہے، ہر کیمرے سے چھوٹا (سب سے چھوٹا %s): جہاں یہ ختم ہوتا ہے وہاں Full-Mix خاموش ہے۔"
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s اس مکس کی جگہ لیتا ہے جو یہ پروسیسنگ بناتی۔"
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  تیار مکس کو وقت کے محور پر جگہ نہیں ملی: اس کی کوئی آواز کیمروں سے مشترک نہیں۔ پروسیسنگ اسے کہیں بھی رکھنے کے بجائے رک جاتی ہے۔"
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  تیار مکس کا %s سے %s تک کی کھڑکی میں کچھ نہیں: یہ %s سے %s تک ہے۔ پروسیسنگ رک جاتی ہے۔"
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  تیار مکس کھڑکی کے شروع میں %s اور آخر میں %s خاموش چھوڑتا ہے۔"
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: تیار مکس جیسا آیا -- نہ گین، نہ لمٹر"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"صرف سنک\" ہر ریکارڈنگ کو مخلوط آواز کے طور پر رکھتا ہے۔"
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "تیار مکس -- بولنے والا نہیں، کیمرا نہیں"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "بول چال: صرف لاؤڈنیس کے مطابق رکھی جاتی ہے۔ جس ریکارڈنگ میں کیمروں کے ساتھ کچھ بھی\nمشترک نہ ہو، وہ رد کر دی جاتی ہے۔ مخلوط: آوازوں کے نیچے موسیقی یا مکس ہوتا ہے،\nاور جہاں لاؤڈنیس کو کچھ نہ ملے، وہاں فیز اسے رکھ سکتا ہے۔\nتیار مکس: کہیں اور بنا ہوا اسٹیریو مکس، مخلوط آواز کی طرح رکھا جاتا ہے۔ یہ پروسیسنگ کے مکس کی جگہ\nکیمرا فائلوں اور حوالگی میں جاتا ہے --\nبولنے والا نہیں، کاٹا نہیں جاتا، auphonic.com کو نہیں بھیجا جاتا۔\n\"%s\" کے تحت بول چال پیش نہیں کی جاتی۔"

@@ -4996,9 +4996,6 @@ msgstr "Caint"
 msgid "Mixed"
 msgstr "Measctha"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Caint: curtha de réir a treise amháin. Diúltaítear do thaifeadadh nach bhfuil aon rud i gcoitinne aige\nleis na ceamaraí. Measctha: tá ceol nó meascán faoi na guthanna,\nagus nuair nach bhfaigheann an treise aon rud, féadfaidh an pas é a chur ina áit.\nFaoi \"%s\" bíonn sé measctha i gcónaí."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: oireann a fhuaim le %s, agus le %s in áit eile freisin -- curtha de réir a chloig amháin"
 
@@ -5302,3 +5299,45 @@ msgstr "\nCAINTEOIRÍ -- TOMHAISTE ROIMHE SEO"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Tógtha ón tomhas a coinníodh ar an ríomhaire seo: na taifeadtaí, na suíomhanna agus an fhuinneog ama céanna."
+
+msgid "Finished mix"
+msgstr "Meascán críochnaithe"
+
+msgid "Two finished mixes"
+msgstr "Dhá mheascán críochnaithe"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "Tá %s agus %s araon socraithe ar %s. Ní ghlacann ach meascán amháin áit an mheascáin a thógann an rith -- cuir an ceann eile ar ais ar Caint."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Caithfidh an meascán críochnaithe a bheith ina chomhad fuaime: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "glacann an meascán críochnaithe áit an mheascáin sna comhaid ceamara, agus gan comhad físe níl aon cheann ann."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "maireann an meascán críochnaithe %s, níos giorra ná gach ceamara (an ceann is giorra %s): san áit a gcríochnaíonn sé, bíonn an Full-Mix ciúin."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  Glacann %s áit an mheascáin a thógfadh an rith seo."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Níor aimsigh an meascán críochnaithe áit ar an ais ama: níl fuaim ar bith i bpáirt aige leis na ceamaraí. Stopann an rith seachas é a leagan áit ar bith."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Níl aon rud ag an meascán críochnaithe san fhuinneog ó %s go %s: tá sé ó %s go %s. Stopann an rith."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Fágann an meascán críochnaithe %s ag an tús agus %s ag deireadh na fuinneoige ciúin."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: an meascán críochnaithe mar a tháinig sé -- gan treisiú agus gan teorantóir"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "Cuireann \"Sioncrónú amháin\" gach taifeadadh mar fhuaim mheasctha."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "an meascán críochnaithe -- ní cainteoir, gan ceamara"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Caint: curtha de réir a treise amháin. Diúltaítear do thaifeadadh nach bhfuil aon rud i gcoitinne aige\nleis na ceamaraí. Measctha: tá ceol nó meascán faoi na guthanna,\nagus nuair nach bhfaigheann an treise aon rud, féadfaidh an pas é a chur ina áit.\nMeascán críochnaithe: meascán steirió a rinneadh in áit eile, curtha mar fhuaim mheasctha. Téann sé\nisteach sna comhaid ceamara agus sa tabhairt anonn in áit mheascán an rith --\nní cainteoir é, ní ghearrtar é, ní sheoltar chuig auphonic.com é.\nFaoi \"%s\" ní thairgtear Caint."

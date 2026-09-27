@@ -4856,9 +4856,6 @@ msgstr "Tal"
 msgid "Mixed"
 msgstr "Blandat"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Tal: placeras enbart efter ljudstyrkan. En inspelning som inte har något gemensamt\nmed kamerorna avvisas. Blandat: musik eller en mix ligger under rösterna,\noch där ljudstyrkan inte hittar något får fasen placera den.\nUnder ”%s” är det alltid blandat."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: ljudet stämmer med %s, och med %s på ett annat ställe också -- placerad enbart efter sin klocka"
 
@@ -5162,3 +5159,45 @@ msgstr "\nTALARE -- MÄTTA TIDIGARE"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Hämtat från mätningen som sparats på den här datorn: samma inspelningar, platser och tidsfönster."
+
+msgid "Finished mix"
+msgstr "Färdig mix"
+
+msgid "Two finished mixes"
+msgstr "Två färdiga mixar"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s och %s är båda inställda på %s. En mix ersätter den som körningen bygger -- ställ tillbaka den andra på Tal."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Den färdiga mixen måste vara en ljudfil: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "den färdiga mixen ersätter mixen i kamerafilerna, och utan videofil finns det inga."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "den färdiga mixen är %s lång, kortare än varje kamera (den kortaste %s): där den slutar är Full-Mix tyst."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s ersätter den mix som den här körningen skulle bygga."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Den färdiga mixen fick ingen plats på tidsaxeln: den delar inget ljud med kamerorna. Körningen stannar hellre än att lägga den någonstans."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Den färdiga mixen har inget i fönstret från %s till %s: den ligger från %s till %s. Körningen stannar."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Den färdiga mixen lämnar %s i början och %s i slutet av fönstret tysta."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: den färdiga mixen som den kom -- ingen förstärkning och ingen limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "”Bara synkronisering” placerar varje inspelning som blandat ljud."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "den färdiga mixen -- ingen talare, ingen kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Tal: placeras enbart efter ljudstyrkan. En inspelning som inte har något gemensamt\nmed kamerorna avvisas. Blandat: musik eller en mix ligger under rösterna,\noch där ljudstyrkan inte hittar något får fasen placera den.\nFärdig mix: en stereomix gjord någon annanstans, placerad som blandat ljud. Den hamnar\ni kamerafilerna och överlämningen i stället för körningens egen mix --\ningen talare, inte klippt, inte skickad till auphonic.com.\nUnder ”%s” erbjuds inte Tal."

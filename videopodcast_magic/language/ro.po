@@ -4901,9 +4901,6 @@ msgstr "Vorbire"
 msgid "Mixed"
 msgstr "Mixt"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Vorbire: plasat doar după sonoritate. O înregistrare care nu are nimic în comun\ncu camerele este refuzată. Mixt: sub voci se află muzică sau un mix,\niar acolo unde sonoritatea nu găsește nimic, faza o poate plasa.\nLa „%s” este întotdeauna mixt."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: potrivirea sunetului este %s, și de %s și în alt loc -- plasată doar după ceasul ei"
 
@@ -5207,3 +5204,45 @@ msgstr "\nVORBITORI -- MĂSURAȚI ANTERIOR"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Preluat din măsurătoarea păstrată pe acest calculator: aceleași înregistrări, poziții și fereastră de timp."
+
+msgid "Finished mix"
+msgstr "Mix final"
+
+msgid "Two finished mixes"
+msgstr "Două mixuri finale"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s și %s sunt ambele setate pe %s. Un singur mix ia locul celui construit de procesare -- readuceți-l pe celălalt la Vorbire."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Mixul final trebuie să fie un fișier audio: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "mixul final ia locul mixului din fișierele camerelor, iar fără fișier video acestea nu există."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "mixul final durează %s, mai puțin decât orice cameră (cea mai scurtă %s): unde se termină, Full-Mix tace."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s ia locul mixului pe care l-ar construi această procesare."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Mixul final nu și-a găsit locul pe axa timpului: nu are sunet comun cu camerele. Procesarea se oprește în loc să-l pună oriunde."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Mixul final nu are nimic în fereastra de la %s la %s: se află de la %s la %s. Procesarea se oprește."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Mixul final lasă în tăcere %s la început și %s la sfârșitul ferestrei."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: mixul final așa cum a venit -- fără amplificare și fără limitator"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Doar sincronizare” plasează fiecare înregistrare ca sunet mixt."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "mixul final -- fără vorbitor, fără cameră"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Vorbire: plasat doar după sonoritate. O înregistrare care nu are nimic în comun\ncu camerele este refuzată. Mixt: sub voci se află muzică sau un mix,\niar acolo unde sonoritatea nu găsește nimic, faza o poate plasa.\nMix final: un mix stereo făcut în altă parte, plasat ca sunet mixt. Intră\nîn fișierele camerelor și în predare în locul mixului procesării --\nfără vorbitor, fără tăieturi, fără trimitere la auphonic.com.\nLa „%s” Vorbire nu este oferită."

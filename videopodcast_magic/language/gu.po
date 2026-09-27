@@ -4860,9 +4860,6 @@ msgstr "વાણી"
 msgid "Mixed"
 msgstr "મિશ્ર"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "વાણી: ફક્ત લાઉડનેસ મુજબ ગોઠવાય છે. જે રેકોર્ડિંગમાં કૅમેરા સાથે કંઈ\nસામાન્ય નથી તે નકારાય છે. મિશ્ર: અવાજો નીચે સંગીત કે મિક્સ હોય છે,\nઅને જ્યાં લાઉડનેસને કંઈ મળતું નથી ત્યાં ફેઝ તેને ગોઠવી શકે છે.\n\"%s\" હેઠળ તે હંમેશાં મિશ્ર હોય છે."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: તેનો ધ્વનિ %s જેટલો મેળ ખાય છે, અને બીજી જગ્યાએ પણ %s જેટલો -- ફક્ત તેની ઘડિયાળથી ગોઠવ્યું"
 
@@ -5166,3 +5163,45 @@ msgstr "\nવક્તાઓ -- અગાઉ માપેલા"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  આ કમ્પ્યુટર પર રાખેલા માપમાંથી લીધું: એ જ રેકોર્ડિંગ્સ, સ્થાનો અને સમય-વિન્ડો."
+
+msgid "Finished mix"
+msgstr "તૈયાર મિક્સ"
+
+msgid "Two finished mixes"
+msgstr "બે તૈયાર મિક્સ"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s અને %s બંને %s પર છે. પ્રક્રિયા જે મિક્સ બનાવે છે તેની જગ્યા ફક્ત એક મિક્સ લે છે -- બીજાને પાછું વાણી પર કરો."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "તૈયાર મિક્સ ઑડિયો ફાઇલ હોવી જોઈએ: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "તૈયાર મિક્સ કૅમેરા ફાઇલોમાં મિક્સની જગ્યા લે છે, અને વિડિયો ફાઇલ વિના કોઈ કૅમેરા ફાઇલ નથી."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "તૈયાર મિક્સ %s લાંબું છે, દરેક કૅમેરા કરતાં ટૂંકું (સૌથી ટૂંકું %s): તે જ્યાં પૂરું થાય ત્યાં Full-Mix શાંત છે."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s આ પ્રક્રિયા જે મિક્સ બનાવત તેની જગ્યા લે છે."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  તૈયાર મિક્સને સમય અક્ષ પર જગ્યા ન મળી: તેનો કોઈ અવાજ કૅમેરા સાથે સામાન્ય નથી. ગમે ત્યાં મૂકવાને બદલે પ્રક્રિયા અટકે છે."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  તૈયાર મિક્સ પાસે %s થી %s ની વિન્ડોમાં કંઈ નથી: તે %s થી %s પર છે. પ્રક્રિયા અટકે છે."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  તૈયાર મિક્સ વિન્ડોની શરૂઆતમાં %s અને અંતે %s શાંત છોડે છે."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: તૈયાર મિક્સ જેવું આવ્યું તેવું -- ગેઇન નહીં, લિમિટર નહીં"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"ફક્ત સિંક\" દરેક રેકોર્ડિંગને મિશ્ર અવાજ તરીકે મૂકે છે."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "તૈયાર મિક્સ -- વક્તા નહીં, કૅમેરા નહીં"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "વાણી: ફક્ત લાઉડનેસ મુજબ ગોઠવાય છે. જે રેકોર્ડિંગમાં કૅમેરા સાથે કંઈ\nસામાન્ય નથી તે નકારાય છે. મિશ્ર: અવાજો નીચે સંગીત કે મિક્સ હોય છે,\nઅને જ્યાં લાઉડનેસને કંઈ મળતું નથી ત્યાં ફેઝ તેને ગોઠવી શકે છે.\nતૈયાર મિક્સ: બીજે બનેલું સ્ટીરિયો મિક્સ, મિશ્ર અવાજની જેમ મૂકાય છે. તે પ્રક્રિયાના મિક્સને બદલે\nકૅમેરા ફાઇલો અને સોંપણીમાં જાય છે --\nવક્તા નહીં, કાપાતું નથી, auphonic.com પર મોકલાતું નથી.\n\"%s\" હેઠળ વાણી વિકલ્પ નથી."

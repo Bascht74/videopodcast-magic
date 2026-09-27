@@ -4815,9 +4815,6 @@ msgstr "เสียงพูด"
 msgid "Mixed"
 msgstr "ผสม"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "เสียงพูด: วางตามความดังเท่านั้น ไฟล์บันทึกที่ไม่มีอะไรร่วมกับกล้อง\nจะถูกปฏิเสธ ผสม: มีเพลงหรือมิกซ์อยู่ใต้เสียงพูด\nและตรงที่ความดังหาอะไรไม่พบ เฟสอาจวางให้ได้\nภายใต้ \"%s\" จะเป็นแบบผสมเสมอ"
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: เสียงตรงกันที่ %s และที่ตำแหน่งอื่นก็ตรงกันที่ %s เช่นกัน -- วางตามนาฬิกาของกล้องอย่างเดียว"
 
@@ -5121,3 +5118,45 @@ msgstr "\nผู้พูด -- วัดไว้ก่อนแล้ว"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  นำมาจากผลการวัดที่เก็บไว้บนเครื่องนี้: การบันทึก ตำแหน่ง และช่วงเวลาเดิม"
+
+msgid "Finished mix"
+msgstr "มิกซ์สำเร็จ"
+
+msgid "Two finished mixes"
+msgstr "มิกซ์สำเร็จสองชุด"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s และ %s ถูกตั้งเป็น %s ทั้งคู่ มิกซ์เพียงชุดเดียวแทนที่มิกซ์ที่การประมวลผลสร้าง -- โปรดตั้งอีกชุดกลับเป็นเสียงพูด"
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "มิกซ์สำเร็จต้องเป็นไฟล์เสียง: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "มิกซ์สำเร็จแทนที่มิกซ์ในไฟล์กล้อง และถ้าไม่มีไฟล์วิดีโอก็ไม่มีไฟล์กล้อง"
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "มิกซ์สำเร็จยาว %s สั้นกว่ากล้องทุกตัว (สั้นสุด %s): ตรงที่มันจบ Full-Mix จะเงียบ"
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s แทนที่มิกซ์ที่การประมวลผลนี้จะสร้าง"
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  มิกซ์สำเร็จหาตำแหน่งบนแกนเวลาไม่ได้: ไม่มีเสียงร่วมกับกล้อง การประมวลผลจึงหยุดแทนที่จะวางไว้ที่ใดก็ได้"
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  มิกซ์สำเร็จไม่มีอะไรในหน้าต่างจาก %s ถึง %s: มันอยู่ตั้งแต่ %s ถึง %s การประมวลผลหยุด"
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  มิกซ์สำเร็จปล่อยให้ต้นหน้าต่าง %s และท้าย %s เงียบ"
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: มิกซ์สำเร็จตามที่ได้มา -- ไม่เพิ่มเกน ไม่มีลิมิตเตอร์"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"ซิงก์เท่านั้น\" วางทุกการบันทึกเป็นเสียงผสม"
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "มิกซ์สำเร็จ -- ไม่ใช่ผู้พูด ไม่มีกล้อง"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "เสียงพูด: วางตามความดังเท่านั้น ไฟล์บันทึกที่ไม่มีอะไรร่วมกับกล้อง\nจะถูกปฏิเสธ ผสม: มีเพลงหรือมิกซ์อยู่ใต้เสียงพูด\nและตรงที่ความดังหาอะไรไม่พบ เฟสอาจวางให้ได้\nมิกซ์สำเร็จ: มิกซ์สเตอริโอที่ทำจากที่อื่น วางเหมือนเสียงผสม มันเข้าไป\nในไฟล์กล้องและการส่งมอบแทนมิกซ์ของการประมวลผล --\nไม่ใช่ผู้พูด ไม่ตัด ไม่ส่งไป auphonic.com\nภายใต้ \"%s\" จะไม่มีตัวเลือกเสียงพูด"

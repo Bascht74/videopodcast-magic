@@ -43,6 +43,7 @@ Der Bericht gilt für beide Betriebsarten.
 | System | freier Plattenplatz gegen den geschätzten Bedarf | Hinweis, wenn es knapp wird, **Abbruch**, wenn es nicht reicht; ein Probelauf gibt nur den Hinweis |
 | Auphonic | Algorithmen des Presets, Lautheitsziel, Spurvorlage | **Abbruch** bei Widerspruch |
 | Projekttyp | bei **Nur synchronisieren** eine zweite Tonaufnahme | **Abbruch** |
+| Fertige Mischung | eine fertige Mischung und keine Videodatei; eine, die kürzer ist als jede Kamera | **Abbruch**; Hinweis -- wo sie endet, ist der Full-Mix still |
 | Lautheit | welches Ziel gilt und woher es kommt | — |
 | Auphonic-Konto | der Tarif, die übrigen Minuten, ob sie für die Produktion reichen | wird gesagt, eine Warnung, wenn eine kostenlose Multitrack-Produktion länger als 21 Minuten ist; nie ein Abbruch |
 

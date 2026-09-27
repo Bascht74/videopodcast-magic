@@ -4949,9 +4949,6 @@ msgstr "Govor"
 msgid "Mixed"
 msgstr "Mešano"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Govor: umesti se samo po glasnosti. Posnetek, ki nima ničesar skupnega\ns kamerami, se zavrne. Mešano: pod glasovi je glasba ali miks,\nin kjer glasnost ne najde ničesar, ga sme umestiti faza.\nPri „%s“ je vedno mešano."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: ujemanje zvoka %s, na drugem mestu pa prav tako %s -- umeščeno samo po lastni uri"
 
@@ -5255,3 +5252,45 @@ msgstr "\nGOVORCI -- IZMERJENI PREJ"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Vzeto iz meritve, shranjene na tem računalniku: isti posnetki, položaji in časovno okno."
+
+msgid "Finished mix"
+msgstr "Končni miks"
+
+msgid "Two finished mixes"
+msgstr "Dva končna miksa"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s in %s sta oba nastavljena na %s. Samo en miks nadomesti tistega, ki ga zgradi tek -- drugega vrnite na Govor."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Končni miks mora biti zvočna datoteka: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "končni miks nadomesti miks v datotekah kamer, brez video datoteke pa jih ni."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "končni miks traja %s, manj kot vsaka kamera (najkrajša %s): kjer se konča, je Full-Mix tih."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s nadomesti miks, ki bi ga zgradil ta tek."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Končni miks ni našel mesta na časovni osi: s kamerami nima skupnega zvoka. Tek se ustavi, namesto da bi ga položil kamorkoli."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Končni miks nima ničesar v oknu od %s do %s: leži od %s do %s. Tek se ustavi."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Končni miks pusti tiho %s na začetku in %s na koncu okna."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: končni miks, kakršen je prišel -- brez ojačitve in brez limiterja"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Samo sinhronizacija“ postavi vsak posnetek kot mešan zvok."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "končni miks -- brez govorca, brez kamere"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Govor: umesti se samo po glasnosti. Posnetek, ki nima ničesar skupnega\ns kamerami, se zavrne. Mešano: pod glasovi je glasba ali miks,\nin kjer glasnost ne najde ničesar, ga sme umestiti faza.\nKončni miks: stereo miks, narejen drugje, postavljen kot mešan zvok. Gre\nv datoteke kamer in v predajo namesto miksa, ki ga zgradi tek --\nbrez govorca, brez rezov, ne pošlje se na auphonic.com.\nPri „%s“ Govor ni na voljo."

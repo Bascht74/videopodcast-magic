@@ -2872,6 +2872,10 @@ def handover_of(args, tracks, cameras, videos, tc_start, ref_clip,
         # processed and not copied -- they only go into the timeline.
         "intro": _intro_outro_entry(getattr(args, "intro", None)),
         "outro": _intro_outro_entry(getattr(args, "outro", None)),
+        # The mix finished elsewhere, by its source, where one stands in
+        # for the mix built here: the Full-Mix in audio_files is made of it.
+        "finished_mix": [os.path.abspath(p) for p in
+                         getattr(args, "finished_mix", None) or ()] or None,
         "cameras": items,
         # The files the run could not place, by their source: they were
         # in hand, so a handover without them is still this run's.

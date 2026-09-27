@@ -4860,9 +4860,6 @@ msgstr "మాట"
 msgid "Mixed"
 msgstr "మిశ్రమం"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "మాట: లౌడ్‌నెస్ ఆధారంగా మాత్రమే ఉంచబడుతుంది. కెమెరాలతో ఏదీ ఉమ్మడిగా\nలేని రికార్డింగ్ తిరస్కరించబడుతుంది. మిశ్రమం: గొంతుల కింద సంగీతం లేదా మిక్స్ ఉంటుంది,\nలౌడ్‌నెస్ ఏమీ కనుగొనని చోట ఫేజ్ దాన్ని ఉంచవచ్చు.\n\"%s\" కింద ఇది ఎల్లప్పుడూ మిశ్రమం."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: దీని ఆడియో %s మేరకు సరిపోతుంది, మరో చోట కూడా %s మేరకు -- దాని గడియారం ఆధారంగా మాత్రమే ఉంచబడింది"
 
@@ -5166,3 +5163,45 @@ msgstr "\nవక్తలు -- ముందే కొలిచినవి"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  ఈ కంప్యూటర్‌లో ఉంచిన కొలత నుంచి తీసుకున్నది: అవే రికార్డింగ్‌లు, స్థానాలు, సమయ విండో."
+
+msgid "Finished mix"
+msgstr "పూర్తయిన మిక్స్"
+
+msgid "Two finished mixes"
+msgstr "రెండు పూర్తయిన మిక్స్‌లు"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s, %s రెండూ %s గా అమర్చబడ్డాయి. ప్రాసెసింగ్ నిర్మించే మిక్స్ స్థానాన్ని ఒక్క మిక్స్ మాత్రమే తీసుకుంటుంది -- మరొకదాన్ని తిరిగి మాట గా మార్చండి."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "పూర్తయిన మిక్స్ ఆడియో ఫైల్ అయి ఉండాలి: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "పూర్తయిన మిక్స్ కెమెరా ఫైళ్లలో మిక్స్ స్థానాన్ని తీసుకుంటుంది; వీడియో ఫైల్ లేకపోతే కెమెరా ఫైళ్లు ఉండవు."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "పూర్తయిన మిక్స్ పొడవు %s, ప్రతి కెమెరా కంటే తక్కువ (అతి తక్కువ %s): అది ముగిసే చోట Full-Mix నిశ్శబ్దంగా ఉంటుంది."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  ఈ ప్రాసెసింగ్ నిర్మించే మిక్స్ స్థానాన్ని %s తీసుకుంటుంది."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  పూర్తయిన మిక్స్‌కు సమయ అక్షంపై స్థానం దొరకలేదు: కెమెరాలతో ఉమ్మడి ధ్వని ఏదీ లేదు. ఎక్కడో పెట్టే బదులు ప్రాసెసింగ్ ఆగిపోతుంది."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  %s నుండి %s వరకు ఉన్న విండోలో పూర్తయిన మిక్స్‌కు ఏమీ లేదు: అది %s నుండి %s వరకు ఉంది. ప్రాసెసింగ్ ఆగిపోతుంది."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  పూర్తయిన మిక్స్ విండో మొదట్లో %s, చివర్లో %s నిశ్శబ్దంగా వదిలేస్తుంది."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: వచ్చినట్లే పూర్తయిన మిక్స్ -- గెయిన్ లేదు, లిమిటర్ లేదు"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"సింక్ మాత్రమే\" ప్రతి రికార్డింగ్‌ను మిశ్రమ ధ్వనిగా ఉంచుతుంది."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "పూర్తయిన మిక్స్ -- వక్త కాదు, కెమెరా లేదు"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "మాట: లౌడ్‌నెస్ ఆధారంగా మాత్రమే ఉంచబడుతుంది. కెమెరాలతో ఏదీ ఉమ్మడిగా\nలేని రికార్డింగ్ తిరస్కరించబడుతుంది. మిశ్రమం: గొంతుల కింద సంగీతం లేదా మిక్స్ ఉంటుంది,\nలౌడ్‌నెస్ ఏమీ కనుగొనని చోట ఫేజ్ దాన్ని ఉంచవచ్చు.\nపూర్తయిన మిక్స్: వేరే చోట చేసిన స్టీరియో మిక్స్, మిశ్రమ ధ్వనిలా ఉంచబడుతుంది. ప్రాసెసింగ్ మిక్స్‌కు బదులుగా\nకెమెరా ఫైళ్లలోకి, అప్పగింతలోకి వెళ్తుంది --\nవక్త కాదు, కత్తిరించబడదు, auphonic.com కు పంపబడదు.\n\"%s\" కింద మాట ఎంపిక ఇవ్వబడదు."

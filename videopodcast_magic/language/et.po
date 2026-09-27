@@ -4860,9 +4860,6 @@ msgstr "Kõne"
 msgid "Mixed"
 msgstr "Segatud"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Kõne: paigutatakse ainult valjuse järgi. Salvestis, millel pole kaameratega\nmidagi ühist, lükatakse tagasi. Segatud: häälte all on muusika või miks,\nja kus valjus midagi ei leia, võib selle paigutada faas.\n„%s“ puhul on see alati segatud."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: heli sobib määraga %s ja ka teises kohas määraga %s -- paigutatud ainult selle kella järgi"
 
@@ -5166,3 +5163,45 @@ msgstr "\nKÕNELEJAD -- VAREM MÕÕDETUD"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Võetud selles arvutis hoitud mõõtmisest: samad salvestised, asukohad ja ajaaken."
+
+msgid "Finished mix"
+msgstr "Valmis miks"
+
+msgid "Two finished mixes"
+msgstr "Kaks valmis miksi"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s ja %s on mõlemad seatud väärtusele %s. Ainult üks miks asendab selle, mille töötlus ehitab -- seadke teine tagasi Kõneks."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Valmis miks peab olema helifail: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "valmis miks asendab kaamerafailides miksi, ja ilma videofailita neid pole."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "valmis miks kestab %s, lühemalt kui ükski kaamera (lühim %s): kus see lõpeb, on Full-Mix vaikne."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s asendab miksi, mille see töötlus ehitaks."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Valmis miks ei leidnud ajateljel kohta: sel pole kaameratega ühist heli. Töötlus peatub, selle asemel et panna see kuhu tahes."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Valmis miksil pole aknas %s kuni %s midagi: see asub %s kuni %s. Töötlus peatub."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Valmis miks jätab akna algusesse %s ja lõppu %s vaikust."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: valmis miks nii, nagu see tuli -- ilma võimenduse ja limiterita"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Ainult sünkroonimine“ paigutab iga salvestise segatud helina."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "valmis miks -- mitte kõneleja, kaamerata"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Kõne: paigutatakse ainult valjuse järgi. Salvestis, millel pole kaameratega\nmidagi ühist, lükatakse tagasi. Segatud: häälte all on muusika või miks,\nja kus valjus midagi ei leia, võib selle paigutada faas.\nValmis miks: mujal tehtud stereomiks, paigutatud nagu segatud heli. See läheb\nkaamerafailidesse ja üleandmisse töötluse enda miksi asemel --\nmitte kõneleja, ei lõigata, ei saadeta auphonic.com-i.\n„%s“ puhul Kõnet ei pakuta."

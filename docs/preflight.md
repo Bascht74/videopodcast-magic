@@ -42,6 +42,7 @@ The report holds for both modes.
 | System | free disk space against the estimated need | note where it is tight, **stop** where it is short; a dry run only notes it |
 | Auphonic | preset algorithms, loudness target, track template | **stop** on a contradiction |
 | Project type | with **Sync only**, a second audio recording | **stop** |
+| Finished mix | a finished mix and no video file; one shorter than every camera | **stop**; note -- where it ends, the Full-Mix is silent |
 | Loudness | which target holds and where it comes from | -- |
 | Auphonic account | the plan, the minutes left, whether they carry the production | said, a warning where a free Multitrack production is longer than 21 minutes; never a stop |
 

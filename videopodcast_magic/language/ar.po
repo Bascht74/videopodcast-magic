@@ -5040,9 +5040,6 @@ msgstr "كلام"
 msgid "Mixed"
 msgstr "مختلط"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "كلام: يُوضع بالجهارة وحدها. التسجيل الذي لا يشترك في شيء\nمع الكاميرات يُرفض. مختلط: موسيقى أو مزيج تحت الأصوات،\nوحيث لا تجد الجهارة شيئًا يجوز للطور أن يضعه.\nتحت \"%s\" يكون دائمًا مختلطًا."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: يتطابق صوته بدرجة %s، وبدرجة %s في موضع آخر أيضًا -- وُضع بساعته وحدها"
 
@@ -5346,3 +5343,45 @@ msgstr "\nالمتحدثون -- مقيسون من قبل"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  مأخوذ من القياس المحفوظ على هذا الجهاز: التسجيلات والمواضع والنافذة الزمنية نفسها."
+
+msgid "Finished mix"
+msgstr "مزيج جاهز"
+
+msgid "Two finished mixes"
+msgstr "مزيجان جاهزان"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s و%s مضبوطان كلاهما على %s. مزيج واحد فقط يحل محل المزيج الذي تبنيه المعالجة -- أعد الآخر إلى كلام."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "يجب أن يكون المزيج الجاهز ملفًا صوتيًا: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "المزيج الجاهز يحل محل المزيج في ملفات الكاميرات، وبدون ملف فيديو لا توجد ملفات كاميرات."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "مدة المزيج الجاهز %s، أقصر من كل كاميرا (الأقصر %s): حيث ينتهي يصمت Full-Mix."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s يحل محل المزيج الذي كانت هذه المعالجة ستبنيه."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  لم يجد المزيج الجاهز مكانًا على محور الزمن: لا يشترك في أي صوت مع الكاميرات. تتوقف المعالجة بدل وضعه في أي مكان."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  لا شيء للمزيج الجاهز في النافذة من %s إلى %s: يقع من %s إلى %s. تتوقف المعالجة."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  يترك المزيج الجاهز %s في بداية النافذة و%s في نهايتها صامتة."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: المزيج الجاهز كما وصل -- بلا تضخيم وبلا محدِّد"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"مزامنة فقط\" تضع كل تسجيل كصوت مختلط."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "المزيج الجاهز -- ليس متحدثًا، بلا كاميرا"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "كلام: يُوضع بالجهارة وحدها. التسجيل الذي لا يشترك في شيء\nمع الكاميرات يُرفض. مختلط: موسيقى أو مزيج تحت الأصوات،\nوحيث لا تجد الجهارة شيئًا يجوز للطور أن يضعه.\nمزيج جاهز: مزيج ستيريو صُنع في مكان آخر، يوضع كصوت مختلط. يدخل\nفي ملفات الكاميرات والتسليم بدل المزيج الذي تبنيه المعالجة --\nليس متحدثًا، لا يُقطع، لا يُرسل إلى auphonic.com.\nتحت \"%s\" لا يُعرض كلام."

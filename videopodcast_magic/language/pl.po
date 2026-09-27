@@ -4901,9 +4901,6 @@ msgstr "Mowa"
 msgid "Mixed"
 msgstr "Mieszany"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Mowa: umieszczana tylko według głośności. Nagranie, które nie ma nic wspólnego\nz kamerami, jest odrzucane. Mieszany: pod głosami jest muzyka lub miks,\na tam, gdzie głośność nic nie znajdzie, może je umieścić faza.\nPrzy „%s” zawsze jest mieszany."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: dopasowanie dźwięku %s, a w innym miejscu także %s -- umieszczono tylko według własnego zegara"
 
@@ -5207,3 +5204,45 @@ msgstr "\nMÓWCY -- ZMIERZENI WCZEŚNIEJ"
 
 msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
 msgstr "  Wzięte z pomiaru zachowanego na tym komputerze: te same nagrania, położenia i okno czasowe."
+
+msgid "Finished mix"
+msgstr "Gotowy miks"
+
+msgid "Two finished mixes"
+msgstr "Dwa gotowe miksy"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s i %s mają ustawione %s. Tylko jeden miks zastępuje ten, który buduje przebieg -- ustaw drugi z powrotem na Mowa."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Gotowy miks musi być plikiem audio: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "gotowy miks zastępuje miks w plikach kamer, a bez pliku wideo nie ma żadnych."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "gotowy miks trwa %s, krócej niż każda kamera (najkrótsza %s): tam, gdzie się kończy, Full-Mix milknie."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s zastępuje miks, który zbudowałby ten przebieg."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Gotowy miks nie znalazł miejsca na osi czasu: nie ma wspólnego dźwięku z kamerami. Przebieg zatrzymuje się, zamiast położyć go gdziekolwiek."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Gotowy miks nie ma nic w oknie od %s do %s: leży od %s do %s. Przebieg się zatrzymuje."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Gotowy miks zostawia ciszę: %s na początku i %s na końcu okna."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: gotowy miks taki, jaki przyszedł -- bez wzmocnienia i bez limitera"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Tylko synchronizacja” ustawia każde nagranie jako dźwięk mieszany."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "gotowy miks -- bez mówcy, bez kamery"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Mowa: umieszczana tylko według głośności. Nagranie, które nie ma nic wspólnego\nz kamerami, jest odrzucane. Mieszany: pod głosami jest muzyka lub miks,\na tam, gdzie głośność nic nie znajdzie, może je umieścić faza.\nGotowy miks: miks stereo zrobiony gdzie indziej, ustawiany jak dźwięk mieszany. Trafia\ndo plików kamer i przekazania zamiast miksu budowanego przez przebieg --\nbez mówcy, bez cięć, bez wysyłki do auphonic.com.\nPrzy „%s” Mowa nie jest oferowana."
