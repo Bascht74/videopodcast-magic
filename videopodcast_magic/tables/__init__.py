@@ -238,6 +238,26 @@ def marks_end(axis, cameras):
     return window[1] if window else None
 
 
+def marks_rate(cameras, reference=None):
+    """The frame rate the run reads a timecode In or Out point at.
+
+    Its reference camera's: *reference*, the path_key the measurement
+    named (the longest camera heard), where it is among *cameras*; else
+    the run's rule where nothing was heard, the longest by container, by
+    path where as long. 30 without a camera. Every mark is written and
+    read at this rate, whatever the file in the player runs at.
+    """
+    named = [p for p in cameras or () if reference is not None
+             and path_key(p) == reference]
+    longest = None
+    for file_path in named or sorted(cameras or (), key=path_key):
+        span = file_span(file_path, {})
+        if span and (longest is None
+                     or span["duration"] > longest["duration"]):
+            longest = span
+    return max(1.0, longest["fps"]) if longest else 30.0
+
+
 def tree_build(columns):
     """The assignment as a tree: a recording, its voices under it.
 

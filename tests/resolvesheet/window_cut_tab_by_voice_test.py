@@ -5,7 +5,8 @@ way_ground's production opened in a window of its own per path, offscreen:
 plain -- one recording, the stored separation -- and Multitrack -- three
 recordings, ticked. Per path: the tab is there, the first look asks Resolve
 and says its answer, the preview shows each turn on its voice's camera, a
-second look measures nothing again. The limit: the run is not started.
+second look measures nothing again -- starts no second preview's run.
+The limit: Start is not pressed.
 """
 PLATFORM_BOUND = True
 import os
@@ -123,7 +124,11 @@ def child(path):
             seen["tab"], seen["said_before"] = True, look(w)[0]
             counted(w.resolve_sheet, "resolve_check_run_kick_off",
                     seen["kicks"])
-            counted(w.resolve_sheet, "speaker_measure", seen["measures"])
+            # Who speaks when is the preview's run now: count its starts.
+            runs = w.resolve_sheet.state.get("preview_run")
+            w.resolve_sheet.state["preview_run"] = (
+                lambda *a, **k: seen["measures"].append(time.time())
+                or runs(*a, **k))
             w.tabs.setCurrentIndex(at[0])
             step["n"] = 1
             return "the first look settling"

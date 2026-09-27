@@ -594,11 +594,11 @@ msgstr "นี่ไม่ใช่ไฟล์ของโปรแกรมน
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "ไฟล์นี้เขียนโดยเวอร์ชัน %s ในรูปแบบ %d เวอร์ชันนี้เขียนรูปแบบ %d ชื่อภายในเปลี่ยนไปตั้งแต่นั้น จึงอ่านไม่ได้ โปรดตั้งค่ารอบการทำงานใหม่อีกครั้ง"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (วัดอย่างเดียว: ไม่ได้เขียนอะไร)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (รอบทดลอง: คำนวณและเก็บไว้แล้ว โฟลเดอร์เอาต์พุตไม่ถูกแตะต้อง)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (วัดอย่างเดียว: ไม่มีคีย์ API จึงหยุดที่นี่)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (รอบทดลอง: ไม่ได้เขียนอะไร)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  ตรวจสอบเทียบกับเสียงรั่ว -- ตัวอ้างอิงคือ %s:"
@@ -933,8 +933,8 @@ msgstr "  %s: %s, ข้าม"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: ระบุจำนวนช่องสัญญาณไม่ได้ (%s) -- จะไม่ถูกวัด"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (วัดอย่างเดียว: ไม่ได้อัปโหลดอะไร)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (รอบทดลอง: ไม่ได้อัปโหลดอะไร)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  มี Timeline %r อยู่แล้ว -- อันใหม่ชื่อ %r"
@@ -1178,6 +1178,9 @@ msgstr "  โปรดใส่ตัวเลขระหว่าง 1 ถึ�
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  โปรดักชันที่ auphonic.com:   %s"
+
+msgid "  Production created (%s)"
+msgstr "  สร้างโปรดักชันแล้ว (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  โปรดักชันกำลังทำงาน (%s)"
@@ -1734,8 +1737,8 @@ msgstr "\nกำลังหยุด รอบการทำงานจะจ
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "ภาพมุมกว้างยาว %s s น้อยกว่าช็อตที่สั้นที่สุด %s s -- จึงถูกรวมหายไปอีกและไม่ปรากฏเลย\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nวัดเสร็จแล้ว ไม่มีการเขียนสิ่งใด -- รอบทดลองปล่อยโฟลเดอร์ผลลัพธ์ไว้ตามเดิม\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nคำนวณเสร็จแล้ว รอบทดลองปล่อยโฟลเดอร์ผลลัพธ์ไว้ตามเดิม\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nหยุดระหว่าง: %s"
@@ -2208,8 +2211,8 @@ msgstr "ระยะห่างจากค่าเฉลี่ย"
 msgid "Drag audio and video files here"
 msgstr "ลากไฟล์เสียงและวิดีโอมาที่นี่"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "รอบทดลอง: วัดอย่างเดียว ไม่เขียนและไม่อัปโหลดสิ่งใด"
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "รอบทดลอง: คำนวณและรายงานทุกอย่าง ไม่มีสิ่งใดเข้าไปในโฟลเดอร์เอาต์พุต และไม่อัปโหลดสิ่งใด"
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "ระหว่างการทักทายและการบอกลา ภาพจะยังเป็นมุมกว้าง"
@@ -2331,9 +2334,6 @@ msgstr "วัดอย่างเดียว -- ไม่มีการเ�
 msgid "Measuring %s (%s of %s)"
 msgstr "กำลังวัด %s (%s จาก %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "วัดไม่ได้: %s"
-
 msgid "Measuring the yardstick"
 msgstr "กำลังวัดมาตรวัด"
 
@@ -2357,9 +2357,6 @@ msgstr "Multitrack ต้องมีแทร็กขาเข้าอย่�
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "ยังไม่มีเสียงที่ใช้งาน -- เพิ่มการบันทึกเสียง หรือตั้งเสียงจากกล้องของไฟล์วิดีโอเป็น \"ใช้เสียงในตัว\" ในรายการไฟล์"
-
-msgid "No audio tracks are assigned."
-msgstr "ไม่มีแทร็กเสียงที่กำหนดไว้"
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "ไม่มีกล้องที่กำหนดไว้ จึงไม่มีอะไรให้ตัดสลับ"
@@ -2390,9 +2387,6 @@ msgstr "ไม่รู้จักผู้พูดคนใดที่นี
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "ยังไม่มีเสียงพูดใดมีกล้อง -- แบบนี้ทุกช็อตจะเป็นช็อตเดียวกัน"
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "ยังไม่รู้จักผู้พูด -- ยังไม่ได้วัด ยังไม่ได้แยก และไม่มีไฟล์การส่งมอบจากรอบการทำงานก่อนหน้าใน %s หรือโฟลเดอร์ย่อย"
 
 msgid "Not found again after import: %s"
 msgstr "ไม่พบอีกหลังจากนำเข้า: %s"
@@ -2498,9 +2492,6 @@ msgstr "ไม่บังคับ -- ถ้าไม่มี YouTube จะ�
 
 msgid "Not ready yet:"
 msgstr "ยังไม่พร้อม:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "ไม่มีเสียงที่ได้ยินในแทร็กเลย"
 
 msgid "One audio recording has no speaker name yet."
 msgstr "การบันทึกเสียงหนึ่งรายการยังไม่มีชื่อผู้พูด"
@@ -3413,9 +3404,6 @@ msgstr "วัดจากการบันทึก -- ผู้พูด %s �
 msgid "from the finished run -- %s speakers, %s"
 msgstr "จากรอบการทำงานที่เสร็จแล้ว -- ผู้พูด %s คน ความยาว %s"
 
-msgid "no folder"
-msgstr "ไม่มีโฟลเดอร์"
-
 msgid "no text"
 msgstr "ไม่มีข้อความ"
 
@@ -3854,9 +3842,6 @@ msgstr "การตรวจสอบเองหยุดลง: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "อ่านจุดเข้าหรือจุดออกที่นี่ไม่ได้"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "จุดออกอยู่หลังจุดเข้าไม่ถึง 5 วินาที"
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "ยังขาดอยู่ประมาณ %s โปรดเพิ่มพื้นที่ว่างหรือเลือกโฟลเดอร์อื่นด้วย --out ส่วนไฟล์ชั่วคราวระหว่างรอบการทำงานจะไปอยู่อีกที่หนึ่ง คือในโฟลเดอร์ชั่วคราวของระบบ"
 
@@ -3908,14 +3893,11 @@ msgstr "  เคยแยกไว้แล้วครั้งหนึ่ง:
 msgid "  About %s of computing for %s of audio."
 msgstr "  ใช้เวลาคำนวณประมาณ %s สำหรับเสียงยาว %s"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (วัดอย่างเดียว: ไม่ได้แยกอะไร)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (รอบทดลอง: ไม่ได้แยกอะไร)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  แทร็กไม่ได้ถูกวัด %s จึงอยู่ในมิกซ์แต่ไม่อยู่ในการตัดต่อ: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s ยังไม่ได้วัด -- อยู่ในการตัดต่อแล้ว แต่ยังไม่อยู่ในตัวอย่างนี้"
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  จากแทร็กโดยตรง แทร็กละหนึ่งเสียงพูด: %s"
@@ -4830,9 +4812,6 @@ msgstr "เสียงพูด"
 msgid "Mixed"
 msgstr "ผสม"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "เสียงพูด: วางตามความดังเท่านั้น ไฟล์บันทึกที่ไม่มีอะไรร่วมกับกล้อง\nจะถูกปฏิเสธ ผสม: มีเพลงหรือมิกซ์อยู่ใต้เสียงพูด\nและตรงที่ความดังหาอะไรไม่พบ เฟสอาจวางให้ได้\nภายใต้ \"%s\" จะเป็นแบบผสมเสมอ"
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: เสียงตรงกันที่ %s และที่ตำแหน่งอื่นก็ตรงกันที่ %s เช่นกัน -- วางตามนาฬิกาของกล้องอย่างเดียว"
 
@@ -5046,3 +5025,135 @@ msgstr "ข้อความจากกระบวนการจะแสด
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "แพ็กเกจ libsecret-tools บน Debian และ Ubuntu, libsecret บน Fedora และ Arch"
+
+msgid "%d min"
+msgstr "%d นาที"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "เครดิตที่ auphonic.com: เหลือ %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "เครดิตที่ auphonic.com: ไม่ทราบ"
+
+msgid "%s -- free plan"
+msgstr "%s -- แผนฟรี"
+
+msgid "%s -- paying plan"
+msgstr "%s -- แผนแบบชำระเงิน"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  เครดิตที่ auphonic.com: ไม่ทราบ -- บัญชีไม่ตอบกลับ"
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  เครดิตที่ auphonic.com: ไม่ทราบ"
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  เครดิตที่ auphonic.com: เหลือ %s"
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  เครดิตที่ auphonic.com: เหลือ %s แต่งานนี้ต้องใช้ %s -- ไม่พอ"
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  เครดิตที่ auphonic.com: เหลือ %s พอสำหรับ %s ที่งานนี้ต้องใช้"
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  บัญชีที่ auphonic.com: แบบชำระเงิน"
+
+msgid "  Account at auphonic.com: free."
+msgstr "  บัญชีที่ auphonic.com: ฟรี"
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  บัญชีที่ auphonic.com: ไม่ทราบ"
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "บัญชีที่ auphonic.com: ไม่ทราบ -- สอบถามไม่ได้ การรันดำเนินต่อไป"
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  หมายเหตุ: การรันยังคงลองต่อไป auphonic.com เป็นผู้ตัดสินว่างานจะเริ่มหรือไม่ และจะบอกหากไม่เริ่ม"
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  คำเตือน: งาน Multitrack นี้ยาว %s และในแผนฟรี auphonic.com รับงานแบบนี้ได้ไม่เกินประมาณ %s เท่านั้น"
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  หมายเหตุ: auphonic.com ปฏิเสธงานที่ยาวกว่านี้ตั้งแต่เริ่มและไม่คิดค่าใช้จ่ายใด ๆ การรันยังคงลองต่อไป หาก auphonic.com ปฏิเสธ ข้อความของ auphonic.com เองจะตามมา"
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "ในแผนฟรี auphonic.com รับงาน Multitrack ได้ไม่เกินประมาณ %s เท่านั้น"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  โปรเจกต์ %r ที่การรันนี้สร้างยังคงเปิดอยู่ -- ก่อนหน้านี้ไม่มีอะไรเปิดอยู่\n  ที่จะเปิดกลับได้ ให้ลบในตัวจัดการโปรเจกต์ของ Resolve"
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  ลบโปรเจกต์ที่สร้างไว้ครึ่งเดียว %r แล้ว และเปิด %r กลับมาแล้ว"
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve หยุดการเก็บกวาด: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  ข้อควรระวัง: ลบโปรเจกต์ที่สร้างไว้ครึ่งเดียว %r ไม่ได้ หรือเปิด %r\n  กลับไม่ได้ โปรดทำในตัวจัดการโปรเจกต์ของ Resolve"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: เสียงตรงกันที่ %s บนเสียงร่วม %s วินาที น้อยเกินกว่าจะแยกจากความบังเอิญได้ -- วางตามนาฬิกาของกล้องอย่างเดียว"
+
+msgid "placed through %s"
+msgstr "วางผ่าน %s"
+
+msgid "found where its timecode pointed"
+msgstr "พบตรงที่ไทม์โค้ดชี้ไว้"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: นาฬิกาบอก %s เสียงวัดได้ %s -- ห่างกัน %s วินาที ใช้ค่าที่วัดได้"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s อยู่บนกล้องสองตัว: %s ตามแทร็ก และ %s ตามเสียงพูด เสียงพูดมีผลเหนือกว่า การตัดต่อจึงแสดง %s บน %s เท่านั้น"
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  นำมาจากผลการวัดที่เก็บไว้บนเครื่องนี้: ไฟล์และการตั้งค่าเดิม จึงไม่มีการวัดใหม่"
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nผู้พูด -- วัดไว้ก่อนแล้ว"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  นำมาจากผลการวัดที่เก็บไว้บนเครื่องนี้: การบันทึก ตำแหน่ง และช่วงเวลาเดิม"
+
+msgid "Finished mix"
+msgstr "มิกซ์สำเร็จ"
+
+msgid "Two finished mixes"
+msgstr "มิกซ์สำเร็จสองชุด"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s และ %s ถูกตั้งเป็น %s ทั้งคู่ มิกซ์เพียงชุดเดียวแทนที่มิกซ์ที่การประมวลผลสร้าง -- โปรดตั้งอีกชุดกลับเป็นเสียงพูด"
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "มิกซ์สำเร็จต้องเป็นไฟล์เสียง: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "มิกซ์สำเร็จแทนที่มิกซ์ในไฟล์กล้อง และถ้าไม่มีไฟล์วิดีโอก็ไม่มีไฟล์กล้อง"
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "มิกซ์สำเร็จยาว %s สั้นกว่ากล้องทุกตัว (สั้นสุด %s): ตรงที่มันจบ Full-Mix จะเงียบ"
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s แทนที่มิกซ์ที่การประมวลผลนี้จะสร้าง"
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  มิกซ์สำเร็จหาตำแหน่งบนแกนเวลาไม่ได้: ไม่มีเสียงร่วมกับกล้อง การประมวลผลจึงหยุดแทนที่จะวางไว้ที่ใดก็ได้"
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  มิกซ์สำเร็จไม่มีอะไรในหน้าต่างจาก %s ถึง %s: มันอยู่ตั้งแต่ %s ถึง %s การประมวลผลหยุด"
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  มิกซ์สำเร็จปล่อยให้ต้นหน้าต่าง %s และท้าย %s เงียบ"
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: มิกซ์สำเร็จตามที่ได้มา -- ไม่เพิ่มเกน ไม่มีลิมิตเตอร์"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"ซิงก์เท่านั้น\" วางทุกการบันทึกเป็นเสียงผสม"
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "มิกซ์สำเร็จ -- ไม่ใช่ผู้พูด ไม่มีกล้อง"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "เสียงพูด: วางตามความดังเท่านั้น ไฟล์บันทึกที่ไม่มีอะไรร่วมกับกล้อง\nจะถูกปฏิเสธ ผสม: มีเพลงหรือมิกซ์อยู่ใต้เสียงพูด\nและตรงที่ความดังหาอะไรไม่พบ เฟสอาจวางให้ได้\nมิกซ์สำเร็จ: มิกซ์สเตอริโอที่ทำจากที่อื่น วางเหมือนเสียงผสม มันเข้าไป\nในไฟล์กล้องและการส่งมอบแทนมิกซ์ของการประมวลผล --\nไม่ใช่ผู้พูด ไม่ตัด ไม่ส่งไป auphonic.com\nภายใต้ \"%s\" จะไม่มีตัวเลือกเสียงพูด"

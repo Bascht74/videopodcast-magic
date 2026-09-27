@@ -584,7 +584,7 @@ started = []
 real_at_hand = vpm.words_at_hand
 
 
-def slow_words(audio_path, language=""):
+def slow_words(audio_path, language="", blocks=()):
     """Stand in for the whole road: note the start, then wait."""
     started.append(audio_path)
     holding.wait(30.0)

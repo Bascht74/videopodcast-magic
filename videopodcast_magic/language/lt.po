@@ -597,11 +597,11 @@ msgstr "Tai ne šios programos failas."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Šį failą įrašė versija %s formatu %d; ši versija rašo formatu %d. Pavadinimai jame nuo to laiko pasikeitė, todėl jo negalima perskaityti. Sukonfigūruokite vykdymą iš naujo."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (tik matavimas: nieko neįrašyta)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (bandomasis vykdymas: apskaičiuota ir išsaugota, išvesties aplankas nepaliestas)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (tik matavimas: be API rakto čia sustojama)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (bandomasis vykdymas: nieko neįrašyta)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Patikra pagal garso nuotėkį -- atskaitos takelis %s:"
@@ -936,8 +936,8 @@ msgstr "  %s: %s, praleista"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: nepavyko nustatyti kanalų skaičiaus (%s) -- nematuojama"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (tik matavimas: nieko neįkelta)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (bandomasis vykdymas: nieko neįkelta)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r jau buvo -- naujasis vadinasi %r."
@@ -1181,6 +1181,9 @@ msgstr "  Įveskite skaičių nuo 1 iki %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produkcija svetainėje auphonic.com:   %s"
+
+msgid "  Production created (%s)"
+msgstr "  Produkcija sukurta (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Produkcija vykdoma (%s)"
@@ -1737,8 +1740,8 @@ msgstr "\nStabdoma. Vykdymas baigsis, kai tik galės tai padaryti nepalikdamas p
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Bendrasis planas trunka %s s, mažiau nei trumpiausias planas (%s s) -- todėl jis vėl sujungiamas su kaimyniniais ir niekada nepasirodo.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nIšmatuota. Nieko neįrašyta -- bandomasis vykdymas palieka rezultatų aplanką nepakeistą.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nApskaičiuota. Bandomasis vykdymas palieka rezultatų aplanką nepakeistą.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nSustabdyta per žingsnį: %s"
@@ -2211,8 +2214,8 @@ msgstr "Atstumas iki vidurkio"
 msgid "Drag audio and video files here"
 msgstr "Nuvilkite garso ir vaizdo failus čia"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Bandomasis vykdymas: tik matuojama, nieko nerašoma, nieko neįkeliama."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Bandomasis vykdymas: viskas apskaičiuojama ir pranešama, į išvesties aplanką nieko nepatenka, nieko neįkeliama."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Per pasisveikinimą ir atsisveikinimą lieka bendrasis planas."
@@ -2334,9 +2337,6 @@ msgstr "Tik matuoti -- niekas neįrašoma ir neįkeliama."
 msgid "Measuring %s (%s of %s)"
 msgstr "Matavimas: %s (%s iš %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Matuoti neįmanoma: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Mato matavimas"
 
@@ -2360,9 +2360,6 @@ msgstr "Multitrack reikia bent dviejų įvesties takelių. Takelis yra atskiras 
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Dar nenaudojamas joks garsas -- pridėkite garso įrašą arba failų sąraše vaizdo įrašo failo lauke „Kameros garsas“ pasirinkite „naudoti vidinį garsą“."
-
-msgid "No audio tracks are assigned."
-msgstr "Nepriskirta jokių garso takelių."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nepriskirta nė viena kamera, todėl nėra tarp ko montuoti."
@@ -2393,9 +2390,6 @@ msgstr "Čia nežinomas nė vienas kalbėtojas -- nežinant, kas kada kalba, nė
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Dar nė vienas balsas neturi kameros -- tada kiekvienas planas būtų tas pats."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Kalbėtojų dar nežinoma -- nieko neišmatuota, nieko neatskirta, o aplanke %s ir jo poaplankiuose nėra ankstesnio vykdymo perdavimo failo."
 
 msgid "Not found again after import: %s"
 msgstr "Po importo nebeaptikta: %s"
@@ -2501,9 +2495,6 @@ msgstr "Neprivaloma -- tada YouTube taiko numatytąsias vertes (Sony BVM-X300). 
 
 msgid "Not ready yet:"
 msgstr "Dar neparengta:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Takeliuose nieko nebuvo girdėti."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Vienas garso įrašas dar neturi kalbėtojo vardo."
@@ -3416,9 +3407,6 @@ msgstr "išmatuota iš įrašų -- kalbėtojų: %s, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "iš baigto vykdymo -- kalbėtojų: %s, %s"
 
-msgid "no folder"
-msgstr "(aplanko nėra)"
-
 msgid "no text"
 msgstr "be teksto"
 
@@ -3857,9 +3845,6 @@ msgstr "pati patikra sustojo: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Pradžios arba pabaigos taško čia perskaityti neįmanoma."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Pabaigos taškas yra mažiau nei 5 sekundės po pradžios taško."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Trūksta apie %s. Atlaisvinkite vietos arba pasirinkite kitą aplanką su --out. Laikinieji failai vykdymo metu saugomi dar kitur, sistemos laikinajame aplanke."
 
@@ -3911,14 +3896,11 @@ msgstr "  Jau atskirta anksčiau: nuskaityta, iš naujo nematuota."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Skaičiavimas truks apie %s, garso trukmė %s."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (tik matavimas: nieko neatskirta)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (bandomasis vykdymas: nieko neatskirta)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Takeliai nebuvo išmatuoti, todėl %s yra mikse, bet ne montaže: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s: dar neišmatuota -- montaže yra, šioje peržiūroje dar ne."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Iš pačių takelių, vienas balsas kiekvienam takeliui: %s."
@@ -4919,9 +4901,6 @@ msgstr "Kalbėjimas"
 msgid "Mixed"
 msgstr "Mišrus"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Kalbėjimas: išdėstoma tik pagal garsumą. Įrašas, neturintis nieko bendra\nsu kameromis, atmetamas. Mišrus: po balsais yra muzika arba miksas,\nir kur garsumas nieko neranda, jį gali išdėstyti fazė.\nSu „%s“ jis visada mišrus."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: garso atitiktis %s, o kitoje vietoje taip pat %s -- išdėstytas tik pagal jo laikrodį"
 
@@ -5135,3 +5114,135 @@ msgstr "Pranešimai rodomi kortelėje „Išvestis“."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "paketas libsecret-tools sistemose Debian ir Ubuntu, libsecret sistemose Fedora ir Arch"
+
+msgid "%d min"
+msgstr "%d min"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Kreditas auphonic.com: liko %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Kreditas auphonic.com: nežinomas"
+
+msgid "%s -- free plan"
+msgstr "%s -- nemokamas planas"
+
+msgid "%s -- paying plan"
+msgstr "%s -- mokamas planas"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Kreditas auphonic.com: nežinomas -- paskyra neatsakė."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Kreditas auphonic.com: nežinomas."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Kreditas auphonic.com: liko %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Kreditas auphonic.com: liko %s, o šiai produkcijai reikia %s -- nepakanka."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Kreditas auphonic.com: liko %s, pakanka šiai produkcijai reikalingoms %s."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Paskyra auphonic.com: mokama."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Paskyra auphonic.com: nemokama."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Paskyra auphonic.com: nežinoma."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Paskyra auphonic.com: nežinoma -- jos nepavyko paklausti. Paleidimas tęsiasi."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Pastaba: paleidimas vis tiek bando. auphonic.com sprendžia, ar produkcija prasidės, ir praneša, jei ne."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Įspėjimas: ši Multitrack produkcija trunka %s, o nemokamame plane auphonic.com tokią priima tik iki maždaug %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Pastaba: ilgesnę auphonic.com atmeta jau pradžioje ir už ją nieko neima. Paleidimas vis tiek bando; jei auphonic.com atsisako, seka jo paties pranešimas."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Nemokamame plane auphonic.com priima Multitrack produkciją tik iki maždaug %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Šio paleidimo projektas %r lieka atidarytas -- anksčiau nebuvo atidaryta nieko,\n  ką būtų galima vėl atidaryti. Ištrinkite jį Resolve projektų tvarkyklėje."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Iki pusės sukurtas projektas %r vėl ištrintas, %r vėl atidarytas."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve nutraukė tvarkymą: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Dėmesio: iki pusės sukurto projekto %r nepavyko ištrinti arba %r nepavyko\n  vėl atidaryti. Padarykite tai Resolve projektų tvarkyklėje."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: garso atitiktis %s per %s s bendro garso, per mažai, kad būtų galima atskirti nuo atsitiktinumo -- išdėstytas tik pagal jo laikrodį"
+
+msgid "placed through %s"
+msgstr "išdėstytas per %s"
+
+msgid "found where its timecode pointed"
+msgstr "rastas ten, kur rodė jo laiko kodas"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: jo laikrodis rodo %s, garsas išmatavo %s -- skirtumas %s s; naudojamas matavimas"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s yra dviejose kamerose: %s pagal takelį, %s pagal balsą. Pirmenybė teikiama balsui, todėl montažas rodo %s tik kameroje %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Paimta iš šiame kompiuteryje laikomo matavimo: tie patys failai ir nustatymai, todėl niekas nematuojama iš naujo."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nKALBĖTOJAI -- IŠMATUOTA ANKSČIAU"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Paimta iš šiame kompiuteryje laikomo matavimo: tie patys įrašai, vietos ir laiko langas."
+
+msgid "Finished mix"
+msgstr "Baigtas miksas"
+
+msgid "Two finished mixes"
+msgstr "Du baigti miksai"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s ir %s abu nustatyti į %s. Tik vienas miksas pakeičia tą, kurį sukuria apdorojimas -- grąžinkite kitą į Kalbėjimas."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Baigtas miksas turi būti garso failas: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "baigtas miksas pakeičia miksą kamerų failuose, o be vaizdo failo jų nėra."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "baigtas miksas trunka %s, trumpiau už bet kurią kamerą (trumpiausia %s): kur jis baigiasi, Full-Mix tyli."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s pakeičia miksą, kurį sukurtų šis apdorojimas."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Baigtas miksas nerado vietos laiko ašyje: jis neturi bendro garso su kameromis. Apdorojimas sustoja, užuot padėjęs jį bet kur."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Baigtas miksas neturi nieko lange nuo %s iki %s: jis yra nuo %s iki %s. Apdorojimas sustoja."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Baigtas miksas palieka tylą: %s lango pradžioje ir %s pabaigoje."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: baigtas miksas toks, koks atėjo -- be stiprinimo ir be ribotuvo"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Tik sinchronizavimas“ kiekvieną įrašą deda kaip mišrų garsą."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "baigtas miksas -- ne kalbėtojas, be kameros"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Kalbėjimas: išdėstoma tik pagal garsumą. Įrašas, neturintis nieko bendra\nsu kameromis, atmetamas. Mišrus: po balsais yra muzika arba miksas,\nir kur garsumas nieko neranda, jį gali išdėstyti fazė.\nBaigtas miksas: kitur padarytas stereo miksas, dedamas kaip mišrus garsas. Jis patenka\ní kamerų failus ir perdavimą vietoj apdorojimo sukurto miksavimo --\nne kalbėtojas, nekarpomas, nesiunčiamas į auphonic.com.\nSu „%s“ Kalbėjimas nesiūlomas."

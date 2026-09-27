@@ -612,9 +612,6 @@ msgstr "Transferir"
 msgid "Wide shot after"
 msgstr "Plano general tras"
 
-msgid "no folder"
-msgstr "sin carpeta"
-
 msgid "no text"
 msgstr "sin texto"
 
@@ -1041,11 +1038,11 @@ msgstr "\n    %s  --  %s, %s"
 msgid "\n  %s: no audio to extract (%s)"
 msgstr "\n  %s: no hay audio que extraer (%s)"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (solo medir: no se escribe nada)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (prueba en seco: calculado y guardado, carpeta de salida intacta)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (solo medir: sin clave de API no se sigue)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (prueba en seco: no se escribe nada)"
 
 msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
 msgstr "\n  YA EXISTE UN PROYECTO CON ESTE NOMBRE: %r"
@@ -1164,8 +1161,8 @@ msgstr "\nINDICADORES"
 msgid "\nMIXING"
 msgstr "\nMEZCLANDO"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nMedido. No se ha escrito nada -- una prueba en seco deja la carpeta de resultados como estaba.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nCalculado. Una prueba en seco deja la carpeta de resultados como estaba.\n"
 
 msgid "\nNORMALISE"
 msgstr "\nNORMALIZAR"
@@ -1692,11 +1689,11 @@ msgstr "  %sx lejos del hablante porque un plano duró más de %s s"
 msgid "  (container; measured %s)"
 msgstr "  (contenedor; medido %s)"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (solo medir: no se separa nada)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (prueba en seco: no se separa nada)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (solo medir: no se sube nada)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (prueba en seco: no se sube nada)\n"
 
 msgid "  (this file starts later)"
 msgstr "  (este archivo empieza más tarde)"
@@ -2078,6 +2075,9 @@ msgstr "  Ajuste preestablecido: %s"
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Producción en auphonic.com:  %s"
+
+msgid "  Production created (%s)"
+msgstr "  Producción creada (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Producción en curso (%s)"
@@ -2556,9 +2556,6 @@ msgstr "%s kHz frente a %s kHz"
 msgid "%s kHz instead of %s kHz -- converted during processing."
 msgstr "%s kHz en vez de %s kHz -- se convierte al preparar."
 
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s aún sin medir -- está en el corte, en esta vista previa todavía no."
-
 msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
 msgstr "%s de %s comparaciones quedan por debajo de %s dB -- cada grabación frente a todas las demás, en ambos sentidos."
 
@@ -2848,8 +2845,8 @@ msgstr "Distancia a la media"
 msgid "Downloading %s"
 msgstr "Descargando %s"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Prueba en seco: solo se mide, no se escribe nada, no se sube nada."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Prueba en seco: se calcula e informa de todo, nada va a la carpeta de salida, no se sube nada."
 
 msgid "Duration %s"
 msgstr "Duración %s"
@@ -3055,9 +3052,6 @@ msgstr "Medir, alinear, procesar, escribir archivos."
 msgid "Measuring %s (%s of %s)"
 msgstr "Midiendo %s (%s de %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "No se puede medir: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Midiendo la referencia"
 
@@ -3122,9 +3116,6 @@ msgstr "Sin ajuste preestablecido Singletrack propio -- crear uno"
 msgid "No audio file given."
 msgstr "No se ha indicado ningún archivo de audio."
 
-msgid "No audio tracks are assigned."
-msgstr "No hay pistas de audio asignadas."
-
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "No hay ninguna cámara asignada, así que no hay entre qué cortar."
 
@@ -3179,9 +3170,6 @@ msgstr "Aquí no se conoce ningún hablante -- sin saber quién habla cuándo no
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "Todavía no se conoce ningún hablante -- se sacan de las pistas en cuanto se abre esta pestaña. Si todos están en una misma grabación, el camino es «varios hablantes» en el campo Nombre del hablante."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Todavía no se conoce ningún hablante -- nada medido, nada separado, y ningún archivo de entrega de una ejecución anterior en %s ni en sus subcarpetas."
-
 msgid "No version earlier than %s is out that pip can install."
 msgstr "No hay ninguna versión anterior a %s que pip pueda instalar."
 
@@ -3211,9 +3199,6 @@ msgstr "Hasta que eso esté en orden no se ejecuta nada. Así se hace: %s"
 
 msgid "Nothing was audible in the recording."
 msgstr "En la grabación no se oía nada."
-
-msgid "Nothing was audible in the tracks."
-msgstr "En las pistas no se oía nada."
 
 msgid "Nothing was written -- there is no material yet."
 msgstr "No se ha escrito nada -- todavía no hay material."
@@ -3262,9 +3247,6 @@ msgstr "El orden no importa. Para una grabación en varias partes basta el prime
 
 msgid "Out point is %s after the last frame"
 msgstr "El punto de salida está %s por detrás del último fotograma"
-
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "El punto de salida está menos de 5 segundos después del punto de entrada."
 
 msgid "Output folder back beside each video file"
 msgstr "Carpeta de salida de nuevo junto a cada archivo de vídeo"
@@ -4870,9 +4852,6 @@ msgstr "Habla"
 msgid "Mixed"
 msgstr "Mezclado"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Habla: se coloca solo por su sonoridad. Una grabación que no comparte nada\ncon las cámaras se rechaza. Mezclado: bajo las voces hay música o una mezcla,\ny donde la sonoridad no encuentra nada, la fase puede colocarla.\nCon «%s» siempre es mezclado."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: su sonido coincide en %s, y en %s también en otro lugar -- colocado solo por su reloj"
 
@@ -5086,3 +5065,135 @@ msgstr "Lo que dice aparece en Salida."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "el paquete libsecret-tools en Debian y Ubuntu, libsecret en Fedora y Arch"
+
+msgid "%d min"
+msgstr "%d min"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Saldo en auphonic.com: quedan %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Saldo en auphonic.com: desconocido"
+
+msgid "%s -- free plan"
+msgstr "%s -- plan gratuito"
+
+msgid "%s -- paying plan"
+msgstr "%s -- plan de pago"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Saldo en auphonic.com: desconocido -- la cuenta no respondió."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Saldo en auphonic.com: desconocido."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Saldo en auphonic.com: quedan %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Saldo en auphonic.com: quedan %s, y esta producción necesita %s -- no alcanza."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Saldo en auphonic.com: quedan %s, suficiente para los %s que necesita esta producción."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Cuenta en auphonic.com: de pago."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Cuenta en auphonic.com: gratuita."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Cuenta en auphonic.com: desconocida."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Cuenta en auphonic.com: desconocida -- no se pudo consultar. La ejecución continúa."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Nota: la ejecución lo intenta de todos modos. auphonic.com decide si la producción arranca, y lo dice si no arranca."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Advertencia: esta producción Multitrack dura %s, y con el plan gratuito auphonic.com solo acepta una así de hasta unos %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Nota: auphonic.com rechaza una más larga ya al inicio y no cobra nada por ella. La ejecución lo intenta de todos modos; si auphonic.com la rechaza, sigue su propio mensaje."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Con el plan gratuito, auphonic.com solo acepta una producción Multitrack de hasta unos %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  El proyecto %r de esta ejecución queda abierto -- antes no había nada abierto\n  que se pudiera volver a abrir. Bórrelo en el gestor de proyectos de Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  El proyecto a medio construir %r se ha borrado de nuevo, %r vuelve a estar abierto."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve interrumpió la limpieza: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Atención: el proyecto a medio construir %r no se ha podido borrar, o %r no\n  se ha podido volver a abrir. Hágalo en el gestor de proyectos de Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: su sonido coincide en %s sobre %s s de sonido compartido, demasiado poco para distinguirlo del azar -- colocado solo por su reloj"
+
+msgid "placed through %s"
+msgstr "colocado a través de %s"
+
+msgid "found where its timecode pointed"
+msgstr "encontrado donde apuntaba su código de tiempo"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: su reloj dice %s, el sonido midió %s -- %s s de diferencia; se usa la medición"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s está en dos cámaras: %s según la pista, %s según la voz. Prevalece la voz, así que el corte muestra a %s solo en %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Tomado de la medición guardada en esta máquina: los mismos archivos y ajustes, así que no se mide nada de nuevo."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nHABLANTES -- MEDIDOS ANTES"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Tomado de la medición guardada en esta máquina: las mismas grabaciones, posiciones y ventana de tiempo."
+
+msgid "Finished mix"
+msgstr "Mezcla final"
+
+msgid "Two finished mixes"
+msgstr "Dos mezclas finales"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s y %s están ambos en %s. Una sola mezcla sustituye a la que construye el proceso -- vuelva a poner la otra en Habla."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "La mezcla final tiene que ser un archivo de audio: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "la mezcla final sustituye a la mezcla en los archivos de cámara, y sin archivo de vídeo no hay ninguno."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "la mezcla final dura %s, menos que cualquier cámara (la más corta %s): donde termina, el Full-Mix queda en silencio."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s sustituye a la mezcla que este proceso construiría."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  La mezcla final no encontró sitio en el eje de tiempo: no comparte sonido con las cámaras. El proceso se detiene en vez de colocarla en cualquier parte."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  La mezcla final no tiene nada en la ventana de %s a %s: está de %s a %s. El proceso se detiene."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  La mezcla final deja en silencio %s al principio y %s al final de la ventana."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: la mezcla final tal como llegó -- sin ganancia y sin limitador"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "«Solo sincronizar» coloca cada grabación como sonido mezclado."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "la mezcla final -- sin hablante, sin cámara"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Habla: se coloca solo por su sonoridad. Una grabación que no comparte nada\ncon las cámaras se rechaza. Mezclado: bajo las voces hay música o una mezcla,\ny donde la sonoridad no encuentra nada, la fase puede colocarla.\nMezcla final: una mezcla estéreo hecha en otro sitio, colocada como sonido mezclado. Va\na los archivos de cámara y a la entrega en lugar de la mezcla del proceso --\nsin hablante, sin cortes, sin envío a auphonic.com.\nCon «%s» no se ofrece Habla."

@@ -530,23 +530,6 @@ def timecode_to_frames(tc, fps):
     return n
 
 
-def cameras_frame_rate(cameras):
-    """The rate the cut has to be read at, measured on a camera.
-
-    The frames of a timecode are frames, so one read at the wrong rate
-    lands whole frames out and the picture runs ahead of the sound on
-    every camera whose timecode has a frame part. Cameras ending :00 are
-    exact either way, which is how this sits unseen.
-    """
-    for cam in cameras or ():
-        path = cam.get("file") or ""
-        if path and os.path.exists(path):
-            rate = picture_rate(ffprobe_json(path))
-            if rate:
-                return float(rate)
-    return 0.0
-
-
 def timeline_timecode(seconds, zero, fps, drop_frame=False):
     """The timecode a moment of programme time carries on the Timeline.
 

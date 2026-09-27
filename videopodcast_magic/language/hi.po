@@ -614,9 +614,6 @@ msgstr "स्थानांतरण"
 msgid "Wide shot after"
 msgstr "वाइड शॉट के बाद"
 
-msgid "no folder"
-msgstr "कोई फ़ोल्डर नहीं"
-
 msgid "no text"
 msgstr "कोई पाठ नहीं"
 
@@ -1142,8 +1139,11 @@ msgstr "  प्रीसेट:  %s"
 msgid "  File:    %s (%s, %s)"
 msgstr "  फ़ाइल:   %s (%s, %s)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (केवल माप: कुछ अपलोड नहीं हुआ)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (सूखा परीक्षण: कुछ अपलोड नहीं हुआ)\n"
+
+msgid "  Production created (%s)"
+msgstr "  प्रोडक्शन बनाया गया (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  प्रोडक्शन चल रहा है (%s)"
@@ -1628,9 +1628,6 @@ msgstr "रिकॉर्डिंग से मापा गया -- %s व�
 msgid "In point or Out point cannot be read here."
 msgstr "इन पॉइंट या आउट पॉइंट यहाँ पढ़ा नहीं जा सकता।"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "आउट पॉइंट इन पॉइंट के 5 सेकंड से कम बाद है।"
-
 msgid "because no speaker is assigned to it"
 msgstr "क्योंकि इसे कोई वक्ता नियत नहीं है"
 
@@ -1643,8 +1640,11 @@ msgstr "कौन कब बोलता है, यह पता किया �
 msgid "\nWITHOUT AUPHONIC.COM"
 msgstr "\nAUPHONIC.COM के बिना"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (केवल माप: कुछ नहीं लिखा गया)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (सूखा परीक्षण: गणना करके रखा गया, आउटपुट फ़ोल्डर अछूता)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (सूखा परीक्षण: कुछ नहीं लिखा गया)"
 
 msgid "FOR RESOLVE"
 msgstr "RESOLVE के लिए"
@@ -1667,14 +1667,8 @@ msgstr "  उपयोग नहीं हुआ: %s."
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  किनारों पर वाइड शॉट: %s तक और %s से"
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "अभी कोई वक्ता ज्ञात नहीं -- कुछ मापा नहीं गया, कुछ अलग नहीं किया गया, और %s या उसके उप-फ़ोल्डरों में पिछले रन की कोई सौंपने की फ़ाइल नहीं है।"
-
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "समय खिड़की सामग्री के बाहर है: इन पॉइंट %s पर, आउट पॉइंट %s पर, और सामग्री की अवधि %s है।"
-
-msgid "No audio tracks are assigned."
-msgstr "कोई ऑडियो ट्रैक नियत नहीं है।"
 
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "अभी कोई वक्ता ज्ञात नहीं -- यह टैब खुलते ही वे ट्रैकों से निकाले जाते हैं। जहाँ सभी एक ही रिकॉर्डिंग पर हों, वहाँ वक्ता का नाम फ़ील्ड में \"कई वक्ता\" रास्ता है।"
@@ -1702,9 +1696,6 @@ msgstr "कट %s का उपयोग करता है"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "इसे कोई वक्ता नियत नहीं, पर कट %s का उपयोग करता है"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s अभी मापा नहीं गया -- कट में है, इस पूर्वावलोकन में अभी नहीं।"
 
 msgid "%r is not a number."
 msgstr "%r कोई संख्या नहीं है।"
@@ -2324,9 +2315,6 @@ msgstr "  साझा खिड़की:  %s से %s (%s)"
 
 msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
 msgstr "    %s से शुरू और %s पर समाप्त -- वह हिस्सा जो हर कैमरे ने देखा"
-
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (केवल माप: API कुंजी के बिना यहीं रुकता है)"
 
 msgid "\nMIXING"
 msgstr "\nमिश्रण"
@@ -3633,14 +3621,14 @@ msgstr "जाँच स्वयं विफल: %s"
 msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
 msgstr "\nहो गया। नीचे \"परिणाम फ़ोल्डर खोलें\" परिणाम दिखाता है।\nसब ठीक हो तो \"Resolve परियोजना बनाएँ\" उससे परियोजना बनाता है।\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nमापा गया। कुछ भी नहीं लिखा गया -- सूखा परीक्षण परिणाम फ़ोल्डर को जैसा था वैसा छोड़ता है।\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nगणना हो गई। सूखा परीक्षण परिणाम फ़ोल्डर को जैसा था वैसा छोड़ता है।\n"
 
 msgid "Without processing at auphonic.com"
 msgstr "auphonic.com पर प्रोसेसिंग के बिना"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "सूखा परीक्षण: केवल मापना, कुछ लिखा नहीं जाता, कुछ अपलोड नहीं होता।"
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "सूखा परीक्षण: सब कुछ गणना करके बताया जाता है, आउटपुट फ़ोल्डर में कुछ नहीं जाता, कुछ अपलोड नहीं होता।"
 
 msgid "This is what happens next"
 msgstr "आगे यह होगा"
@@ -3894,9 +3882,6 @@ msgstr "  %-20s %s बोलना, %s प्रश्न (कुल %s वा�
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s लगता है %-20s उसका %s %% उस ट्रैक में, अगले से %s अंक आगे"
 
-msgid "Nothing was audible in the tracks."
-msgstr "ट्रैकों में कुछ सुनाई नहीं दिया।"
-
 msgid "%s is not part of this run"
 msgstr "%s इस रन का हिस्सा नहीं है"
 
@@ -3909,8 +3894,8 @@ msgstr "\nवक्ता पृथक्करण"
 msgid "  Separated once already: read back, not measured again."
 msgstr "  पहले ही एक बार अलग किया जा चुका: वापस पढ़ा गया, फिर से मापा नहीं गया।"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (केवल मापा गया: कुछ अलग नहीं किया गया)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (सूखा परीक्षण: कुछ अलग नहीं किया गया)"
 
 msgid "\nSPEAKERS -- SEPARATED BY VOICE"
 msgstr "\nवक्ता -- आवाज़ के आधार पर अलग किए गए"
@@ -3944,9 +3929,6 @@ msgstr "%s मापा जा रहा है (%s / %s)"
 
 msgid "  %-20s could be called %s"
 msgstr "  %-20s का नाम %s हो सकता है"
-
-msgid "Measuring not possible: %s"
-msgstr "मापना संभव नहीं: %s"
 
 msgid "  %s cannot be read: %s"
 msgstr "  %s पढ़ा नहीं जा सकता: %s"
@@ -4872,9 +4854,6 @@ msgstr "वाणी"
 msgid "Mixed"
 msgstr "मिश्रित"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "वाणी: केवल लाउडनेस से रखी जाती है। जिस रिकॉर्डिंग में कैमरों से कुछ भी\nसाझा नहीं, उसे अस्वीकार किया जाता है। मिश्रित: आवाज़ों के नीचे संगीत या मिक्स है,\nऔर जहाँ लाउडनेस कुछ नहीं पाती, वहाँ फ़ेज़ उसे रख सकता है।\n\"%s\" में यह हमेशा मिश्रित होता है।"
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: उसकी ध्वनि %s तक मेल खाती है, और किसी दूसरी जगह भी %s तक -- केवल उसकी घड़ी से रखा गया"
 
@@ -5088,3 +5067,135 @@ msgstr "वह जो कहता है वह आउटपुट के न�
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian और Ubuntu पर libsecret-tools पैकेज, Fedora और Arch पर libsecret"
+
+msgid "%d min"
+msgstr "%d मि"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "auphonic.com पर क्रेडिट: %s बाकी"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "auphonic.com पर क्रेडिट: अज्ञात"
+
+msgid "%s -- free plan"
+msgstr "%s -- मुफ़्त प्लान"
+
+msgid "%s -- paying plan"
+msgstr "%s -- पेड प्लान"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  auphonic.com पर क्रेडिट: अज्ञात -- खाते ने जवाब नहीं दिया।"
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  auphonic.com पर क्रेडिट: अज्ञात।"
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  auphonic.com पर क्रेडिट: %s बाकी।"
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  auphonic.com पर क्रेडिट: %s बाकी, और इस प्रोडक्शन को %s चाहिए -- पर्याप्त नहीं।"
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  auphonic.com पर क्रेडिट: %s बाकी, इस प्रोडक्शन के लिए ज़रूरी %s के लिए पर्याप्त।"
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  auphonic.com पर खाता: सशुल्क।"
+
+msgid "  Account at auphonic.com: free."
+msgstr "  auphonic.com पर खाता: मुफ़्त।"
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  auphonic.com पर खाता: अज्ञात।"
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "auphonic.com पर खाता: अज्ञात -- उससे पूछा नहीं जा सका। रन जारी रहता है।"
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  टिप्पणी: रन फिर भी कोशिश करता है। प्रोडक्शन शुरू होगा या नहीं, यह auphonic.com तय करता है, और न होने पर बताता है।"
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  चेतावनी: यह Multitrack प्रोडक्शन %s लंबा है, और मुफ़्त प्लान पर auphonic.com ऐसा प्रोडक्शन केवल लगभग %s तक ही लेता है।"
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  टिप्पणी: auphonic.com इससे लंबे प्रोडक्शन को शुरू में ही लौटा देता है और उसके लिए कुछ नहीं काटता। रन फिर भी कोशिश करता है; अगर auphonic.com मना करे, तो उसका अपना संदेश आता है।"
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "मुफ़्त प्लान पर auphonic.com Multitrack प्रोडक्शन केवल लगभग %s तक ही लेता है।"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  इस रन से बनी परियोजना %r खुली रहती है -- पहले ऐसा कुछ खुला नहीं था\n  जिसे फिर से खोला जा सके। इसे Resolve के प्रोजेक्ट मैनेजर में हटाएँ।"
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  आधी बनी परियोजना %r फिर से हटा दी गई, %r फिर से खुली है।"
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve ने सफ़ाई रोक दी: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  सावधान: आधी बनी परियोजना %r हटाई नहीं जा सकी, या %r फिर से\n  नहीं खोली जा सकी। कृपया इसे Resolve के प्रोजेक्ट मैनेजर में करें।"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: उसकी ध्वनि %s तक मेल खाती है, %s से. साझा ध्वनि पर, जो संयोग से अलग पहचानने के लिए बहुत कम है -- केवल उसकी घड़ी से रखा गया"
+
+msgid "placed through %s"
+msgstr "%s के ज़रिए रखा गया"
+
+msgid "found where its timecode pointed"
+msgstr "वहाँ मिला जहाँ उसका टाइमकोड संकेत कर रहा था"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: उसकी घड़ी कहती है %s, ध्वनि ने %s मापा -- %s से. का अंतर; माप का उपयोग होता है"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s दो कैमरों पर है: ट्रैक के अनुसार %s, आवाज़ के अनुसार %s। आवाज़ मान्य होती है, इसलिए कट %s को केवल %s पर दिखाता है।"
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  इस मशीन पर रखे माप से लिया गया: वही फ़ाइलें और सेटिंग्स, इसलिए कुछ भी फिर से नहीं मापा जाता।"
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nवक्ता -- पहले मापे गए"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  इस मशीन पर रखे माप से लिया गया: वही रिकॉर्डिंग, स्थान और समय-खिड़की।"
+
+msgid "Finished mix"
+msgstr "तैयार मिक्स"
+
+msgid "Two finished mixes"
+msgstr "दो तैयार मिक्स"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s और %s दोनों %s पर सेट हैं। सिर्फ़ एक मिक्स उस मिक्स की जगह लेता है जो प्रोसेसिंग बनाती है -- दूसरे को वापस वाणी पर करें।"
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "तैयार मिक्स एक ऑडियो फ़ाइल होना चाहिए: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "तैयार मिक्स कैमरा फ़ाइलों में मिक्स की जगह लेता है, और वीडियो फ़ाइल के बिना कोई कैमरा फ़ाइल नहीं होती।"
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "तैयार मिक्स %s का है, हर कैमरे से छोटा (सबसे छोटा %s): जहाँ यह ख़त्म होता है, वहाँ Full-Mix चुप है।"
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s उस मिक्स की जगह लेता है जो यह प्रोसेसिंग बनाती।"
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  तैयार मिक्स को समय अक्ष पर जगह नहीं मिली: इसकी कोई आवाज़ कैमरों से साझा नहीं है। प्रोसेसिंग इसे कहीं भी रखने के बजाय रुक जाती है।"
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  तैयार मिक्स का %s से %s तक की विंडो में कुछ नहीं है: यह %s से %s तक है। प्रोसेसिंग रुक जाती है।"
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  तैयार मिक्स विंडो के शुरू में %s और अंत में %s चुप छोड़ता है।"
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: तैयार मिक्स जैसा आया -- न गेन, न लिमिटर"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"केवल सिंक\" हर रिकॉर्डिंग को मिश्रित ध्वनि की तरह रखता है।"
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "तैयार मिक्स -- वक्ता नहीं, कैमरा नहीं"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "वाणी: केवल लाउडनेस से रखी जाती है। जिस रिकॉर्डिंग में कैमरों से कुछ भी\nसाझा नहीं, उसे अस्वीकार किया जाता है। मिश्रित: आवाज़ों के नीचे संगीत या मिक्स है,\nऔर जहाँ लाउडनेस कुछ नहीं पाती, वहाँ फ़ेज़ उसे रख सकता है।\nतैयार मिक्स: कहीं और बना स्टीरियो मिक्स, मिश्रित ध्वनि की तरह रखा जाता है। यह प्रोसेसिंग के मिक्स की जगह\nकैमरा फ़ाइलों और हस्तांतरण में जाता है --\nवक्ता नहीं, काटा नहीं जाता, auphonic.com को नहीं भेजा जाता।\n\"%s\" में वाणी का विकल्प नहीं मिलता।"

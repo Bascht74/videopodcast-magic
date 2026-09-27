@@ -570,11 +570,11 @@ msgstr "Acesta nu este un fișier al acestui program."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Acest fișier a fost scris de versiunea %s în formatul %d; aceasta scrie formatul %d. Numele din el s-au schimbat de atunci, deci nu poate fi citit. Configurați din nou rularea."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (doar măsurare: nu s-a scris nimic)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (rulare de probă: calculat și păstrat, dosarul de ieșire neatins)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (doar măsurare: fără un API key se oprește aici)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (rulare de probă: nu s-a scris nimic)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Verificare pe baza diafoniei -- referința este %s:"
@@ -909,8 +909,8 @@ msgstr "  %s: %s, omis"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: nu se poate stabili câte canale are (%s) -- nu se măsoară"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (doar măsurare: nimic încărcat)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (rulare de probă: nimic încărcat)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Un Timeline %r exista deja -- cel nou se numește %r."
@@ -1154,6 +1154,9 @@ msgstr "  Indicați un număr între 1 și %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Producție la auphonic.com:   %s"
+
+msgid "  Production created (%s)"
+msgstr "  Producția a fost creată (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Producția rulează (%s)"
@@ -1710,8 +1713,8 @@ msgstr "\nSe oprește. Rularea se încheie de îndată ce o poate face fără a 
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Planul larg ține %s s, mai puțin decât cel mai scurt plan de %s s -- deci este comasat la loc și nu apare niciodată.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nMăsurat. Nu s-a scris nimic -- o rulare de probă lasă dosarul cu rezultate așa cum era.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nCalculat. O rulare de probă lasă dosarul cu rezultate așa cum era.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nOprit în timpul: %s"
@@ -2178,8 +2181,8 @@ msgstr "Distanța față de medie"
 msgid "Drag audio and video files here"
 msgstr "Trageți aici fișiere audio și video"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Rulare de probă: doar se măsoară, nu se scrie nimic, nu se încarcă nimic."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Rulare de probă: totul se calculează și se raportează, nimic nu ajunge în dosarul de ieșire, nu se încarcă nimic."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "În timpul salutului și al rămas-bunului imaginea rămâne în plan larg."
@@ -2301,9 +2304,6 @@ msgstr "Doar măsurare -- nu se scrie și nu se încarcă nimic."
 msgid "Measuring %s (%s of %s)"
 msgstr "Se măsoară %s (%s din %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Măsurarea nu este posibilă: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Măsurarea etalonului"
 
@@ -2327,9 +2327,6 @@ msgstr "Multitrack are nevoie de cel puțin două piste de intrare. O pistă est
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Niciun sunet în uz încă -- adăugați o înregistrare audio sau setați în lista de fișiere Audio cameră al unui fișier video pe „folosiți audio intern”."
-
-msgid "No audio tracks are assigned."
-msgstr "Nu este atribuită nicio pistă audio."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nicio cameră nu este atribuită, deci nu există nimic între care să se monteze."
@@ -2360,9 +2357,6 @@ msgstr "Aici nu se cunoaște niciun vorbitor -- fără cine vorbește când nu e
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Nicio voce nu are încă o cameră -- așa, fiecare plan ar fi același."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Încă nu se cunosc vorbitori -- nimic măsurat, nimic separat, și niciun fișier de predare al unei rulări anterioare în %s sau în subdosarele sale."
 
 msgid "Not found again after import: %s"
 msgstr "Nu s-a regăsit după import: %s"
@@ -2468,9 +2462,6 @@ msgstr "Nu sunt obligatorii -- YouTube aplică atunci valori implicite (Sony BVM
 
 msgid "Not ready yet:"
 msgstr "Încă nu este gata:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "În piste nu s-a auzit nimic."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "O înregistrare audio nu are încă numele vorbitorului."
@@ -3368,9 +3359,6 @@ msgstr "măsurat din înregistrări -- vorbitori: %s, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "din rularea încheiată -- vorbitori: %s, %s"
 
-msgid "no folder"
-msgstr "niciun dosar"
-
 msgid "no text"
 msgstr "fără text"
 
@@ -3767,9 +3755,6 @@ msgstr "verificarea însăși s-a oprit: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Punctul In sau punctul Out nu poate fi citit aici."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Punctul Out se află la mai puțin de 5 secunde după punctul In."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Lipsesc cam %s. Eliberați spațiu sau alegeți alt dosar cu --out. Fișierele temporare din timpul rulării merg din nou altundeva, în dosarul temporar al sistemului."
 
@@ -3821,14 +3806,11 @@ msgstr "  Separat deja o dată: recitit, nu măsurat din nou."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Circa %s de calcul pentru %s de audio."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (doar măsurare: nimic separat)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (rulare de probă: nimic separat)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Pistele nu au fost măsurate, deci în mix și nu în montaj: %s. Motivul: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Încă nu s-a măsurat: %s -- în montaj, dar încă nu în această previzualizare."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Din pistele însele, o voce pe pistă: %s."
@@ -4916,9 +4898,6 @@ msgstr "Vorbire"
 msgid "Mixed"
 msgstr "Mixt"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Vorbire: plasat doar după sonoritate. O înregistrare care nu are nimic în comun\ncu camerele este refuzată. Mixt: sub voci se află muzică sau un mix,\niar acolo unde sonoritatea nu găsește nimic, faza o poate plasa.\nLa „%s” este întotdeauna mixt."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: potrivirea sunetului este %s, și de %s și în alt loc -- plasată doar după ceasul ei"
 
@@ -5132,3 +5111,135 @@ msgstr "Ce spune apare sub Ieșire."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "pachetul libsecret-tools pe Debian și Ubuntu, libsecret pe Fedora și Arch"
+
+msgid "%d min"
+msgstr "%d min"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Credit la auphonic.com: au rămas %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Credit la auphonic.com: necunoscut"
+
+msgid "%s -- free plan"
+msgstr "%s -- plan gratuit"
+
+msgid "%s -- paying plan"
+msgstr "%s -- plan plătit"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Credit la auphonic.com: necunoscut -- contul nu a răspuns."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Credit la auphonic.com: necunoscut."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Credit la auphonic.com: au rămas %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Credit la auphonic.com: au rămas %s, iar această producție are nevoie de %s -- nu ajunge."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Credit la auphonic.com: au rămas %s, destul pentru cele %s de care are nevoie această producție."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Cont la auphonic.com: plătit."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Cont la auphonic.com: gratuit."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Cont la auphonic.com: necunoscut."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Cont la auphonic.com: necunoscut -- nu a putut fi întrebat. Rularea continuă."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Notă: rularea încearcă oricum. auphonic.com decide dacă producția pornește și spune dacă nu pornește."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Avertisment: această producție Multitrack durează %s, iar pe planul gratuit auphonic.com acceptă una astfel doar până la aproximativ %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Notă: auphonic.com refuză una mai lungă încă de la început și nu taxează nimic pentru ea. Rularea încearcă oricum; dacă auphonic.com refuză, urmează propriul său mesaj."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Pe planul gratuit, auphonic.com acceptă o producție Multitrack doar până la aproximativ %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Proiectul %r creat de această rulare rămâne deschis -- înainte nu era deschis nimic\n  ce ar putea fi redeschis. Ștergeți-l în managerul de proiecte din Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Proiectul construit pe jumătate %r este șters din nou, %r este deschis din nou."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve a întrerupt curățenia: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Atenție: proiectul construit pe jumătate %r nu a putut fi șters, sau %r nu a\n  putut fi redeschis. Faceți-o în managerul de proiecte din Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: potrivirea sunetului este %s pe %s s de sunet comun, prea puțin pentru a o deosebi de întâmplare -- plasată doar după ceasul ei"
+
+msgid "placed through %s"
+msgstr "plasată prin %s"
+
+msgid "found where its timecode pointed"
+msgstr "găsită acolo unde arăta timecode-ul ei"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: ceasul ei spune %s, sunetul a măsurat %s -- diferență de %s s; se folosește măsurarea"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s este pe două camere: %s după pistă, %s după voce. Vocea are prioritate, așa că montajul îl arată pe %s doar pe %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Preluat din măsurătoarea păstrată pe acest calculator: aceleași fișiere și setări, deci nimic nu se măsoară din nou."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nVORBITORI -- MĂSURAȚI ANTERIOR"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Preluat din măsurătoarea păstrată pe acest calculator: aceleași înregistrări, poziții și fereastră de timp."
+
+msgid "Finished mix"
+msgstr "Mix final"
+
+msgid "Two finished mixes"
+msgstr "Două mixuri finale"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s și %s sunt ambele setate pe %s. Un singur mix ia locul celui construit de procesare -- readuceți-l pe celălalt la Vorbire."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Mixul final trebuie să fie un fișier audio: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "mixul final ia locul mixului din fișierele camerelor, iar fără fișier video acestea nu există."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "mixul final durează %s, mai puțin decât orice cameră (cea mai scurtă %s): unde se termină, Full-Mix tace."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s ia locul mixului pe care l-ar construi această procesare."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Mixul final nu și-a găsit locul pe axa timpului: nu are sunet comun cu camerele. Procesarea se oprește în loc să-l pună oriunde."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Mixul final nu are nimic în fereastra de la %s la %s: se află de la %s la %s. Procesarea se oprește."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Mixul final lasă în tăcere %s la început și %s la sfârșitul ferestrei."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: mixul final așa cum a venit -- fără amplificare și fără limitator"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Doar sincronizare” plasează fiecare înregistrare ca sunet mixt."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "mixul final -- fără vorbitor, fără cameră"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Vorbire: plasat doar după sonoritate. O înregistrare care nu are nimic în comun\ncu camerele este refuzată. Mixt: sub voci se află muzică sau un mix,\niar acolo unde sonoritatea nu găsește nimic, faza o poate plasa.\nMix final: un mix stereo făcut în altă parte, plasat ca sunet mixt. Intră\nîn fișierele camerelor și în predare în locul mixului procesării --\nfără vorbitor, fără tăieturi, fără trimitere la auphonic.com.\nLa „%s” Vorbire nu este oferită."

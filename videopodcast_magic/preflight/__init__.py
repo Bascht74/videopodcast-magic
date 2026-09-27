@@ -75,7 +75,7 @@ write_beside_then_move = PROGRAM.write_beside_then_move
 
 # Two stand in a piece read after this one: read_preset in the processing (a
 # circle: choose_preset there asks check_preset here), and MATRIX_BT2020 in the
-# colour reading.
+# colour reading. check_account asks the account the processing's way too.
 
 # Three are bent while the run goes on, and a copy taken here would
 # answer with the run before: set_language rebinds LANG, and the window
@@ -114,9 +114,10 @@ NAME_COLUMN = 24
 class Finding(object):
     """One item from the preflight report.
 
-    Four kinds, and the kind decides what happens next: "good" is only
+    Five kinds, and the kind decides what happens next: "good" is only
     counted, "hint" appears in the report, "fixed" says the script fixed
-    it itself, and "abort" stops the run unless --anyway is given.
+    it itself, "warning" is marked as one and stops nothing, and "abort"
+    stops the run unless --anyway is given.
     """
 
     def __init__(self, kind, field, text, advice="", file=""):
@@ -132,11 +133,12 @@ class Finding(object):
         self.set_aside = False
 
     def line(self, width=None):
+        # A warning's own words say so; it only wears the marker.
         label = {"good": "", "hint": T('Note: '), "fixed": T('fixed: '),
-                 "abort": T('Caution: ')}[self.kind]
+                 "warning": "", "abort": T('Caution: ')}[self.kind]
         out = "    %-*s %s%s" % (NAME_COLUMN if width is None else width,
                                   self.field, label, self.text)
-        return as_warn(out) if self.kind == "abort" else out
+        return as_warn(out) if self.kind in ("abort", "warning") else out
 
 
 def name_to_fit(name, room):
@@ -1314,6 +1316,51 @@ def check_loudness_target(args, videos=(), recordings=1):
     return [Finding("good", T('Loudness'), text)]
 
 
+def production_length(chains, multitrack, window_s=None):
+    """How long the run's productions at auphonic.com last, in seconds.
+
+    As the window reckons it: a recording as long as its blocks end to
+    end, cut to *window_s* where an In and Out point give one; one
+    Multitrack production as long as its longest, Singletrack ones
+    added up. The axis only lengthens them, so this is the least.
+    """
+    lengths = []
+    for row, _rest in chains:
+        seconds = sum(PROGRAM.sample_count(p) for p in row) / float(
+            PROGRAM.SR)
+        lengths.append(min(seconds, window_s) if window_s else seconds)
+    lengths = lengths or [0.0]
+    return max(lengths) if multitrack else sum(lengths)
+
+
+def check_account(args, chains, videos_n):
+    """What the account at auphonic.com says to this run, said first.
+
+    In the lines the Auphonic step prints later, a warning there one
+    here. Asked once, and only of a run that sends; an account that
+    cannot be asked is one line. Nothing here stops the run: auphonic.com
+    decides at the start, and says so itself.
+    """
+    if not PROGRAM.run_uploads(args):
+        return []
+    key = getattr(args, "auphonic_key", None)
+    account = PROGRAM.account_credit(key) if key else None
+    if not account:
+        return [Finding("good", "auphonic.com",
+                        T('Account at auphonic.com: not known -- it could '
+                          'not be asked. The run goes on.'))]
+    count = len(chains)
+    multitrack = PROGRAM.production_is_multitrack(
+        count, bool(videos_n) or count >= 2)
+    seconds = production_length(chains, multitrack, window_from_points(args))
+    found = []
+    for line in PROGRAM.credit_verdict(account, seconds, multitrack):
+        kind, text = PROGRAM.split_kind(line)
+        found.append(Finding("warning" if kind == "warning" else "good",
+                             "" if found else "auphonic.com", text.strip()))
+    return found
+
+
 def check_preset(key, uuid, presetname, lufs, multitrack):
     """Check the chosen preset against what the run needs.
 
@@ -1454,16 +1501,20 @@ def named_as(name, findings_, data, shown):
 
 def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
                     set_aside=(), apart=(), together=(), project_type="cut",
-                    labels=None):
+                    labels=None, finished=()):
     """Collect all findings about the material.
 
     Each file is measured and cached on its own, so adding one measures only
     that one; comparisons come off the cached data. *set_aside* files take no
-    part -- ignored ones, intro, outro: checked so their row is not the only
-    one without a mark, kept out of the comparisons. *project_type* "sync"
-    takes one audio recording and refuses more; *labels* see camera_named.
+    part -- ignored ones, intro, outro, the *finished* mix (finished_mix_fits
+    holds it to the cameras): checked so their row has a mark, kept out of
+    the comparisons. "sync" takes one recording; *labels* see camera_named.
     """
-    set_aside = {path_key(x) for x in (set_aside or ())}
+    finished = list(finished or ())
+    mix_keys = {path_key(x) for x in finished}
+    audio_paths = [p for p in audio_paths
+                   if path_key(p) not in mix_keys] + finished
+    set_aside = {path_key(x) for x in list(set_aside or ()) + finished}
 
     def counts_not(findings_, file_path):
         if path_key(file_path) in set_aside:
@@ -1486,6 +1537,7 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     if having_video:
         findings += find_camera_gaps(having_video)
     heard = recording_labels(audio_paths)
+    mix_data = []
     for p, (b, d) in zip(audio_paths, parallel_map(
             audio_paths,
             lambda x: measure_cached(x, "audio", check_audio_file, fresh))):
@@ -1494,6 +1546,10 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
         findings += counts_not(b, p)
         if d and path_key(p) not in set_aside:
             audio_data.append(d)
+        elif d and path_key(p) in mix_keys:
+            mix_data.append(d)
+    if finished:
+        findings += finished_mix_fits(mix_data, video_data, finished[0])
     # Comparisons work with recordings, not with blocks: two blocks of
     # one recording run in turn, are each shorter and never overlap.
     audio_paths = [p for p in audio_paths if path_key(p) not in set_aside]
@@ -1529,6 +1585,37 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     return findings
 
 
+def finished_mix_fits(mix_data, video_data, head):
+    """Whether the finished mix can stand in for the mix, as far as seen.
+
+    Without a camera it has nothing to stand in: the mix goes into the
+    camera files, so it would change nothing, and the run stops. Shorter
+    than every camera, it cannot cover the stretch they all saw, and the
+    Full-Mix falls silent where it ends: said, not stopped. Whether it
+    shares sound with the cameras only the time axis can say.
+    """
+    if not mix_data:
+        return []
+    name = name_to_fit(mix_data[0].get("name") or os.path.basename(head),
+                       NAME_COLUMN)
+    if not video_data:
+        return [Finding(
+            "abort", name,
+            T('the finished mix takes the place of the mix in the camera '
+              'files, and without a video file there are none.'),
+            file=os.path.abspath(head))]
+    length = sum(d.get("duration") or 0.0 for d in mix_data)
+    shortest = min(d.get("duration") or 0.0 for d in video_data)
+    if length + 1.0 < shortest:
+        return [Finding(
+            "hint", name,
+            T('the finished mix runs %s, shorter than every camera (the '
+              'shortest %s): where it ends, the Full-Mix is silent.')
+            % (as_hms(length), as_hms(shortest)),
+            file=os.path.abspath(head))]
+    return []
+
+
 def run_preflight(args, audio_paths, video_paths, project_type=None):
     """Run the preflight report on the material. Returns 1 to abort.
 
@@ -1544,18 +1631,21 @@ def run_preflight(args, audio_paths, video_paths, project_type=None):
                               bool(getattr(args, "preflight_again", False)),
                               apart=getattr(args, "apart", ()),
                               together=getattr(args, "together", ()),
-                              project_type=project_type or "cut")
+                              project_type=project_type or "cut",
+                              finished=getattr(args, "finished_mix", ()))
     # Counted as the run counts them: blocks of one recording are one.
-    recordings = len(group_recording_parts(
+    chains = (group_recording_parts(
         audio_paths, getattr(args, "no_follow_ups", False),
         getattr(args, "apart", ()), getattr(args, "together", ()))
         if audio_paths else [])
+    recordings = len(chains)
     # These two depend on the call and the machine, not the material.
     findings += check_disk_space(getattr(args, "out", None), audio_paths, video_paths,
                              window_from_points(args),
                              bool(getattr(args, "dry_run", False)),
                              recordings)
     findings += check_loudness_target(args, video_paths, recordings)
+    findings += check_account(args, chains, len(video_paths))
     return 1 if report_findings(findings, T('does the material fit together?'),
                                getattr(args, "anyway", False)) else 0
 
@@ -1714,12 +1804,13 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
 
     def preflight_work_loop(audio_files, videos_p, label_run,
                          set_aside=(), apart=(), together=(),
-                         project_type="cut", labels=None):
+                         project_type="cut", labels=None, finished=()):
         """Measure in the background so the interface does not freeze."""
         try:
             findings = collect_findings(audio_files, videos_p, False,
                                         True, set_aside, apart,
-                                        together, project_type, labels)
+                                        together, project_type, labels,
+                                        finished)
         except Exception as e:
             # An empty list would read as "nothing to fault", and the run
             # would start on material nobody looked at.
@@ -1751,6 +1842,10 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
             if value.get() == TYPE_IGNORED:
                 gone.add(path_key(file_path))
         audio_files = [p for p, a in files if a == "audio"]
+        # The finished mix by the run's own rule, so both check one file.
+        finished = [b for blocks in PROGRAM.finished_mix_rows(
+            state.get("sound_holds"), [row for row, _nv, _cv in assign_lines],
+            audio_files) for b in blocks]
         videos_p = [p for p, a in files if a == "video"]
         label_run = state.get("preflight_run", 0) + 1
         state["preflight_run"] = label_run
@@ -1768,7 +1863,7 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
                                state.get("project_type") or "cut",
                                # Named as the window names them: the
                                # run's camera_shown knows no labels here.
-                               PROGRAM.camera_labels(videos_p)),
+                               PROGRAM.camera_labels(videos_p), finished),
                          daemon=True).start()
 
     return preflight_fill_in, preflight_kick_off

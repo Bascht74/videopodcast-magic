@@ -124,32 +124,34 @@ def api_key_from_anywhere(args):
     return key.strip()
 
 
-def _curl_call(key, arguments, output_binary=False, progress=False):
-    """Run curl with the key in a config file rather than in argv.
+def curl_config(key):
+    """The one line that hands curl the key, as bytes for its input.
 
-    In argv it would stand in the process list for the length of the call.
-    A key of None sends no key at all: no config file is written.
+    curl reads it as configuration, so the key goes in as a value: a
+    quotation mark or a line break in it would start a directive of its
+    own. curl escapes with a backslash.
+    """
+    safe = (str(key).replace("\\", "\\\\").replace('"', '\\"')
+            .replace("\r", "").replace("\n", ""))
+    return ('header = "Authorization: bearer %s"\n' % safe).encode("utf-8")
+
+
+def _curl_call(key, arguments, output_binary=False, progress=False):
+    """Run curl with the key on its input rather than in argv or a file.
+
+    In argv it would stand in the process list for the length of the
+    call; in a file it would lie on the disc. "--config -" makes curl
+    read its configuration from its input, and the key line is written
+    there and the pipe closed before curl sends anything (measured with
+    curl 7.86 and 8.7). A key of None sends no key at all.
     """
     leftovers = []
     closing, running = [], []
-    keyed = []
+    keyed, handed = [], None
     if key is not None:
-        fd, conf = tempfile.mkstemp(prefix="auph_", suffix=".conf")
-        os.close(fd)
-        leftovers.append(conf)
-        keyed = ["--config", conf]
+        keyed = ["--config", "-"]
+        handed = curl_config(key)
     try:
-        if key is not None:
-            # The one file that holds the key in plain text; the finally
-            # below removes it whatever happened. Owner-readable only.
-            os.chmod(conf, 0o600)
-            # curl reads this file as configuration, so the key goes in
-            # as a value: a quotation mark or a line break in it would
-            # start a directive of its own. curl escapes with a backslash.
-            safe = (str(key).replace("\\", "\\\\").replace('"', '\\"')
-                    .replace("\r", "").replace("\n", ""))
-            with open(conf, "w", encoding="utf-8") as f:
-                f.write('header = "Authorization: bearer %s"\n' % safe)
         if progress:
             # curl's own bar has no percentage and cannot be indented,
             # so its table is read and our bar drawn from it. The answer
@@ -166,8 +168,21 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                                      "--connect-timeout", "15"]
                                     + keyed + arguments,
                                     stdout=answer_file,
-                                    stderr=subprocess.PIPE)
+                                    stderr=subprocess.PIPE,
+                                    stdin=(subprocess.PIPE if handed
+                                           is not None else None))
             running.append(proc)
+            lost = ""
+            if handed is not None:
+                # One short line, far under what a pipe holds, so the
+                # write cannot wait on curl.
+                try:
+                    proc.stdin.write(handed)
+                    proc.stdin.close()
+                except OSError as why:
+                    # curl ended before it read its key; kept beside
+                    # what curl itself says, never in place of it.
+                    lost = str(why)
             # An upload runs for many minutes, so Stop has to reach it.
             PROGRAM.RUN_STOP["children"].add(proc)
             if PROGRAM.stop_wanted():
@@ -176,7 +191,7 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
             text = progress if isinstance(progress, str) else T('Transfer')
             rest, last_percent, last_time = "", -1, 0.0
             moved = None         # the amounts curl last reported
-            said = []            # everything that is not a progress line
+            said = [lost] if lost else []   # all but the progress lines
             show_progress(text, 0.0)
             while True:
                 piece = proc.stderr.read(64)
@@ -229,7 +244,7 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
             p = subprocess.run(["curl", "-sS", "-L",
                                 "--connect-timeout", "15",
                                 "--max-time", "60"] + keyed + arguments,
-                               capture_output=True)
+                               capture_output=True, input=handed)
             # The server answered, or gave up within the minute above.
             PROGRAM.RUN_VITALS.alive()
     finally:
@@ -247,9 +262,9 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                 handle.close()
             except Exception:
                 pass
-        # The config file holds the key, so it goes whatever happened,
-        # and a failure to remove it must not replace the real error.
-        # What cannot be removed is overwritten: no file keeps the key.
+        # The answer file goes whatever happened, and a failure to remove
+        # it must not replace the real error. What cannot be removed is
+        # emptied: no answer of auphonic.com is left lying about.
         for path in leftovers:
             try:
                 os.unlink(path)
@@ -314,6 +329,25 @@ def _download(key, url, target, name):
                       progress=T('Downloading %s') % name)
 
 
+def _post_json(key, path, request):
+    """Send *request* as JSON to *path* at auphonic.com; the answer, read.
+
+    The body goes through a file of its own, which curl reads with -d @
+    and which is gone when the call has returned. It holds the settings,
+    never the key: that goes on curl's input.
+    """
+    fd, js = tempfile.mkstemp(suffix=".json")
+    os.close(fd)
+    try:
+        with open(js, "w", encoding="utf-8") as f:
+            json.dump(request, f, ensure_ascii=False)
+        return _parse_json(_curl_call(key, [
+            "-X", "POST", "-H", "Content-Type: application/json",
+            AUPHONIC + path, "-d", "@" + js]))
+    finally:
+        os.unlink(js)
+
+
 def _parse_json(text):
     try:
         return json.loads(text)
@@ -338,6 +372,15 @@ def key_complaint(key):
     return ""
 
 
+class Presets(list):
+    """The preset list as auphonic.com itself answered it.
+
+    Only such a list lets the box ask the account next: a list from
+    anywhere else -- a stand-in, a picture run -- is no sign that the
+    key reached auphonic.com, and asking on would go out uncalled for.
+    """
+
+
 def list_presets(key):
     """Fetch the stored presets: (name, uuid, Multitrack or None).
 
@@ -357,7 +400,176 @@ def list_presets(key):
         items.append((p.get("preset_name") or p.get("name") or T('unnamed'),
                       p.get("uuid") or "",
                       None if mark is None else bool(mark)))
-    return items
+    return Presets(items)
+
+
+# auphonic.com's free Multitrack border as measured 27.9.2026: 21 min
+# went through, 22 were refused ("shorter than 20min", it says). Warned
+# of past it, never enforced.
+FREE_MULTITRACK_S = 21 * 60
+
+
+def account_credit(key):
+    """The account's credit and plan: {"hours", "paying"}, or None.
+
+    GET /api/user.json, which costs nothing: "credits" is in hours, the
+    one-time and the recurring together, and "is_paying_user" is false
+    on a free account. Either may be missing and is then None. Asked
+    beside the presets and before an upload, and only to be said: an
+    answer that does not come is no reason to stop anything.
+    """
+    try:
+        d = _parse_json(_curl_call(key, [AUPHONIC + "/api/user.json"]))
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
+    except Exception:
+        return None
+    if not isinstance(d, dict) or d.get("status_code") not in (200, None):
+        return None
+    data = d.get("data")
+    if not isinstance(data, dict):
+        return None
+    try:
+        hours = float(data["credits"])
+    except (KeyError, TypeError, ValueError):
+        hours = None
+    paying = data.get("is_paying_user")
+    if hours is None and paying is None:
+        return None
+    return {"hours": hours,
+            "paying": None if paying is None else bool(paying)}
+
+
+def credit_time(seconds, needed=False):
+    """A span of credit in whole minutes.
+
+    What is left is rounded down. What a production *needed* is rounded
+    up and never below one minute: auphonic.com charges whole minutes,
+    so a twenty-second production is not free.
+    """
+    return T('%d min') % credit_minutes(seconds, needed)
+
+
+def credit_minutes(seconds, needed=False):
+    """The whole minutes credit_time says: left down, needed up, at least 1."""
+    if needed:
+        return max(1, int(-(-max(0.0, seconds) // 60)))
+    return int(max(0.0, seconds) // 60)
+
+
+def credit_short(hours, seconds):
+    """Whether *hours* of credit fall short of *seconds* of production.
+
+    Held against the whole minutes it is charged, at least one, so no
+    credit at all is short even where the length is not known.
+    """
+    return (hours is not None
+            and hours * 3600 < credit_minutes(seconds, needed=True) * 60)
+
+
+def free_too_long(account, seconds, multitrack):
+    """Whether auphonic.com's free Multitrack border stands in the way.
+
+    Past it, not on it: a production of exactly the border went through.
+    """
+    return (bool(account) and account.get("paying") is False
+            and multitrack and seconds > FREE_MULTITRACK_S)
+
+
+def credit_note(account, multitrack, seconds=0):
+    """The line the Auphonic box shows about the account: (text, short).
+
+    *seconds*: the production's length as the window knows it, 0, or
+    None without a preset, which only says the plan and what is left.
+    *short*, the line red: the credit is fewer than the production needs,
+    or a free Multitrack production longer than auphonic.com takes.
+    Without an answer there is no line.
+    """
+    if not account:
+        return "", False
+    hours, paying = account.get("hours"), account.get("paying")
+    left = (T('Credit at auphonic.com: %s left') % credit_time(hours * 3600)
+            if hours is not None else T('Credit at auphonic.com: unknown'))
+    if paying is False:
+        left = T('%s -- free plan') % left
+    elif paying:
+        left = T('%s -- paying plan') % left
+    if seconds is None:
+        return left, False
+    short = credit_short(hours, seconds)
+    if free_too_long(account, seconds, multitrack):
+        left += "\n" + (T('On the free plan auphonic.com takes a Multitrack '
+                          'production only up to about %s.')
+                        % credit_time(FREE_MULTITRACK_S))
+        short = True
+    return left, short
+
+
+def credit_verdict(account, seconds, multitrack):
+    """What the account says to this production: the lines, as said.
+
+    auphonic.com charges the length sent: *seconds*, the longest track,
+    0 where not known. A free Multitrack production longer than it takes
+    is a warning, marked so, with a note saying why. Nothing here stops:
+    auphonic.com decides at the start, and its refusal ends the run.
+    """
+    paying = (account or {}).get("paying")
+    lines = [{True: T('  Account at auphonic.com: paying.'),
+              False: T('  Account at auphonic.com: free.')}.get(
+                  paying, T('  Account at auphonic.com: not known.'))]
+    if not account:
+        lines.append(T('  Credit at auphonic.com: not known -- the account '
+                       'did not answer.'))
+        return lines
+    hours = account.get("hours")
+    if hours is None:
+        lines.append(T('  Credit at auphonic.com: not known.'))
+    elif seconds <= 0:
+        lines.append(T('  Credit at auphonic.com: %s left.')
+                     % credit_time(hours * 3600))
+    elif credit_short(hours, seconds):
+        lines.append(T('  Credit at auphonic.com: %s left, and this '
+                       'production needs %s -- not enough.')
+                     % (credit_time(hours * 3600),
+                        credit_time(seconds, needed=True)))
+        lines.append(T('  Note: the run tries anyway. auphonic.com decides '
+                       'whether the production starts, and says so if it '
+                       'does not.'))
+    else:
+        lines.append(T('  Credit at auphonic.com: %s left, enough for the '
+                       '%s this production needs.')
+                     % (credit_time(hours * 3600),
+                        credit_time(seconds, needed=True)))
+    if free_too_long(account, seconds, multitrack):
+        lines.append(as_warn(
+            T('  Warning: this Multitrack production is %s long, and on the '
+              'free plan auphonic.com takes one only up to about %s.')
+            % (credit_time(seconds, needed=True),
+               credit_time(FREE_MULTITRACK_S))))
+        lines.append(T('  Note: auphonic.com refuses a longer one at the '
+                       'start and charges nothing for it. The run tries '
+                       'anyway; if auphonic.com refuses, its own message '
+                       'follows.'))
+    return lines
+
+
+def production_said(key, head, rows, dry_run, seconds, multitrack):
+    """The head both productions print, and what the account says to it.
+
+    Returns True on a dry run, which ends there: it says nothing to
+    auphonic.com at all, so the account is only asked before an upload,
+    and *seconds*, which measures the files, is called only then.
+    """
+    print(as_head(head))
+    for row in rows:
+        print(row)
+    if dry_run:
+        print(T('  (dry run: nothing uploaded)\n'))
+        return True
+    for line in credit_verdict(account_credit(key), seconds(), multitrack):
+        print(line)
+    return False
 
 
 def preset_fits_mode(mark, multitrack):
@@ -767,6 +979,36 @@ def secret_tool_offer(parent, arrived):
     return True
 
 
+def credit_row(run_layout):
+    """The line under the preset that says what the account has left.
+
+    Hidden until an answer came. Returns show(account, multitrack,
+    seconds), called when the presets arrive, the kind needed changes,
+    or the key does -- nothing asks auphonic.com for it on its own.
+    *seconds* is how long the production lasts as the rows stand, None
+    while no preset is chosen.
+    """
+    line = label("")
+    line.setWordWrap(True)
+    line.setVisible(False)
+    run_layout.addWidget(line)
+
+    def show(account, multitrack, seconds=0):
+        """Say the account's credit, red where the production needs more."""
+        text, short = credit_note(account, multitrack, seconds)
+        line.setText(text)
+        line.setStyleSheet("color: %s" % COLOURS["error" if short
+                                                  else "good"])
+        line.setVisible(bool(text))
+        if account:
+            gui_log("credit: %r h, paying %r, multitrack %s, %s s, short %s"
+                    % (account.get("hours"), account.get("paying"),
+                       multitrack, "no preset" if seconds is None
+                       else "%.0f" % seconds, short))
+
+    return show
+
+
 def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
                       settings_open, buttons_check, multi_button,
                       out_folder, commonest_folder, report, tracks_now):
@@ -774,9 +1016,9 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
 
     Here and not in the window because the two are one theme: the key is
     checked by fetching the presets, and what comes back is what the
-    preset box offers -- of the kind *tracks_now*, (tracks, on one axis),
-    needs. gui() calls it below multi_button, which the preset switches
-    on when it says no processing is wanted.
+    preset box offers -- of the kind *tracks_now*, (tracks, on one axis,
+    seconds), needs. gui() calls it below multi_button, which the preset
+    switches on when it says no processing is wanted.
     """
     # --- In two places in the window: the key behind "Settings ...", set
     #     once; the preset under the assignment, chosen every time.
@@ -846,6 +1088,7 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     done_label = label("", COLOURS["good"])
     second_line.addWidget(done_label)
     second_line.addStretch(1)
+    credit_show = credit_row(run_layout)
 
     def without_auphonic():
         """Report whether the entry stands in the preset list."""
@@ -859,6 +1102,10 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
         """
         multi_button.setEnabled(True)
         buttons_check()
+        # The account is said once it answered, preset or not; only a
+        # preset chosen holds it against the rows.
+        credit_show(state.get("account"), kind_needed(),
+                    None if without_auphonic() else tracks_now()[2])
 
     preset_box.currentIndexChanged.connect(without_auphonic_toggled)
 
@@ -914,7 +1161,7 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
 
     def kind_needed():
         """True where the rows as they stand need a Multitrack preset."""
-        return production_is_multitrack(*tracks_now())
+        return production_is_multitrack(*tracks_now()[:2])
 
     def preset_plaintext():
         """Return the chosen preset name, empty where none was chosen.
@@ -949,8 +1196,13 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
 
         def fetch():
             try:
-                bridge_emit(bridge.presets, list_presets(key), "", key)
+                found = list_presets(key)
+                # Beside the presets, never on its own: what is left.
+                state["account"] = (account_credit(key)
+                                    if isinstance(found, Presets) else None)
+                bridge_emit(bridge.presets, found, "", key)
             except Exception as e:
+                state["account"] = None
                 bridge_emit(bridge.presets, None, str(e)[:90], key)
 
         threading.Thread(target=fetch, daemon=True).start()
@@ -1005,6 +1257,7 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
         key being retyped is no reason to switch it off.
         """
         state["presets"] = None
+        state["account"] = None
         button_green(False)
         # The complaint was about the key that stood there before, and
         # it must not be read as being about the one now being typed.
@@ -1057,16 +1310,7 @@ def wishes_then_start(key, uuid, stereo=False):
                 f["mono_mixdown"] = False
     request["output_files"] = wish
     request["action"] = "start"
-    fd, js = tempfile.mkstemp(suffix=".json")
-    os.close(fd)
-    try:
-        with open(js, "w", encoding="utf-8") as f:
-            json.dump(request, f, ensure_ascii=False)
-        answer = _parse_json(_curl_call(
-            key, ["-X", "POST", "-H", "Content-Type: application/json",
-                  AUPHONIC + "/api/production/%s.json" % uuid, "-d", "@" + js]))
-    finally:
-        os.unlink(js)
+    answer = _post_json(key, "/api/production/%s.json" % uuid, request)
     if answer.get("status_code") not in (200, 201, None):
         raise RuntimeError(T('Auphonic will not take the settings: '
                              '%s') % (answer.get("error_message")
@@ -1089,18 +1333,18 @@ def run_single_production(audio, preset, presetname, key, target_folder,
         really = int(channel_count(audio))
     except (OSError, ValueError, RuntimeError):
         really = kept_channels(audio)
-    print(as_head(T('PROCESSING AT AUPHONIC.COM:')))
-    print(T('  Preset:  %s') % presetname)
-    print(T('  File:    %s (%s, %s)') % (os.path.basename(audio),
-                              as_data_size(size),
-                              channel_text(really)))
+    rows = [T('  Preset:  %s') % presetname,
+            T('  File:    %s (%s, %s)') % (os.path.basename(audio),
+                                           as_data_size(size),
+                                           channel_text(really))]
     if really > 2:
-        print(as_warn(T('  More than two channels go to auphonic.com as '
-                        'one: the fold is only switched off for stereo.\n'
-                        '  Where the channels are meant to stay apart, '
-                        'cut the file into tracks first.')))
-    if dry_run:
-        print(T('  (measuring only: nothing uploaded)\n'))
+        rows.append(as_warn(T('  More than two channels go to auphonic.com '
+                              'as one: the fold is only switched off for '
+                              'stereo.\n  Where the channels are meant to '
+                              'stay apart, cut the file into tracks '
+                              'first.')))
+    if production_said(key, T('PROCESSING AT AUPHONIC.COM:'), rows, dry_run,
+                       lambda: PROGRAM.media_seconds(audio), False):
         return None
     # With a stereo recording the production is created but not started:
     # switching the mono fold off is a second call.
@@ -1162,6 +1406,22 @@ def fetch_text_outputs(key, files, target_folder, skip=None):
 
     Transcript, subtitles, chapter marks: paid for either way.
     """
+    fetch_each(key, files, target_folder, skip,
+               lambda name: name.lower().endswith(TRANSCRIPT_SUFFIXES),
+               lambda name: name,
+               T('  %s is there already -- not fetched twice'),
+               T('  Also fetched: %s'))
+
+
+def fetch_each(key, files, target_folder, skip, wanted, same, twice,
+               told=""):
+    """Fetch each output file *wanted* asks for, once, into a folder.
+
+    The loop both productions end in. *skip* is the file already
+    fetched, *same* what makes two names one, *twice* and *told* the
+    sentences for a second of one name and a file that came. A file that
+    cannot be fetched is said and passed by; Stop is not.
+    """
     fetched = set()
     for f in files or []:
         if f is skip:
@@ -1170,21 +1430,22 @@ def fetch_text_outputs(key, files, target_folder, skip=None):
         url = f.get("download_url")
         if not name or not url:
             continue
-        if not name.lower().endswith(TRANSCRIPT_SUFFIXES):
+        if not wanted(name):
             continue
         name = plain_download_name(name)
         if not name:
             continue
         # Two outputs of one name land in the same file, and the second
         # download overwrites the first though both were paid for.
-        if name in fetched:
-            print(T('  %s is there already -- not fetched twice') % name)
+        if same(name) in fetched:
+            print(twice % name)
             continue
-        fetched.add(name)
+        fetched.add(same(name))
         target = os.path.join(target_folder, name)
         try:
             _download(key, url, target, name)
-            print(T('  Also fetched: %s') % name)
+            if told:
+                print(told % name)
         except PROGRAM.Stopped:
             # Stop ends the run; it is no failure of this step.
             raise
@@ -1391,18 +1652,8 @@ def update_production(key, uuid, request):
     Uploaded files stay in place -- Auphonic matches tracks by
     identifier -- so another preset costs no upload and no credit.
     """
-    fd, js = tempfile.mkstemp(suffix=".json")
-    os.close(fd)
-    without_output = dict(request)
-    try:
-        with open(js, "w", encoding="utf-8") as f:
-            json.dump(without_output, f, ensure_ascii=False)
-        answer = _parse_json(_curl_call(key, ["-X", "POST", "-H",
-                                    "Content-Type: application/json",
-                                    AUPHONIC + "/api/production/%s.json" % uuid,
-                                    "-d", "@" + js]))
-    finally:
-        os.unlink(js)
+    answer = _post_json(key, "/api/production/%s.json" % uuid,
+                        dict(request))
     if answer.get("status_code") not in (200, 201, None):
         raise RuntimeError(T('Change rejected: %s')
                            % (answer.get("error_message")
@@ -1422,18 +1673,10 @@ def update_track(key, uuid, track_id, algorithms):
     Auphonic matches a track only through its own URL: the track list
     sent to the production appends instead -- three tracks become six.
     """
-    fd, js = tempfile.mkstemp(suffix=".json")
-    os.close(fd)
-    try:
-        with open(js, "w", encoding="utf-8") as f:
-            json.dump({"id": track_id, "type": "multitrack",
-                       "algorithms": algorithms}, f, ensure_ascii=False)
-        answer = _parse_json(_curl_call(key, [
-            "-X", "POST", "-H", "Content-Type: application/json",
-            AUPHONIC + "/api/production/%s/multi_input_files/%s.json"
-            % (uuid, track_id), "-d", "@" + js]))
-    finally:
-        os.unlink(js)
+    answer = _post_json(
+        key, "/api/production/%s/multi_input_files/%s.json"
+        % (uuid, track_id),
+        {"id": track_id, "type": "multitrack", "algorithms": algorithms})
     if answer.get("status_code") not in (200, 201, None):
         return str(answer.get("error_message")
                    or answer.get("form_errors") or T('rejected'))
@@ -1476,13 +1719,14 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
     step_begin("auphonic")
     names = [track["name"] for track in tracks]
     base = safe_filename(title)
-    print(as_head(T('PROCESSING AT AUPHONIC.COM (MULTITRACK):')))
-    print(T('  Production:  %s') % title)
-    print(T('  Tracks:      %s') % ", ".join(names))
     total = sum(os.path.getsize(track["axis"]) for track in tracks) / 1e6
-    print(T('  To upload:   %s') % as_data_size(total))
-    if dry_run:
-        print(T('  (measuring only: nothing uploaded)\n'))
+    if production_said(key, T('PROCESSING AT AUPHONIC.COM (MULTITRACK):'),
+                       [T('  Production:  %s') % title,
+                        T('  Tracks:      %s') % ", ".join(names),
+                        T('  To upload:   %s') % as_data_size(total)],
+                       dry_run,
+                       lambda: max([PROGRAM.media_seconds(track["axis"])
+                                    for track in tracks] or [0.0]), True):
         return {}
 
     preset = read_preset(key, preset_uuid)
@@ -1499,17 +1743,7 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
         return reuse_production(key, existing, request, preset,
                                           tracks, names, target_folder, base,
                                           wait_s, carry_on)
-    fd, js = tempfile.mkstemp(suffix=".json")
-    os.close(fd)
-    try:
-        with open(js, "w", encoding="utf-8") as f:
-            json.dump(request, f, ensure_ascii=False)
-        answer = _parse_json(_curl_call(key, ["-X", "POST", "-H",
-                                    "Content-Type: application/json",
-                                    AUPHONIC + "/api/productions.json",
-                                    "-d", "@" + js]))
-    finally:
-        os.unlink(js)
+    answer = _post_json(key, "/api/productions.json", request)
     if answer.get("status_code") not in (200, 201, None):
         raise RuntimeError(T('Auphonic reports %s: %s')
                            % (answer.get("status_code"),
@@ -1523,9 +1757,28 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
     if sorted(created) != sorted(names):
         raise RuntimeError(T('Auphonic created different tracks than '
                              'requested: %s instead of %s') % (created, names))
-    print(T('  Production running (%s)') % uuid)
+    # Created, not yet running: the tracks go up first, then the start.
+    print(T('  Production created (%s)') % uuid)
 
-    upload_args = ["-X", "POST", AUPHONIC + "/api/production/%s/upload.json" % uuid]
+    _upload_tracks(key, uuid, tracks)
+
+    _curl_call(key, ["-X", "POST",
+                AUPHONIC + "/api/production/%s/start.json" % uuid])
+    print(T('  Production running (%s)') % uuid)
+    p = wait_for_production(key, uuid, wait_s)
+
+    return cut_what_was_added(
+        tracks, download_results(key, p, names, target_folder, base))
+
+
+def _upload_tracks(key, uuid, tracks):
+    """Upload every track into the production, each under its name.
+
+    A track auphonic.com took no file for stops the run here: the mix
+    would go on without that voice.
+    """
+    upload_args = ["-X", "POST",
+                   AUPHONIC + "/api/production/%s/upload.json" % uuid]
     for track in tracks:
         upload_args += ["-F", "%s=@%s" % (track["name"], track["axis"])]
     d = _parse_json(_curl_call(
@@ -1537,13 +1790,6 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
     if absent:
         raise RuntimeError(T('These tracks got no file: %s')
                            % ", ".join(absent))
-
-    _curl_call(key, ["-X", "POST",
-                AUPHONIC + "/api/production/%s/start.json" % uuid])
-    p = wait_for_production(key, uuid, wait_s)
-
-    return cut_what_was_added(
-        tracks, download_results(key, p, names, target_folder, base))
 
 
 def cut_what_was_added(tracks, done):
@@ -1578,28 +1824,9 @@ def download_results(key, p, names, target_folder, base):
     target = os.path.join(cache, zip_name)
     _download(key, zip_file.get("download_url"), target, zip_name)
     # Whatever else the preset produces belongs here: it is paid for.
-    already = set()
-    for f in (p.get("output_files") or []):
-        name = f.get("filename") or ""
-        if not name or not f.get("download_url") or f is zip_file:
-            continue
-        name = plain_download_name(name)
-        if not name:
-            continue
-        if name.lower() in already:
-            # Two output kinds of one file name: the second overwrites.
-            print(T('  %s is in the production twice -- fetched once.')
-                  % name)
-            continue
-        already.add(name.lower())
-        extra_file = os.path.join(cache, name)
-        try:
-            _download(key, f["download_url"], extra_file, name)
-        except PROGRAM.Stopped:
-            # Stop ends the run; it is no failure of this step.
-            raise
-        except Exception as e:
-            print(T('  %s could not be fetched: %s') % (name, e))
+    fetch_each(key, p.get("output_files"), cache, zip_file,
+               lambda name: True, lambda name: name.lower(),
+               T('  %s is in the production twice -- fetched once.'))
     return match_zip_entries_to_tracks(target, names, target_folder)
 
 
@@ -1771,22 +1998,12 @@ def reuse_production(key, existing, request, preset, tracks,
                   'file at auphonic.com.') % number_text(len(now), 0))
     if upload_again:
         print(T('  The files are uploaded again -- this costs credit.'))
-        upload_args = ["-X", "POST",
-                AUPHONIC + "/api/production/%s/upload.json" % uuid]
-        for track in tracks:
-            upload_args += ["-F", "%s=@%s" % (track["name"], track["axis"])]
-        d = _parse_json(_curl_call(key, upload_args,
-                        progress=T('Uploading %s tracks')
-                        % number_text(len(tracks), 0)))
-        absent = [x.get("id") for x in ((d.get("data") or {}).get(
-            "multi_input_files") or []) if not x.get("input_file")]
-        if absent:
-            raise RuntimeError(T('These tracks got no file: %s')
-                               % ", ".join(absent))
+        _upload_tracks(key, uuid, tracks)
     else:
         print(T('  The existing files are reused -- recomputing costs nothing.'))
     _curl_call(key, ["-X", "POST",
                 AUPHONIC + "/api/production/%s/start.json" % uuid])
+    print(T('  Production running (%s)') % uuid)
     p = wait_for_production(key, uuid, wait_s)
     done = download_results(key, p, names, target_folder, base)
     return cut_what_was_added(tracks, done) if upload_again else done

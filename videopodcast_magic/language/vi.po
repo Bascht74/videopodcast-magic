@@ -568,11 +568,11 @@ msgstr "Đây không phải tệp của chương trình này."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Tệp này được ghi bởi phiên bản %s ở định dạng %d; phiên bản này ghi định dạng %d. Các tên bên trong đã thay đổi từ đó, nên không đọc được. Vui lòng thiết lập lại lượt chạy."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (chỉ đo: không ghi gì)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (chạy thử: đã tính toán và giữ lại, thư mục đầu ra không bị động đến)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (chỉ đo: không có khóa API thì dừng ở đây)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (chạy thử: không ghi gì)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kiểm tra dựa trên rò tiếng -- tham chiếu là %s:"
@@ -907,8 +907,8 @@ msgstr "  %s: %s, bỏ qua"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: không xác định được số kênh (%s) -- tệp này không được đo"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (chỉ đo: không tải lên gì)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (chạy thử: không tải lên gì)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Đã có Timeline %r -- Timeline mới tên là %r."
@@ -1152,6 +1152,9 @@ msgstr "  Hãy nhập một số từ 1 đến %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Bản sản xuất tại auphonic.com:  %s"
+
+msgid "  Production created (%s)"
+msgstr "  Đã tạo bản sản xuất (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Bản sản xuất đang chạy (%s)"
@@ -1708,8 +1711,8 @@ msgstr "\nĐang dừng. Lượt chạy sẽ kết thúc ngay khi có thể mà k
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Cảnh rộng kéo dài %s s, ít hơn cảnh quay ngắn nhất %s s -- nên nó lại bị gộp mất và không bao giờ xuất hiện.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nĐã đo. Không ghi gì cả -- chạy thử giữ nguyên thư mục kết quả như cũ.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nĐã tính toán. Chạy thử giữ nguyên thư mục kết quả như cũ.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nDừng ở bước: %s"
@@ -2176,8 +2179,8 @@ msgstr "Độ lệch so với trung bình"
 msgid "Drag audio and video files here"
 msgstr "Kéo tệp âm thanh và video vào đây"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Chạy thử: chỉ đo, không ghi gì, không tải lên gì."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Chạy thử: mọi thứ được tính toán và báo cáo, không có gì vào thư mục đầu ra, không tải lên gì."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Trong lúc chào đầu và tạm biệt cuối, hình ảnh giữ ở cảnh rộng."
@@ -2299,9 +2302,6 @@ msgstr "Chỉ đo -- không ghi hay tải lên gì."
 msgid "Measuring %s (%s of %s)"
 msgstr "Đang đo %s (%s/%s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Không thể đo: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Đo mức chuẩn"
 
@@ -2325,9 +2325,6 @@ msgstr "Multitrack cần ít nhất hai rãnh đầu vào. Một rãnh là một
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Chưa dùng âm thanh nào -- thêm một bản ghi âm, hoặc trong danh sách tệp đặt Âm thanh máy quay của một tệp video thành \"dùng âm thanh tích hợp\"."
-
-msgid "No audio tracks are assigned."
-msgstr "Không có rãnh âm thanh nào được gán."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Không có máy quay nào được gán, nên không có gì để chuyển cảnh qua lại."
@@ -2358,9 +2355,6 @@ msgstr "Ở đây chưa biết người nói nào -- không biết ai nói khi n
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Chưa có giọng nói nào có máy quay -- như vậy mọi cảnh quay sẽ giống hệt nhau."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Chưa biết người nói nào -- chưa đo gì, chưa tách gì, và không có tệp bàn giao của lượt chạy trước trong %s hoặc các thư mục con của nó."
 
 msgid "Not found again after import: %s"
 msgstr "Không tìm lại được sau khi nhập: %s"
@@ -2466,9 +2460,6 @@ msgstr "Không bắt buộc -- khi đó YouTube dùng giá trị mặc định (
 
 msgid "Not ready yet:"
 msgstr "Chưa sẵn sàng:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Không nghe thấy gì trong các rãnh."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Một bản ghi âm chưa có tên người nói."
@@ -3362,9 +3353,6 @@ msgstr "đo từ các bản ghi -- %s người nói, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "từ lượt chạy đã xong -- %s người nói, %s"
 
-msgid "no folder"
-msgstr "(không có thư mục)"
-
 msgid "no text"
 msgstr "không có văn bản"
 
@@ -3761,9 +3749,6 @@ msgstr "bản thân phép kiểm tra đã dừng: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Không đọc được điểm vào hoặc điểm ra ở đây."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Điểm ra nằm cách điểm vào chưa đến 5 giây."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Thiếu khoảng %s. Hãy giải phóng dung lượng hoặc chọn thư mục khác bằng --out. Các tệp tạm trong lúc chạy lại nằm ở chỗ khác, trong thư mục tạm của hệ thống."
 
@@ -3815,14 +3800,11 @@ msgstr "  Đã tách một lần rồi: đọc lại, không đo lại."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Khoảng %s tính toán cho %s âm thanh."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (chỉ đo: không tách gì)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (chạy thử: không tách gì)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Các rãnh chưa được đo, nên %s có trong bản trộn nhưng không có trong bản dựng: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s chưa được đo -- có trong bản dựng, chưa có trong bản xem trước này."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Từ chính các rãnh, mỗi rãnh một giọng nói: %s."
@@ -4828,9 +4810,6 @@ msgstr "Lời nói"
 msgid "Mixed"
 msgstr "Hỗn hợp"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Lời nói: chỉ đặt theo độ to. Bản ghi không có gì chung\nvới các máy quay sẽ bị từ chối. Hỗn hợp: dưới giọng nói có nhạc hoặc bản phối,\nvà ở chỗ độ to không tìm thấy gì, pha có thể đặt nó.\nVới \"%s\" thì luôn là hỗn hợp."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: âm thanh khớp ở mức %s, và ở một chỗ khác cũng ở mức %s -- chỉ được đặt theo đồng hồ của nó"
 
@@ -5044,3 +5023,135 @@ msgstr "Thông báo của nó hiện trong mục Đầu ra."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "gói libsecret-tools trên Debian và Ubuntu, libsecret trên Fedora và Arch"
+
+msgid "%d min"
+msgstr "%d phút"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Tín dụng tại auphonic.com: còn %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Tín dụng tại auphonic.com: không rõ"
+
+msgid "%s -- free plan"
+msgstr "%s -- gói miễn phí"
+
+msgid "%s -- paying plan"
+msgstr "%s -- gói trả phí"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Tín dụng tại auphonic.com: không rõ -- tài khoản không trả lời."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Tín dụng tại auphonic.com: không rõ."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Tín dụng tại auphonic.com: còn %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Tín dụng tại auphonic.com: còn %s, mà bản sản xuất này cần %s -- không đủ."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Tín dụng tại auphonic.com: còn %s, đủ cho %s mà bản sản xuất này cần."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Tài khoản tại auphonic.com: trả phí."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Tài khoản tại auphonic.com: miễn phí."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Tài khoản tại auphonic.com: không rõ."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Tài khoản tại auphonic.com: không rõ -- không thể hỏi được. Lượt chạy tiếp tục."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Lưu ý: lượt chạy vẫn thử. auphonic.com quyết định bản sản xuất có bắt đầu hay không, và sẽ báo nếu không."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Cảnh báo: bản sản xuất Multitrack này dài %s, và với gói miễn phí auphonic.com chỉ nhận bản như vậy dài tối đa khoảng %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Lưu ý: auphonic.com từ chối bản dài hơn ngay từ lúc bắt đầu và không tính phí gì cho nó. Lượt chạy vẫn thử; nếu auphonic.com từ chối, thông báo riêng của nó sẽ theo sau."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Với gói miễn phí, auphonic.com chỉ nhận bản sản xuất Multitrack dài tối đa khoảng %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Dự án %r do lần chạy này tạo vẫn mở -- trước đó không có gì đang mở\n  có thể mở lại. Hãy xóa nó trong trình quản lý dự án của Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Dự án dựng dở %r đã được xóa lại, %r đã được mở lại."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve đã dừng việc dọn dẹp: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Cảnh báo: không xóa được dự án dựng dở %r, hoặc không mở lại được\n  %r. Hãy làm việc đó trong trình quản lý dự án của Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: âm thanh khớp ở mức %s trên %s giây âm thanh chung, quá ít để phân biệt với ngẫu nhiên -- chỉ được đặt theo đồng hồ của nó"
+
+msgid "placed through %s"
+msgstr "được đặt qua %s"
+
+msgid "found where its timecode pointed"
+msgstr "tìm thấy ở nơi timecode của nó chỉ tới"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: đồng hồ của nó ghi %s, âm thanh đo được %s -- lệch %s giây; dùng kết quả đo"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s nằm trên hai máy quay: %s theo rãnh, %s theo giọng nói. Giọng nói được ưu tiên, nên bản dựng chỉ hiển thị %s trên %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Lấy từ phép đo được lưu trên máy này: cùng tệp và thiết lập, nên không đo lại gì cả."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nNGƯỜI NÓI -- ĐÃ ĐO TRƯỚC ĐÓ"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Lấy từ phép đo được lưu trên máy này: cùng bản ghi, vị trí và khung thời gian."
+
+msgid "Finished mix"
+msgstr "Bản mix hoàn chỉnh"
+
+msgid "Two finished mixes"
+msgstr "Hai bản mix hoàn chỉnh"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s và %s đều được đặt là %s. Chỉ một bản mix thay cho bản mix mà lượt chạy dựng -- hãy đặt bản kia về Lời nói."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Bản mix hoàn chỉnh phải là tệp âm thanh: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "bản mix hoàn chỉnh thay cho bản mix trong các tệp máy quay, và không có tệp video thì không có tệp nào."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "bản mix hoàn chỉnh dài %s, ngắn hơn mọi máy quay (ngắn nhất %s): từ chỗ nó kết thúc, Full-Mix im lặng."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s thay cho bản mix mà lượt chạy này sẽ dựng."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Bản mix hoàn chỉnh không tìm được chỗ trên trục thời gian: nó không có âm thanh chung với các máy quay. Lượt chạy dừng lại thay vì đặt nó bừa ở đâu đó."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Bản mix hoàn chỉnh không có gì trong cửa sổ từ %s đến %s: nó nằm từ %s đến %s. Lượt chạy dừng lại."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Bản mix hoàn chỉnh để im lặng %s ở đầu và %s ở cuối cửa sổ."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: bản mix hoàn chỉnh như khi đến -- không tăng mức, không limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"Chỉ đồng bộ\" đặt mọi bản ghi như âm thanh hỗn hợp."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "bản mix hoàn chỉnh -- không phải người nói, không máy quay"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Lời nói: chỉ đặt theo độ to. Bản ghi không có gì chung\nvới các máy quay sẽ bị từ chối. Hỗn hợp: dưới giọng nói có nhạc hoặc bản phối,\nvà ở chỗ độ to không tìm thấy gì, pha có thể đặt nó.\nBản mix hoàn chỉnh: bản mix stereo làm ở nơi khác, đặt như âm thanh hỗn hợp. Nó đi\nvào các tệp máy quay và bản bàn giao thay cho bản mix của lượt chạy --\nkhông phải người nói, không cắt, không gửi lên auphonic.com.\nVới \"%s\" thì Lời nói không được đưa ra."

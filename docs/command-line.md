@@ -50,7 +50,7 @@ hint. Without a key the multitrack run stops there.*
 | `--production NAME` | the production's name, which the handover, the lists and the transcript are named after; not read beside `--assign`, whose file carries its own (the folder the material lies in) |
 | `--name-camera TEXT` | name of the camera track (`Camera Original`) |
 | `--parallel COUNT` | this many video files at once; 0 decides for you, 1 one after another (0) |
-| `--dry-run` | only measure and report, write nothing |
+| `--dry-run` | work everything out up to the finished cut and report it, write nothing |
 | `--version` | version number, and the Python this runs on |
 | `--update` | run `pip3 install -U` on the address the program came from with the newest release hung on the end, in the Python it is running in, and write what pip says into the terminal. Any other run only ever says that a newer version is out |
 
@@ -145,6 +145,20 @@ only lists the presets.
 |---|---|
 | `--intro FILE` | laid over the beginning, on the second picture and audio track. Neither aligned nor processed |
 | `--outro FILE` | the same for the end; starts where the last word ends |
+
+## Handing in a finished mix
+
+| Switch | Does |
+|---|---|
+| `--finished-mix FILE` | a stereo mix finished in another recording chain. Placed on the time axis as a recording with mixed sound is, it goes into the camera files and the handover as the Full-Mix, in place of the mix the run builds -- as it came, with no gain and no limiter. It is no speaker: not cut, not taken apart by voice, not sent to auphonic.com. Given several times, the files are the blocks of one recording, in order. Needs a video file |
+
+The window sends it for the recording whose **In the sound** says
+**Finished mix**; one line, one rule. Named among the files as well, the
+file is still no recording of the run. The preflight stops a run with no
+video file, and notes a mix shorter than every camera; on the time axis
+a mix that shares no sound with the cameras, or has nothing between In
+and Out point, stops the run, and a silent stretch it leaves is named
+([Preflight](preflight.md)).
 
 ## Working with DaVinci Resolve
 

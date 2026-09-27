@@ -216,7 +216,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "3.0.0b27"
+VERSION = "3.0.0b28"
 PROJECT_PREFIX = FROZEN_NAME + "_"  # project file: prefix + production
 # It counts up whenever a stored key or value is renamed. An older
 # file is refused with a clear message rather than half-read.
@@ -624,11 +624,21 @@ def run_from_command_line(args, ap):
             args.auphonic_preset = None
 
     audio_paths, video_paths, other = split_audio_and_video(args.files)
+    # The finished mix is no recording of the run, however it was named:
+    # out of the recordings, and an audio file or no run.
+    args.finished_mix = [os.path.abspath(p) for p in
+                         getattr(args, "finished_mix", None) or ()]
+    for p in args.finished_mix:
+        if os.path.splitext(p)[1].lower() not in AUDIO_SUFFIXES:
+            sys.exit(T('The finished mix has to be an audio file: %s') % p)
+    mixed_in = set(path_key(p) for p in args.finished_mix)
+    audio_paths = [p for p in audio_paths if path_key(p) not in mixed_in]
+    recordings_shown_as(audio_paths)
     for p in other:
         print(T('Unknown extension, skipped: %s') % os.path.basename(p))
     if not audio_paths and not video_paths:
         sys.exit(T('No audio file given.'))
-    for p in audio_paths + video_paths:
+    for p in audio_paths + video_paths + args.finished_mix:
         if not os.path.exists(p):
             sys.exit(T('Not found: %s') % p)
     returned = returned_given_as_raw(audio_paths, args.auphonic_done)
@@ -702,6 +712,7 @@ take_from(bearings)
 
 check_mode_fits_input = bearings.check_mode_fits_input
 guess_speaker_name = bearings.guess_speaker_name
+speaker_guesses = bearings.speaker_guesses
 split_audio_and_video = bearings.split_audio_and_video
 
 
@@ -814,6 +825,7 @@ take_from(orders)
 build_argument_parser = orders.build_argument_parser
 time_values_joined = orders.time_values_joined
 cameras_shown_as = orders.cameras_shown_as
+recordings_shown_as = orders.recordings_shown_as
 
 
 #-------------------------------------------------------- The interface

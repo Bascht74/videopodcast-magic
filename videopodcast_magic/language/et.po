@@ -596,11 +596,11 @@ msgstr "See pole selle programmi fail."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Selle faili kirjutas versioon %s vormingus %d; see versioon kirjutab vormingus %d. Nimed selles on vahepeal muutunud, seega ei saa seda lugeda. Palun seadista käitus uuesti."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (ainult mõõtmine: midagi ei kirjutatud)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (proovikäitus: välja arvutatud ja hoitud, väljundkaust puutumata)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (ainult mõõtmine: ilma API-võtmeta peatub see siin)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (proovikäitus: midagi ei kirjutatud)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontroll ülekostmise põhjal -- võrdlusrada on %s:"
@@ -935,8 +935,8 @@ msgstr "  %s: %s, vahele jäetud"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: kanalite arvu ei saa kindlaks teha (%s) -- ei mõõdeta"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (ainult mõõtmine: midagi ei laaditud üles)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (proovikäitus: midagi ei laaditud üles)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r oli juba olemas -- uus on nimega %r."
@@ -1180,6 +1180,9 @@ msgstr "  Sisesta arv vahemikus 1 kuni %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produktsioon auphonic.com-is:   %s"
+
+msgid "  Production created (%s)"
+msgstr "  Produktsioon loodud (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Produktsioon käib (%s)"
@@ -1736,8 +1739,8 @@ msgstr "\nPeatamine. Käitus lõpeb niipea, kui saab seda teha poolikult kirjuta
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Üldplaan kestab %s s, vähem kui lühim võte (%s s) -- seetõttu liidetakse see taas naabritega ja see ei ilmu kunagi.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nMõõdetud. Midagi ei kirjutatud -- proovikäitus jätab tulemuste kausta endiseks.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nVälja arvutatud. Proovikäitus jätab tulemuste kausta endiseks.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nPeatatud sammul: %s"
@@ -2210,8 +2213,8 @@ msgstr "Kaugus keskmisest"
 msgid "Drag audio and video files here"
 msgstr "Lohista heli- ja videofailid siia"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Proovikäitus: ainult mõõdetakse, midagi ei kirjutata, midagi ei laadita üles."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Proovikäitus: kõik arvutatakse välja ja antakse teada, väljundkausta ei lähe midagi, midagi ei laadita üles."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Tervitamise ja hüvastijätu ajal jääb pilt üldplaanile."
@@ -2333,9 +2336,6 @@ msgstr "Ainult mõõda -- midagi ei kirjutata ega laadita üles."
 msgid "Measuring %s (%s of %s)"
 msgstr "Mõõtmine: %s (%s/%s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Mõõtmine pole võimalik: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Mõõdupuu mõõtmine"
 
@@ -2359,9 +2359,6 @@ msgstr "Multitrack vajab vähemalt kaht sisendrada. Rada on eraldi salvestis, mi
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Ühtki heli pole veel kasutusel -- lisa helisalvestis või vali faililoendis videofaili väljal Kaamera heli „kasuta sisemist heli“."
-
-msgid "No audio tracks are assigned."
-msgstr "Ühtki helirada pole määratud."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Ühtki kaamerat pole määratud, seega pole midagi, mille vahel monteerida."
@@ -2392,9 +2389,6 @@ msgstr "Siin pole ühtki kõnelejat teada -- teadmata, kes millal räägib, pole
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Ühelgi häälel pole veel kaamerat -- siis oleks iga võte sama."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Kõnelejaid pole veel teada -- midagi pole mõõdetud ega eristatud ning kaustas %s või selle alamkaustades pole varasema käituse üleandmisfaili."
 
 msgid "Not found again after import: %s"
 msgstr "Pärast importi ei leitud uuesti: %s"
@@ -2500,9 +2494,6 @@ msgstr "Pole kohustuslik -- siis rakendab YouTube vaikeväärtused (Sony BVM-X30
 
 msgid "Not ready yet:"
 msgstr "Veel pole valmis:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Radadel polnud midagi kuulda."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Ühel helisalvestisel pole veel kõneleja nime."
@@ -3415,9 +3406,6 @@ msgstr "mõõdetud salvestistest -- kõnelejaid: %s, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "lõpetatud käitusest -- kõnelejaid: %s, %s"
 
-msgid "no folder"
-msgstr "(kaust puudub)"
-
 msgid "no text"
 msgstr "tekstita"
 
@@ -3856,9 +3844,6 @@ msgstr "kontroll ise peatus: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Algpunkti või lõpp-punkti ei saa siin lugeda."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Lõpp-punkt on vähem kui 5 sekundit pärast algpunkti."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Puudu on umbes %s. Vabasta ruumi või vali --out abil teine kaust. Ajutised failid lähevad käituse ajal veel kuhugi mujale, süsteemi ajutiste failide kausta."
 
@@ -3910,14 +3895,11 @@ msgstr "  Juba varem eristatud: loeti tagasi, uuesti ei mõõdetud."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Arvutamist umbes %s, heli %s."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (ainult mõõtmine: midagi ei eristatud)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (proovikäitus: midagi ei eristatud)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Radu ei mõõdetud, seega %s on miksis, aga mitte montaažis: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s: veel mõõtmata -- montaažis on, selles eelvaates veel mitte."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Radadest endist, üks hääl raja kohta: %s."
@@ -4875,9 +4857,6 @@ msgstr "Kõne"
 msgid "Mixed"
 msgstr "Segatud"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Kõne: paigutatakse ainult valjuse järgi. Salvestis, millel pole kaameratega\nmidagi ühist, lükatakse tagasi. Segatud: häälte all on muusika või miks,\nja kus valjus midagi ei leia, võib selle paigutada faas.\n„%s“ puhul on see alati segatud."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: heli sobib määraga %s ja ka teises kohas määraga %s -- paigutatud ainult selle kella järgi"
 
@@ -5091,3 +5070,135 @@ msgstr "Teated ilmuvad vahekaardile „Väljund“."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "pakett libsecret-tools süsteemides Debian ja Ubuntu, libsecret süsteemides Fedora ja Arch"
+
+msgid "%d min"
+msgstr "%d min"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Krediit auphonic.com-is: alles %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Krediit auphonic.com-is: teadmata"
+
+msgid "%s -- free plan"
+msgstr "%s -- tasuta pakett"
+
+msgid "%s -- paying plan"
+msgstr "%s -- tasuline pakett"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Krediit auphonic.com-is: teadmata -- konto ei vastanud."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Krediit auphonic.com-is: teadmata."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Krediit auphonic.com-is: alles %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Krediit auphonic.com-is: alles %s, see produktsioon vajab %s -- ei piisa."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Krediit auphonic.com-is: alles %s, piisab selle produktsiooni vajatud %s jaoks."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Konto auphonic.com-is: tasuline."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Konto auphonic.com-is: tasuta."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Konto auphonic.com-is: teadmata."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Konto auphonic.com-is: teadmata -- seda ei saanud küsida. Käivitus jätkub."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Märkus: käivitus proovib ikkagi. auphonic.com otsustab, kas produktsioon algab, ja ütleb, kui ei alga."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Hoiatus: see Multitrack-produktsioon kestab %s ning tasuta paketis võtab auphonic.com sellise vastu ainult umbes %s pikkuseni."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Märkus: pikema lükkab auphonic.com tagasi juba alguses ega võta selle eest midagi. Käivitus proovib ikkagi; kui auphonic.com keeldub, järgneb tema enda teade."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Tasuta paketis võtab auphonic.com Multitrack-produktsiooni vastu ainult umbes %s pikkuseni."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Selle käivituse projekt %r jääb avatuks -- varem ei olnud avatud midagi,\n  mida saaks uuesti avada. Kustutage see Resolve'i projektihalduris."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Pooleldi ehitatud projekt %r on jälle kustutatud, %r on jälle avatud."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve katkestas koristamise: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Tähelepanu: pooleldi ehitatud projekti %r ei õnnestunud kustutada või %r ei\n  avanenud uuesti. Tehke seda Resolve'i projektihalduris."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: heli sobib määraga %s üle %s s ühise heli, liiga vähe, et juhusest eristada -- paigutatud ainult selle kella järgi"
+
+msgid "placed through %s"
+msgstr "paigutatud %s kaudu"
+
+msgid "found where its timecode pointed"
+msgstr "leitud sealt, kuhu selle ajakood osutas"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: selle kell ütleb %s, heli mõõtis %s -- vahe %s s; kasutatakse mõõtmist"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s on kahel kaameral: %s raja järgi, %s hääle järgi. Hääl on ülimuslik, seega näitab lõige %s ainult kaameral %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Võetud selles arvutis hoitud mõõtmisest: samad failid ja seaded, seega midagi ei mõõdeta uuesti."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nKÕNELEJAD -- VAREM MÕÕDETUD"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Võetud selles arvutis hoitud mõõtmisest: samad salvestised, asukohad ja ajaaken."
+
+msgid "Finished mix"
+msgstr "Valmis miks"
+
+msgid "Two finished mixes"
+msgstr "Kaks valmis miksi"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s ja %s on mõlemad seatud väärtusele %s. Ainult üks miks asendab selle, mille töötlus ehitab -- seadke teine tagasi Kõneks."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Valmis miks peab olema helifail: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "valmis miks asendab kaamerafailides miksi, ja ilma videofailita neid pole."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "valmis miks kestab %s, lühemalt kui ükski kaamera (lühim %s): kus see lõpeb, on Full-Mix vaikne."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s asendab miksi, mille see töötlus ehitaks."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Valmis miks ei leidnud ajateljel kohta: sel pole kaameratega ühist heli. Töötlus peatub, selle asemel et panna see kuhu tahes."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Valmis miksil pole aknas %s kuni %s midagi: see asub %s kuni %s. Töötlus peatub."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Valmis miks jätab akna algusesse %s ja lõppu %s vaikust."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: valmis miks nii, nagu see tuli -- ilma võimenduse ja limiterita"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Ainult sünkroonimine“ paigutab iga salvestise segatud helina."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "valmis miks -- mitte kõneleja, kaamerata"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Kõne: paigutatakse ainult valjuse järgi. Salvestis, millel pole kaameratega\nmidagi ühist, lükatakse tagasi. Segatud: häälte all on muusika või miks,\nja kus valjus midagi ei leia, võib selle paigutada faas.\nValmis miks: mujal tehtud stereomiks, paigutatud nagu segatud heli. See läheb\nkaamerafailidesse ja üleandmisse töötluse enda miksi asemel --\nmitte kõneleja, ei lõigata, ei saadeta auphonic.com-i.\n„%s“ puhul Kõnet ei pakuta."

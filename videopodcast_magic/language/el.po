@@ -568,11 +568,11 @@ msgstr "Αυτό δεν είναι αρχείο αυτού του προγράμ
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Αυτό το αρχείο γράφτηκε από την έκδοση %s σε μορφή %d· αυτή εδώ γράφει μορφή %d. Τα ονόματα μέσα του έχουν αλλάξει από τότε, οπότε δεν μπορεί να διαβαστεί. Παρακαλούμε ρυθμίστε ξανά την εκτέλεση."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (μόνο μέτρηση: δεν γράφτηκε τίποτα)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (δοκιμαστική εκτέλεση: υπολογίστηκε και φυλάχτηκε, ο φάκελος εξόδου έμεινε ανέγγιχτος)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (μόνο μέτρηση: χωρίς API key σταματά εδώ)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (δοκιμαστική εκτέλεση: δεν γράφτηκε τίποτα)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Έλεγχος με βάση τη διαρροή -- αναφορά είναι %s:"
@@ -907,8 +907,8 @@ msgstr "  %s: %s, παραλείφθηκε"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: δεν μπορεί να προσδιοριστεί πόσα κανάλια έχει (%s) -- δεν μετριέται"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (μόνο μέτρηση: δεν μεταφορτώθηκε τίποτα)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (δοκιμαστική εκτέλεση: δεν μεταφορτώθηκε τίποτα)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Ένα Timeline %r υπήρχε ήδη -- το νέο ονομάζεται %r."
@@ -1152,6 +1152,9 @@ msgstr "  Δώστε έναν αριθμό από 1 έως %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Παραγωγή στο auphonic.com:   %s"
+
+msgid "  Production created (%s)"
+msgstr "  Η παραγωγή δημιουργήθηκε (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Η παραγωγή εκτελείται (%s)"
@@ -1708,8 +1711,8 @@ msgstr "\nΔιακοπή. Η εκτέλεση τελειώνει μόλις μπ
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Το γενικό πλάνο κρατά %s δ., λιγότερο από το συντομότερο πλάνο των %s δ. -- οπότε συγχωνεύεται ξανά και δεν εμφανίζεται ποτέ.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nΜετρήθηκε. Δεν γράφτηκε τίποτα -- μια δοκιμαστική εκτέλεση αφήνει τον φάκελο αποτελεσμάτων όπως ήταν.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nΥπολογίστηκε. Μια δοκιμαστική εκτέλεση αφήνει τον φάκελο αποτελεσμάτων όπως ήταν.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nΔιακοπή κατά τη διάρκεια: %s"
@@ -2176,8 +2179,8 @@ msgstr "Απόσταση από τον μέσο όρο"
 msgid "Drag audio and video files here"
 msgstr "Σύρετε εδώ αρχεία ήχου και βίντεο"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Δοκιμαστική εκτέλεση: μόνο μέτρηση, τίποτα δεν γράφεται, τίποτα δεν μεταφορτώνεται."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Δοκιμαστική εκτέλεση: όλα υπολογίζονται και αναφέρονται, τίποτα δεν μπαίνει στον φάκελο εξόδου, τίποτα δεν μεταφορτώνεται."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Κατά τον χαιρετισμό και τον αποχαιρετισμό η εικόνα μένει σε γενικό πλάνο."
@@ -2299,9 +2302,6 @@ msgstr "Μόνο μέτρηση -- τίποτα δεν γράφεται ούτε
 msgid "Measuring %s (%s of %s)"
 msgstr "Μέτρηση %s (%s από %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Η μέτρηση δεν είναι δυνατή: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Μέτρηση του μέτρου αναφοράς"
 
@@ -2325,9 +2325,6 @@ msgstr "Το Multitrack χρειάζεται τουλάχιστον δύο κο�
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Δεν χρησιμοποιείται ήχος ακόμη -- προσθέστε μια ηχογράφηση, ή ορίστε στη λίστα αρχείων τον Ήχο κάμερας ενός αρχείου βίντεο σε «χρήση εσωτερικού ήχου»."
-
-msgid "No audio tracks are assigned."
-msgstr "Δεν έχουν αντιστοιχιστεί κομμάτια ήχου."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Δεν έχει αντιστοιχιστεί κάμερα, οπότε δεν υπάρχει τίποτα ανάμεσα στο οποίο να γίνει μοντάζ."
@@ -2358,9 +2355,6 @@ msgstr "Εδώ δεν είναι γνωστός κανένας ομιλητής 
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Καμία φωνή δεν έχει κάμερα ακόμη -- έτσι κάθε πλάνο θα ήταν το ίδιο."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Δεν είναι γνωστοί ομιλητές ακόμη -- τίποτα μετρημένο, τίποτα διαχωρισμένο, και κανένα αρχείο παράδοσης προηγούμενης εκτέλεσης στο %s ή στους υποφακέλους του."
 
 msgid "Not found again after import: %s"
 msgstr "Δεν βρέθηκε ξανά μετά την εισαγωγή: %s"
@@ -2466,9 +2460,6 @@ msgstr "Δεν είναι υποχρεωτικά -- το YouTube εφαρμόζ�
 
 msgid "Not ready yet:"
 msgstr "Δεν είναι έτοιμο ακόμη:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Τίποτα δεν ακουγόταν στα κομμάτια."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Μία ηχογράφηση δεν έχει όνομα ομιλητή ακόμη."
@@ -3365,9 +3356,6 @@ msgstr "μετρημένο από τις ηχογραφήσεις -- %s ομιλ
 msgid "from the finished run -- %s speakers, %s"
 msgstr "από την ολοκληρωμένη εκτέλεση -- %s ομιλητές, %s"
 
-msgid "no folder"
-msgstr "κανέναν φάκελο"
-
 msgid "no text"
 msgstr "χωρίς κείμενο"
 
@@ -3764,9 +3752,6 @@ msgstr "ο ίδιος ο έλεγχος σταμάτησε: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Το σημείο In ή το σημείο Out δεν μπορεί να διαβαστεί εδώ."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Το σημείο Out βρίσκεται λιγότερο από 5 δευτερόλεπτα μετά το σημείο In."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Λείπουν περίπου %s. Ελευθερώστε χώρο ή επιλέξτε άλλον φάκελο με --out. Τα προσωρινά αρχεία κατά την εκτέλεση πηγαίνουν πάλι αλλού, στον προσωρινό φάκελο του συστήματος."
 
@@ -3818,14 +3803,11 @@ msgstr "  Διαχωρίστηκε ήδη μία φορά: διαβάστηκε 
 msgid "  About %s of computing for %s of audio."
 msgstr "  Περίπου %s υπολογισμού για %s ήχου."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (μόνο μέτρηση: τίποτα δεν διαχωρίστηκε)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (δοκιμαστική εκτέλεση: τίποτα δεν διαχωρίστηκε)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Τα κομμάτια δεν μετρήθηκαν, άρα στη μίξη και όχι στο μοντάζ: %s. Αιτία: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Δεν μετρήθηκε ακόμη: %s -- στο μοντάζ, όχι ακόμη σε αυτήν την προεπισκόπηση."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Από τα ίδια τα κομμάτια, μία φωνή ανά κομμάτι: %s."
@@ -4872,9 +4854,6 @@ msgstr "Ομιλία"
 msgid "Mixed"
 msgstr "Μεικτό"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Ομιλία: τοποθετείται μόνο με βάση την ακουστότητα. Μια ηχογράφηση που δεν έχει τίποτα κοινό\nμε τις κάμερες απορρίπτεται. Μεικτό: μουσική ή μίξη βρίσκεται κάτω από τις φωνές,\nκαι όπου η ακουστότητα δεν βρίσκει τίποτα, μπορεί να την τοποθετήσει η φάση.\nΣτο «%s» είναι πάντα μεικτό."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: ο ήχος της ταιριάζει κατά %s, και κατά %s σε άλλο σημείο επίσης -- τοποθετήθηκε μόνο με βάση το ρολόι της"
 
@@ -5088,3 +5067,135 @@ msgstr "Ό,τι λέει εμφανίζεται στην Έξοδο."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "το πακέτο libsecret-tools σε Debian και Ubuntu, libsecret σε Fedora και Arch"
+
+msgid "%d min"
+msgstr "%d λεπ."
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Πίστωση στο auphonic.com: απομένουν %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Πίστωση στο auphonic.com: άγνωστη"
+
+msgid "%s -- free plan"
+msgstr "%s -- δωρεάν πρόγραμμα"
+
+msgid "%s -- paying plan"
+msgstr "%s -- πληρωμένο πρόγραμμα"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Πίστωση στο auphonic.com: άγνωστη -- ο λογαριασμός δεν απάντησε."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Πίστωση στο auphonic.com: άγνωστη."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Πίστωση στο auphonic.com: απομένουν %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Πίστωση στο auphonic.com: απομένουν %s, και αυτή η παραγωγή χρειάζεται %s -- δεν φτάνει."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Πίστωση στο auphonic.com: απομένουν %s, αρκετά για τα %s που χρειάζεται αυτή η παραγωγή."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Λογαριασμός στο auphonic.com: επί πληρωμή."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Λογαριασμός στο auphonic.com: δωρεάν."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Λογαριασμός στο auphonic.com: άγνωστος."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Λογαριασμός στο auphonic.com: άγνωστος -- δεν ήταν δυνατό να ερωτηθεί. Η εκτέλεση συνεχίζεται."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Σημείωση: η εκτέλεση δοκιμάζει ούτως ή άλλως. Το auphonic.com αποφασίζει αν ξεκινά η παραγωγή, και το λέει αν δεν ξεκινά."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Προειδοποίηση: αυτή η παραγωγή Multitrack διαρκεί %s, και στο δωρεάν πρόγραμμα το auphonic.com δέχεται τέτοια μόνο έως περίπου %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Σημείωση: το auphonic.com απορρίπτει μια μεγαλύτερη ήδη στην αρχή και δεν χρεώνει τίποτα γι' αυτήν. Η εκτέλεση δοκιμάζει ούτως ή άλλως· αν το auphonic.com αρνηθεί, ακολουθεί το δικό του μήνυμα."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Στο δωρεάν πρόγραμμα το auphonic.com δέχεται παραγωγή Multitrack μόνο έως περίπου %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Το έργο %r αυτής της εκτέλεσης μένει ανοιχτό -- πριν δεν ήταν ανοιχτό τίποτα\n  που θα μπορούσε να ανοίξει ξανά. Διαγράψτε το στη διαχείριση έργων του Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Το μισοχτισμένο έργο %r διαγράφηκε ξανά, το %r είναι ξανά ανοιχτό."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Το Resolve διέκοψε το συμμάζεμα: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Προσοχή: το μισοχτισμένο έργο %r δεν μπόρεσε να διαγραφεί, ή το %r δεν\n  άνοιξε ξανά. Κάντε το στη διαχείριση έργων του Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: ο ήχος της ταιριάζει κατά %s σε %s s κοινού ήχου, πολύ λίγο για να ξεχωρίσει από τη σύμπτωση -- τοποθετήθηκε μόνο με βάση το ρολόι της"
+
+msgid "placed through %s"
+msgstr "τοποθετήθηκε μέσω %s"
+
+msgid "found where its timecode pointed"
+msgstr "βρέθηκε εκεί όπου έδειχνε το timecode της"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: το ρολόι της λέει %s, ο ήχος μέτρησε %s -- απόσταση %s s· χρησιμοποιείται η μέτρηση"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s βρίσκεται σε δύο κάμερες: %s σύμφωνα με το κανάλι, %s σύμφωνα με τη φωνή. Υπερισχύει η φωνή, οπότε το μοντάζ δείχνει %s μόνο στην %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Λήφθηκε από τη μέτρηση που φυλάσσεται σε αυτό το μηχάνημα: ίδια αρχεία και ρυθμίσεις, οπότε τίποτα δεν μετριέται ξανά."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nΟΜΙΛΗΤΕΣ -- ΜΕΤΡΗΜΕΝΟΙ ΠΡΙΝ"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Λήφθηκε από τη μέτρηση που φυλάσσεται σε αυτό το μηχάνημα: ίδιες ηχογραφήσεις, θέσεις και χρονικό παράθυρο."
+
+msgid "Finished mix"
+msgstr "Έτοιμη μίξη"
+
+msgid "Two finished mixes"
+msgstr "Δύο έτοιμες μίξεις"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "Τα %s και %s έχουν οριστεί και τα δύο σε %s. Μόνο μία μίξη παίρνει τη θέση αυτής που φτιάχνει η επεξεργασία -- επαναφέρετε την άλλη σε Ομιλία."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Η έτοιμη μίξη πρέπει να είναι αρχείο ήχου: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "η έτοιμη μίξη παίρνει τη θέση της μίξης στα αρχεία των καμερών, και χωρίς αρχείο βίντεο δεν υπάρχουν."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "η έτοιμη μίξη διαρκεί %s, λιγότερο από κάθε κάμερα (η συντομότερη %s): όπου τελειώνει, το Full-Mix σωπαίνει."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  Το %s παίρνει τη θέση της μίξης που θα έφτιαχνε αυτή η επεξεργασία."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Η έτοιμη μίξη δεν βρήκε θέση στον άξονα χρόνου: δεν μοιράζεται ήχο με τις κάμερες. Η επεξεργασία σταματά αντί να την τοποθετήσει οπουδήποτε."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Η έτοιμη μίξη δεν έχει τίποτα στο παράθυρο από %s έως %s: βρίσκεται από %s έως %s. Η επεξεργασία σταματά."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Η έτοιμη μίξη αφήνει σιωπηλά %s στην αρχή και %s στο τέλος του παραθύρου."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: η έτοιμη μίξη όπως ήρθε -- χωρίς ενίσχυση και χωρίς limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "Το «Μόνο συγχρονισμός» τοποθετεί κάθε ηχογράφηση ως μεικτό ήχο."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "η έτοιμη μίξη -- όχι ομιλητής, όχι κάμερα"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Ομιλία: τοποθετείται μόνο με βάση την ακουστότητα. Μια ηχογράφηση που δεν έχει τίποτα κοινό\nμε τις κάμερες απορρίπτεται. Μεικτό: μουσική ή μίξη βρίσκεται κάτω από τις φωνές,\nκαι όπου η ακουστότητα δεν βρίσκει τίποτα, μπορεί να την τοποθετήσει η φάση.\nΈτοιμη μίξη: στερεοφωνική μίξη φτιαγμένη αλλού, τοποθετημένη ως μεικτός ήχος. Μπαίνει\nστα αρχεία των καμερών και στην παράδοση στη θέση της μίξης της επεξεργασίας --\nόχι ομιλητής, χωρίς κόψιμο, χωρίς αποστολή στο auphonic.com.\nΣτο «%s» η Ομιλία δεν προσφέρεται."

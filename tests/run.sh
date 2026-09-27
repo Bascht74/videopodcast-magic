@@ -183,6 +183,12 @@ RUN_TEMP_SETTINGS="${TMPDIR:-/tmp}/vpm_settings_$(id -u)_$$"
 mkdir -p "$RUN_TEMP_SETTINGS"
 export VPM_SETTINGS="$RUN_TEMP_SETTINGS"
 
+# When this run began, as a file's time, so the crash reports at the end
+# can be told apart from older ones by find -newer. Its own name, not a
+# file inside the cache or settings folder: a test may empty those.
+RUN_STARTED="${TMPDIR:-/tmp}/vpm_started_$(id -u)_$$"
+: > "$RUN_STARTED"
+
 # And no test reaches a Resolve that is really running. A window test
 # that shows the Resolve tab starts check_resolve(), and on a machine
 # with Resolve installed that connects and asks the program its name --
@@ -203,6 +209,7 @@ export RESOLVE_SCRIPT_LIB="$RUN_TEMP_SETTINGS/no-resolve-here/fusionscript"
 fixtures_out() {
   fixtures_let_go
   [ -n "$KEEP_TEMP" ] || rm -rf "$RUN_TEMP_CACHE" "$RUN_TEMP_SETTINGS"
+  rm -f "$RUN_STARTED"
 }
 trap fixtures_out EXIT
 trap 'exit 130' INT TERM
@@ -263,6 +270,7 @@ clean_up() {
   else
     rm -rf "$RUN_TEMP" "$RUN_TEMP_CACHE" "$RUN_TEMP_SETTINGS" "$OUT"
   fi
+  rm -f "$RUN_STARTED"
 }
 trap clean_up EXIT
 # A Ctrl-C is an exit too: without this the suite dies where it stands,
@@ -1045,6 +1053,50 @@ if [ -z "${CI:-}" ] && [ -z "${GITHUB_ACTIONS:-}" ]; then
       echo "             cd tests && bash $area.sh"
     fi
   done
+fi
+# Python processes that crashed while this ran. A test that starts a
+# child and leaves before it dies takes the child's output with it: on
+# 27.9.2026 nine offscreen children died of a segmentation fault in the
+# system's ICU while Qt listed the fonts, their parent had already
+# exited, and no test log held a word of it. macOS keeps a report of
+# every such crash, so the run names the ones written since it began --
+# the count and the file names, never what is in them: the reports hold
+# paths and machine data. The folder lies outside the repository and is
+# only read here; nothing is written to it or taken out of it.
+#
+# Only on macOS, where that folder is. VPM_CRASH_REPORTS names another
+# folder, on any system -- a test points it at material of its own and
+# never at the real one. Only Python's: the file is named after the
+# program, or its first line, the report's header, names the bundle.
+# Retired/ is one folder down, where macOS moves reports it has shown.
+CRASH_REPORTS=${VPM_CRASH_REPORTS:-}
+if [ -z "$CRASH_REPORTS" ] && [ "$(uname -s)" = Darwin ]; then
+  CRASH_REPORTS="$HOME/Library/Logs/DiagnosticReports"
+fi
+if [ -n "$CRASH_REPORTS" ]; then
+  crashes=0
+  crashed=""
+  while IFS= read -r report; do
+    [ -n "$report" ] || continue
+    case "${report##*/}" in
+      [Pp]ython*) ;;
+      *) head -1 "$report" 2> /dev/null \
+           | grep -q '"org\.python\.python"' || continue ;;
+    esac
+    crashes=$((crashes + 1))
+    crashed="$crashed ${report#"$CRASH_REPORTS"/}"
+  done < <(find "$CRASH_REPORTS" -maxdepth 2 -type f -name '*.ips' \
+             -newer "$RUN_STARTED" 2> /dev/null | sort)
+  # Home written as ~, so the line carries no name off this machine.
+  tilde='~'
+  shown=${CRASH_REPORTS/#"$HOME"/$tilde}
+  if [ "$crashes" -gt 0 ]; then
+    echo "crash reports: $crashes from Python since this run began, read" \
+         "from $shown, a folder outside the repository; names only:$crashed"
+  else
+    echo "crash reports: none from Python since this run began, read" \
+         "from $shown, a folder outside the repository"
+  fi
 fi
 # What --last-red will run: the tests this run found red, and nothing
 # when it found none. Only here, at the end: a run stopped half way has

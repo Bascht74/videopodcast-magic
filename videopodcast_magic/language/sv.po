@@ -568,11 +568,11 @@ msgstr "Det här är inte en fil från det här programmet."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Den här filen skrevs av version %s i format %d; den här skriver format %d. Namnen inuti har ändrats sedan dess, så den kan inte läsas. Sätt upp körningen igen."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (bara mätning: inget skrivet)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (provkörning: uträknat och sparat, utdatamappen orörd)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (bara mätning: utan API-nyckel stannar det här)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (provkörning: inget skrivet)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontroll mot överhörningen -- referens är %s:"
@@ -907,8 +907,8 @@ msgstr "  %s: %s, överhoppad"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: hur många kanaler den har går inte att avgöra (%s) -- den mäts inte"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (bara mätning: inget laddas upp)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (provkörning: inget laddas upp)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  En Timeline %r fanns redan -- den nya heter %r."
@@ -1152,6 +1152,9 @@ msgstr "  Ange ett tal mellan 1 och %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produktion hos auphonic.com:  %s"
+
+msgid "  Production created (%s)"
+msgstr "  Produktionen har skapats (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Produktionen pågår (%s)"
@@ -1708,8 +1711,8 @@ msgstr "\nStoppar. Körningen avslutas så snart den kan göra det utan att läm
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Översiktsbilden håller %s s, mindre än det kortaste klippet på %s s -- så den slås ihop igen och syns aldrig.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nMätt. Inget skrevs -- en provkörning lämnar resultatmappen som den var.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nUträknat. En provkörning lämnar resultatmappen som den var.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nStoppades under: %s"
@@ -2176,8 +2179,8 @@ msgstr "Avstånd till medel"
 msgid "Drag audio and video files here"
 msgstr "Dra ljud- och videofiler hit"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Provkörning: bara mätning, inget skrivs, inget laddas upp."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Provkörning: allt räknas ut och redovisas, inget hamnar i utdatamappen, inget laddas upp."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Under hälsning och avsked stannar bilden i översiktsbild."
@@ -2299,9 +2302,6 @@ msgstr "Bara mäta -- inget skrivs eller laddas upp."
 msgid "Measuring %s (%s of %s)"
 msgstr "Mäter %s (%s av %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Mätning inte möjlig: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Mäter måttstocken"
 
@@ -2325,9 +2325,6 @@ msgstr "Multitrack behöver minst två ingångsspår. Ett spår är en egen insp
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Inget ljud i bruk ännu -- lägg till en ljudinspelning, eller ställ en videofils Kameraljud på \"använd internt ljud\" i fillistan."
-
-msgid "No audio tracks are assigned."
-msgstr "Inga ljudspår är tilldelade."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Ingen kamera är tilldelad, så det finns inget att klippa emellan."
@@ -2358,9 +2355,6 @@ msgstr "Ingen talare är känd här -- utan vem som talar när finns det inget a
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Ingen röst har någon kamera ännu -- med det vore varje klipp detsamma."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Inga talare kända ännu -- inget mätt, inget separerat, och ingen överlämningsfil från en tidigare körning i %s eller dess undermappar."
 
 msgid "Not found again after import: %s"
 msgstr "Hittades inte igen efter importen: %s"
@@ -2466,9 +2460,6 @@ msgstr "Obligatoriskt är det inte -- YouTube använder då standardvärden (Son
 
 msgid "Not ready yet:"
 msgstr "Inte redo ännu:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Inget hördes i spåren."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "En ljudinspelning har inget talarnamn ännu."
@@ -3364,9 +3355,6 @@ msgstr "mätt från inspelningarna -- %s talare, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "från den färdiga körningen -- %s talare, %s"
 
-msgid "no folder"
-msgstr "ingen mapp"
-
 msgid "no text"
 msgstr "ingen text"
 
@@ -3763,9 +3751,6 @@ msgstr "kontrollen själv stannade: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "In-punkt eller ut-punkt kan inte läsas här."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Ut-punkten ligger mindre än 5 sekunder efter in-punkten."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Ungefär %s saknas. Frigör utrymme eller välj en annan mapp med --out. De tillfälliga filerna under körningen hamnar någon annanstans igen, i systemets temp-mapp."
 
@@ -3817,14 +3802,11 @@ msgstr "  Redan separerat en gång: inläst igen, inte mätt på nytt."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Ungefär %s beräkning för %s ljud."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (bara mätning: inget separerat)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (provkörning: inget separerat)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Spåren mättes inte, så %s ligger i mixen och inte i klippningen: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s inte mätt ännu -- i klippningen, ännu inte i den här förhandsvisningen."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Från spåren själva, en röst per spår: %s."
@@ -4871,9 +4853,6 @@ msgstr "Tal"
 msgid "Mixed"
 msgstr "Blandat"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Tal: placeras enbart efter ljudstyrkan. En inspelning som inte har något gemensamt\nmed kamerorna avvisas. Blandat: musik eller en mix ligger under rösterna,\noch där ljudstyrkan inte hittar något får fasen placera den.\nUnder ”%s” är det alltid blandat."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: ljudet stämmer med %s, och med %s på ett annat ställe också -- placerad enbart efter sin klocka"
 
@@ -5087,3 +5066,135 @@ msgstr "Vad det säger visas under Utdata."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "paketet libsecret-tools på Debian och Ubuntu, libsecret på Fedora och Arch"
+
+msgid "%d min"
+msgstr "%d min"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Krediter hos auphonic.com: %s kvar"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Krediter hos auphonic.com: okänt"
+
+msgid "%s -- free plan"
+msgstr "%s -- gratisabonnemang"
+
+msgid "%s -- paying plan"
+msgstr "%s -- betalt abonnemang"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Krediter hos auphonic.com: okänt -- kontot svarade inte."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Krediter hos auphonic.com: okänt."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Krediter hos auphonic.com: %s kvar."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Krediter hos auphonic.com: %s kvar, och den här produktionen behöver %s -- inte nog."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Krediter hos auphonic.com: %s kvar, nog för de %s som den här produktionen behöver."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Konto hos auphonic.com: betalt."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Konto hos auphonic.com: gratis."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Konto hos auphonic.com: okänt."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Konto hos auphonic.com: okänt -- det gick inte att fråga. Körningen fortsätter."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Anmärkning: körningen försöker ändå. auphonic.com avgör om produktionen startar, och säger det om den inte gör det."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Varning: den här Multitrack-produktionen är %s lång, och på gratisabonnemanget tar auphonic.com bara emot en sådan upp till ungefär %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Anmärkning: en längre avvisar auphonic.com redan vid starten och tar inget betalt för den. Körningen försöker ändå; avvisar auphonic.com följer dess eget meddelande."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "På gratisabonnemanget tar auphonic.com bara emot en Multitrack-produktion upp till ungefär %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Projektet %r från den här körningen förblir öppet -- inget som kunde öppnas\n  igen var öppet innan. Radera det i Resolves projekthanterare."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Det halvbyggda projektet %r är raderat igen, %r är öppet igen."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve avbröt städningen: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Varning: det halvbyggda projektet %r kunde inte raderas, eller %r kunde inte\n  öppnas igen. Gör det i Resolves projekthanterare."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: ljudet stämmer med %s över %s s gemensamt ljud, för lite för att skilja från slumpen -- placerad enbart efter sin klocka"
+
+msgid "placed through %s"
+msgstr "placerad via %s"
+
+msgid "found where its timecode pointed"
+msgstr "hittad där dess tidskod pekade"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: dess klocka säger %s, ljudet mätte %s -- %s s isär; mätningen används"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s är på två kameror: %s enligt spåret, %s enligt rösten. Rösten gäller, så klippet visar %s bara på %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Hämtat från mätningen som sparats på den här datorn: samma filer och inställningar, så inget mäts på nytt."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nTALARE -- MÄTTA TIDIGARE"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Hämtat från mätningen som sparats på den här datorn: samma inspelningar, platser och tidsfönster."
+
+msgid "Finished mix"
+msgstr "Färdig mix"
+
+msgid "Two finished mixes"
+msgstr "Två färdiga mixar"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s och %s är båda inställda på %s. En mix ersätter den som körningen bygger -- ställ tillbaka den andra på Tal."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Den färdiga mixen måste vara en ljudfil: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "den färdiga mixen ersätter mixen i kamerafilerna, och utan videofil finns det inga."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "den färdiga mixen är %s lång, kortare än varje kamera (den kortaste %s): där den slutar är Full-Mix tyst."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s ersätter den mix som den här körningen skulle bygga."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Den färdiga mixen fick ingen plats på tidsaxeln: den delar inget ljud med kamerorna. Körningen stannar hellre än att lägga den någonstans."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Den färdiga mixen har inget i fönstret från %s till %s: den ligger från %s till %s. Körningen stannar."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Den färdiga mixen lämnar %s i början och %s i slutet av fönstret tysta."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: den färdiga mixen som den kom -- ingen förstärkning och ingen limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "”Bara synkronisering” placerar varje inspelning som blandat ljud."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "den färdiga mixen -- ingen talare, ingen kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Tal: placeras enbart efter ljudstyrkan. En inspelning som inte har något gemensamt\nmed kamerorna avvisas. Blandat: musik eller en mix ligger under rösterna,\noch där ljudstyrkan inte hittar något får fasen placera den.\nFärdig mix: en stereomix gjord någon annanstans, placerad som blandat ljud. Den hamnar\ni kamerafilerna och överlämningen i stället för körningens egen mix --\ningen talare, inte klippt, inte skickad till auphonic.com.\nUnder ”%s” erbjuds inte Tal."

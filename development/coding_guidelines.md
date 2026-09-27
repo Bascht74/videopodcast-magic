@@ -265,8 +265,8 @@ rather than absent. If it is caught, then narrowly and with a message.
 A key **never** appears in the code, never in a project file, never in
 the log and never in the process list. It comes from the system
 keychain, from the registry or from an environment variable. If it is
-handed to another program, then through a file with mode 0600, not as an
-argument.
+handed to another program, then on that program's input -- never as an
+argument, and never through a file.
 
 Whenever a project file or a hand-over file is written, anything that
 could be a key is explicitly filtered out.

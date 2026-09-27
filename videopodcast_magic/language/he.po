@@ -595,11 +595,11 @@ msgstr "זה אינו קובץ של התוכנה הזו."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "הקובץ הזה נכתב בגרסה %s בפורמט %d; הגרסה הזו כותבת פורמט %d. השמות שבתוכו השתנו מאז, ולכן לא ניתן לקרוא אותו. נא להגדיר את ההרצה מחדש."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (מדידה בלבד: לא נכתב דבר)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (הרצת ניסיון: חושב ונשמר, תיקיית הפלט ללא שינוי)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (מדידה בלבד: ללא מפתח API זה נעצר כאן)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (הרצת ניסיון: לא נכתב דבר)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  בדיקה מול הזליגה -- הייחוס הוא %s:"
@@ -934,8 +934,8 @@ msgstr "  %s: %s, דולג"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: לא ניתן לקבוע כמה ערוצים יש בו (%s) -- הוא לא נמדד"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (מדידה בלבד: לא הועלה דבר)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (הרצת ניסיון: לא הועלה דבר)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline בשם %r כבר היה קיים -- החדש נקרא %r."
@@ -1179,6 +1179,9 @@ msgstr "  נא להזין מספר בין 1 ל-%d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  הפקה ב-auphonic.com:          %s"
+
+msgid "  Production created (%s)"
+msgstr "  ההפקה נוצרה (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  ההפקה פועלת (%s)"
@@ -1735,8 +1738,8 @@ msgstr "\nמתבצעת עצירה. ההרצה תסתיים ברגע שתוכל �
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "השוט הרחב נמשך %s s, פחות מהשוט הקצר ביותר של %s s -- לכן הוא מתמזג שוב ואינו מופיע לעולם.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nנמדד. דבר לא נכתב -- הרצת ניסיון משאירה את תיקיית התוצאות כפי שהייתה.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nחושב. הרצת ניסיון משאירה את תיקיית התוצאות כפי שהייתה.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nהופסק במהלך: %s"
@@ -2209,8 +2212,8 @@ msgstr "מרחק מהממוצע"
 msgid "Drag audio and video files here"
 msgstr "יש לגרור לכאן קובצי שמע ווידאו"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "הרצת ניסיון: מדידה בלבד, דבר לא נכתב, דבר לא מועלה."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "הרצת ניסיון: הכול מחושב ומדווח, דבר לא נכנס לתיקיית הפלט, דבר לא מועלה."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "בזמן הברכה והפרידה התמונה נשארת רחבה."
@@ -2332,9 +2335,6 @@ msgstr "מדידה בלבד -- דבר לא נכתב ולא מועלה."
 msgid "Measuring %s (%s of %s)"
 msgstr "מדידת %s (%s מתוך %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "המדידה אינה אפשרית: %s"
-
 msgid "Measuring the yardstick"
 msgstr "מדידת אמת המידה"
 
@@ -2358,9 +2358,6 @@ msgstr "Multitrack דורש לפחות שתי רצועות קלט. רצועה ה
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "עדיין אין שמע בשימוש -- יש להוסיף הקלטת שמע, או להגדיר ברשימת הקבצים את שמע המצלמה של קובץ וידאו ל\"שימוש בשמע הפנימי\"."
-
-msgid "No audio tracks are assigned."
-msgstr "לא שויכו רצועות שמע."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "לא שויכה אף מצלמה, ולכן אין בין מה לחתוך."
@@ -2391,9 +2388,6 @@ msgstr "לא ידוע כאן אף דובר -- בלי לדעת מי מדבר ומ
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "לאף קול עדיין אין מצלמה -- כך כל שוט היה אותו שוט."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "עדיין לא ידועים דוברים -- דבר לא נמדד, דבר לא הופרד, ואין קובץ מסירה של הרצה קודמת ב-%s או בתיקיות המשנה שלה."
 
 msgid "Not found again after import: %s"
 msgstr "לא נמצא שוב אחרי הייבוא: %s"
@@ -2499,9 +2493,6 @@ msgstr "לא חובה -- אז YouTube מחיל ערכי ברירת מחדל (Son
 
 msgid "Not ready yet:"
 msgstr "עדיין לא מוכן:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "לא נשמע דבר ברצועות."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "להקלטת שמע אחת עדיין אין שם דובר."
@@ -3414,9 +3405,6 @@ msgstr "נמדד מההקלטות -- %s דוברים, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "מההרצה שהסתיימה -- %s דוברים, %s"
 
-msgid "no folder"
-msgstr "(אין תיקייה)"
-
 msgid "no text"
 msgstr "ללא טקסט"
 
@@ -3855,9 +3843,6 @@ msgstr "הבדיקה עצמה נעצרה: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "לא ניתן לקרוא כאן את נקודת הכניסה או את נקודת היציאה."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "נקודת היציאה נמצאת פחות מ-5 שניות אחרי נקודת הכניסה."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "חסרים כ-%s. יש לפנות מקום או לבחור תיקייה אחרת עם --out. הקבצים הזמניים במהלך ההרצה הולכים שוב למקום אחר, לתיקייה הזמנית של המערכת."
 
@@ -3909,14 +3894,11 @@ msgstr "  כבר הופרד פעם אחת: נקרא מחדש, לא נמדד שו
 msgid "  About %s of computing for %s of audio."
 msgstr "  כ-%s של חישוב עבור %s של שמע."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (מדידה בלבד: שום דבר לא הופרד)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (הרצת ניסיון: שום דבר לא הופרד)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  הרצועות לא נמדדו, ולכן אלה נמצאות במיקס ולא בחיתוך: %s; סיבה: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "עדיין ללא מדידה: %s -- כלול בחיתוך, עדיין לא בתצוגה המקדימה הזו."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  מהרצועות עצמן, קול אחד לכל רצועה: %s."
@@ -4874,9 +4856,6 @@ msgstr "דיבור"
 msgid "Mixed"
 msgstr "מעורב"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "דיבור: ממוקם לפי העוצמה הנתפסת בלבד. הקלטה שאין לה דבר משותף\nעם המצלמות נדחית. מעורב: מוזיקה או מיקס נמצאים מתחת לקולות,\nובמקום שהעוצמה לא מוצאת דבר, הפאזה רשאית למקם אותה.\nתחת \"%s\" זה תמיד מעורב."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: השמע שלו מתאים ברמה %s, וגם ברמה %s במקום אחר -- המיקום לפי השעון שלו בלבד"
 
@@ -5090,3 +5069,135 @@ msgstr "מה שהוא מדווח מופיע בכרטיסייה \"פלט\"."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "החבילה libsecret-tools ב-Debian וב-Ubuntu, libsecret ב-Fedora וב-Arch"
+
+msgid "%d min"
+msgstr "%d דק׳"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "קרדיט ב-auphonic.com: נותרו %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "קרדיט ב-auphonic.com: לא ידוע"
+
+msgid "%s -- free plan"
+msgstr "%s -- תוכנית חינמית"
+
+msgid "%s -- paying plan"
+msgstr "%s -- תוכנית בתשלום"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  קרדיט ב-auphonic.com: לא ידוע -- החשבון לא ענה."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  קרדיט ב-auphonic.com: לא ידוע."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  קרדיט ב-auphonic.com: נותרו %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  קרדיט ב-auphonic.com: נותרו %s, וההפקה הזו צריכה %s -- לא מספיק."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  קרדיט ב-auphonic.com: נותרו %s, מספיק ל-%s שההפקה הזו צריכה."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  חשבון ב-auphonic.com: בתשלום."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  חשבון ב-auphonic.com: חינמי."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  חשבון ב-auphonic.com: לא ידוע."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "חשבון ב-auphonic.com: לא ידוע -- לא ניתן היה לשאול אותו. ההרצה ממשיכה."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  הערה: ההרצה מנסה בכל זאת. auphonic.com מחליט אם ההפקה מתחילה, ואומר זאת אם לא."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  אזהרה: הפקת ה-Multitrack הזו נמשכת %s, ובתוכנית החינמית auphonic.com מקבל הפקה כזו רק עד כ-%s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  הערה: auphonic.com דוחה הפקה ארוכה יותר כבר בהתחלה ואינו גובה עליה דבר. ההרצה מנסה בכל זאת; אם auphonic.com מסרב, תבוא ההודעה שלו."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "בתוכנית החינמית auphonic.com מקבל הפקת Multitrack רק עד כ-%s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  הפרויקט %r שהריצה הזאת יצרה נשאר פתוח -- לפני כן לא היה פתוח דבר\n  שאפשר לפתוח שוב. מחקו אותו במנהל הפרויקטים של Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  הפרויקט הבנוי למחצה %r נמחק שוב, %r פתוח שוב."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve עצר את הסידור: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  זהירות: לא ניתן היה למחוק את הפרויקט הבנוי למחצה %r, או לפתוח שוב את %r.\n  נא לעשות זאת במנהל הפרויקטים של Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: השמע שלו מתאים ברמה %s על פני %s ש׳ של שמע משותף, מעט מדי כדי להבדיל ממקריות -- המיקום לפי השעון שלו בלבד"
+
+msgid "placed through %s"
+msgstr "מוקם דרך %s"
+
+msgid "found where its timecode pointed"
+msgstr "נמצא היכן שקוד הזמן שלו הצביע"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: השעון שלו אומר %s, השמע מדד %s -- הפרש של %s ש׳; המדידה היא שקובעת"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s משויך לשתי מצלמות: %s לפי הערוץ, %s לפי הקול. הקול קובע, ולכן החיתוך מציג את %s רק ב-%s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  נלקח מהמדידה השמורה במחשב הזה: אותם קבצים ואותן הגדרות, ולכן דבר אינו נמדד שוב."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nדוברים -- נמדדו קודם"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  נלקח מהמדידה השמורה במחשב הזה: אותן הקלטות, אותם מיקומים ואותו חלון זמן."
+
+msgid "Finished mix"
+msgstr "מיקס מוגמר"
+
+msgid "Two finished mixes"
+msgstr "שני מיקסים מוגמרים"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s ו-%s מוגדרים שניהם כ-%s. רק מיקס אחד מחליף את זה שהעיבוד בונה -- החזירו את השני לדיבור."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "המיקס המוגמר חייב להיות קובץ שמע: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "המיקס המוגמר מחליף את המיקס בקובצי המצלמות, ובלי קובץ וידאו אין כאלה."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "המיקס המוגמר נמשך %s, קצר מכל מצלמה (הקצרה ביותר %s): היכן שהוא נגמר, ה-Full-Mix שקט."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s מחליף את המיקס שהעיבוד הזה היה בונה."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  המיקס המוגמר לא מצא מקום על ציר הזמן: אין לו צליל משותף עם המצלמות. העיבוד נעצר במקום להניח אותו סתם במקום כלשהו."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  למיקס המוגמר אין דבר בחלון מ-%s עד %s: הוא נמצא מ-%s עד %s. העיבוד נעצר."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  המיקס המוגמר משאיר שקטים %s בתחילת החלון ו-%s בסופו."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: המיקס המוגמר כפי שהגיע -- בלי הגבר ובלי מגביל"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"סנכרון בלבד\" ממקם כל הקלטה כצליל מעורב."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "המיקס המוגמר -- לא דובר, ללא מצלמה"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "דיבור: ממוקם לפי העוצמה הנתפסת בלבד. הקלטה שאין לה דבר משותף\nעם המצלמות נדחית. מעורב: מוזיקה או מיקס נמצאים מתחת לקולות,\nובמקום שהעוצמה לא מוצאת דבר, הפאזה רשאית למקם אותה.\nמיקס מוגמר: מיקס סטריאו שנעשה במקום אחר, ממוקם כצליל מעורב. הוא נכנס\nלקובצי המצלמות ולמסירה במקום המיקס שהעיבוד בונה --\nלא דובר, לא נחתך, לא נשלח ל-auphonic.com.\nתחת \"%s\" דיבור אינו מוצע."

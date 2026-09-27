@@ -3,7 +3,7 @@
 
 A recording's row in the file list carries what its sound holds. In
 order: a fresh field on speech; an answer kept for its recording and the
-time axis asked again; the field shut on mixed under Sync only; and the
+time axis asked again; mixed shown and speech barred under Sync only; the
 way back, which shows what was chosen rather than what was forced. The
 field is built on its own, not inside a window: which row carries it is
 the file list's, and this asks only what the field does.
@@ -71,12 +71,13 @@ check("and the time axis is asked again", len(asked) == 1,
 print("\n3. Sync only")
 state["project_type"] = "sync"
 vpm.sound_cells_follow(state)
-check("under Sync only every field stands on mixed and is shut",
+speech_open = [b.model().item(b.findData(vpm.SOUND_SPEECH)).isEnabled()
+               for b in (talk, bed)]
+check("under Sync only every field stands on mixed, speech barred",
       [b.currentData() for b in (talk, bed)] == [vpm.SOUND_MIXED] * 2
-      and not talk.isEnabled() and not bed.isEnabled(),
-      "show %r, enabled %r -- wanted mixed twice and shut"
-      % ([b.currentData() for b in (talk, bed)],
-         [b.isEnabled() for b in (talk, bed)]))
+      and speech_open == [False, False],
+      "show %r, speech open %r -- wanted mixed twice and barred"
+      % ([b.currentData() for b in (talk, bed)], speech_open))
 check("and what it shows is not written into the answers",
       state["sound_holds"].get(BED) is None and len(asked) == 1,
       "the untouched recording holds %r, the axis asked %d times -- "

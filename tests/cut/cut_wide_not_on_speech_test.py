@@ -53,7 +53,7 @@ EVERY = 25.0
 OLD_FLOOR = 0.4
 # How long a breath may be and still be closed over. Taken from the
 # measurement itself so a second copy cannot go stale.
-CLOSED = inspect.signature(vpm.speakers_from_tracks).parameters["gap"].default
+CLOSED = inspect.signature(vpm.speakers_from_tracks).parameters["pause_bridged"].default
 
 
 def monologue():

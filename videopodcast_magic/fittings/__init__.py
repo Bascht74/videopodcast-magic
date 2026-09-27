@@ -1129,7 +1129,10 @@ def break_off_button(QtWidgets, state, say):
         button.setText(T('Stopping ...'))
         say(T('\nStopping. The run ends as soon as it can do so '
               'without leaving a file half written -- one moment.\n'))
-        stop_asked_for(state.get("run_step") or "")
+        # Where the run itself is: the window hears of a new stage by a
+        # signal that may still be on its way at this moment.
+        stop_asked_for(PROGRAM.step_caption() or state.get("run_step")
+                       or "")
 
     button.clicked.connect(pressed)
     return button
@@ -1213,7 +1216,9 @@ def make_footer(Qt, QtCore, QtWidgets, window, vertical, state, files,
         """
         plan_wipe()
         cameras = len([1 for p, a in files if a == "video"])
-        stages = run_stages(bool(multitrack.get()), cameras,
+        # The cameras the run pulls audio out of, as Start worked out
+        # from its plan -- the Multitrack tick does not decide that.
+        stages = run_stages(state.get("run_camera_audio") or 0, cameras,
                             not without_auphonic(),
                             sync=PROGRAM.sync_only(state))
         run_step_order[:] = [name for name, _w, _c in stages]

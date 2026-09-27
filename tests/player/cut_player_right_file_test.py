@@ -129,7 +129,10 @@ rules = {"os": os, "picture_span": picture_span, "files": files,
          # at the start of the axis here, covers' own arithmetic is left.
          "marks_zero_here": lambda: 0.0,
          # And where the first camera stops: None, the file's own end.
-         "marks_end_here": lambda: None}
+         "marks_end_here": lambda: None,
+         # The rate a timecode mark is read at, the run's reference's:
+         # every file above runs at 30, so any of them could be it.
+         "marks_fps_here": lambda: 30.0}
 trouble = ""
 if block:
     try:

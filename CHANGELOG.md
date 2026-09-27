@@ -25,6 +25,260 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b28] - 2026-09-27
+
+### Added
+
+- **A stereo mix finished elsewhere can now stand in for the Full-Mix**:
+  set "In the sound" to "Finished mix", or give `--finished-mix FILE`.
+  It is placed on the time axis and goes into the camera files and the
+  Resolve handover as it came; it is no speaker and is not sent to
+  auphonic.com.
+- **The Auphonic box now shows the account's plan and the minutes of
+  credit left** as soon as the account answers, also without a preset
+  and with "work without Auphonic". The line turns red when the
+  recordings need more minutes than are left.
+- **The check before a run now asks the Auphonic account once** and says
+  whether the minutes left carry the production. On the free plan a
+  Multitrack production longer than 21 minutes gets a warning, there and
+  again before the upload; the run still goes on.
+- **Every release now carries one list per system of the package
+  versions its suite ran green on** (`constraints-macos.txt`,
+  `-windows.txt`, `-linux.txt`); `pip3 install -c constraints-macos.txt
+  ...` installs exactly those.
+
+### Changed
+
+- **The cut preview is now the run itself**: a dry run of what the
+  window holds, stopped before it writes, in the background and without
+  a line in the log. Preview, "Dry run" and "Start" cut the same shots.
+- **A changed cut value now works out only the cut again.** A changed
+  file, name, camera, In point or Out point runs the preview again over
+  what is already measured.
+- **"Start", "Dry run" and "Create Resolve project" no longer wait for a
+  preview still working**: they stop its run and begin at once.
+- **After "Start", the cut preview shows the finished run's handover**
+  and says "from the finished run". A run with other settings does not
+  replace it; a later dry run of the same settings takes over again.
+- **Once the window has written its transcript, the preview and the run
+  cut by the same words**: a question that becomes a reaction cut in the
+  preview is one in the run too.
+- **"Dry run" now works everything out up to the finished cut and the
+  Resolve handover**, and still writes nothing. The run after it takes
+  the time axis and who speaks when from what the dry run kept.
+- **Window and run now share one time axis**: whichever measures first,
+  the other takes it without measuring again. A recording in blocks is
+  measured joined in the window too, as the run measures it.
+- **Cameras now line up the same whatever order they are given in.** Of
+  cameras as long, the reference is the one placing most others, then
+  one with a timecode, then the first by name.
+- **A camera the reference camera does not hear is now placed through
+  one that hears it**, and its line in the log says through which. A
+  recording that shares only its last minute with a camera is found.
+- **The log now names a camera whose clock and measured place are more
+  than a frame apart**, with the gap; the measurement is used. Without a
+  timecode on the reference camera, every written camera carries the
+  timecode of its measured place, from 00:00:00.
+- **A person assigned to one camera by their track and to another by
+  their voice now sits on the voice's camera** in the cut list, the
+  handover and the preview alike, and the log says so.
+- **If building the Resolve project stops**, for instance because
+  Resolve will not import a camera file, **the program now deletes the
+  half-built project it created** and opens the one open before.
+  Projects it did not create stay untouched.
+- **The window and the run now refuse an unusable time window with the
+  same rule and the same sentence**: an Out point before, on or less
+  than five seconds after the In point, and a window wholly outside the
+  material, naming both marks and the material's length.
+- **The player's internal "[GUI]" lines now go to the log file only**,
+  no longer to the Output tab.
+
+### Removed
+
+- **`audio_chain.py`, the standalone local sound chain beside the
+  program, is gone from the repository.** The program never used it.
+
+### Fixed
+
+- **A recording the recorder split into several files is now written
+  down in full in the window**, not just its first file: transcript and
+  name proposals now reach every block, as the separation already did.
+- **Two folders now give two speakers even when their files suggest the
+  same name**: ZOOM0001.WAV from two cards becomes "ZOOM" and "ZOOM
+  (2)". Files of one folder still join, and a name typed alike on both
+  still joins them.
+- **When two sound recordings share a file name, the run's log now names
+  the second "(2)"**, as the file list and the preflight already did.
+  The plan's summary now counts a track's recordings, not their blocks.
+- **The "Kind" field now marks as wide shot exactly the camera the run
+  cuts to as one.** A camera with its own sound and an empty name field
+  showed "Wide shot" while the run seated the guessed name on it.
+- **A camera's own sound set to "no camera of its own" no longer puts
+  anybody on that camera**, so it can now be the wide shot. The window
+  sets it so for every camera sound with voices under it.
+- **A mark set in the player now lands on the moment marked when the
+  player holds a sound file or a camera at another frame rate** than the
+  reference camera. It was counted at the wrong rate and landed up to a
+  few frames late.
+- **The progress bar now plans the camera-audio stage whenever a
+  camera's sound is a track**, not only with Multitrack ticked, and no
+  longer jumps to nearly full at the start.
+- **The Auphonic multitrack log now says "Production created" before the
+  upload**, and "Production running" only once the production has
+  started. Before, it said "running" before a single track was up.
+- **The credit a production needs is now counted in whole minutes,
+  rounded up**: a 20-second sample needs 1 min, where the line said
+  "0 min".
+
+- **The progress line now names only the speaker while levelling one**:
+  "Mixing Guest", no longer "Mixing level_Guest".
+
+### Security
+
+- **The Auphonic key no longer touches the disc**: curl now reads it
+  from its input instead of from a temporary file.
+
+### Documentation
+
+- **The Auphonic chapter now walks through a real run step by step**,
+  single-track and Multitrack: the messages, where the files land, and
+  what it means when auphonic.com refuses a production.
+- **The public roadmap is gone.** What is planned is kept on the owner's
+  board, and what each version brings stays in this changelog and on
+  the release pages.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Eine anderswo fertig gemischte Stereo-Mischung kann jetzt den
+  Full-Mix ersetzen**: „Im Ton“ auf „Fertige Mischung“ stellen oder
+  `--finished-mix DATEI` angeben. Sie wird auf die Zeitachse gelegt und
+  kommt unverändert in die Kameradateien und die Resolve-Übergabe; sie
+  ist kein Sprecher und geht nicht an auphonic.com.
+- **Der Auphonic-Kasten zeigt jetzt Tarif und verbleibende Minuten des
+  Kontos**, sobald das Konto antwortet, auch ohne Preset und mit „ohne
+  Auphonic arbeiten“. Die Zeile wird rot, wenn die Aufnahmen mehr
+  Minuten brauchen, als übrig sind.
+- **Die Prüfung vor einem Lauf fragt das Auphonic-Konto jetzt einmal**
+  und sagt, ob die übrigen Minuten für die Produktion reichen. Im
+  kostenlosen Tarif warnt sie bei einer Multitrack-Produktion über
+  21 Minuten, dort und noch einmal vor dem Hochladen; der Lauf geht
+  trotzdem weiter.
+- **Jede Veröffentlichung trägt jetzt je System eine Liste der
+  Paketversionen, mit denen ihre Testreihe grün lief**
+  (`constraints-macos.txt`, `-windows.txt`, `-linux.txt`);
+  `pip3 install -c constraints-macos.txt ...` installiert genau diese.
+
+### Geändert
+
+- **Die Schnittvorschau ist jetzt der Lauf selbst**: ein Probelauf
+  dessen, was im Fenster steht, angehalten, bevor er schreibt, im
+  Hintergrund und ohne Zeile im Protokoll. Vorschau, „Probelauf“ und
+  „Start“ schneiden dieselben Einstellungen.
+- **Ein geänderter Schnittwert rechnet jetzt nur den Schnitt neu.** Eine
+  geänderte Datei, ein Name, eine Kamera, ein In- oder Out-Punkt lassen
+  die Vorschau über dem schon Gemessenen neu laufen.
+- **„Start“, „Probelauf“ und „Resolve-Projekt anlegen“ warten nicht mehr
+  auf eine Vorschau, die noch rechnet**: Sie halten deren Lauf an und
+  beginnen sofort.
+- **Nach „Start“ zeigt die Schnittvorschau die Übergabe des fertigen
+  Laufs** und sagt „aus dem fertigen Lauf“. Ein Lauf mit anderen
+  Einstellungen ersetzt sie nicht; ein späterer Probelauf mit denselben
+  Einstellungen übernimmt wieder.
+- **Hat das Fenster seine Niederschrift geschrieben, schneiden Vorschau
+  und Lauf nach denselben Wörtern**: Wird aus einer Frage in der
+  Vorschau ein Reaktionsschnitt, dann auch im Lauf.
+- **Der „Probelauf“ rechnet jetzt alles bis zum fertigen Schnitt und zur
+  Resolve-Übergabe aus** und schreibt weiterhin nichts. Der Lauf danach
+  nimmt Zeitachse und Sprecher aus dem, was der Probelauf aufbewahrt hat.
+- **Fenster und Lauf teilen sich jetzt eine Zeitachse**: Wer zuerst
+  misst, dessen Ergebnis übernimmt der andere, ohne neu zu messen. Eine
+  Aufnahme in Blöcken misst auch das Fenster zusammengelegt, wie der Lauf.
+- **Kameras liegen jetzt gleich, in welcher Reihenfolge sie auch kommen.**
+  Von gleich langen Kameras ist die Bezugskamera die, die die meisten
+  anderen legt, dann eine mit Timecode, dann die erste nach Namen.
+- **Eine Kamera, die die Bezugskamera nicht hört, wird jetzt über eine
+  gelegt, die sie hört**, und ihre Zeile im Protokoll sagt, über welche.
+  Eine Aufnahme, die nur die letzte Minute mit einer Kamera teilt, wird
+  gefunden.
+- **Liegen Uhr und gemessener Platz einer Kamera mehr als ein Bild
+  auseinander, nennt das Protokoll sie jetzt** samt Abstand; es gilt die
+  Messung. Hat die Bezugskamera keinen Timecode, trägt jede geschriebene
+  Kamera den ihres gemessenen Platzes ab 00:00:00.
+- **Wer über die Spur einer Kamera und über die Stimme einer anderen
+  zugeordnet ist, steht jetzt auf der Kamera der Stimme**, in
+  Schnittliste, Übergabe und Vorschau gleich, und das Protokoll sagt es.
+- **Bricht der Bau des Resolve-Projekts ab**, etwa weil Resolve eine
+  Kameradatei nicht importiert, **löscht das Programm jetzt das halb
+  gebaute Projekt, das es angelegt hat**, und öffnet das vorher offene
+  wieder. Fremde Projekte bleiben unberührt.
+- **Fenster und Lauf lehnen ein unbrauchbares Zeitfenster jetzt nach
+  derselben Regel und mit demselben Satz ab**: einen Out-Punkt vor, auf
+  oder weniger als fünf Sekunden nach dem In-Punkt, und ein Fenster ganz
+  außerhalb des Materials, samt beiden Marken und der Länge des Materials.
+- **Die internen „[GUI]“-Zeilen des Players stehen jetzt nur noch im
+  Protokoll**, nicht mehr im Reiter „Ausgabe“.
+
+### Entfernt
+
+- **`audio_chain.py`, die eigenständige lokale Tonkette neben dem
+  Programm, ist aus dem Repository entfernt.** Das Programm hat sie nie
+  benutzt.
+
+### Behoben
+
+- **Eine Aufnahme, die der Rekorder in mehrere Dateien geteilt hat,
+  schreibt das Fenster jetzt ganz mit**, nicht nur die erste Datei:
+  Niederschrift und Namensvorschläge reichen über alle Blöcke, wie schon
+  die Trennung.
+- **Zwei Ordner ergeben jetzt zwei Sprecher, auch wenn ihre Dateien
+  denselben Namen nahelegen**: Aus ZOOM0001.WAV von zwei Karten werden
+  „ZOOM“ und „ZOOM (2)“. Dateien eines Ordners werden weiter
+  zusammengefügt, ebenso zwei Ordner mit gleich getipptem Namen.
+- **Tragen zwei Tonaufnahmen denselben Dateinamen, nennt das Protokoll
+  des Laufs die zweite jetzt „(2)“**, wie Dateiliste und Vorflug schon
+  bisher. Die Zusammenfassung des Plans zählt jetzt die Aufnahmen einer
+  Spur, nicht ihre Blöcke.
+- **Das Feld „Typ“ zeigt jetzt genau die Kamera als Weitwinkel, auf die
+  der Lauf als Weitwinkel schneidet.** Eine Kamera mit eigenem Ton und
+  leerem Namensfeld hieß „Weitwinkel“, während der Lauf den geratenen
+  Namen auf sie setzte.
+- **Der Eigenton einer Kamera auf „ohne eigene Kamera“ setzt niemanden
+  mehr auf diese Kamera**; sie kann jetzt der Weitwinkel sein. So stellt
+  das Fenster jeden Kameraton ein, unter dem Stimmen liegen.
+- **Eine Marke, die im Player gesetzt wird, landet jetzt auf dem
+  markierten Moment, wenn der Player eine Tondatei oder eine Kamera mit
+  anderer Bildrate** als die Bezugskamera zeigt. Sie wurde mit der
+  falschen Rate gezählt und lag bis zu einigen Bildern zu spät.
+- **Der Fortschrittsbalken plant das Herausholen des Kameratons jetzt
+  ein, sobald der Ton einer Kamera eine Spur ist**, nicht nur mit
+  Multitrack, und springt zu Beginn nicht mehr fast ans Ende.
+- **Das Auphonic-Mehrspurprotokoll sagt jetzt vor dem Hochladen
+  „Produktion angelegt“** und „Produktion läuft“ erst, wenn sie
+  gestartet ist. Vorher hieß es „läuft“, bevor eine Spur oben war.
+- **Was eine Produktion an Guthaben braucht, zählt jetzt in ganzen
+  Minuten, aufgerundet**: Eine 20-Sekunden-Probe braucht 1 Min., wo die
+  Zeile „0 Min.“ sagte.
+
+- **Beim Angleichen eines Sprechers nennt die Fortschrittszeile jetzt
+  nur seinen Namen**: „Mische Guest“ statt „Mische level_Guest“.
+
+### Sicherheit
+
+- **Der Auphonic-Schlüssel berührt die Platte nicht mehr**: curl liest
+  ihn jetzt von seiner Eingabe statt aus einer vorübergehenden Datei.
+
+### Dokumentation
+
+- **Das Auphonic-Kapitel geht jetzt einen echten Lauf Schritt für
+  Schritt durch**, einspurig und mit Multitrack: die Meldungen, wo die
+  Dateien landen und was es heißt, wenn auphonic.com eine Produktion
+  ablehnt.
+- **Die öffentliche Roadmap entfällt.** Geplantes steht auf der Tafel des
+  Eigners, und was jede Version bringt, steht weiter in diesem
+  Änderungsprotokoll und auf den Veröffentlichungsseiten.
+
 ## [3.0.0b27] - 2026-09-27
 
 ### Added

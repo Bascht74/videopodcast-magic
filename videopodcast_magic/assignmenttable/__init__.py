@@ -19,6 +19,7 @@ CAMERA_TYPES = PROGRAM.CAMERA_TYPES
 COLOURS = PROGRAM.COLOURS
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIX_ONLY = PROGRAM.MIX_ONLY
+SOUND_FINISHED = PROGRAM.SOUND_FINISHED
 SPEAKER_SPLIT_OFF = PROGRAM.SPEAKER_SPLIT_OFF
 SR = PROGRAM.SR
 T = PROGRAM.T
@@ -124,6 +125,11 @@ class AssignmentTable(object):
         m, state, player = self.model, self.state, self.player
         remembered = m.remembered
         for row, nv, cv in m.assign_lines:
+            # The finished mix's row holds no answer of its own; set back,
+            # the row finds the one it had.
+            if (state.get("sound_holds") or {}).get(row[0]) \
+                    == SOUND_FINISHED:
+                continue
             # Where the voices stand underneath the row holds no selector,
             # and that fallback must not overwrite an older assignment.
             old = remembered.get("audio:" + row[0])
@@ -330,6 +336,25 @@ def reason_rows_fit(table, column):
                                         table.columnWidth(column))))
 
 
+def finished_row_shown(node, row, stem, caption, state, assign_lines,
+                       file_rows):
+    """Show a recording set to the finished mix as what it is, if it is.
+
+    No speaker and no camera: the run leaves its row out of the plan,
+    and so does the table -- "do not use" in the lines, which every
+    reader of them already leaves out, and the reason in the cell. It
+    stays a row with a file, so its timecode and its fit are shown.
+    """
+    if (state.get("sound_holds") or {}).get(row[0]) != SOUND_FINISHED:
+        return False
+    file_rows.append((node, row[0], caption))
+    tree_cell(node, 2, T('the finished mix -- no speaker, no camera'),
+              COLOURS["quiet"])
+    assign_lines.append((row, PROGRAM.SpeakerName("", stem),
+                         Value(IGNORE_AUDIO)))
+    return True
+
+
 def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
                             assign_position, audio_fields, camera_lines,
                             clip_kind_values, file_rows, files, no_join,
@@ -463,8 +488,10 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         except Exception:
             tc_of_row.append(None)
     without_tc = not any(t is not None for t in tc_of_row)
-    # Two recordings of one file name are told apart as in the file list.
+    # Two recordings of one file name are told apart as in the file list,
+    # and two folders guessing one speaker are two (speaker_guesses).
     heard = PROGRAM.recording_labels(audio_files)
+    guessed = PROGRAM.speaker_guesses(audio_files)
     state["without_tc"] = without_tc
     if not without_tc:
         state["tc_there"] = True
@@ -474,7 +501,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         from_camera = state["own_audio_rows"].get(first) \
             if isinstance(state["own_audio_rows"], dict) else None
         stem = (guess_camera_name(from_camera or first)
-                 if camera_track else guess_speaker_name(first))
+                 if camera_track else guessed.get(first)
+                 or guess_speaker_name(first))
         # So the two rows of one camera can be told apart.
         if piece_label.get(first):
             stem = piece_label[first]
@@ -487,6 +515,9 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
             caption += "  (+%d)" % (len(row) - 1)
         node = tree_row(tree_audio, None, [caption])
         node[0].setData(first, Qt.UserRole + 1)
+        if finished_row_shown(node, row, stem, caption, state,
+                              assign_lines, file_rows):
+            continue
         audio_file_list.append(first)
         file_rows.append((node, first, caption))
         old_name, old_camera = remembered.get("audio:" + first, (None, None))

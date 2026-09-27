@@ -279,6 +279,12 @@ ALLOWED = {
     "resolve/live/project_settings_arrive_test.py":
         "talks to a Resolve that is really running, on purpose, and is "
         "started by hand through resolve.sh.",
+    "resolve/live/project_intro_on_v2_test.py":
+        "talks to a Resolve that is really running, on purpose, and is "
+        "started by hand through resolve.sh (the intro on V2, b28).",
+    "resolve/live/project_refusal_said_test.py":
+        "talks to a Resolve that is really running, on purpose, and is "
+        "started by hand through resolve.sh (a Resolve that says no, b28).",
     "resolve/live/resolve_ground.py":
         "the ground those four stand on, and the one place among them "
         "that asks for the connection -- a_resolve leaves the test out "
@@ -290,7 +296,7 @@ ALLOWED = {
         "starts those four and the sweep, and asks Resolve itself in a "
         "block of Python written into it, to see whether one is there.",
 }
-EXCEPTIONS_ALLOWED = 7
+EXCEPTIONS_ALLOWED = 9      # 7 until b28 added the two live tests above
 
 
 def scan(text, path, piece, offset, found, doors, nail, depth=0):

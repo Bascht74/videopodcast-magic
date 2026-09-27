@@ -138,7 +138,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
     obwohl niemand sie so gekennzeichnet hat. Gesperrt ist dann
     **Inhalt**, weil ihr kein Sprecher zugeordnet ist. Gibt man dieser
     Kamera einen Sprecher oder setzt den **Typ** selbst, ist der Eintrag
-    wieder frei. Bei **Nur synchronisieren** fragt niemand, wer spricht,
+    wieder frei. Eine Kamera, deren eigener Ton die Spur eines Sprechers
+    ist, gilt auch mit leerem Namensfeld als zugeordnet: Der Lauf setzt
+    den Namen, den er aus der Datei rät, auf sie, und das Feld zeigt, was
+    der Lauf schneiden wird. Bei **Nur synchronisieren** fragt niemand, wer spricht,
     und so wird dort auch keine Kamera zum Weitwinkel erklärt: Weitwinkel
     ist nur eine Kamera, die jemand auf **Weitwinkel** stellt.
   - Eine Datei, für die die Messung keinen Platz gefunden hat, ist
@@ -203,9 +206,26 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   - **Gemischt**: Unter den Stimmen liegt Musik oder ein fertiger Mix,
     und daran kann die Lautheit scheitern. Wo sie nichts findet, darf
     dann die Phase des Tons die Aufnahme legen.
+  - **Fertige Mischung**: Die Aufnahme *ist* die Mischung, fertig
+    gemischt in einer anderen Aufnahmekette -- etwa die Stereosumme
+    eines Mischpults. Sie wird wie **Gemischt** auf die Zeitachse
+    gelegt und steht dann in den Kameradateien und in der Übergabe als
+    **Full-Mix**, anstelle der Mischung, die das Programm sonst aus den
+    Aufnahmen baut. Sie geht so hinein, wie sie kam: ohne Verstärkung,
+    ohne Limiter, gleich, was das Lautheitsziel sagt. Ein Sprecher ist
+    sie nicht -- ihre Zeile auf dem Reiter **Zuordnung** sagt **die
+    fertige Mischung -- kein Sprecher, keine Kamera** und nimmt keinen
+    Namen --, sie wird nicht geschnitten, nicht nach Stimmen zerlegt und
+    nicht an auphonic.com geschickt. Die Sprecher und die Einzelspuren
+    kommen weiter aus den übrigen Aufnahmen oder, wo es keine gibt, aus
+    dem Ton der Kameras. Nur eine Aufnahme kann die fertige Mischung
+    sein; zwei halten den Start mit **Zwei fertige Mischungen** an. Wo
+    sie nicht passt, sagen es die Prüfung und der Lauf (siehe
+    [Vorflug](preflight.de.md)).
 
-  Bei **Nur synchronisieren** steht das Feld fest auf **Gemischt** und
-  ist gesperrt, denn dort ist die Phase immer erlaubt. Was man vorher
+  Bei **Nur synchronisieren** zeigt das Feld **Gemischt**, und
+  **Sprache** lässt sich nicht wählen, denn dort ist die Phase immer
+  erlaubt. Eine fertige Mischung bleibt, was sie ist. Was man vorher
   gewählt hatte, bleibt gemerkt und kehrt mit **Schnitt nach Sprecher**
   zurück. Wer das Feld oder den Projekttyp ändert, lässt die Zeitachse
   neu messen, sofern sich damit ändert, welche Aufnahmen die Phase legen
@@ -385,9 +405,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Auskunft. Sie bleibt stehen, solange es Zahlen gibt.
 
   - **gemessen aus den Aufnahmen -- 3 Sprecher, 1:09:23**, in der
-    Warnfarbe. Es ist noch nichts gelaufen; die Sprecher sind aus den
-    Aufnahmen herausgehört, wie sie daliegen, und der Schnitt davor ist
-    ein vorläufiger.
+    Warnfarbe. Noch hat kein Lauf etwas geschrieben. Der eigene Lauf der
+    Vorschau -- der Lauf selbst, angehalten, bevor er schreibt -- hat die
+    Sprecher aus den Aufnahmen herausgehört, wie sie daliegen, und der
+    Schnitt davor ist der, den **Start** daraus machen würde.
   - **aus dem fertigen Lauf -- 3 Sprecher, 1:09:23**, in der guten
     Farbe. Ein Lauf ist durch, und die Vorschau steht auf dessen
     Ergebnis: alle Spuren auf einer Achse, die Sprecher so, wie der Lauf
@@ -402,8 +423,11 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   **Resolve-Projekt anlegen**, wird der Schnitt für Resolve neu
   gerechnet, aus den Werten, die jetzt dort stehen, und ebendiesem
   Ergebnis. Kein zweiter Lauf, und kein Rückfall auf eine vorläufige
-  Lesart. Solange die Zeile in der Warnfarbe steht, kann sich jede Zahl
-  daneben noch verschieben.
+  Lesart. Solange die Zeile in der Warnfarbe steht, kann eine Zahl
+  daneben sich noch durch das verschieben, was ein Lauf durch Zuhören
+  hinzufügt: Der Lauf der Vorschau erkennt keine Sprache, und die
+  Wörter, die ein Lauf aus der fertigen Mischung aufschreibt, setzen
+  Fragen, Antworten und Satzgrenzen.
 
   Die Vorschau rechnet den Uhrengang jedes Recorders mit, so wie der
   Lauf es tut. Keine zwei Recorder laufen exakt gleich schnell; über
@@ -430,23 +454,21 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Timecode sie setzt, und hat sie keinen, wird ihr **Video ignorieren**
   vorgeschlagen.
 
-  Für die Sprecher ist nichts zu drücken. Sie werden aus den Spuren
-  geholt, sobald dieser Reiter aufgeht -- einmal und kein zweites Mal:
-  nicht, während eine Messung läuft, nicht, nachdem eine gescheitert
-  ist, und nicht dort, wo ein fertiger Lauf sie schon kennt. Solange
+  Für die Sprecher ist nichts zu drücken. Geht dieser Reiter auf, läuft
+  der Lauf der Vorschau von selbst an, im Hintergrund und ohne eine
+  Zeile im Protokoll, sobald Zeitachse und Kameraton stehen -- und
+  wieder, einen Augenblick nach jeder Änderung an dem, was ein Lauf
+  täte; ein geänderter Schnittwert rechnet nur den Schnitt neu. Solange
   nichts bekannt ist, sagt die Vorschau genau das und nennt den Weg für
   den Fall, dass alle auf einer Aufnahme sitzen: **mehrere Sprecher** im
   Feld **Sprechername**.
 
-  Die Zeile unter der Vorschau bleibt und trägt beide Auskünfte. Ist
-  eine Spur weder von einer Trennung abgedeckt noch gemessen, steht
-  dort, wer fehlt, anstelle dessen, worauf der Schnitt beruht -- auch
-  neben einer Trennung, die schon steht. Diese Leute sind im Schnitt;
-  nur diese Vorschau kann sie erst nach dem Messen zeigen. Scheitert
-  eine Messung, steht der Grund an derselben Stelle. Nach einem Lauf
-  steht dort nur noch, worauf der Schnitt beruht: der Lauf hat jede Spur
-  gemessen, die er hatte, und sein Ergebnis ist feiner als alles, was
-  sich aus den rohen Aufnahmen heraushören lässt.
+  Die Zeile unter der Vorschau sagt, worauf der Schnitt beruht, und
+  solange der Lauf der Vorschau geht, **ermittelt, wer wann spricht
+  ...**. Scheitert er, steht dort sein eigener Grund -- die Zeile, mit
+  der ein **Probelauf** enden würde --, und für dieselben Einstellungen
+  wird er nicht noch einmal versucht. Wer **Start** oder **Probelauf**
+  drückt, während er läuft, hält ihn an und beginnt sofort.
 
   Der Kasten mit den Werten heißt **Kameraschnitt**, wenn die Sprecher
   auf zwei oder mehr Kameras sitzen. Bei einer Kamera für alle heißt er
@@ -619,8 +641,12 @@ wie in den Quelldateien -- die Datei kommt Byte für Byte gleich heraus.
 sagt, was sonst noch am Ziel hängt: die Normalisierung der Spuren, die
 Anzeige im Resolve-Projekt und was im Protokoll steht.
 
-**Probelauf** ist der Lauf, der misst und berichtet und keinen Schnitt
-erzeugt. Eines schreibt er doch: Hören die Mikrofone einander zu gut,
+**Probelauf** ist der Lauf, der alles bis zum fertigen Schnitt
+ausrechnet -- die Zeitachse, wer wann spricht, den Schnitt mit seinen
+Einstellungen --, das alles ins Protokoll schreibt und doch keinen
+Schnitt erzeugt. Es ist derselbe Lauf, den die Vorschau still für sich
+macht: Gedrückt, sobald die Vorschau steht, nimmt er Zeitachse und
+Sprecher aus dem, was sie aufbewahrt hat. Eines schreibt er doch: Hören die Mikrofone einander zu gut,
 um auseinandergehalten zu werden, misst er ihren Abstand und bewahrt
 die zusammengelegte Aufnahme auf, die die Trennung braucht -- der
 richtige Lauf muss sie dann nicht ein zweites Mal bauen.
@@ -732,8 +758,9 @@ welcher Ton an welches Bild gelegt wurde -- bei einer Aufnahme aus
 mehreren Blöcken mit dem Block, der gerade läuft, und mit einem Wort
 dort, wo diese Aufnahme unter diesem Bild nicht dran ist und deshalb
 still bleibt -- und, bei jedem Start und jedem Halt des
-Schnitt-Players, welche Kamera er dabei zeigte. Genau das ist der Teil,
-den man einer Beschwerde über die Vorschau mitschickt.
+Schnitt-Players, welche Kamera er dabei zeigte. Sie stehen nur im
+Protokoll, nie im Reiter Ausgabe. Genau das ist der Teil, den man
+einer Beschwerde über die Vorschau mitschickt.
 
 Zeilen mit dem Vorsatz `[EXT]` halten jeden Aufruf eines fremden
 Programms fest -- ffmpeg und ffprobe -- mit dem Werkzeug, der Datei, um

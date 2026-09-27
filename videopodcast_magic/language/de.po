@@ -689,17 +689,17 @@ msgstr ""
 
 msgid ""
 "\n"
-"  (measuring only: nothing written)"
+"  (dry run: worked out and kept, output folder untouched)"
 msgstr ""
 "\n"
-"  (nur messen: nichts geschrieben)"
+"  (Probelauf: ausgerechnet und aufbewahrt, Ausgabeordner unberührt)"
 
 msgid ""
 "\n"
-"  (measuring only: without an API key it stops here)"
+"  (dry run: nothing written)"
 msgstr ""
 "\n"
-"  (nur messen: ohne API-Schlüssel geht es nicht weiter)"
+"  (Probelauf: nichts geschrieben)"
 
 msgid ""
 "\n"
@@ -1264,8 +1264,8 @@ msgstr ""
 "  %s: wie viele Kanäle sie hat, ist nicht feststellbar (%s) -- sie wird "
 "nicht gemessen"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (nur messen: nichts hochgeladen)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (Probelauf: nichts hochgeladen)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r gab es schon -- die neue heißt %r."
@@ -1625,6 +1625,9 @@ msgstr "  Bitte eine Zahl zwischen 1 und %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produktion bei auphonic.com:  %s"
+
+msgid "  Production created (%s)"
+msgstr "  Produktion angelegt (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Produktion läuft (%s)"
@@ -2650,12 +2653,10 @@ msgstr ""
 
 msgid ""
 "\n"
-"Measured. Nothing was written -- a dry run leaves the result folder as it "
-"was.\n"
+"Worked out. A dry run leaves the result folder as it was.\n"
 msgstr ""
 "\n"
-"Gemessen. Es wurde nichts geschrieben -- ein Probelauf lässt den "
-"Ergebnis-Ordner, wie er war.\n"
+"Ausgerechnet. Ein Probelauf lässt den Ergebnis-Ordner, wie er war.\n"
 
 msgid ""
 "\n"
@@ -3335,8 +3336,12 @@ msgstr "Abstand zum Mittel"
 msgid "Drag audio and video files here"
 msgstr "Ton- und Videodateien hierher ziehen"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Probelauf: es wird nur gemessen, nichts geschrieben, nichts hochgeladen."
+msgid ""
+"Dry run: everything is worked out and reported, nothing goes into the output "
+"folder, nothing is uploaded."
+msgstr ""
+"Probelauf: alles wird ausgerechnet und berichtet, nichts kommt in den "
+"Ausgabeordner, nichts wird hochgeladen."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Während Begrüßung und Verabschiedung bleibt das Bild weit."
@@ -3530,9 +3535,6 @@ msgstr "Nur messen -- nichts wird geschrieben oder hochgeladen."
 msgid "Measuring %s (%s of %s)"
 msgstr "%s wird gemessen (%s von %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Messen nicht möglich: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Maßstab messen"
 
@@ -3580,9 +3582,6 @@ msgstr ""
 "Noch kein Ton in Verwendung -- eine Tondatei dazunehmen, oder in der "
 "Dateiliste bei einer Videodatei den Kameraton auf \"Ton verwenden\" "
 "stellen."
-
-msgid "No audio tracks are assigned."
-msgstr "Keine Tonspuren zugeordnet."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr ""
@@ -3633,13 +3632,6 @@ msgstr ""
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Noch hat keine Stimme eine Kamera -- damit wäre jede Einstellung dieselbe."
-
-msgid ""
-"No speakers known yet -- nothing measured, nothing separated, and no "
-"handover file of an earlier run in %s or its subfolders."
-msgstr ""
-"Noch keine Sprecher bekannt -- nichts gemessen, nichts getrennt, und "
-"keine Übergabedatei eines früheren Laufs in %s oder deren Unterordnern."
 
 msgid "Not found again after import: %s"
 msgstr "Nach dem Import nicht wiedergefunden: %s"
@@ -3787,9 +3779,6 @@ msgstr ""
 
 msgid "Not ready yet:"
 msgstr "Noch nicht startklar:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "In den Spuren war nichts zu hören."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Eine Tonaufnahme hat noch keinen Sprechernamen."
@@ -5027,7 +5016,7 @@ msgid "Transfer"
 msgstr "Uebertragung"
 
 msgid "Uploading %s tracks"
-msgstr "Hochladen %s Spuren"
+msgstr "Lade %s Spuren hoch"
 
 msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
 msgstr "%(name)s (%(prefix)s*.json);;JSON-Dateien (*.json);;Alle Dateien (*)"
@@ -5043,9 +5032,6 @@ msgstr "gemessen aus den Aufnahmen -- %s Sprecher, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "aus dem fertigen Lauf -- %s Sprecher, %s"
-
-msgid "no folder"
-msgstr "keinem Ordner"
 
 msgid "no text"
 msgstr "ohne Text"
@@ -5174,7 +5160,7 @@ msgid "Disk space"
 msgstr "Plattenplatz"
 
 msgid "Downloading %s"
-msgstr "Lade herunter %s"
+msgstr "Lade %s herunter"
 
 msgid "Dry run"
 msgstr "Probelauf"
@@ -5420,7 +5406,7 @@ msgid "Track template"
 msgstr "Spurvorlage"
 
 msgid "Uploading %s"
-msgstr "Hochladen %s"
+msgstr "Lade %s hoch"
 
 msgid "Value range"
 msgstr "Wertebereich"
@@ -5554,7 +5540,7 @@ msgid "on"
 msgstr "an"
 
 msgid "%r counts from the end -- that only works for Out point."
-msgstr "%r zählt vom Ende her -- das geht nur bei Schnitt aus."
+msgstr "%r zählt vom Ende her -- das geht nur beim Out-Punkt."
 
 msgid "Check"
 msgstr "Prüfung"
@@ -5563,10 +5549,7 @@ msgid "the check itself stopped: %s"
 msgstr "die Prüfung selbst ist gescheitert: %s"
 
 msgid "In point or Out point cannot be read here."
-msgstr "Schnitt an oder Schnitt aus lässt sich hier nicht lesen."
-
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Schnitt aus liegt weniger als 5 Sekunden nach Schnitt an."
+msgstr "In-Punkt oder Out-Punkt lässt sich hier nicht lesen."
 
 msgid ""
 "About %s missing. Free up space or choose another folder with --out. The "
@@ -5671,8 +5654,8 @@ msgstr "  Schon einmal getrennt: zurückgelesen, nicht neu gemessen."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Etwa %s Rechenzeit für %s Ton."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (nur gemessen: nichts getrennt)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (Probelauf: nichts getrennt)"
 
 msgid "  From %s: %s voice."
 msgid_plural "  From %s: %s voices."
@@ -5683,9 +5666,6 @@ msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %
 msgstr ""
 "  Die Spuren wurden nicht gemessen, %s ist damit in der Mischung und "
 "nicht im Schnitt: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s noch nicht gemessen -- im Schnitt, in dieser Vorschau noch nicht."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Aus den Spuren selbst, eine Stimme je Spur: %s."
@@ -6608,9 +6588,6 @@ msgstr "Sprache"
 msgid "Mixed"
 msgstr "Gemischt"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Sprache: nur nach der Lautheit gelegt. Eine Aufnahme, die nichts\nmit den Kameras gemeinsam hat, wird abgelehnt. Gemischt: Musik oder ein Mix\nliegt unter den Stimmen, und wo die Lautheit nichts findet, darf die Phase sie legen.\nUnter „%s“ ist es immer gemischt."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: Übereinstimmung des Tons %s, an einer anderen Stelle ebenso %s -- allein nach seiner Uhr gesetzt"
 
@@ -6824,3 +6801,135 @@ msgstr "Was dabei ausgegeben wird, erscheint unter Ausgabe."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "das Paket libsecret-tools unter Debian und Ubuntu, libsecret unter Fedora und Arch"
+
+msgid "%d min"
+msgstr "%d Min."
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Guthaben bei auphonic.com: noch %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Guthaben bei auphonic.com: unbekannt"
+
+msgid "%s -- free plan"
+msgstr "%s -- kostenloser Tarif"
+
+msgid "%s -- paying plan"
+msgstr "%s -- bezahlter Tarif"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Guthaben bei auphonic.com: unbekannt -- das Konto hat nicht geantwortet."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Guthaben bei auphonic.com: unbekannt."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Guthaben bei auphonic.com: noch %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Guthaben bei auphonic.com: noch %s, diese Produktion braucht %s -- das reicht nicht."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Guthaben bei auphonic.com: noch %s, genug für die %s, die diese Produktion braucht."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Das Konto bei auphonic.com ist in einem bezahlten Tarif."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Das Konto bei auphonic.com ist im kostenlosen Tarif."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  In welchem Tarif das Konto bei auphonic.com ist, ist nicht bekannt."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Das Konto bei auphonic.com ist nicht bekannt, denn es ließ sich nicht fragen. Der Lauf geht weiter."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Hinweis: Der Lauf versucht es trotzdem. Ob die Produktion startet, entscheidet auphonic.com, und wenn nicht, sagt es das selbst."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Warnung: Diese Multitrack-Produktion dauert %s, und im kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa %s an."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Hinweis: Eine längere lehnt auphonic.com gleich am Anfang ab und berechnet nichts dafür. Der Lauf versucht es trotzdem; lehnt auphonic.com ab, folgt dessen eigene Meldung."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Im kostenlosen Tarif nimmt auphonic.com eine Multitrack-Produktion nur bis etwa %s an."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Das Projekt %r aus diesem Lauf bleibt offen -- vorher war nichts offen,\n  das sich wieder öffnen ließe. Bitte in der Projektverwaltung von Resolve löschen."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Das halb gebaute Projekt %r ist wieder gelöscht, %r ist wieder offen."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve hat das Aufräumen abgebrochen: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  ACHTUNG: das halb gebaute Projekt %r ließ sich nicht löschen, oder %r nicht\n  wieder öffnen. Bitte in der Projektverwaltung von Resolve nachholen."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: Übereinstimmung des Tons %s über %s s gemeinsamen Ton, zu wenig, um sie vom Zufall zu unterscheiden -- allein nach seiner Uhr gesetzt"
+
+msgid "placed through %s"
+msgstr "über %s gesetzt"
+
+msgid "found where its timecode pointed"
+msgstr "dort gefunden, wohin sein Timecode wies"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: seine Uhr sagt %s, der Ton hat %s gemessen -- %s s auseinander; es gilt die Messung"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s ist auf zwei Kameras: %s über die Spur, %s über die Stimme. Die Stimme gilt, der Schnitt zeigt %s also nur auf %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Aus der auf diesem Rechner gespeicherten Messung übernommen: dieselben Dateien und Einstellungen, also wird nichts neu gemessen."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nSPRECHER -- FRÜHER GEMESSEN"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Aus der auf diesem Rechner gespeicherten Messung übernommen: dieselben Aufnahmen, Positionen und dasselbe Zeitfenster."
+
+msgid "Finished mix"
+msgstr "Fertige Mischung"
+
+msgid "Two finished mixes"
+msgstr "Zwei fertige Mischungen"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s und %s sind beide auf %s gestellt. Eine Mischung tritt an die Stelle der, die der Lauf baut -- bitte die andere wieder auf Sprache stellen."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Die fertige Mischung muss eine Audiodatei sein: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "die fertige Mischung tritt in den Kameradateien an die Stelle der Mischung, und ohne Videodatei gibt es keine."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "die fertige Mischung läuft %s, kürzer als jede Kamera (die kürzeste %s): wo sie endet, ist der Full-Mix still."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s tritt an die Stelle der Mischung, die dieser Lauf bauen würde."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Die fertige Mischung hat keinen Platz auf der Zeitachse gefunden: Sie teilt keinen Ton mit den Kameras. Der Lauf hält an, statt sie irgendwohin zu legen."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Die fertige Mischung hat nichts im Zeitfenster von %s bis %s: Sie liegt von %s bis %s. Der Lauf hält an."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Die fertige Mischung lässt vorn %s und hinten %s des Zeitfensters still."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: die fertige Mischung, so wie sie kam -- keine Verstärkung und kein Limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Nur synchronisieren“ legt jede Aufnahme als gemischten Ton."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "die fertige Mischung -- kein Sprecher, keine Kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Sprache: nur nach der Lautheit gelegt. Eine Aufnahme, die nichts\nmit den Kameras gemeinsam hat, wird abgelehnt. Gemischt: Musik oder ein Mix\nliegt unter den Stimmen, und wo die Lautheit nichts findet, darf die Phase sie legen.\nFertige Mischung: eine anderswo gemachte Stereo-Mischung, gelegt wie gemischter Ton. Sie kommt\nin die Kameradateien und die Übergabe anstelle der Mischung, die der Lauf baut --\nkein Sprecher, nicht geschnitten, nicht an auphonic.com geschickt.\nUnter „%s“ wird Sprache nicht angeboten."

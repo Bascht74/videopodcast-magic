@@ -599,11 +599,11 @@ msgstr "To ni datoteka tega programa."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "To datoteko je zapisala različica %s v obliki %d; ta zapisuje obliko %d. Imena v njej so se medtem spremenila, zato je ni mogoče prebrati. Prosimo, znova nastavite zagon."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (samo merjenje: nič ni zapisano)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (poskusni zagon: izračunano in shranjeno, izhodna mapa nedotaknjena)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (samo merjenje: brez ključa API se ustavi tukaj)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (poskusni zagon: nič ni zapisano)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Preverjanje presluha -- referenca je %s:"
@@ -938,8 +938,8 @@ msgstr "  %s: %s, preskočeno"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: števila kanalov ni mogoče določiti (%s) -- ne meri se"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (samo merjenje: nič ni naloženo)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (poskusni zagon: nič ni naloženo)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r je že obstajala -- nova se imenuje %r."
@@ -1183,6 +1183,9 @@ msgstr "  Vnesite število med 1 in %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produkcija na auphonic.com:   %s"
+
+msgid "  Production created (%s)"
+msgstr "  Produkcija ustvarjena (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Produkcija teče (%s)"
@@ -1739,8 +1742,8 @@ msgstr "\nUstavljanje. Zagon se konča, takoj ko lahko, ne da bi pustil napol za
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Splošni plan traja %s s, manj od najkrajšega kadra s %s s -- zato se znova združi in se nikoli ne pojavi.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nIzmerjeno. Nič ni bilo zapisano -- poskusni zagon pusti mapo z rezultatom takšno, kot je bila.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nIzračunano. Poskusni zagon pusti mapo z rezultatom takšno, kot je bila.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nUstavljeno med: %s"
@@ -2213,8 +2216,8 @@ msgstr "Odmik od povprečja"
 msgid "Drag audio and video files here"
 msgstr "Sem povlecite zvočne in video datoteke"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Poskusni zagon: samo merjenje, nič se ne zapiše, nič se ne naloži."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Poskusni zagon: vse se izračuna in sporoči, nič ne gre v izhodno mapo, nič se ne naloži."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Med pozdravom in slovesom ostane slika v splošnem planu."
@@ -2336,9 +2339,6 @@ msgstr "Samo merjenje -- nič se ne zapiše ali naloži."
 msgid "Measuring %s (%s of %s)"
 msgstr "Merjenje: %s (%s od %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Merjenje ni mogoče: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Merjenje merila"
 
@@ -2362,9 +2362,6 @@ msgstr "Multitrack potrebuje vsaj dve vhodni sledi. Sled je lasten posnetek, kan
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Zvok še ni v uporabi -- dodajte zvočni posnetek ali na seznamu datotek pri video datoteki nastavite Zvok kamere na „z notranjim zvokom“."
-
-msgid "No audio tracks are assigned."
-msgstr "Nobena zvočna sled ni dodeljena."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nobena kamera ni dodeljena, zato ni ničesar, med čimer bi rezali."
@@ -2395,9 +2392,6 @@ msgstr "Tu ni znan noben govorec -- brez tega, kdo govori kdaj, ni ničesar, med
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Noben glas še nima kamere -- tako bi bil vsak kader isti."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Govorci še niso znani -- nič ni izmerjeno, nič ločeno in ni datoteke predaje iz prejšnjega zagona v mapi %s ali njenih podmapah."
 
 msgid "Not found again after import: %s"
 msgstr "Po uvozu ni bilo znova najdeno: %s"
@@ -2503,9 +2497,6 @@ msgstr "Ni obvezno -- YouTube takrat uporabi privzete vrednosti (Sony BVM-X300).
 
 msgid "Not ready yet:"
 msgstr "Še ni pripravljeno:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "V sledeh ni bilo nič slišati."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "En zvočni posnetek še nima imena govorca."
@@ -3418,9 +3409,6 @@ msgstr "izmerjeno iz posnetkov -- govorcev: %s, dolžina %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "iz končanega zagona -- govorcev: %s, dolžina %s"
 
-msgid "no folder"
-msgstr "nobeni mapi"
-
 msgid "no text"
 msgstr "brez besedila"
 
@@ -3859,9 +3847,6 @@ msgstr "samo preverjanje se je ustavilo: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Vstopne ali izstopne točke tu ni mogoče prebrati."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Izstopna točka je manj kot 5 sekund za vstopno točko."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Manjka približno %s. Sprostite prostor ali z --out izberite drugo mapo. Začasne datoteke med zagonom gredo še drugam, v začasno mapo sistema."
 
@@ -3913,14 +3898,11 @@ msgstr "  Že enkrat ločeno: prebrano nazaj, ne izmerjeno znova."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Približno %s računanja za %s zvoka."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (samo merjenje: nič ni ločeno)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (poskusni zagon: nič ni ločeno)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Sledi niso bile izmerjene, zato v miksu in ne v montaži: %s -- %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Še ni izmerjeno: %s -- v montaži je, v tem predogledu pa še ne."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Iz samih sledi, en glas na sled: %s."
@@ -4964,9 +4946,6 @@ msgstr "Govor"
 msgid "Mixed"
 msgstr "Mešano"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Govor: umesti se samo po glasnosti. Posnetek, ki nima ničesar skupnega\ns kamerami, se zavrne. Mešano: pod glasovi je glasba ali miks,\nin kjer glasnost ne najde ničesar, ga sme umestiti faza.\nPri „%s“ je vedno mešano."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: ujemanje zvoka %s, na drugem mestu pa prav tako %s -- umeščeno samo po lastni uri"
 
@@ -5180,3 +5159,135 @@ msgstr "Njegova sporočila se prikažejo na zavihku „Izhod“."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "paket libsecret-tools v sistemih Debian in Ubuntu, libsecret v sistemih Fedora in Arch"
+
+msgid "%d min"
+msgstr "%d min"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Dobroimetje na auphonic.com: ostaja %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Dobroimetje na auphonic.com: neznano"
+
+msgid "%s -- free plan"
+msgstr "%s -- brezplačni paket"
+
+msgid "%s -- paying plan"
+msgstr "%s -- plačljivi paket"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Dobroimetje na auphonic.com: neznano -- račun ni odgovoril."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Dobroimetje na auphonic.com: neznano."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Dobroimetje na auphonic.com: ostaja %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Dobroimetje na auphonic.com: ostaja %s, ta produkcija pa potrebuje %s -- ni dovolj."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Dobroimetje na auphonic.com: ostaja %s, dovolj za %s, ki jih potrebuje ta produkcija."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Račun na auphonic.com: plačljiv."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Račun na auphonic.com: brezplačen."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Račun na auphonic.com: neznan."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Račun na auphonic.com: neznan -- ni ga bilo mogoče vprašati. Zagon se nadaljuje."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Opomba: zagon vseeno poskusi. O tem, ali se produkcija začne, odloči auphonic.com, in če se ne, to pove."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Opozorilo: ta produkcija Multitrack traja %s, v brezplačnem paketu pa auphonic.com takšno sprejme le do približno %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Opomba: daljšo auphonic.com zavrne že na začetku in zanjo ničesar ne zaračuna. Zagon vseeno poskusi; če auphonic.com zavrne, sledi njegovo lastno sporočilo."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "V brezplačnem paketu auphonic.com sprejme produkcijo Multitrack le do približno %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Projekt %r iz tega zagona ostane odprt -- prej ni bilo odprto nič,\n  kar bi se dalo znova odpreti. Izbrišite ga v upravitelju projektov Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Napol zgrajeni projekt %r je spet izbrisan, %r je spet odprt."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve je prekinil pospravljanje: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Pozor: napol zgrajenega projekta %r ni bilo mogoče izbrisati ali %r znova\n  odpreti. To storite v upravitelju projektov Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: ujemanje zvoka %s na %s s skupnega zvoka, premalo, da bi ga ločili od naključja -- umeščeno samo po lastni uri"
+
+msgid "placed through %s"
+msgstr "umeščeno prek %s"
+
+msgid "found where its timecode pointed"
+msgstr "najdeno tam, kamor je kazala njegova časovna koda"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: njegova ura pravi %s, zvok je izmeril %s -- razlika %s s; velja meritev"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s je na dveh kamerah: %s po sledi, %s po glasu. Prednost ima glas, zato rez prikazuje %s samo na %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Vzeto iz meritve, shranjene na tem računalniku: iste datoteke in nastavitve, zato se nič ne meri znova."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nGOVORCI -- IZMERJENI PREJ"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Vzeto iz meritve, shranjene na tem računalniku: isti posnetki, položaji in časovno okno."
+
+msgid "Finished mix"
+msgstr "Končni miks"
+
+msgid "Two finished mixes"
+msgstr "Dva končna miksa"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s in %s sta oba nastavljena na %s. Samo en miks nadomesti tistega, ki ga zgradi tek -- drugega vrnite na Govor."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Končni miks mora biti zvočna datoteka: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "končni miks nadomesti miks v datotekah kamer, brez video datoteke pa jih ni."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "končni miks traja %s, manj kot vsaka kamera (najkrajša %s): kjer se konča, je Full-Mix tih."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s nadomesti miks, ki bi ga zgradil ta tek."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Končni miks ni našel mesta na časovni osi: s kamerami nima skupnega zvoka. Tek se ustavi, namesto da bi ga položil kamorkoli."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Končni miks nima ničesar v oknu od %s do %s: leži od %s do %s. Tek se ustavi."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Končni miks pusti tiho %s na začetku in %s na koncu okna."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: končni miks, kakršen je prišel -- brez ojačitve in brez limiterja"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Samo sinhronizacija“ postavi vsak posnetek kot mešan zvok."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "končni miks -- brez govorca, brez kamere"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Govor: umesti se samo po glasnosti. Posnetek, ki nima ničesar skupnega\ns kamerami, se zavrne. Mešano: pod glasovi je glasba ali miks,\nin kjer glasnost ne najde ničesar, ga sme umestiti faza.\nKončni miks: stereo miks, narejen drugje, postavljen kot mešan zvok. Gre\nv datoteke kamer in v predajo namesto miksa, ki ga zgradi tek --\nbrez govorca, brez rezov, ne pošlje se na auphonic.com.\nPri „%s“ Govor ni na voljo."

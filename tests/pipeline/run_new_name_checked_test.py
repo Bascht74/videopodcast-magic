@@ -238,10 +238,21 @@ check("names beside a separation file are not refused, and kept",
       "rc %s, wanted 0; planned %s, wanted %s among them; refusals %s%s"
       % (code, planned[-3:], wanted, aborts(said), stood))
 lines = [line.strip() for line in said.splitlines()]
-head = vpm.T('\nSPEAKERS -- SEPARATED BY VOICE').strip()
+# Who speaks when says the voices under one of two heads: measured here,
+# or taken from the store where a run before measured the same.
+heads = [vpm.T('\nSPEAKERS -- SEPARATED BY VOICE').strip(),
+         vpm.T('\nSPEAKERS -- MEASURED BEFORE').strip()]
+head = next((h for h in heads if h in lines), heads[0])
 after = lines[lines.index(head) + 1:] if head in lines else []
+# The line naming where the voices came from, or that they were kept,
+# is no voice.
+not_voices = (vpm.TN(2, '  From %s: %s voice.',
+                     '  From %s: %s voices.').split("%s")[0].strip(),
+              vpm.T('  Taken from the measurement kept on this machine: the '
+                    'same recordings, places and window.').strip())
 voices = sorted(line.split()[0] for line in after[:after.index("")]
-                if line) if "" in after else []
+                if line and not line.startswith(not_voices)) \
+    if "" in after else []
 check("and the separation it names is read beside them",
       voices == ["Guest", "Presenter"],
       "voices read %s, wanted ['Guest', 'Presenter']; %s" % (

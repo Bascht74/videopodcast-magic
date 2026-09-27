@@ -63,7 +63,10 @@ eine Aufnahme. Die Trennung hört alle Blöcke, hintereinander, so wie der
 Lauf sie zusammensetzt, und die Stimmen, die sie findet, gelten für die
 ganze Aufnahme. Eine Trennung, die eine frühere Version nur aus dem
 ersten Block gemacht hat, gilt nicht für das Ganze: Sie wird einmal neu
-berechnet.
+berechnet. Auch die Wörter, die daneben mitgeschrieben werden, kommen
+aus allen Blöcken, auf der Zeit der ganzen Aufnahme; Wörter, die eine
+frühere Version nur im ersten Block gehört hat, werden einmal neu
+gehört.
 
 Die Trennung ist der Weg für **eine gemeinsame Aufnahme**, auf der alle
 zu hören sind. Sie braucht das Häkchen **Multitrack (je Sprecher eine
@@ -216,7 +219,10 @@ anderen Aufnahme schon einen Namen hat, hält das Programm sie für
 dieselbe Person, wiedererkannt; die Tabelle schlägt diesen Namen in
 ihrem Feld vor, und die beiden dürfen ihn gemeinsam tragen. Das
 Protokoll sagt, welche Stimme es wiedererkannt hat und wie ähnlich die
-beiden sind; von sich aus ändert es keinen Namen. Zwei
+beiden sind; von sich aus ändert es keinen Namen. Sitzt der geteilte
+Name über die Spur einer Aufnahme auf der einen Kamera und über die
+Stimme auf einer anderen, gilt die Kamera der Stimme: Schnitt, Übergabe
+und Vorschau zeigen die Person nur dort, und das Protokoll sagt es. Zwei
 Aufnahmen gleichen Namens sind dagegen eine Frage und keine Weigerung --
 sie sollen zu einer Spur werden, nach Timecode hintereinandergelegt
 ([Multitrack](multitrack.de.md)).
@@ -422,7 +428,7 @@ Projekt- oder Zuordnungsdatei steht genauso da, unter den Namen, die
 darin stehen.
 
 Liegt nichts vor, hört der Probelauf an dieser Stelle auf. Er sagt,
-wieviel Rechenzeit die Trennung kosten würde, dann **(nur gemessen:
+wieviel Rechenzeit die Trennung kosten würde, dann **(Probelauf:
 nichts getrennt)**, und es folgen keine Stimmen. Das ist der ganze
 Unterschied: liegen bleibt nur, was wirklich gemessen werden müsste.
 Eine Trennung zurückzulesen kostet nichts, also geschieht es, und das
@@ -477,10 +483,14 @@ den Text trotzdem nicht taugen.
 
 Was einmal abgehört wurde, wird nicht wieder abgehört, was immer es
 gekostet hat. Was aufgehoben wird und was neu gerechnet wird, steht
-weiter oben unter „Was aufgehoben wird und was neu gerechnet wird“. Das
-Fenster und der Lauf hören verschiedenes ab -- das Fenster die
-Aufnahme, der Lauf den Mix, den er daraus gemacht hat -- also zahlt
-jeder von beiden einmal.
+weiter oben unter „Was aufgehoben wird und was neu gerechnet wird“.
+Startet das Fenster einen Lauf, wenn seine eigene Niederschrift schon
+steht, hört dieser nichts mehr ab: Er übernimmt die Wörter des
+Fensters, genau wie sein Trockenlauf, und so stehen der Schnitt und die
+drei Dateien unten auf denselben Wörtern, die schon die Vorschau
+gezeigt hat. Nur ein Lauf ohne sie -- von der Kommandozeile, oder
+gestartet, bevor das Fenster fertig war -- hört den Mix ab, den er
+selbst gemacht hat.
 
 ### Die drei Dateien des Transkripts
 

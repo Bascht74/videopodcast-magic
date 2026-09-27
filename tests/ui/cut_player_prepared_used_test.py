@@ -13,10 +13,9 @@ The question is asked the way a person asks it -- click the camera,
 read what the player says it is playing -- and a guessed speaker name
 must find its prepared track just like a typed one. The cut on the
 Resolve sheet buys from the same shop, and it must build itself only
-out of what the window measured: opening that sheet is what sets the
-measurement going, and because it costs minutes on the graphics card,
-opening it again -- while one runs, and once the answer is in -- must
-set nothing going. Two things lie about the whole time and must have
+out of the preview's own run: opening that sheet is what sets the run
+going, and because it costs minutes, opening it again -- while one
+runs, and once the answer is in -- must set nothing going. Two things lie about the whole time and must have
 no effect: a stranger's handover in the result folder, and an earlier
 production's prepared tracks below the material.
 """
@@ -99,25 +98,30 @@ vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 vpm.update_offer = lambda *a, **k: None
 
-# Every reading of the recordings the window sets going, counted where
-# it is set going. It runs in a thread of its own and costs minutes on
-# the graphics card, so how often it is started is the whole point of
-# three of the judgements below. The real reading follows, unchanged,
-# so what reaches the cut is the window's own answer; the gate only
-# holds it still where a judgement needs it running, and it is let go
-# again in the same step.
+# Every reading of the recordings the window sets going -- the preview's
+# own run, which works out who speaks when -- counted where it is set
+# going. It runs in a thread of its own and costs minutes, so how often
+# it is started is the whole point of three of the judgements below.
+# The real run follows, unchanged, so what reaches the cut is the run's
+# own answer; the gate only holds its answer back where a judgement
+# needs it running, and it is let go again in the same step.
 measurements = []
 go_on = threading.Event()
-_really_measure = vpm.speaker_measure_loop
 
 
-def counted_measure(tracks, bridge, bridge_emit):
-    measurements.append(len(tracks))
-    go_on.wait(60)
-    _really_measure(tracks, bridge, bridge_emit)
+def counted_runs(sheet):
+    """Count every preview's run *sheet* sets going; hold its answer."""
+    state = getattr(sheet, "state", None) or {}
+    real = state.get("preview_run")
+    if real is None or getattr(real, "counted", False):
+        return
 
-
-vpm.speaker_measure_loop = counted_measure
+    def run(request, done):
+        """Counted, then the real run, its answer held until go_on."""
+        measurements.append(request.get("key"))
+        real(request, lambda result: (go_on.wait(60), done(result)))
+    run.counted = True
+    state["preview_run"] = run
 
 # The counter is called "counted" and not "done": "done" is the flag
 # below that says the plan got to its end.
@@ -565,6 +569,7 @@ def open_cut_sheet():
     bar, sheet = tab_bar(), cut_sheet()
     if bar is None or sheet is None:
         return False
+    counted_runs(sheet)
     bar.setCurrentWidget(sheet)
     app.processEvents()
     return True

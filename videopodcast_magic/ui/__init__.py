@@ -31,8 +31,9 @@ ON_DARK = PROGRAM.ON_DARK
 PRESET_NONE = PROGRAM.PRESET_NONE
 ProgressPlan = PROGRAM.ProgressPlan
 RUN_STOP = PROGRAM.RUN_STOP
-SOUND_HOLDS = PROGRAM.SOUND_HOLDS
+SOUND_FINISHED = PROGRAM.SOUND_FINISHED
 SOUND_MIXED = PROGRAM.SOUND_MIXED
+SOUND_ROLES = PROGRAM.SOUND_ROLES
 SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 SPEECH_CODES = PROGRAM.SPEECH_CODES
 Stopped = PROGRAM.Stopped
@@ -52,7 +53,6 @@ as_bad = PROGRAM.as_bad
 as_good = PROGRAM.as_good
 as_head = PROGRAM.as_head
 beside = PROGRAM.beside
-cameras_with_a_speaker = PROGRAM.cameras_with_a_speaker
 cameras_with_own_audio = PROGRAM.cameras_with_own_audio
 colours_pick = PROGRAM.colours_pick
 desktop_is_dark = PROGRAM.desktop_is_dark
@@ -121,7 +121,7 @@ voice_key_parts = PROGRAM.voice_key_parts
 voice_names_clashing = PROGRAM.voice_names_clashing
 warn_box = PROGRAM.warn_box
 weak_marks_show = PROGRAM.weak_marks_show
-wide_cameras_of = PROGRAM.wide_cameras_of
+wide_cameras_seen = PROGRAM.wide_cameras_seen
 wide_shot_barred = PROGRAM.wide_shot_barred
 
 
@@ -489,13 +489,13 @@ def camera_tracks_of(camera_lines):
 
 
 def run_tracks_of(model):
-    """How many tracks a run gets from these rows, and whether on one axis.
+    """How many tracks a run gets from these rows, on one axis, how long.
 
     As the run takes them: a recording set to "do not use" is none, and
     rows of one name are one track -- an unnamed row counts alone. A
-    video that is not intro, outro or ignored is a picture. A picture
-    lays the tracks on one axis, and so do two or more without one,
-    whatever the Multitrack tick says -- as the run's time base does.
+    video not intro, outro or ignored is a picture, and lays the tracks
+    on one axis; so do two or more without one, whatever the Multitrack
+    tick says. The length is run_seconds_of's.
     """
     names = [v.get().strip() for _r, v, choice in model.assign_lines
              if choice.get() != IGNORE_AUDIO]
@@ -503,7 +503,30 @@ def run_tracks_of(model):
                 and (model.clip_kinds.get(p) or Value(TYPE_CONTENT)).get()
                 not in (TYPE_INTRO, TYPE_OUTRO, TYPE_IGNORED)]
     count = len(set(n for n in names if n)) + names.count("")
-    return count, bool(pictures) or count >= 2
+    together = bool(pictures) or count >= 2
+    return count, together, run_seconds_of(
+        model, PROGRAM.production_is_multitrack(count, together))
+
+
+def run_seconds_of(model, multitrack):
+    """How long the rows' productions at auphonic.com last, in seconds.
+
+    A row lasts as long as its blocks end to end, a track as its
+    longest row. One Multitrack production lasts as long as its longest
+    track; Singletrack productions are charged each, so they add up. The
+    run lays the tracks on one axis first, which only lengthens them, so
+    this is the least it needs. 0 where nothing is measured.
+    """
+    tracks = {}
+    for i, (chain, name, choice) in enumerate(model.assign_lines):
+        if choice.get() == IGNORE_AUDIO:
+            continue
+        row = sum(PROGRAM.sample_count(p) for p in (chain or ())
+                  ) / float(PROGRAM.SR)
+        track = name.get().strip() or i
+        tracks[track] = max(tracks.get(track, 0.0), row)
+    lengths = list(tracks.values()) or [0.0]
+    return max(lengths) if multitrack else sum(lengths)
 
 
 def missing_conditions(files, production, multitrack, assign_lines,
@@ -656,29 +679,37 @@ def camera_audio_cell(short, used, why, quiet, beside_player=False):
     return cell, box
 
 
-def sound_cell_for(path, state, quiet):
+def sound_cell_for(path, state, quiet, after=None):
     """The In the sound field of one recording, built and tied to it.
 
-    One answer per recording, kept under its first block in
-    state["sound_holds"]: speech keeps the phase way off, mixed lets it
-    place what the loudness cannot. A change asks the time axis again,
-    and sound_cells_follow shuts the field while the project only syncs.
+    One answer per recording, under its first block in state["sound_holds"]:
+    speech keeps the phase way off, mixed lets it place, the finished mix
+    is placed as mixed and stands in for the run's mix. A change asks the
+    time axis again, one into or out of the finished mix calls *after* too:
+    it changes which recordings are tracks. See sound_cells_follow for Sync.
     """
     holds = state.setdefault("sound_holds", ByFile())
-    cell, box = choice_cell(SOUND_HOLDS, holds.get(path) or SOUND_SPEECH)
+    cell, box = choice_cell(SOUND_ROLES, holds.get(path) or SOUND_SPEECH)
     cell.layout().insertWidget(0, label(T('In the sound'), quiet))
     speaks_as(box, T('In the sound'), os.path.basename(path))
     hint(box, T('Speech: placed by its loudness alone. A recording that '
                 'shares nothing\nwith the cameras is refused. Mixed: music '
                 'or a mix lies under the voices,\nand where the loudness '
-                'finds nothing the phase may place it.\nUnder "%s" it is '
-                'always mixed.') % T('Sync only'))
+                'finds nothing the phase may place it.\nFinished mix: a '
+                'stereo mix made elsewhere, placed as mixed sound. It goes '
+                'into\nthe camera files and the handover in place of the '
+                'mix the run builds --\nno speaker, not cut, not sent to '
+                'auphonic.com.\nUnder "%s" speech is not offered.')
+         % T('Sync only'))
     box.sound_of = path
 
     def chosen(i):
         """Keep the answer, and let the time axis hear of it."""
+        was = holds.get(path)
         holds[path] = box.itemData(i)
         (state.get("axis_sound_again") or (lambda: None))()
+        if after is not None and SOUND_FINISHED in (was, holds[path]):
+            after()
 
     box.currentIndexChanged.connect(chosen)
     state["sound_boxes"] = list(state.get("sound_boxes") or ()) + [box]
@@ -689,20 +720,24 @@ def sound_cell_for(path, state, quiet):
 def sound_cells_follow(state):
     """Show every In the sound field as the project type has it.
 
-    Under "Sync only" each stands on mixed and is shut, and what was
-    chosen stays kept beside it for a return to the cut. A field whose
-    row has been built again is dropped here.
+    Under "Sync only" speech is barred and a field on it shows mixed,
+    and what was chosen stays kept beside it for a return to the cut;
+    the finished mix stays open there, as the run takes it either way.
+    A field whose row has been built again is dropped here.
     """
     sync = PROGRAM.sync_only(state)
     holds = state.get("sound_holds") or {}
     alive = []
     for box in state.get("sound_boxes") or ():
         try:
+            held = holds.get(box.sound_of) or SOUND_SPEECH
             box.blockSignals(True)
-            pick_choice(box, SOUND_MIXED if sync
-                        else holds.get(box.sound_of) or SOUND_SPEECH)
+            pick_choice(box, SOUND_MIXED if sync and held == SOUND_SPEECH
+                        else held)
             box.blockSignals(False)
-            box.setEnabled(not sync)
+            choices_shut(box, [SOUND_SPEECH] if sync else (),
+                         T('Sync only places every recording as mixed '
+                           'sound.'), COLOURS["quiet"])
         except RuntimeError:
             continue
         alive.append(box)
@@ -746,20 +781,23 @@ def moved_says_why(box, key, wide, quiet):
     return box
 
 
-def cameras_using_audio(files, kinds, uses, sound_of=None):
+def cameras_using_audio(files, kinds, uses, sound_of=None, state=None):
     """Which video files contribute their sound, and which by rule.
 
     Derived in one place for both tabs: two derivations of one answer
     drift apart, and then one tab offers what the other refuses. Only
     cameras are asked, and a wide shot is a camera. *kinds* and *uses*
-    are {path: Value}; a path missing counts as content and unused.
+    are {path: Value}; a path missing counts as content and unused. The
+    finished mix in *state*, by its first block, is no recording here.
     """
     videos = [p for p, a in files if a == "video"]
     content = [p for p in videos
                if (kinds[p].get() if p in kinds else TYPE_CONTENT)
                in CAMERA_TYPES]
+    holds = (state or {}).get("sound_holds") or {}
     return cameras_with_own_audio(
-        content, [p for p, a in files if a == "audio"],
+        content, [p for p, a in files if a == "audio"
+                  and holds.get(p) != SOUND_FINISHED],
         [p for p in content if p in uses and uses[p].get()], sound_of)
 
 
@@ -1833,9 +1871,15 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
     # The window's own start line comes back afterwards: a restart
     # must not find a run's line in its place.
     old_argv = sys.argv
+    # The preview's key for this line, read while the plan file is there.
+    # Every window line carries the plan; "Create Resolve project" has
+    # none, and no key: it rewrites the handover of the run before it.
+    line_key = (PROGRAM.handover_key(*PROGRAM.line_words(list(argv)))
+                if "--assign" in argv else None)
     try:
         sys.argv = list(argv)
         PROGRAM.RUN_KEY = getattr(argv, "key", "")
+        PROGRAM.step_forget()
         code = main()
     except SystemExit as e:
         code = e.code if isinstance(e.code, int) else 1
@@ -1864,9 +1908,15 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
         write(as_good(run_done_text(state.get("dry_run"))))
     else:
         write(as_bad(T('\nFinished with errors.\n')))
+    written = None
     for file_path in state["results"]:
         if file_path.lower().endswith("_resolve.json"):
             state["resolve_json"] = file_path
+            written = file_path
+    # Newer than the dry run kept under the same key, so the preview
+    # shows it; a run writing none leaves the kept one standing.
+    if line_key:
+        state["run_handover"] = (line_key, written)
     if state["results"]:
         state["result_folder"] = os.path.dirname(
             state["results"][-1])
@@ -1911,8 +1961,8 @@ def audio_under_camera(camera_path, kind_of, done,
         if name in done:
             return [done[name]]
     # Before the mix exists, one recording that carries every voice is
-    # the whole conversation. A speaker read as cut.cameras_with_a_speaker
-    # reads one, so a camera's own sound with a name on it carries too.
+    # the whole conversation. A camera's own sound with a name on it
+    # carries too: the run seats a speaker there as on any recording.
     carriers = set(source for source, nv, cv in rows
                    if source and nv.get().strip()
                    and cv.get() not in (MIX_ONLY, IGNORE_AUDIO))
@@ -1960,7 +2010,6 @@ class Bridge(QtCore.QObject):
     run_step = QtCore.Signal(str, float)
     channels_done = QtCore.Signal(str)
     split_done = QtCore.Signal(str)
-    speaker_note = QtCore.Signal(str)
     speakers_split = QtCore.Signal(object)
     speakers_split_note = QtCore.Signal(str, float)
     speakers_heard = QtCore.Signal(object)
@@ -2337,7 +2386,7 @@ def gui():
                 clip_kind_value(p)
                 audio_use_value(p)
         return cameras_using_audio(files, clip_kind_values,
-                                   audio_use_values, has_sound)
+                                   audio_use_values, has_sound, state)
 
     # The rows, the findings and the output folder are the first sheet's;
     # what they reach for down here goes in as late look-ups.
@@ -2595,11 +2644,12 @@ def gui():
         Kept in state as well: the preview needs the same answer, and it
         lives in another part of the window.
         """
-        return wide_cameras_of(files, clip_kind_values, remembered,
-                               cameras_with_a_speaker(
-                                   assign_lines, voice_lines,
-                                   state.get("voiced") or ()),
-                               state.get("no_place") or (), PROGRAM.sync_only(state))
+        return wide_cameras_seen(files, clip_kind_values, remembered,
+                                 assign_lines, voice_lines,
+                                 state.get("own_audio_rows") or (),
+                                 bool(state.get("camera_audio")),
+                                 state.get("no_place") or (),
+                                 PROGRAM.sync_only(state))
 
     state["wide_cameras_now"] = wide_cameras_now
 

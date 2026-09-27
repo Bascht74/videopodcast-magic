@@ -595,11 +595,11 @@ msgstr "இது இந்த நிரலின் கோப்பு அல�
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "இந்தக் கோப்பு %s பதிப்பால், %d வடிவத்தில் எழுதப்பட்டது; இந்தப் பதிப்பு %d வடிவத்தை எழுதுகிறது. அதன் பிறகு உள்ளே உள்ள பெயர்கள் மாறிவிட்டன, எனவே இதைப் படிக்க முடியாது. இயக்கத்தை மீண்டும் அமைக்கவும்."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (அளவீடு மட்டும்: எதுவும் எழுதப்படவில்லை)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (சோதனை இயக்கம்: கணக்கிட்டு வைக்கப்பட்டது, வெளியீட்டுக் கோப்புறை தொடப்படவில்லை)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (அளவீடு மட்டும்: API விசை இல்லாமல் இங்கே நிற்கிறது)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (சோதனை இயக்கம்: எதுவும் எழுதப்படவில்லை)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  கசிவுக்கு எதிரான சரிபார்ப்பு -- அடிப்படை %s:"
@@ -934,8 +934,8 @@ msgstr "  %s: %s, தவிர்க்கப்பட்டது"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: இதில் எத்தனை சேனல்கள் உள்ளன என்பதைக் கண்டறிய முடியவில்லை (%s) -- இது அளவிடப்படாது"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (அளவீடு மட்டும்: எதுவும் பதிவேற்றப்படவில்லை)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (சோதனை இயக்கம்: எதுவும் பதிவேற்றப்படவில்லை)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  %r என்ற Timeline ஏற்கனவே இருந்தது -- புதியதன் பெயர் %r."
@@ -1179,6 +1179,9 @@ msgstr "  1 முதல் %d வரை ஒரு எண்ணைத் தர�
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  auphonic.com-இல் தயாரிப்பு:   %s"
+
+msgid "  Production created (%s)"
+msgstr "  தயாரிப்பு உருவாக்கப்பட்டது (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  தயாரிப்பு இயங்குகிறது (%s)"
@@ -1735,8 +1738,8 @@ msgstr "\nநிறுத்துகிறது. எந்தக் கோப�
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "வைட் ஷாட் %s s நீடிக்கிறது, இது மிகக் குறுகிய ஷாட்டின் நீளமான %s s-ஐ விடக் குறைவு -- எனவே அது மீண்டும் இணைக்கப்பட்டு ஒருபோதும் தோன்றாது.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nஅளவிடப்பட்டது. எதுவும் எழுதப்படவில்லை -- சோதனை இயக்கம் முடிவுக் கோப்புறையை இருந்தபடியே விடுகிறது.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nகணக்கிடப்பட்டது. சோதனை இயக்கம் முடிவுக் கோப்புறையை இருந்தபடியே விடுகிறது.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nஇந்தப் படியில் நிறுத்தப்பட்டது: %s"
@@ -2209,8 +2212,8 @@ msgstr "சராசரியிலிருந்து தூரம்"
 msgid "Drag audio and video files here"
 msgstr "ஆடியோ, வீடியோ கோப்புகளை இங்கே இழுக்கவும்"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "சோதனை இயக்கம்: அளவீடு மட்டும், எதுவும் எழுதப்படாது, எதுவும் பதிவேற்றப்படாது."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "சோதனை இயக்கம்: அனைத்தும் கணக்கிடப்பட்டு அறிவிக்கப்படும், வெளியீட்டுக் கோப்புறைக்கு எதுவும் செல்லாது, எதுவும் பதிவேற்றப்படாது."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "வரவேற்பு மற்றும் விடைபெறுதலின்போது படம் வைடாகவே இருக்கும்."
@@ -2332,9 +2335,6 @@ msgstr "அளவீடு மட்டும் -- எதுவும் எழ
 msgid "Measuring %s (%s of %s)"
 msgstr "அளவிடுகிறது: %s (%s, மொத்தம் %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "அளவிட முடியவில்லை: %s"
-
 msgid "Measuring the yardstick"
 msgstr "அளவுகோலை அளவிடுகிறது"
 
@@ -2358,9 +2358,6 @@ msgstr "Multitrack-க்குக் குறைந்தது இரண்�
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "இன்னும் எந்த ஒலியும் பயன்பாட்டில் இல்லை -- ஒரு ஆடியோ பதிவைச் சேர்க்கவும், அல்லது கோப்புப் பட்டியலில் ஒரு வீடியோ கோப்பின் கேமரா ஆடியோவை \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைக்கவும்."
-
-msgid "No audio tracks are assigned."
-msgstr "எந்த ஆடியோ தடமும் ஒதுக்கப்படவில்லை."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "எந்தக் கேமராவும் ஒதுக்கப்படவில்லை, எனவே மாற்றி வெட்ட எதுவும் இல்லை."
@@ -2391,9 +2388,6 @@ msgstr "இங்கே எந்தப் பேச்சாளரும் த
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "இன்னும் எந்தக் குரலுக்கும் கேமரா இல்லை -- அப்படியென்றால் ஒவ்வொரு ஷாட்டும் ஒரே ஷாட்டாக இருக்கும்."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "இன்னும் பேச்சாளர்கள் தெரியவில்லை -- எதுவும் அளவிடப்படவில்லை, எதுவும் பிரிக்கப்படவில்லை, இந்தக் கோப்புறையிலோ அதன் துணைக் கோப்புறைகளிலோ முந்தைய இயக்கத்தின் ஒப்படைப்புக் கோப்பும் இல்லை: %s"
 
 msgid "Not found again after import: %s"
 msgstr "இறக்குமதிக்குப் பின் மீண்டும் காணப்படவில்லை: %s"
@@ -2499,9 +2493,6 @@ msgstr "கட்டாயமில்லை -- அப்போது YouTube �
 
 msgid "Not ready yet:"
 msgstr "இன்னும் தயாராக இல்லை:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "தடங்களில் எதுவும் கேட்கவில்லை."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "ஒரு ஆடியோ பதிவுக்கு இன்னும் பேச்சாளர் பெயர் இல்லை."
@@ -3415,9 +3406,6 @@ msgstr "பதிவுகளிலிருந்து அளவிடப்�
 msgid "from the finished run -- %s speakers, %s"
 msgstr "முடிந்த இயக்கத்திலிருந்து -- %s பேச்சாளர்கள், %s"
 
-msgid "no folder"
-msgstr "கோப்புறை இல்லை"
-
 msgid "no text"
 msgstr "உரை இல்லை"
 
@@ -3856,9 +3844,6 @@ msgstr "சரிபார்ப்பே நின்றுவிட்டத�
 msgid "In point or Out point cannot be read here."
 msgstr "இன் புள்ளி அல்லது அவுட் புள்ளியை இங்கே படிக்க முடியாது."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "அவுட் புள்ளி இன் புள்ளிக்குப் பின் 5 வினாடிகளுக்கும் குறைவான தொலைவில் உள்ளது."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "சுமார் %s குறைவாக உள்ளது. இடத்தைக் காலி செய்யவும் அல்லது --out மூலம் வேறு கோப்புறையைத் தேர்ந்தெடுக்கவும். இயக்கத்தின்போது தற்காலிகக் கோப்புகள் மீண்டும் வேறோர் இடத்திற்கு, கணினியின் தற்காலிகக் கோப்புறைக்குச் செல்லும்."
 
@@ -3910,14 +3895,11 @@ msgstr "  ஏற்கனவே ஒருமுறை பிரிக்கப�
 msgid "  About %s of computing for %s of audio."
 msgstr "  சுமார் %s கணக்கீட்டு நேரம், %s ஆடியோவுக்கு."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (அளவீடு மட்டும்: எதுவும் பிரிக்கப்படவில்லை)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (சோதனை இயக்கம்: எதுவும் பிரிக்கப்படவில்லை)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  தடங்கள் அளவிடப்படவில்லை, எனவே மிக்ஸில் இருந்தும் கட்டில் இல்லாதவை: %s -- காரணம்: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "இன்னும் அளவிடப்படாதவை: %s -- கட்டில் உள்ளன, இந்த முன்னோட்டத்தில் இன்னும் இல்லை."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  தடங்களிலிருந்தே, ஒவ்வொரு தடத்துக்கும் ஒரு குரல்: %s."
@@ -4875,9 +4857,6 @@ msgstr "பேச்சு"
 msgid "Mixed"
 msgstr "கலப்பு"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "பேச்சு: லவுட்னஸ் மூலம் மட்டுமே வைக்கப்படும். கேமராக்களுடன் எதையும்\nபகிராத பதிவு நிராகரிக்கப்படும். கலப்பு: குரல்களுக்குக் கீழே இசை அல்லது மிக்ஸ் உள்ளது,\nலவுட்னஸ் எதையும் காணாத இடத்தில் கட்டம் அதை வைக்கலாம்.\n\"%s\" இல் இது எப்போதும் கலப்பு."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: அதன் ஆடியோ %s அளவில் பொருந்துகிறது, வேறோர் இடத்திலும் %s அளவில் -- அதன் கடிகாரத்தை மட்டும் வைத்து இடம் தரப்பட்டது"
 
@@ -5091,3 +5070,135 @@ msgstr "அது சொல்வது வெளியீடு தாவலி
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian, Ubuntu-வில் libsecret-tools தொகுப்பு, Fedora, Arch-இல் libsecret"
+
+msgid "%d min"
+msgstr "%d நிமி"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "auphonic.com-இல் கிரெடிட்: %s மீதம்"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "auphonic.com-இல் கிரெடிட்: தெரியவில்லை"
+
+msgid "%s -- free plan"
+msgstr "%s -- இலவசத் திட்டம்"
+
+msgid "%s -- paying plan"
+msgstr "%s -- கட்டணத் திட்டம்"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  auphonic.com-இல் கிரெடிட்: தெரியவில்லை -- கணக்கு பதிலளிக்கவில்லை."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  auphonic.com-இல் கிரெடிட்: தெரியவில்லை."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  auphonic.com-இல் கிரெடிட்: %s மீதம்."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  auphonic.com-இல் கிரெடிட்: %s மீதம், இந்தத் தயாரிப்புக்கு %s தேவை -- போதாது."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  auphonic.com-இல் கிரெடிட்: %s மீதம், இந்தத் தயாரிப்புக்குத் தேவையான %s-க்குப் போதும்."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  auphonic.com-இல் கணக்கு: கட்டணம் செலுத்தியது."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  auphonic.com-இல் கணக்கு: இலவசம்."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  auphonic.com-இல் கணக்கு: தெரியவில்லை."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "auphonic.com-இல் கணக்கு: தெரியவில்லை -- அதைக் கேட்க முடியவில்லை. ஓட்டம் தொடர்கிறது."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  குறிப்பு: ஓட்டம் இருந்தாலும் முயல்கிறது. தயாரிப்பு தொடங்குமா என்பதை auphonic.com தீர்மானிக்கிறது, தொடங்காவிட்டால் அதைச் சொல்கிறது."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  எச்சரிக்கை: இந்த Multitrack தயாரிப்பு %s நீளம் கொண்டது, இலவசத் திட்டத்தில் auphonic.com இப்படிப்பட்டதை சுமார் %s வரை மட்டுமே ஏற்கிறது."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  குறிப்பு: இதைவிட நீளமானதை auphonic.com தொடக்கத்திலேயே மறுக்கிறது, அதற்கு எதையும் வசூலிப்பதில்லை. ஓட்டம் இருந்தாலும் முயல்கிறது; auphonic.com மறுத்தால் அதன் சொந்தச் செய்தி வரும்."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "இலவசத் திட்டத்தில் auphonic.com ஒரு Multitrack தயாரிப்பை சுமார் %s வரை மட்டுமே ஏற்கிறது."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  இந்த ஓட்டம் உருவாக்கிய திட்டப்பணி %r திறந்தே இருக்கும் -- முன்பு மீண்டும் திறக்கக்கூடிய\n  எதுவும் திறந்திருக்கவில்லை. அதை Resolve இன் திட்டப்பணி மேலாளரில் நீக்கவும்."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  பாதி கட்டப்பட்ட திட்டப்பணி %r மீண்டும் நீக்கப்பட்டது, %r மீண்டும் திறந்துள்ளது."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve ஒழுங்குபடுத்தலை நிறுத்தியது: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  கவனம்: பாதி கட்டப்பட்ட திட்டப்பணி %r ஐ நீக்க முடியவில்லை, அல்லது %r ஐ மீண்டும்\n  திறக்க முடியவில்லை. அதை Resolve இன் திட்டப்பணி மேலாளரில் செய்யவும்."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: அதன் ஆடியோ %s அளவில் பொருந்துகிறது, %s வி. பொது ஆடியோவில், தற்செயலிலிருந்து பிரித்தறிய மிகக் குறைவு -- அதன் கடிகாரத்தை மட்டும் வைத்து இடம் தரப்பட்டது"
+
+msgid "placed through %s"
+msgstr "%s வழியாக இடம் தரப்பட்டது"
+
+msgid "found where its timecode pointed"
+msgstr "அதன் டைம்கோடு சுட்டிய இடத்தில் கண்டறியப்பட்டது"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: அதன் கடிகாரம் %s என்கிறது, ஆடியோ %s என அளந்தது -- %s வி. வேறுபாடு; அளவீடே பயன்படுத்தப்படுகிறது"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s இரண்டு கேமராக்களில் உள்ளார்: டிராக்கின்படி %s, குரலின்படி %s. குரலே முன்னுரிமை பெறுகிறது, எனவே வெட்டு %s-ஐ %s-இல் மட்டுமே காட்டுகிறது."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  இந்தக் கணினியில் வைக்கப்பட்ட அளவீட்டிலிருந்து எடுக்கப்பட்டது: அதே கோப்புகள், அதே அமைப்புகள், எனவே எதுவும் மீண்டும் அளவிடப்படவில்லை."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nபேச்சாளர்கள் -- முன்பே அளவிடப்பட்டவை"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  இந்தக் கணினியில் வைக்கப்பட்ட அளவீட்டிலிருந்து எடுக்கப்பட்டது: அதே பதிவுகள், இடங்கள், நேரச் சாளரம்."
+
+msgid "Finished mix"
+msgstr "முடிந்த மிக்ஸ்"
+
+msgid "Two finished mixes"
+msgstr "இரண்டு முடிந்த மிக்ஸ்கள்"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s, %s இரண்டும் %s என அமைக்கப்பட்டுள்ளன. செயலாக்கம் உருவாக்கும் மிக்ஸின் இடத்தை ஒரு மிக்ஸ் மட்டுமே எடுக்கும் -- மற்றதை மீண்டும் பேச்சு என மாற்றுங்கள்."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "முடிந்த மிக்ஸ் ஒரு ஒலிக் கோப்பாக இருக்க வேண்டும்: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "முடிந்த மிக்ஸ் கேமரா கோப்புகளில் உள்ள மிக்ஸின் இடத்தை எடுக்கிறது; வீடியோ கோப்பு இல்லையெனில் கேமரா கோப்புகளும் இல்லை."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "முடிந்த மிக்ஸின் நீளம் %s, ஒவ்வொரு கேமராவையும் விடக் குறைவு (மிகக் குறைவு %s): அது முடியும் இடத்தில் Full-Mix அமைதியாக இருக்கும்."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  இந்தச் செயலாக்கம் உருவாக்கியிருக்கும் மிக்ஸின் இடத்தை %s எடுக்கிறது."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  முடிந்த மிக்ஸுக்கு நேர அச்சில் இடம் கிடைக்கவில்லை: கேமராக்களுடன் பொதுவான ஒலி எதுவும் இல்லை. எங்காவது வைப்பதற்குப் பதில் செயலாக்கம் நிற்கிறது."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  %s முதல் %s வரையிலான சாளரத்தில் முடிந்த மிக்ஸுக்கு எதுவும் இல்லை: அது %s முதல் %s வரை உள்ளது. செயலாக்கம் நிற்கிறது."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  முடிந்த மிக்ஸ் சாளரத்தின் தொடக்கத்தில் %s, முடிவில் %s அமைதியாக விடுகிறது."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: வந்தபடியே முடிந்த மிக்ஸ் -- கெயின் இல்லை, லிமிட்டர் இல்லை"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"ஒத்திசைவு மட்டும்\" ஒவ்வொரு பதிவையும் கலப்பு ஒலியாக வைக்கிறது."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "முடிந்த மிக்ஸ் -- பேச்சாளர் அல்ல, கேமரா இல்லை"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "பேச்சு: லவுட்னஸ் மூலம் மட்டுமே வைக்கப்படும். கேமராக்களுடன் எதையும்\nபகிராத பதிவு நிராகரிக்கப்படும். கலப்பு: குரல்களுக்குக் கீழே இசை அல்லது மிக்ஸ் உள்ளது,\nலவுட்னஸ் எதையும் காணாத இடத்தில் கட்டம் அதை வைக்கலாம்.\nமுடிந்த மிக்ஸ்: வேறு இடத்தில் செய்த ஸ்டீரியோ மிக்ஸ், கலப்பு ஒலியாக வைக்கப்படுகிறது. செயலாக்கத்தின் மிக்ஸுக்குப் பதில்\nகேமரா கோப்புகளிலும் ஒப்படைப்பிலும் செல்கிறது --\nபேச்சாளர் அல்ல, வெட்டப்படாது, auphonic.com-க்கு அனுப்பப்படாது.\n\"%s\" இல் பேச்சு தேர்வு இல்லை."

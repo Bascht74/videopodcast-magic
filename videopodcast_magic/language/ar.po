@@ -649,9 +649,6 @@ msgstr "نقل"
 msgid "Wide shot after"
 msgstr "اللقطة الواسعة بعد"
 
-msgid "no folder"
-msgstr "لا مجلد"
-
 msgid "no text"
 msgstr "لا نص"
 
@@ -1189,8 +1186,11 @@ msgstr "  الإعداد المسبق:  %s"
 msgid "  File:    %s (%s, %s)"
 msgstr "  الملف:           %s (%s, %s)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (قياس فقط: لم يُرفع شيء)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (تشغيل تجريبي: لم يُرفع شيء)\n"
+
+msgid "  Production created (%s)"
+msgstr "  أُنشئ الإنتاج (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  الإنتاج جارٍ (%s)"
@@ -1675,9 +1675,6 @@ msgstr "مقاس من التسجيلات -- %s متحدثين، %s"
 msgid "In point or Out point cannot be read here."
 msgstr "لا يمكن قراءة نقطة البداية أو نقطة النهاية هنا."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "نقطة النهاية تقع بعد نقطة البداية بأقل من 5 ثوانٍ."
-
 msgid "because no speaker is assigned to it"
 msgstr "لأنه لم يُسند إليها أي متحدث"
 
@@ -1690,8 +1687,11 @@ msgstr "تحديد من يتحدث ومتى ..."
 msgid "\nWITHOUT AUPHONIC.COM"
 msgstr "\nبدون AUPHONIC.COM"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (قياس فقط: لم يُكتب شيء)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (تشغيل تجريبي: حُسب وحُفظ، مجلد الإخراج لم يُمس)"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (تشغيل تجريبي: لم يُكتب شيء)"
 
 msgid "FOR RESOLVE"
 msgstr "لـ RESOLVE"
@@ -1714,14 +1714,8 @@ msgstr "  غير مستخدم: %s."
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  لقطة واسعة عند الأطراف: حتى %s ومن %s"
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "لا متحدثين معروفين بعد -- لم يُقس شيء ولم يُفصل شيء، ولا يوجد ملف تسليم من تشغيل سابق في %s أو مجلداته الفرعية."
-
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "النافذة الزمنية خارج المادة: نقطة البداية عند %s، ونقطة النهاية عند %s، ومدة المادة %s."
-
-msgid "No audio tracks are assigned."
-msgstr "لم تُسند أي مسارات صوتية."
 
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "لا متحدثين معروفين بعد -- يُستخرجون من المسارات بمجرد فتح هذا التبويب. حيث يكون الجميع في تسجيل واحد، فالطريق هو \"عدة متحدثين\" في حقل اسم المتحدث."
@@ -1749,9 +1743,6 @@ msgstr "المونتاج يستخدم %s"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "لم يُسند إليها أي متحدث، لكن المونتاج يستخدم %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s لم يُقس بعد -- في المونتاج، وليس بعد في هذه المعاينة."
 
 msgid "%r is not a number."
 msgstr "%r ليس رقمًا."
@@ -2379,9 +2370,6 @@ msgstr "  النافذة المشتركة:  %s إلى %s (%s)"
 
 msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
 msgstr "    يبدأ بـ %s وينتهي بـ %s -- المقطع الذي رأته كل الكاميرات"
-
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (قياس فقط: بلا مفتاح API يتوقف هنا)"
 
 msgid "\nMIXING"
 msgstr "\nالمزج"
@@ -3688,14 +3676,14 @@ msgstr "فشل الفحص نفسه: %s"
 msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
 msgstr "\nتم. في الأسفل يعرض \"فتح مجلد النتائج\" النتيجة.\nإن كان كل شيء صحيحًا، يبني \"إنشاء مشروع Resolve\" المشروع منها.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nتم القياس. لم يُكتب شيء -- التشغيل التجريبي يترك مجلد النتائج كما كان.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nتم الحساب. التشغيل التجريبي يترك مجلد النتائج كما كان.\n"
 
 msgid "Without processing at auphonic.com"
 msgstr "بدون معالجة على auphonic.com"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "تشغيل تجريبي: قياس فقط، لا كتابة، لا رفع."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "تشغيل تجريبي: يُحسب كل شيء ويُعرض، لا يدخل شيء إلى مجلد الإخراج، ولا يُرفع شيء."
 
 msgid "This is what happens next"
 msgstr "هذا ما سيحدث تاليًا"
@@ -3949,9 +3937,6 @@ msgstr "  %-20s كلام %s، %s من %s جملة سؤال"
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s يشبه %-20s %s %% منه داخل ذلك المسار، متقدّم بـ %s نقطة على التالي"
 
-msgid "Nothing was audible in the tracks."
-msgstr "لم يكن هناك شيء مسموع في المسارات."
-
 msgid "%s is not part of this run"
 msgstr "%s ليس جزءًا من هذا التشغيل"
 
@@ -3964,8 +3949,8 @@ msgstr "\nفصل المتحدثين"
 msgid "  Separated once already: read back, not measured again."
 msgstr "  فُصل مرة من قبل: قُرئ من جديد، ولم يُقس مجددًا."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (قياس فقط: لم يُفصل شيء)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (تشغيل تجريبي: لم يُفصل شيء)"
 
 msgid "\nSPEAKERS -- SEPARATED BY VOICE"
 msgstr "\nالمتحدثون -- مفصولون حسب الصوت"
@@ -3999,9 +3984,6 @@ msgstr "قياس %s (%s من %s)"
 
 msgid "  %-20s could be called %s"
 msgstr "  %-20s يمكن تسميته %s"
-
-msgid "Measuring not possible: %s"
-msgstr "القياس غير ممكن: %s"
 
 msgid "  %s cannot be read: %s"
 msgstr "  تتعذّر قراءة %s: %s"
@@ -5055,9 +5037,6 @@ msgstr "كلام"
 msgid "Mixed"
 msgstr "مختلط"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "كلام: يُوضع بالجهارة وحدها. التسجيل الذي لا يشترك في شيء\nمع الكاميرات يُرفض. مختلط: موسيقى أو مزيج تحت الأصوات،\nوحيث لا تجد الجهارة شيئًا يجوز للطور أن يضعه.\nتحت \"%s\" يكون دائمًا مختلطًا."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: يتطابق صوته بدرجة %s، وبدرجة %s في موضع آخر أيضًا -- وُضع بساعته وحدها"
 
@@ -5271,3 +5250,135 @@ msgstr "ما يقوله يظهر تحت الإخراج."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "الحزمة libsecret-tools على Debian وUbuntu، وlibsecret على Fedora وArch"
+
+msgid "%d min"
+msgstr "%d د"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "الرصيد في auphonic.com: يتبقى %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "الرصيد في auphonic.com: غير معروف"
+
+msgid "%s -- free plan"
+msgstr "%s -- الخطة المجانية"
+
+msgid "%s -- paying plan"
+msgstr "%s -- الخطة المدفوعة"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  الرصيد في auphonic.com: غير معروف -- لم يُجب الحساب."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  الرصيد في auphonic.com: غير معروف."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  الرصيد في auphonic.com: يتبقى %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  الرصيد في auphonic.com: يتبقى %s، وهذا الإنتاج يحتاج %s -- لا يكفي."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  الرصيد في auphonic.com: يتبقى %s، وهو يكفي لـ %s التي يحتاجها هذا الإنتاج."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  الحساب في auphonic.com: مدفوع."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  الحساب في auphonic.com: مجاني."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  الحساب في auphonic.com: غير معروف."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "الحساب في auphonic.com: غير معروف -- تعذّر السؤال عنه. التشغيل يستمر."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  ملاحظة: التشغيل يحاول رغم ذلك. auphonic.com هو من يقرر إن كان الإنتاج سيبدأ، ويقول ذلك إن لم يبدأ."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  تحذير: مدة إنتاج Multitrack هذا %s، وفي الخطة المجانية يقبل auphonic.com إنتاجًا كهذا حتى نحو %s فقط."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  ملاحظة: يرفض auphonic.com الإنتاج الأطول عند البدء ولا يحتسب عليه شيئًا. التشغيل يحاول رغم ذلك؛ وإن رفض auphonic.com تتبعه رسالته الخاصة."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "في الخطة المجانية يقبل auphonic.com إنتاج Multitrack حتى نحو %s فقط."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  يبقى المشروع %r الذي أنشأه هذا التشغيل مفتوحًا -- لم يكن مفتوحًا من قبل\n  ما يمكن فتحه مجددًا. احذفه من مدير المشاريع في Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  حُذف المشروع نصف المبني %r مجددًا، و%r مفتوح مجددًا."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  أوقف Resolve التنظيف: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  تنبيه: تعذّر حذف المشروع نصف المبني %r، أو تعذّر فتح %r\n  مجددًا. يرجى القيام بذلك من مدير المشاريع في Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: يتطابق صوته بدرجة %s على %s ث من الصوت المشترك، وهذا أقل من أن يُميَّز عن المصادفة -- وُضع بساعته وحدها"
+
+msgid "placed through %s"
+msgstr "وُضع عبر %s"
+
+msgid "found where its timecode pointed"
+msgstr "وُجد حيث أشار رمزه الزمني"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: ساعته تقول %s، والصوت قاس %s -- الفرق %s ث؛ تُعتمد القياسات"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s على كاميرتين: %s حسب المسار، و%s حسب الصوت. الصوت هو الذي يُعتمد، لذا يُظهر المونتاج %s على %s فقط."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  مأخوذ من القياس المحفوظ على هذا الجهاز: الملفات والإعدادات نفسها، فلا يُقاس شيء من جديد."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nالمتحدثون -- مقيسون من قبل"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  مأخوذ من القياس المحفوظ على هذا الجهاز: التسجيلات والمواضع والنافذة الزمنية نفسها."
+
+msgid "Finished mix"
+msgstr "مزيج جاهز"
+
+msgid "Two finished mixes"
+msgstr "مزيجان جاهزان"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s و%s مضبوطان كلاهما على %s. مزيج واحد فقط يحل محل المزيج الذي تبنيه المعالجة -- أعد الآخر إلى كلام."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "يجب أن يكون المزيج الجاهز ملفًا صوتيًا: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "المزيج الجاهز يحل محل المزيج في ملفات الكاميرات، وبدون ملف فيديو لا توجد ملفات كاميرات."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "مدة المزيج الجاهز %s، أقصر من كل كاميرا (الأقصر %s): حيث ينتهي يصمت Full-Mix."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s يحل محل المزيج الذي كانت هذه المعالجة ستبنيه."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  لم يجد المزيج الجاهز مكانًا على محور الزمن: لا يشترك في أي صوت مع الكاميرات. تتوقف المعالجة بدل وضعه في أي مكان."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  لا شيء للمزيج الجاهز في النافذة من %s إلى %s: يقع من %s إلى %s. تتوقف المعالجة."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  يترك المزيج الجاهز %s في بداية النافذة و%s في نهايتها صامتة."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: المزيج الجاهز كما وصل -- بلا تضخيم وبلا محدِّد"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"مزامنة فقط\" تضع كل تسجيل كصوت مختلط."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "المزيج الجاهز -- ليس متحدثًا، بلا كاميرا"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "كلام: يُوضع بالجهارة وحدها. التسجيل الذي لا يشترك في شيء\nمع الكاميرات يُرفض. مختلط: موسيقى أو مزيج تحت الأصوات،\nوحيث لا تجد الجهارة شيئًا يجوز للطور أن يضعه.\nمزيج جاهز: مزيج ستيريو صُنع في مكان آخر، يوضع كصوت مختلط. يدخل\nفي ملفات الكاميرات والتسليم بدل المزيج الذي تبنيه المعالجة --\nليس متحدثًا، لا يُقطع، لا يُرسل إلى auphonic.com.\nتحت \"%s\" لا يُعرض كلام."

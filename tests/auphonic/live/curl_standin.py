@@ -5,12 +5,12 @@ Put first on PATH under the name curl by source_live_asks_first, so the
 live tests can be run without a network: to prove the starter's gate,
 and to see each live check fall against a broken copy of the program.
 Every call is written to VPM_STANDIN_LOG as its arguments and whether
-the key named in VPM_STANDIN_WATCH stood in the config file; the key
+the key named in VPM_STANDIN_WATCH came in its configuration; the key
 itself is never written. A key containing VPM_STANDIN_REFUSED is turned
 away with a 401, the way auphonic.com turns away one it does not know.
 
-What it knows is the few calls the live tests make: the presets, one
-preset by its uuid, a simple production with its settings changed and
+What it knows is the few calls the live tests make: the account, the
+presets, one preset by its uuid, a simple production with its settings changed and
 started, its state, one download, the list of productions and a delete.
 A production is finished the first time it is asked after, and the file
 it hands back is twenty seconds long, with two channels only where the
@@ -24,7 +24,10 @@ import wave
 
 args = sys.argv[1:]
 conf = args[args.index("--config") + 1] if "--config" in args else ""
-said = open(conf, encoding="utf-8").read() if conf else ""
+# "--config -" is the program's way since b28: the key comes on the
+# input, and no file holds it.
+said = (sys.stdin.read() if conf == "-" else
+        open(conf, encoding="utf-8").read() if conf else "")
 LOG = os.environ["VPM_STANDIN_LOG"]
 with open(LOG, "a", encoding="utf-8") as log:
     log.write(json.dumps({"args": args, "key_in_config":
@@ -61,6 +64,13 @@ elif "-o" in args:
     uuid = between(url, "/download/", "/")
     tone(args[args.index("-o") + 1], 2 if uuid in state["two"] else 1)
     answer = None
+elif url.endswith("/api/user.json"):
+    # The fields auphonic.com answers with, the personal ones made up.
+    answer = {"status_code": 200, "data": {
+        "credits": 1.5, "recurring_credits": 0.5, "onetime_credits": 1.0,
+        "recharge_recurring_credits": 1.0, "is_paying_user": False,
+        "username": "standin", "email": "standin@example.invalid",
+        "user_id": "standin0001"}}
 elif url.endswith("/api/presets.json?minimal_data=1&limit=100"):
     answer = {"status_code": 200, "data": [
         {"preset_name": "Stand-in", "uuid": "standin0001",

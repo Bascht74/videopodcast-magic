@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 """Two speakers on one camera stand in one order in its file and track.
 
-The sections: the file name the table offers, the label of the Resolve
-track the handover writes, the name the command line gives a camera
-alone after the tracks off its sound, a name the table offered in row
-order, still known as offered; the first three, the window's newer
-answer and the run's handover over names plain sorting misplaces; in a
-real run the tracks in the camera's file, one nobody named among them,
-and the plan's preview. The rows are never in alphabetical order.
+The sections: the file name the table offers, the name the command
+line gives a camera alone after the tracks off its sound, a name the
+table offered in row order, still known as offered; the first two and
+the run's handover over names plain sorting misplaces; in a real run
+the tracks in the camera's file, one nobody named among them, and the
+plan's preview. The rows are never in alphabetical order.
 """
 PLATFORM_BOUND = True
 import os
@@ -57,17 +56,7 @@ check("a camera's file name lists its speakers alphabetically",
       offered == "CamB_Guest+Presenter_0001",
       "%r against 'CamB_Guest+Presenter_0001'" % offered)
 
-print("\n2. The label of the camera's Resolve track")
-handover, why = vpm.build_handover(
-    [("Presenter", [(0.0, 5.0)]), ("Guest", [(5.0, 10.0)])], 10.0,
-    {"Presenter": CAMERA, "Guest": CAMERA},
-    [{"track": "CamB_0001", "file": os.path.join(HERE, CAMERA)}])
-labels = vpm.legend_names((handover or {}).get("cameras") or [])
-check("and its track label lists them in the same order",
-      labels.get("CamB_0001") == "Guest + Presenter",
-      "%r against 'Guest + Presenter' -- %s" % (labels, why or "built"))
-
-print("\n3. The name the command line gives a camera alone")
+print("\n2. The name the command line gives a camera alone")
 VIDEO = os.path.join(HERE, CAMERA)
 alone = vpm.cameras_named_by_tracks(
     [{"camera": VIDEO, "speakers": "Presenter"},
@@ -77,13 +66,13 @@ check("a camera named by its tracks lists them alphabetically too",
       names == ["Guest+Presenter"],
       "%s against ['Guest+Presenter']" % names)
 
-print("\n4. A name offered before the order was one")
+print("\n3. A name offered before the order was one")
 old = "CamB_Presenter+Guest_0001"
 known = vpm.camera_names_offered("Interview", CAMERA, ROWS)
 check("a name offered in the order of the rows counts as never typed",
       old in known, "%r not among %s" % (old, sorted(known)))
 
-print("\n5. Names a plain sort puts elsewhere")
+print("\n4. Names a plain sort puts elsewhere")
 # Rows Paul, Ozlem with an umlaut on its O, anna, Bob. Sorted as a
 # reader sorts them: anna, Bob, the umlaut name, Paul. Plain sorting
 # puts Bob before anna and the umlaut after Paul, and sorting without
@@ -97,23 +86,10 @@ offered = vpm.camera_name_suggestion(
 check("lower case and an umlaut stand where a reader expects them",
       offered == "CamB_" + "+".join(READ) + "_0001",
       "%r against %r" % (offered, "CamB_" + "+".join(READ) + "_0001"))
-handover, why = vpm.build_handover(
-    [(n, [(i * 2.0, i * 2.0 + 2.0)]) for i, n in enumerate(MIXED)], 8.0,
-    dict((n, CAMERA) for n in MIXED),
-    [{"track": "CamB_0001", "file": VIDEO}])
-labels = vpm.legend_names((handover or {}).get("cameras") or [])
-check("and the handover's track label sorts them the same way",
-      labels.get("CamB_0001") == " + ".join(READ),
-      "%r against %r -- %s" % (labels, " + ".join(READ), why or "built"))
 alone = [c.get("name") for c in vpm.cameras_named_by_tracks(
     [{"camera": VIDEO, "speakers": n} for n in MIXED])]
 check("and so does the name the command line gives the camera",
       alone == ["+".join(READ)], "%s against %r" % (alone, "+".join(READ)))
-fresh = vpm.wide_marks_applied({"cameras": [{"source": VIDEO}]}, [],
-                               dict((n, CAMERA) for n in MIXED), False)
-fresh = [c.get("speakers") for c in fresh.get("cameras") or []]
-check("and so does the window's newer answer in a handover",
-      fresh == [READ], "%s against %s" % (fresh, [READ]))
 
 
 class Args(object):
@@ -141,7 +117,7 @@ check("and so does the handover the run writes",
       written == [" + ".join(READ)],
       "%s against %r" % (written, " + ".join(READ)))
 
-print("\n6. The tracks inside the camera's file")
+print("\n5. The tracks inside the camera's file")
 # A real run, Sync only and --without-auphonic: three recordings on one
 # camera in row order Presenter, one nobody named, Guest. The file the
 # run writes is asked with ffprobe, and the plan's preview beside it.

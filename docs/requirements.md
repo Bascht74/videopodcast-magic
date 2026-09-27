@@ -61,6 +61,15 @@ the refusal names the way round it: `pipx install` on the same address
 puts the program in an environment of its own and the command on the
 path.
 
+**On the machine the episodes are edited on, the versions that were
+tested rather than the newest.** Every release carries, beside the
+archive, one list per system of the package versions its suite ran
+green on -- `constraints-macos.txt`, `constraints-windows.txt`,
+`constraints-linux.txt`, made on Python 3.14 -- and installing with the
+one for your system, `pip3 install -c constraints-macos.txt
+git+https://github.com/Bascht74/videopodcast-magic@v<version>`, takes
+exactly those.
+
 Two things have to be on the machine before that command, because pip
 can bring neither:
 

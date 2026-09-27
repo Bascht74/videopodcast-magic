@@ -595,11 +595,11 @@ msgstr "این فایل متعلق به این برنامه نیست."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "این فایل با نسخه %s در قالب %d نوشته شده است؛ این نسخه قالب %d را می‌نویسد. نام‌های درون آن از آن زمان تغییر کرده‌اند، بنابراین خوانده نمی‌شود. لطفاً اجرا را دوباره تنظیم کنید."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (فقط اندازه‌گیری: چیزی نوشته نشد)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (اجرای آزمایشی: محاسبه و نگه داشته شد، پوشه خروجی دست‌نخورده)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (فقط اندازه‌گیری: بدون کلید API همین‌جا متوقف می‌شود)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (اجرای آزمایشی: چیزی نوشته نشد)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  بررسی در برابر نشت صدا -- مرجع %s است:"
@@ -934,8 +934,8 @@ msgstr "  %s: %s، رد شد"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: تعداد کانال‌های آن مشخص نمی‌شود (%s) -- اندازه‌گیری نمی‌شود"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (فقط اندازه‌گیری: چیزی بارگذاری نشد)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (اجرای آزمایشی: چیزی بارگذاری نشد)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  یک Timeline با نام %r از قبل وجود داشت -- نام Timeline تازه %r است."
@@ -1179,6 +1179,9 @@ msgstr "  لطفاً عددی بین 1 و %d وارد کنید."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  تولید در auphonic.com:        %s"
+
+msgid "  Production created (%s)"
+msgstr "  تولید ایجاد شد (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  تولید در حال اجراست (%s)"
@@ -1735,8 +1738,8 @@ msgstr "\nدر حال توقف. اجرا به محض اینکه بتواند ب�
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "نمای باز %s s طول می‌کشد، کمتر از کوتاه‌ترین نما با %s s -- پس دوباره ادغام می‌شود و هرگز دیده نمی‌شود.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nاندازه‌گیری انجام شد. چیزی نوشته نشد -- اجرای آزمایشی پوشه نتایج را همان‌طور که بود باقی می‌گذارد.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nمحاسبه انجام شد. اجرای آزمایشی پوشه نتایج را همان‌طور که بود باقی می‌گذارد.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nتوقف در مرحله: %s"
@@ -2209,8 +2212,8 @@ msgstr "فاصله تا میانگین"
 msgid "Drag audio and video files here"
 msgstr "فایل‌های صوتی و ویدیویی را اینجا بکشید"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "اجرای آزمایشی: فقط اندازه‌گیری، بدون نوشتن و بدون بارگذاری."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "اجرای آزمایشی: همه‌چیز محاسبه و گزارش می‌شود، چیزی به پوشه خروجی نمی‌رود و چیزی بارگذاری نمی‌شود."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "هنگام خوشامدگویی و خداحافظی تصویر باز می‌ماند."
@@ -2332,9 +2335,6 @@ msgstr "فقط اندازه‌گیری -- چیزی نوشته یا بارگذا�
 msgid "Measuring %s (%s of %s)"
 msgstr "اندازه‌گیری %s (%s از %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "اندازه‌گیری ممکن نیست: %s"
-
 msgid "Measuring the yardstick"
 msgstr "اندازه‌گیری معیار"
 
@@ -2358,9 +2358,6 @@ msgstr "Multitrack دست‌کم به دو ترک ورودی نیاز دارد. 
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "هنوز هیچ صدایی به کار نرفته است -- یک ضبط صوتی بیفزایید، یا در فهرست فایل‌ها صدای دوربین یک فایل ویدیویی را روی «استفاده از صدای داخلی» بگذارید."
-
-msgid "No audio tracks are assigned."
-msgstr "هیچ ترک صوتی‌ای تخصیص داده نشده است."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "هیچ دوربینی تخصیص داده نشده است، پس چیزی برای برش زدن میان دوربین‌ها نیست."
@@ -2391,9 +2388,6 @@ msgstr "اینجا هیچ گوینده‌ای شناخته نیست -- بی آن
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "هنوز هیچ صدایی دوربین ندارد -- با این وضع همه نماها یک نما می‌شدند."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "هنوز هیچ گوینده‌ای شناخته نیست -- چیزی اندازه‌گیری نشده، چیزی تفکیک نشده، و فایل تحویل یک اجرای پیشین هم در %s یا زیرپوشه‌هایش نیست."
 
 msgid "Not found again after import: %s"
 msgstr "پس از وارد کردن دوباره پیدا نشد: %s"
@@ -2499,9 +2493,6 @@ msgstr "الزامی نیست -- در این صورت YouTube مقادیر پی�
 
 msgid "Not ready yet:"
 msgstr "هنوز آماده نیست:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "در ترک‌ها چیزی شنیده نشد."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "یک ضبط صوتی هنوز نام گوینده ندارد."
@@ -3414,9 +3405,6 @@ msgstr "اندازه‌گیری‌شده از ضبط‌ها -- %s گوینده،
 msgid "from the finished run -- %s speakers, %s"
 msgstr "از اجرای تمام‌شده -- %s گوینده، %s"
 
-msgid "no folder"
-msgstr "هیچ پوشه‌ای"
-
 msgid "no text"
 msgstr "بدون متن"
 
@@ -3855,9 +3843,6 @@ msgstr "خود بررسی متوقف شد: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "نقطه ورود یا نقطه خروج در اینجا خوانده نمی‌شود."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "نقطه خروج کمتر از 5 ثانیه پس از نقطه ورود است."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "حدود %s کم است. فضا را آزاد کنید یا با --out پوشه دیگری انتخاب کنید. فایل‌های موقت در طول اجرا باز هم جای دیگری می‌روند، به پوشه موقت سیستم."
 
@@ -3909,14 +3894,11 @@ msgstr "  پیش‌تر یک بار تفکیک شده: بازخوانی شد، �
 msgid "  About %s of computing for %s of audio."
 msgstr "  حدود %s محاسبه برای %s صدا."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (فقط اندازه‌گیری: چیزی تفکیک نشد)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (اجرای آزمایشی: چیزی تفکیک نشد)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ترک‌ها اندازه‌گیری نشدند، پس این‌ها در میکس هستند و نه در برش: %s؛ علت: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "هنوز اندازه‌گیری نشده: %s -- در برش هست، هنوز در این پیش‌نمایش نه."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  از خود ترک‌ها، یک صدا برای هر ترک: %s."
@@ -4874,9 +4856,6 @@ msgstr "گفتار"
 msgid "Mixed"
 msgstr "ترکیبی"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "گفتار: فقط بر اساس بلندی صدا جای‌گذاری می‌شود. ضبطی که هیچ اشتراکی\nبا دوربین‌ها ندارد رد می‌شود. ترکیبی: موسیقی یا میکس زیر صداها قرار دارد،\nو جایی که بلندی صدا چیزی نمی‌یابد، فاز می‌تواند آن را جای‌گذاری کند.\nدر «%s» همیشه ترکیبی است."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: صدای آن با میزان %s تطبیق دارد، و در جای دیگری هم با میزان %s -- فقط با ساعت خودش جای‌گذاری شد"
 
@@ -5090,3 +5069,135 @@ msgstr "آنچه می‌گوید در زبانه خروجی نمایش داده 
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "بسته libsecret-tools در Debian و Ubuntu، و libsecret در Fedora و Arch"
+
+msgid "%d min"
+msgstr "%d دقیقه"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "اعتبار در auphonic.com: %s باقی مانده"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "اعتبار در auphonic.com: نامعلوم"
+
+msgid "%s -- free plan"
+msgstr "%s -- طرح رایگان"
+
+msgid "%s -- paying plan"
+msgstr "%s -- طرح پولی"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  اعتبار در auphonic.com: نامعلوم -- حساب پاسخ نداد."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  اعتبار در auphonic.com: نامعلوم."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  اعتبار در auphonic.com: %s باقی مانده."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  اعتبار در auphonic.com: %s باقی مانده، و این تولید %s لازم دارد -- کافی نیست."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  اعتبار در auphonic.com: %s باقی مانده، برای %s که این تولید لازم دارد کافی است."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  حساب در auphonic.com: پولی."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  حساب در auphonic.com: رایگان."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  حساب در auphonic.com: نامعلوم."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "حساب در auphonic.com: نامعلوم -- نمی‌شد از آن پرسید. اجرا ادامه می‌یابد."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  یادداشت: اجرا با این حال تلاش می‌کند. auphonic.com تصمیم می‌گیرد که تولید آغاز شود یا نه، و اگر نشود آن را می‌گوید."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  هشدار: این تولید Multitrack %s طول می‌کشد، و در طرح رایگان auphonic.com چنین تولیدی را فقط تا حدود %s می‌پذیرد."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  یادداشت: auphonic.com تولید طولانی‌تر را همان ابتدا رد می‌کند و بابت آن چیزی کسر نمی‌کند. اجرا با این حال تلاش می‌کند؛ اگر auphonic.com رد کند، پیام خودش می‌آید."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "در طرح رایگان، auphonic.com تولید Multitrack را فقط تا حدود %s می‌پذیرد."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  پروژهٔ %r که این اجرا ساخت باز می‌ماند -- پیش‌تر چیزی باز نبود\n  که بتوان دوباره بازش کرد. آن را در مدیر پروژه‌های Resolve حذف کنید."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  پروژهٔ نیمه‌ساختهٔ %r دوباره حذف شد، %r دوباره باز است."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve مرتب‌سازی را متوقف کرد: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  احتیاط: پروژهٔ نیمه‌ساختهٔ %r حذف نشد، یا %r دوباره\n  باز نشد. لطفاً این کار را در مدیر پروژه‌های Resolve انجام دهید."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: صدای آن با میزان %s روی %s ثانیه صدای مشترک تطبیق دارد، کمتر از آن‌که از تصادف تشخیص داده شود -- فقط با ساعت خودش جای‌گذاری شد"
+
+msgid "placed through %s"
+msgstr "از طریق %s جای‌گذاری شد"
+
+msgid "found where its timecode pointed"
+msgstr "همان‌جا یافت شد که تایم‌کدش نشان می‌داد"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: ساعتش می‌گوید %s، صدا %s را اندازه گرفت -- اختلاف %s ثانیه؛ اندازه‌گیری به کار می‌رود"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s روی دو دوربین است: %s بر اساس ترک، %s بر اساس صدا. صدا اولویت دارد، پس برش %s را فقط روی %s نشان می‌دهد."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  از اندازه‌گیری نگه‌داشته‌شده روی همین رایانه برداشته شد: همان پرونده‌ها و تنظیمات، پس چیزی دوباره اندازه‌گیری نمی‌شود."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nگویندگان -- پیش‌تر اندازه‌گیری‌شده"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  از اندازه‌گیری نگه‌داشته‌شده روی همین رایانه برداشته شد: همان ضبط‌ها، جایگاه‌ها و بازهٔ زمانی."
+
+msgid "Finished mix"
+msgstr "میکس آماده"
+
+msgid "Two finished mixes"
+msgstr "دو میکس آماده"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s و %s هر دو روی %s تنظیم شده‌اند. فقط یک میکس جای میکسی را می‌گیرد که پردازش می‌سازد -- دیگری را به گفتار برگردانید."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "میکس آماده باید فایل صوتی باشد: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "میکس آماده جای میکس را در فایل‌های دوربین می‌گیرد، و بدون فایل ویدئو هیچ فایلی نیست."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "میکس آماده %s طول دارد، کوتاه‌تر از هر دوربین (کوتاه‌ترین %s): جایی که تمام می‌شود، Full-Mix ساکت است."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s جای میکسی را می‌گیرد که این پردازش می‌ساخت."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  میکس آماده روی محور زمان جایی پیدا نکرد: هیچ صدای مشترکی با دوربین‌ها ندارد. پردازش متوقف می‌شود به‌جای آنکه آن را هر جایی بگذارد."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  میکس آماده در پنجرهٔ %s تا %s چیزی ندارد: از %s تا %s قرار دارد. پردازش متوقف می‌شود."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  میکس آماده %s در آغاز و %s در پایان پنجره را ساکت می‌گذارد."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: میکس آماده همان‌طور که رسید -- بدون افزایش بهره و بدون محدودکننده"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "«فقط همگام‌سازی» هر ضبط را به‌عنوان صدای ترکیبی قرار می‌دهد."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "میکس آماده -- گوینده نیست، بدون دوربین"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "گفتار: فقط بر اساس بلندی صدا جای‌گذاری می‌شود. ضبطی که هیچ اشتراکی\nبا دوربین‌ها ندارد رد می‌شود. ترکیبی: موسیقی یا میکس زیر صداها قرار دارد،\nو جایی که بلندی صدا چیزی نمی‌یابد، فاز می‌تواند آن را جای‌گذاری کند.\nمیکس آماده: میکس استریویی که جای دیگری ساخته شده، مانند صدای ترکیبی قرار می‌گیرد. به‌جای میکس پردازش\nوارد فایل‌های دوربین و تحویل می‌شود --\nگوینده نیست، بریده نمی‌شود، به auphonic.com فرستاده نمی‌شود.\nدر «%s» گفتار پیشنهاد نمی‌شود."

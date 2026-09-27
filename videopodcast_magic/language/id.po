@@ -596,11 +596,11 @@ msgstr "Ini bukan file dari program ini."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "File ini ditulis oleh versi %s dalam format %d; versi ini menulis format %d. Nama-nama di dalamnya sudah berubah sejak itu, sehingga file ini tidak dapat dibaca. Silakan siapkan proses ini lagi."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (hanya mengukur: tidak ada yang ditulis)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (uji coba: dihitung dan disimpan, folder keluaran tidak disentuh)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (hanya mengukur: tanpa kunci API proses berhenti di sini)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (uji coba: tidak ada yang ditulis)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Pemeriksaan terhadap kebocoran suara -- referensinya %s:"
@@ -935,8 +935,8 @@ msgstr "  %s: %s, dilewati"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: jumlah kanalnya tidak dapat ditentukan (%s) -- tidak diukur"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (hanya mengukur: tidak ada yang diunggah)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (uji coba: tidak ada yang diunggah)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r sudah ada -- yang baru bernama %r."
@@ -1180,6 +1180,9 @@ msgstr "  Silakan masukkan angka antara 1 dan %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produksi di auphonic.com:     %s"
+
+msgid "  Production created (%s)"
+msgstr "  Produksi dibuat (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Produksi berjalan (%s)"
@@ -1736,8 +1739,8 @@ msgstr "\nMenghentikan. Proses berakhir segera setelah bisa tanpa meninggalkan f
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Bidikan lebar bertahan %s s, lebih pendek dari bidikan terpendek %s s -- jadi digabung lagi dan tidak pernah muncul.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nSudah diukur. Tidak ada yang ditulis -- uji coba membiarkan folder hasil seperti semula.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nSudah dihitung. Uji coba membiarkan folder hasil seperti semula.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nDihentikan saat: %s"
@@ -2210,8 +2213,8 @@ msgstr "Jarak ke rata-rata"
 msgid "Drag audio and video files here"
 msgstr "Seret file audio dan video ke sini"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Uji coba: hanya mengukur, tidak ada yang ditulis, tidak ada yang diunggah."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Uji coba: semuanya dihitung dan dilaporkan, tidak ada yang masuk ke folder keluaran, tidak ada yang diunggah."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Selama salam pembuka dan salam penutup gambar tetap lebar."
@@ -2333,9 +2336,6 @@ msgstr "Hanya mengukur -- tidak ada yang ditulis atau diunggah."
 msgid "Measuring %s (%s of %s)"
 msgstr "Mengukur %s (%s dari %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Pengukuran tidak mungkin: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Mengukur tolok ukur"
 
@@ -2359,9 +2359,6 @@ msgstr "Multitrack memerlukan setidaknya dua trek masukan. Satu trek adalah reka
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Belum ada audio yang digunakan -- tambahkan rekaman audio, atau atur Audio kamera sebuah file video ke \"gunakan audio internal\" di daftar file."
-
-msgid "No audio tracks are assigned."
-msgstr "Tidak ada trek audio yang ditetapkan."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Tidak ada kamera yang ditetapkan, jadi tidak ada yang dapat dipotong silih berganti."
@@ -2392,9 +2389,6 @@ msgstr "Tidak ada pembicara yang diketahui di sini -- tanpa siapa berbicara kapa
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Belum ada suara yang memiliki kamera -- dengan begitu setiap bidikan akan sama."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Belum ada pembicara yang diketahui -- tidak ada yang diukur, tidak ada yang dipisahkan, dan tidak ada file serah terima dari proses sebelumnya di %s atau subfoldernya."
 
 msgid "Not found again after import: %s"
 msgstr "Tidak ditemukan lagi setelah impor: %s"
@@ -2500,9 +2494,6 @@ msgstr "Tidak wajib -- YouTube lalu memakai nilai bawaan (Sony BVM-X300). Untuk 
 
 msgid "Not ready yet:"
 msgstr "Belum siap:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Tidak ada yang terdengar di trek."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Satu rekaman audio belum memiliki nama pembicara."
@@ -3415,9 +3406,6 @@ msgstr "diukur dari rekaman -- %s pembicara, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "dari proses yang sudah selesai -- %s pembicara, %s"
 
-msgid "no folder"
-msgstr "folder mana pun"
-
 msgid "no text"
 msgstr "tanpa teks"
 
@@ -3856,9 +3844,6 @@ msgstr "pemeriksaan itu sendiri terhenti: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Titik masuk atau titik keluar tidak dapat dibaca di sini."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Titik keluar berada kurang dari 5 detik setelah titik masuk."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Kurang sekitar %s. Kosongkan ruang atau pilih folder lain dengan --out. File sementara selama proses disimpan di tempat lain lagi, di folder temp sistem."
 
@@ -3910,14 +3895,11 @@ msgstr "  Sudah pernah dipisahkan: dibaca kembali, tidak diukur ulang."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Sekitar %s komputasi untuk %s audio."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (hanya mengukur: tidak ada yang dipisahkan)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (uji coba: tidak ada yang dipisahkan)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Trek tidak diukur, jadi %s ada di campuran dan tidak di potongan: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s belum diukur -- ada di potongan, belum di pratinjau ini."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Dari trek itu sendiri, satu suara per trek: %s."
@@ -4832,9 +4814,6 @@ msgstr "Ucapan"
 msgid "Mixed"
 msgstr "Campuran"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Ucapan: ditempatkan hanya menurut kenyaringannya. Rekaman yang tidak punya kesamaan apa pun\ndengan kamera ditolak. Campuran: musik atau mix ada di bawah suara-suara,\ndan di mana kenyaringan tidak menemukan apa pun, fase boleh menempatkannya.\nDengan \"%s\" selalu campuran."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: audionya cocok sebesar %s, dan sebesar %s di tempat lain juga -- ditempatkan hanya menurut jamnya"
 
@@ -5048,3 +5027,135 @@ msgstr "Pesannya muncul di bawah Keluaran."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "paket libsecret-tools di Debian dan Ubuntu, libsecret di Fedora dan Arch"
+
+msgid "%d min"
+msgstr "%d mnt"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Kredit di auphonic.com: tersisa %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Kredit di auphonic.com: tidak diketahui"
+
+msgid "%s -- free plan"
+msgstr "%s -- paket gratis"
+
+msgid "%s -- paying plan"
+msgstr "%s -- paket berbayar"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Kredit di auphonic.com: tidak diketahui -- akun tidak menjawab."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Kredit di auphonic.com: tidak diketahui."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Kredit di auphonic.com: tersisa %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Kredit di auphonic.com: tersisa %s, dan produksi ini perlu %s -- tidak cukup."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Kredit di auphonic.com: tersisa %s, cukup untuk %s yang diperlukan produksi ini."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Akun di auphonic.com: berbayar."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Akun di auphonic.com: gratis."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Akun di auphonic.com: tidak diketahui."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Akun di auphonic.com: tidak diketahui -- tidak dapat ditanyakan. Proses berlanjut."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Catatan: proses tetap mencoba. auphonic.com yang memutuskan apakah produksi dimulai, dan mengatakannya jika tidak."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Peringatan: produksi Multitrack ini berdurasi %s, dan pada paket gratis auphonic.com hanya menerima yang seperti itu hingga sekitar %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Catatan: auphonic.com menolak yang lebih panjang sejak awal dan tidak menagih apa pun untuknya. Proses tetap mencoba; jika auphonic.com menolak, pesannya sendiri menyusul."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Pada paket gratis, auphonic.com hanya menerima produksi Multitrack hingga sekitar %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Proyek %r dari proses ini tetap terbuka -- sebelumnya tidak ada yang terbuka\n  yang bisa dibuka lagi. Hapus di pengelola proyek Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Proyek setengah jadi %r sudah dihapus lagi, %r terbuka lagi."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve menghentikan pembersihan: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Perhatian: proyek setengah jadi %r tidak dapat dihapus, atau %r tidak\n  dapat dibuka lagi. Silakan lakukan di pengelola proyek Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: audionya cocok sebesar %s pada %s dtk audio bersama, terlalu sedikit untuk dibedakan dari kebetulan -- ditempatkan hanya menurut jamnya"
+
+msgid "placed through %s"
+msgstr "ditempatkan melalui %s"
+
+msgid "found where its timecode pointed"
+msgstr "ditemukan di tempat yang ditunjuk timecode-nya"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: jamnya menunjukkan %s, audio mengukur %s -- selisih %s dtk; yang dipakai hasil pengukuran"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s ada di dua kamera: %s menurut trek, %s menurut suara. Suara yang berlaku, jadi potongan menampilkan %s hanya di %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Diambil dari pengukuran yang disimpan di komputer ini: berkas dan pengaturan yang sama, jadi tidak ada yang diukur ulang."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nPEMBICARA -- DIUKUR SEBELUMNYA"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Diambil dari pengukuran yang disimpan di komputer ini: rekaman, posisi, dan jendela waktu yang sama."
+
+msgid "Finished mix"
+msgstr "Mix jadi"
+
+msgid "Two finished mixes"
+msgstr "Dua mix jadi"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s dan %s sama-sama diatur ke %s. Hanya satu mix yang menggantikan mix buatan proses -- kembalikan yang lain ke Ucapan."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Mix jadi harus berupa berkas audio: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "mix jadi menggantikan mix di berkas kamera, dan tanpa berkas video tidak ada berkas kamera."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "mix jadi berdurasi %s, lebih pendek dari setiap kamera (terpendek %s): di tempat ia berakhir, Full-Mix senyap."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s menggantikan mix yang akan dibuat proses ini."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Mix jadi tidak menemukan tempat di sumbu waktu: tidak ada suara yang sama dengan kamera. Proses berhenti daripada meletakkannya di sembarang tempat."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Mix jadi tidak berisi apa pun di jendela %s sampai %s: letaknya dari %s sampai %s. Proses berhenti."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Mix jadi membiarkan %s di awal dan %s di akhir jendela senyap."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: mix jadi apa adanya -- tanpa penguatan dan tanpa limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"Hanya sinkronisasi\" meletakkan setiap rekaman sebagai suara campuran."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "mix jadi -- bukan pembicara, tanpa kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Ucapan: ditempatkan hanya menurut kenyaringannya. Rekaman yang tidak punya kesamaan apa pun\ndengan kamera ditolak. Campuran: musik atau mix ada di bawah suara-suara,\ndan di mana kenyaringan tidak menemukan apa pun, fase boleh menempatkannya.\nMix jadi: mix stereo yang dibuat di tempat lain, diletakkan seperti suara campuran. Mix ini masuk\nke berkas kamera dan serah terima menggantikan mix buatan proses --\nbukan pembicara, tidak dipotong, tidak dikirim ke auphonic.com.\nDengan \"%s\" Ucapan tidak ditawarkan."

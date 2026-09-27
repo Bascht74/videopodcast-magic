@@ -77,7 +77,9 @@ zurück holt sie die Antwort im Feld. Das Auswahlfeld **gehört zu**
 listet die Kameras, danach zwei Sonderfälle:
 
 - **ohne eigene Kamera**: im Full-Mix, aber bei niemandem die erste
-  Spur. Für jemanden, der zu hören, aber nicht zu sehen ist.
+  Spur. Für jemanden, der zu hören, aber nicht zu sehen ist. Der
+  Eigenton einer Kamera ist keine Ausnahme: Auf dieser Kamera sitzt dann
+  niemand, und sie kann der Weitwinkel sein.
 - **nicht verwenden**: bleibt ganz außen vor; der Sprechername wird
   grau, und im Feld steht **ungenutzt**. Für eine Aufnahme, deren Video
   noch fehlt.
@@ -97,7 +99,15 @@ nur in a bis z. Ein Vorschlag wie `0008A` tut das nicht, das Feld
 bleibt leer, und bei Multitrack bleibt **Start** gesperrt, bis ein Name
 da ist: der Name wird bei auphonic.com zur Bezeichnung dieser Spur und
 dort von Leuten gelesen, die die Datei nie gesehen haben. Ein
-getippter Name gilt so, wie er getippt wurde.
+getippter Name gilt so, wie er getippt wurde. Zwei Ordner sind zwei
+Rekorder und damit zwei Personen, auch wenn ihre Dateien denselben
+Namen nahelegen -- `ZOOM0001.WAV` auf der einen Karte und
+`ZOOM0001.WAV` oder `ZOOM0003.WAV` auf der anderen: der Vorschlag des
+zweiten Ordners trägt `(2)`, wie in der Dateiliste, und so bleiben es
+zwei Spuren. Innerhalb eines Ordners werden Dateien mit demselben
+Vorschlag weiterhin zusammengefügt, auch eine angehaltene und neu
+gestartete Aufnahme. Wer auf beiden denselben Namen tippt, fügt sie
+auch über Ordner hinweg zusammen. Die Kommandozeile rät genauso.
 
 Ein Name gehört einer Person, und darum steht er einmal auf dem Blatt.
 Tippt man einen, den es dort schon gibt, wird das Feld rot -- auf beiden
@@ -343,8 +353,15 @@ Der Player zeigt eine Marke als Timecode der Kamera, die er gerade
 spielt; der Lauf bekommt sie aber als Abstand vom Moment, in dem jede
 Kamera läuft. So landet eine Marke auf jeder Kamera auf dem Bild, auf
 dem sie gesetzt wurde -- auch auf einer, die mit 29,97 Bildern läuft --,
-und Vorschau und Lauf schneiden im selben Moment. Einen In-Punkt, der
-vom Ende zurückzählt, lehnt der Player ab, genau wie der Lauf.
+und Vorschau und Lauf schneiden im selben Moment. Eine Marke, die
+gesetzt wird, während eine Tondatei im Player liegt, zählt ebenfalls in
+der Bildrate der Kameras. Einen In-Punkt, der
+vom Ende zurückzählt, lehnt der Player ab, genau wie der Lauf. Beide
+lehnen auch ein Fenster ab, mit dem sich nichts anfangen lässt, und sie
+sagen es mit denselben Worten: wenn der Out-Punkt vor dem In-Punkt
+liegt, wenn das Fenster ganz außerhalb des Materials liegt -- dann nennt
+die Meldung, wo beide Marken stehen und wie lang das Material ist --
+und wenn davon im Material weniger als fünf Sekunden übrig bleiben.
 
 Beide Grenzen nehmen diese Angaben:
 
@@ -412,6 +429,11 @@ einer solchen Kamera, bei einer, die ihr Timecode platziert hat, und
 bei einer Tonspur ohne eigene Messung `Uhrengang nicht gemessen`. Früher
 stand an all diesen Stellen eine Reihe Nullen -- null ppm, null
 Punkte --, die aussah wie eine Messung und keine war.
+
+Von gleich langen Kameras ist die Referenz die, die die meisten anderen
+legt, dann eine mit Timecode, dann die erste nach Namen -- nie die
+Reihenfolge des Hinzufügens. Eine Kamera, die die Referenz nicht hört,
+wird über eine gelegt, die sie hört; ihre Zeile sagt, über welche.
 
 Wer mehr braucht, als das Fenster hergibt, setzt **In markieren** und
 **Out markieren** weiter auseinander und lässt noch einmal laufen. Einen

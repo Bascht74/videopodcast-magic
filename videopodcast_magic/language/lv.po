@@ -597,11 +597,11 @@ msgstr "Tas nav šīs programmas fails."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Šo failu ierakstīja versija %s formātā %d; šī versija raksta formātā %d. Nosaukumi tajā kopš tā laika ir mainījušies, tāpēc to nevar nolasīt. Lūdzu, iestatiet izpildi no jauna."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (tikai mērīšana: nekas nav ierakstīts)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (izmēģinājuma izpilde: aprēķināts un saglabāts, izvades mape neskarta)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (tikai mērīšana: bez API atslēgas šeit apstājas)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (izmēģinājuma izpilde: nekas nav ierakstīts)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Pārbaude pēc skaņas noplūdes -- atsauces celiņš %s:"
@@ -936,8 +936,8 @@ msgstr "  %s: %s, izlaists"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: kanālu skaitu nevar noteikt (%s) -- netiek mērīts"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (tikai mērīšana: nekas nav augšupielādēts)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (izmēģinājuma izpilde: nekas nav augšupielādēts)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r jau pastāvēja -- jaunais saucas %r."
@@ -1181,6 +1181,9 @@ msgstr "  Lūdzu, ievadiet skaitli no 1 līdz %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produkcija vietnē auphonic.com:   %s"
+
+msgid "  Production created (%s)"
+msgstr "  Produkcija izveidota (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Produkcija notiek (%s)"
@@ -1737,8 +1740,8 @@ msgstr "\nApturēšana. Izpilde beigsies, tiklīdz to varēs izdarīt, neatstāj
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Kopplāns ilgst %s s, mazāk nekā īsākais plāns (%s s) -- tāpēc tas atkal tiek apvienots ar blakus esošajiem un nekad neparādās.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nIzmērīts. Nekas netika ierakstīts -- izmēģinājuma izpilde atstāj rezultātu mapi nemainītu.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nAprēķināts. Izmēģinājuma izpilde atstāj rezultātu mapi nemainītu.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nApturēts solī: %s"
@@ -2211,8 +2214,8 @@ msgstr "Attālums līdz vidējam"
 msgid "Drag audio and video files here"
 msgstr "Velciet šeit audio un video failus"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Izmēģinājuma izpilde: tikai mēra, neko neraksta, neko neaugšupielādē."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Izmēģinājuma izpilde: viss tiek aprēķināts un paziņots, izvades mapē nekas nenonāk, nekas netiek augšupielādēts."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Sasveicināšanās un atvadu laikā attēls paliek kopplānā."
@@ -2334,9 +2337,6 @@ msgstr "Tikai mērīt -- nekas netiek rakstīts vai augšupielādēts."
 msgid "Measuring %s (%s of %s)"
 msgstr "Mērīšana: %s (%s no %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Mērīšana nav iespējama: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Mērauklas mērīšana"
 
@@ -2360,9 +2360,6 @@ msgstr "Multitrack vajag vismaz divus ievades celiņus. Celiņš ir atsevišķs 
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Vēl netiek izmantota neviena skaņa -- pievienojiet audio ierakstu vai failu sarakstā video faila laukā Kameras skaņa izvēlieties „izmantot iekšējo skaņu“."
-
-msgid "No audio tracks are assigned."
-msgstr "Nav piešķirts neviens audio celiņš."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nav piešķirta neviena kamera, tāpēc nav starp ko montēt."
@@ -2393,9 +2390,6 @@ msgstr "Šeit nav zināms neviens runātājs -- nezinot, kurš kad runā, nav st
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Vēl nevienai balsij nav kameras -- tad katrs plāns būtu viens un tas pats."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Runātāji vēl nav zināmi -- nekas nav izmērīts, nekas nav atdalīts, un mapē %s vai tās apakšmapēs nav agrākas izpildes nodošanas faila."
 
 msgid "Not found again after import: %s"
 msgstr "Pēc importēšanas vairs nav atrasts: %s"
@@ -2501,9 +2495,6 @@ msgstr "Nav obligāti -- tad YouTube piemēro noklusējuma vērtības (Sony BVM-
 
 msgid "Not ready yet:"
 msgstr "Vēl nav gatavs:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Celiņos nekas nebija dzirdams."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Vienam audio ierakstam vēl nav runātāja vārda."
@@ -3417,9 +3408,6 @@ msgstr "izmērīts no ierakstiem -- runātāji: %s, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "no pabeigtās izpildes -- runātāji: %s, %s"
 
-msgid "no folder"
-msgstr "(nav mapes)"
-
 msgid "no text"
 msgstr "bez teksta"
 
@@ -3858,9 +3846,6 @@ msgstr "pati pārbaude apstājās: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Sākuma vai beigu punktu šeit nevar nolasīt."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Beigu punkts ir mazāk nekā 5 sekundes pēc sākuma punkta."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Trūkst apm. %s. Atbrīvojiet vietu vai izvēlieties citu mapi ar --out. Pagaidu faili izpildes laikā atrodas vēl citur, sistēmas pagaidu mapē."
 
@@ -3912,14 +3897,11 @@ msgstr "  Jau vienreiz atdalīts: nolasīts, no jauna nav mērīts."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Aprēķins aizņems apm. %s, skaņas ilgums %s."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (tikai mērīšana: nekas nav atdalīts)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (izmēģinājuma izpilde: nekas nav atdalīts)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Celiņi netika izmērīti, tāpēc %s ir miksējumā, bet ne montāžā: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s: vēl nav izmērīts -- montāžā ir, šajā priekšskatījumā vēl nav."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  No pašiem celiņiem, viena balss katram celiņam: %s."
@@ -4920,9 +4902,6 @@ msgstr "Runa"
 msgid "Mixed"
 msgstr "Jaukts"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Runa: novieto tikai pēc skaļuma. Ieraksts, kam nav nekā kopīga\nar kamerām, tiek noraidīts. Jaukts: zem balsīm ir mūzika vai miksējums,\nun kur skaļums neko neatrod, to drīkst novietot fāze.\nAr „%s“ tas vienmēr ir jaukts."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: skaņas atbilstība %s, un arī citā vietā %s -- novietots tikai pēc tā pulksteņa"
 
@@ -5136,3 +5115,135 @@ msgstr "Ziņojumi parādās cilnē „Izvade“."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "pakotne libsecret-tools sistēmās Debian un Ubuntu, libsecret sistēmās Fedora un Arch"
+
+msgid "%d min"
+msgstr "%d min"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Kredīts vietnē auphonic.com: atlikušas %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Kredīts vietnē auphonic.com: nezināms"
+
+msgid "%s -- free plan"
+msgstr "%s -- bezmaksas plāns"
+
+msgid "%s -- paying plan"
+msgstr "%s -- maksas plāns"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Kredīts vietnē auphonic.com: nezināms -- konts neatbildēja."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Kredīts vietnē auphonic.com: nezināms."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Kredīts vietnē auphonic.com: atlikušas %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Kredīts vietnē auphonic.com: atlikušas %s, bet šim producējumam vajag %s -- nepietiek."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Kredīts vietnē auphonic.com: atlikušas %s, pietiek šim producējumam vajadzīgajām %s."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Konts vietnē auphonic.com: maksas."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Konts vietnē auphonic.com: bezmaksas."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Konts vietnē auphonic.com: nezināms."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Konts vietnē auphonic.com: nezināms -- to nevarēja pajautāt. Palaišana turpinās."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Piezīme: palaišana tomēr mēģina. auphonic.com izlemj, vai producējums sākas, un pasaka, ja nesākas."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Brīdinājums: šis Multitrack producējums ilgst %s, un bezmaksas plānā auphonic.com tādu pieņem tikai līdz aptuveni %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Piezīme: garāku auphonic.com noraida jau sākumā un par to neko neiekasē. Palaišana tomēr mēģina; ja auphonic.com atsaka, seko tā paša ziņojums."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Bezmaksas plānā auphonic.com pieņem Multitrack producējumu tikai līdz aptuveni %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Šīs palaišanas projekts %r paliek atvērts -- iepriekš nekas nebija atvērts,\n  ko varētu atvērt no jauna. Izdzēsiet to Resolve projektu pārvaldniekā."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Pusizveidotais projekts %r atkal ir izdzēsts, %r atkal ir atvērts."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve pārtrauca sakopšanu: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Uzmanību: pusizveidoto projektu %r neizdevās izdzēst vai %r neizdevās\n  atvērt no jauna. Lūdzu, izdariet to Resolve projektu pārvaldniekā."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: skaņas atbilstība %s pār %s s kopīgas skaņas, pārāk maz, lai atšķirtu no nejaušības -- novietots tikai pēc tā pulksteņa"
+
+msgid "placed through %s"
+msgstr "novietots caur %s"
+
+msgid "found where its timecode pointed"
+msgstr "atrasts tur, kur norādīja tā laika kods"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: tā pulkstenis rāda %s, skaņa izmērīja %s -- atšķirība %s s; tiek izmantots mērījums"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s ir divās kamerās: %s pēc celiņa, %s pēc balss. Noteicošā ir balss, tāpēc griezums rāda %s tikai kamerā %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Ņemts no šajā datorā saglabātā mērījuma: tie paši faili un iestatījumi, tāpēc nekas netiek mērīts no jauna."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nRUNĀTĀJI -- IZMĒRĪTI IEPRIEKŠ"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Ņemts no šajā datorā saglabātā mērījuma: tie paši ieraksti, vietas un laika logs."
+
+msgid "Finished mix"
+msgstr "Gatavs mikss"
+
+msgid "Two finished mixes"
+msgstr "Divi gatavi miksi"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s un %s abiem iestatīts %s. Tikai viens mikss aizstāj to, ko būvē apstrāde -- iestatiet otru atpakaļ uz Runa."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Gatavajam miksam jābūt audio failam: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "gatavais mikss aizstāj miksu kameru failos, un bez video faila to nav."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "gatavais mikss ilgst %s, īsāk par jebkuru kameru (īsākā %s): kur tas beidzas, Full-Mix klusē."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s aizstāj miksu, ko šī apstrāde būvētu."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Gatavais mikss neatrada vietu laika asī: tam nav kopīgas skaņas ar kamerām. Apstrāde apstājas, nevis noliek to kaut kur."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Gatavajam miksam logā no %s līdz %s nav nekā: tas atrodas no %s līdz %s. Apstrāde apstājas."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Gatavais mikss atstāj klusumu: %s loga sākumā un %s beigās."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: gatavais mikss, kāds tas atnāca -- bez pastiprinājuma un bez limitera"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Tikai sinhronizācija“ novieto katru ierakstu kā jauktu skaņu."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "gatavais mikss -- nav runātājs, nav kameras"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Runa: novieto tikai pēc skaļuma. Ieraksts, kam nav nekā kopīga\nar kamerām, tiek noraidīts. Jaukts: zem balsīm ir mūzika vai miksējums,\nun kur skaļums neko neatrod, to drīkst novietot fāze.\nGatavs mikss: citur veidots stereo mikss, novietots kā jaukta skaņa. Tas nonāk\nkameru failos un nodošanā apstrādes paša miksa vietā --\nnav runātājs, netiek griezts, netiek sūtīts uz auphonic.com.\nAr „%s“ Runa netiek piedāvāta."

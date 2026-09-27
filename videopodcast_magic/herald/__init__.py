@@ -160,6 +160,19 @@ class Share(object):
 _STEP = {"name": ""}
 
 
+def camera_audio_pulled(plan):
+    """How many cameras a run pulls the audio out of, by its plan.
+
+    *plan* is what the window hands the run: the extraction happens for
+    every track marked camera_audio, whatever the Multitrack tick says.
+    One camera cut into two channels is still one extraction.
+    """
+    return len(set(os.path.abspath(t.get("from_camera") or t.get("camera")
+                                   or t.get("audio") or "")
+                   for t in ((plan or {}).get("tracks_of") or ())
+                   if t.get("camera_audio")))
+
+
 def step_begin(name):
     """Say that the run has reached a stage. Ends the one before it."""
     _STEP["name"] = name
@@ -168,6 +181,25 @@ def step_begin(name):
             PROGRAM.PROGRESS_SINK(name, None)
         except Exception:
             pass
+
+
+def step_forget():
+    """Before a run: no stage reached yet."""
+    _STEP["name"] = ""
+
+
+def step_caption():
+    """The stage the run is in, in the bar's words; "" before the first.
+
+    Set in the run's own thread the moment the stage begins. The window
+    learns of it by a signal that may still be on its way when Stop is
+    pressed, so where a stop was asked for is read here.
+    """
+    for stages in (run_stages(1, 1, True), run_stages(1, 1, False)):
+        for name, _weight, caption in stages:
+            if name == _STEP["name"]:
+                return caption
+    return ""
 
 
 def step_report(share):
@@ -179,20 +211,23 @@ def step_report(share):
             pass
 
 
-def run_stages(multitrack, cameras, auphonic, sync=False):
+def run_stages(camera_audio, cameras, auphonic, sync=False):
     """The stages of a run and what share of the bar each is worth.
 
     The weights are proportions measured on real jobs: writing the camera
     files re-encodes every camera in full and takes longer than
     everything before it together. A stage that will not happen is out:
     who speaks is asked on every run but a *sync* one, tick or no tick.
+    *camera_audio* is how many cameras the run pulls the audio out of.
     """
     cameras = max(0, int(cameras))
+    pulled = min(max(0, int(camera_audio)), cameras)
     out = [("plan", 1.0, T('Reading the plan'))]
-    # Only the multitrack path pulls the audio out of the cameras.
-    # Listed for both, the bar holds a fifth for a stage never reported.
-    if cameras and multitrack:
-        out.append(("camera audio", 5.0 * cameras,
+    # Wherever a camera's audio is a track, not only with the Multitrack
+    # tick: left out, the bar stood still through the whole extraction.
+    # Listed where nothing is pulled, it held a share never reported.
+    if pulled:
+        out.append(("camera audio", 5.0 * pulled,
                     T('Audio out of the cameras')))
     out.append(("time base", 4.0, T('Common time axis')))
     if auphonic:
@@ -432,9 +467,10 @@ def gui_log(text):
 
     A window tells nobody afterwards what it was showing or where it
     stood. The log is what somebody can send along with a complaint. It
-    lands in the file: redirect_console has the descriptors by then.
+    lands in the file only, never in the Output tab: during a run
+    stdout is the tab, and these lines are English and for us.
     """
-    print("%s %s  %s" % (GUI_MARK, time.strftime("%H:%M:%S"), text))
+    log_aside("%s %s  %s" % (GUI_MARK, time.strftime("%H:%M:%S"), text))
 
 
 def outside_what(cmd):

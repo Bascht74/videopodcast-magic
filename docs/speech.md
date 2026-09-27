@@ -58,7 +58,10 @@ file list shows under one row -- counts as one recording here. The
 separation hears every block, one after the other as the run joins
 them, and the voices it finds cover the whole recording. A separation
 an earlier version made of the first block alone is not taken for the
-whole: it is worked out once more.
+whole: it is worked out once more. The words written down beside it
+come from every block as well, on the time of the whole recording;
+words an earlier version heard in the first block alone are heard once
+more.
 
 Separation is the way for **one common recording** that everybody is
 audible on. It does not need the tick **Multitrack (one track per
@@ -203,7 +206,10 @@ That is the one exception: where a voice sounds like a voice already
 named in another recording, the program takes it for the same person
 heard again, the table proposes that name in its field, and the two
 may carry it together. The log says which voice it heard again and how
-alike the two are; it changes no name by itself. Two
+alike the two are; it changes no name by itself. Where the shared
+name sits on one camera by a recording's track and on another by the
+voice, the voice's camera holds: the cut, the handover and the preview
+show that person there alone, and the log says so. Two
 recordings of one name are a question and not a refusal -- they are
 meant to become a single track, laid end to end by their timecode
 ([Multitrack](multitrack.md)).
@@ -397,8 +403,8 @@ names from. A separation taken out of a project or an assignment file
 is listed the same way, under the names that stand in it.
 
 Where nothing is stored, the dry run stops at that point. It says how
-much computing the separation would cost, then **(measuring only:
-nothing separated)**, and no voices follow. That is the whole
+much computing the separation would cost, then **(dry run: nothing
+separated)**, and no voices follow. That is the whole
 difference: only a measurement that would really have to be made is
 left undone. Reading a separation back costs nothing, so it happens and
 the result is shown.
@@ -449,9 +455,12 @@ the text.
 
 A recording listened to once is not listened to again, whatever the
 cost was. What is kept and what is worked out afresh stands above,
-under "What is kept, and what is worked out again". The window and the
-run listen to different things -- the window to the recording, the run
-to the mix it made of it -- so each of the two pays once.
+under "What is kept, and what is worked out again". A run the window
+starts once its own transcript stands listens to nothing: it takes the
+window's words, as its dry run does, so the cut and the three files
+below rest on the same words the preview showed. Only a run without
+them -- from the command line, or started before the window was done --
+listens to the mix it made.
 
 ### The three transcript files
 

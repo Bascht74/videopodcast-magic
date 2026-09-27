@@ -609,9 +609,6 @@ msgstr "传输"
 msgid "Wide shot after"
 msgstr "全景在"
 
-msgid "no folder"
-msgstr "无文件夹"
-
 msgid "no text"
 msgstr "无文本"
 
@@ -1134,8 +1131,11 @@ msgstr "  预设：  %s"
 msgid "  File:    %s (%s, %s)"
 msgstr "  文件：  %s (%s, %s)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  （仅测量：未上传任何内容）\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  （试运行：未上传任何内容）\n"
+
+msgid "  Production created (%s)"
+msgstr "  制作已创建（%s）"
 
 msgid "  Production running (%s)"
 msgstr "  制作进行中（%s）"
@@ -1620,9 +1620,6 @@ msgstr "从录音测得 -- %s 位说话人，%s"
 msgid "In point or Out point cannot be read here."
 msgstr "此处无法读取入点或出点。"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "出点距入点不足 5 秒。"
-
 msgid "because no speaker is assigned to it"
 msgstr "因为没有为它分配说话人"
 
@@ -1635,8 +1632,11 @@ msgstr "正在确定谁在何时说话 ..."
 msgid "\nWITHOUT AUPHONIC.COM"
 msgstr "\n不使用 AUPHONIC.COM"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  （仅测量：未写入任何内容）"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  （试运行：已算出并保留，输出文件夹未改动）"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  （试运行：未写入任何内容）"
 
 msgid "FOR RESOLVE"
 msgstr "用于 RESOLVE"
@@ -1659,14 +1659,8 @@ msgstr "  未使用：%s。"
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  首尾全景：至 %s，自 %s 起"
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "尚无已知说话人 -- 未测量、未分离，且 %s 及其子文件夹中没有以往运行的交接文件。"
-
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "时间窗超出素材范围：入点在 %s，出点在 %s，素材时长为 %s。"
-
-msgid "No audio tracks are assigned."
-msgstr "未分配音轨。"
 
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "尚无已知说话人 -- 一打开此选项卡就会从音轨中得出。若所有人都在同一段录音里，请在说话人姓名栏中选择“多位说话人”。"
@@ -1694,9 +1688,6 @@ msgstr "剪辑使用 %s"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "没有为它分配说话人，但剪辑使用 %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s 尚未测量 -- 已在剪辑中，尚未在此预览中。"
 
 msgid "%r is not a number."
 msgstr "%r 不是数字。"
@@ -2314,9 +2305,6 @@ msgstr "  共同时间窗：  %s 至 %s（%s）"
 
 msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
 msgstr "    以 %s 开始、以 %s 结束 —— 每台摄像机都拍到的一段"
-
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  （仅测量：没有 API 密钥，到此为止）"
 
 msgid "\nMIXING"
 msgstr "\n混音"
@@ -3623,14 +3611,14 @@ msgstr "检查本身失败：%s"
 msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
 msgstr "\n完成。下方的“打开结果文件夹”显示结果。\n若一切无误，“创建 Resolve 项目”会据此建立项目。\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\n已测量。未写入任何内容 -- 试运行不改动结果文件夹。\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\n已算出。试运行不改动结果文件夹。\n"
 
 msgid "Without processing at auphonic.com"
 msgstr "不在 auphonic.com 处理"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "试运行：只测量，不写入，不上传。"
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "试运行：全部算出并报告，不往输出文件夹写入任何内容，不上传。"
 
 msgid "This is what happens next"
 msgstr "接下来将执行"
@@ -3884,9 +3872,6 @@ msgstr "  %-20s 说话 %s，%s / %s 句为提问"
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s 听起来像 %-20s %s %% 在该音轨内，领先下一个 %s 个点"
 
-msgid "Nothing was audible in the tracks."
-msgstr "音轨中没有任何可听内容。"
-
 msgid "%s is not part of this run"
 msgstr "%s 不属于本次运行"
 
@@ -3899,8 +3884,8 @@ msgstr "\n分离说话人"
 msgid "  Separated once already: read back, not measured again."
 msgstr "  已分离过一次：读回结果，未重新测量。"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  （仅测量：未做分离）"
+msgid "  (dry run: nothing separated)"
+msgstr "  （试运行：未做分离）"
 
 msgid "\nSPEAKERS -- SEPARATED BY VOICE"
 msgstr "\n说话人 -- 按声音分离"
@@ -3934,9 +3919,6 @@ msgstr "正在测量 %s（%s / %s）"
 
 msgid "  %-20s could be called %s"
 msgstr "  %-20s 可以叫 %s"
-
-msgid "Measuring not possible: %s"
-msgstr "无法测量：%s"
 
 msgid "  %s cannot be read: %s"
 msgstr "  无法读取 %s：%s"
@@ -4826,9 +4808,6 @@ msgstr "语音"
 msgid "Mixed"
 msgstr "混合"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "语音：仅按响度放置。与摄像机毫无共同之处的\n录音会被拒绝。混合：人声下面有音乐或混音，\n在响度找不到任何东西的地方，可以按相位放置。\n在“%s”下始终为混合。"
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s：其声音匹配度为 %s，在另一处也有 %s -- 仅按其时钟放置"
 
@@ -5042,3 +5021,135 @@ msgstr "其输出显示在“输出”下。"
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian 和 Ubuntu 上的 libsecret-tools 软件包，Fedora 和 Arch 上的 libsecret"
+
+msgid "%d min"
+msgstr "%d 分"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "auphonic.com 额度：剩余 %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "auphonic.com 额度：未知"
+
+msgid "%s -- free plan"
+msgstr "%s——免费方案"
+
+msgid "%s -- paying plan"
+msgstr "%s——付费方案"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  auphonic.com 额度：未知——账户没有回应。"
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  auphonic.com 额度：未知。"
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  auphonic.com 额度：剩余 %s。"
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  auphonic.com 额度：剩余 %s，而此次制作需要 %s——不够。"
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  auphonic.com 额度：剩余 %s，足够此次制作所需的 %s。"
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  auphonic.com 账户：付费。"
+
+msgid "  Account at auphonic.com: free."
+msgstr "  auphonic.com 账户：免费。"
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  auphonic.com 账户：未知。"
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "auphonic.com 账户：未知——无法查询。运行继续。"
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  提示：运行仍会尝试。制作是否开始由 auphonic.com 决定，若不开始它会说明。"
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  警告：此 Multitrack 制作长 %s，而免费方案下 auphonic.com 只接受约 %s 以内的此类制作。"
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  提示：更长的制作会在开始时被 auphonic.com 拒绝，且不收取任何费用。运行仍会尝试；若 auphonic.com 拒绝，随后会显示它自己的消息。"
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "免费方案下，auphonic.com 只接受约 %s 以内的 Multitrack 制作。"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  本次运行创建的项目 %r 保持打开 -- 之前没有可以重新打开的项目\n  处于打开状态。请在 Resolve 的项目管理器中删除它。"
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  已删除建了一半的项目 %r，并重新打开了 %r。"
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve 中断了清理：%s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  注意：无法删除建了一半的项目 %r，或无法重新打开 %r。\n  请在 Resolve 的项目管理器中处理。"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s：其声音匹配度为 %s，共同声音 %s 秒，太少，无法与巧合区分 -- 仅按其时钟放置"
+
+msgid "placed through %s"
+msgstr "经由 %s 放置"
+
+msgid "found where its timecode pointed"
+msgstr "在其时间码所指之处找到"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s：其时钟显示 %s，声音测得 %s -- 相差 %s 秒；采用测量结果"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s 被分配到两台摄像机：按音轨是 %s，按声音是 %s。以声音为准，因此剪辑只把 %s 显示在 %s 上。"
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  取自本机保存的测量：文件和设置相同，因此不再重新测量。"
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\n说话人 -- 之前已测量"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  取自本机保存的测量：录音、位置和时间窗口相同。"
+
+msgid "Finished mix"
+msgstr "成品混音"
+
+msgid "Two finished mixes"
+msgstr "两个成品混音"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s 和 %s 都设为 %s。只能有一个混音代替本次运行生成的混音 -- 请把另一个改回语音。"
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "成品混音必须是音频文件：%s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "成品混音代替摄像机文件中的混音，没有视频文件就没有摄像机文件。"
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "成品混音长 %s，比每台摄像机都短（最短 %s）：在它结束之后，Full-Mix 是静音。"
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s 代替本次运行本会生成的混音。"
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  成品混音在时间轴上找不到位置：它与摄像机没有共同的声音。运行停止，而不是随便放在某处。"
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  成品混音在 %s 到 %s 的窗口内没有任何内容：它位于 %s 到 %s。运行停止。"
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  成品混音让窗口开头 %s 和结尾 %s 保持静音。"
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix：成品混音原样使用 -- 不加增益，不加限幅器"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "“仅同步”把每段录音都按混合声音放置。"
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "成品混音 -- 不是说话人，没有摄像机"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "语音：仅按响度放置。与摄像机毫无共同之处的\n录音会被拒绝。混合：人声下面有音乐或混音，\n在响度找不到任何东西的地方，可以按相位放置。\n成品混音：在别处制作的立体声混音，按混合声音放置。它进入\n摄像机文件和交接文件，代替本次运行生成的混音 --\n不是说话人，不剪切，不发送到 auphonic.com。\n在“%s”下不提供语音。"

@@ -20,7 +20,7 @@
 #
 # The key is never handed to this script. The program reads it at run
 # time from the credential store -- the window or --store-auphonic-key
-# puts it there -- and hands it to curl in a file of its own. Nothing here
+# puts it there -- and hands it to curl on curl's input. Nothing here
 # prints it, and nothing here asks for it on a command line.
 #
 # Each production a test makes carries a title of the tests' own shape

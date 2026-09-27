@@ -598,11 +598,11 @@ msgstr "Dan mhuwiex fajl ta' dan il-programm."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Dan il-fajl inkiteb mill-verżjoni %s fil-format %d; din tikteb il-format %d. L-ismijiet ġewwa nbidlu minn dak iż-żmien, għalhekk ma jistax jinqara. Jekk jogħġbok erġa' ssettja t-tħaddim."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (kejl biss: ma nkiteb xejn)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (tħaddim ta' prova: maħdum u miżmum, il-folder tal-ħruġ ma ntmessx)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (kejl biss: mingħajr ċavetta tal-API jieqaf hawn)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (tħaddim ta' prova: ma nkiteb xejn)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontroll kontra t-tnixxija -- ir-referenza hija %s:"
@@ -937,8 +937,8 @@ msgstr "  %s: %s, maqbuż"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: in-numru ta' kanali ma jistax jiġi stabbilit (%s) -- ma jitkejjilx"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (kejl biss: xejn ma ttella')\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (tħaddim ta' prova: xejn ma ttella')\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  It-Timeline %r kienet diġà teżisti -- il-ġdida jisimha %r."
@@ -1182,6 +1182,9 @@ msgstr "  Jekk jogħġbok daħħal numru bejn 1 u %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produzzjoni fuq auphonic.com:   %s"
+
+msgid "  Production created (%s)"
+msgstr "  Il-produzzjoni nħolqot (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Il-produzzjoni għaddejja (%s)"
@@ -1738,8 +1741,8 @@ msgstr "\nQed jieqaf. It-tħaddim jintemm hekk kif ikun jista' mingħajr ma jħa
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Il-veduta wiesgħa ddum %s s, inqas mill-iqsar qatgħa ta' %s s -- għalhekk terġa' tingħaqad u qatt ma tidher.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nImkejjel. Ma nkiteb xejn -- tħaddim ta' prova jħalli l-folder tar-riżultat kif kien.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nMaħdum. Tħaddim ta' prova jħalli l-folder tar-riżultat kif kien.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nWaqaf waqt: %s"
@@ -2212,8 +2215,8 @@ msgstr "Distanza mill-medja"
 msgid "Drag audio and video files here"
 msgstr "Kaxkar fajls tal-awdjo u tal-vidjo hawn"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Tħaddim ta' prova: kejl biss, xejn ma jinkiteb, xejn ma jitla'."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Tħaddim ta' prova: kollox jinħadem u jiġi rrappurtat, xejn ma jidħol fil-folder tal-ħruġ, xejn ma jitla'."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Waqt it-tislima tal-bidu u tal-aħħar l-istampa tibqa' wiesgħa."
@@ -2335,9 +2338,6 @@ msgstr "Kejl biss -- xejn ma jinkiteb jew jittella'."
 msgid "Measuring %s (%s of %s)"
 msgstr "Kejl: %s (%s minn %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Il-kejl mhux possibbli: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Kejl tar-referenza"
 
@@ -2361,9 +2361,6 @@ msgstr "Multitrack jeħtieġ mill-inqas żewġ binarji tad-dħul. Binarju huwa r
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "L-ebda ħoss għadu ma qed jintuża -- żid reġistrazzjoni tal-awdjo, jew fil-lista tal-fajls issettja l-Awdjo tal-kamera ta' fajl tal-vidjo fuq \"uża l-awdjo intern\"."
-
-msgid "No audio tracks are assigned."
-msgstr "L-ebda binarju tal-awdjo mhu assenjat."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "L-ebda kamera mhi assenjata, għalhekk m'hemm xejn bejn xiex taqta'."
@@ -2394,9 +2391,6 @@ msgstr "L-ebda kelliem mhu magħruf hawn -- mingħajr min jitkellem meta, m'hemm
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "L-ebda leħen għad m'għandu kamera -- b'hekk kull qatgħa tkun l-istess waħda."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "L-ebda kelliem għadu magħruf -- xejn imkejjel, xejn separat, u l-ebda fajl tal-konsenja minn tħaddim preċedenti fil-folder %s jew fis-sottofolders tiegħu."
 
 msgid "Not found again after import: %s"
 msgstr "Ma nstabx mill-ġdid wara l-importazzjoni: %s"
@@ -2502,9 +2496,6 @@ msgstr "Mhux obbligatorju -- imbagħad YouTube japplika valuri standard (Sony BV
 
 msgid "Not ready yet:"
 msgstr "Għadu mhux lest:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Ma kien jinstema' xejn fil-binarji."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Reġistrazzjoni tal-awdjo waħda għad m'għandhiex isem ta' kelliem."
@@ -3418,9 +3409,6 @@ msgstr "imkejjel mir-reġistrazzjonijiet -- kellimin: %s, tul %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "mit-tħaddim li spiċċa -- kellimin: %s, tul %s"
 
-msgid "no folder"
-msgstr "l-ebda folder"
-
 msgid "no text"
 msgstr "l-ebda test"
 
@@ -3859,9 +3847,6 @@ msgstr "il-kontroll innifsu waqaf: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Il-punt tad-dħul jew il-punt tal-ħruġ ma jistax jinqara hawn."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Il-punt tal-ħruġ jinsab inqas minn 5 sekondi wara l-punt tad-dħul."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Jonqos madwar %s. Agħmel spazju jew agħżel folder ieħor b'--out. Il-fajls temporanji waqt it-tħaddim imorru x'imkien ieħor ukoll, fil-folder temporanju tas-sistema."
 
@@ -3913,14 +3898,11 @@ msgstr "  Diġà separat darba: moqri lura, mhux imkejjel mill-ġdid."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Madwar %s ta' kalkolu għal %s ta' awdjo."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (kejl biss: xejn ma ġie separat)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (tħaddim ta' prova: xejn ma ġie separat)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Il-binarji ma tkejlux, għalhekk fit-taħlita u mhux fil-muntaġġ hemm %s: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Għadu mhux imkejjel: %s -- fil-muntaġġ, iżda għadu mhux f'din id-dehra minn qabel."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Mill-binarji nfushom, leħen wieħed għal kull binarju: %s."
@@ -4964,9 +4946,6 @@ msgstr "Taħdit"
 msgid "Mixed"
 msgstr "Imħallat"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Taħdit: jitqiegħed skont il-qawwa tal-ħoss biss. Reġistrazzjoni li ma taqsam xejn\nmal-kameras tiġi rrifjutata. Imħallat: mużika jew taħlita tinsab taħt il-vuċijiet,\nu fejn il-qawwa tal-ħoss ma ssib xejn, il-fażi tista' tqegħedha.\nTaħt \"%s\" dejjem imħallat."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: il-ħoss tiegħu jaqbel b'%s, u b'%s f'post ieħor ukoll -- tqiegħed skont l-arloġġ tiegħu biss"
 
@@ -5180,3 +5159,135 @@ msgstr "Dak li jgħid jidher taħt \"Ħruġ\"."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "il-pakkett libsecret-tools fuq Debian u Ubuntu, libsecret fuq Fedora u Arch"
+
+msgid "%d min"
+msgstr "%d min"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Kreditu fuq auphonic.com: fadal %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Kreditu fuq auphonic.com: mhux magħruf"
+
+msgid "%s -- free plan"
+msgstr "%s -- pjan b'xejn"
+
+msgid "%s -- paying plan"
+msgstr "%s -- pjan imħallas"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Kreditu fuq auphonic.com: mhux magħruf -- il-kont ma weġibx."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Kreditu fuq auphonic.com: mhux magħruf."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Kreditu fuq auphonic.com: fadal %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Kreditu fuq auphonic.com: fadal %s, u din il-produzzjoni teħtieġ %s -- mhux biżżejjed."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Kreditu fuq auphonic.com: fadal %s, biżżejjed għall-%s li teħtieġ din il-produzzjoni."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Kont fuq auphonic.com: bi ħlas."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Kont fuq auphonic.com: b'xejn."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Kont fuq auphonic.com: mhux magħruf."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Kont fuq auphonic.com: mhux magħruf -- ma setax jiġi mistoqsi. It-tħaddim ikompli."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Nota: it-tħaddim jipprova xorta waħda. auphonic.com jiddeċiedi jekk il-produzzjoni tibdiex, u jgħid jekk ma tibdiex."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Twissija: din il-produzzjoni Multitrack iddum %s, u fuq il-pjan b'xejn auphonic.com jaċċetta waħda bħal din biss sa madwar %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Nota: auphonic.com jirrifjuta waħda itwal diġà fil-bidu u ma jiċċarġja xejn għaliha. It-tħaddim jipprova xorta waħda; jekk auphonic.com jirrifjuta, jiġi l-messaġġ tiegħu stess."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Fuq il-pjan b'xejn auphonic.com jaċċetta produzzjoni Multitrack biss sa madwar %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Il-proġett %r ta' din it-tħaddima jibqa' miftuħ -- qabel ma kien miftuħ xejn\n  li seta' jerġa' jinfetaħ. Ħassru fil-maniġer tal-proġetti ta' Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Il-proġett mibni bin-nofs %r tħassar mill-ġdid, %r huwa miftuħ mill-ġdid."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve waqqaf it-tindif: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Attenzjoni: il-proġett mibni bin-nofs %r ma setax jitħassar, jew %r ma setax\n  jerġa' jinfetaħ. Jekk jogħġbok agħmel dan fil-maniġer tal-proġetti ta' Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: il-ħoss tiegħu jaqbel b'%s fuq %s s ta' ħoss komuni, ftit wisq biex jingħaraf mill-kumbinazzjoni -- tqiegħed skont l-arloġġ tiegħu biss"
+
+msgid "placed through %s"
+msgstr "tqiegħed permezz ta' %s"
+
+msgid "found where its timecode pointed"
+msgstr "instab fejn kien jindika t-timecode tiegħu"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: l-arloġġ tiegħu jgħid %s, il-ħoss kejjel %s -- differenza ta' %s s; jintuża l-kejl"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s qiegħed fuq żewġ kameras: %s skont it-track, %s skont il-vuċi. Il-vuċi tirbaħ, għalhekk il-qatgħa turi lil %s fuq %s biss."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Meħud mill-kejl miżmum fuq dan il-kompjuter: l-istess fajls u settings, għalhekk xejn ma jitkejjel mill-ġdid."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nKELLIMIN -- MKEJLA QABEL"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Meħud mill-kejl miżmum fuq dan il-kompjuter: l-istess reġistrazzjonijiet, postijiet u tieqa tal-ħin."
+
+msgid "Finished mix"
+msgstr "Taħlita lesta"
+
+msgid "Two finished mixes"
+msgstr "Żewġ taħlitiet lesti"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s u %s it-tnejn huma ssettjati għal %s. Taħlita waħda biss tieħu post dik li jibni l-proċess -- erġa' ssettja l-oħra għal Taħdit."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "It-taħlita lesta trid tkun fajl tal-awdjo: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "it-taħlita lesta tieħu post it-taħlita fil-fajls tal-kameras, u mingħajr fajl tal-vidjo ma hemmx."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "it-taħlita lesta ddum %s, iqsar minn kull kamera (l-iqsar %s): fejn tispiċċa, il-Full-Mix jibqa' sieket."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s tieħu post it-taħlita li dan il-proċess kien jibni."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  It-taħlita lesta ma sabet l-ebda post fuq l-assi tal-ħin: ma taqsam l-ebda ħoss mal-kameras. Il-proċess jieqaf minflok ipoġġiha kullimkien."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  It-taħlita lesta m'għandha xejn fit-tieqa minn %s sa %s: tinsab minn %s sa %s. Il-proċess jieqaf."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  It-taħlita lesta tħalli sieket %s fil-bidu u %s fit-tmiem tat-tieqa."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: it-taħlita lesta kif waslet -- l-ebda gwadann u l-ebda limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"Sinkronizzazzjoni biss\" tqiegħed kull reġistrazzjoni bħala ħoss imħallat."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "it-taħlita lesta -- mhux kelliem, l-ebda kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Taħdit: jitqiegħed skont il-qawwa tal-ħoss biss. Reġistrazzjoni li ma taqsam xejn\nmal-kameras tiġi rrifjutata. Imħallat: mużika jew taħlita tinsab taħt il-vuċijiet,\nu fejn il-qawwa tal-ħoss ma ssib xejn, il-fażi tista' tqegħedha.\nTaħlita lesta: taħlita stereo magħmula x'imkien ieħor, imqiegħda bħala ħoss imħallat. Tidħol\nfil-fajls tal-kameras u fil-konsenja minflok it-taħlita tal-proċess --\nmhux kelliem, mhux maqtugħa, mhux mibgħuta lil auphonic.com.\nTaħt \"%s\" it-Taħdit mhux offrut."

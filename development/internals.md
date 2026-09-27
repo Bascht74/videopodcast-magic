@@ -35,75 +35,75 @@ What is in them, largest first, every folder of the program on the list
 and counted 27.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **4393** -- who speaks and when: the separation itself,
+* `speakers/` **4337** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3270** -- the window and everything it shows, asks or offers,
+* `ui/` **3320** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `player/` **3295** -- the moving picture: the player, the cut band,
+* `player/` **3311** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3274** -- who is on camera when, and what carries it out
+* `cut/` **3313** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
-* `resolve/` **2370** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2430** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
-* `material/` **2017** -- channels, chains, continuation files, and what
+* `material/` **2025** -- channels, chains, continuation files, and what
   a track is made of
-* `loudness/` **480** -- loudness and mixing: EBU R128 measured, the
+* `loudness/` **482** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
-* `bearings/` **2182** -- where each file and each voice sits, and how
+* `bearings/` **2451** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2062** -- the time base and the camera files: every
+* `timebase/` **2546** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
   recording answers to (`drift_clear`: three times its uncertainty)
   and one bound of its own, 500 ppm
-* `auphonic/` **1889** -- the sending to auphonic.com and the fetching
+* `auphonic/` **2106** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1824** -- whether the material fits together before the
+* `preflight/` **1919** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `setup/` **1388** -- finding ffmpeg, installing a missing module,
   keeping the key, and storing it from the terminal
-* `speech/` **1392** -- what is said and when, and what is written down
+* `speech/` **1455** -- what is said and when, and what is written down
   from it
-* `hearing/` **1117** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1341** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1318** -- helpers that shape what the window shows and
+* `fittings/` **1323** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **992** -- the command line a run is given: written out of
+* `orders/` **1090** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
-* `assignmenttable/` **779** -- the table on the second tab:
+* `assignmenttable/` **810** -- the table on the second tab:
   recordings above, the voices under them, the cameras below, what it
   keeps between builds and the camera names somebody typed; read by
   `assignmentsheet/` and nothing else
 * `upkeep/` **724** -- which release is out, the way back, pip putting
   one in place, and what the window offers of all three
-* `herald/` **849** -- the progress bar, the stages, the console and log
+* `herald/` **885** -- the progress bar, the stages, the console and log
   redirection with the line naming the Python it runs on, and the watch over a quiet run: `RunVitals` counts the
   run's children and reads whether any of them still moves
-* `pipeline/` **660** -- the plan: the camera audio out of the
+* `pipeline/` **671** -- the plan: the camera audio out of the
   pictures, the names and the plan the time base runs
 * `project/` **589** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
-* `filelist/` **535** -- the list of chosen files: the tree it is
+* `filelist/` **544** -- the list of chosen files: the tree it is
   shown in, what adding and removing do to it, and a recording of
   several blocks shown as one entry
 * `prework/` **466** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them and what each is worth
-* `resolvesheet/` **621** -- the third tab: whether Resolve answers,
+* `resolvesheet/` **625** -- the third tab: whether Resolve answers,
   the camera cut with its settings, forecast and preview, what the
   player is fed with, and the speaker box
 * `livery/` **453** -- the colours, the clip colours of the cut band and
@@ -113,12 +113,12 @@ figure of the day is that command, not this paragraph**:
   colour space, curve and bit depth, the device it names, whether the
   material is HDR, the spellings a colour space name goes by, and the
   report on a finished file
-* `tables/` **397** -- the tables and trees the window builds
-* `running/` **427** -- what a run is offered before it starts, the
+* `tables/` **417** -- the tables and trees the window builds
+* `running/` **657** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
   looks one up
-* `timecode/` **603** -- timecode strings, frame rates, the clock a file
+* `timecode/` **586** -- timecode strings, frame rates, the clock a file
   carries; the rate a Timeline gets, and seconds, frames and timecode
   turned into one another
 * `filesheet/` **458** -- the first tab: the drop area or the file
@@ -135,7 +135,7 @@ figure of the day is that command, not this paragraph**:
   four the way in used itself
 * `logbook/` **197** -- where the log of a run goes, and what goes into
   it
-* `stowage/` **250** -- where things are put down between one run and
+* `stowage/` **365** -- where things are put down between one run and
   the next: the work folder, what somebody chose, the write that is
   moved into place rather than left half done, and whether a stored
   file may be read at all
@@ -147,7 +147,7 @@ figure of the day is that command, not this paragraph**:
 * `outputsheet/` **124** -- the fourth tab: the log pane and how it
   follows a run, and the two buttons for what a run made, each with the
   reason it is greyed
-* `choices/` **123** -- the values a choice box holds, and what they are
+* `choices/` **129** -- the values a choice box holds, and what they are
   called
 `models/` is the odd one out among the folders: the speaker model lives
 there and no code at all, so `beside()` never reaches for it. There is
@@ -323,7 +323,6 @@ only builds the interface. So far:
 | `run_argv` | the whole command line, checks and queries included |
 | `slider_numbers` | the cut sliders as numbers, defaults filled in |
 | `slider_argv` | the same sliders as switches |
-| `build_handover` | the handover, with a sentence for every no |
 | `choose_zero_point` | where programme time starts: audio first, picture as stand-in |
 | `find_project_file` | the project file for whatever was pointed at |
 | `format_complaint` | whether a stored file may be read at all |
@@ -669,7 +668,7 @@ way every window in this table was found.
 | `stowage/` | `logbook/` binds its `cache_folder` at its head; it binds `FILE_FORMAT` for `format_complaint`, which stands here since 27.9.2026 | under `FILE_FORMAT`, before `logbook/`. `kept_language` stands far above it and reaches `settings` through `PROGRAM.` |
 | `logbook/` | binds `cache_folder` above; `herald/` and `soundings/` bind its `outside_say` at their heads | after `cache_folder`, before `soundings/` |
 | `soundings/` | binds `outside_say` above; `timecode/` binds its `ffprobe_json` at its head, as do eleven pieces after it | after `outside_say`, before `timecode/` |
-| `timecode/` | 20 pieces bind its names at their heads, counted 27.9.2026. Since that day the frame-rate family stands here too -- `known_frame_rate`, `own_frame_rate`, `resolve_timeline_rate`, `file_frame_rate`, `timeline_frame_rate`, `seconds_to_frames`, `frames_to_timecode`, `timecode_to_frames`, `frames_of_the_file`, `timeline_frames_of` and `RESOLVE_FRAME_RATES` out of `resolve/`, `cameras_frame_rate` and `timeline_timecode` out of `cut/`, `timecode_seconds` out of `hearing/`, `report_timecode_check` out of `metadata/` -- and it binds `math`, `number_text` and `path_key` for them, all read above it | above all 20 |
+| `timecode/` | 20 pieces bind its names at their heads, counted 27.9.2026. Since that day the frame-rate family stands here too -- `known_frame_rate`, `own_frame_rate`, `resolve_timeline_rate`, `file_frame_rate`, `timeline_frame_rate`, `seconds_to_frames`, `frames_to_timecode`, `timecode_to_frames`, `frames_of_the_file`, `timeline_frames_of` and `RESOLVE_FRAME_RATES` out of `resolve/`, `timeline_timecode` out of `cut/`, `timecode_seconds` out of `hearing/`, `report_timecode_check` out of `metadata/` -- and it binds `math`, `number_text` and `path_key` for them, all read above it | above all 20 |
 | `tables/` | binds 8 names, the latest of them the timecode's `parse_timecode`; `ui/` binds 10 of its own and `speakers/` 8 | **both edges measured 7.9.2026**: one read earlier -- above `timecode/` -- answers `AttributeError: 'Program' object has no attribute 'parse_timecode'`, rc=1; right after it, rc=0 and the suite whole. It stands as early as it can so that any piece taking a window part of its own can bind the fifteen table names -- which `speakers/` then did, and all 8 it wanted bound at its head |
 | `metadata/` | 8 pieces bind its names at their heads, `resolve/` among them for `audio_track_count`, which stands here since 27.9.2026; it binds `file_frame_rate` and `known_frame_rate` out of `timecode/` since the same day | above all 8 |
 | `herald/` | `loudness/` and `hearing/` bind the progress line -- `progress_from_line` and `show_progress` -- at their heads. `python_note` stands here since 27.9.2026, beside `running_from` in the banner; it binds `LIKES_PYTHON` for it, and `orders/` binds it back | before both of them |
@@ -990,20 +989,28 @@ each through its own address (`.../multi_input_files/<Name>.json`).
 
 ## How the key reaches curl
 
-The key reaches curl through a temporary config file. `mkstemp` creates
-that file readable by its owner alone, and a `chmod` to `0600` says so
-again for the reader. On Windows the `chmod` only toggles the read-only
-bit, and the protection there comes from the temporary directory. The
-file holds one line, `header = "Authorization: bearer <key>"`, and the
-key goes in escaped. Backslash and quotation mark get a backslash;
-carriage return and line feed are dropped. curl reads this file as
-configuration. Without that escaping a quotation mark or a line break
-inside the key would start a directive of its own.
+The key reaches curl on its input, never through a file. `_curl_call`
+starts curl with `--config -`, which makes curl read its configuration
+from its input, and writes one line there, built by `curl_config`:
+`header = "Authorization: bearer <key>"`, with the key escaped.
+Backslash and quotation mark get a backslash; carriage return and line
+feed are dropped. Without that escaping a quotation mark or a line
+break inside the key would start a directive of its own. The quiet
+call hands the line over as `input=`; a transfer with a bar writes it
+into the pipe and closes it before reading curl's progress, so curl
+never waits for more. Measured 27.9.2026 with curl 7.86 and 8.7.1: the
+header arrives, and no file in the temporary folder holds the key at
+any moment of a call. `--config -` is the same option in the curl.exe
+of Windows 10 and later and on Linux; read, not measured there.
 
-The file is removed in a `finally`, whatever happened. If it cannot be
-removed it is overwritten with a single line first, so a file left
-behind no longer holds the key. A failure to remove it never replaces
-the real error.
+Until b28 the line stood in a `mkstemp` file of mode 0600 for the
+length of the call. What shut that file was not the same on every
+system (`decisions.md`), and a scanner rightly called it the key in
+clear text on disc. The input shuts it everywhere alike.
+
+Only the answer of a transfer still goes through a file, because an
+unread pipe fills up and stalls curl. It holds what auphonic.com sent,
+never the key, and is removed in a `finally` whatever happened.
 
 ## Track names and the MOV target
 
@@ -1215,9 +1222,8 @@ gap was always far under the shortest shot.
 
 `state["cut_basis"]` is set on every pass of the preview, before
 anything is computed: `"run"` where this window's own handover file was
-read, `"auphonic"` where that run went over auphonic.com
-(`state["run_auphonic"]`, held when **Start** is pressed, so turning the
-preset box afterwards cannot change the answer), otherwise `"measured"`.
+read, otherwise `"measured"`. A `"auphonic"` kept by an older project
+file is read like `"run"`; nothing writes it any more.
 `cut_basis_line` turns it into the sentence and the colour -- warning
 for `"measured"`, good for the other two.
 

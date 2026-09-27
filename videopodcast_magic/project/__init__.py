@@ -386,7 +386,7 @@ def make_project_file(QtWidgets, window, state, model, report, write,
         for name in ("wide_set_aside", "voiced", "projects_offered",
                      "speakers_source_chosen", "forced_own",
                      "result_folder", "resolve_json", "voice_marks",
-                     "cut_basis", "run_auphonic", "project_last",
+                     "cut_basis", "project_last",
                      "project_kept", "project_refused",
                      "project_refused_said", "handover_offered",
                      "project_type_asked") + SPEAKER_STATE:
@@ -401,7 +401,7 @@ def make_project_file(QtWidgets, window, state, model, report, write,
         # left standing, a project opened again with the same files in
         # one session never read its stored axis and showed none.
         for name in ("axis_answered", "axis_covered", "axis_asked",
-                     "axis_asking", "axis_marks"):
+                     "axis_asking", "axis_marks", "axis_reference"):
             state.pop(name, None)
         state["weak"], state["no_place"] = set(), set()
         state["clock_alone"] = set()

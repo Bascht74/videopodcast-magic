@@ -221,7 +221,9 @@ that begins with the episode.
 Where measurement and clock disagree by more than a frame, the run
 prints both numbers for that camera and says that it used the
 measurement. Without that line a clock set to another day is quietly
-passed over and nobody learns of it.
+passed over and nobody learns of it. Without a timecode on the
+reference camera, every written camera carries the timecode of its
+measured place, counted from 00:00:00.
 
 **The handover file carries the answer per camera**, in `placed_by`
 beside the offset: `measured`, `clock` or `nowhere`. Whoever asks later
@@ -652,6 +654,13 @@ backup copy.
   left it out of the handover file; it names it as it writes.
   Give the file a timecode that fits the other recordings and run
   again, or bring it into Resolve by hand.
+- **The run stopped while building, and the project is gone.** Resolve
+  would not take a file, so the run stopped. It deleted the project it
+  had just made and opened the one you had open before; it says both by
+  name. A project that existed before the run is never deleted. Where
+  nothing that can be opened again was open before -- a freshly started
+  Resolve -- the made project stays open and the run says so: delete it
+  in Resolve's project manager.
 - **The last lines of the run say the project is not complete.**
   Resolve refused a track, was asked a second time, and refused again.
   The run named it the moment it happened -- the track, the timeline,

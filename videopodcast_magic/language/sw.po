@@ -596,11 +596,11 @@ msgstr "Hii si faili ya programu hii."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Faili hii iliandikwa na toleo %s katika muundo %d; toleo hili huandika muundo %d. Majina ndani yake yamebadilika tangu wakati huo, kwa hiyo haiwezi kusomwa. Tafadhali andaa uendeshaji upya."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (kupima tu: hakuna kilichoandikwa)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (jaribio: kimekokotolewa na kuhifadhiwa, folda ya towe haijaguswa)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (kupima tu: bila ufunguo wa API inasimama hapa)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (jaribio: hakuna kilichoandikwa)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Ukaguzi dhidi ya uvujaji wa sauti -- marejeo ni %s:"
@@ -935,8 +935,8 @@ msgstr "  %s: %s, imerukwa"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: idadi ya chaneli zake haiwezi kubainishwa (%s) -- haipimwi"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (kupima tu: hakuna kilichopakiwa)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (jaribio: hakuna kilichopakiwa)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r ilikuwepo tayari -- mpya inaitwa %r."
@@ -1180,6 +1180,9 @@ msgstr "  Tafadhali weka namba kati ya 1 na %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Utayarishaji kwenye auphonic.com:  %s"
+
+msgid "  Production created (%s)"
+msgstr "  Utayarishaji umeundwa (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Utayarishaji unaendelea (%s)"
@@ -1736,8 +1739,8 @@ msgstr "\nInasimamishwa. Uendeshaji unaisha mara tu unapoweza bila kuacha faili 
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Picha pana inadumu %s s, chini ya kipande kifupi zaidi cha %s s -- kwa hiyo inaunganishwa tena na haionekani kamwe.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nImepimwa. Hakuna kilichoandikwa -- jaribio huiacha folda ya matokeo kama ilivyokuwa.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nImekokotolewa. Jaribio huiacha folda ya matokeo kama ilivyokuwa.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nIlisimamishwa wakati wa: %s"
@@ -2210,8 +2213,8 @@ msgstr "Umbali kutoka wastani"
 msgid "Drag audio and video files here"
 msgstr "Buruta faili za sauti na video hapa"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Jaribio: kupima tu, hakuna kinachoandikwa, hakuna kinachopakiwa."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Jaribio: kila kitu kinakokotolewa na kuripotiwa, hakuna kinachoingia kwenye folda ya towe, hakuna kinachopakiwa."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Wakati wa salamu na kuagana picha inabaki pana."
@@ -2333,9 +2336,6 @@ msgstr "Kupima tu -- hakuna kinachoandikwa wala kupakiwa."
 msgid "Measuring %s (%s of %s)"
 msgstr "Kupima %s (%s kati ya %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Kupima hakuwezekani: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Kupima kipimo"
 
@@ -2359,9 +2359,6 @@ msgstr "Multitrack inahitaji angalau treki mbili za ingizo. Treki ni rekodi tofa
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Bado hakuna sauti inayotumika -- ongeza rekodi ya sauti, au weka Sauti ya kamera ya faili ya video kuwa \"tumia sauti ya ndani\" katika orodha ya faili."
-
-msgid "No audio tracks are assigned."
-msgstr "Hakuna treki za sauti zilizogawiwa."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Hakuna kamera iliyogawiwa, kwa hivyo hakuna cha kukata kati ya kamera."
@@ -2392,9 +2389,6 @@ msgstr "Hakuna mzungumzaji anayejulikana hapa -- bila nani anazungumza lini haku
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Bado hakuna sauti ya mtu yenye kamera -- hivyo kila kipande kingekuwa kilekile."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Bado hakuna wazungumzaji wanaojulikana -- hakuna kilichopimwa, hakuna kilichotenganishwa, na hakuna faili ya makabidhiano ya uendeshaji wa awali katika %s wala folda zake ndogo."
 
 msgid "Not found again after import: %s"
 msgstr "Haikupatikana tena baada ya kuingiza: %s"
@@ -2500,9 +2494,6 @@ msgstr "Si lazima -- basi YouTube hutumia thamani chaguo-msingi (Sony BVM-X300).
 
 msgid "Not ready yet:"
 msgstr "Bado si tayari:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Hakuna kilichosikika katika treki."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Rekodi moja ya sauti bado haina jina la mzungumzaji."
@@ -3415,9 +3406,6 @@ msgstr "imepimwa kutoka kwenye rekodi -- wazungumzaji %s, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "kutoka uendeshaji uliokamilika -- wazungumzaji %s, %s"
 
-msgid "no folder"
-msgstr "folda yoyote"
-
 msgid "no text"
 msgstr "hakuna maandishi"
 
@@ -3856,9 +3844,6 @@ msgstr "ukaguzi wenyewe ulisimama: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Alama ya kuingia au alama ya kutoka haiwezi kusomwa hapa."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Alama ya kutoka iko chini ya sekunde 5 baada ya alama ya kuingia."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Kunakosekana takriban %s. Toa nafasi au chagua folda nyingine kwa --out. Faili za muda wakati wa uendeshaji huenda mahali pengine tena, kwenye folda ya muda ya mfumo."
 
@@ -3910,14 +3895,11 @@ msgstr "  Imeshatenganishwa mara moja: inasomwa tena, haipimwi upya."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Takriban muda wa %s wa kukokotoa kwa sauti ya %s."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (kupima pekee: hakuna kilichotenganishwa)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (jaribio: hakuna kilichotenganishwa)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Treki hazikupimwa, kwa hiyo %s -- kwenye mchanganyiko, si kwenye mkato: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Bado bila kipimo: %s -- kwenye mkato ndiyo, kwenye hakiki hii bado."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Kutoka kwenye treki zenyewe, sauti moja kwa kila treki: %s."
@@ -4875,9 +4857,6 @@ msgstr "Mazungumzo"
 msgid "Mixed"
 msgstr "Mchanganyiko"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Mazungumzo: huwekwa kwa ukubwa wa sauti pekee. Rekodi isiyoshiriki chochote\nna kamera hukataliwa. Mchanganyiko: muziki au mchanganyiko uko chini ya sauti za watu,\nna pale ukubwa wa sauti usipopata kitu, fazi inaweza kuiweka.\nChini ya \"%s\" huwa mchanganyiko daima."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: sauti yake inalingana kwa %s, na kwa %s mahali pengine pia -- imewekwa kwa saa yake tu"
 
@@ -5091,3 +5070,135 @@ msgstr "Inachosema huonekana chini ya Towe."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "kifurushi libsecret-tools kwenye Debian na Ubuntu, libsecret kwenye Fedora na Arch"
+
+msgid "%d min"
+msgstr "dak %d"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Salio kwenye auphonic.com: zimebaki %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Salio kwenye auphonic.com: haijulikani"
+
+msgid "%s -- free plan"
+msgstr "%s -- mpango wa bure"
+
+msgid "%s -- paying plan"
+msgstr "%s -- mpango wa kulipia"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Salio kwenye auphonic.com: haijulikani -- akaunti haikujibu."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Salio kwenye auphonic.com: haijulikani."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Salio kwenye auphonic.com: zimebaki %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Salio kwenye auphonic.com: zimebaki %s, na uzalishaji huu unahitaji %s -- haitoshi."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Salio kwenye auphonic.com: zimebaki %s, zinatosha kwa %s zinazohitajika na uzalishaji huu."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Akaunti kwenye auphonic.com: ya kulipia."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Akaunti kwenye auphonic.com: ya bure."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Akaunti kwenye auphonic.com: haijulikani."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Akaunti kwenye auphonic.com: haijulikani -- haikuweza kuulizwa. Uendeshaji unaendelea."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Dokezo: uendeshaji unajaribu hata hivyo. auphonic.com ndiyo huamua kama uzalishaji unaanza, na husema kama hauanzi."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Onyo: uzalishaji huu wa Multitrack una urefu wa %s, na kwenye mpango wa bure auphonic.com hupokea kama huo hadi takriban %s tu."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Dokezo: auphonic.com hukataa ulio mrefu zaidi mwanzoni kabisa na haitozi chochote kwa ajili yake. Uendeshaji unajaribu hata hivyo; auphonic.com ikikataa, ujumbe wake yenyewe hufuata."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Kwenye mpango wa bure auphonic.com hupokea uzalishaji wa Multitrack hadi takriban %s tu."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Mradi %r ulioundwa na uendeshaji huu unabaki wazi -- hapo awali hakuna kilichokuwa wazi\n  ambacho kingeweza kufunguliwa tena. Ufute katika kidhibiti cha miradi cha Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Mradi uliojengwa nusu %r umefutwa tena, %r uko wazi tena."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve ilisimamisha usafishaji: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Tahadhari: mradi uliojengwa nusu %r haukuweza kufutwa, au %r haukuweza\n  kufunguliwa tena. Tafadhali fanya hivyo katika kidhibiti cha miradi cha Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: sauti yake inalingana kwa %s kwenye sekunde %s za sauti ya pamoja, kidogo mno kutofautisha na bahati -- imewekwa kwa saa yake tu"
+
+msgid "placed through %s"
+msgstr "imewekwa kupitia %s"
+
+msgid "found where its timecode pointed"
+msgstr "imepatikana pale timecode yake ilipoelekeza"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: saa yake inasema %s, sauti ilipima %s -- tofauti ya sekunde %s; kipimo ndicho kinachotumika"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s yuko kwenye kamera mbili: %s kwa wimbo, %s kwa sauti. Sauti ndiyo inayoshinda, kwa hiyo uhariri unamwonyesha %s kwenye %s pekee."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Imechukuliwa kutoka kwa kipimo kilichohifadhiwa kwenye kompyuta hii: faili na mipangilio ileile, kwa hiyo hakuna kinachopimwa upya."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nWAZUNGUMZAJI -- WALIPIMWA AWALI"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Imechukuliwa kutoka kwa kipimo kilichohifadhiwa kwenye kompyuta hii: rekodi, nafasi na dirisha la muda vilevile."
+
+msgid "Finished mix"
+msgstr "Mchanganyiko uliokamilika"
+
+msgid "Two finished mixes"
+msgstr "Michanganyiko miwili iliyokamilika"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s na %s zote zimewekwa kuwa %s. Mchanganyiko mmoja tu unachukua nafasi ya ule unaojengwa na uchakataji -- rudisha mwingine kuwa Mazungumzo."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Mchanganyiko uliokamilika lazima uwe faili la sauti: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "mchanganyiko uliokamilika unachukua nafasi ya mchanganyiko katika faili za kamera, na bila faili la video hakuna faili za kamera."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "mchanganyiko uliokamilika una urefu wa %s, mfupi kuliko kila kamera (fupi zaidi %s): pale unapoishia, Full-Mix ni kimya."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s inachukua nafasi ya mchanganyiko ambao uchakataji huu ungejenga."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Mchanganyiko uliokamilika haukupata nafasi kwenye mhimili wa muda: hauna sauti yoyote inayoshirikiwa na kamera. Uchakataji unasimama badala ya kuuweka popote."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Mchanganyiko uliokamilika hauna chochote katika dirisha kuanzia %s hadi %s: uko kuanzia %s hadi %s. Uchakataji unasimama."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Mchanganyiko uliokamilika unaacha kimya %s mwanzoni na %s mwishoni mwa dirisha."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: mchanganyiko uliokamilika kama ulivyofika -- bila kuongeza sauti na bila kidhibiti"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"Usawazishaji pekee\" huweka kila rekodi kama sauti mchanganyiko."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "mchanganyiko uliokamilika -- si mzungumzaji, bila kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Mazungumzo: huwekwa kwa ukubwa wa sauti pekee. Rekodi isiyoshiriki chochote\nna kamera hukataliwa. Mchanganyiko: muziki au mchanganyiko uko chini ya sauti za watu,\nna pale ukubwa wa sauti usipopata kitu, fazi inaweza kuiweka.\nMchanganyiko uliokamilika: mchanganyiko wa stereo uliotengenezwa mahali pengine, huwekwa kama sauti mchanganyiko. Huingia\nkwenye faili za kamera na makabidhiano badala ya mchanganyiko wa uchakataji --\nsi mzungumzaji, haukatwi, hautumwi kwa auphonic.com.\nChini ya \"%s\" Mazungumzo hayatolewi."

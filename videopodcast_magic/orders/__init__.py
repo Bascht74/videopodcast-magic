@@ -21,6 +21,7 @@ MIN_SPEECH_TO_SWITCH_S = PROGRAM.MIN_SPEECH_TO_SWITCH_S
 PLATFORMS = PROGRAM.PLATFORMS
 PROGRAM_NAME = PROGRAM.PROGRAM_NAME
 SILENCE_HOLD_S = PROGRAM.SILENCE_HOLD_S
+SOUND_FINISHED = PROGRAM.SOUND_FINISHED
 SOUND_HOLDS = PROGRAM.SOUND_HOLDS
 SOUND_MIXED = PROGRAM.SOUND_MIXED
 SOUND_SPEECH = PROGRAM.SOUND_SPEECH
@@ -45,7 +46,8 @@ separation_has_voices = PROGRAM.separation_has_voices
 
 # The switches that need several recordings. Everything else works on
 # any run since the two paths became one -- the assignment file too.
-ONLY_MULTITRACK = ("auphonic_resume", "multitrack")
+# Not --multitrack itself: a switch marked as needing itself says nothing.
+ONLY_MULTITRACK = ("auphonic_resume",)
 
 
 #--------------------------------------- Out of the window into an order
@@ -176,13 +178,34 @@ def run_argv(values, assignment_file_path=""):
             % (shown.get(first) or os.path.basename(first),
                shown.get(second) or os.path.basename(second),
                label_of(kind)))
+    # The finished mix is no recording of the run: it goes as a switch
+    # of its own, with its blocks, and its row is in no plan.
+    finished = finished_mix_rows(
+        values.get("sound"), [r.get("blocks") for r in
+                              (values.get("rows") or ())],
+        [p for p, a in files if a == "audio"])
+    if len(finished) > 1:
+        shown = PROGRAM.recording_labels([p for p, a in files
+                                          if a == "audio"])
+        return error(
+            T('Two finished mixes'),
+            T('%s and %s are both set to %s. One mix takes the place of '
+              'the one the run builds -- please set the other one back to '
+              'speech.')
+            % (shown.get(finished[0][0]) or os.path.basename(finished[0][0]),
+               shown.get(finished[1][0]) or os.path.basename(finished[1][0]),
+               label_of(SOUND_FINISHED)))
+    mix_blocks = set(path_key(b) for blocks in finished for b in blocks)
     # Anything set to "ignore this video" does not come along at all.
     off = set(p for p, a in clip_kind.items() if a == TYPE_IGNORED)
     argv = ["videopodcast_magic.py"] + [p for p, _a in files
                                         if p not in edge.values()
-                                        and p not in off]
+                                        and p not in off
+                                        and path_key(p) not in mix_blocks]
     for switch, file_path in sorted(edge.items()):
         argv += [switch, file_path]
+    for block in (finished[0] if finished else ()):
+        argv += ["--finished-mix", block]
     # The wide shots stay in the file list: they are cameras like any
     # other, and the switch says only that no speaker belongs to them.
     for file_path in sorted(p for p, a in clip_kind.items()
@@ -246,7 +269,9 @@ def run_argv(values, assignment_file_path=""):
                and cam.get("path") not in off]
     only_video = bool(values.get("camera_audio_only"))
     lines = [r for r in (values.get("rows") or [])
-             if r.get("camera_choice") != IGNORE_AUDIO]
+             if r.get("camera_choice") != IGNORE_AUDIO
+             and not (r.get("blocks") and path_key(r["blocks"][0])
+                      in mix_blocks)]
     # A name typed on two recordings merges them into one track on
     # either path, so both ask first; a name left empty merges nothing.
     names = [(r.get("speakers") or "").strip() for r in lines]
@@ -343,6 +368,26 @@ def run_argv(values, assignment_file_path=""):
     return RunLine(argv, key), plan, messages
 
 
+def finished_mix_rows(sound, rows, audio_files):
+    """The recordings held as the finished mix: [blocks, ...], in order.
+
+    *sound* is {first block: what its sound holds}, as the file list
+    keeps it; *rows* the blocks of each recording as the window groups
+    them; *audio_files* those in the list. A recording with no row is
+    its one file. One answer for the run's line and the window's check,
+    so both mean the same recording.
+    """
+    listed = dict((path_key(p), p) for p in audio_files or ())
+    out = []
+    for head, holds in sorted((sound or {}).items()):
+        if holds != SOUND_FINISHED or path_key(head) not in listed:
+            continue
+        out.append(next((list(r) for r in rows or ()
+                         if r and path_key(r[0]) == path_key(head)),
+                        [listed[path_key(head)]]))
+    return out
+
+
 def run_plan(values, lines, cameras, only_video):
     """What goes into the assignment file, on either path.
 
@@ -351,6 +396,9 @@ def run_plan(values, lines, cameras, only_video):
     and which camera each voice is on travel with it.
     """
     files = list(values.get("files") or [])
+    # A name left empty is guessed from the file, and two folders are two
+    # speakers even where they guess alike: numbered (speaker_guesses).
+    guessed = PROGRAM.speaker_guesses([p for p, a in files if a == "audio"])
     tracks = []
     for r in lines:
         blocks = list(r.get("blocks") or [])
@@ -372,13 +420,15 @@ def run_plan(values, lines, cameras, only_video):
         entry = {"audio": blocks[0] if blocks else "",
                  "blocks": blocks,
                  "speakers": (r.get("speakers") or "").strip()
-                 or PROGRAM.guess_speaker_name(blocks[0] if blocks else ""),
+                 or (guessed.get(blocks[0])
+                     or PROGRAM.guess_speaker_name(blocks[0])
+                     if blocks else PROGRAM.guess_speaker_name("")),
                  "camera": full,
                  "camera_audio": bool(only_video or
                                       (camera_track and straight))}
         if camera_track or only_video:
-            if not full:
-                # No camera picked: it belongs to the one it came from.
+            if not full and target != PROGRAM.MIX_ONLY:
+                # None picked: its own camera; "no camera of its own" is none.
                 entry["camera"] = os.path.abspath(source or (
                     blocks[0] if blocks else ""))
             entry["from_camera"] = os.path.abspath(
@@ -396,6 +446,9 @@ def run_plan(values, lines, cameras, only_video):
     if separation_has_voices(values.get("speakers_of")):
         plan["speakers_of"] = values["speakers_of"]
         plan["voices_of"] = voices_of_values(values)
+    # Where the window's transcript is kept: the run reads it from there.
+    if values.get("words_of"):
+        plan["words_of"] = values["words_of"]
     return plan
 
 
@@ -414,26 +467,34 @@ def camera_label_argv(files, off=()):
     return out
 
 
-def speakers_to_cameras(assign_lines, voice_lines, voiced=()):
-    """Who is on which camera, out of the two tables that say so.
+def speakers_to_cameras(assign_lines, voice_lines, own_rows=(), cameras=(),
+                        only_video=False):
+    """Who is on which camera, {name: camera file}, as the run reads it.
 
-    *assign_lines* are the recording rows, *voice_lines* the voices a
-    separation found under one of them, *voiced* the recordings whose
-    voices stand underneath. Where the voices stand under a recording
-    they carry the camera and the recording does not, or two answers
-    could say different things about the same camera.
+    The rows go in as the window hands them to the run and run_plan and
+    voices_of_values answer: the Kind field's wide shot has no rule of
+    its own to drift.
+    *own_rows* are the rows of a camera's own sound, *cameras* the files.
     """
-    where_to = {}
-    for chain, name_value, camera_value in assign_lines:
-        if os.path.abspath(chain[0]) in (voiced or ()):
-            continue
-        n = name_value.get()
-        if n and camera_value.get() != IGNORE_AUDIO:
-            where_to[n] = camera_value.get()
-    for _label, name_value, camera_value in voice_lines:
-        n = name_value.get().strip()
-        if n and camera_value.get() != IGNORE_AUDIO:
-            where_to[n] = camera_value.get()
+    videos = list(cameras) or sorted(set(
+        cv.get() for _c, _n, cv in list(assign_lines) + list(voice_lines)
+        if PROGRAM.is_a_path(cv.get())))
+    rows = [{"blocks": list(chain), "speakers": nv.get(),
+             "camera_choice": cv.get(),
+             "own_audio": chain[0] in (own_rows or ()),
+             "from_camera": (own_rows.get(chain[0]) or ""
+                             if isinstance(own_rows, dict) else "")}
+            for chain, nv, cv in assign_lines]
+    values = {"files": [(p, "video") for p in videos], "rows": rows,
+              "cameras": [{"path": p, "name": ""} for p in videos],
+              "voices": [{"name": nv.get().strip(), "camera": cv.get()}
+                         for _k, nv, cv in voice_lines]}
+    plan = run_plan(values, [r for r in rows
+                             if r["camera_choice"] != IGNORE_AUDIO],
+                    [], only_video)
+    where_to = dict((e["speakers"], e["camera"])
+                    for e in plan["tracks_of"] if e.get("camera"))
+    where_to.update(voices_of_values(values))
     return where_to
 
 
@@ -717,6 +778,19 @@ def build_argument_parser():
     ap.add_argument("--outro", default=None, metavar="FILE",
                     help="the same for the end: it starts where the last "
                          "word ends. (default: none)")
+    ap.add_argument("--finished-mix", dest="finished_mix", action="append",
+                    default=None, metavar="FILE",
+                    help="a stereo mix finished in another recording "
+                         "chain. It is placed on the time axis as a "
+                         "recording with mixed sound is, and goes into the "
+                         "camera files and the handover as the Full-Mix, "
+                         "in place of the mix the run builds -- as it "
+                         "came, with no gain. It is no speaker: not cut, "
+                         "not taken apart by voice, not sent to "
+                         "auphonic.com. Given several times, the files are "
+                         "the blocks of one recording, in order. Needs a "
+                         "video file. "
+                         "(default: none, the run builds the mix)")
     ap.add_argument("--wide-shot", dest="wide_shot", action="append",
                     default=None, metavar="FILE",
                     help="this video file is a wide shot: a camera nobody "
@@ -858,7 +932,8 @@ def build_argument_parser():
                          "new = a second project alongside, abort = stop. "
                          "Without this it asks.")
     ap.add_argument("--dry-run", action="store_true",
-                    help="only measure and report, write nothing")
+                    help="work everything out up to the finished cut and report it, "
+                         "write nothing")
     # A switch that needs several recordings says so, or it would be
     # taken and do nothing. Marked here rather than at the call site:
     # --help builds its own parser and never reaches that one.
@@ -871,6 +946,8 @@ def build_argument_parser():
 # The window's names for this run's cameras, set by cameras_shown_as
 # at the start of every run so that none is left over from the last.
 _SHOWN = [ByFile()]
+# And for its recordings, set by recordings_shown_as the same way.
+_HEARD = [ByFile()]
 
 
 # The line levels to -16 as the window does; this word leaves it alone.
@@ -908,6 +985,27 @@ def camera_shown(file_path):
     over. Every other camera is named by its file.
     """
     return _SHOWN[0].get(file_path) or os.path.basename(file_path or "")
+
+
+def recordings_shown_as(audio_paths):
+    """Take this run's recordings, named by the rule the file list names by.
+
+    The window hands them over in its own order, and recording_labels
+    numbers a second one of one file name "(2)" in that order: so the
+    run need not be told the names, it works them out alike.
+    """
+    _HEARD[0] = PROGRAM.recording_labels(list(audio_paths or ()))
+
+
+def recording_shown(file_path):
+    """A recording as the run's log names it: as the file list does.
+
+    Two recorders that both write ZOOM0001.WAV made two recordings, and
+    the second is "ZOOM0001.WAV (2)" (recording_labels). A file that is
+    no recording of this run -- a camera, a file made along the way --
+    is named as camera_shown names it.
+    """
+    return _HEARD[0].get(file_path) or camera_shown(file_path)
 
 
 # How the command line switch is named and how the field behind it. All others

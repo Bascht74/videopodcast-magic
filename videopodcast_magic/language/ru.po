@@ -619,9 +619,6 @@ msgstr "Передача"
 msgid "Wide shot after"
 msgstr "Общий план после"
 
-msgid "no folder"
-msgstr "нет папки"
-
 msgid "no text"
 msgstr "нет текста"
 
@@ -1051,11 +1048,11 @@ msgstr "\n    %s  --  %s, %s"
 msgid "\n  %s: no audio to extract (%s)"
 msgstr "\n  %s: нет звука для извлечения (%s)"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (только измерение: ничего не записано)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (пробный прогон: рассчитано и сохранено, папка вывода не тронута)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (только измерение: без API Key дальше не пойдёт)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (пробный прогон: ничего не записано)"
 
 msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
 msgstr "\n  ПРОЕКТ С ТАКИМ НАЗВАНИЕМ УЖЕ ЕСТЬ: %r"
@@ -1174,8 +1171,8 @@ msgstr "\nПОКАЗАТЕЛИ"
 msgid "\nMIXING"
 msgstr "\nСВЕДЕНИЕ"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nИзмерено. Ничего не записано -- пробный прогон оставляет папку с результатом такой, какой она была.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nРассчитано. Пробный прогон оставляет папку с результатом такой, какой она была.\n"
 
 msgid "\nNORMALISE"
 msgstr "\nНОРМАЛИЗАЦИЯ"
@@ -1702,11 +1699,11 @@ msgstr "  %sx уход от говорящего, потому что план �
 msgid "  (container; measured %s)"
 msgstr "  (контейнер; измерено %s)"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (только измерение: ничего не разделено)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (пробный прогон: ничего не разделено)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (только измерение: ничего не выгружено)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (пробный прогон: ничего не выгружено)\n"
 
 msgid "  (this file starts later)"
 msgstr "  (этот файл начинается позже)"
@@ -2088,6 +2085,9 @@ msgstr "  Пресет:  %s"
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Продукция на auphonic.com:   %s"
+
+msgid "  Production created (%s)"
+msgstr "  Продукция создана (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Продукция выполняется (%s)"
@@ -2566,9 +2566,6 @@ msgstr "%s кГц против %s кГц"
 msgid "%s kHz instead of %s kHz -- converted during processing."
 msgstr "%s кГц вместо %s кГц -- пересчитывается при подготовке."
 
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s -- ещё без измерения: в монтаже есть, в этом предпросмотре пока нет."
-
 msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
 msgstr "%s из %s сравнений ниже %s дБ -- каждая запись против каждой другой, в обе стороны."
 
@@ -2858,8 +2855,8 @@ msgstr "Расстояние до среднего"
 msgid "Downloading %s"
 msgstr "Загрузка %s"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Пробный прогон: только измеряется, ничего не записывается, ничего не выгружается."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Пробный прогон: всё рассчитывается и выводится в отчёт, в папку вывода ничего не попадает, ничего не выгружается."
 
 msgid "Duration %s"
 msgstr "Длительность %s"
@@ -3065,9 +3062,6 @@ msgstr "Измерить, выровнять, обработать, записа
 msgid "Measuring %s (%s of %s)"
 msgstr "Измерение %s (%s из %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Измерение невозможно: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Измерение эталона"
 
@@ -3132,9 +3126,6 @@ msgstr "Нет своего пресета Singletrack -- создать"
 msgid "No audio file given."
 msgstr "Звуковой файл не указан."
 
-msgid "No audio tracks are assigned."
-msgstr "Звуковые дорожки не назначены."
-
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Ни одна камера не назначена, поэтому монтировать не между чем."
 
@@ -3189,9 +3180,6 @@ msgstr "Здесь не известно ни одного говорящего 
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "Говорящие пока не известны -- они выясняются по дорожкам, как только открывается эта вкладка. Если все сидят на одной записи, путь -- «несколько говорящих» в поле Имя говорящего."
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Говорящие пока не известны -- ничего не измерено, ничего не разделено, и нет файла передачи прежнего прогона в %s или во вложенных папках."
-
 msgid "No version earlier than %s is out that pip can install."
 msgstr "Нет ни одной версии раньше %s, которую pip мог бы установить."
 
@@ -3221,9 +3209,6 @@ msgstr "Пока это не исправлено, ничего не выпол�
 
 msgid "Nothing was audible in the recording."
 msgstr "В записи ничего не было слышно."
-
-msgid "Nothing was audible in the tracks."
-msgstr "В дорожках ничего не было слышно."
 
 msgid "Nothing was written -- there is no material yet."
 msgstr "Ничего не записано -- материала пока нет."
@@ -3272,9 +3257,6 @@ msgstr "Порядок не важен. Для записи из несколь�
 
 msgid "Out point is %s after the last frame"
 msgstr "Точка выхода на %s позже последнего кадра"
-
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Точка выхода меньше чем на 5 секунд позже точки входа."
 
 msgid "Output folder back beside each video file"
 msgstr "Папка вывода снова рядом с каждым видеофайлом"
@@ -4914,9 +4896,6 @@ msgstr "Речь"
 msgid "Mixed"
 msgstr "Смешанный"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Речь: размещается только по громкости. Запись, у которой нет ничего общего\nс камерами, отклоняется. Смешанный: под голосами лежит музыка или микс,\nи где громкость ничего не находит, её может разместить фаза.\nПри «%s» всегда смешанный."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: совпадение звука %s, и в другом месте тоже %s -- размещено только по собственным часам"
 
@@ -5130,3 +5109,135 @@ msgstr "Сообщения появляются в разделе Вывод."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "пакет libsecret-tools в Debian и Ubuntu, libsecret в Fedora и Arch"
+
+msgid "%d min"
+msgstr "%d мин"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Кредит на auphonic.com: осталось %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Кредит на auphonic.com: неизвестен"
+
+msgid "%s -- free plan"
+msgstr "%s -- бесплатный тариф"
+
+msgid "%s -- paying plan"
+msgstr "%s -- платный тариф"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Кредит на auphonic.com: неизвестен -- аккаунт не ответил."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Кредит на auphonic.com: неизвестен."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Кредит на auphonic.com: осталось %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Кредит на auphonic.com: осталось %s, а этой продукции нужно %s -- не хватает."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Кредит на auphonic.com: осталось %s, хватает на %s, нужные этой продукции."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Аккаунт на auphonic.com: платный."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Аккаунт на auphonic.com: бесплатный."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Аккаунт на auphonic.com: неизвестно."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Аккаунт на auphonic.com: неизвестно -- его не удалось опросить. Запуск продолжается."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Замечание: запуск всё равно попробует. Начнётся ли продукция, решает auphonic.com, и если нет, он сам это скажет."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Предупреждение: эта Multitrack-продукция длится %s, а на бесплатном тарифе auphonic.com принимает такую только примерно до %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Замечание: более длинную auphonic.com отклоняет уже в начале и ничего за неё не списывает. Запуск всё равно попробует; если auphonic.com откажет, последует его собственное сообщение."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "На бесплатном тарифе auphonic.com принимает Multitrack-продукцию только примерно до %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Проект %r, созданный этим запуском, остаётся открытым -- раньше не было открыто ничего,\n  что можно открыть снова. Удалите его в менеджере проектов Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Наполовину построенный проект %r снова удалён, %r снова открыт."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve прервал уборку: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Внимание: наполовину построенный проект %r не удалось удалить, или %r не удалось\n  открыть снова. Сделайте это в менеджере проектов Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: совпадение звука %s на %s с общего звука, слишком мало, чтобы отличить от случайности -- размещено только по собственным часам"
+
+msgid "placed through %s"
+msgstr "размещено через %s"
+
+msgid "found where its timecode pointed"
+msgstr "найдено там, куда указывал его таймкод"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: его часы показывают %s, звук измерил %s -- расхождение %s с; используется измерение"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s назначен на две камеры: %s по дорожке, %s по голосу. Приоритет у голоса, поэтому монтаж показывает %s только на %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Взято из измерения, сохранённого на этой машине: те же файлы и настройки, поэтому ничего не измеряется заново."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nГОВОРЯЩИЕ -- ИЗМЕРЕНЫ РАНЕЕ"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Взято из измерения, сохранённого на этой машине: те же записи, положения и временное окно."
+
+msgid "Finished mix"
+msgstr "Готовый микс"
+
+msgid "Two finished mixes"
+msgstr "Два готовых микса"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s и %s оба установлены на %s. Только один микс заменяет тот, что строит обработка -- верните другой на «Речь»."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Готовый микс должен быть аудиофайлом: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "готовый микс заменяет микс в файлах камер, а без видеофайла их нет."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "готовый микс длится %s, короче любой камеры (самая короткая %s): где он кончается, Full-Mix молчит."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s заменяет микс, который построила бы эта обработка."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Готовый микс не нашёл места на оси времени: у него нет общего звука с камерами. Обработка останавливается, а не кладёт его куда попало."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  У готового микса нет ничего в окне от %s до %s: он лежит от %s до %s. Обработка останавливается."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Готовый микс оставляет тишину: %s в начале и %s в конце окна."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: готовый микс в том виде, в каком пришёл -- без усиления и без лимитера"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "«Только синхронизация» размещает каждую запись как смешанный звук."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "готовый микс -- не спикер, без камеры"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Речь: размещается только по громкости. Запись, у которой нет ничего общего\nс камерами, отклоняется. Смешанный: под голосами лежит музыка или микс,\nи где громкость ничего не находит, её может разместить фаза.\nГотовый микс: стереомикс, сделанный в другом месте, размещается как смешанный звук. Он идёт\nв файлы камер и в передачу вместо микса, который строит обработка --\nне спикер, не режется, не отправляется на auphonic.com.\nПри «%s» «Речь» не предлагается."

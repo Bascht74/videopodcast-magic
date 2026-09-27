@@ -4,10 +4,12 @@
 The sections: where the words of a mix of two recordings land on the
 window's axis; what is stored, so the same recordings are not heard
 twice and a moved one is; one recording heard as it is, and the
-separation's words taken as they are; the round -- not before the
-axis, not while switched off -- with the preview saying "listening",
-then carrying the words so the four settings open; the prework bar
-always finished. A stand-in recogniser hears the mix, nothing else.
+separation's words taken as they are -- the rest read back where its
+run is told they are kept; the round -- not before the axis, not while
+switched off -- its run told where they are kept once they are there,
+for these recordings alone, and a handover carrying them read as
+having words; the prework bar always finished; the four settings grey
+while it is written. A stand-in recogniser hears the mix.
 """
 PLATFORM_BOUND = True
 import os
@@ -153,8 +155,13 @@ def settled(held):
     return None
 
 
-def starts(words_rows):
-    return [round(float(r[0]), 2) for r in words_rows]
+def told_starts(state, rows):
+    """Where the words start that the run is told of, read back there."""
+    told = vpm.window_words_reference(state, rows) or {}
+    kept, _way = vpm.window_words_kept(
+        [tuple(r) for r in told.get("recordings") or ()],
+        told.get("language"))
+    return [round(w["start"], 2) for w in kept or ()]
 
 
 print("1. Two recordings, mixed on the axis")
@@ -163,19 +170,26 @@ rows = lines(A, B)
 begun = vpm.window_words_round(state, rows,
                                lambda text, share: bar.append(share))
 held = state.get("window_words") or {}
-listening = vpm.window_words_joined(state, {"speakers": []}, rows)
+told_early = vpm.window_words_reference(state, rows)
 check("the round starts the transcript once the axis stands", begun,
       "round answered %r, held %r" % (begun, sorted(held)))
-check("while it is written the preview says so",
-      vpm.words_missing_why(listening) == "listening",
-      "read %r" % (vpm.words_missing_why(listening),))
+check("while it is written its run is told of no transcript",
+      told_early is None, "told of %d recordings"
+      % len((told_early or {}).get("recordings") or ()))
 took = settled(held)
 check("the transcript comes back", took is not None,
       "still busy after %.0f s" % PATIENCE)
-got = vpm.window_words_joined(state, {"speakers": []}, rows)
+told = vpm.window_words_reference(state, rows) or {}
+kept, _way = vpm.window_words_kept(
+    [tuple(r) for r in told.get("recordings") or ()], told.get("language"))
+check("its run is told where the words are kept, and finds them there",
+      [round(w["start"], 2) for w in kept or ()] == WANTED,
+      "told %d recordings, read back at %s" % (
+          len(told.get("recordings") or ()),
+          [round(w["start"], 2) for w in kept or ()]))
+got = told_starts(state, rows)
 check("the words lie where they were said on the window's axis",
-      starts(got.get("words") or []) == WANTED,
-      "at %s, wanted %s" % (starts(got.get("words") or []), WANTED))
+      got == WANTED, "at %s, wanted %s" % (got, WANTED))
 check("the recogniser heard one mix, not the recordings",
       len(heard) == 1 and heard[0] not in (A, B),
       "handed %s" % [os.path.basename(p) for p in heard])
@@ -190,54 +204,57 @@ fresh = vpm.window_words_round(state, rows)
 check("the next look says the words have arrived, once",
       fresh and not vpm.window_words_round(state, rows),
       "first look %r" % (fresh,))
+# The handover a run cut by them carries them; the preview shows it.
+with_words = {"speakers": [], "words": vpm.words_for_handover(kept or [])}
 check("with them the preview reads the words as there",
-      vpm.words_missing_why(got) is True,
-      "read %r" % (vpm.words_missing_why(got),))
+      vpm.words_missing_why(with_words) is True,
+      "read %r of %d words" % (vpm.words_missing_why(with_words),
+                               len(with_words["words"])))
 
 print("\n2. What is stored")
 state = ground()
 vpm.window_words_round(state, rows)
 settled(state["window_words"])
-got = vpm.window_words_joined(state, {"speakers": []}, rows)
+got = told_starts(state, rows)
 check("the same recordings again are read back, not heard again",
-      len(heard) == 1 and starts(got.get("words") or []) == WANTED,
-      "%d hearings, words at %s" % (len(heard),
-                                    starts(got.get("words") or [])))
+      len(heard) == 1 and got == WANTED,
+      "%d hearings, words at %s" % (len(heard), got))
 state = ground(offset_b=3.0)
 vpm.window_words_round(state, rows)
 settled(state["window_words"])
-got = vpm.window_words_joined(state, {"speakers": []}, rows)
+got = told_starts(state, rows)
 check("a recording moved on the axis is heard again, at its new place",
-      len(heard) == 2 and starts(got.get("words") or []) == [0.5, 4.0],
-      "%d hearings, words at %s" % (len(heard),
-                                    starts(got.get("words") or [])))
-other = vpm.window_words_joined(dict(state, axis=ground()["axis"]),
-                                {"speakers": []}, rows)
-check("words heard for another placing are not put into this preview",
-      "words" not in other,
-      "carried words at %s" % starts(other.get("words") or []))
+      len(heard) == 2 and got == [0.5, 4.0],
+      "%d hearings, words at %s" % (len(heard), got))
+told = vpm.window_words_reference(dict(state, axis=ground()["axis"]), rows)
+check("words heard for another placing are not named to its run",
+      told is None, "told of %d recordings, placed at %s"
+      % (len((told or {}).get("recordings") or ()),
+         [r[1] for r in (told or {}).get("recordings") or ()]))
 
 print("\n3. One recording")
 state = ground()
 one = lines(B)
 vpm.window_words_round(state, one)
 settled(state["window_words"])
-got = vpm.window_words_joined(state, {"speakers": []}, one)
+got = told_starts(state, one)
 check("one recording is heard as it is, not mixed",
       heard[-1] == B, "handed %s" % os.path.basename(heard[-1]))
 check("and its words stay in its own time, the axis starting with it",
-      starts(got.get("words") or []) == [1.0],
-      "at %s" % starts(got.get("words") or []))
+      got == [1.0], "at %s" % got)
 state = ground()
 state["speakers_words_by"] = {A: [{"start": 2.0, "end": 2.4,
                                    "word": "Hi."}]}
 count = len(heard)
 vpm.window_words_round(state, lines(A))
-got = vpm.window_words_joined(state, {"speakers": []}, lines(A))
+# What the window holds: the separation keeps its words in a store of
+# its own, which this state stands in for, so there is nothing to read
+# back where the run is told.
+got = [round(w["start"], 2)
+       for w in (state.get("window_words") or {}).get("words") or ()]
 check("the separation's words of that recording are taken as they are",
-      len(heard) == count and starts(got.get("words") or []) == [2.0],
-      "%d more hearings, words at %s"
-      % (len(heard) - count, starts(got.get("words") or [])))
+      len(heard) == count and got == [2.0],
+      "%d more hearings, words at %s" % (len(heard) - count, got))
 state = ground()
 state["speakers_words_now"] = {A}
 count = len(heard)
@@ -307,14 +324,6 @@ check("while it is written the four are grey, with a sentence of its own",
       and note.text() not in ("", yet_said) and QUIET in note.styleSheet(),
       "grey %s, note %r" % ([k for k in FOUR if not parts[k][1].isEnabled()],
                             note.text()[-60:]))
-state = ground()
-vpm.window_words_round(state, rows)
-settled(state["window_words"])
-d = vpm.window_words_joined(state, {"speakers": []}, rows)
-vpm.words_settings_grey(parts, note, vpm.words_missing_why(d), True, QUIET)
-check("with the window's own words the four open",
-      [k for k in FOUR if parts[k][1].isEnabled()] == FOUR,
-      "open %s" % [k for k in FOUR if parts[k][1].isEnabled()])
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

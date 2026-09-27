@@ -568,11 +568,11 @@ msgstr "Dit is geen bestand van dit programma."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Dit bestand is geschreven door versie %s in formaat %d; deze versie schrijft formaat %d. De namen erin zijn sindsdien veranderd, dus het kan niet worden gelezen. Richt de run opnieuw in."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (alleen meten: niets geschreven)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (proefdraai: uitgerekend en bewaard, uitvoermap onaangeroerd)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (alleen meten: zonder API-sleutel stopt het hier)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (proefdraai: niets geschreven)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Controle aan de overspraak -- referentie is %s:"
@@ -907,8 +907,8 @@ msgstr "  %s: %s, overgeslagen"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: hoeveel kanalen het heeft, is niet vast te stellen (%s) -- het wordt niet gemeten"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (alleen meten: niets geüpload)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (proefdraai: niets geüpload)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Er bestond al een Timeline %r -- de nieuwe heet %r."
@@ -1152,6 +1152,9 @@ msgstr "  Geef een getal tussen 1 en %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Productie bij auphonic.com:  %s"
+
+msgid "  Production created (%s)"
+msgstr "  Productie aangemaakt (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Productie loopt (%s)"
@@ -1708,8 +1711,8 @@ msgstr "\nWordt gestopt. De run eindigt zodra dat kan zonder een bestand half ge
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Het totaalshot duurt %s s, korter dan het kortste shot van %s s -- dus het wordt weer weggevoegd en verschijnt nooit.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nGemeten. Er is niets geschreven -- een proefdraai laat de resultatenmap zoals hij was.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nUitgerekend. Een proefdraai laat de resultatenmap zoals hij was.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nGestopt tijdens: %s"
@@ -2176,8 +2179,8 @@ msgstr "Afstand tot gemiddelde"
 msgid "Drag audio and video files here"
 msgstr "Sleep audio- en videobestanden hierheen"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Proefdraai: alleen meten, niets geschreven, niets geüpload."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Proefdraai: alles wordt uitgerekend en gemeld, er komt niets in de uitvoermap, niets wordt geüpload."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Tijdens begroeting en afscheid blijft het totaalshot in beeld."
@@ -2299,9 +2302,6 @@ msgstr "Alleen meten -- er wordt niets geschreven of geüpload."
 msgid "Measuring %s (%s of %s)"
 msgstr "%s wordt gemeten (%s van %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Meten niet mogelijk: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Maatstaf meten"
 
@@ -2325,9 +2325,6 @@ msgstr "Multitrack heeft minstens twee invoersporen nodig. Een spoor is een eige
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Nog geen geluid in gebruik -- voeg een audio-opname toe, of zet in de bestandslijst het Camerageluid van een videobestand op \"intern geluid gebruiken\"."
-
-msgid "No audio tracks are assigned."
-msgstr "Er zijn geen audiosporen toegewezen."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Er is geen camera toegewezen, dus er valt niets om tussen te monteren."
@@ -2358,9 +2355,6 @@ msgstr "Hier is geen spreker bekend -- zonder wie wanneer spreekt valt er niets 
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Nog geen stem heeft een camera -- zo zou elk shot hetzelfde zijn."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Nog geen sprekers bekend -- niets gemeten, niets gescheiden, en geen overdrachtsbestand van een eerdere run in %s of de submappen ervan."
 
 msgid "Not found again after import: %s"
 msgstr "Na het importeren niet teruggevonden: %s"
@@ -2466,9 +2460,6 @@ msgstr "Niet verplicht -- YouTube past dan standaardwaarden toe (Sony BVM-X300).
 
 msgid "Not ready yet:"
 msgstr "Nog niet klaar:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "In de sporen was niets te horen."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Eén audio-opname heeft nog geen sprekernaam."
@@ -3365,9 +3356,6 @@ msgstr "gemeten uit de opnamen -- %s sprekers, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "uit de voltooide run -- %s sprekers, %s"
 
-msgid "no folder"
-msgstr "(geen map)"
-
 msgid "no text"
 msgstr "geen tekst"
 
@@ -3764,9 +3752,6 @@ msgstr "de controle zelf is gestopt: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Het In-punt of Uit-punt kan hier niet worden gelezen."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Het Uit-punt ligt minder dan 5 seconden na het In-punt."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Er ontbreekt ongeveer %s. Maak ruimte vrij of kies met --out een andere map. De tijdelijke bestanden tijdens de run gaan weer ergens anders heen, naar de tijdelijke map van het systeem."
 
@@ -3818,14 +3803,11 @@ msgstr "  Al eens gescheiden: teruggelezen, niet opnieuw gemeten."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Ongeveer %s rekentijd voor %s geluid."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (alleen gemeten: niets gescheiden)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (proefdraai: niets gescheiden)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  De sporen zijn niet gemeten, dus %s zit in de mix en niet in de montage: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s nog niet gemeten -- in de montage wel, in dit voorbeeld nog niet."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Uit de sporen zelf, één stem per spoor: %s."
@@ -4872,9 +4854,6 @@ msgstr "Spraak"
 msgid "Mixed"
 msgstr "Gemengd"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Spraak: alleen op de luidheid geplaatst. Een opname die niets gemeen heeft\nmet de camera’s, wordt geweigerd. Gemengd: onder de stemmen ligt muziek of een mix,\nen waar de luidheid niets vindt, mag de fase haar plaatsen.\nBij \"%s\" is het altijd gemengd."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: het geluid komt overeen met %s, en op een andere plek ook met %s -- alleen op zijn klok geplaatst"
 
@@ -5088,3 +5067,135 @@ msgstr "Wat het meldt verschijnt onder Uitvoer."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "het pakket libsecret-tools op Debian en Ubuntu, libsecret op Fedora en Arch"
+
+msgid "%d min"
+msgstr "%d min"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Tegoed bij auphonic.com: nog %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Tegoed bij auphonic.com: onbekend"
+
+msgid "%s -- free plan"
+msgstr "%s -- gratis abonnement"
+
+msgid "%s -- paying plan"
+msgstr "%s -- betaald abonnement"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Tegoed bij auphonic.com: onbekend -- het account gaf geen antwoord."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Tegoed bij auphonic.com: onbekend."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Tegoed bij auphonic.com: nog %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Tegoed bij auphonic.com: nog %s, en deze productie heeft %s nodig -- niet genoeg."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Tegoed bij auphonic.com: nog %s, genoeg voor de %s die deze productie nodig heeft."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Account bij auphonic.com: betaald."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Account bij auphonic.com: gratis."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Account bij auphonic.com: onbekend."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Account bij auphonic.com: onbekend -- het kon niet worden bevraagd. De run gaat door."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Opmerking: de run probeert het toch. auphonic.com beslist of de productie start, en zegt het als dat niet zo is."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Waarschuwing: deze Multitrack-productie duurt %s, en met het gratis abonnement neemt auphonic.com er een alleen aan tot ongeveer %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Opmerking: een langere weigert auphonic.com meteen bij de start en rekent er niets voor. De run probeert het toch; weigert auphonic.com, dan volgt zijn eigen melding."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Met het gratis abonnement neemt auphonic.com een Multitrack-productie alleen aan tot ongeveer %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Het project %r van deze run blijft open -- er stond vooraf niets open\n  dat weer geopend kon worden. Verwijder het in de projectmanager van Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Het half gebouwde project %r is weer verwijderd, %r is weer open."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve heeft het opruimen afgebroken: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Let op: het half gebouwde project %r kon niet worden verwijderd, of %r niet\n  opnieuw geopend. Doe dat in de projectmanager van Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: het geluid komt overeen met %s over %s s gedeeld geluid, te weinig om van toeval te onderscheiden -- alleen op zijn klok geplaatst"
+
+msgid "placed through %s"
+msgstr "geplaatst via %s"
+
+msgid "found where its timecode pointed"
+msgstr "gevonden waar zijn tijdcode naar wees"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: zijn klok zegt %s, het geluid mat %s -- %s s uit elkaar; de meting geldt"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s staat op twee camera's: %s volgens het spoor, %s volgens de stem. De stem gaat voor, dus de montage toont %s alleen op %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Overgenomen uit de meting die op deze computer bewaard is: dezelfde bestanden en instellingen, dus er wordt niets opnieuw gemeten."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nSPREKERS -- EERDER GEMETEN"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Overgenomen uit de meting die op deze computer bewaard is: dezelfde opnamen, posities en hetzelfde tijdvenster."
+
+msgid "Finished mix"
+msgstr "Afgewerkte mix"
+
+msgid "Two finished mixes"
+msgstr "Twee afgewerkte mixen"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s en %s staan allebei op %s. Eén mix vervangt de mix die de run bouwt -- zet de andere terug op Spraak."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "De afgewerkte mix moet een audiobestand zijn: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "de afgewerkte mix vervangt de mix in de camerabestanden, en zonder videobestand zijn die er niet."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "de afgewerkte mix duurt %s, korter dan elke camera (de kortste %s): waar hij eindigt, is de Full-Mix stil."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s vervangt de mix die deze run zou bouwen."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  De afgewerkte mix vond geen plek op de tijdas: hij deelt geen geluid met de camera's. De run stopt liever dan hem ergens neer te leggen."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  De afgewerkte mix heeft niets in het venster van %s tot %s: hij ligt van %s tot %s. De run stopt."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  De afgewerkte mix laat %s aan het begin en %s aan het eind van het venster stil."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: de afgewerkte mix zoals hij kwam -- geen versterking en geen limiter"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "\"Alleen synchroniseren\" plaatst elke opname als gemengd geluid."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "de afgewerkte mix -- geen spreker, geen camera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Spraak: alleen op de luidheid geplaatst. Een opname die niets gemeen heeft\nmet de camera’s, wordt geweigerd. Gemengd: onder de stemmen ligt muziek of een mix,\nen waar de luidheid niets vindt, mag de fase haar plaatsen.\nAfgewerkte mix: een elders gemaakte stereomix, geplaatst als gemengd geluid. Hij gaat\nin de camerabestanden en de overdracht in plaats van de mix die de run bouwt --\ngeen spreker, niet geknipt, niet naar auphonic.com gestuurd.\nBij \"%s\" wordt Spraak niet aangeboden."

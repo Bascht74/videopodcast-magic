@@ -29,9 +29,9 @@ is where a person's comes from too. Until 30.8.2026 the window would
 pick up any handover file lying in the result folder, and one of them
 was four days old: another time window, another measurement, and the
 sound sat off the picture. Since then it uses only what its own run
-wrote, and where there is nothing it works the cut out of what it
-knows -- the separation, who sits in front of which camera, and the
-timecodes of the files. So this test hands the window a project and no
+wrote, and where there is nothing its preview's own run -- the dry run
+of what it holds -- works the cut out of what it knows: the separation,
+who sits in front of which camera, and the timecodes of the files. So this test hands the window a project and no
 run: the separation travels in the project the way a saved one does,
 the cameras carry their timecodes, and the cut is the window's answer.
 A handover file from an older measurement lies in the result folder on
@@ -305,8 +305,9 @@ def own_project(case, vpm, fixture):
         json.dump({
             "format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
             "preset": "", "production": "Sound picture",
-            # Several cameras, or there is no camera cut to look at.
-            "multitrack": True, "out_folder": result,
+            # One recording is no multitrack, and the run -- which the
+            # preview is -- refuses one; its voices still go to cameras.
+            "multitrack": False, "out_folder": result,
             "assignment": {
                 # "several speakers" on that recording, which is what
                 # puts the separated voices under it as rows of their
@@ -626,6 +627,11 @@ def look(case):
             if b.text().strip().startswith(vpm.T('Open project ...')[:8]):
                 b.click()
                 break
+        # The preview's run begins on the first look at its tab.
+        for k in range(window.tabs.count()):
+            if window.tabs.tabText(k).startswith(vpm.T('Resolve cut')):
+                window.tabs.setCurrentIndex(k)
+        app.processEvents()
 
     def wait_for_cut():
         """Wait for the cut, not for the clock.

@@ -569,11 +569,11 @@ msgstr "Toto nie je súbor tohto programu."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Tento súbor zapísala verzia %s vo formáte %d; táto verzia zapisuje formát %d. Názvy vnútri sa odvtedy zmenili, takže sa nedá prečítať. Nastavte prosím beh znova."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (len meranie: nič sa nezapisuje)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (skúšobný beh: vypočítané a uchované, výstupný priečinok nedotknutý)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (len meranie: bez API kľúča to tu končí)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (skúšobný beh: nič nezapísané)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Kontrola podľa presluchu -- referenciou je %s:"
@@ -908,8 +908,8 @@ msgstr "  %s: %s, preskočené"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: koľko má kanálov, sa nedá zistiť (%s) -- nemeria sa"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (len meranie: nič sa nenahráva)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (skúšobný beh: nič sa nenahráva)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Timeline %r už existovala -- nová sa volá %r."
@@ -1153,6 +1153,9 @@ msgstr "  Zadajte prosím číslo medzi 1 a %d."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Produkcia na auphonic.com:    %s"
+
+msgid "  Production created (%s)"
+msgstr "  Produkcia vytvorená (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Produkcia beží (%s)"
@@ -1709,8 +1712,8 @@ msgstr "\nZastavuje sa. Beh skončí, len čo to pôjde bez toho, aby nechal sú
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Široký záber drží %s s, menej ako najkratší záber %s s -- preto sa zase zlúči a nikdy sa neobjaví.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nZmerané. Nič nebolo zapísané -- skúšobný beh nechá priečinok s výsledkom, ako bol.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nVypočítané. Skúšobný beh nechá priečinok s výsledkom, ako bol.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nPrerušené počas: %s"
@@ -2177,8 +2180,8 @@ msgstr "Odchýlka od priemeru"
 msgid "Drag audio and video files here"
 msgstr "Sem pretiahnite zvukové a videosúbory"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Skúšobný beh: len sa meria, nič sa nezapisuje, nič sa nenahráva."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Skúšobný beh: všetko sa vypočíta a vypíše, nič nejde do výstupného priečinka, nič sa nenahráva."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Počas privítania a rozlúčky zostáva obraz široký."
@@ -2300,9 +2303,6 @@ msgstr "Len zmerať -- nič sa nezapisuje ani nenahráva."
 msgid "Measuring %s (%s of %s)"
 msgstr "Meria sa %s (%s z %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Meranie nie je možné: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Meranie meradla"
 
@@ -2326,9 +2326,6 @@ msgstr "Multitrack potrebuje aspoň dve vstupné stopy. Stopa je vlastná nahrá
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Zatiaľ sa nepoužíva žiadny zvuk -- pridajte zvukovú nahrávku, alebo v zozname súborov nastavte pri videosúbore Zvuk kamery na \"použiť interný zvuk\"."
-
-msgid "No audio tracks are assigned."
-msgstr "Nie sú priradené žiadne zvukové stopy."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nie je priradená žiadna kamera, takže nie je medzi čím strihať."
@@ -2359,9 +2356,6 @@ msgstr "Tu nie je známy žiadny rečník -- bez toho, kto kedy hovorí, nie je 
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Žiadny hlas zatiaľ nemá kameru -- s tým by bol každý záber ten istý."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Zatiaľ nie sú známi žiadni rečníci -- nič zmerané, nič oddelené a žiadny súbor odovzdania zo skoršieho behu v %s ani v jeho podpriečinkoch."
 
 msgid "Not found again after import: %s"
 msgstr "Po importe znova nenájdené: %s"
@@ -2467,9 +2461,6 @@ msgstr "Povinné to nie je -- YouTube potom použije predvolené hodnoty (Sony B
 
 msgid "Not ready yet:"
 msgstr "Ešte nie je pripravené:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "V stopách nebolo nič počuť."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Jedna zvuková nahrávka zatiaľ nemá meno rečníka."
@@ -3367,9 +3358,6 @@ msgstr "zmerané z nahrávok -- rečníci: %s, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "z dokončeného behu -- rečníci: %s, %s"
 
-msgid "no folder"
-msgstr "žiadnom priečinku"
-
 msgid "no text"
 msgstr "bez textu"
 
@@ -3766,9 +3754,6 @@ msgstr "kontrola sama sa zastavila: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Bod In alebo bod Out sa tu nedá prečítať."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Bod Out leží menej ako 5 sekúnd za bodom In."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Chýba asi %s. Uvoľnite miesto alebo zvoľte pomocou --out iný priečinok. Dočasné súbory počas behu idú ešte inam, do dočasného priečinka systému."
 
@@ -3820,14 +3805,11 @@ msgstr "  Už raz oddelené: načítané späť, nemerané znova."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Asi %s výpočtu na %s zvuku."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (len meranie: nič neoddelené)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (skúšobný beh: nič neoddelené)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Stopy neboli zmerané, %s je teda v mixe, a nie v strihu: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s zatiaľ nezmerané -- v strihu áno, v tomto náhľade zatiaľ nie."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Zo samotných stôp, jeden hlas na stopu: %s."
@@ -4915,9 +4897,6 @@ msgstr "Reč"
 msgid "Mixed"
 msgstr "Zmiešané"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Reč: umiestni sa len podľa hlasitosti. Nahrávka, ktorá nemá nič spoločné\ns kamerami, sa odmietne. Zmiešané: pod hlasmi je hudba alebo mix,\na kde hlasitosť nič nenájde, smie ju umiestniť fáza.\nPri „%s“ je vždy zmiešané."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: zhoda zvuku %s, a na inom mieste tiež %s -- zaradené len podľa vlastných hodín"
 
@@ -5131,3 +5110,135 @@ msgstr "Čo hovorí, sa objaví pod Výstup."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "balík libsecret-tools v systémoch Debian a Ubuntu, libsecret v systémoch Fedora a Arch"
+
+msgid "%d min"
+msgstr "%d min"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Kredit na auphonic.com: zostáva %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Kredit na auphonic.com: neznámy"
+
+msgid "%s -- free plan"
+msgstr "%s -- bezplatný program"
+
+msgid "%s -- paying plan"
+msgstr "%s -- platený program"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Kredit na auphonic.com: neznámy -- účet neodpovedal."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Kredit na auphonic.com: neznámy."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Kredit na auphonic.com: zostáva %s."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Kredit na auphonic.com: zostáva %s a táto produkcia potrebuje %s -- nestačí."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Kredit na auphonic.com: zostáva %s, stačí na %s, ktoré táto produkcia potrebuje."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Účet na auphonic.com: platený."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Účet na auphonic.com: bezplatný."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Účet na auphonic.com: neznámy."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Účet na auphonic.com: neznámy -- nepodarilo sa ho opýtať. Beh pokračuje."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Poznámka: beh to aj tak skúsi. O tom, či produkcia začne, rozhoduje auphonic.com, a ak nie, povie to."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Varovanie: táto produkcia Multitrack trvá %s a v bezplatnom programe prijíma auphonic.com takú len zhruba do %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Poznámka: dlhšiu produkciu auphonic.com odmietne hneď na začiatku a nič za ňu neúčtuje. Beh to aj tak skúsi; ak auphonic.com odmietne, nasleduje jeho vlastná správa."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "V bezplatnom programe prijíma auphonic.com produkciu Multitrack len zhruba do %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Projekt %r z tohto behu zostáva otvorený -- predtým nebolo otvorené nič,\n  čo by sa dalo znova otvoriť. Odstráňte ho v správcovi projektov Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Napoly postavený projekt %r je opäť odstránený, %r je opäť otvorený."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve prerušil upratovanie: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Pozor: napoly postavený projekt %r sa nepodarilo odstrániť, alebo %r znova\n  otvoriť. Urobte to v správcovi projektov Resolve."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: zhoda zvuku %s na %s s spoločného zvuku, príliš málo na odlíšenie od náhody -- zaradené len podľa vlastných hodín"
+
+msgid "placed through %s"
+msgstr "zaradené cez %s"
+
+msgid "found where its timecode pointed"
+msgstr "nájdené tam, kam ukazoval jeho timecode"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: jeho hodiny hovoria %s, zvuk nameral %s -- rozdiel %s s; platí meranie"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s je na dvoch kamerách: %s podľa stopy, %s podľa hlasu. Prednosť má hlas, takže strih ukazuje %s len na %s."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Prevzaté z merania uloženého na tomto počítači: rovnaké súbory a nastavenia, takže sa nič nemeria znova."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nREČNÍCI -- ZMERANÍ SKÔR"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Prevzaté z merania uloženého na tomto počítači: rovnaké nahrávky, pozície a časové okno."
+
+msgid "Finished mix"
+msgstr "Hotový mix"
+
+msgid "Two finished mixes"
+msgstr "Dva hotové mixy"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s a %s sú oba nastavené na %s. Len jeden mix nahradí ten, ktorý zostaví beh -- vráťte ten druhý na Reč."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Hotový mix musí byť zvukový súbor: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "hotový mix nahrádza mix v súboroch kamier, a bez videosúboru nie sú žiadne."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "hotový mix trvá %s, kratšie než každá kamera (najkratšia %s): kde končí, je Full-Mix tichý."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s nahrádza mix, ktorý by tento beh zostavil."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Hotový mix nenašiel miesto na časovej osi: nezdieľa s kamerami žiadny zvuk. Beh sa zastaví, namiesto aby ho položil hocikam."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Hotový mix nemá nič v okne od %s do %s: leží od %s do %s. Beh sa zastaví."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Hotový mix necháva ticho: %s na začiatku a %s na konci okna."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: hotový mix tak, ako prišiel -- bez zosilnenia a bez limitera"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "„Len synchronizácia“ umiestni každú nahrávku ako zmiešaný zvuk."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "hotový mix -- žiadny hovoriaci, žiadna kamera"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Reč: umiestni sa len podľa hlasitosti. Nahrávka, ktorá nemá nič spoločné\ns kamerami, sa odmietne. Zmiešané: pod hlasmi je hudba alebo mix,\na kde hlasitosť nič nenájde, smie ju umiestniť fáza.\nHotový mix: stereo mix vytvorený inde, umiestnený ako zmiešaný zvuk. Ide\ndo súborov kamier a do odovzdania namiesto mixu, ktorý zostaví beh --\nžiadny hovoriaci, nestrihá sa, neposiela sa na auphonic.com.\nPri „%s“ sa Reč neponúka."

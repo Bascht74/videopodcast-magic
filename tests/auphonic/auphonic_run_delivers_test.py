@@ -183,6 +183,9 @@ class Auphonic(object):
         self.broken_urls = set()
         self.uuid = "PRODUUID"
         self.pending = 0         # how often it answers "still running"
+        # The account before an upload: paid for, and plenty left, so
+        # nothing here turns on it.
+        self.account = {"credits": 100.0, "is_paying_user": True}
 
     # -- what a production looks like from outside --------------------
     def output_files(self):
@@ -243,6 +246,8 @@ class Auphonic(object):
         return json.dumps(self.answer(method, path, body))
 
     def answer(self, method, path, body):
+        if path == "/api/user.json":
+            return {"status_code": 200, "data": self.account}
         if path.startswith("/api/preset/"):
             return {"status_code": 200, "data": self.preset}
         if path.startswith("/api/info/output_files"):

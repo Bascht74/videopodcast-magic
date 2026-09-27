@@ -13,7 +13,7 @@ any other way, each one leaves itself out and says how to start it.
 The key is the program's own: the one in the credential store, put
 there by the window or by --store-auphonic-key, read through the
 program's functions at the moment it is needed. It is never printed, written or put on a command
-line; the program hands it to curl in a file of its own.
+line; the program hands it to curl on curl's input.
 
 Run as a script, this file is what auphonic.sh calls: --probe says
 whether a key is there and from where, --sweep deletes what the tests

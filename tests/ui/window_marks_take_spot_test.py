@@ -8,9 +8,11 @@ held as moments, since the field shows a clock time and the mark
 travels counted from where every camera runs. In order: no material
 and no mark at either door; the ground, a file with a timecode in the
 player and the time axis measured; the button; the menu entry, with its
-key; the project file; an Out point in front of the In point; and a
-step whose answer never comes, red where it stands. From the project
-file on, run_three_ways_agree has it, and this one stops there.
+key; the project file; an Out point in front of the In point; Mark In
+on a recording, and on a camera at 29.97 beside 25 ones, where the run
+reads it and where 'to In point' goes back to; and a step whose answer never comes, red where it stands.
+From the project file on, run_three_ways_agree has it, and this one
+stops there.
 """
 PLATFORM_BOUND = True
 import os
@@ -37,6 +39,7 @@ os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
 
 import glob
 import json
+import subprocess
 import tempfile
 import time
 
@@ -61,10 +64,18 @@ WINDOW = (1400, 950)
 
 SPLIT = "Presenter_REC00021.wav"          # the recording with the voices
 PLAIN = "CoPresenter_REC00018.wav"        # the recording with a name field
+# The blocks after each head: the preview is the run, and the run places
+# a recording by all of its sound, never by its first 40 s alone.
+BLOCKS = ("Presenter_REC00022.wav", "Presenter_REC00023.wav",
+          "CoPresenter_REC00019.wav", "CoPresenter_REC00020.wav")
 WIDE = "WideCam_01011855_C001.mov"
 HOSTS = "PresentersCam_01011855_C002.mov"
 GUESTS = "GuestCam_01011858_C003.mov"
 CAMERAS = (WIDE, HOSTS, GUESTS)
+# A camera at 29.97, made here: no sound, so its clock places it and the
+# run never takes it for its reference -- though it runs longest of all,
+# which by the files alone would make it one.
+NTSC = "CoPresenterCam_01011855_C004.mov"
 VOICES = (("V0", "Host"), ("V1", "Guest"))
 SEGMENTS = [["V0", 0.5, 12.0], ["V1", 13.0, 24.0],
             ["V0", 25.0, 33.0], ["V1", 34.0, 39.0]]
@@ -78,6 +89,17 @@ OUT_AT = 20.0
 MENU_OUT_AT = 30.0
 MENU_IN_AT = 10.0
 BACK_AT = 2.0
+# A recording in front of where every camera runs (17.48 s), so its mark
+# is a timecode. Six tenths into a second: 15 frames at 25 and 18 at 30,
+# which a reading at 25 would take for 0.72 s -- three frames late.
+SOUND_AT = 10.6
+# The run reads a timecode at its reference camera's rate; every camera
+# here runs at 25, and the wide shot's clock reads 18:55:00:00.
+RUN_FPS = 25.0
+WIDE_CLOCK = 18 * 3600 + 55 * 60.0
+# On the 29.97 camera, in front of where every camera runs as well: six
+# tenths into a second are 18 frames at 29.97, read at 25 as 0.72 s.
+NTSC_CLOCK = WIDE_CLOCK + 12.6
 # How near the player has to land for the spot to count as reached. A
 # mark is written to the frame, so half a frame at 25 pictures a second
 # is the width in which the answer is still the same string.
@@ -125,18 +147,24 @@ def own_project():
     source = fixture("interview")
     own = tempfile.mkdtemp(prefix="vpm_marks_")
     here = {}
-    for name in (SPLIT, PLAIN) + CAMERAS:
+    for name in (SPLIT, PLAIN) + BLOCKS + CAMERAS:
         link = os.path.join(own, name)
         if not os.path.exists(link):
             os.symlink(os.path.join(source, name), link)
         here[name] = link
+    here[NTSC] = os.path.join(own, NTSC)
+    # Its own clock at its own rate, as a recorder writes it.
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+                    "testsrc=size=320x180:rate=30000/1001", "-t", "125",
+                    "-c:v", "libx264", "-preset", "ultrafast",
+                    "-timecode", "18:55:04:00", here[NTSC]], check=True)
     assignment = {"voice:V0": HOSTS, "voice:V1": GUESTS}
     one = here[SPLIT]
     st = os.stat(one)
     d = {"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
          "files": [{"path": here[n],
                     "kind": "video" if n.endswith(".mov") else "audio"}
-                   for n in (SPLIT, PLAIN) + CAMERAS],
+                   for n in (SPLIT, PLAIN) + BLOCKS + CAMERAS + (NTSC,)],
          "out_folder": os.path.join(own, "Result"),
          "production": "Marks", "multitrack": True,
          "assignment": assignment, "preset": "",
@@ -678,8 +706,10 @@ def written_out(_fresh):
              kept.get("out_arrived"), kept.get("out")))
 
 
-# an Out point in front of the In point
-COMPLAINT = vpm.T('Out point lies less than 5 seconds after In point.')
+# an Out point in front of the In point: the preview is the run, stopped
+# before it writes, so what it says is the run's own refusal.
+COMPLAINT = vpm.T('    Out point lies before In point -- that does not '
+                  'work.').strip()
 
 
 def axis_measured():
@@ -712,6 +742,121 @@ def out_before_in(_fresh):
           % (0 if not complaint_up() else 1, COMPLAINT[:40], len(seen)))
 
 
+# a mark on a recording
+def to_recording():
+    p = preview_player()
+    if p is not None:
+        p.load(os.path.join(FOLDER, PLAIN), SOUND_AT)
+        app.processEvents()
+
+
+def on_recording():
+    p = preview_player()
+    return (p is not None and os.path.basename(p.file_path or "") == PLAIN
+            and stands_at(SOUND_AT)())
+
+
+def sound_marked(_fresh):
+    """The field's In point, read the way the run reads it, by hand.
+
+    The run's own reader, handed the wide camera the way the run hands
+    it its reference, and no window to pull the point back into.
+    """
+    import contextlib
+    import io
+    import types
+    p = preview_player()
+    said = in_shown()
+    meant = read = None
+    try:
+        meant = p.axis_s() + p.spot_s()
+        wide = os.path.join(FOLDER, WIDE)
+        with contextlib.redirect_stdout(io.StringIO()):
+            got = vpm.clip_to_time_window(
+                types.SimpleNamespace(in_point=said, out_point=None),
+                -1e6, 1e6, (wide, vpm.video_facts(wide)))
+        read = None if got[0] is None else WIDE_CLOCK + got[0]
+    except (AttributeError, TypeError):
+        pass
+    check("Mark In on a recording is the moment the run reads",
+          meant is not None and read is not None
+          and abs(read - meant) <= 1.0 / RUN_FPS,
+          "field %r on %s, player at %s s, run reads %s s, at most %.3f s "
+          "apart, player at %g fps"
+          % (said, os.path.basename(getattr(p, "file_path", "") or "-"),
+             None if meant is None else "%.3f" % meant,
+             None if read is None else "%.3f" % read, 1.0 / RUN_FPS,
+             player_fps()))
+
+
+# a mark on a camera at another rate
+def to_ntsc():
+    p = preview_player()
+    if p is not None:
+        p.load(os.path.join(FOLDER, NTSC), 1.0)
+        app.processEvents()
+
+
+def on_ntsc():
+    p = preview_player()
+    return (p is not None and os.path.basename(p.file_path or "") == NTSC
+            and getattr(p, "axis_s", lambda: None)() is not None)
+
+
+def ntsc_spot():
+    """Where in the 29.97 file the clock reads NTSC_CLOCK."""
+    p = preview_player()
+    return NTSC_CLOCK - p.axis_s()
+
+
+def to_ntsc_spot():
+    move_to(ntsc_spot())()
+
+
+def ntsc_marked(_fresh):
+    """As sound_marked, on a camera whose own rate is not the run's."""
+    import contextlib
+    import io
+    import types
+    p = preview_player()
+    said = in_shown()
+    meant = read = None
+    try:
+        meant = p.axis_s() + p.spot_s()
+        wide = os.path.join(FOLDER, WIDE)
+        with contextlib.redirect_stdout(io.StringIO()):
+            got = vpm.clip_to_time_window(
+                types.SimpleNamespace(in_point=said, out_point=None),
+                -1e6, 1e6, (wide, vpm.video_facts(wide)))
+        read = None if got[0] is None else WIDE_CLOCK + got[0]
+    except (AttributeError, TypeError):
+        pass
+    check("Mark In on a 29.97 camera is the moment the run reads at 25",
+          meant is not None and read is not None
+          and abs(read - meant) <= 1.0 / RUN_FPS,
+          "field %r on %s, player at %s s, run reads %s s, at most %.3f s "
+          "apart, player at %g fps"
+          % (said, os.path.basename(getattr(p, "file_path", "") or "-"),
+             None if meant is None else "%.3f" % meant,
+             None if read is None else "%.3f" % read, 1.0 / RUN_FPS,
+             player_fps()))
+    kept["ntsc_at"] = None if p is None else p.spot_s()
+
+
+def ntsc_back(_fresh):
+    """The player reads the mark as it wrote it: at the run's rate."""
+    p = preview_player()
+    was, now = kept.get("ntsc_at"), None if p is None else p.spot_s()
+    check("and 'to In point' goes back there, on the 29.97 camera",
+          was is not None and now is not None
+          and abs(now - was) <= 1.0 / RUN_FPS,
+          "field %r, player at %s s against %s s marked, at most %.3f s "
+          "apart, on %s" % (in_shown(), None if now is None else "%.3f" % now,
+                            None if was is None else "%.3f" % was,
+                            1.0 / RUN_FPS, os.path.basename(
+                                getattr(p, "file_path", "") or "-")))
+
+
 # ------------------------------------------------------------- the running
 def start():
     top = window_of()
@@ -726,6 +871,9 @@ def start():
 
 step("0. nothing is loaded yet", lambda: None, look_before)
 step("1. the project is opened", open_project, opened, until=player_ready)
+# The preview's run begins on the first look at its tab.
+step("1a. the Resolve cut tab is looked at once",
+     lambda: tab_to(drawn(vpm.T('Resolve cut'))), lambda _f: None)
 step("1b. the player goes where the marks are made",
      lambda: tab_to(drawn(vpm.T('Assignment'))), lambda _f: None,
      until=player_ready)
@@ -753,6 +901,20 @@ step("6. the player is dragged in front of the In point", move_to(BACK_AT),
      moved(BACK_AT), until=stands_at(BACK_AT))
 step("6b. Mark Out is pressed there", press('Mark Out'), out_before_in,
      until=complaint_up)
+step("7. a recording goes into the player, before every camera runs",
+     to_recording, lambda _f: None, until=on_recording)
+step("7b. Mark In is pressed there", press('Mark In'), sound_marked,
+     until=lambda: in_shown() != kept.get("in"))
+step("8. a camera at 29.97 goes into the player", to_ntsc,
+     lambda _f: kept.update(sound_in=in_shown()), until=on_ntsc)
+step("8a. it is dragged in front of where every camera runs", to_ntsc_spot,
+     lambda _f: None, until=lambda: stands_at(ntsc_spot())())
+step("8b. Mark In is pressed there", press('Mark In'), ntsc_marked,
+     until=lambda: in_shown() != kept.get("sound_in"))
+step("8c. the player is dragged away from it", move_to(MENU_OUT_AT),
+     moved(MENU_OUT_AT), until=stands_at(MENU_OUT_AT))
+step("8d. 'to In point' is pressed", press('to In point'), ntsc_back,
+     until=lambda: not stands_at(MENU_OUT_AT)())
 
 
 QtCore.QTimer.singleShot(1200, start)

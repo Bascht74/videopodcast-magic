@@ -601,11 +601,11 @@ msgstr "Ní comhad den ríomhchlár seo é seo."
 msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
 msgstr "Scríobh leagan %s an comhad seo i bhformáid %d; scríobhann an leagan seo formáid %d. Tá na hainmneacha ann athraithe ó shin, mar sin ní féidir é a léamh. Socraigh an rith arís, le do thoil."
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (tomhas amháin: níor scríobhadh aon rud)"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  (rith trialach: oibrithe amach agus coinnithe, fillteán an aschuir gan teagmháil)"
 
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  (tomhas amháin: gan eochair API stopann sé anseo)"
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  (rith trialach: níor scríobhadh aon rud)"
 
 msgid "\n  Check against the bleed -- reference is %s:"
 msgstr "\n  Seiceáil in aghaidh an sceite fuaime -- is é %s an tagairt:"
@@ -940,8 +940,8 @@ msgstr "  %s: %s, fágtha ar lár"
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: ní féidir líon na gcainéal a dhéanamh amach (%s) -- ní thomhaistear é"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  (tomhas amháin: níor uaslódáladh aon rud)\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  (rith trialach: níor uaslódáladh aon rud)\n"
 
 msgid "  A Timeline %r existed already -- the new one is called %r."
 msgstr "  Bhí Timeline %r ann cheana -- %r is ainm don cheann nua."
@@ -1185,6 +1185,9 @@ msgstr "  Tabhair uimhir idir 1 agus %d, le do thoil."
 
 msgid "  Production at auphonic.com:   %s"
 msgstr "  Léiriúchán ag auphonic.com:   %s"
+
+msgid "  Production created (%s)"
+msgstr "  Léiriúchán cruthaithe (%s)"
 
 msgid "  Production running (%s)"
 msgstr "  Léiriúchán ar siúl (%s)"
@@ -1741,8 +1744,8 @@ msgstr "\nÁ stopadh. Críochnaíonn an rith chomh luath agus is féidir leis ga
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
 msgstr "Maireann an seat leathan %s s, níos lú ná an seat is giorra, %s s -- mar sin cumasctar arís é agus ní fheictear riamh é.\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\nTomhaiste. Níor scríobhadh aon rud -- fágann rith trialach fillteán na dtorthaí mar a bhí.\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\nOibrithe amach. Fágann rith trialach fillteán na dtorthaí mar a bhí.\n"
 
 msgid "\nStopped during: %s"
 msgstr "\nStoptha ag an gcéim: %s"
@@ -2215,8 +2218,8 @@ msgstr "Fad ón meán"
 msgid "Drag audio and video files here"
 msgstr "Tarraing comhaid fuaime agus físe anseo"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "Rith trialach: tomhas amháin, ní scríobhtar aon rud, ní uaslódáiltear aon rud."
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "Rith trialach: oibrítear amach agus tuairiscítear gach rud, ní théann aon rud isteach i bhfillteán an aschuir, ní uaslódáiltear aon rud."
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Fanann an pictiúr leathan le linn beannú agus slán a fhágáil."
@@ -2338,9 +2341,6 @@ msgstr "Tomhas amháin -- ní scríobhtar ná ní uaslódáiltear aon rud."
 msgid "Measuring %s (%s of %s)"
 msgstr "Tomhas: %s (%s as %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Ní féidir tomhas: %s"
-
 msgid "Measuring the yardstick"
 msgstr "An tslat tomhais á tomhas"
 
@@ -2364,9 +2364,6 @@ msgstr "Teastaíonn dhá rian ionchuir ar a laghad ó Multitrack. Is éard is ri
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Níl aon fhuaim in úsáid fós -- cuir taifeadadh fuaime leis, nó socraigh Fuaim an cheamara de chomhad físe ar \"úsáid fuaim inmheánach\" sa liosta comhad."
-
-msgid "No audio tracks are assigned."
-msgstr "Níl aon rian fuaime sannta."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Níl aon cheamara sannta, mar sin níl aon rud le gearradh eatarthu."
@@ -2397,9 +2394,6 @@ msgstr "Níl aon chainteoir ar eolas anseo -- gan fios cé a labhraíonn cathain
 
 msgid "No voice has a camera yet -- with that every shot would be the same one."
 msgstr "Níl ceamara ag aon ghuth fós -- mar sin ba é an seat céanna gach seat."
-
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Níl aon chainteoirí ar eolas fós -- níor tomhaiseadh aon rud, níor scaradh aon rud, agus níl aon chomhad seachadta ó rith níos luaithe san fhillteán %s ná ina fhofhillteáin."
 
 msgid "Not found again after import: %s"
 msgstr "Ní bhfuarthas arís tar éis iompórtála: %s"
@@ -2505,9 +2499,6 @@ msgstr "Níl sé éigeantach -- cuireann YouTube luachanna réamhshocraithe i bh
 
 msgid "Not ready yet:"
 msgstr "Níl sé réidh fós:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Ní raibh aon rud le cloisteáil sna rianta."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Níl ainm cainteora ar thaifeadadh fuaime amháin fós."
@@ -3422,9 +3413,6 @@ msgstr "tomhaiste ó na taifeadtaí -- cainteoirí: %s, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "ón rith críochnaithe -- cainteoirí: %s, %s"
 
-msgid "no folder"
-msgstr "(níl fillteán ann)"
-
 msgid "no text"
 msgstr "gan téacs"
 
@@ -3863,9 +3851,6 @@ msgstr "stad an tseiceáil féin: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Ní féidir an pointe isteach ná an pointe amach a léamh anseo."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Tá an pointe amach níos lú ná 5 shoicind i ndiaidh an phointe isteach."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Tá thart ar %s in easnamh. Saor spás nó roghnaigh fillteán eile le --out. Téann na comhaid shealadacha le linn an reatha áit éigin eile arís, isteach i bhfillteán sealadach an chórais."
 
@@ -3917,14 +3902,11 @@ msgstr "  Scartha cheana féin uair amháin: léite ar ais, gan tomhas arís."
 msgid "  About %s of computing for %s of audio."
 msgstr "  Thart ar %s ríomhaireachta do %s fuaime."
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  (tomhas amháin: níor scaradh faic)"
+msgid "  (dry run: nothing separated)"
+msgstr "  (rith trialach: níor scaradh faic)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Níor tomhaiseadh na rianta, mar sin tá %s sa mheascán agus ní sa ghearradh: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Gan tomhas fós: %s -- sa ghearradh, ach ní sa réamhamharc seo fós."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Ó na rianta féin, guth amháin in aghaidh an riain: %s."
@@ -5011,9 +4993,6 @@ msgstr "Caint"
 msgid "Mixed"
 msgstr "Measctha"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "Caint: curtha de réir a treise amháin. Diúltaítear do thaifeadadh nach bhfuil aon rud i gcoitinne aige\nleis na ceamaraí. Measctha: tá ceol nó meascán faoi na guthanna,\nagus nuair nach bhfaigheann an treise aon rud, féadfaidh an pas é a chur ina áit.\nFaoi \"%s\" bíonn sé measctha i gcónaí."
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: oireann a fhuaim le %s, agus le %s in áit eile freisin -- curtha de réir a chloig amháin"
 
@@ -5227,3 +5206,135 @@ msgstr "Feictear faoi Aschur a n-insíonn sé."
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "an pacáiste libsecret-tools ar Debian agus Ubuntu, libsecret ar Fedora agus Arch"
+
+msgid "%d min"
+msgstr "%d nóim"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "Creidmheas ag auphonic.com: %s fágtha"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "Creidmheas ag auphonic.com: anaithnid"
+
+msgid "%s -- free plan"
+msgstr "%s -- plean saor in aisce"
+
+msgid "%s -- paying plan"
+msgstr "%s -- plean íoctha"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  Creidmheas ag auphonic.com: anaithnid -- níor fhreagair an cuntas."
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  Creidmheas ag auphonic.com: anaithnid."
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  Creidmheas ag auphonic.com: %s fágtha."
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  Creidmheas ag auphonic.com: %s fágtha, agus teastaíonn %s ón léiriú seo -- ní leor é."
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  Creidmheas ag auphonic.com: %s fágtha, is leor é don %s a theastaíonn ón léiriú seo."
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  Cuntas ag auphonic.com: íoctha."
+
+msgid "  Account at auphonic.com: free."
+msgstr "  Cuntas ag auphonic.com: saor in aisce."
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  Cuntas ag auphonic.com: anaithnid."
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Cuntas ag auphonic.com: anaithnid -- níorbh fhéidir é a fhiafraí. Leanann an rith ar aghaidh."
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  Nóta: déanann an rith iarracht mar sin féin. Is é auphonic.com a shocraíonn an dtosaíonn an léiriú, agus deir sé é mura dtosaíonn."
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Rabhadh: maireann an léiriú Multitrack seo %s, agus ar an bplean saor in aisce ní ghlacann auphonic.com le ceann mar é ach suas le thart ar %s."
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Nóta: diúltaíonn auphonic.com do cheann níos faide ag an tús agus ní ghearrann sé tada air. Déanann an rith iarracht mar sin féin; má dhiúltaíonn auphonic.com, leanann a theachtaireacht féin."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Ar an bplean saor in aisce ní ghlacann auphonic.com le léiriú Multitrack ach suas le thart ar %s."
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  Fanann an tionscadal %r a rinne an rith seo oscailte -- ní raibh aon rud oscailte roimhe\n  a d'fhéadfaí a oscailt arís. Scrios é i mbainisteoir tionscadal Resolve."
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  Tá an tionscadal leathdhéanta %r scriosta arís, tá %r oscailte arís."
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Stop Resolve an slachtú: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  Aire: níorbh fhéidir an tionscadal leathdhéanta %r a scriosadh, nó %r a oscailt\n  arís. Déan é i mbainisteoir tionscadal Resolve, le do thoil."
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: oireann a fhuaim le %s thar %s s d’fhuaim chomhroinnte, ró-bheag le hidirdhealú ó sheans -- curtha de réir a chloig amháin"
+
+msgid "placed through %s"
+msgstr "curtha trí %s"
+
+msgid "found where its timecode pointed"
+msgstr "aimsithe san áit a raibh a chód ama ag díriú"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: deir a chlog %s, thomhais an fhuaim %s -- %s s óna chéile; úsáidtear an tomhas"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  Tá %s ar dhá cheamara: %s de réir an rian, %s de réir an ghutha. Is é an guth a bhuaileann, mar sin taispeánann an gearradh %s ar %s amháin."
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  Tógtha ón tomhas a coinníodh ar an ríomhaire seo: na comhaid agus na socruithe céanna, mar sin ní thomhaistear aon rud arís."
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\nCAINTEOIRÍ -- TOMHAISTE ROIMHE SEO"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  Tógtha ón tomhas a coinníodh ar an ríomhaire seo: na taifeadtaí, na suíomhanna agus an fhuinneog ama céanna."
+
+msgid "Finished mix"
+msgstr "Meascán críochnaithe"
+
+msgid "Two finished mixes"
+msgstr "Dhá mheascán críochnaithe"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "Tá %s agus %s araon socraithe ar %s. Ní ghlacann ach meascán amháin áit an mheascáin a thógann an rith -- cuir an ceann eile ar ais ar Caint."
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "Caithfidh an meascán críochnaithe a bheith ina chomhad fuaime: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "glacann an meascán críochnaithe áit an mheascáin sna comhaid ceamara, agus gan comhad físe níl aon cheann ann."
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "maireann an meascán críochnaithe %s, níos giorra ná gach ceamara (an ceann is giorra %s): san áit a gcríochnaíonn sé, bíonn an Full-Mix ciúin."
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  Glacann %s áit an mheascáin a thógfadh an rith seo."
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  Níor aimsigh an meascán críochnaithe áit ar an ais ama: níl fuaim ar bith i bpáirt aige leis na ceamaraí. Stopann an rith seachas é a leagan áit ar bith."
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  Níl aon rud ag an meascán críochnaithe san fhuinneog ó %s go %s: tá sé ó %s go %s. Stopann an rith."
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  Fágann an meascán críochnaithe %s ag an tús agus %s ag deireadh na fuinneoige ciúin."
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: an meascán críochnaithe mar a tháinig sé -- gan treisiú agus gan teorantóir"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "Cuireann \"Sioncrónú amháin\" gach taifeadadh mar fhuaim mheasctha."
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "an meascán críochnaithe -- ní cainteoir, gan ceamara"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "Caint: curtha de réir a treise amháin. Diúltaítear do thaifeadadh nach bhfuil aon rud i gcoitinne aige\nleis na ceamaraí. Measctha: tá ceol nó meascán faoi na guthanna,\nagus nuair nach bhfaigheann an treise aon rud, féadfaidh an pas é a chur ina áit.\nMeascán críochnaithe: meascán steirió a rinneadh in áit eile, curtha mar fhuaim mheasctha. Téann sé\nisteach sna comhaid ceamara agus sa tabhairt anonn in áit mheascán an rith --\nní cainteoir é, ní ghearrtar é, ní sheoltar chuig auphonic.com é.\nFaoi \"%s\" ní thairgtear Caint."

@@ -609,9 +609,6 @@ msgstr "受け渡し"
 msgid "Wide shot after"
 msgstr "引き画は"
 
-msgid "no folder"
-msgstr "フォルダーなし"
-
 msgid "no text"
 msgstr "テキストなし"
 
@@ -1134,8 +1131,11 @@ msgstr "  プリセット：  %s"
 msgid "  File:    %s (%s, %s)"
 msgstr "  ファイル：    %s (%s, %s)"
 
-msgid "  (measuring only: nothing uploaded)\n"
-msgstr "  （計測のみ：何もアップロードしていません）\n"
+msgid "  (dry run: nothing uploaded)\n"
+msgstr "  （試し実行：何もアップロードしていません）\n"
+
+msgid "  Production created (%s)"
+msgstr "  制作を作成しました（%s）"
 
 msgid "  Production running (%s)"
 msgstr "  制作を実行中（%s）"
@@ -1620,9 +1620,6 @@ msgstr "録音から測定 -- 話者 %s 人、%s"
 msgid "In point or Out point cannot be read here."
 msgstr "ここではイン点またはアウト点を読み取れません。"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "アウト点がイン点から 5 秒未満の位置にあります。"
-
 msgid "because no speaker is assigned to it"
 msgstr "話者が割り当てられていないため"
 
@@ -1635,8 +1632,11 @@ msgstr "誰がいつ話しているかを割り出しています ..."
 msgid "\nWITHOUT AUPHONIC.COM"
 msgstr "\nAUPHONIC.COM なし"
 
-msgid "\n  (measuring only: nothing written)"
-msgstr "\n  （測定のみ: 何も書き込んでいません）"
+msgid "\n  (dry run: worked out and kept, output folder untouched)"
+msgstr "\n  （試し実行: 算出して保持しました。出力フォルダーはそのままです）"
+
+msgid "\n  (dry run: nothing written)"
+msgstr "\n  （試し実行: 何も書き込んでいません）"
 
 msgid "FOR RESOLVE"
 msgstr "RESOLVE 向け"
@@ -1659,14 +1659,8 @@ msgstr "  未使用: %s。"
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  両端の引き画: %s まで、%s から"
 
-msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "まだ話者が分かっていません -- 何も測定・分離されておらず、%s とそのサブフォルダーに以前の実行の受け渡しファイルもありません。"
-
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "時間枠が素材の外にあります: イン点 %s、アウト点 %s、素材の長さは %s です。"
-
-msgid "No audio tracks are assigned."
-msgstr "音声トラックが割り当てられていません。"
 
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "まだ話者が分かっていません -- このタブを開くとすぐにトラックから割り出されます。全員が 1 つの録音に入っている場合は、話者名の欄で「複数の話者」を選んでください。"
@@ -1694,9 +1688,6 @@ msgstr "カットは %s を使います"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "話者は割り当てられていませんが、カットは %s を使います"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s はまだ測定されていません -- カットには反映済み、このプレビューにはまだ反映されていません。"
 
 msgid "%r is not a number."
 msgstr "%r は数値ではありません。"
@@ -2314,9 +2305,6 @@ msgstr "  共通の枠：  %s から %s（%s）"
 
 msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
 msgstr "    %s で始まり %s で終わる -- すべてのカメラが捉えた区間"
-
-msgid "\n  (measuring only: without an API key it stops here)"
-msgstr "\n  （計測のみ: API キーがないのでここで止まります）"
 
 msgid "\nMIXING"
 msgstr "\nミックス"
@@ -3623,14 +3611,14 @@ msgstr "チェック自体が失敗: %s"
 msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
 msgstr "\n完了。下の「結果フォルダーを開く」で結果を確認できます。\n問題なければ「Resolve プロジェクトを作成」でプロジェクトを作ります。\n"
 
-msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
-msgstr "\n計測しました。何も書き込んでいません -- 試し実行では結果フォルダーはそのままです。\n"
+msgid "\nWorked out. A dry run leaves the result folder as it was.\n"
+msgstr "\n算出しました。試し実行では結果フォルダーはそのままです。\n"
 
 msgid "Without processing at auphonic.com"
 msgstr "auphonic.com での処理なし"
 
-msgid "Dry run: only measuring, nothing written, nothing uploaded."
-msgstr "試し実行: 計測のみ。書き込みもアップロードもしません。"
+msgid "Dry run: everything is worked out and reported, nothing goes into the output folder, nothing is uploaded."
+msgstr "試し実行: すべてを算出して報告します。出力フォルダーには何も入れず、アップロードもしません。"
 
 msgid "This is what happens next"
 msgstr "次に行うこと"
@@ -3884,9 +3872,6 @@ msgstr "  %-20s 発話 %s、%s / %s 文が質問"
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s は %-20s に近い そのトラック内に %s %%、次より %s ポイント上"
 
-msgid "Nothing was audible in the tracks."
-msgstr "トラックには何も聞こえませんでした。"
-
 msgid "%s is not part of this run"
 msgstr "%s はこの実行に含まれていません"
 
@@ -3899,8 +3884,8 @@ msgstr "\n話者の分離"
 msgid "  Separated once already: read back, not measured again."
 msgstr "  分離済み: 読み戻しました。再計測はしていません。"
 
-msgid "  (measuring only: nothing separated)"
-msgstr "  （計測のみ: 分離はしていません）"
+msgid "  (dry run: nothing separated)"
+msgstr "  （試し実行: 分離はしていません）"
 
 msgid "\nSPEAKERS -- SEPARATED BY VOICE"
 msgstr "\n話者 -- 声で分離"
@@ -3934,9 +3919,6 @@ msgstr "%s を計測中（%s / %s）"
 
 msgid "  %-20s could be called %s"
 msgstr "  %-20s の名前は %s が考えられます"
-
-msgid "Measuring not possible: %s"
-msgstr "計測できません: %s"
 
 msgid "  %s cannot be read: %s"
 msgstr "  %s を読めません: %s"
@@ -4828,9 +4810,6 @@ msgstr "話し声"
 msgid "Mixed"
 msgstr "ミックス"
 
-msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
-msgstr "話し声: ラウドネスだけで配置します。カメラと共通するものが\nない録音は受け付けません。ミックス: 声の下に音楽やミックスがあり、\nラウドネスで何も見つからない所では位相で配置できます。\n「%s」では常にミックスです。"
-
 msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
 msgstr "  %s: 音声の一致度は %s で、別の位置でも %s です -- 内蔵時計だけで配置しました"
 
@@ -5044,3 +5023,135 @@ msgstr "その出力は「出力」に表示されます。"
 
 msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
 msgstr "Debian と Ubuntu では libsecret-tools パッケージ、Fedora と Arch では libsecret"
+
+msgid "%d min"
+msgstr "%d分"
+
+msgid "Credit at auphonic.com: %s left"
+msgstr "auphonic.com のクレジット：残り %s"
+
+msgid "Credit at auphonic.com: unknown"
+msgstr "auphonic.com のクレジット：不明"
+
+msgid "%s -- free plan"
+msgstr "%s -- 無料プラン"
+
+msgid "%s -- paying plan"
+msgstr "%s -- 有料プラン"
+
+msgid "  Credit at auphonic.com: not known -- the account did not answer."
+msgstr "  auphonic.com のクレジット：不明 -- アカウントから応答がありません。"
+
+msgid "  Credit at auphonic.com: not known."
+msgstr "  auphonic.com のクレジット：不明。"
+
+msgid "  Credit at auphonic.com: %s left."
+msgstr "  auphonic.com のクレジット：残り %s。"
+
+msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
+msgstr "  auphonic.com のクレジット：残り %s、このプロダクションには %s 必要です -- 足りません。"
+
+msgid "  Credit at auphonic.com: %s left, enough for the %s this production needs."
+msgstr "  auphonic.com のクレジット：残り %s、このプロダクションに必要な %s には足ります。"
+
+msgid "  Account at auphonic.com: paying."
+msgstr "  auphonic.com のアカウント：有料。"
+
+msgid "  Account at auphonic.com: free."
+msgstr "  auphonic.com のアカウント：無料。"
+
+msgid "  Account at auphonic.com: not known."
+msgstr "  auphonic.com のアカウント：不明。"
+
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "auphonic.com のアカウント：不明 -- 問い合わせできませんでした。実行は続きます。"
+
+msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
+msgstr "  注記: それでも実行は試みます。プロダクションが始まるかどうかは auphonic.com が決め、始まらなければそう伝えます。"
+
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  警告: この Multitrack プロダクションは %s あり、無料プランでは auphonic.com はこうしたものを約 %s までしか受け付けません。"
+
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  注記: それより長いものは auphonic.com が開始時に断り、料金はかかりません。それでも実行は試みます。auphonic.com が断った場合は、その側のメッセージが続きます。"
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "無料プランでは auphonic.com は Multitrack プロダクションを約 %s までしか受け付けません。"
+
+msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
+msgstr "  この実行で作成したプロジェクト %r は開いたままです -- 以前は再び開けるものが\n  何も開いていませんでした。Resolve のプロジェクトマネージャーで削除してください。"
+
+msgid "  The half-built project %r is deleted again, %r is open again."
+msgstr "  途中まで作ったプロジェクト %r を削除し、%r を再び開きました。"
+
+msgid "  Resolve stopped the tidying up: %s"
+msgstr "  Resolve が後片付けを中断しました: %s"
+
+msgid "  Caution: the half-built project %r could not be deleted, or %r not\n  opened again. Please do it in Resolve's project manager."
+msgstr "  注意: 途中まで作ったプロジェクト %r を削除できなかったか、%r を\n  再び開けませんでした。Resolve のプロジェクトマネージャーで行ってください。"
+
+msgid "  %s: its sound matches by %s over %s s of shared sound, too little to tell from chance -- placed by its clock alone"
+msgstr "  %s: 音声の一致度は %s、共通の音声は %s 秒で、偶然と区別するには少なすぎます -- 内蔵時計だけで配置しました"
+
+msgid "placed through %s"
+msgstr "%s を介して配置"
+
+msgid "found where its timecode pointed"
+msgstr "タイムコードが示した位置で見つかりました"
+
+msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
+msgstr "  %s: 時計は %s、音声の測定では %s -- 差は %s 秒。測定値を使用します"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s は2台のカメラに割り当てられています: トラックでは %s、声では %s。声が優先されるため、カットは %s を %s にのみ映します。"
+
+msgid "  Taken from the measurement kept on this machine: the same files and settings, so nothing is measured again."
+msgstr "  このマシンに保存された計測から取得しました: ファイルと設定が同じなので、再計測はしていません。"
+
+msgid "\nSPEAKERS -- MEASURED BEFORE"
+msgstr "\n話者 -- 以前に計測"
+
+msgid "  Taken from the measurement kept on this machine: the same recordings, places and window."
+msgstr "  このマシンに保存された計測から取得しました: 録音、位置、時間範囲が同じです。"
+
+msgid "Finished mix"
+msgstr "完成ミックス"
+
+msgid "Two finished mixes"
+msgstr "完成ミックスが2つ"
+
+msgid "%s and %s are both set to %s. One mix takes the place of the one the run builds -- please set the other one back to speech."
+msgstr "%s と %s の両方が %s に設定されています。処理が作るミックスの代わりになれるのは1つだけです -- もう一方を話し声に戻してください。"
+
+msgid "The finished mix has to be an audio file: %s"
+msgstr "完成ミックスは音声ファイルでなければなりません: %s"
+
+msgid "the finished mix takes the place of the mix in the camera files, and without a video file there are none."
+msgstr "完成ミックスはカメラファイル内のミックスの代わりになります。ビデオファイルがなければカメラファイルもありません。"
+
+msgid "the finished mix runs %s, shorter than every camera (the shortest %s): where it ends, the Full-Mix is silent."
+msgstr "完成ミックスの長さは %s で、どのカメラより短い (最短 %s): 終わったところから Full-Mix は無音です。"
+
+msgid "  %s takes the place of the mix this run would build."
+msgstr "  %s が、この処理で作るはずのミックスの代わりになります。"
+
+msgid "  The finished mix found no place on the time axis: it shares no sound with the cameras. The run stops rather than lay it anywhere."
+msgstr "  完成ミックスは時間軸上に位置を見つけられませんでした: カメラと共通の音がありません。どこかに置く代わりに処理を止めます。"
+
+msgid "  The finished mix has nothing in the window from %s to %s: it lies from %s to %s. The run stops."
+msgstr "  完成ミックスは %s から %s の範囲に何もありません: %s から %s にあります。処理を止めます。"
+
+msgid "  The finished mix leaves %s at the front and %s at the back of the window silent."
+msgstr "  完成ミックスは範囲の先頭 %s と末尾 %s を無音のままにします。"
+
+msgid "  Full-Mix: the finished mix, as it came -- no gain on it and no limiter"
+msgstr "  Full-Mix: 完成ミックスを届いたまま -- ゲインもリミッターもなし"
+
+msgid "Sync only places every recording as mixed sound."
+msgstr "「同期のみ」はすべての録音をミックス音として配置します。"
+
+msgid "the finished mix -- no speaker, no camera"
+msgstr "完成ミックス -- 話者なし、カメラなし"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
+msgstr "話し声: ラウドネスだけで配置します。カメラと共通するものが\nない録音は受け付けません。ミックス: 声の下に音楽やミックスがあり、\nラウドネスで何も見つからない所では位相で配置できます。\n完成ミックス: 別の場所で作られたステレオミックス。ミックスとして配置されます。\n処理が作るミックスの代わりにカメラファイルと引き渡しに入ります --\n話者ではなく、カットされず、auphonic.com へ送られません。\n「%s」では話し声は選べません。"

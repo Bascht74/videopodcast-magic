@@ -258,7 +258,11 @@ die Zeitachse steht: der Balken der Vorarbeit unter den Tabellen auf
 genau das, und ist sie fertig, werden die vier von selbst frei; von da
 an rechnet die Vorschau mit ihnen. Hat die Trennung die Wörter einer
 einzelnen Aufnahme schon aufgeschrieben, werden diese so übernommen,
-wie sie sind. Auch ein Lauf schreibt eine Niederschrift.
+wie sie sind. Steht die Niederschrift, schneiden **Trockenlauf** und
+**Start** nach denselben Wörtern: Wird aus einer Frage in der Vorschau
+ein Reaktionsschnitt, dann auch im Lauf. Ein Lauf ohne sie -- von der
+Kommandozeile, oder bevor das Fenster fertig war -- schreibt seine
+eigene.
 
 ### Wenn keine Kamera frei von Sprechern ist
 
@@ -418,17 +422,19 @@ werden doppelt gezählt**. Für die Quelle gibt es drei Antworten:
   wird gelesen. Für ihn lagen alle Spuren auf einer Achse, und
   Mikrofone, die einander hören, wurden zusammengelegt und nach Stimmen
   getrennt. Das ist die feinste der drei Auskünfte.
-- **Nach Stimmen getrennte Sprecher.** Sie kommen aus einer Trennung auf
-  diesem Rechner, noch vor jedem Lauf.
-- **Selbst gemessene Sprecher.** Pegel, hier im Fenster gegeneinander
-  gemessen, je Person ein Mikrofon. Die gröbste der drei, und sie
-  genügt, um den Schnitt einzustellen.
+- **Nach Stimmen getrennte Sprecher.** Der eigene Lauf der Vorschau hat
+  sie aus einer Trennung genommen, die schon auf diesem Rechner liegt --
+  noch vor jedem echten Lauf.
+- **Selbst gemessene Sprecher.** Pegel, vom eigenen Lauf der Vorschau
+  gegeneinander gemessen, je Person ein Mikrofon, so wie ein Lauf ohne
+  auphonic.com sie misst. Die gröbste der drei, und sie genügt, um den
+  Schnitt einzustellen.
 
 Vor einem Lauf können die beiden letzten zugleich in der Tabelle stehen
 — Stimmen aus einer Trennung und Spuren, die aus ihrem eigenen Mikrofon
 gemessen wurden, nebeneinander —, und dann heißt die Überschrift für
-alle zusammen **Nach Stimmen getrennte Sprecher**. Das Protokoll hält
-diese beiden auf seine Weise auseinander: es druckt beide Marken und
+alle zusammen **Nach Stimmen getrennte Sprecher**. Das Protokoll eines
+**Probelaufs** hält diese beiden auf seine Weise auseinander: es druckt beide Marken und
 unter jeder eine Zeile, wer auf diesem Weg gekommen ist -- wie viele
 Stimmen aus welcher Aufnahme, und die Namen der Spuren, die
 gegeneinander gemessen wurden. Die Sprechzeiten selbst folgen nach
@@ -438,35 +444,44 @@ Bei zwei gleichzeitig Redenden zählt die Zeit doppelt -- die Überschrift
 sagt es --, bei der Stille nicht. Deshalb ergeben die Zeilen zusammen
 mehr als die Laufzeit.
 
-Hat ein Lauf seine Übergabedatei `<Produktion>_resolve.json`
-hinterlassen, rechnet das Programm beide Kästen daraus; gibt es keine,
-aus dem, was das Fenster selbst ermittelt hat. So oder so bei jeder
-Änderung neu und immer für das gewählte Zeitfenster. Schreiben und
-Hochladen gehören zum Lauf, nicht zur Vorschau.
+**Die Vorschau ist ein Lauf.** Das Programm lässt laufen, was **Start**
+laufen ließe, als Probelauf -- die Zeitachse, wer wann spricht, den
+Schnitt -- und hält an, bevor es etwas schreibt; die Vorschau zeigt den
+Schnitt, den dieser Lauf ermittelt hat, Einstellung für Einstellung.
+Dabei wird keine Datei geschrieben und nichts hochgeladen, keine Trennung
+und keine Spracherkennung angestoßen -- eine Trennung, die schon auf
+diesem Rechner liegt, wird gelesen --, und gesagt wird auch nichts: keine
+Zeile im Protokoll, kein Fortschrittsbalken. Was dieser Lauf ermittelt
+hat, bleibt auf dem Rechner liegen; ein **Start** oder **Probelauf**
+danach nimmt Zeitachse und Sprecher von dort, statt sie ein zweites Mal
+zu messen. Hat ein Lauf seine Übergabedatei `<Produktion>_resolve.json`
+hinterlassen und hat die Vorschau für das, was jetzt eingestellt ist,
+nichts Eigenes, rechnet das Programm beide Kästen aus dieser Datei.
+Immer für das gewählte Zeitfenster.
 
-**Für die Sprecher muss nichts gedrückt werden.** Sie werden aus den
-Spuren geholt, sobald der Reiter **Resolve-Schnitt** aufgeht -- in dem
-Augenblick also, in dem man sie braucht. Nicht, während eine Messung
-schon läuft, nicht nach einer gescheiterten -- ein zweiter Versuch
-scheitert genauso und kostet dieselben Minuten -- und nicht dort, wo ein
-fertiger Lauf sie schon kennt: die Rohaufnahmen noch einmal zu messen
-setzte eine gröbere Antwort an die Stelle der seinen.
+**Gedrückt werden muss nichts.** Geht der Reiter **Resolve-Schnitt**
+auf, beginnt der Lauf der Vorschau -- in dem Augenblick also, in dem
+man sie braucht; er wartet auf die Zeitachse und den Kameraton. Danach
+stößt ihn jede Änderung an dem, was ein Lauf täte, einen Augenblick
+später wieder an: eine Datei, ein Name, eine Kamera, In-Punkt oder
+Out-Punkt. Die Zeitachse wird dabei nur neu gemessen, wo sich eine
+Datei geändert hat. Ein geänderter Schnittwert
+rechnet allein den Schnitt neu, über dem, was der letzte Lauf
+hinterlassen hat, und steht fast sofort -- an denselben Senken im Ton,
+an denen ein ganzer Lauf schneiden würde: Der Lauf behält dafür den
+Pegel seines Tons, einmal je Material.
+
+Scheitert der Lauf der Vorschau, wird er für dieselben Einstellungen
+nicht wiederholt -- er scheiterte genauso und kostete dieselben
+Minuten. Wer **Start**, **Probelauf** oder **Resolve-Projekt anlegen**
+drückt, während er läuft, hält ihn an und beginnt sofort; der Knopf
+sagt für diesen Augenblick **Vorschau läuft ...**. Der angehaltene Lauf
+behält nichts und gilt als nicht versucht: Die Vorschau fragt wieder,
+sobald der Lauf vorbei ist.
 
 Unten im Vorschau-Kasten steht eine Zeile, unter dem, was die Vorschau
-sagt, und nicht unter diesem; darin steht, worauf der Schnitt beruht. Ist
-eine Spur weder von einer Trennung abgedeckt noch gemessen, steht dort
-statt dessen, wer fehlt: **Name noch nicht gemessen -- im Schnitt, in
-dieser Vorschau noch nicht**. Diese Leute sind im Schnitt -- der Lauf
-misst jede Spur, die er hat --, und es ist diese Vorschau, die sie nicht
-zeigen kann. Geht eine Messung schief, steht der Grund in derselben
-Zeile.
-
-**Gemessen wird einmal.** Eine Spur, die erst Namen und Kamera bekommt,
-nachdem der Reiter offen war, bleibt für den Rest der Sitzung in dieser
-Zeile stehen, und nach einer gescheiterten Messung bleiben es alle --
-es sei denn, eine Trennung nach Stimmen deckt sie später ab, dann sind
-sie heraus. **Projekt schließen** und ein Projekt öffnen fangen beide
-von vorn an.
+sagt, und nicht unter diesem; darin steht, worauf der Schnitt beruht,
+und der Grund, wo der Lauf der Vorschau gescheitert ist.
 
 Sind überhaupt keine Sprecher bekannt, sagt der Vorschau-Kasten das an
 Stelle seiner Zahlen und setzt dazu, dass sie aus den Spuren geholt
@@ -817,8 +832,8 @@ lässt sich drücken, ohne noch einmal etwas laufen zu lassen.
 
 Dasselbe gilt während der Arbeit. Nimmt man eine Kamera aus der
 Dateiliste, nennt die Übergabe des letzten Laufs nicht mehr genau diese
-Kameras: die Vorschau rechnet wieder mit dem, was das Fenster selbst
-ermittelt, und **Resolve-Projekt anlegen** wird grau. Legt man die
+Kameras: die Vorschau rechnet wieder mit ihrem eigenen Lauf, und
+**Resolve-Projekt anlegen** wird grau. Legt man die
 Kamera zurück, sind Übergabe und Knopf wieder da.
 
 Genauso bei den Marken. Verschiebt man nach einem Lauf den **In-Punkt**
@@ -893,22 +908,14 @@ Lautheitsmessung läuft je Spur zweimal durch.
 ### Wenn etwas klemmt
 
 * **Die Vorschau sagt, dass keine Sprecher bekannt sind, und der Kasten
-  Sprecher ist leer.** Sie werden geholt, sobald der Reiter
-  **Resolve-Schnitt** aufgeht; den Reiter verlassen und wieder
-  aufsuchen. Angestoßen wird sie vom Reiterwechsel, ein Projekt also,
-  das bei offenem Reiter geöffnet wird, lässt die Zeile stehen und tut
-  nichts. Geht die Messung schief, steht der Grund unten im
-  Vorschau-Kasten in der Zeile.
-* **Der Kasten Sprecher zeigt Sprecher, und die Vorschau sagt, dass
-  jemand noch nicht gemessen ist.** Diese Person ist im Schnitt; nur die
-  Vorschau kann sie nicht zeigen, weil ihre Spur weder getrennt noch
-  gemessen ist. Gemessen wird einmal je Dateiliste, also bleibt draußen,
-  wer erst später einen Namen bekommen hat -- der Lauf misst ihn
-  trotzdem. Wer ihn auch in der Vorschau haben will, speichert das
-  Projekt, wählt **Projekt schließen**, öffnet es wieder und kommt von
-  einem anderen Reiter auf diesen: die Messung hängt am Reiterwechsel,
-  ein Projekt, das bei offenem Reiter geöffnet wird, stößt sie also
-  nicht an.
+  Sprecher ist leer.** Der Lauf der Vorschau beginnt, sobald der Reiter
+  **Resolve-Schnitt** einmal offen war, und wartet auf die Zeitachse
+  und den Kameraton; solange er geht, steht unten im Vorschau-Kasten
+  **ermittelt, wer wann spricht ...**. Scheitert er, steht der Grund in
+  derselben Zeile, und für dieselben Einstellungen wird er nicht noch
+  einmal versucht: wer ändert, was der Grund nennt, stößt ihn von selbst
+  wieder an. Denselben Lauf mit dem ganzen Protokoll zeigt
+  **Probelauf**.
 * **Es kommt kein Schnitt heraus.** Auf den Spuren war nichts zu hören,
   oder die Trennung hat nur eine Stimme gefunden und es gibt nur eine
   Kamera. Das Protokoll sagt es unter `SPRECHER -- HIER GEMESSEN` oder

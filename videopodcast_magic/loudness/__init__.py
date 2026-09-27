@@ -412,12 +412,14 @@ def mix_width(tracks):
                                 for track in tracks])) if tracks else 1
 
 
-def mix_tracks(sources, target, gain=0.0, curve=None, channels=1):
+def mix_tracks(sources, target, gain=0.0, curve=None, channels=1,
+               label=None):
     """Sum several equally long tracks into one.
 
     Gain and limiter curve are the same for all tracks, so the single
-    tracks add up to exactly the mix again. The widening happens before
-    the sum and by "c1=c0" -- a plain conversion loses three decibels.
+    tracks add up to exactly the mix again; widened before the sum, by
+    "c1=c0" (a plain conversion loses 3 dB). *label* is the line of a sum
+    that is nobody's track, whose file name would show untranslated.
     """
     have = [kept_channels(p) for p in sources]
     channels = max(channels, max(have) if have else 1)
@@ -458,14 +460,14 @@ def mix_tracks(sources, target, gain=0.0, curve=None, channels=1):
          "-map", "[out]", "-c:a", "pcm_s24le"] + clock
         + wav_safe(target) + ["-y", target],
         sample_count(sources[0]) / float(SR),
-        T('Mixing %s') % mixing_label(target))
+        label or T('Mixing %s') % mixing_label(target))
     return target
 
 
 def mixing_label(target):
     """The name the progress line gives a mix: the track, not the file.
 
-    The targets are mix_full, single_<speaker> and mix_<camera file>.
+    Targets: mix_full, single_ and level_<speaker>, mix_<camera file>.
     Only the overall mix is announced as the mix, and only a leading
     prefix comes off: replacing "full" and "mix_" anywhere announced a
     speaker Carefully as CareFull-Mixy. The overall mix is asked for
@@ -474,7 +476,7 @@ def mixing_label(target):
     stem = os.path.splitext(os.path.basename(target))[0]
     if stem == "mix_full":
         return MIX_TRACK_NAME
-    for prefix in ("mix_", "single_"):
+    for prefix in ("mix_", "single_", "level_"):
         if stem.startswith(prefix):
             return stem[len(prefix):]
     return stem
