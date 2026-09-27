@@ -364,10 +364,15 @@ es ebenfalls, mit zwei Unterschieden:
 
 * Der Schlüssel liegt im Schlüsselbund des Desktops, erreicht über den
   Secret Service, und dafür braucht es `secret-tool` (Paket
-  `libsecret-tools` unter Debian/Ubuntu, `libsecret` unter Fedora).
-  Fehlt es, wird nichts abgelegt: auphonic.com ist dann nur aus dem
-  Fenster erreichbar, mit dem Schlüssel, der für diese Sitzung ins Feld
-  getippt wird, und ein Lauf von der Kommandozeile kommt ohne aus.
+  `libsecret-tools` unter Debian/Ubuntu, `libsecret` unter Fedora und
+  Arch, `secret-tool` unter openSUSE). Fehlt es, bietet das Speichern
+  des Schlüssels an, es über die Paketverwaltung zu installieren -- im
+  Fenster in einem Kasten, im Terminal als Ja/Nein-Frage -- und legt den
+  Schlüssel ab, sobald es da ist. Bei Nein, oder wo niemand antworten
+  kann, wird nichts abgelegt und der Befehl zum Selbsteintippen genannt;
+  auphonic.com ist dann nur aus dem Fenster erreichbar, mit dem
+  Schlüssel, der für diese Sitzung ins Feld getippt wird, und ein Lauf
+  von der Kommandozeile kommt ohne aus.
 * Der Zwischenspeicher liegt unter `XDG_CACHE_HOME`.
 
 ## Wenn etwas klemmt

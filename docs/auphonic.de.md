@@ -127,7 +127,8 @@ tippt, legt nichts ab. Den Schlüssel selbst schreibt man nie hinter den
 Schalter: Ein Wort dort wird abgewiesen, bevor überhaupt gefragt wird,
 denn in der Befehlsgeschichte der Shell bliebe es stehen. Unter Linux
 kommt er in den Schlüsselbund des Desktops (Secret Service, über
-`secret-tool`); antwortet keiner, wird nichts abgelegt, und die Antwort
+`secret-tool`; fehlt es, wird zuerst angeboten, es zu installieren);
+antwortet keiner, wird nichts abgelegt, und die Antwort
 sagt das -- siehe [Was gebraucht wird](requirements.de.md).
 
 ### Das Transkript entsteht hier

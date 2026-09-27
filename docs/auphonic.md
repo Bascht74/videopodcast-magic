@@ -115,7 +115,8 @@ did not hold, the answer is **The key is not stored:** and the reason,
 and nothing typed stores nothing. The key itself is never written after
 the switch: a word there is refused before anything is asked, because it
 would stand in the shell's history. On Linux it goes into the desktop's
-keyring (the Secret Service, through `secret-tool`); where none answers,
+keyring (the Secret Service, through `secret-tool`; where that is
+missing, installing it is offered first); where none answers,
 nothing is stored and the answer says so -- see
 [What it needs](requirements.md).
 

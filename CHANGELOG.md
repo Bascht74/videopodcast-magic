@@ -90,6 +90,11 @@ nicht.
   earlier version is now read from the moment every camera runs**, so
   such a mark can move when the project is opened.
 
+- **On Linux, saving the Auphonic key where `secret-tool` is missing
+  now offers to install it** with the package manager, in a box in the
+  window and as `[Y/n]` after `--store-auphonic-key`. Answered no, the
+  command to type by hand is named.
+
 ### Fixed
 
 - **Mark In and Mark Out now count from the moment every camera runs,
@@ -260,6 +265,11 @@ nicht.
 - **Ein relativer In- oder Out-Punkt („+12:30“), den das Fenster in
   einer früheren Version gespeichert hat, zählt jetzt ab dem Moment, in
   dem jede Kamera läuft**; beim Öffnen kann so eine Marke daher wandern.
+
+- **Unter Linux bietet das Speichern des Auphonic-Schlüssels jetzt an,
+  ein fehlendes `secret-tool` zu installieren**, über die Paketverwaltung,
+  im Fenster in einem Kasten und nach `--store-auphonic-key` mit `[Y/n]`.
+  Bei Nein wird der Befehl zum Selbsteintippen genannt.
 
 ### Behoben
 

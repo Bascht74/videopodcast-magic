@@ -343,9 +343,14 @@ well, with two differences:
 
 * The key is stored in the desktop's keyring through the Secret
   Service, and needs `secret-tool` (package `libsecret-tools` on
-  Debian/Ubuntu, `libsecret` on Fedora). Without it nothing is stored,
-  auphonic.com is reached only from the window with the key typed in
-  for that session, and a command-line run goes without it.
+  Debian/Ubuntu, `libsecret` on Fedora and Arch, `secret-tool` on
+  openSUSE). Where it is missing, saving the key offers to install it
+  with the package manager -- in a box in the window, as a yes/no
+  question in the terminal -- and stores the key once it is there.
+  Answered no, or with nobody to answer, nothing is stored and the
+  command to type by hand is named; auphonic.com is then reached only
+  from the window with the key typed in for that session, and a
+  command-line run goes without it.
 * The cache goes to `XDG_CACHE_HOME`.
 
 ## When something goes wrong
