@@ -199,12 +199,11 @@ def axis_starts_at(clocks):
 def time_window_refused(new0, new1, t0, t1):
     """Why an In and an Out point make no window, or "" where they do.
 
-    One rule for the run and for the window's trimming (apply_time_window
-    asks this very function): the Out point lies after the In point, the
-    two do not both lie on one side of the material, *t0* to *t1*, and
-    what is left of them inside it runs at least five seconds. The line
-    comes indented, as the run prints it; the outside-the-material one
-    counts from *t0*, as the window's marks do.
+    One rule for the run and the window's trimming (apply_time_window
+    asks this function): Out after In, not both on one side of the
+    material *t0* to *t1*, and at least five seconds left inside it. The
+    line comes indented as the run prints it; the outside-the-material
+    one counts from *t0*, as the window's marks do.
     """
     if new1 <= new0:
         return T('    Out point lies before In point -- that does not work.')
