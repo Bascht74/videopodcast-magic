@@ -1643,9 +1643,6 @@ msgstr "kayıtlardan ölçüldü -- %s konuşmacı, %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Giriş noktası veya çıkış noktası burada okunamıyor."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Çıkış noktası, giriş noktasından 5 saniyeden daha az sonra."
-
 msgid "because no speaker is assigned to it"
 msgstr "çünkü ona hiçbir konuşmacı atanmamış"
 

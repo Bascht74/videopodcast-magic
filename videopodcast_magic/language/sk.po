@@ -3757,9 +3757,6 @@ msgstr "kontrola sama sa zastavila: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Bod In alebo bod Out sa tu nedá prečítať."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Bod Out leží menej ako 5 sekúnd za bodom In."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Chýba asi %s. Uvoľnite miesto alebo zvoľte pomocou --out iný priečinok. Dočasné súbory počas behu idú ešte inam, do dočasného priečinka systému."
 

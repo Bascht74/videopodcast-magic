@@ -1678,9 +1678,6 @@ msgstr "مقاس من التسجيلات -- %s متحدثين، %s"
 msgid "In point or Out point cannot be read here."
 msgstr "لا يمكن قراءة نقطة البداية أو نقطة النهاية هنا."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "نقطة النهاية تقع بعد نقطة البداية بأقل من 5 ثوانٍ."
-
 msgid "because no speaker is assigned to it"
 msgstr "لأنه لم يُسند إليها أي متحدث"
 

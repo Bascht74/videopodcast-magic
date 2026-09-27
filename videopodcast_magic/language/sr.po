@@ -3758,9 +3758,6 @@ msgstr "сама провера је стала: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Тачка In или тачка Out не може се овде прочитати."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Тачка Out је мање од 5 секунди после тачке In."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Недостаје око %s. Ослободите простор или изаберите другу фасциклу са --out. Привремене датотеке током покретања иду опет негде другде, у системску привремену фасциклу."
 

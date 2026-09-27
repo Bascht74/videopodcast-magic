@@ -3756,9 +3756,6 @@ msgstr "যাচাই নিজেই থেমে গেছে: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "ইন পয়েন্ট বা আউট পয়েন্ট এখানে পড়া যাচ্ছে না।"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "আউট পয়েন্ট ইন পয়েন্টের পর 5 সেকেন্ডেরও কম সময়ে পড়েছে।"
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "প্রায় %s কম আছে। জায়গা খালি করুন অথবা --out দিয়ে অন্য ফোল্ডার বেছে নিন। চালনার সময়ের অস্থায়ী ফাইলগুলো আবার অন্য জায়গায় যায়, সিস্টেমের temp ফোল্ডারে।"
 

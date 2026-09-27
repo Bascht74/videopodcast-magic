@@ -3754,9 +3754,6 @@ msgstr "tarkistus itse pysähtyi: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "In-pistettä tai out-pistettä ei voi lukea tässä."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Out-piste on alle 5 sekuntia in-pisteen jälkeen."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Noin %s puuttuu. Vapauta tilaa tai valitse toinen kansio valitsimella --out. Ajon aikaiset väliaikaistiedostot menevät taas muualle, järjestelmän temp-kansioon."
 

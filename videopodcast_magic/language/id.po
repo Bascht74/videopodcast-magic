@@ -3847,9 +3847,6 @@ msgstr "pemeriksaan itu sendiri terhenti: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Titik masuk atau titik keluar tidak dapat dibaca di sini."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Titik keluar berada kurang dari 5 detik setelah titik masuk."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Kurang sekitar %s. Kosongkan ruang atau pilih folder lain dengan --out. File sementara selama proses disimpan di tempat lain lagi, di folder temp sistem."
 

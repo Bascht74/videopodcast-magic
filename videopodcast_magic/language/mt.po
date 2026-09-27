@@ -3850,9 +3850,6 @@ msgstr "il-kontroll innifsu waqaf: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Il-punt tad-dħul jew il-punt tal-ħruġ ma jistax jinqara hawn."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Il-punt tal-ħruġ jinsab inqas minn 5 sekondi wara l-punt tad-dħul."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Jonqos madwar %s. Agħmel spazju jew agħżel folder ieħor b'--out. Il-fajls temporanji waqt it-tħaddim imorru x'imkien ieħor ukoll, fil-folder temporanju tas-sistema."
 

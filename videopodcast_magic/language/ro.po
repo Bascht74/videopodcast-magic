@@ -3758,9 +3758,6 @@ msgstr "verificarea însăși s-a oprit: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Punctul In sau punctul Out nu poate fi citit aici."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Punctul Out se află la mai puțin de 5 secunde după punctul In."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Lipsesc cam %s. Eliberați spațiu sau alegeți alt dosar cu --out. Fișierele temporare din timpul rulării merg din nou altundeva, în dosarul temporar al sistemului."
 

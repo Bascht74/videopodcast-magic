@@ -3846,9 +3846,6 @@ msgstr "הבדיקה עצמה נעצרה: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "לא ניתן לקרוא כאן את נקודת הכניסה או את נקודת היציאה."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "נקודת היציאה נמצאת פחות מ-5 שניות אחרי נקודת הכניסה."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "חסרים כ-%s. יש לפנות מקום או לבחור תיקייה אחרת עם --out. הקבצים הזמניים במהלך ההרצה הולכים שוב למקום אחר, לתיקייה הזמנית של המערכת."
 

@@ -3854,9 +3854,6 @@ msgstr "stad an tseiceáil féin: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Ní féidir an pointe isteach ná an pointe amach a léamh anseo."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Tá an pointe amach níos lú ná 5 shoicind i ndiaidh an phointe isteach."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Tá thart ar %s in easnamh. Saor spás nó roghnaigh fillteán eile le --out. Téann na comhaid shealadacha le linn an reatha áit éigin eile arís, isteach i bhfillteán sealadach an chórais."
 

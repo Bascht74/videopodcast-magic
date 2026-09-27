@@ -3847,9 +3847,6 @@ msgstr "சரிபார்ப்பே நின்றுவிட்டத�
 msgid "In point or Out point cannot be read here."
 msgstr "இன் புள்ளி அல்லது அவுட் புள்ளியை இங்கே படிக்க முடியாது."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "அவுட் புள்ளி இன் புள்ளிக்குப் பின் 5 வினாடிகளுக்கும் குறைவான தொலைவில் உள்ளது."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "சுமார் %s குறைவாக உள்ளது. இடத்தைக் காலி செய்யவும் அல்லது --out மூலம் வேறு கோப்புறையைத் தேர்ந்தெடுக்கவும். இயக்கத்தின்போது தற்காலிகக் கோப்புகள் மீண்டும் வேறோர் இடத்திற்கு, கணினியின் தற்காலிகக் கோப்புறைக்குச் செல்லும்."
 

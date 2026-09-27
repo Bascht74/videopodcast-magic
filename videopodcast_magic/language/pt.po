@@ -1631,9 +1631,6 @@ msgstr "medido a partir das gravações -- %s falantes, %s"
 msgid "In point or Out point cannot be read here."
 msgstr "O ponto de entrada ou o ponto de saída não pode ser lido aqui."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "O ponto de saída fica menos de 5 segundos depois do ponto de entrada."
-
 msgid "because no speaker is assigned to it"
 msgstr "porque nenhum falante lhe está atribuído"
 

@@ -3848,9 +3848,6 @@ msgstr "самата проверка спря: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Входната или изходната точка не може да се прочете тук."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Изходната точка е по-малко от 5 секунди след входната точка."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Липсват около %s. Освободете място или изберете друга папка с --out. Временните файлове по време на изпълнението отиват на още едно друго място, във временната папка на системата."
 

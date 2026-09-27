@@ -3751,9 +3751,6 @@ msgstr "확인 자체가 중단됨: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "여기서 인 포인트 또는 아웃 포인트를 읽을 수 없습니다."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "아웃 포인트가 인 포인트 뒤 5초 이내에 있습니다."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "약 %s 부족합니다. 공간을 비우거나 --out으로 다른 폴더를 고르세요. 실행 중 임시 파일은 또 다른 곳, 시스템 임시 폴더에 저장됩니다."
 

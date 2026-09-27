@@ -3758,9 +3758,6 @@ msgstr "samo sprawdzanie zostało przerwane: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Nie można tu odczytać punktu wejścia ani punktu wyjścia."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Punkt wyjścia leży mniej niż 5 sekund po punkcie wejścia."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Brakuje około %s. Zwolnij miejsce albo wybierz inny folder przez --out. Pliki tymczasowe podczas przebiegu trafiają jeszcze gdzie indziej, do systemowego folderu tymczasowego."
 

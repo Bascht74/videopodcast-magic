@@ -3845,9 +3845,6 @@ msgstr "การตรวจสอบเองหยุดลง: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "อ่านจุดเข้าหรือจุดออกที่นี่ไม่ได้"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "จุดออกอยู่หลังจุดเข้าไม่ถึง 5 วินาที"
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "ยังขาดอยู่ประมาณ %s โปรดเพิ่มพื้นที่ว่างหรือเลือกโฟลเดอร์อื่นด้วย --out ส่วนไฟล์ชั่วคราวระหว่างรอบการทำงานจะไปอยู่อีกที่หนึ่ง คือในโฟลเดอร์ชั่วคราวของระบบ"
 
