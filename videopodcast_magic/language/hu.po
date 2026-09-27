@@ -5125,3 +5125,6 @@ msgstr "  Kredit az auphonic.com-on: %s maradt, elég a produkcióhoz szüksége
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Az ingyenes csomagban egy Multitrack produkció legfeljebb %s hosszú lehet, ez pedig %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s két kamerán szerepel: a sáv szerint %s, a hang szerint %s. A hang dönt, így a vágás %s szereplőt csak ezen mutatja: %s."

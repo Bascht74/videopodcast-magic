@@ -5084,3 +5084,6 @@ msgstr "  Kredit di auphonic.com: tersisa %s, cukup untuk %s yang diperlukan pro
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Pada paket gratis, produksi Multitrack paling lama %s, dan yang ini %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s ada di dua kamera: %s menurut trek, %s menurut suara. Suara yang berlaku, jadi potongan menampilkan %s hanya di %s."

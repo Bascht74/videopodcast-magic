@@ -5127,3 +5127,6 @@ msgstr "  Krediit auphonic.com-is: alles %s, piisab selle produktsiooni vajatud 
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Tasuta paketis võib Multitrack-produktsioon kesta kõige rohkem %s, see kestab %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s on kahel kaameral: %s raja järgi, %s hääle järgi. Hääl on ülimuslik, seega näitab lõige %s ainult kaameral %s."

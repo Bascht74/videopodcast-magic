@@ -5127,3 +5127,6 @@ msgstr "  auphonic.com లో క్రెడిట్: %s మిగిలి �
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  ఉచిత ప్లాన్‌లో Multitrack ప్రొడక్షన్ గరిష్ఠంగా %s ఉండవచ్చు, ఇది %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s రెండు కెమెరాలపై ఉన్నారు: ట్రాక్ ప్రకారం %s, గొంతు ప్రకారం %s. గొంతుకే ప్రాధాన్యం, కాబట్టి కట్ %s ను %s పై మాత్రమే చూపిస్తుంది."

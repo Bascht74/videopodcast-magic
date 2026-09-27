@@ -5082,3 +5082,6 @@ msgstr "  เครดิตที่ auphonic.com: เหลือ %s พอส
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  ในแผนฟรี งาน Multitrack ยาวได้ไม่เกิน %s แต่งานนี้ยาว %s"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s อยู่บนกล้องสองตัว: %s ตามแทร็ก และ %s ตามเสียงพูด เสียงพูดมีผลเหนือกว่า การตัดต่อจึงแสดง %s บน %s เท่านั้น"

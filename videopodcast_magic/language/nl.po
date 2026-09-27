@@ -5124,3 +5124,6 @@ msgstr "  Tegoed bij auphonic.com: nog %s, genoeg voor de %s die deze productie 
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Met het gratis abonnement mag een Multitrack-productie hoogstens %s duren, en deze duurt %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s staat op twee camera's: %s volgens het spoor, %s volgens de stem. De stem gaat voor, dus de montage toont %s alleen op %s."

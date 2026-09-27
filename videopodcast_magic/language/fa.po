@@ -5126,3 +5126,6 @@ msgstr "  اعتبار در auphonic.com: %s باقی مانده، برای %s �
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  در طرح رایگان یک تولید Multitrack حداکثر می‌تواند %s باشد، و این یکی %s است."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s روی دو دوربین است: %s بر اساس ترک، %s بر اساس صدا. صدا اولویت دارد، پس برش %s را فقط روی %s نشان می‌دهد."

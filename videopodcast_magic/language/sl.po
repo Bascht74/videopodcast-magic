@@ -5216,3 +5216,6 @@ msgstr "  Dobroimetje na auphonic.com: ostaja %s, dovolj za %s, ki jih potrebuje
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  V brezplačnem paketu sme produkcija Multitrack trajati največ %s, ta pa traja %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s je na dveh kamerah: %s po sledi, %s po glasu. Prednost ima glas, zato rez prikazuje %s samo na %s."

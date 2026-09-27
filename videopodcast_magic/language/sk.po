@@ -5167,3 +5167,6 @@ msgstr "  Kredit na auphonic.com: zostáva %s, stačí na %s, ktoré táto produ
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  V bezplatnom programe môže produkcia Multitrack trvať najviac %s a táto trvá %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s je na dvoch kamerách: %s podľa stopy, %s podľa hlasu. Prednosť má hlas, takže strih ukazuje %s len na %s."

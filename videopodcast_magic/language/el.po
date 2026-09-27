@@ -5124,3 +5124,6 @@ msgstr "  Πίστωση στο auphonic.com: απομένουν %s, αρκετ�
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Στο δωρεάν πρόγραμμα μια παραγωγή Multitrack μπορεί να διαρκεί το πολύ %s, και αυτή διαρκεί %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s βρίσκεται σε δύο κάμερες: %s σύμφωνα με το κανάλι, %s σύμφωνα με τη φωνή. Υπερισχύει η φωνή, οπότε το μοντάζ δείχνει %s μόνο στην %s."

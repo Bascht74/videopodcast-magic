@@ -5127,3 +5127,6 @@ msgstr "  auphonic.com-இல் கிரெடிட்: %s மீதம், �
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  இலவசத் திட்டத்தில் ஒரு Multitrack தயாரிப்பு அதிகபட்சம் %s நீளமாக இருக்கலாம், இது %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s இரண்டு கேமராக்களில் உள்ளார்: டிராக்கின்படி %s, குரலின்படி %s. குரலே முன்னுரிமை பெறுகிறது, எனவே வெட்டு %s-ஐ %s-இல் மட்டுமே காட்டுகிறது."

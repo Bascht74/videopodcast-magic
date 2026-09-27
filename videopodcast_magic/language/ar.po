@@ -5307,3 +5307,6 @@ msgstr "  الرصيد في auphonic.com: يتبقى %s، وهو يكفي لـ %
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  في الخطة المجانية لا يجوز أن تتجاوز مدة إنتاج Multitrack %s، وهذا الإنتاج مدته %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s على كاميرتين: %s حسب المسار، و%s حسب الصوت. الصوت هو الذي يُعتمد، لذا يُظهر المونتاج %s على %s فقط."

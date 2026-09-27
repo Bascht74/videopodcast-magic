@@ -5126,3 +5126,6 @@ msgstr "  קרדיט ב-auphonic.com: נותרו %s, מספיק ל-%s שההפק
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  בתוכנית החינמית הפקת Multitrack יכולה להימשך לכל היותר %s, וזו נמשכת %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s משויך לשתי מצלמות: %s לפי הערוץ, %s לפי הקול. הקול קובע, ולכן החיתוך מציג את %s רק ב-%s."

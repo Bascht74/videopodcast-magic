@@ -5122,3 +5122,6 @@ msgstr "  Saldo en auphonic.com: quedan %s, suficiente para los %s que necesita 
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  En el plan gratuito una producción Multitrack puede durar como máximo %s, y esta dura %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s está en dos cámaras: %s según la pista, %s según la voz. Prevalece la voz, así que el corte muestra a %s solo en %s."

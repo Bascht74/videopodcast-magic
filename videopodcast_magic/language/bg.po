@@ -5128,3 +5128,6 @@ msgstr "  Кредит в auphonic.com: остават %s, достатъчно 
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  При безплатния план продукция Multitrack може да е най-много %s, а тази е %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s е на две камери: %s по пистата, %s по гласа. Гласът има предимство, така че монтажът показва %s само на %s."

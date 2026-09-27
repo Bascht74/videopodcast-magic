@@ -5263,3 +5263,6 @@ msgstr "  Creidmheas ag auphonic.com: %s fágtha, is leor é don %s a theastaío
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Ar an bplean saor in aisce ní féidir le léiriú Multitrack a bheith níos faide ná %s, agus tá an ceann seo %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  Tá %s ar dhá cheamara: %s de réir an rian, %s de réir an ghutha. Is é an guth a bhuaileann, mar sin taispeánann an gearradh %s ar %s amháin."

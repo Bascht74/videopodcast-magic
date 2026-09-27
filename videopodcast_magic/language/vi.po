@@ -5080,3 +5080,6 @@ msgstr "  Tín dụng tại auphonic.com: còn %s, đủ cho %s mà bản sản 
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Ở gói miễn phí, một bản sản xuất Multitrack dài tối đa %s, còn bản này dài %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s nằm trên hai máy quay: %s theo rãnh, %s theo giọng nói. Giọng nói được ưu tiên, nên bản dựng chỉ hiển thị %s trên %s."

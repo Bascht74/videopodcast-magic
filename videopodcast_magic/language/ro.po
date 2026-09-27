@@ -5168,3 +5168,6 @@ msgstr "  Credit la auphonic.com: au rămas %s, destul pentru cele %s de care ar
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  În planul gratuit o producție Multitrack poate dura cel mult %s, iar aceasta durează %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s este pe două camere: %s după pistă, %s după voce. Vocea are prioritate, așa că montajul îl arată pe %s doar pe %s."

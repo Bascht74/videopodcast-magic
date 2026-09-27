@@ -5123,3 +5123,6 @@ msgstr "  Kreditt hos auphonic.com: %s igjen, nok til de %s denne produksjonen t
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Med gratisabonnement kan en Multitrack-produksjon vare høyst %s, og denne varer %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s er på to kameraer: %s ifølge sporet, %s ifølge stemmen. Stemmen gjelder, så klippet viser %s bare på %s."

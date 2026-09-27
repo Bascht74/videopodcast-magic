@@ -5126,3 +5126,6 @@ msgstr "  auphonic.com پر کریڈٹ: %s باقی، اس پروڈکشن کو �
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  مفت پلان میں Multitrack پروڈکشن زیادہ سے زیادہ %s لمبی ہو سکتی ہے، اور یہ %s کی ہے۔"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s دو کیمروں پر ہے: ٹریک کے مطابق %s، آواز کے مطابق %s۔ آواز کو ترجیح ملتی ہے، اس لیے کٹ %s کو صرف %s پر دکھاتا ہے۔"

@@ -5123,3 +5123,6 @@ msgstr "  Krediittiä auphonic.com-palvelussa: jäljellä %s, riittää tämän 
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Ilmaispaketissa Multitrack-tuotanto saa kestää enintään %s, ja tämä kestää %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s on kahdella kameralla: %s raidan mukaan, %s äänen mukaan. Ääni ratkaisee, joten leikkaus näyttää henkilön %s vain kameralla %s."

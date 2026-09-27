@@ -5172,3 +5172,6 @@ msgstr "  Kredīts vietnē auphonic.com: atlikušas %s, pietiek šim producējum
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Bezmaksas plānā Multitrack producējums drīkst ilgt ne vairāk kā %s, bet šis ilgst %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s ir divās kamerās: %s pēc celiņa, %s pēc balss. Noteicošā ir balss, tāpēc griezums rāda %s tikai kamerā %s."

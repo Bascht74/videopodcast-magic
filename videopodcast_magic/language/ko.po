@@ -5079,3 +5079,6 @@ msgstr "  auphonic.com 크레딧: %s 남음, 이 프로덕션에 필요한 %s에
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  무료 요금제에서 Multitrack 프로덕션은 최대 %s까지인데, 이것은 %s입니다."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s은(는) 두 카메라에 배정되어 있습니다: 트랙으로는 %s, 목소리로는 %s. 목소리가 우선하므로 편집은 %s을(를) %s에만 보여 줍니다."

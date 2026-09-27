@@ -5127,3 +5127,6 @@ msgstr "  Salio kwenye auphonic.com: zimebaki %s, zinatosha kwa %s zinazohitajik
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Katika mpango wa bure uzalishaji wa Multitrack unaweza kudumu %s zaidi, na huu ni %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s yuko kwenye kamera mbili: %s kwa wimbo, %s kwa sauti. Sauti ndiyo inayoshinda, kwa hiyo uhariri unamwonyesha %s kwenye %s pekee."

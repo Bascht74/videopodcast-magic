@@ -5216,3 +5216,6 @@ msgstr "  Kreditu fuq auphonic.com: fadal %s, biżżejjed għall-%s li teħtieġ
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Fil-pjan b'xejn produzzjoni Multitrack tista' ddum l-aktar %s, u din iddum %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s qiegħed fuq żewġ kameras: %s skont it-track, %s skont il-vuċi. Il-vuċi tirbaħ, għalhekk il-qatgħa turi lil %s fuq %s biss."

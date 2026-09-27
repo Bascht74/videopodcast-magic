@@ -5136,3 +5136,6 @@ msgstr "  auphonic.com kredisi: %s kaldı, bu prodüksiyonun gerektirdiği %s i�
 
 msgid "  On the free plan a Multitrack production may be at most %s long, and this one is %s."
 msgstr "  Ücretsiz planda bir Multitrack prodüksiyonu en fazla %s sürebilir, bu ise %s."
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s iki kamerada: ize göre %s, sese göre %s. Ses önceliklidir, bu yüzden kurgu %s kişisini yalnızca %s üzerinde gösterir."
