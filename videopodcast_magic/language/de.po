@@ -6884,3 +6884,6 @@ msgstr "dort gefunden, wohin sein Timecode wies"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: seine Uhr sagt %s, der Ton hat %s gemessen -- %s s auseinander; es gilt die Messung"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s ist auf zwei Kameras: %s über die Spur, %s über die Stimme. Die Stimme gilt, der Schnitt zeigt %s also nur auf %s."

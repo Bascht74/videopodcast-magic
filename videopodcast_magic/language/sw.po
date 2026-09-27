@@ -5151,3 +5151,6 @@ msgstr "imepatikana pale timecode yake ilipoelekeza"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: saa yake inasema %s, sauti ilipima %s -- tofauti ya sekunde %s; kipimo ndicho kinachotumika"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s yuko kwenye kamera mbili: %s kwa wimbo, %s kwa sauti. Sauti ndiyo inayoshinda, kwa hiyo uhariri unamwonyesha %s kwenye %s pekee."

@@ -5148,3 +5148,6 @@ msgstr "वहाँ मिला जहाँ उसका टाइमको�
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: उसकी घड़ी कहती है %s, ध्वनि ने %s मापा -- %s से. का अंतर; माप का उपयोग होता है"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s दो कैमरों पर है: ट्रैक के अनुसार %s, आवाज़ के अनुसार %s। आवाज़ मान्य होती है, इसलिए कट %s को केवल %s पर दिखाता है।"

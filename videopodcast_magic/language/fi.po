@@ -5147,3 +5147,6 @@ msgstr "löytyi sieltä, mihin sen aikakoodi osoitti"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: sen kello sanoo %s, ääni mittasi %s -- ero %s s; mittausta käytetään"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s on kahdella kameralla: %s raidan mukaan, %s äänen mukaan. Ääni ratkaisee, joten leikkaus näyttää henkilön %s vain kameralla %s."

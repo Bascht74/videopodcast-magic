@@ -5195,3 +5195,6 @@ msgstr "rastas ten, kur rodė jo laiko kodas"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: jo laikrodis rodo %s, garsas išmatavo %s -- skirtumas %s s; naudojamas matavimas"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s yra dviejose kamerose: %s pagal takelį, %s pagal balsą. Pirmenybė teikiama balsui, todėl montažas rodo %s tik kameroje %s."

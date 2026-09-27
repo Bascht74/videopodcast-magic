@@ -5151,3 +5151,6 @@ msgstr "leitud sealt, kuhu selle ajakood osutas"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: selle kell ütleb %s, heli mõõtis %s -- vahe %s s; kasutatakse mõõtmist"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s on kahel kaameral: %s raja järgi, %s hääle järgi. Hääl on ülimuslik, seega näitab lõige %s ainult kaameral %s."

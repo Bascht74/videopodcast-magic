@@ -5153,3 +5153,6 @@ msgstr "ਉੱਥੇ ਮਿਲਿਆ ਜਿੱਥੇ ਇਸ ਦਾ ਟਾਈਮ�
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: ਇਸ ਦੀ ਘੜੀ ਕਹਿੰਦੀ ਹੈ %s, ਧੁਨੀ ਨੇ %s ਮਾਪਿਆ -- %s ਸਕਿੰਟ ਦਾ ਫ਼ਰਕ; ਮਾਪ ਵਰਤਿਆ ਜਾਂਦਾ ਹੈ"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s ਦੋ ਕੈਮਰਿਆਂ 'ਤੇ ਹੈ: ਟ੍ਰੈਕ ਅਨੁਸਾਰ %s, ਆਵਾਜ਼ ਅਨੁਸਾਰ %s। ਆਵਾਜ਼ ਮੰਨੀ ਜਾਂਦੀ ਹੈ, ਇਸ ਲਈ ਕੱਟ %s ਨੂੰ ਸਿਰਫ਼ %s 'ਤੇ ਦਿਖਾਉਂਦਾ ਹੈ।"

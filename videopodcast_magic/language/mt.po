@@ -5240,3 +5240,6 @@ msgstr "instab fejn kien jindika t-timecode tiegħu"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: l-arloġġ tiegħu jgħid %s, il-ħoss kejjel %s -- differenza ta' %s s; jintuża l-kejl"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s qiegħed fuq żewġ kameras: %s skont it-track, %s skont il-vuċi. Il-vuċi tirbaħ, għalhekk il-qatgħa turi lil %s fuq %s biss."

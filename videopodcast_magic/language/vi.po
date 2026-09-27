@@ -5104,3 +5104,6 @@ msgstr "tìm thấy ở nơi timecode của nó chỉ tới"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: đồng hồ của nó ghi %s, âm thanh đo được %s -- lệch %s giây; dùng kết quả đo"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s nằm trên hai máy quay: %s theo rãnh, %s theo giọng nói. Giọng nói được ưu tiên, nên bản dựng chỉ hiển thị %s trên %s."

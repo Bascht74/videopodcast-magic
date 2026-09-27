@@ -5151,3 +5151,6 @@ msgstr "त्याच्या टाइमकोडने दाखवले�
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: त्याचे घड्याळ सांगते %s, ध्वनीने %s मोजले -- %s से. अंतर; मोजमाप वापरले जाते"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s दोन कॅमेऱ्यांवर आहे: ट्रॅकनुसार %s, आवाजानुसार %s. आवाज ग्राह्य धरला जातो, म्हणून कट %s ला फक्त %s वर दाखवतो."

@@ -5104,3 +5104,6 @@ msgstr "タイムコードが示した位置で見つかりました"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: 時計は %s、音声の測定では %s -- 差は %s 秒。測定値を使用します"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s は2台のカメラに割り当てられています: トラックでは %s、声では %s。声が優先されるため、カットは %s を %s にのみ映します。"

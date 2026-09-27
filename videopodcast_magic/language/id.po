@@ -5108,3 +5108,6 @@ msgstr "ditemukan di tempat yang ditunjuk timecode-nya"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: jamnya menunjukkan %s, audio mengukur %s -- selisih %s dtk; yang dipakai hasil pengukuran"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s ada di dua kamera: %s menurut trek, %s menurut suara. Suara yang berlaku, jadi potongan menampilkan %s hanya di %s."

@@ -5208,3 +5208,6 @@ msgstr "знайдено там, куди вказував його таймко
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: його годинник показує %s, звук виміряв %s -- розбіжність %s с; використовується вимірювання"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s призначено на дві камери: %s за доріжкою, %s за голосом. Перевагу має голос, тож монтаж показує %s лише на %s."

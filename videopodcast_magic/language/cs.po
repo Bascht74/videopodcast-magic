@@ -5191,3 +5191,6 @@ msgstr "nalezeno tam, kam ukazoval jeho timecode"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: jeho hodiny říkají %s, zvuk naměřil %s -- rozdíl %s s; platí měření"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s je na dvou kamerách: %s podle stopy, %s podle hlasu. Přednost má hlas, takže střih ukazuje %s jen na %s."

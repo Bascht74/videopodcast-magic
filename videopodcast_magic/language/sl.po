@@ -5240,3 +5240,6 @@ msgstr "najdeno tam, kamor je kazala njegova časovna koda"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: njegova ura pravi %s, zvok je izmeril %s -- razlika %s s; velja meritev"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s je na dveh kamerah: %s po sledi, %s po glasu. Prednost ima glas, zato rez prikazuje %s samo na %s."

@@ -5331,3 +5331,6 @@ msgstr "وُجد حيث أشار رمزه الزمني"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: ساعته تقول %s، والصوت قاس %s -- الفرق %s ث؛ تُعتمد القياسات"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s على كاميرتين: %s حسب المسار، و%s حسب الصوت. الصوت هو الذي يُعتمد، لذا يُظهر المونتاج %s على %s فقط."

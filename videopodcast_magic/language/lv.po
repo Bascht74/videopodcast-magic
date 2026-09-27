@@ -5196,3 +5196,6 @@ msgstr "atrasts tur, kur norādīja tā laika kods"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: tā pulkstenis rāda %s, skaņa izmērīja %s -- atšķirība %s s; tiek izmantots mērījums"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s ir divās kamerās: %s pēc celiņa, %s pēc balss. Noteicošā ir balss, tāpēc griezums rāda %s tikai kamerā %s."

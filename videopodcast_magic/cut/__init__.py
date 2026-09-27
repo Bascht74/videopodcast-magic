@@ -1752,6 +1752,40 @@ def stand_in_camera(names):
     return sorted(n for n in names if n)[:1] or ["Wide"]
 
 
+def seats_of(tracks, voices):
+    """Who sits on which camera, one camera a name: ({name: camera}, twice).
+
+    One rule for the cut list, the handover and the preview: a track seats
+    its speaker on its camera, a voice where its own assignment says, and
+    the voice wins. *twice*: (name, track's camera, voice's camera) where
+    the two disagreed, for the log to say.
+    """
+    seat, twice = {}, []
+    for track in tracks:
+        if track.get("camera"):
+            seat[track["name"]] = track["camera"]
+    for who, where in (voices or {}).items():
+        was = seat.get(who)
+        if was and where and path_key(was) != path_key(where):
+            twice.append((who, was, where))
+        seat[who] = where
+    return seat, twice
+
+
+def seated_in_handover(cameras):
+    """{name: camera entry} out of a handover's table, one camera a name.
+
+    A handover written by this version names everybody once, by seats_of.
+    One written before may name a person under two cameras; the later
+    one is taken then, by the cut and its preview alike.
+    """
+    seat = {}
+    for cam in cameras or ():
+        for n in (cam.get("speakers") or []):
+            seat[n] = cam
+    return seat
+
+
 def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3,
                    after=WIDE_AFTER_S,
                        holds=5.0, at_latest=120.0, edge=True,
@@ -1766,10 +1800,8 @@ def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3,
     cameras = d.get("cameras") or []
     if not tracks or not cameras:
         return None
-    camera_of = {}
-    for cam in cameras:
-        for n in (cam.get("speakers") or []):
-            camera_of[n] = cam.get("track")
+    camera_of = {n: cam.get("track")
+                 for n, cam in seated_in_handover(cameras).items()}
     wides = wide_shots_of([cam.get("track") for cam in cameras],
                           set(camera_of.values()),
                           [cam.get("track") for cam in cameras
@@ -2677,6 +2709,18 @@ def output_folder(args, beside):
             else os.path.dirname(os.path.abspath(beside)))
 
 
+def speakers_without_auphonic(args, tracks):
+    """Who speaks when, worked out of the aligned tracks: nothing written.
+
+    The part of finish_without_auphonic a run without files can ask
+    too. Sync only asks nobody, so there the answer is empty.
+    """
+    if sync_only(args):
+        return []
+    step_begin("speakers")
+    return speakers_for_the_cut(args, tracks)
+
+
 def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
                             t0, t1, ref_clip):
     """Finish a multitrack run without auphonic.com.
@@ -2697,11 +2741,7 @@ def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
     if args.dry_run:
         print(T('\n  (measuring only: nothing written)'))
         return 0
-    if sync_only(args):
-        segment_list = []
-    else:
-        step_begin("speakers")
-        segment_list = speakers_for_the_cut(args, tracks)
+    segment_list = speakers_without_auphonic(args, tracks)
     folder = output_folder(args, videos and videos[0][0])
     # The voices first, each on its own, then the sum: one common gain
     # keeps whatever balance came in, and here no leveler set one.
@@ -2736,23 +2776,15 @@ def camera_place(files, zero, measured, fps=30.0, clocked=False):
             return float(stamp) - float(zero), "clock"
     return 0.0, "nowhere"
 
-def write_handover(args, tracks, cameras, videos, folder, tc_start,
-                      ref_clip, results=None, cut=None, segment_list=None,
-                      length=0.0, track_names=None, single_files=None,
-                      offsets=None, lengths=None, words=(), unplaceable=(),
-                      clocked=()):
-    """Write everything Resolve needs: the handover file and instructions.
+def handover_cameras(args, tracks, cameras, videos, tc_start, fps,
+                     results=None, track_names=None, offsets=None,
+                     lengths=None, unplaceable=(), clocked=()):
+    """The handover's table of cameras, worked out: nothing written.
 
-    The Resolve scripting interface has no multicam: the word is not once in
-    the bundled README (version 21); the manual lists the conversion only as a
-    menu command. Project, import, timeline, track names and markers can be
-    driven; the last step stays manual. *clocked*: {camera: how well its sound
-    matched} for cameras placed by clock alone, None where nothing was heard.
+    Returns (entries, the sources refused) and says in the log which
+    camera was placed by its clock, by nothing, or not at all. Who sits
+    on a camera comes from seats_of, as in the cut list.
     """
-    if not cameras:
-        return 0
-    fps = timeline_frame_rate(args, videos, ref_clip)
-    stem = os.path.join(folder, safe_filename(args.production or 'Production'))
     # The written file carries the ending the run hangs on; the camera
     # is known here under its name without it, so both are keys.
     tail = getattr(args, "suffix", "") or "_audio"
@@ -2762,12 +2794,6 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         done[made] = os.path.abspath(p)
         if made.endswith(tail):
             done[made[:-len(tail)]] = os.path.abspath(p)
-
-    resolutions, rates = set(), set()
-    for _, e in videos:
-        if e.get("width"):
-            resolutions.add((e["width"], e["height"]))
-        rates.add(round(float(e.get("fps") or 0), 3))
     # The fallback for the offset is 0.0 -- the start of the axis.
     takes = ByFile((v, e.get("duration") or 0.0) for v, e in videos)
     rate_of = ByFile((v, e.get("fps") or 0.0) for v, e in videos)
@@ -2775,19 +2801,14 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     measured = ByFile(offsets or {})
     delivered = ByFile(lengths or {})
     named = ByFile(track_names or {})
-    speaker_of = ByFile()
-    for track in tracks:
-        if track.get("camera"):
-            speaker_of.setdefault(track["camera"],
-                                    []).append(track["name"])
     # And the voices told apart under one recording, which have no track
     # of their own -- else a camera filled with a person counts as wide.
-    for name, where in PROGRAM.handed_over(args)[1].items():
+    speaker_of = ByFile()
+    for name, where in seats_of(tracks, PROGRAM.handed_over(args)[1])[0] \
+            .items():
         speaker_of.setdefault(where, []).append(name)
 
-    #----------------------------------------------------- Handover file
     marked_wide = marked_wide_shots(args)
-    _hdr_flag = hdr_from_sources([cam["video"] for cam in cameras])
     items = []
     unmeasured = []
     by_clock = []
@@ -2883,8 +2904,32 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     if unmeasured:
         print(as_warn(T('  No measured offset for %s -- placed at the '
                         'start of the axis.') % ", ".join(unmeasured)))
+    return items, refused
+
+
+def handover_of(args, tracks, cameras, videos, tc_start, ref_clip,
+                results=None, cut=None, segment_list=None, length=0.0,
+                track_names=None, single_files=None, offsets=None,
+                lengths=None, words=(), unplaceable=(), clocked=()):
+    """What the handover file holds, worked out: nothing is written.
+
+    The same arguments write_handover takes, less the folder: a run that
+    writes no files -- a dry run, a preview -- gets the same handover
+    from here as the one that does. None where there is no camera.
+    """
+    if not cameras:
+        return None
+    fps = timeline_frame_rate(args, videos, ref_clip)
+    resolutions = set()
+    for _, e in videos:
+        if e.get("width"):
+            resolutions.add((e["width"], e["height"]))
+    _hdr_flag = hdr_from_sources([cam["video"] for cam in cameras])
+    items, refused = handover_cameras(
+        args, tracks, cameras, videos, tc_start, fps, results, track_names,
+        offsets, lengths, unplaceable, clocked)
     drop = is_drop_frame(ref_clip[1].get("tc") if ref_clip else None)
-    handover = {
+    return {
         "format": FILE_FORMAT,
         "created_by": "%s %s" % (PROGRAM_NAME, VERSION),
         "production": args.production or 'Production',
@@ -2938,6 +2983,28 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         # thousand words an hour the key names would be half the file.
         "words": words_for_handover(words or []),
     }
+
+
+def write_handover(args, tracks, cameras, videos, folder, tc_start,
+                      ref_clip, results=None, cut=None, segment_list=None,
+                      length=0.0, track_names=None, single_files=None,
+                      offsets=None, lengths=None, words=(), unplaceable=(),
+                      clocked=()):
+    """Write everything Resolve needs: the handover file and instructions.
+
+    The Resolve scripting interface has no multicam: the word is not once in
+    the bundled README (version 21); the manual lists the conversion only as a
+    menu command. Project, import, timeline, track names and markers can be
+    driven; the last step stays manual. *clocked*: {camera: how well its sound
+    matched} for cameras placed by clock alone, None where nothing was heard.
+    """
+    handover = handover_of(
+        args, tracks, cameras, videos, tc_start, ref_clip, results, cut,
+        segment_list, length, track_names, single_files, offsets, lengths,
+        words, unplaceable, clocked)
+    if handover is None:
+        return 0
+    stem = os.path.join(folder, safe_filename(args.production or 'Production'))
     js = stem + "_resolve.json"
     # Beside it, then moved into place: a run that dies while writing
     # would leave a fragment, and the next run skips one without a word.
@@ -3004,23 +3071,63 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
                     'later.') % os.path.basename(js))
     return 0
 
-def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
-                           tc_start, ref_clip, length, words=(),
-                           sound_source="", unwritten=()):
-    """Write the speaker list, markers and camera cut.
+def cut_seating(args, tracks, cameras, gone):
+    """Who the cut shows on which camera, and which cameras are taken.
 
-    Returns (camera cut, speaker segments) so the Resolve handover uses
-    the same result instead of recomputing it. *segment_list* says who
-    speaks when. *words* and *sound_source* say where the cut points
-    come from -- the text roughly, the sound exactly. *unwritten* are
-    the cameras whose file was not written: the cut leaves them out.
+    Out of seats_of, so a person on two cameras sits on the voice's, and
+    the log says so. A camera in *gone* has no file: its speakers fall
+    to the wide shot. Returns ({name: camera name}, {path_key: taken},
+    {path_key: camera name}).
+    """
+    # Through path_key, or two shapes of one path count as two cameras.
+    output_name = {path_key(cam["video"]): cam["name"] for cam in cameras}
+
+    def name_of(where):
+        """The camera's name in this run, else its file's."""
+        return output_name.get(path_key(where), os.path.basename(where))
+
+    voices = PROGRAM.handed_over(args)[1]
+    seat, twice = seats_of(tracks, voices)
+    camera_of = {}
+    taken = set()
+    strangers = []
+    for who, where in seat.items():
+        v = os.path.abspath(where)
+        if v in gone:
+            continue
+        # A name whose file is no camera of this run would reach the cut
+        # list as a camera invented from the file name.
+        if who in voices and path_key(v) not in output_name:
+            strangers.append((who, os.path.basename(v)))
+        camera_of[who] = name_of(v)
+        taken.add(path_key(v))
+    for who, name in sorted(strangers):
+        print(as_bad(T('  %s is placed on %s, which is no camera of this '
+                       'run -- the cut names it all the same.')
+                     % (who, name)))
+    for who, was, now in twice:
+        print(as_warn(T('  %s is on two cameras: %s by the track, %s by the '
+                        'voice. The voice wins, so the cut shows %s on %s '
+                        'only.') % (who, name_of(was), name_of(now), who,
+                                    name_of(now))))
+    return camera_of, taken, output_name
+
+
+def cut_list_of(args, segment_list, tracks, cameras, videos, tc_start,
+                ref_clip, length, words=(), sound_source="", unwritten=()):
+    """The camera cut and what its four files would say: nothing written.
+
+    The same arguments write_cut_list takes, less the folder; the log is
+    the one a run prints. Returns None where nobody was heard, else a
+    dict: cut, segments, detail, lines, alone, zero, fps, drop and the
+    production the files are named after.
     """
     fps = max(1.0, resolve_timeline_rate(
         timeline_frame_rate(args, videos, ref_clip)))
     if not any(segs for _, segs in (segment_list or ())):
         print(as_head(T('\nSPEAKERS\n  Nobody was heard -- no camera '
                         'cut from this.')))
-        return [], []
+        return None
     length = length or max((b for _n, segs in segment_list
                             for _a, b in segs), default=0.0)
     # The Timeline's clock, read as the handover reads it: the two EDL and two
@@ -3041,37 +3148,11 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         if cam["video"] in gone:
             print(as_bad(T('  %s: no file was written, so the cut leaves '
                            'this camera out.') % cam["name"]))
-    # Who belongs to which camera, and which is the wide shot? Through
-    # path_key, or two shapes of one path count as two cameras.
-    output_name = {path_key(cam["video"]): cam["name"] for cam in cameras}
-    camera_of = {}
-    taken = set()
-    for track in tracks:
-        if track.get("camera") and track["camera"] not in gone:
-            v = os.path.abspath(track["camera"])
-            camera_of[track["name"]] = output_name.get(path_key(v),
-                                                     os.path.basename(v))
-            taken.add(path_key(track["camera"]))
-    # And the voices told apart under a recording: without this every
-    # one lands on the camera of its recording, one for everybody.
-    strangers = []
-    for who, where in PROGRAM.handed_over(args)[1].items():
-        v = os.path.abspath(where)
-        if v in gone:
-            continue
-        if path_key(v) not in output_name:
-            strangers.append((who, os.path.basename(v)))
-        camera_of[who] = output_name.get(path_key(v), os.path.basename(v))
-        taken.add(path_key(where))
-    # A name whose file is no camera of this run would reach the cut list
-    # as a camera invented from the file name, with nothing behind it.
-    for who, name in sorted(strangers):
-        print(as_bad(T('  %s is placed on %s, which is no camera of this '
-                       'run -- the cut names it all the same.')
-                     % (who, name)))
+    camera_of, taken, output_name = cut_seating(args, tracks, cameras, gone)
     marked_wide = marked_wide_shots(args)
 
     def camera_name_of(video):
+        """The camera's name in this run, else its file's."""
         return output_name.get(path_key(video), os.path.basename(video))
 
     cut_to = [v for v, _ in videos if v not in gone]
@@ -3082,17 +3163,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     wide_shot = wides[0] if wides else stand_in_camera(
         [camera_name_of(v) for v in cut_to])[0]
 
-    stem = os.path.join(folder, safe_filename(args.production or 'Production'))
     lines = sorted((a, b, n) for n, segs in segment_list for a, b in segs)
-    with open(stem + "_speakers.csv", "w", encoding="utf-8") as f:
-        f.write(csv_line(("Speaker", "Start TC", "End TC",
-                          "Time from start", "Duration s")))
-        for a, b, n in lines:
-            f.write(csv_line((n, timeline_timecode(a, zero, fps, drop),
-                              timeline_timecode(b, zero, fps, drop),
-                              as_hms(a, "."), "%.2f" % (b - a))))
-    write_edl(stem + "_speakers.edl", "Speakers", lines, zero, fps, drop)
-
     # With one camera nothing changes hands, so the word would be wrong:
     # what comes of it is a first cut at every change of speaker.
     alone = one_camera_only(camera_of)
@@ -3148,25 +3219,65 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         print(T('  One camera for everybody: cut into %s shots at the '
                 'change of speaker, so Resolve can group them.')
               % number_text(len(cut), 0))
+    # The numbers are in the interface and the files; the outcome is enough.
+    print(T('  %s speakers, %s shots, shortest %s s')
+          % (number_text(len(segment_list), 0), number_text(len(cut), 0),
+             number_text(min((b - a) for a, b, _ in cut)
+                         if cut else 0)))
+    return {"cut": cut, "segments": segment_list, "detail": detail,
+            "lines": lines, "alone": alone, "zero": zero, "fps": fps,
+            "drop": drop, "production": args.production or 'Production'}
+
+
+def write_cut_files(folder, work):
+    """Write the four files of a cut worked out by cut_list_of.
+
+    The speaker list and the camera cut, each as CSV and as EDL, named
+    after the production and carrying the Timeline's clock.
+    """
+    stem = os.path.join(folder, safe_filename(work["production"]))
+    zero, fps, drop = work["zero"], work["fps"], work["drop"]
+    with open(stem + "_speakers.csv", "w", encoding="utf-8") as f:
+        f.write(csv_line(("Speaker", "Start TC", "End TC",
+                          "Time from start", "Duration s")))
+        for a, b, n in work["lines"]:
+            f.write(csv_line((n, timeline_timecode(a, zero, fps, drop),
+                              timeline_timecode(b, zero, fps, drop),
+                              as_hms(a, "."), "%.2f" % (b - a))))
+    write_edl(stem + "_speakers.edl", "Speakers", work["lines"], zero, fps,
+              drop)
     with open(stem + "_cameracut.csv", "w", encoding="utf-8") as f:
         f.write(csv_line(("Shot", "Camera", "Speaker", "Start TC",
                           "End TC", "Duration s")))
-        for i, (a, b, n, speaking) in enumerate(detail, 1):
+        for i, (a, b, n, speaking) in enumerate(work["detail"], 1):
             f.write(csv_line((i, n, " + ".join(speaking),
                               timeline_timecode(a, zero, fps, drop),
                               timeline_timecode(b, zero, fps, drop),
                               "%.2f" % (b - a))))
     write_edl(stem + "_cameracut.edl", "Camera cut",
               [(a, b, " + ".join(speaking) or n)
-               for a, b, n, speaking in detail] if alone else cut,
-              zero, fps, drop)
+               for a, b, n, speaking in work["detail"]] if work["alone"]
+              else work["cut"], zero, fps, drop)
 
-    # The numbers are in the interface and the files; the outcome is enough.
-    print(T('  %s speakers, %s shots, shortest %s s')
-          % (number_text(len(segment_list), 0), number_text(len(cut), 0),
-             number_text(min((b - a) for a, b, _ in cut)
-                         if cut else 0)))
-    return cut, segment_list
+
+def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
+                           tc_start, ref_clip, length, words=(),
+                           sound_source="", unwritten=()):
+    """Write the speaker list, markers and camera cut.
+
+    Returns (camera cut, speaker segments) so the Resolve handover uses
+    the same result instead of recomputing it. *segment_list* says who
+    speaks when. *words* and *sound_source* say where the cut points
+    come from -- the text roughly, the sound exactly. *unwritten* are
+    the cameras whose file was not written: the cut leaves them out.
+    """
+    work = cut_list_of(args, segment_list, tracks, cameras, videos,
+                       tc_start, ref_clip, length, words, sound_source,
+                       unwritten)
+    if work is None:
+        return [], []
+    write_cut_files(folder, work)
+    return work["cut"], work["segments"]
 
 
 def _read_project_file(folder):
@@ -3183,15 +3294,13 @@ def _read_project_file(folder):
     return {}
 
 
-def refresh_cut_list(d, file_path):
-    """Check the cut list is still valid before building.
+def refresh_inputs(d, folder):
+    """What the button cuts from, read out of a handover: nothing written.
 
-    Who speaks when is in the handover already, so turning the cut values
-    costs no run. Only a new run can mend a changed In or Out point --
-    the audio inside the videos then belongs to another window. Returns
-    that reason as text.
+    *d* is the parsed handover. Returns (why not, the arguments of
+    cut_list_of as a list): a reason where only a new run can mend it,
+    None and None where there is nothing to cut from.
     """
-    folder = os.path.dirname(os.path.abspath(file_path))
     project = _read_project_file(folder)
     # The same rule as the window's button, before anything else: a mark
     # the project file does not name counts as the one the run had.
@@ -3199,12 +3308,12 @@ def refresh_cut_list(d, file_path):
         d, project.get("in_point", d.get("in_point")),
         project.get("out_point", d.get("out_point")))
     if moved:
-        return moved
+        return moved, None
     speakers = [(x.get("name") or "", [tuple(v) for v in
                                        (x.get("sections") or [])])
                 for x in (d.get("speakers") or [])]
     if not speakers or not project or d.get("start_s") is None:
-        return None
+        return None, None
     fps = max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0))
     # The length the run handed its own cut, written down beside it. Read
     # back out of the marks instead, an Out point of "-0:00:30" came out
@@ -3221,17 +3330,20 @@ def refresh_cut_list(d, file_path):
                for cam in (d.get("cameras") or []) if cam.get("source")]
     videos = [(cam["video"], None) for cam in cameras]
     tracks = [{"name": n, "camera": cam["source"]}
-              for cam in (d.get("cameras") or [])
-              for n in (cam.get("speakers") or [])]
+              for n, cam in seated_in_handover(d.get("cameras")).items()
+              if cam.get("source")]
     ref_clip = (cameras[0]["video"] if cameras else "",
                 {"fps": fps, "tc": d.get("start_tc")})
-    # The handover file carries what was said and where the sound is:
-    # the cut points come from those two, not from the clock.
-    cut, segs = write_cut_list(
-        settings, speakers, tracks, cameras, videos, folder,
-        float(d["start_s"]), ref_clip, length,
-        words=words_from_handover(d),
-        sound_source=(d.get("audio_files") or {}).get(MIX_TRACK_NAME, ""))
+    return None, [settings, speakers, tracks, cameras, videos,
+                  float(d["start_s"]), ref_clip, length]
+
+
+def handover_refreshed(d, cut, segs):
+    """Bring the parsed handover *d* up to this cut, in memory only.
+
+    Says in the log whether the cut changed. Returns why not where no
+    cut came of it, else None.
+    """
     if not cut:
         return T('That produced no cut -- press Start above again.')
     before_value = d.get("cut") or []
@@ -3248,6 +3360,32 @@ def refresh_cut_list(d, file_path):
                      for n, segs2 in segs]
     d["created_by"] = ('%s %s (cut list refreshed)'
                        % (PROGRAM_NAME, VERSION))
+    return None
+
+
+def refresh_cut_list(d, file_path):
+    """Check the cut list is still valid before building.
+
+    Who speaks when is in the handover already, so turning the cut values
+    costs no run. Only a new run can mend a changed In or Out point --
+    the audio inside the videos then belongs to another window. Returns
+    that reason as text.
+    """
+    folder = os.path.dirname(os.path.abspath(file_path))
+    why, given = refresh_inputs(d, folder)
+    if not given:
+        return why
+    settings, speakers, tracks, cameras, videos, start, ref_clip, length \
+        = given
+    # The handover file carries what was said and where the sound is:
+    # the cut points come from those two, not from the clock.
+    cut, segs = write_cut_list(
+        settings, speakers, tracks, cameras, videos, folder, start,
+        ref_clip, length, words=words_from_handover(d),
+        sound_source=(d.get("audio_files") or {}).get(MIX_TRACK_NAME, ""))
+    why = handover_refreshed(d, cut, segs)
+    if why:
+        return why
     # Written beside it and moved into place: writing straight onto it,
     # a failure half way leaves a fragment the next run silently skips.
     beside = file_path + ".new"

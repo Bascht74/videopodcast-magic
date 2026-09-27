@@ -5190,3 +5190,6 @@ msgstr "найдено там, куда указывал его таймкод"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: его часы показывают %s, звук измерил %s -- расхождение %s с; используется измерение"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s назначен на две камеры: %s по дорожке, %s по голосу. Приоритет у голоса, поэтому монтаж показывает %s только на %s."

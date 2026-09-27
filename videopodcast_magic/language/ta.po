@@ -5151,3 +5151,6 @@ msgstr "அதன் டைம்கோடு சுட்டிய இடத்
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: அதன் கடிகாரம் %s என்கிறது, ஆடியோ %s என அளந்தது -- %s வி. வேறுபாடு; அளவீடே பயன்படுத்தப்படுகிறது"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s இரண்டு கேமராக்களில் உள்ளார்: டிராக்கின்படி %s, குரலின்படி %s. குரலே முன்னுரிமை பெறுகிறது, எனவே வெட்டு %s-ஐ %s-இல் மட்டுமே காட்டுகிறது."

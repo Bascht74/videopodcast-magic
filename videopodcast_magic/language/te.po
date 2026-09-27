@@ -5151,3 +5151,6 @@ msgstr "దాని టైమ్‌కోడ్ సూచించిన చో
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: దాని గడియారం %s అంటోంది, ఆడియో %s కొలిచింది -- %s సె. తేడా; కొలతనే ఉపయోగిస్తారు"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s రెండు కెమెరాలపై ఉన్నారు: ట్రాక్ ప్రకారం %s, గొంతు ప్రకారం %s. గొంతుకే ప్రాధాన్యం, కాబట్టి కట్ %s ను %s పై మాత్రమే చూపిస్తుంది."

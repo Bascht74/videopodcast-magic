@@ -5148,3 +5148,6 @@ msgstr "βρέθηκε εκεί όπου έδειχνε το timecode της"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: το ρολόι της λέει %s, ο ήχος μέτρησε %s -- απόσταση %s s· χρησιμοποιείται η μέτρηση"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s βρίσκεται σε δύο κάμερες: %s σύμφωνα με το κανάλι, %s σύμφωνα με τη φωνή. Υπερισχύει η φωνή, οπότε το μοντάζ δείχνει %s μόνο στην %s."

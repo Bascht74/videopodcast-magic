@@ -5103,3 +5103,6 @@ msgstr "타임코드가 가리킨 곳에서 찾음"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: 시계는 %s, 소리 측정값은 %s -- 차이 %s초, 측정값을 사용합니다"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s은(는) 두 카메라에 배정되어 있습니다: 트랙으로는 %s, 목소리로는 %s. 목소리가 우선하므로 편집은 %s을(를) %s에만 보여 줍니다."

@@ -5149,3 +5149,6 @@ msgstr "এর টাইমকোড যেখানে নির্দেশ �
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: এর ঘড়ি বলে %s, শব্দ মেপেছে %s -- ব্যবধান %s সে.; মাপটিই ব্যবহার করা হয়"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s দুটি ক্যামেরায় আছেন: ট্র্যাক অনুযায়ী %s, কণ্ঠস্বর অনুযায়ী %s। কণ্ঠস্বরই প্রাধান্য পায়, তাই কাট %s-কে শুধু %s-এ দেখায়।"

@@ -5192,3 +5192,6 @@ msgstr "пронађена тамо где је показивао њен тај
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: њен сат каже %s, звук је измерио %s -- разлика %s s; користи се мерење"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s је на две камере: %s по траци, %s по гласу. Глас има предност, па рез приказује %s само на %s."

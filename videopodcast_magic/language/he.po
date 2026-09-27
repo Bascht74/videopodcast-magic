@@ -5150,3 +5150,6 @@ msgstr "נמצא היכן שקוד הזמן שלו הצביע"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: השעון שלו אומר %s, השמע מדד %s -- הפרש של %s ש׳; המדידה היא שקובעת"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s משויך לשתי מצלמות: %s לפי הערוץ, %s לפי הקול. הקול קובע, ולכן החיתוך מציג את %s רק ב-%s."

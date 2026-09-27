@@ -5147,3 +5147,6 @@ msgstr "hittad där dess tidskod pekade"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: dess klocka säger %s, ljudet mätte %s -- %s s isär; mätningen används"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s är på två kameror: %s enligt spåret, %s enligt rösten. Rösten gäller, så klippet visar %s bara på %s."

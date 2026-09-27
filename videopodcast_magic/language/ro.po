@@ -5192,3 +5192,6 @@ msgstr "găsită acolo unde arăta timecode-ul ei"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: ceasul ei spune %s, sunetul a măsurat %s -- diferență de %s s; se folosește măsurarea"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s este pe două camere: %s după pistă, %s după voce. Vocea are prioritate, așa că montajul îl arată pe %s doar pe %s."

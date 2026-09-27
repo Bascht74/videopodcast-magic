@@ -5102,3 +5102,6 @@ msgstr "在其时间码所指之处找到"
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s：其时钟显示 %s，声音测得 %s -- 相差 %s 秒；采用测量结果"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s 被分配到两台摄像机：按音轨是 %s，按声音是 %s。以声音为准，因此剪辑只把 %s 显示在 %s 上。"

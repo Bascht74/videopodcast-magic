@@ -5150,3 +5150,6 @@ msgstr "همان‌جا یافت شد که تایم‌کدش نشان می‌د�
 
 msgid "  %s: its clock says %s, the sound measured %s -- %s s apart; the measurement is used"
 msgstr "  %s: ساعتش می‌گوید %s، صدا %s را اندازه گرفت -- اختلاف %s ثانیه؛ اندازه‌گیری به کار می‌رود"
+
+msgid "  %s is on two cameras: %s by the track, %s by the voice. The voice wins, so the cut shows %s on %s only."
+msgstr "  %s روی دو دوربین است: %s بر اساس ترک، %s بر اساس صدا. صدا اولویت دارد، پس برش %s را فقط روی %s نشان می‌دهد."
