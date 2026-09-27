@@ -108,10 +108,13 @@ print("\n3. The road without a picture says it too")
 # the report makes of it.
 kept_align = vpm.align_audio_to_video
 kept_count = vpm.sample_count
+kept_clock = vpm.file_timecode
 LENGTHS = {"/x/Presenter.wav": 48000 * 60, "/x/Guest.wav": 48000 * 30}
 try:
     vpm.sample_count = lambda p: LENGTHS[p]
     vpm.align_audio_to_video = lambda *a, **k: (4.0, 1.0, dict(PHASE))
+    # The run reads each track's clock too; these paths are no files.
+    vpm.file_timecode = lambda p: None
     tracks = [{"name": "Presenter", "source": "/x/Presenter.wav",
                "hint": "", "blocks": ["/x/Presenter.wav"]},
               {"name": "Guest", "source": "/x/Guest.wav",
@@ -123,6 +126,7 @@ try:
 finally:
     vpm.align_audio_to_video = kept_align
     vpm.sample_count = kept_count
+    vpm.file_timecode = kept_clock
 check("both tracks are placed, so there is a line to read",
       len(placed) == 2, "%d tracks placed, wanted 2" % len(placed))
 # The way a track was placed is written at the END of its line, so the
