@@ -5078,3 +5078,15 @@ msgstr "تولید تمام شد، اما نتیجه آن نام فایل ساد
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "برگرفته از فایل‌های منبع، --lufs source -- چیزی تنظیم نمی‌شود"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "کلید از طریق فرمان secret-tool در جاکلیدی میز کار نگه داشته می‌شود، و این دستگاه آن را ندارد."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "این دستگاه secret-tool ندارد، که کلید را در جاکلیدی میز کار نگه می‌دارد، بنابراین چیزی ذخیره نشد. دستی: %s"
+
+msgid "What it says appears under Output."
+msgstr "آنچه می‌گوید در زبانه خروجی نمایش داده می‌شود."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "بسته libsecret-tools در Debian و Ubuntu، و libsecret در Fedora و Arch"

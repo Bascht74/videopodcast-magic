@@ -5075,3 +5075,15 @@ msgstr "tuotanto valmis, mutta sen tuloksella ei ole pelkkää tiedostonimeä"
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "otettu lähdetiedostoista, --lufs source -- mitään ei säädetä"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Avain säilytetään työpöydän avainnipussa secret-tool-komennolla, eikä tällä koneella ole sitä."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Tällä koneella ei ole secret-tool-komentoa, joka säilyttää avaimen työpöydän avainnipussa, joten mitään ei tallennettu. Käsin: %s"
+
+msgid "What it says appears under Output."
+msgstr "Sen tuloste näkyy Tuloste-välilehdellä."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "paketti libsecret-tools Debian- ja Ubuntu-järjestelmissä, libsecret Fedora- ja Arch-järjestelmissä"

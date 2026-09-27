@@ -5080,3 +5080,15 @@ msgstr "продукцията е готова, но резултатът ѝ н�
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "взето от файловете източници, --lufs source -- нищо не се коригира"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Ключът се пази в ключодържателя на работния плот чрез командата secret-tool, а този компютър я няма."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Този компютър няма командата secret-tool, която пази ключа в ключодържателя на работния плот, затова нищо не беше съхранено. Ръчно: %s"
+
+msgid "What it says appears under Output."
+msgstr "Каквото казва, се появява в раздела „Изход“."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "пакета libsecret-tools в Debian и Ubuntu, libsecret във Fedora и Arch"

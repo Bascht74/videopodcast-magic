@@ -5030,3 +5030,15 @@ msgstr "制作已完成，但其结果没有简单的文件名"
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "取自源文件，--lufs source -- 不做任何调整"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "密钥通过 secret-tool 命令保存在桌面的密钥环中，而这台机器上没有这个命令。"
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "这台机器上没有 secret-tool（它负责把密钥保存在桌面的密钥环中），因此什么也没有保存。手动安装：%s"
+
+msgid "What it says appears under Output."
+msgstr "其输出显示在“输出”下。"
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "Debian 和 Ubuntu 上的 libsecret-tools 软件包，Fedora 和 Arch 上的 libsecret"

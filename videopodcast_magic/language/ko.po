@@ -5031,3 +5031,15 @@ msgstr "프로덕션이 끝났지만 결과에 단순한 파일 이름이 없습
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "원본 파일에서 가져옴, --lufs source -- 아무것도 조정하지 않음"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "키는 secret-tool 명령을 통해 데스크톱 키링에 보관되는데, 이 컴퓨터에는 그 명령이 없습니다."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "이 컴퓨터에는 키를 데스크톱 키링에 보관하는 secret-tool이 없어 아무것도 저장하지 않았습니다. 직접 설치: %s"
+
+msgid "What it says appears under Output."
+msgstr "그 메시지는 출력 탭에 표시됩니다."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "Debian과 Ubuntu에서는 libsecret-tools 패키지, Fedora와 Arch에서는 libsecret"

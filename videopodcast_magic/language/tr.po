@@ -5088,3 +5088,15 @@ msgstr "prodüksiyon bitti ama sonucunun düz bir dosya adı yok"
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "kaynak dosyalardan alındı, --lufs source -- hiçbir şey ayarlanmaz"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Anahtar, secret-tool komutuyla masaüstünün anahtar zincirinde tutulur ve bu makinede bu komut yok."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Bu makinede, anahtarı masaüstünün anahtar zincirinde tutan secret-tool yok, bu yüzden hiçbir şey saklanmadı. Elle: %s"
+
+msgid "What it says appears under Output."
+msgstr "Söyledikleri Çıktı altında görünür."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "Debian ve Ubuntu'da libsecret-tools paketi, Fedora ve Arch'ta libsecret"

@@ -5119,3 +5119,15 @@ msgstr "produkcia dokončená, ale jej výsledok nemá obyčajný názov súboru
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "prevzaté zo zdrojových súborov, --lufs source -- nič sa neupravuje"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Kľúč sa uchováva v kľúčenke pracovného prostredia cez príkaz secret-tool, a ten tento počítač nemá."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Tento počítač nemá príkaz secret-tool, ktorý uchováva kľúč v kľúčenke pracovného prostredia, preto sa nič neuložilo. Ručne: %s"
+
+msgid "What it says appears under Output."
+msgstr "Čo hovorí, sa objaví pod Výstup."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "balík libsecret-tools v systémoch Debian a Ubuntu, libsecret v systémoch Fedora a Arch"

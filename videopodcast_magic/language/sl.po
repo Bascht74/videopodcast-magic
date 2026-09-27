@@ -5168,3 +5168,15 @@ msgstr "produkcija je končana, a njen rezultat nima preprostega imena datoteke"
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "prevzeto iz izvornih datotek, --lufs source -- nič se ne prilagodi"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "Ključ je shranjen v obesku za ključe namizja prek ukaza secret-tool, tega pa ta računalnik nima."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "Ta računalnik nima ukaza secret-tool, ki hrani ključ v obesku za ključe namizja, zato ni bilo nič shranjeno. Ročno: %s"
+
+msgid "What it says appears under Output."
+msgstr "Njegova sporočila se prikažejo na zavihku „Izhod“."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "paket libsecret-tools v sistemih Debian in Ubuntu, libsecret v sistemih Fedora in Arch"

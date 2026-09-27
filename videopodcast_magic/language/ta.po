@@ -5079,3 +5079,15 @@ msgstr "தயாரிப்பு முடிந்தது, ஆனால்
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "மூலக் கோப்புகளிலிருந்து எடுக்கப்பட்டது, --lufs source -- எதுவும் சரிசெய்யப்படாது"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "விசை secret-tool கட்டளை வழியாக டெஸ்க்டாப்பின் சாவிக்கொத்தில் வைக்கப்படுகிறது, இந்தக் கணினியில் அந்தக் கட்டளை இல்லை."
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "விசையை டெஸ்க்டாப்பின் சாவிக்கொத்தில் வைக்கும் secret-tool இந்தக் கணினியில் இல்லை, எனவே எதுவும் சேமிக்கப்படவில்லை. கைமுறையாக: %s"
+
+msgid "What it says appears under Output."
+msgstr "அது சொல்வது வெளியீடு தாவலில் தோன்றும்."
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "Debian, Ubuntu-வில் libsecret-tools தொகுப்பு, Fedora, Arch-இல் libsecret"

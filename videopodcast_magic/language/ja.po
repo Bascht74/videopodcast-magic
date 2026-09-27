@@ -5032,3 +5032,15 @@ msgstr "制作は完了しましたが、その結果に単純なファイル名
 
 msgid "taken from the source files, --lufs source -- nothing is adjusted"
 msgstr "元ファイルのまま、--lufs source -- 何も調整しません"
+
+msgid "The key is kept in the desktop's keyring through the secret-tool command, and this machine does not have it."
+msgstr "キーは secret-tool コマンドを通じてデスクトップのキーリングに保存されますが、このマシンにはそのコマンドがありません。"
+
+msgid "This machine has no secret-tool, which keeps the key in the desktop's keyring, so nothing was stored. By hand: %s"
+msgstr "このマシンには、キーをデスクトップのキーリングに保存する secret-tool がないため、何も保存されていません。手動で: %s"
+
+msgid "What it says appears under Output."
+msgstr "その出力は「出力」に表示されます。"
+
+msgid "the package libsecret-tools on Debian and Ubuntu, libsecret on Fedora and Arch"
+msgstr "Debian と Ubuntu では libsecret-tools パッケージ、Fedora と Arch では libsecret"
