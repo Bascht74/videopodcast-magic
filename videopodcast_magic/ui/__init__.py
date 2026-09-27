@@ -1855,11 +1855,11 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
     # The window's own start line comes back afterwards: a restart
     # must not find a run's line in its place.
     old_argv = sys.argv
-    # The key the preview knows this line's handover by, read while the
-    # plan file is still there. "Create Resolve project" has none: it
-    # rewrites the handover of the run before it.
-    line_key = (None if "--resolve-json" in argv else
-                PROGRAM.handover_key(*PROGRAM.line_words(list(argv))))
+    # The preview's key for this line, read while the plan file is there.
+    # Every window line carries the plan; "Create Resolve project" has
+    # none, and no key: it rewrites the handover of the run before it.
+    line_key = (PROGRAM.handover_key(*PROGRAM.line_words(list(argv)))
+                if "--assign" in argv else None)
     try:
         sys.argv = list(argv)
         PROGRAM.RUN_KEY = getattr(argv, "key", "")
