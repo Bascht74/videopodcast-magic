@@ -45,7 +45,7 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3311** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3312** -- who is on camera when, and what carries it out
+* `cut/` **3313** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2430** -- the DaVinci Resolve project, timelines, colour,
@@ -72,7 +72,7 @@ figure of the day is that command, not this paragraph**:
   the findings
 * `setup/` **1388** -- finding ffmpeg, installing a missing module,
   keeping the key, and storing it from the terminal
-* `speech/` **1443** -- what is said and when, and what is written down
+* `speech/` **1455** -- what is said and when, and what is written down
   from it
 * `hearing/` **1341** -- decoding, envelopes, bands, phase, aligning
   audio to video

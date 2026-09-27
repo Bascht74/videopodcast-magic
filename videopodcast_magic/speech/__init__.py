@@ -1422,6 +1422,18 @@ def window_words_round(state, assign_lines, report=None):
     return True
 
 
+def window_words_listening(state, d):
+    """The preview's handover, marked while the window writes its words.
+
+    words_missing_why reads the mark as "listening". It stands exactly as
+    long as the round's busy: set where the round begins the transcript,
+    cleared by window_words_work when the words arrive or it fails.
+    """
+    if d is None or not (state.get("window_words") or {}).get("busy"):
+        return d
+    return dict(d, words_listening=True)
+
+
 def window_words_reference(state, assign_lines):
     """Where the window's transcript is kept, for its run's plan, or None.
 
