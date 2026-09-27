@@ -6,10 +6,12 @@ trimming in apply_time_window; each pair below goes to both, and both
 have to come back with the same refusal, word for word. "Before" is an
 Out point in front of the In point, "on" one on it, "short" one under
 five seconds after it, "past" both behind the material in the wrong
-order, and "pulled back" an Out point that leaves under five seconds
-once it is pulled back into the material. "Five seconds" is the
-control: both take it. Relative points only; timecodes are
-time_point_pulled_back's.
+order, "outside" both behind it in the right order, and "pulled back"
+an Out point that leaves under five seconds once it is pulled back into
+the material. "Five seconds" is the control: both take it. The run's
+outside line counts from the window start, as the marks do, which a
+window starting later than nought shows. Relative points only;
+timecodes are time_point_pulled_back's.
 """
 PLATFORM_BOUND = False
 import os
@@ -92,7 +94,26 @@ check("past: behind the material the order is judged first",
       got == (None, None) and run == BEFORE and window == BEFORE,
       said(got, run, window, BEFORE))
 
-print("\n2. Out point just after the In point")
+print("\n2. Both points behind the material, in the right order")
+OUTSIDE = (vpm.T('The time window lies outside the material: In point at '
+                 '%s, Out point at %s, and the material runs %s.')
+           % (vpm.as_hms(720.0), vpm.as_hms(900.0), vpm.as_hms(LENGTH)))
+got, run, window = both("+12:00", "+15:00")
+check("outside: run and window refuse it in one text",
+      got == (None, None) and run == OUTSIDE and window == OUTSIDE,
+      said(got, run, window, OUTSIDE))
+told = io.StringIO()
+with contextlib.redirect_stdout(told):
+    got = vpm.clip_to_time_window(Call("+12:00", "+15:00"), 100.0,
+                                  100.0 + LENGTH, None)
+run = ([x.strip() for x in told.getvalue().splitlines() if x.strip()]
+       or [""])[-1]
+check("outside: the run counts it from the window start",
+      got == (None, None) and run == OUTSIDE,
+      "window 100 s to 700 s: run %s saying %r, wanted %r"
+      % (got, run, OUTSIDE))
+
+print("\n3. Out point just after the In point")
 got, run, window = both("+1:00", "+1:03")
 check("short: three seconds are refused in the run's words",
       got == (None, None) and run == SHORT and window == SHORT,

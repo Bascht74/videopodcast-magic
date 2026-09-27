@@ -8,7 +8,8 @@ and the catalogue as data. A German text missing a %s raises at run
 time, and only for people running in German. And one thing has one
 German word: a value the interface offers is called the same in every
 German text about it -- a listed few use the word in its ordinary sense
--- or the log and the field are two names for one thing. Every
+-- or the log and the field are two names for one thing; In point and
+Out point likewise, in every text that names a mark. Every
 catalogue, not the German one alone, is held to carrying no entry the
 program cannot reach; reachable is a wording that stands in the program
 at all, so an entry whose string never meets T() passes. The program
@@ -274,6 +275,28 @@ for _english in offered:
             apart.append("%r wants %r: %r" % (_english, _german, key[:44]))
 check("and every German text about it uses that word", not apart,
       "%d: %s" % (len(apart), apart[:2]))
+# The two marks are such a thing too: the player, the fields, the run and
+# Resolve say In-Punkt and Out-Punkt, and a message saying "Schnitt an"
+# for the same mark sends the reader looking for a second setting. The
+# word comes from the label entry; "In- oder Out-Punkt" shares its front.
+_marks = []
+for _english in ("In point", "Out point"):
+    if _english not in catalogue:
+        _marks.append("no German label for %r" % _english)
+        continue
+    _front = catalogue[_english].split("-")[0] + "-"
+    _named = re.compile(r"(?<![\w-])%s%s point" % (
+        _english.split()[0], " or Out" if _english == "In point" else ""))
+    _named_whole = re.compile(r"(?<![\w-])%s" % re.escape(_english))
+    for key, value in catalogue.items():
+        if key == _english or not (_named.search(key)
+                                   or _named_whole.search(key)):
+            continue
+        if _front not in value:
+            _marks.append("%r wants %r: %r -> %r"
+                          % (_english, _front, key[:40], value[:40]))
+check("In point and Out point have one German word in every text",
+      not _marks, "%d: %s" % (len(_marks), _marks[:2]))
 
 #------------------------------------------------------ umlauts where none belong
 section("Umlauts and eszett only where German lives")
