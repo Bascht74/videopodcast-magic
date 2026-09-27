@@ -6,7 +6,8 @@ False once, on the neutral job; run.sh and tests.yml pick it by that
 line alone, so a missing or misspelt line takes it out of both halves.
 In order: every test carries the line exactly once, spelt as run.sh's
 grep reads it; a test declared neutral starts no process but git, opens
-no window and asks no platform; no test set aside on a system in
+no window and asks no platform, nor asks the program for a name only its
+window holds -- that brings Qt up; no test set aside on a system in
 tests.yml is declared neutral.
 """
 PLATFORM_BOUND = False
@@ -128,6 +129,49 @@ def starts_git_only(source):
                if isinstance(node, ast.Name) and node.id == "subprocess")
 
 
+def top_names(path):
+    """The names a piece of the program binds at its top level."""
+    names = set()
+    for node in ast.parse(io.open(path, encoding="utf-8").read()).body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef,
+                             ast.ClassDef)):
+            names.add(node.name)
+        elif isinstance(node, (ast.Import, ast.ImportFrom)):
+            names.update((a.asname or a.name).split(".")[0]
+                         for a in node.names)
+        elif isinstance(node, (ast.Assign, ast.AnnAssign)):
+            targets = node.targets if isinstance(node, ast.Assign) \
+                else [node.target]
+            for target in targets:
+                names.update(n.id for n in ast.walk(target)
+                             if isinstance(n, ast.Name))
+    return names
+
+
+def window_only():
+    """What the program answers only by reading its window, and Qt with it.
+
+    A name no other piece binds falls through to the program's
+    __getattr__, which reads the ui piece -- PySide6 at its first line.
+    """
+    program = os.path.join(ROOT, "videopodcast_magic")
+    elsewhere = top_names(os.path.join(program, "__init__.py"))
+    for piece in sorted(os.listdir(program)):
+        path = os.path.join(program, piece, "__init__.py")
+        if piece != "ui" and os.path.isfile(path):
+            elsewhere |= top_names(path)
+    return (top_names(os.path.join(program, "ui", "__init__.py"))
+            - elsewhere) | {"ui"}
+
+
+def asks_window(source, only):
+    """The names only the window holds that this source asks vpm for."""
+    return sorted({n.attr for n in ast.walk(ast.parse(source))
+                   if isinstance(n, ast.Attribute)
+                   and isinstance(n.value, ast.Name)
+                   and n.value.id == "vpm" and n.attr in only})
+
+
 ALL = tests()
 print("1. Every test carries the line, once, as run.sh reads it")
 said, wrong = {}, []
@@ -154,6 +198,18 @@ for name in neutral:
 check("a neutral test starts nothing but git, no window, no platform",
       not leaning, "%d of %d neutral: %s"
       % (len(leaning), len(neutral), "; ".join(leaning[:6])))
+ONLY = window_only()
+windowed = []
+for name in neutral:
+    hits = asks_window(io.open(ALL[name], encoding="utf-8").read(), ONLY)
+    if hits:
+        windowed.append("%s: vpm.%s" % (name, ", vpm.".join(hits)))
+check("the names only the window holds are found at all", len(ONLY) > 20,
+      "%d names in videopodcast_magic/ui/__init__.py no other piece binds"
+      % len(ONLY))
+check("a neutral test asks the program for no name only the window holds",
+      not windowed, "%d of %d neutral: %s"
+      % (len(windowed), len(neutral), "; ".join(windowed[:6])))
 
 print("\n3. What a system sets aside is bound")
 workflow = io.open(WORKFLOW, encoding="utf-8").read()
