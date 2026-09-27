@@ -40,12 +40,12 @@ figure of the day is that command, not this paragraph**:
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3292** -- the window and everything it shows, asks or offers,
+* `ui/` **3303** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `player/` **3300** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3355** -- who is on camera when, and what carries it out
+* `cut/` **3358** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2430** -- the DaVinci Resolve project, timelines, colour,
@@ -55,7 +55,7 @@ figure of the day is that command, not this paragraph**:
 * `loudness/` **480** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
-* `bearings/` **2410** -- where each file and each voice sits, and how
+* `bearings/` **2434** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as

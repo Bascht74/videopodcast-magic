@@ -1855,6 +1855,11 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
     # The window's own start line comes back afterwards: a restart
     # must not find a run's line in its place.
     old_argv = sys.argv
+    # The key the preview knows this line's handover by, read while the
+    # plan file is still there. "Create Resolve project" has none: it
+    # rewrites the handover of the run before it.
+    line_key = (None if "--resolve-json" in argv else
+                PROGRAM.handover_key(*PROGRAM.line_words(list(argv))))
     try:
         sys.argv = list(argv)
         PROGRAM.RUN_KEY = getattr(argv, "key", "")
@@ -1886,9 +1891,15 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
         write(as_good(run_done_text(state.get("dry_run"))))
     else:
         write(as_bad(T('\nFinished with errors.\n')))
+    written = None
     for file_path in state["results"]:
         if file_path.lower().endswith("_resolve.json"):
             state["resolve_json"] = file_path
+            written = file_path
+    # Newer than the dry run kept under the same key, so the preview
+    # shows it; a run writing none leaves the kept one standing.
+    if line_key:
+        state["run_handover"] = (line_key, written)
     if state["results"]:
         state["result_folder"] = os.path.dirname(
             state["results"][-1])

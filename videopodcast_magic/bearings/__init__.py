@@ -229,17 +229,34 @@ def handover_kept(state):
     return kept if isinstance(kept, dict) else None
 
 
+def run_handover_for_key(state):
+    """The file the window's last run wrote for what is set now, or None.
+
+    state["run_handover"] is (key, file) of the window's last run, set
+    when it ends: newer than any dry run kept under that key before it.
+    A dry run ending after it names no file and hands the key back.
+    """
+    ran = state.get("run_handover") or ()
+    key = state.get("handover_key")
+    if len(ran) == 2 and key and ran[0] == key and ran[1] \
+            and os.path.isfile(ran[1]):
+        return ran[1]
+    return None
+
+
 def preview_handover(state):
     """Read the run's handover for the preview, or answer None.
 
     The preview works nothing out of its own: it shows what a run did.
-    The handover the window's own dry run kept for what is set now comes
-    first (handover_kept); the file a finished run wrote only where none
-    is kept.
+    A finished run of what is set now comes first (run_handover_for_key),
+    then the handover the window's own dry run kept for it
+    (handover_kept); the file a finished run wrote only where neither is.
+    state["preview_key"] is the key the one shown was made for.
     """
-    d, js = None, state.get("resolve_json")
-    state["preview_from"] = None
-    kept = handover_kept(state)
+    ran = run_handover_for_key(state)
+    d, js = None, ran or state.get("resolve_json")
+    state["preview_from"] = state["preview_key"] = None
+    kept = None if ran else handover_kept(state)
     if kept is not None:
         d = kept
         state["preview_from"] = ("stage", state["handover_key"])
@@ -250,6 +267,8 @@ def preview_handover(state):
             state["preview_from"] = handover_mark(js)
         except (OSError, ValueError):
             d = None
+    if d is not None and (ran or kept is not None):
+        state["preview_key"] = state["handover_key"]
     # A kept one is the preview's own run, which measured from the
     # recordings -- by voice where a separation stands; only the file
     # a run wrote is a finished run.
@@ -272,6 +291,11 @@ def preview_out_of_date(state):
     # The preview's run held back until the window was free for it.
     if state.get("preview_waiting"):
         return True
+    # A finished run of what is set now, and not the file shown.
+    ran = run_handover_for_key(state)
+    if ran:
+        return (not state.get("statistics")
+                or handover_mark(ran) != state.get("preview_from"))
     # A handover kept for what is set now, and not the one shown.
     if handover_kept(state) is not None:
         return (not state.get("statistics") or state.get("preview_from")
