@@ -1085,7 +1085,7 @@ def cameras_on_one_axis(curves, clocks=None, warn=True, spread=None,
             st = dict(st)
             st["via"] = w
             b = b1 * bv
-            # The drift of the chain: both links, their errors together.
+            # The drift of the chain: both steps, their errors together.
             if "ppm" in st:
                 st["ppm"] = (b - 1.0) * 1e6
                 st["ppm_error"] = (st.get("ppm_error", 0.0) ** 2
