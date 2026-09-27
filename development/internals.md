@@ -55,7 +55,7 @@ figure of the day is that command, not this paragraph**:
 * `loudness/` **480** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
-* `bearings/` **2410** -- where each file and each voice sits, and how
+* `bearings/` **2425** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
@@ -84,7 +84,7 @@ figure of the day is that command, not this paragraph**:
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
-* `assignmenttable/` **780** -- the table on the second tab:
+* `assignmenttable/` **782** -- the table on the second tab:
   recordings above, the voices under them, the cameras below, what it
   keeps between builds and the camera names somebody typed; read by
   `assignmentsheet/` and nothing else
@@ -93,7 +93,7 @@ figure of the day is that command, not this paragraph**:
 * `herald/` **866** -- the progress bar, the stages, the console and log
   redirection with the line naming the Python it runs on, and the watch over a quiet run: `RunVitals` counts the
   run's children and reads whether any of them still moves
-* `pipeline/` **662** -- the plan: the camera audio out of the
+* `pipeline/` **669** -- the plan: the camera audio out of the
   pictures, the names and the plan the time base runs
 * `project/` **589** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of

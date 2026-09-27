@@ -93,11 +93,14 @@ begins with a letter, in any alphabet, not just in a to z. A guess like
 `0008A` does not, the field stays empty, and with Multitrack **Start**
 stays locked until a name is there: the name becomes that track's label
 at auphonic.com, read there by people who never saw the file. A typed
-name counts as typed. Two recordings of one file name -- two recorders
-that both wrote `ZOOM0001.WAV`, each onto its own card -- are two
-people: the second guess carries `(2)`, as the file list does, so the
-two stay two tracks. Blocks of one recording in one folder still join.
-The command line guesses the same way.
+name counts as typed. Two folders are two recorders, and so two
+people, even where their files guess the same name -- `ZOOM0001.WAV`
+on one card and `ZOOM0001.WAV` or `ZOOM0003.WAV` on another: the second
+folder's guess carries `(2)`, in the style of the file list, so the two
+stay two tracks. Within one folder files that guess one name still
+join, a recording stopped and started again included. Type the same
+name on both and they join across folders too. The command line
+guesses the same way.
 
 A name belongs to one person, so it stands on the sheet once. Type one
 that is there already and the field goes red -- on both levels, whether

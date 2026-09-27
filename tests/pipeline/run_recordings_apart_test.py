@@ -8,7 +8,10 @@ its file name and the second "(2)", in the order the window lists them
 -- the file list's own rule, recording_labels, over the same order.
 Then without typed names: the window's plan and a plain command line
 guess two speakers, the second "(2)", each its own track, while a block
-continuing card A's recording in its folder still joins it.
+continuing card A's recording in its folder still joins it. Last, two
+other file names guessing one speaker: two folders stay two speakers,
+a gap in one folder still joins, a name typed alike on two folders
+joins them, and the summary counts recordings, not blocks.
 """
 PLATFORM_BOUND = True
 import os
@@ -158,6 +161,67 @@ check("and card A's continuation in its folder still joins card A",
       first == "ZOOM0001.WAV  (+1)",
       "'ZOOM' plays %r, wanted 'ZOOM0001.WAV  (+1)'; the line: %r"
       % (first, first_line))
+
+print("\n4. A guess joins within one folder, never across")
+# Two more cards. Card C's recorder stopped and started again: ZOOM0005
+# after ZOOM0001 is no seamless continuation, only the same guess. Card
+# D's recorder wrote another number, which guesses the same speaker.
+C1, C5 = (os.path.join(D, "CardC", n) for n in ("ZOOM0001.WAV",
+                                                  "ZOOM0005.WAV"))
+D3 = os.path.join(D, "CardD", "ZOOM0003.WAV")
+for path, cut in ((C1, "40"), (C5, "10"), (D3, "40")):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", SRC, "-t", cut,
+                    "-c:a", "pcm_s16le", path], check=True)
+_a, guessed, _m = vpm.run_argv({
+    "files": [(C1, "audio"), (D3, "audio"), (CAM, "video")],
+    "rows": [{"blocks": [C1], "speakers": "", "camera_choice": ""},
+             {"blocks": [D3], "speakers": "", "camera_choice": ""}],
+    "cameras": [{"path": CAM, "name": "C0001"}],
+    "clip_kinds": {}, "out_folder": OUT, "multitrack": False,
+    "production": "Pilot", "cut": {}, "wide_at_edges": False,
+    "key": ""}, ASSIGN)
+names = [t.get("speakers") for t in (guessed or {}).get("tracks_of", [])]
+check("the window's plan guesses two file names in two folders apart",
+      names == ["ZOOM", "ZOOM (2)"],
+      "speakers %r, wanted ['ZOOM', 'ZOOM (2)']" % (names,))
+p = subprocess.run(
+    [sys.executable, SCRIPT, C1, C5, D3, CAM, "--dry-run",
+     "--out", OUT, "--without-auphonic", "--no-metrics",
+     "--no-speech-recognition", "--no-transcript-file"],
+    capture_output=True, text=True, env=ENV)
+bare = (p.stdout or "") + (p.stderr or "")
+second, second_line = recording_in_plan(bare, "ZOOM (2)")
+check("the command line guesses card D's other number a speaker apart",
+      second == "ZOOM0003.WAV",
+      "'ZOOM (2)' plays %r, wanted 'ZOOM0003.WAV'; returned %d, last "
+      "line: %s" % (second, p.returncode, (bare.replace(D, "<tmp>")
+                                           .strip().splitlines()
+                                           or [""])[-1][-120:]))
+first, first_line = recording_in_plan(bare, "ZOOM")
+check("a stopped recording in one folder still joins across its gap",
+      first == "ZOOM0001.WAV  (+1)",
+      "'ZOOM' plays %r, wanted 'ZOOM0001.WAV  (+1)'; the line: %r"
+      % (first, first_line))
+# Typed alike on card A and card B, the owner says one person: that
+# joins across folders, card A's continuation with it.
+p = subprocess.run(
+    [sys.executable, SCRIPT, RECS[0], MORE, RECS[1], CAM, "--dry-run",
+     "--out", OUT, "--without-auphonic", "--no-metrics",
+     "--no-speech-recognition", "--no-transcript-file",
+     "--speaker-name", RECS[0], "Guest", "--speaker-name", RECS[1], "Guest"],
+    capture_output=True, text=True, env=ENV)
+typed = (p.stdout or "") + (p.stderr or "")
+joined, joined_line = recording_in_plan(typed, "Guest")
+check("one name typed on two folders joins them into one track",
+      joined == "ZOOM0001.WAV  (+2)",
+      "'Guest' plays %r, wanted 'ZOOM0001.WAV  (+2)'; returned %d, the "
+      "line: %r" % (joined, p.returncode, joined_line))
+summary = [x.strip() for x in typed.splitlines() if "In summary" in x]
+check("and the summary counts the recordings joined, not their blocks",
+      summary == ["In summary: Guest from 2 recordings"],
+      "summary lines %r, wanted ['In summary: Guest from 2 recordings']"
+      % (summary,))
 
 shutil.rmtree(D, ignore_errors=True)
 

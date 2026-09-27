@@ -703,6 +703,7 @@ take_from(bearings)
 
 check_mode_fits_input = bearings.check_mode_fits_input
 guess_speaker_name = bearings.guess_speaker_name
+speaker_guesses = bearings.speaker_guesses
 split_audio_and_video = bearings.split_audio_and_video
 
 

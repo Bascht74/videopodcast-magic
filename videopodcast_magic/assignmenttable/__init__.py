@@ -463,8 +463,10 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         except Exception:
             tc_of_row.append(None)
     without_tc = not any(t is not None for t in tc_of_row)
-    # Two recordings of one file name are told apart as in the file list.
+    # Two recordings of one file name are told apart as in the file list,
+    # and two folders guessing one speaker are two (speaker_guesses).
     heard = PROGRAM.recording_labels(audio_files)
+    guessed = PROGRAM.speaker_guesses(audio_files)
     state["without_tc"] = without_tc
     if not without_tc:
         state["tc_there"] = True
@@ -474,8 +476,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         from_camera = state["own_audio_rows"].get(first) \
             if isinstance(state["own_audio_rows"], dict) else None
         stem = (guess_camera_name(from_camera or first)
-                 if camera_track else guess_speaker_name(first,
-                                                         heard.get(first)))
+                 if camera_track else guessed.get(first)
+                 or guess_speaker_name(first))
         # So the two rows of one camera can be told apart.
         if piece_label.get(first):
             stem = piece_label[first]
