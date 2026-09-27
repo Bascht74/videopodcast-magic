@@ -378,8 +378,8 @@ def run_plan(values, lines, cameras, only_video):
                  "camera_audio": bool(only_video or
                                       (camera_track and straight))}
         if camera_track or only_video:
-            if not full:
-                # No camera picked: it belongs to the one it came from.
+            if not full and target != PROGRAM.MIX_ONLY:
+                # None picked: its own camera; "no camera of its own" is none.
                 entry["camera"] = os.path.abspath(source or (
                     blocks[0] if blocks else ""))
             entry["from_camera"] = os.path.abspath(
