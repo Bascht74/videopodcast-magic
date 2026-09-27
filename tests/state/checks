@@ -163,7 +163,7 @@ run_dry_reports_voices	13
 run_dry_run_not_stopped	6
 run_ffmpeg_new_enough	26
 run_ffmpeg_not_fetched	15
-run_ffmpeg_offered	19
+run_ffmpeg_offered	21
 run_findings_reach_both	6
 run_install_is_watched	42
 run_log_within_reach	30
@@ -458,3 +458,4 @@ voice_model_main_on_404	7
 voice_model_names_inside	7
 auphonic_names_stay_in	12
 time_marks_reach_result	8
+run_ffmpeg_sum_checked	7
