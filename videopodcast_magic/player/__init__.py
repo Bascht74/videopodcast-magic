@@ -1546,6 +1546,16 @@ def place_s(p):
     return a if a is not None else getattr(p, "tc0", None)
 
 
+def marks_fps_of(p):
+    """The rate a mark is written and read at: the run's reference's.
+
+    Not the rate of the file player *p* holds -- the run reads every
+    timecode mark at its reference camera's rate (marks_rate).
+    """
+    rate = getattr(p, "marks_fps", None)
+    return rate() if rate else p.fps
+
+
 def mark_on_clock(p, text):
     """A mark as (seconds, timecode?), on the clock where it can be.
 
@@ -1554,7 +1564,7 @@ def mark_on_clock(p, text):
     that is the same moment as a clock time. Unreadable is None.
     """
     try:
-        value, absolute = parse_time_point(text, p.fps)
+        value, absolute = parse_time_point(text, marks_fps_of(p))
     except Exception:
         return None, False
     zero = getattr(p, "marks_zero", None)
@@ -1567,17 +1577,17 @@ def mark_on_clock(p, text):
 def mark_shown(p, text):
     """A mark as the line of player *p* writes it.
 
-    As the timecode of its moment at that file's rate where the axis
-    knows the time of day, as the readout beside it does; else as it is.
+    As the timecode of its moment at the run's rate where the axis knows
+    the time of day, as the run reads it back; else as it is.
     """
     said = (text or "").strip()
     try:
-        if parse_time_point(said, p.fps)[1]:
+        if parse_time_point(said, marks_fps_of(p))[1]:
             return said
     except Exception:
         return said
     value, absolute = mark_on_clock(p, said)
-    return timecode_string(value, p.fps) if absolute else said
+    return timecode_string(value, marks_fps_of(p)) if absolute else said
 
 
 def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
@@ -2013,7 +2023,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             counted from where every camera runs on a file with a place.
             """
             try:
-                value, absolute = parse_time_point(text, self.fps)
+                value, absolute = parse_time_point(text, marks_fps_of(self))
             except Exception:
                 return None, False
             if value is None:
@@ -2948,7 +2958,7 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
         if not span or not (text or "").strip():
             return None
         try:
-            value, absolute = parse_time_point(text, span["fps"])
+            value, absolute = parse_time_point(text, marks_fps_here())
         except Exception:
             return None
         if value is None:
@@ -3009,7 +3019,8 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
 
     def marks_fps_here():
         """The rate the run reads a timecode mark at: its reference's."""
-        return PROGRAM.marks_rate(player_candidates())
+        return PROGRAM.marks_rate(player_candidates(),
+                                  state.get("axis_reference"))
 
     player.marks_fps = marks_fps_here
     player.mark_shown = lambda text: mark_shown(player, text)
@@ -3029,7 +3040,7 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
         if not span or not span["duration"]:
             return None
         try:
-            value, absolute = parse_time_point(text, span["fps"])
+            value, absolute = parse_time_point(text, marks_fps_here())
         except Exception:
             return None
         if value is None:
