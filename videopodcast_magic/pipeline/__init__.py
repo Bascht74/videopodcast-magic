@@ -543,7 +543,8 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             # The name typed for the recording, on whichever block it
             # came; the file name is only the proposal.
             typed = [spoken[path_key(b)] for b in row
-                     if path_key(b) in spoken] + [guess_speaker_name(row[0])]
+                     if path_key(b) in spoken] + [guess_speaker_name(
+                         row[0], PROGRAM.recording_shown(row[0]))]
             plan.append({"audio": row[0], "blocks": row,
                          "speakers": typed[0],
                          "camera": "",
