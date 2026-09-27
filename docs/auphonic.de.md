@@ -92,17 +92,20 @@ Auf dem Reiter **Zuordnung & Zeitfenster** steht im Kasten
 Preset unter **Preset:** (auf der Kommandozeile `--auphonic-preset`).
 Aus diesem Preset baut das Programm die Produktion neu.
 
-Ist der Schlüssel geprüft und ein Preset gewählt, zeigt eine Zeile unter
-dem Preset, wie viele Minuten Guthaben bei auphonic.com noch übrig sind,
-und sagt es, wenn das Konto im kostenlosen Tarif ist. Rot wird sie, wenn
-das Guthaben nicht für die Produktion reicht. Gerechnet wird bei
-Multitrack mit der längsten Spur, sonst mit allen Spuren zusammen, und
-zwar bevor der Lauf sie auf eine Zeitachse legt -- das kann sie nur
-länger machen. Ist das Konto im kostenlosen Tarif und die
-Multitrack-Produktion 20 Minuten lang oder länger, kommt eine zweite,
-ebenfalls rote Zeile dazu: Im kostenlosen Tarif nimmt auphonic.com eine
-Multitrack-Produktion nur an, wenn sie kürzer als 20 Minuten ist. Der
-Kasten fragt das Konto zusammen mit den Presets und sonst nie.
+Ist der Schlüssel geprüft, zeigt eine Zeile unter dem Preset, wie viele
+Minuten Guthaben bei auphonic.com noch übrig sind und in welchem Tarif
+das Konto ist, kostenlos oder bezahlt -- ob ein Preset gewählt ist oder
+nicht, und auch bei **ohne Auphonic arbeiten**. Ist ein Preset gewählt, wird
+die Zeile rot, wenn das Guthaben nicht für die Produktion reicht.
+Gerechnet wird bei Multitrack mit der längsten Spur, sonst mit allen
+Spuren zusammen, und zwar bevor der Lauf sie auf eine Zeitachse legt --
+das kann sie nur länger machen. Ist das Konto im kostenlosen Tarif und
+die Multitrack-Produktion länger als 21 Minuten, kommt eine zweite,
+ebenfalls rote Zeile dazu: **Im kostenlosen Tarif nimmt auphonic.com
+eine Multitrack-Produktion nur bis etwa 21 Min. an.** Ohne Preset wird
+die Zeile nie rot, denn dann gibt es keine Produktion, an der sich das
+Guthaben messen ließe. Der Kasten fragt das Konto zusammen mit den
+Presets und sonst nie.
 
 Das Häkchen **Multitrack (je Sprecher eine Spur)** steht nicht im
 Auphonic-Kasten und braucht keinen Schlüssel. Es entscheidet hier, ob
@@ -223,7 +226,8 @@ BEI AUPHONIC.COM:` bei einer einzelnen Spur, `AUFBEREITUNG BEI
 AUPHONIC.COM (MULTITRACK):` bei mehreren. Darunter stehen das Preset und
 die Datei mit Größe und Kanälen, oder der Titel der Produktion, die
 Spuren mit Namen und das, was hochzuladen ist. Dann fragt der Lauf das
-Konto noch einmal und sagt, was es geantwortet hat: den Tarif, etwa
+Konto noch einmal -- zuerst gefragt hat es schon der Vorflug, siehe
+unten -- und sagt, was es geantwortet hat: den Tarif, etwa
 `Das Konto bei auphonic.com ist im kostenlosen Tarif.`, und das Guthaben
 in Minuten, etwa `Guthaben bei auphonic.com: noch 80 Min., genug für die
 12 Min., die diese Produktion braucht.` Was eine Produktion braucht, wird
@@ -231,17 +235,30 @@ in ganzen Minuten gezählt, aufgerundet und nie unter `1 Min.`, weil
 auphonic.com nicht weniger abrechnet: Eine Probe von 20 Sekunden braucht
 `1 Min.`, nicht `0 Min.`
 
-Zwei Dinge sagt der Lauf als Hinweis, der mit `Hinweis:` beginnt, nie als
-Warnung, und in beiden Fällen geht er weiter:
+Zwei Dinge sagt der Lauf, und in beiden Fällen geht er weiter:
 
 * **Das Guthaben reicht nicht.** Die Zeile zum Guthaben endet auf `-- das
-  reicht nicht.`, und der Hinweis sagt, dass der Lauf es trotzdem
-  versucht: Ob die Produktion startet, entscheidet auphonic.com.
-* **Ein kostenloses Konto und eine Multitrack-Produktion von 20 Minuten
-  oder mehr.** Im kostenlosen Tarif nimmt auphonic.com eine
-  Multitrack-Produktion nur an, wenn sie kürzer als 20 Minuten ist. Der
-  Hinweis sagt das, nennt die Länge dieser Produktion und dass der Lauf
-  es trotzdem versucht.
+  reicht nicht.`, und ein Hinweis, der mit `Hinweis:` beginnt, sagt, dass
+  der Lauf es trotzdem versucht: Ob die Produktion startet, entscheidet
+  auphonic.com.
+* **Ein kostenloses Konto und eine Multitrack-Produktion, die länger
+  als 21 Minuten ist.** Das ist eine Warnung, in der Warnfarbe:
+  `Warnung: Diese Multitrack-Produktion dauert 25 Min., und im
+  kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa 21 Min.
+  an.` Ein Hinweis darunter sagt, warum: Eine längere lehnt auphonic.com
+  gleich am Anfang ab und berechnet nichts dafür, und der Lauf versucht
+  es trotzdem. In der Ablehnung von auphonic.com selbst ist von 20
+  Minuten die Rede; in einem Versuch mit einem kostenlosen Konto gingen
+  21 Minuten noch durch, 22, 25, 30 Minuten und eine Stunde wurden
+  abgelehnt. Bis 21 Minuten sagt der Lauf dazu nichts.
+
+Dieselben Zeilen stehen schon im Vorflug, bevor irgendetwas lange
+gemessen wird: Ein Lauf, der zu auphonic.com schickt, fragt dort das
+Konto, und ebenso der **Probelauf**, der nichts hochlädt. Lässt sich das
+Konto nicht fragen -- kein Schlüssel gespeichert, kein Netz --, sagt der
+Vorflug das in einer Zeile, `Das Konto bei auphonic.com ist nicht
+bekannt, denn es ließ sich nicht fragen. Der Lauf geht weiter.`, und der
+Lauf geht weiter. Nichts, was das Konto sagt, hält einen Lauf an.
 
 Lehnt auphonic.com ab, dann beim Start, nach dem Hochladen, und es
 berechnet nichts. Der Lauf endet dann mit `Aufbereitung fehlgeschlagen:`

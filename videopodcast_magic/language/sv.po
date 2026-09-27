@@ -5103,6 +5103,9 @@ msgstr "Krediter hos auphonic.com: okänt"
 msgid "%s -- free plan"
 msgstr "%s -- gratisabonnemang"
 
+msgid "%s -- paying plan"
+msgstr "%s -- betalt abonnemang"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Krediter hos auphonic.com: okänt -- kontot svarade inte."
 
@@ -5127,14 +5130,20 @@ msgstr "  Konto hos auphonic.com: gratis."
 msgid "  Account at auphonic.com: not known."
 msgstr "  Konto hos auphonic.com: okänt."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Konto hos auphonic.com: okänt -- det gick inte att fråga. Körningen fortsätter."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Anmärkning: körningen försöker ändå. auphonic.com avgör om produktionen startar, och säger det om den inte gör det."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Anmärkning: med gratisabonnemang tar auphonic.com bara emot en Multitrack-produktion som är kortare än %s, och den här är %s. Körningen försöker ändå; om auphonic.com vägrar följer dess eget meddelande."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Varning: den här Multitrack-produktionen är %s lång, och på gratisabonnemanget tar auphonic.com bara emot en sådan upp till ungefär %s."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "Med gratisabonnemang tar auphonic.com bara emot en Multitrack-produktion som är kortare än %s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Anmärkning: en längre avvisar auphonic.com redan vid starten och tar inget betalt för den. Körningen försöker ändå; avvisar auphonic.com följer dess eget meddelande."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "På gratisabonnemanget tar auphonic.com bara emot en Multitrack-produktion upp till ungefär %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Projektet %r från den här körningen förblir öppet -- inget som kunde öppnas\n  igen var öppet innan. Radera det i Resolves projekthanterare."

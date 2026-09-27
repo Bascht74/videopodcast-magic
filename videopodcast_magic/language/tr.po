@@ -5116,6 +5116,9 @@ msgstr "auphonic.com kredisi: bilinmiyor"
 msgid "%s -- free plan"
 msgstr "%s -- ücretsiz plan"
 
+msgid "%s -- paying plan"
+msgstr "%s -- ücretli plan"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  auphonic.com kredisi: bilinmiyor -- hesap yanıt vermedi."
 
@@ -5140,14 +5143,20 @@ msgstr "  auphonic.com hesabı: ücretsiz."
 msgid "  Account at auphonic.com: not known."
 msgstr "  auphonic.com hesabı: bilinmiyor."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "auphonic.com hesabı: bilinmiyor -- sorgulanamadı. Çalıştırma devam ediyor."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Not: çalıştırma yine de dener. Prodüksiyonun başlayıp başlamayacağına auphonic.com karar verir ve başlamazsa bunu söyler."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Not: ücretsiz planda auphonic.com bir Multitrack prodüksiyonunu yalnızca %s süresinden kısaysa kabul eder, bu ise %s. Çalıştırma yine de dener; auphonic.com reddederse kendi mesajı gelir."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Uyarı: bu Multitrack prodüksiyonu %s sürüyor ve ücretsiz planda auphonic.com böyle bir prodüksiyonu yalnızca yaklaşık %s süresine kadar kabul eder."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "Ücretsiz planda auphonic.com bir Multitrack prodüksiyonunu yalnızca %s süresinden kısaysa kabul eder."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Not: auphonic.com daha uzun olanı daha başlangıçta reddeder ve bunun için hiçbir ücret almaz. Çalıştırma yine de dener; auphonic.com reddederse kendi mesajı gelir."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Ücretsiz planda auphonic.com bir Multitrack prodüksiyonunu yalnızca yaklaşık %s süresine kadar kabul eder."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Bu çalıştırmanın oluşturduğu %r projesi açık kalıyor -- önceden yeniden açılabilecek\n  hiçbir şey açık değildi. Onu Resolve'un proje yöneticisinde silin."

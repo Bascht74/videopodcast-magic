@@ -75,7 +75,7 @@ write_beside_then_move = PROGRAM.write_beside_then_move
 
 # Two stand in a piece read after this one: read_preset in the processing (a
 # circle: choose_preset there asks check_preset here), and MATRIX_BT2020 in the
-# colour reading.
+# colour reading. check_account asks the account the processing's way too.
 
 # Three are bent while the run goes on, and a copy taken here would
 # answer with the run before: set_language rebinds LANG, and the window
@@ -114,9 +114,10 @@ NAME_COLUMN = 24
 class Finding(object):
     """One item from the preflight report.
 
-    Four kinds, and the kind decides what happens next: "good" is only
+    Five kinds, and the kind decides what happens next: "good" is only
     counted, "hint" appears in the report, "fixed" says the script fixed
-    it itself, and "abort" stops the run unless --anyway is given.
+    it itself, "warning" is marked as one and stops nothing, and "abort"
+    stops the run unless --anyway is given.
     """
 
     def __init__(self, kind, field, text, advice="", file=""):
@@ -132,11 +133,12 @@ class Finding(object):
         self.set_aside = False
 
     def line(self, width=None):
+        # A warning's own words say so; it only wears the marker.
         label = {"good": "", "hint": T('Note: '), "fixed": T('fixed: '),
-                 "abort": T('Caution: ')}[self.kind]
+                 "warning": "", "abort": T('Caution: ')}[self.kind]
         out = "    %-*s %s%s" % (NAME_COLUMN if width is None else width,
                                   self.field, label, self.text)
-        return as_warn(out) if self.kind == "abort" else out
+        return as_warn(out) if self.kind in ("abort", "warning") else out
 
 
 def name_to_fit(name, room):
@@ -1314,6 +1316,51 @@ def check_loudness_target(args, videos=(), recordings=1):
     return [Finding("good", T('Loudness'), text)]
 
 
+def production_length(chains, multitrack, window_s=None):
+    """How long the run's productions at auphonic.com last, in seconds.
+
+    As the window reckons it: a recording as long as its blocks end to
+    end, cut to *window_s* where an In and Out point give one; one
+    Multitrack production as long as its longest, Singletrack ones
+    added up. The axis only lengthens them, so this is the least.
+    """
+    lengths = []
+    for row, _rest in chains:
+        seconds = sum(PROGRAM.sample_count(p) for p in row) / float(
+            PROGRAM.SR)
+        lengths.append(min(seconds, window_s) if window_s else seconds)
+    lengths = lengths or [0.0]
+    return max(lengths) if multitrack else sum(lengths)
+
+
+def check_account(args, chains, videos_n):
+    """What the account at auphonic.com says to this run, said first.
+
+    In the lines the Auphonic step prints later, a warning there one
+    here. Asked once, and only of a run that sends; an account that
+    cannot be asked is one line. Nothing here stops the run: auphonic.com
+    decides at the start, and says so itself.
+    """
+    if not PROGRAM.run_uploads(args):
+        return []
+    key = getattr(args, "auphonic_key", None)
+    account = PROGRAM.account_credit(key) if key else None
+    if not account:
+        return [Finding("good", "auphonic.com",
+                        T('Account at auphonic.com: not known -- it could '
+                          'not be asked. The run goes on.'))]
+    count = len(chains)
+    multitrack = PROGRAM.production_is_multitrack(
+        count, bool(videos_n) or count >= 2)
+    seconds = production_length(chains, multitrack, window_from_points(args))
+    found = []
+    for line in PROGRAM.credit_verdict(account, seconds, multitrack):
+        kind, text = PROGRAM.split_kind(line)
+        found.append(Finding("warning" if kind == "warning" else "good",
+                             "" if found else "auphonic.com", text.strip()))
+    return found
+
+
 def check_preset(key, uuid, presetname, lufs, multitrack):
     """Check the chosen preset against what the run needs.
 
@@ -1546,16 +1593,18 @@ def run_preflight(args, audio_paths, video_paths, project_type=None):
                               together=getattr(args, "together", ()),
                               project_type=project_type or "cut")
     # Counted as the run counts them: blocks of one recording are one.
-    recordings = len(group_recording_parts(
+    chains = (group_recording_parts(
         audio_paths, getattr(args, "no_follow_ups", False),
         getattr(args, "apart", ()), getattr(args, "together", ()))
         if audio_paths else [])
+    recordings = len(chains)
     # These two depend on the call and the machine, not the material.
     findings += check_disk_space(getattr(args, "out", None), audio_paths, video_paths,
                              window_from_points(args),
                              bool(getattr(args, "dry_run", False)),
                              recordings)
     findings += check_loudness_target(args, video_paths, recordings)
+    findings += check_account(args, chains, len(video_paths))
     return 1 if report_findings(findings, T('does the material fit together?'),
                                getattr(args, "anyway", False)) else 0
 

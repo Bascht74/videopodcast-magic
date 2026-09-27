@@ -5106,6 +5106,9 @@ msgstr "קרדיט ב-auphonic.com: לא ידוע"
 msgid "%s -- free plan"
 msgstr "%s -- תוכנית חינמית"
 
+msgid "%s -- paying plan"
+msgstr "%s -- תוכנית בתשלום"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  קרדיט ב-auphonic.com: לא ידוע -- החשבון לא ענה."
 
@@ -5130,14 +5133,20 @@ msgstr "  חשבון ב-auphonic.com: חינמי."
 msgid "  Account at auphonic.com: not known."
 msgstr "  חשבון ב-auphonic.com: לא ידוע."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "חשבון ב-auphonic.com: לא ידוע -- לא ניתן היה לשאול אותו. ההרצה ממשיכה."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  הערה: ההרצה מנסה בכל זאת. auphonic.com מחליט אם ההפקה מתחילה, ואומר זאת אם לא."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  הערה: בתוכנית החינמית auphonic.com מקבל הפקת Multitrack רק אם היא קצרה מ-%s, וזו נמשכת %s. ההרצה מנסה בכל זאת; אם auphonic.com מסרב, תבוא ההודעה שלו עצמו."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  אזהרה: הפקת ה-Multitrack הזו נמשכת %s, ובתוכנית החינמית auphonic.com מקבל הפקה כזו רק עד כ-%s."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "בתוכנית החינמית auphonic.com מקבל הפקת Multitrack רק אם היא קצרה מ-%s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  הערה: auphonic.com דוחה הפקה ארוכה יותר כבר בהתחלה ואינו גובה עליה דבר. ההרצה מנסה בכל זאת; אם auphonic.com מסרב, תבוא ההודעה שלו."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "בתוכנית החינמית auphonic.com מקבל הפקת Multitrack רק עד כ-%s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  הפרויקט %r שהריצה הזאת יצרה נשאר פתוח -- לפני כן לא היה פתוח דבר\n  שאפשר לפתוח שוב. מחקו אותו במנהל הפרויקטים של Resolve."

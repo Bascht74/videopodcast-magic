@@ -6840,6 +6840,9 @@ msgstr "Guthaben bei auphonic.com: unbekannt"
 msgid "%s -- free plan"
 msgstr "%s -- kostenloser Tarif"
 
+msgid "%s -- paying plan"
+msgstr "%s -- bezahlter Tarif"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Guthaben bei auphonic.com: unbekannt -- das Konto hat nicht geantwortet."
 
@@ -6864,14 +6867,20 @@ msgstr "  Das Konto bei auphonic.com ist im kostenlosen Tarif."
 msgid "  Account at auphonic.com: not known."
 msgstr "  In welchem Tarif das Konto bei auphonic.com ist, ist nicht bekannt."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Das Konto bei auphonic.com ist nicht bekannt, denn es ließ sich nicht fragen. Der Lauf geht weiter."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Hinweis: Der Lauf versucht es trotzdem. Ob die Produktion startet, entscheidet auphonic.com, und wenn nicht, sagt es das selbst."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Hinweis: Im kostenlosen Tarif nimmt auphonic.com eine Multitrack-Produktion nur an, wenn sie kürzer als %s ist, und diese dauert %s. Der Lauf versucht es trotzdem; lehnt auphonic.com ab, folgt dessen eigene Meldung."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Warnung: Diese Multitrack-Produktion dauert %s, und im kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa %s an."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "Im kostenlosen Tarif nimmt auphonic.com eine Multitrack-Produktion nur an, wenn sie kürzer als %s ist."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Hinweis: Eine längere lehnt auphonic.com gleich am Anfang ab und berechnet nichts dafür. Der Lauf versucht es trotzdem; lehnt auphonic.com ab, folgt dessen eigene Meldung."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Im kostenlosen Tarif nimmt auphonic.com eine Multitrack-Produktion nur bis etwa %s an."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Das Projekt %r aus diesem Lauf bleibt offen -- vorher war nichts offen,\n  das sich wieder öffnen ließe. Bitte in der Projektverwaltung von Resolve löschen."

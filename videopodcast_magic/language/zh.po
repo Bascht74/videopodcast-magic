@@ -5058,6 +5058,9 @@ msgstr "auphonic.com 额度：未知"
 msgid "%s -- free plan"
 msgstr "%s——免费方案"
 
+msgid "%s -- paying plan"
+msgstr "%s——付费方案"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  auphonic.com 额度：未知——账户没有回应。"
 
@@ -5082,14 +5085,20 @@ msgstr "  auphonic.com 账户：免费。"
 msgid "  Account at auphonic.com: not known."
 msgstr "  auphonic.com 账户：未知。"
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "auphonic.com 账户：未知——无法查询。运行继续。"
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  提示：运行仍会尝试。制作是否开始由 auphonic.com 决定，若不开始它会说明。"
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  提示：免费方案下，auphonic.com 只接受短于 %s 的 Multitrack 制作，而此次制作长 %s。运行仍会尝试；若 auphonic.com 拒绝，随后会出现它自己的消息。"
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  警告：此 Multitrack 制作长 %s，而免费方案下 auphonic.com 只接受约 %s 以内的此类制作。"
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "免费方案下，auphonic.com 只接受短于 %s 的 Multitrack 制作。"
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  提示：更长的制作会在开始时被 auphonic.com 拒绝，且不收取任何费用。运行仍会尝试；若 auphonic.com 拒绝，随后会显示它自己的消息。"
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "免费方案下，auphonic.com 只接受约 %s 以内的 Multitrack 制作。"
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  本次运行创建的项目 %r 保持打开 -- 之前没有可以重新打开的项目\n  处于打开状态。请在 Resolve 的项目管理器中删除它。"

@@ -83,15 +83,17 @@ auphonic.com (optional)** holds what this run does: the preset under
 **Preset:** (on the command line `--auphonic-preset`). The program
 rebuilds the production from that preset.
 
-Once the key is checked and a preset is chosen, a line under the preset
-shows the minutes of credit left at auphonic.com, and says so where the
-account is on the free plan. It turns red where the credit is fewer
-than the production needs -- as long as the longest track for
-Multitrack, all tracks together otherwise, before the run lays them on
-one axis, which can only make them longer. On the free plan a
-Multitrack production of 20 minutes or more adds a second line, red as
-well: auphonic.com takes a Multitrack production there only when it is
-shorter than 20 minutes. The box asks the account together with the
+Once the key is checked, a line under the preset shows the minutes of
+credit left at auphonic.com and the plan, free or paying -- whether a
+preset is chosen or not, and with **work without Auphonic** as well.
+With a preset chosen, the line turns red where the credit is fewer than
+the production needs -- as long as the longest track for Multitrack, all
+tracks together otherwise, before the run lays them on one axis, which
+can only make them longer. On the free plan a Multitrack production
+longer than 21 minutes adds a second line, red as well: **On the free
+plan auphonic.com takes a Multitrack production only up to about 21
+min.** Without a preset the line is never red: there is no production to
+hold the credit against. The box asks the account together with the
 presets and at no other time.
 
 The tick **Multitrack (one track per speaker)** is not in the Auphonic
@@ -205,24 +207,34 @@ Both paths open with a heading in the log: `PROCESSING AT
 AUPHONIC.COM:` for a single track, `PROCESSING AT AUPHONIC.COM
 (MULTITRACK):` for several. Under it stand the preset and the file with
 its size and channels, or the production's title, the tracks by name and
-what there is to upload. The run then asks the account once more and
-says what it answered: the plan, `Account at auphonic.com: free.`,
+what there is to upload. The run then asks the account once more -- the
+preflight asked it first, see below -- and says what it answered: the plan, `Account at auphonic.com: free.`,
 `paying.` or `not known.`, and the credit in minutes, for instance
 `Credit at auphonic.com: 80 min left, enough for the 12 min this
 production needs.` What a production needs is counted in whole minutes,
 rounded up and never below `1 min`, since auphonic.com charges no less:
 a 20-second sample needs `1 min`, not `0 min`.
 
-Two things are said as a hint beginning `Note:`, never as a warning,
-and the run goes on either way:
+Two things are said, and the run goes on either way:
 
-* **Too little credit.** The credit line ends in `-- not enough.`, and
-  the note says that the run tries anyway: auphonic.com decides whether
-  the production starts.
-* **A free account and a Multitrack production of 20 minutes or more.**
-  auphonic.com takes a Multitrack production on the free plan only when
-  it is shorter than 20 minutes. The note says so, with the length of
-  this one, and that the run tries anyway.
+* **Too little credit.** The credit line ends in `-- not enough.`, and a
+  note beginning `Note:` says that the run tries anyway: auphonic.com
+  decides whether the production starts.
+* **A free account and a Multitrack production longer than 21
+  minutes.** This one is a warning, in the warning colour: `Warning: this
+  Multitrack production is 25 min long, and on the free plan auphonic.com
+  takes one only up to about 21 min.` A note under it says why: a longer
+  one is refused at the start and nothing is charged, and the run tries
+  anyway. auphonic.com's own refusal speaks of 20 minutes; in a test on
+  a free account 21 minutes still went through, and 22, 25, 30 and an
+  hour were refused. Up to 21 minutes nothing is said.
+
+The same lines stand first in the preflight, before anything is measured
+at length: a run that sends to auphonic.com asks the account there, and
+so does **Dry run**, which uploads nothing. Where the account cannot be
+asked -- no key stored, no network -- the preflight says so in one line,
+`Account at auphonic.com: not known -- it could not be asked. The run
+goes on.`, and the run goes on. Nothing the account says stops a run.
 
 Where auphonic.com refuses, it does so at the start, after the upload,
 and charges nothing; the run ends with `Processing failed:` and

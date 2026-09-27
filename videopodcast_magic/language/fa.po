@@ -5106,6 +5106,9 @@ msgstr "اعتبار در auphonic.com: نامعلوم"
 msgid "%s -- free plan"
 msgstr "%s -- طرح رایگان"
 
+msgid "%s -- paying plan"
+msgstr "%s -- طرح پولی"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  اعتبار در auphonic.com: نامعلوم -- حساب پاسخ نداد."
 
@@ -5130,14 +5133,20 @@ msgstr "  حساب در auphonic.com: رایگان."
 msgid "  Account at auphonic.com: not known."
 msgstr "  حساب در auphonic.com: نامعلوم."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "حساب در auphonic.com: نامعلوم -- نمی‌شد از آن پرسید. اجرا ادامه می‌یابد."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  یادداشت: اجرا با این حال تلاش می‌کند. auphonic.com تصمیم می‌گیرد که تولید آغاز شود یا نه، و اگر نشود آن را می‌گوید."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  یادداشت: در طرح رایگان auphonic.com یک تولید Multitrack را فقط وقتی می‌پذیرد که کوتاه‌تر از %s باشد، و این یکی %s است. اجرا با این حال تلاش می‌کند؛ اگر auphonic.com نپذیرد، پیام خودش می‌آید."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  هشدار: این تولید Multitrack %s طول می‌کشد، و در طرح رایگان auphonic.com چنین تولیدی را فقط تا حدود %s می‌پذیرد."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "در طرح رایگان auphonic.com یک تولید Multitrack را فقط وقتی می‌پذیرد که کوتاه‌تر از %s باشد."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  یادداشت: auphonic.com تولید طولانی‌تر را همان ابتدا رد می‌کند و بابت آن چیزی کسر نمی‌کند. اجرا با این حال تلاش می‌کند؛ اگر auphonic.com رد کند، پیام خودش می‌آید."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "در طرح رایگان، auphonic.com تولید Multitrack را فقط تا حدود %s می‌پذیرد."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  پروژهٔ %r که این اجرا ساخت باز می‌ماند -- پیش‌تر چیزی باز نبود\n  که بتوان دوباره بازش کرد. آن را در مدیر پروژه‌های Resolve حذف کنید."

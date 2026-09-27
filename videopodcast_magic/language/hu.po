@@ -5105,6 +5105,9 @@ msgstr "Kredit az auphonic.com-on: ismeretlen"
 msgid "%s -- free plan"
 msgstr "%s -- ingyenes csomag"
 
+msgid "%s -- paying plan"
+msgstr "%s -- fizetős csomag"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Kredit az auphonic.com-on: ismeretlen -- a fiók nem válaszolt."
 
@@ -5129,14 +5132,20 @@ msgstr "  Fiók az auphonic.com-on: ingyenes."
 msgid "  Account at auphonic.com: not known."
 msgstr "  Fiók az auphonic.com-on: ismeretlen."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Fiók az auphonic.com-on: ismeretlen -- nem lehetett lekérdezni. A futás folytatódik."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Megjegyzés: a futás ettől még megpróbálja. Az auphonic.com dönti el, hogy a produkció elindul-e, és szól, ha nem."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Megjegyzés: az ingyenes csomagban az auphonic.com csak akkor fogad el egy Multitrack produkciót, ha rövidebb, mint %s, ez pedig %s. A futás ettől még megpróbálja; ha az auphonic.com elutasítja, a saját üzenete következik."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Figyelmeztetés: ez a Multitrack produkció %s hosszú, az ingyenes csomagban pedig az auphonic.com ilyet csak nagyjából %s hosszúságig fogad el."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "Az ingyenes csomagban az auphonic.com csak akkor fogad el egy Multitrack produkciót, ha rövidebb, mint %s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Megjegyzés: a hosszabbat az auphonic.com már az elején elutasítja, és semmit sem számol fel érte. A futás ettől még megpróbálja; ha az auphonic.com elutasítja, a saját üzenete következik."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Az ingyenes csomagban az auphonic.com Multitrack produkciót csak nagyjából %s hosszúságig fogad el."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  A futás által létrehozott %r projekt nyitva marad -- előtte semmi sem volt nyitva,\n  amit újra meg lehetne nyitni. Törölje a Resolve projektkezelőjében."

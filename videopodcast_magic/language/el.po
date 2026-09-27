@@ -5104,6 +5104,9 @@ msgstr "Πίστωση στο auphonic.com: άγνωστη"
 msgid "%s -- free plan"
 msgstr "%s -- δωρεάν πρόγραμμα"
 
+msgid "%s -- paying plan"
+msgstr "%s -- πληρωμένο πρόγραμμα"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  Πίστωση στο auphonic.com: άγνωστη -- ο λογαριασμός δεν απάντησε."
 
@@ -5128,14 +5131,20 @@ msgstr "  Λογαριασμός στο auphonic.com: δωρεάν."
 msgid "  Account at auphonic.com: not known."
 msgstr "  Λογαριασμός στο auphonic.com: άγνωστος."
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "Λογαριασμός στο auphonic.com: άγνωστος -- δεν ήταν δυνατό να ερωτηθεί. Η εκτέλεση συνεχίζεται."
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Σημείωση: η εκτέλεση δοκιμάζει ούτως ή άλλως. Το auphonic.com αποφασίζει αν ξεκινά η παραγωγή, και το λέει αν δεν ξεκινά."
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Σημείωση: στο δωρεάν πρόγραμμα το auphonic.com δέχεται παραγωγή Multitrack μόνο αν είναι συντομότερη από %s, και αυτή διαρκεί %s. Η εκτέλεση δοκιμάζει ούτως ή άλλως· αν το auphonic.com αρνηθεί, ακολουθεί το δικό του μήνυμα."
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  Προειδοποίηση: αυτή η παραγωγή Multitrack διαρκεί %s, και στο δωρεάν πρόγραμμα το auphonic.com δέχεται τέτοια μόνο έως περίπου %s."
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "Στο δωρεάν πρόγραμμα το auphonic.com δέχεται παραγωγή Multitrack μόνο αν είναι συντομότερη από %s."
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  Σημείωση: το auphonic.com απορρίπτει μια μεγαλύτερη ήδη στην αρχή και δεν χρεώνει τίποτα γι' αυτήν. Η εκτέλεση δοκιμάζει ούτως ή άλλως· αν το auphonic.com αρνηθεί, ακολουθεί το δικό του μήνυμα."
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "Στο δωρεάν πρόγραμμα το auphonic.com δέχεται παραγωγή Multitrack μόνο έως περίπου %s."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Το έργο %r αυτής της εκτέλεσης μένει ανοιχτό -- πριν δεν ήταν ανοιχτό τίποτα\n  που θα μπορούσε να ανοίξει ξανά. Διαγράψτε το στη διαχείριση έργων του Resolve."

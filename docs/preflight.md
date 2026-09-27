@@ -43,8 +43,16 @@ The report holds for both modes.
 | Auphonic | preset algorithms, loudness target, track template | **stop** on a contradiction |
 | Project type | with **Sync only**, a second audio recording | **stop** |
 | Loudness | which target holds and where it comes from | -- |
+| Auphonic account | the plan, the minutes left, whether they carry the production | said, a warning where a free Multitrack production is longer than 21 minutes; never a stop |
 
 A stop halts the run before anything is written or uploaded.
+
+**The account is asked in the run's report only**, not under the file
+list: when **Start** or **Dry run** is pressed, or a run is started on
+the command line, and only where the run would send to auphonic.com.
+It is asked once, and says what the Auphonic step says again before the
+upload ([Auphonic](auphonic.md), "What a run shows"). Where it cannot be
+asked, one line says the account is not known, and the run goes on.
 
 **Sync only takes one audio recording.** With that project type every
 recording past the first gets ✕ in the file list, and the sentence on

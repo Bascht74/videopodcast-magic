@@ -5062,6 +5062,9 @@ msgstr "เครดิตที่ auphonic.com: ไม่ทราบ"
 msgid "%s -- free plan"
 msgstr "%s -- แผนฟรี"
 
+msgid "%s -- paying plan"
+msgstr "%s -- แผนแบบชำระเงิน"
+
 msgid "  Credit at auphonic.com: not known -- the account did not answer."
 msgstr "  เครดิตที่ auphonic.com: ไม่ทราบ -- บัญชีไม่ตอบกลับ"
 
@@ -5086,14 +5089,20 @@ msgstr "  บัญชีที่ auphonic.com: ฟรี"
 msgid "  Account at auphonic.com: not known."
 msgstr "  บัญชีที่ auphonic.com: ไม่ทราบ"
 
+msgid "Account at auphonic.com: not known -- it could not be asked. The run goes on."
+msgstr "บัญชีที่ auphonic.com: ไม่ทราบ -- สอบถามไม่ได้ การรันดำเนินต่อไป"
+
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  หมายเหตุ: การรันยังคงลองต่อไป auphonic.com เป็นผู้ตัดสินว่างานจะเริ่มหรือไม่ และจะบอกหากไม่เริ่ม"
 
-msgid "  Note: auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s, and this one is %s. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  หมายเหตุ: ในแผนฟรี auphonic.com รับงาน Multitrack เฉพาะเมื่อสั้นกว่า %s และงานนี้ยาว %s การรันยังคงลองต่อไป หาก auphonic.com ปฏิเสธ ข้อความของมันเองจะตามมา"
+msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
+msgstr "  คำเตือน: งาน Multitrack นี้ยาว %s และในแผนฟรี auphonic.com รับงานแบบนี้ได้ไม่เกินประมาณ %s เท่านั้น"
 
-msgid "auphonic.com takes a Multitrack production on the free plan only when it is shorter than %s."
-msgstr "ในแผนฟรี auphonic.com รับงาน Multitrack เฉพาะเมื่อสั้นกว่า %s"
+msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
+msgstr "  หมายเหตุ: auphonic.com ปฏิเสธงานที่ยาวกว่านี้ตั้งแต่เริ่มและไม่คิดค่าใช้จ่ายใด ๆ การรันยังคงลองต่อไป หาก auphonic.com ปฏิเสธ ข้อความของ auphonic.com เองจะตามมา"
+
+msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
+msgstr "ในแผนฟรี auphonic.com รับงาน Multitrack ได้ไม่เกินประมาณ %s เท่านั้น"
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  โปรเจกต์ %r ที่การรันนี้สร้างยังคงเปิดอยู่ -- ก่อนหน้านี้ไม่มีอะไรเปิดอยู่\n  ที่จะเปิดกลับได้ ให้ลบในตัวจัดการโปรเจกต์ของ Resolve"
