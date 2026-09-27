@@ -86,11 +86,12 @@ rebuilds the production from that preset.
 Once the key is checked, a line under the preset shows the credit left
 at auphonic.com, and says so where the account is on the free plan. In
 Multitrack mode it reminds you in the colour of a warning that a free
-Multitrack production may last 20 minutes at most. The account is asked
-together with the presets and at no other time. Before each upload the
-log says whether the credit suffices for this production, and warns
-where a free Multitrack production is longer than 20 minutes. It only
-warns: the run goes on, and auphonic.com has the last word.
+Multitrack production may last 20 minutes at most. The box asks the
+account together with the presets and at no other time. The run asks
+once more before each upload, and the log says whether the credit
+suffices for this production, and warns where a free Multitrack
+production is longer than 20 minutes. It only warns: the run goes on,
+and auphonic.com has the last word.
 
 The tick **Multitrack (one track per speaker)** is not in the Auphonic
 box and needs no key. What it decides here is whether every person keeps
@@ -197,7 +198,63 @@ box names the preset with **being checked** behind it, greyed and not
 pickable, and its value stays **work without Auphonic**: a **Start**
 pressed before the answer spends no credit.
 
+### What a run shows
+
+Both paths open with a heading in the log: `PROCESSING AT
+AUPHONIC.COM:` for a single track, `PROCESSING AT AUPHONIC.COM
+(MULTITRACK):` for several. Under it stand the preset and the file with
+its size and channels, or the production's title, the tracks by name and
+what there is to upload. Then comes the credit, for instance
+`Credit at auphonic.com: 1 h 20 min left, enough for the 12 min this
+production needs.`
+
+A single track then goes through these steps:
+
+1. `Uploading <file>` with a bar. The file goes up together with the
+   preset.
+2. With a stereo recording, `Two channels requested -- the recording is
+   stereo`. The preset would fold the mix to one channel; this way two
+   channels come back.
+3. `Production running (…)` with the production's number, and `Time
+   limit: 2:00:00.000`.
+4. A bar with the time gone by and the state auphonic.com reports, for
+   instance `Audio Processing`, until it says `done`.
+5. `Downloading <name>`: one audio file, the lossless one where the
+   preset writes several, and beside it only what is text -- transcript,
+   subtitles, chapter marks.
+6. Where auphonic.com added something, `<name>: auphonic.com added 6.4 s
+   at the end -- cut away`, and last `Result: <name> (1 MB) -- stays next
+   to the video file`. It lies in the output folder itself, not in
+   `auphonic-tracks/`.
+
+Several tracks go through these:
+
+1. `Finished mixdown requested as the yardstick (wav-24bit)`: the mix
+   auphonic.com makes comes back too, as the measure for how loud the
+   program's own mix should end up. Where one track is stereo, `Two
+   channels, because one track is stereo` follows.
+2. `Production running (…)`, then `Uploading 2 tracks`: all tracks in
+   one upload. A track auphonic.com took no file for stops the run.
+3. `Time limit:` and the same bar.
+4. `Downloading <title>.wav.zip`, the single tracks in one archive, then
+   every further output of the preset, the finished mixdown
+   `<title>_master.wav` among them. All of it lands in
+   `auphonic-tracks/`.
+5. `In the archive: Guest.wav, Presenter.wav`, and one line per speaker
+   naming the file that became their track. The archive is deleted once
+   it is unpacked.
+
+On a short sample of 20 seconds the presets arrived in under a second.
+A single track took about 15 s from the upload to the result, about 10 s
+of it waiting; two tracks took about 27 s, about 20 s of it waiting.
+Longer recordings take longer, and how much longer was not measured. The
+bar does not know the length in advance: on such a sample it stands at
+a few per cent and jumps to 100 when auphonic.com reports it done.
+
 ### When the production already exists
+
+Only a multitrack production is looked for. A single track goes up anew
+on every run, and every upload costs credit.
 
 The program finds the production by name and asks what should happen to
 it:
@@ -217,16 +274,19 @@ whether to adopt those names.
 On a recompute the program brings the track settings to the preset as
 well. Further tracks there go into the mix, and a warning names them.
 
-The program downloads everything, the single tracks and every further
-output the preset itself makes: chapter marks, analyses, and a
-transcript of its own where the preset produces one. All of that is paid
-for with the production either way. It lands in `auphonic-tracks/` next
-to the finished videos, later the `final_*.wav` too. A name auphonic.com
+A multitrack production is downloaded whole, the single tracks and every
+further output the preset itself makes: the finished mixdown, chapter
+marks, analyses, and a transcript of its own where the preset produces
+one. All of that is paid for with the production either way. It lands in
+`auphonic-tracks/` next to the finished videos, later the `final_*.wav`
+too. A single track brings back its audio file and what is text, as
+described above, and nothing else. A name auphonic.com
 gives a file is cut to its plain file name; a file with none left is not
 fetched, and the log names it.
 
 What auphonic.com puts around a returned file -- on the free plan a
-jingle in front -- is cut away. The program finds where the sound it
+jingle in front, and behind a single track a few seconds more, on a
+short sample about 6 s -- is cut away. The program finds where the sound it
 sent begins in what comes back and keeps exactly the length that went
 up, and the log says how many seconds went at the start and at the end.
 Where the sent sound cannot be found in the return, the file is left as
@@ -240,8 +300,17 @@ another run, and the message says so.
 ### When something goes wrong
 
 * **Connect does not turn green.** The line under the field says what
-  auphonic.com replied. The button beside it opens the settings;
-  correct the key there.
+  auphonic.com replied, for a key it does not know `auphonic.com does
+  not accept the key: Auphonic reports 403: Token doesn't exist`. The
+  answer comes within a second. The button beside it opens the
+  settings; correct the key there.
+* **The time limit runs out.** The log says `Time limit of 2:00:00.000
+  reached, production still running:` and the address of the
+  production. It goes on at auphonic.com; `--auphonic-wait` waits
+  longer. **Stop** ends the waiting in the same way, not the
+  production.
+* **auphonic.com reports an error.** The run ends with `Processing
+  failed:` and what auphonic.com said.
 * **The preset list holds only its first entry.** No key has been
   checked yet: press **Connect**.
 * **The returned tracks fit neither the time window nor the whole
