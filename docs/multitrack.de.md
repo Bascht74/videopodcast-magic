@@ -97,7 +97,12 @@ nur in a bis z. Ein Vorschlag wie `0008A` tut das nicht, das Feld
 bleibt leer, und bei Multitrack bleibt **Start** gesperrt, bis ein Name
 da ist: der Name wird bei auphonic.com zur Bezeichnung dieser Spur und
 dort von Leuten gelesen, die die Datei nie gesehen haben. Ein
-getippter Name gilt so, wie er getippt wurde.
+getippter Name gilt so, wie er getippt wurde. Zwei Aufnahmen mit
+demselben Dateinamen -- zwei Rekorder, die beide `ZOOM0001.WAV` auf
+ihre eigene Karte geschrieben haben -- sind zwei Personen: der zweite
+Vorschlag trägt `(2)`, wie in der Dateiliste, und so bleiben es zwei
+Spuren. Blöcke einer Aufnahme in einem Ordner werden weiterhin
+zusammengefügt. Die Kommandozeile rät genauso.
 
 Ein Name gehört einer Person, und darum steht er einmal auf dem Blatt.
 Tippt man einen, den es dort schon gibt, wird das Feld rot -- auf beiden

@@ -474,7 +474,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         from_camera = state["own_audio_rows"].get(first) \
             if isinstance(state["own_audio_rows"], dict) else None
         stem = (guess_camera_name(from_camera or first)
-                 if camera_track else guess_speaker_name(first))
+                 if camera_track else guess_speaker_name(first,
+                                                         heard.get(first)))
         # So the two rows of one camera can be told apart.
         if piece_label.get(first):
             stem = piece_label[first]

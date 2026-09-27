@@ -7,7 +7,8 @@ own stays whole. Then the preflight through collect_findings, the report
 the window and the log both print: the facts line, the recording past
 the first under Sync only, and the bleed between the two, measured by a
 stand-in so only the naming is asked. Last the window: the file list's
-row and the Assignment tab's row for each recording.
+row and the Assignment tab's row for each recording, and the speaker
+name offered in grey there, the second guessed "(2)" as well.
 """
 PLATFORM_BOUND = True
 import os
@@ -172,6 +173,30 @@ def assigned():
     return []
 
 
+def offered():
+    """The grey speaker names in the Assignment tab's name column, sorted."""
+    top = win()
+    if top is None:
+        return []
+    want = drawn(vpm.T('Audio recording'))
+    for view in top.findChildren(QtWidgets.QTreeView):
+        model = view.model()
+        if model is None or not model.columnCount() or isinstance(
+                view, QtWidgets.QTreeWidget):
+            continue
+        if drawn(model.headerData(0, QtCore.Qt.Horizontal) or "") != want:
+            continue
+        out = []
+        for r in range(model.rowCount()):
+            cell = view.indexWidget(model.index(r, 1))
+            fields = [] if cell is None else (
+                [cell] if isinstance(cell, QtWidgets.QLineEdit) else
+                cell.findChildren(QtWidgets.QLineEdit))
+            out.append(fields[0].placeholderText() if fields else "")
+        return sorted(out)
+    return []
+
+
 def tab_to(word):
     for bar in win().findChildren(QtWidgets.QTabWidget):
         for k in range(bar.count()):
@@ -217,6 +242,7 @@ def step():
                 waited[0] += 1
             else:
                 seen["assigned"] = assigned()
+                seen["offered"] = offered()
                 app.quit()
                 return
     except Exception:
@@ -234,6 +260,9 @@ check("the file list names the two recordings apart",
 check("and the Assignment tab names them as the list does",
       seen.get("assigned") == WANT,
       "rows %r, wanted %r" % (seen.get("assigned"), WANT))
+check("and offers two speakers there, the second guessed (2)",
+      seen.get("offered") == ["ZOOM", "ZOOM (2)"],
+      "grey names %r, wanted ['ZOOM', 'ZOOM (2)']" % (seen.get("offered"),))
 
 clean_up(D)
 print("\n%d checks in %.2f s" % (done, time.time() - began))
