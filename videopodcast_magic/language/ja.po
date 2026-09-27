@@ -1617,9 +1617,6 @@ msgstr "完了した実行から -- 話者 %s 人、%s"
 msgid "measured from the recordings -- %s speakers, %s"
 msgstr "録音から測定 -- 話者 %s 人、%s"
 
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "まだカメラが割り当てられていません -- 割り当てるにはマルチトラックをオンにしてください。"
-
 msgid "In point or Out point cannot be read here."
 msgstr "ここではイン点またはアウト点を読み取れません。"
 
@@ -1652,12 +1649,6 @@ msgstr "  どのカメラにも話者がいるため、引き画はありませ�
 
 msgid "  %s speakers, %s shots, shortest %s s"
 msgstr "  話者 %s 人、ショット %s 個、最短 %s 秒"
-
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "イン点は現在 %s ですが、既存のファイルは %s のものです。\n  映像内の音声は古い範囲で切られています -- 上の「開始」を\n  もう一度押してください。"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "アウト点は現在 %s です。範囲の長さは %s になりますが、既存の\n  ファイルは %s です -- 上の「開始」をもう一度押してください。"
 
 msgid "  The cut stays as it was."
 msgstr "  カットは元のままです。"
@@ -2405,9 +2396,6 @@ msgstr "\nブロックを結合するとトラックが一つしか残らず、M
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline は %s になります: その中で最も高いもの、またはその上で Resolve が\n  持つ次のレートです。上へ変換すると Resolve はフレームを繰り返し、下へは\n  フレームを捨てます。各カメラは自分のレートを保ち、切り替えは\n  そのレートで数えます。"
 
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s オフセット %s、クロックのずれ %s ppm (+/- %s)、残差のばらつき %s ms、%s / %s 点"
-
 msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
 msgstr "\n音声と映像の共通部分は %s しかなく、位置合わせでそこに見つかったサンプル点は %s です。これでは何も置けません。"
 
@@ -2851,9 +2839,6 @@ msgstr "これは録音時に生じたもので、後からではありません
 
 msgid "free %s, about %s needed (%s)"
 msgstr "空き %s、必要量 約 %s（%s）"
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "元ファイルのまま、--lufs 指定なし -- 何も調整しません"
 
 msgid "none switched on"
 msgstr "オンの項目なし"
@@ -3872,9 +3857,6 @@ msgstr "  %-20s は %-20s 次のマイクより %s dB 上、録音レベルを�
 msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
 msgstr "この名前は複数回出てきます。録音が 1 トラックになってしまいます -- Multitrack には auphonic.com で少なくとも 2 つの異なる名前が必要です。"
 
-msgid "The model could not be fetched: %s"
-msgstr "モデルを取得できませんでした: %s"
-
 msgid "%s does not match its checksum and was not written."
 msgstr "%s はチェックサムと一致しないため、書き込みませんでした。"
 
@@ -3940,9 +3922,6 @@ msgstr "この名前は既に別の人に付いています。名前は 1 人の
 
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  すべての録音が同じ名前です。これでは 1 トラックになります -- Multitrack には少なくとも 2 つ必要です。"
-
-msgid "Fetching the model (about %s MB): %s"
-msgstr "モデルを取得中（約 %s MB）: %s"
 
 msgid "The model could not be written: %s"
 msgstr "モデルを書き込めませんでした: %s"
@@ -4168,9 +4147,6 @@ msgstr "時間枠の先頭へ移動します。"
 
 msgid "Jumps to the end of the window."
 msgstr "時間枠の末尾へ移動します。"
-
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "タイムコードを持つ音声ファイルはありません。イン点とアウト点は素材の先頭から数えます -- ファイル同士の位置は測定したものです。"
 
 msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
 msgstr "1人につき1本の音声トラックを、auphonic.com まで分けたまま扱います。\nなくても動作します -- その場合 De-Bleed と Leveler はありません。\n入力トラックが2本必要です: 単独の録音、マルチチャンネル\nレコーダーの1チャンネル、または「音声を使う」に設定した\n映像ファイルの音声。カメラ切り替えにはこのチェックは不要です。"
@@ -4879,9 +4855,6 @@ msgstr "%s\n   音声を認識できず、実行が配置するとおりに配�
 msgid "sound not recognised, placed by its timecode"
 msgstr "音声を認識できず、タイムコードで配置しました"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s 本の録音があり、映像はありません: それぞれ単独で連結し、互いに合わせることはしません。--multitrack を使うと一つの時間軸に並べます。"
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr "、クロックのずれ %s ppm はそのまま: 不確かさの %s 倍に届かない（不確かさは %s ppm）"
 
@@ -4962,3 +4935,100 @@ msgstr "    %s: 先頭の %s は映像がないため省きます"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: 末尾の %s は映像がないため省きます"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s は送ったときより %s s 長く戻ってきました。送った音声がその中のどこから始まるかは\n"
+"  測定できませんでした -- 届いたままにします。"
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s を切れませんでした（%s） -- 届いたままにします。"
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s（%s 内）は %s（%s 内）と似た声です（類似度 %s）: 同じ人物のようです。"
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com が末尾に %s s を追加しました -- 切り取りました"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com が先頭に %s s を追加しました -- 切り取りました"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: ファイルが書き込まれなかったため、カットではこのカメラを使いません。"
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  イン点とアウト点はここでは効きません: 映像のない録音 1 本はそのまま全体を連結します。"
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  カメラ名 \"%s\" にはフォルダーやドライブの区切り文字が含まれています。\"%s\" として書き込みます。"
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  両端の引き画: なし -- もう一方の声は一度しか話さず、その一方の端は最短のショットより短くなりました"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  両端の引き画: %s からのみ -- もう一方の声は終わり近くで一度しか話さないため、冒頭のものはありません"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  両端の引き画: %s までのみ -- もう一方の声は始まり近くで一度しか話さないため、末尾のものはありません"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com がファイルに \"%s\" という名前を付けました -- 単純なファイル名ではないため取得しません"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s は配置できません: その音声は他の素材と共通するところがなく、音声で配置した録音のどれにも、自分のタイムコードと照合できるタイムコードがありません。そのいずれかに、このファイルに合うタイムコードが必要で、それは別のプログラムで設定する必要があります。"
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name が %s に 2 つの名前 \"%s\" と \"%s\" を付けています。録音ごとに 1 つにしてください。"
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name が指定した %s は、この実行の録音ではありません。"
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "%s からモデルを取得中（約 %s MB）: %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "前回の実行からイン点が変わりました: 前回 %s、現在 %s。映像内のカットと音声はまだ古い範囲のものなので、Resolve には今のマークどおりのものが渡りません -- もう一度「開始」を押してください。"
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "タイムコードを持つ音声ファイルはありません。イン点とアウト点はすべてのカメラが回っている時点から数えます -- ファイル同士の位置は測定したものです。"
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "前回の実行からアウト点が変わりました: 前回 %s、現在 %s。映像内のカットと音声はまだ古い範囲のものなので、Resolve には今のマークどおりのものが渡りません -- もう一度「開始」を押してください。"
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "制作は完了しましたが、個別トラックの ZIP に単純なファイル名がありません"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "カメラが複数ありますが、音声録音がありません。各カメラに独自の音声があることになります -- そのためのマルチトラックです。そうでなければカメラを 1 台ずつ処理してください。"
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "アーカイブに %s が複数回含まれているため、何も取り出しませんでした。"
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "ここでは割り当てファイルが録音に名前を付けるため、--speaker-name は無視されることになります。名前は割り当てファイルで指定するか、--speaker-name を省いてください。"
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "ビルドがチェックサムと一致しないため、展開しませんでした: 一覧は %s、届いたのは %s。"
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "チェックサムの一覧を取得できなかったため、ビルドを展開しませんでした: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "チェックサムの一覧に %s がないため、ビルドを展開しませんでした。"
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "モデルファイルの一覧にある %s はモデルフォルダーの外にあります。何も取得しませんでした。"
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "%s からモデルを取得できませんでした: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "%s の話者名が空です。名前を指定するか、--speaker-name を省いてください。"
+
+msgid "production finished, but its result has no plain file name"
+msgstr "制作は完了しましたが、その結果に単純なファイル名がありません"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "元ファイルのまま、--lufs source -- 何も調整しません"

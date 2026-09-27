@@ -343,12 +343,6 @@ msgstr "Níl scaradh na gcainteoirí suiteáilte anseo. Cuirfidh seo ar ais é: 
 msgid "Fetching the model (about %s MB) ..."
 msgstr "An tsamhail á fáil (thart ar %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "An tsamhail á fáil (thart ar %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "Níorbh fhéidir an tsamhail a fháil: %s"
-
 msgid "The model could not be written: %s"
 msgstr "Níorbh fhéidir an tsamhail a scríobh: %s"
 
@@ -885,9 +879,6 @@ msgstr "  %-20s ailíniú dodhéanta: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s tomhas dodhéanta: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s fritháireamh %s, sruth cloig %s ppm (+/- %s), scaipeadh iarmharach %s ms, pointí: %s as %s"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s fritháireamh %s, sruth cloig %s ppm (+/- %s), scaipeadh iarmharach %s ms, pointí: %s as %s%s"
@@ -2209,14 +2200,8 @@ msgstr "Bíonn an pointe isteach agus an pointe amach ar fáil nuair atá an ais
 msgid "In point is %s before the first frame"
 msgstr "Tá an pointe isteach %s roimh an gcéad fhráma"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "Tá an pointe isteach ag %s anois, ach baineann na comhaid atá ann le %s.\n  Tá fuaim na bhfíseán gearrtha don raon ama a bhí ann roimhe -- brúigh Tosaigh\n  thuas arís."
-
 msgid "Out point is %s after the last frame"
 msgstr "Tá an pointe amach %s tar éis an fhráma dheireanaigh"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "Tá an pointe amach ag %s anois; bheadh an raon ama %s ar fad, tá na comhaid\n  atá ann %s -- brúigh Tosaigh thuas arís."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "De ghnáth úsáidtear an raon teoranta don seachadadh. Níl an raon iomlán mícheart, ach léann roinnt seinnteoirí go mícheart é."
@@ -2377,9 +2362,6 @@ msgstr "Multitrack (rian do gach cainteoir)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Teastaíonn dhá rian ionchuir ar a laghad ó Multitrack. Is éard is rian ann taifeadadh ar leith, cainéal de thaifeadán ilchainéil, nó fuaim chomhaid físe atá socraithe ar \"úsáid fuaim inmheánach\". Áirítear roinnt bloc den taifeadadh céanna mar cheann amháin, agus ní áirítear rianta a cuireadh i leataobh ar chor ar bith."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "Níl cód ama ar aon chomhad fuaime. Áirítear an pointe isteach agus an pointe amach ó thús an ábhair -- tomhaistear suíomh na gcomhad i gcoibhneas lena chéile."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Níl aon fhuaim in úsáid fós -- cuir taifeadadh fuaime leis, nó socraigh Fuaim an cheamara de chomhad físe ar \"úsáid fuaim inmheánach\" sa liosta comhad."
 
@@ -2388,9 +2370,6 @@ msgstr "Níl aon rian fuaime sannta."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Níl aon cheamara sannta, mar sin níl aon rud le gearradh eatarthu."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "Níl aon cheamara sannta fós -- cas air Multitrack chun é sin a dhéanamh."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Níl aon cheangal le Resolve.\n  An bhfuil an ríomhchlár ag rith? An bhfuil scriptiú seachtrach socraithe ar 'Local'\n  faoi Preferences > System > General?"
@@ -3217,9 +3196,6 @@ msgstr "déanann an réamhshocrú máistriú go %s LUFS, úsáideann an ríomh %
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "déanann an réamhshocrú máistriú go %s LUFS -- seasann sé sin, ní choigeartaíonn aon rud dár gcuid é."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "tógtha ó na comhaid foinse, níor tugadh --lufs -- ní choigeartaítear aon rud"
 
 msgid "the answer did not keep the floor"
 msgstr "níor choinnigh an freagra an t-urlár"
@@ -5062,9 +5038,6 @@ msgstr "%s\n   níor aithníodh an fhuaim; curtha ina áit mar a chuireann an ri
 msgid "sound not recognised, placed by its timecode"
 msgstr "níor aithníodh an fhuaim, curtha ina áit de réir a chóid ama"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s taifeadadh agus gan aon phictiúr: ceanglaítear gach ceann acu ina aonar agus ní chuirtear in aice a chéile iad. Cuireann --multitrack ar ais ama amháin iad."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", fágadh an sruth cloig %s ppm ann: ní %s oiread a éiginnteachta de %s ppm é"
 
@@ -5145,3 +5118,100 @@ msgstr "    %s: níl pictiúr ag %s ag an tús agus fágtar amach é"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: níl pictiúr ag %s ag an deireadh agus fágtar amach é"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  Tháinig %s ar ais %s s níos faide ná mar a chuaigh sé suas, agus níorbh fhéidir a thomhas cá\n"
+"  dtosaíonn an fhuaim a seoladh ann -- fágtha mar a tháinig sé."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  Níorbh fhéidir %s a ghearradh (%s) -- fágtha mar a tháinig sé."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  Tá %s i %s cosúil le %s i %s (cosúlacht %s): an duine céanna, de réir dealraimh."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: chuir auphonic.com %s s leis ag an deireadh -- gearrtha amach"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: chuir auphonic.com %s s leis ag an tús -- gearrtha amach"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: níor scríobhadh aon chomhad, mar sin fágann an gearradh an ceamara seo ar lár."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  Ní dhéanann an pointe isteach ná an pointe amach aon rud anseo: ceanglaítear taifeadadh amháin gan pictiúr ina iomláine."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  Tá deighilteoir fillteáin nó tiomántáin san ainm ceamara \"%s\"; scríobhtar é mar \"%s\"."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  Seat leathan ag na himill: dada -- ní labhraíonn an guth eile ach uair amháin, agus bhí an t-imeall sin níos giorra ná an seat is giorra"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  Seat leathan ag na himill: ó %s amháin -- ní labhraíonn an guth eile ach uair amháin, gar don deireadh, mar sin níl ceann tosaigh ann"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  Seat leathan ag na himill: go dtí %s amháin -- ní labhraíonn an guth eile ach uair amháin, gar don tús, mar sin níl ceann deiridh ann"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  Thug auphonic.com \"%s\" mar ainm ar chomhad -- ní gnáthainm comhaid é, mar sin ní fhaightear é"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "Ní féidir %s a chur in áit: níl aon rud i gcoitinne idir a fhuaim agus an chuid eile den ábhar, agus níl cód ama ar aon taifeadadh a chuir an fhuaim in áit lena chód ama féin a chur i gcomparáid leis. Teastaíonn cód ama a oireann don cheann seo ó cheann acu sin, agus caithfear é sin a shocrú le ríomhchlár eile."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "Tugann --speaker-name dhá ainm do %s, \"%s\" agus \"%s\"; tabhair ainm amháin do gach taifeadadh."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "Ainmníonn --speaker-name %s, agus ní ceann de thaifeadtaí an rith seo é."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "An tsamhail á fáil ó %s (thart ar %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Tá an pointe isteach athraithe ón rith deireanach: %s an uair sin, %s anois. Baineann an gearradh agus an fhuaim sna físeáin fós leis an seanraon ama, mar sin ní bhfaigheadh Resolve an rud a deir na marcanna anois -- brúigh Tosaigh arís."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "Níl cód ama ar aon chomhad fuaime. Áirítear an pointe isteach agus an pointe amach ón nóiméad a bhíonn gach ceamara ag rith -- tomhaistear suíomh na gcomhad i gcoibhneas lena chéile."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Tá an pointe amach athraithe ón rith deireanach: %s an uair sin, %s anois. Baineann an gearradh agus an fhuaim sna físeáin fós leis an seanraon ama, mar sin ní bhfaigheadh Resolve an rud a deir na marcanna anois -- brúigh Tosaigh arís."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "Léiriúchán críochnaithe, ach níl gnáthainm comhaid ar an ZIP leis na rianta aonair"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "Roinnt ceamaraí ach gan aon taifeadadh fuaime. Bheadh a fhuaim féin ag gach ceamara -- is chuige sin atá Multitrack. Seachas sin, ceamara amháin i ndiaidh a chéile."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "Tá %s sa chartlann níos mó ná uair amháin, mar sin níor baineadh aon rud aisti."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "Ainmníonn an comhad sannta na taifeadtaí anseo, mar sin ligfí --speaker-name thart; tabhair na hainmneacha ansin nó fág --speaker-name ar lár."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "Níl an leagan tógtha ag teacht lena sheiceálsuim, mar sin níor díphacáladh é: %s liostaithe, %s tagtha."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "Níorbh fhéidir liosta na seiceálsuimeanna a fháil, mar sin níor díphacáladh an leagan tógtha: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "Ní ainmníonn liosta na seiceálsuimeanna %s, mar sin níor díphacáladh an leagan tógtha."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "Ainmníonn liosta comhad na samhla %s, atá lasmuigh d'fhillteán na samhla; níor fuarthas aon rud."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "Níorbh fhéidir an tsamhail a fháil ó %s: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "Tá ainm an chainteora do %s folamh; tabhair ainm nó fág --speaker-name ar lár."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "léiriúchán críochnaithe, ach níl gnáthainm comhaid ar a thoradh"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "tógtha ó na comhaid foinse, --lufs source -- ní choigeartaítear aon rud"

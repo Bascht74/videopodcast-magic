@@ -335,12 +335,6 @@ msgstr "Oddělení mluvčích tu není nainstalováno. Toto je vrátí: %s"
 msgid "Fetching the model (about %s MB) ..."
 msgstr "Stahuje se model (asi %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "Stahuje se model (asi %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "Model se nepodařilo stáhnout: %s"
-
 msgid "The model could not be written: %s"
 msgstr "Model se nepodařilo zapsat: %s"
 
@@ -853,9 +847,6 @@ msgstr "  %-20s nelze zarovnat: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s nelze změřit: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s posun %s, drift hodin %s ppm (+/- %s), zbytkový rozptyl %s ms, %s z %s bodů"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s posun %s, drift hodin %s ppm (+/- %s), zbytkový rozptyl %s ms, %s z %s bodů%s"
@@ -2171,14 +2162,8 @@ msgstr "Bod In a bod Out jsou k dispozici, jakmile je určena časová osa -- z 
 msgid "In point is %s before the first frame"
 msgstr "Bod In je %s před prvním snímkem"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "Bod In je nyní %s, ale existující soubory patří k %s.\n  Zvuk ve videích je sestříhán na staré okno -- stiskněte nahoře\n  znovu Spustit."
-
 msgid "Out point is %s after the last frame"
 msgstr "Bod Out je %s za posledním snímkem"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "Bod Out je nyní %s; okno by bylo dlouhé %s, existující\n  soubory mají %s -- stiskněte nahoře znovu Spustit."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Pro distribuci se obvykle používá omezený rozsah. Plný není špatně, ale některé přehrávače ho čtou chybně."
@@ -2339,9 +2324,6 @@ msgstr "Multitrack (jedna stopa na mluvčího)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack potřebuje aspoň dvě vstupní stopy. Stopa je vlastní nahrávka, kanál vícekanálového rekordéru nebo zvuk videosouboru nastaveného na \"použít interní zvuk\". Více bloků téže nahrávky se počítá jako jedna, odložené stopy vůbec."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "Žádný zvukový soubor nenese časový kód. Bod In a bod Out se počítají od začátku materiálu -- vzájemná poloha souborů je změřena."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Zatím se nepoužívá žádný zvuk -- přidejte zvukovou nahrávku, nebo v seznamu souborů nastavte u videosouboru Zvuk kamery na \"použít interní zvuk\"."
 
@@ -2350,9 +2332,6 @@ msgstr "Nejsou přiřazeny žádné zvukové stopy."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Není přiřazena žádná kamera, takže není mezi čím stříhat."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "Zatím nejsou přiřazeny žádné kamery -- zapněte k tomu Multitrack."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Žádné připojení k Resolve.\n  Běží program? Je externí skriptování nastaveno na 'Local'\n  pod Preferences > System > General?"
@@ -3171,9 +3150,6 @@ msgstr "předvolba masteruje na %s LUFS, výpočet používá %s."
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "předvolba masteruje na %s LUFS -- to platí, z naší strany se nic neupravuje."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "převzato ze zdrojových souborů, žádné --lufs nezadáno -- nic se neupravuje"
 
 msgid "the answer did not keep the floor"
 msgstr "odpověď si neudržela slovo"
@@ -4966,9 +4942,6 @@ msgstr "%s\n   zvuk nerozpoznán; umístěno tak, jak to umístí běh"
 msgid "sound not recognised, placed by its timecode"
 msgstr "zvuk nerozpoznán, umístěno podle časového kódu"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s nahrávky a žádný obraz: každá se spojí zvlášť a nezarovnávají se vůči sobě. --multitrack je položí na jednu časovou osu."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", drift hodin %s ppm ponechán: není %s-krát větší než jeho nejistota %s ppm"
 
@@ -5049,3 +5022,100 @@ msgstr "    %s: %s na začátku nemá obraz a vynechává se"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: %s na konci nemá obraz a vynechává se"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s se vrátil o %s s delší, než odešel, a kde v něm začíná odeslaný zvuk,\n"
+"  se nepodařilo změřit -- ponecháno, jak přišlo."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s se nepodařilo oříznout (%s) -- ponecháno, jak přišlo."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s v %s zní jako %s v %s (podobnost %s): zřejmě tatáž osoba."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com přidal na konci %s s -- odstřiženo"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com přidal na začátku %s s -- odstřiženo"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: nebyl zapsán žádný soubor, takže střih tuto kameru vynechá."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  Bod In a bod Out zde nic nedělají: jedna nahrávka bez obrazu se spojí celá."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  Název kamery \"%s\" obsahuje oddělovač složek nebo jednotek; zapíše se jako \"%s\"."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  Široký záběr na okrajích: žádný -- druhý hlas mluví jen jednou a ten jediný okraj byl kratší než nejkratší záběr"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  Široký záběr na okrajích: jen od %s -- druhý hlas mluví jen jednou, blízko konce, takže úvodní není"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  Široký záběr na okrajích: jen do %s -- druhý hlas mluví jen jednou, blízko začátku, takže závěrečný není"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com pojmenoval soubor \"%s\" -- to není prostý název souboru, takže se nestahuje"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s nelze umístit: zvuk nemá se zbytkem materiálu nic společného a žádná nahrávka umístěná podle zvuku nenese časový kód, se kterým by se dal porovnat vlastní. Jedna z nich potřebuje časový kód, který odpovídá tomuto, a ten se musí nastavit jiným programem."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name dává nahrávce %s dvě jména, \"%s\" a \"%s\"; dejte každé nahrávce jen jedno."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name uvádí %s, což není žádná z nahrávek tohoto běhu."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "Stahuje se model z %s (asi %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Bod In se od posledního běhu změnil: tehdy %s, nyní %s. Střih a zvuk ve videích stále patří ke starému oknu, takže Resolve by nedostal to, co nyní říkají značky -- stiskněte znovu Spustit."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "Žádný zvukový soubor nenese časový kód. Bod In a bod Out se počítají od okamžiku, kdy běží všechny kamery -- vzájemná poloha souborů je změřena."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Bod Out se od posledního běhu změnil: tehdy %s, nyní %s. Střih a zvuk ve videích stále patří ke starému oknu, takže Resolve by nedostal to, co nyní říkají značky -- stiskněte znovu Spustit."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "Produkce dokončena, ale ZIP s jednotlivými stopami nemá prostý název souboru"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "Několik kamer, ale žádná zvuková nahrávka. Každá kamera by měla vlastní zvuk -- k tomu slouží Multitrack. Jinak jednu kameru po druhé."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "Archiv obsahuje %s více než jednou, takže z něj nebylo nic vyjmuto."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "Nahrávky zde pojmenovává soubor přiřazení, takže by --speaker-name bylo zahozeno; zadejte jména tam, nebo --speaker-name vynechte."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "Sestavení neodpovídá svému kontrolnímu součtu, takže nebylo rozbaleno: v seznamu je %s, dorazilo %s."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "Seznam kontrolních součtů se nepodařilo stáhnout, takže sestavení nebylo rozbaleno: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "Seznam kontrolních součtů neuvádí %s, takže sestavení nebylo rozbaleno."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "Seznam souborů modelu uvádí %s, který leží mimo složku modelu; nic nebylo staženo."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "Model se nepodařilo stáhnout z %s: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "Jméno mluvčího pro %s je prázdné; zadejte jméno, nebo --speaker-name vynechte."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "produkce dokončena, ale její výsledek nemá prostý název souboru"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "převzato ze zdrojových souborů, --lufs source -- nic se neupravuje"

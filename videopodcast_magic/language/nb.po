@@ -334,12 +334,6 @@ msgstr "Talersepareringen er ikke installert her. Dette legger den tilbake: %s"
 msgid "Fetching the model (about %s MB) ..."
 msgstr "Henter modellen (omtrent %s MB) ..."
 
-msgid "Fetching the model (about %s MB): %s"
-msgstr "Henter modellen (omtrent %s MB): %s"
-
-msgid "The model could not be fetched: %s"
-msgstr "Modellen kunne ikke hentes: %s"
-
 msgid "The model could not be written: %s"
 msgstr "Modellen kunne ikke skrives: %s"
 
@@ -852,9 +846,6 @@ msgstr "  %-20s kan ikke rettes inn: %s"
 
 msgid "  %-20s not measurable: %s"
 msgstr "  %-20s ikke målbar: %s"
-
-msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s forskyvning %s, klokkedrift %s ppm (+/- %s), restspredning %s ms, %s av %s punkter"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
 msgstr "  %-20s forskyvning %s, klokkedrift %s ppm (+/- %s), restspredning %s ms, %s av %s punkter%s"
@@ -2170,14 +2161,8 @@ msgstr "Inn-punkt og ut-punkt finnes så snart tidsaksen er satt -- fra tidskode
 msgid "In point is %s before the first frame"
 msgstr "Inn-punktet ligger %s før det første bildet"
 
-msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "Inn-punktet er nå %s, men de eksisterende filene hører til %s.\n  Lyden i videoene er klippet til det gamle vinduet -- trykk på Start\n  ovenfor igjen."
-
 msgid "Out point is %s after the last frame"
 msgstr "Ut-punktet ligger %s etter det siste bildet"
-
-msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "Ut-punktet er nå %s; vinduet ville vart %s, de eksisterende\n  filene varer %s -- trykk på Start ovenfor igjen."
 
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Ved levering brukes vanligvis det begrensede området. Fullt er ikke feil, men noen avspillere leser det feil."
@@ -2338,9 +2323,6 @@ msgstr "Multitrack (ett spor per taler)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack trenger minst to inngangsspor. Et spor er et eget opptak, en kanal fra en flerkanalsopptaker eller lyden fra en videofil som er satt til \"bruk intern lyd\". Flere blokker av samme opptak teller som ett, spor lagt til side ikke i det hele tatt."
 
-msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
-msgstr "Ingen lydfil bærer en tidskode. Inn-punkt og ut-punkt telles fra starten av materialet -- filenes plassering i forhold til hverandre måles."
-
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Ingen lyd i bruk ennå -- legg til et lydopptak, eller sett Kameralyd for en videofil til \"bruk intern lyd\" i fillisten."
 
@@ -2349,9 +2331,6 @@ msgstr "Ingen lydspor er tildelt."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Ikke noe kamera er tildelt, så det er ingenting å klippe mellom."
-
-msgid "No cameras assigned yet -- switch Multitrack on to do that."
-msgstr "Ingen kameraer tildelt ennå -- slå på Multitrack for å gjøre det."
 
 msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
 msgstr "Ingen tilkobling til Resolve.\n  Kjører programmet? Er ekstern skripting satt til 'Local'\n  under Preferences > System > General?"
@@ -3168,9 +3147,6 @@ msgstr "forhåndsinnstillingen mastrer til %s LUFS, beregningen bruker %s."
 
 msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
 msgstr "forhåndsinnstillingen mastrer til %s LUFS -- det gjelder, ingenting fra vår side justerer."
-
-msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "tatt fra kildefilene, ingen --lufs angitt -- ingenting justeres"
 
 msgid "the answer did not keep the floor"
 msgstr "svaret beholdt ikke ordet"
@@ -4922,9 +4898,6 @@ msgstr "%s\n   lyd ikke gjenkjent; plassert slik kjøringen plasserer den"
 msgid "sound not recognised, placed by its timecode"
 msgstr "lyd ikke gjenkjent, plassert etter tidskoden sin"
 
-msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
-msgstr "  %s opptak og ikke noe bilde: hvert settes sammen for seg, og de legges ikke mot hverandre. --multitrack legger dem på én tidsakse."
-
 msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", klokkedrift %s ppm beholdt: ikke %s ganger usikkerheten på %s ppm"
 
@@ -5005,3 +4978,100 @@ msgstr "    %s: %s i starten har ikke noe bilde og utelates"
 
 msgid "    %s: %s at the back has no picture and is left out"
 msgstr "    %s: %s på slutten har ikke noe bilde og utelates"
+
+msgid ""
+"  %s came back %s s longer than it went up, and where the sound sent\n"
+"  begins in it could not be measured -- left as it came."
+msgstr ""
+"  %s kom tilbake %s s lengre enn det gikk opp, og hvor den sendte lyden\n"
+"  begynner i den, kunne ikke måles -- beholdt som den kom."
+
+msgid "  %s could not be cut (%s) -- left as it came."
+msgstr "  %s kunne ikke klippes (%s) -- beholdt som den kom."
+
+msgid "  %s in %s sounds like %s in %s (similarity %s): the same person, it seems."
+msgstr "  %s i %s høres ut som %s i %s (likhet %s): samme person, ser det ut til."
+
+msgid "  %s: auphonic.com added %s s at the end -- cut away"
+msgstr "  %s: auphonic.com la til %s s på slutten -- klippet bort"
+
+msgid "  %s: auphonic.com added %s s at the start -- cut away"
+msgstr "  %s: auphonic.com la til %s s i starten -- klippet bort"
+
+msgid "  %s: no file was written, so the cut leaves this camera out."
+msgstr "  %s: ingen fil ble skrevet, så klippingen utelater dette kameraet."
+
+msgid "  In point and Out point do nothing here: one recording without a picture is joined whole."
+msgstr "  Inn-punkt og ut-punkt virker ikke her: ett opptak uten bilde settes sammen i sin helhet."
+
+msgid "  The camera name \"%s\" holds a folder or drive separator; it is written as \"%s\"."
+msgstr "  Kameranavnet \"%s\" inneholder et mappe- eller stasjonsskilletegn; det skrives som \"%s\"."
+
+msgid "  Wide shot at the edges: none -- the other voice speaks only once, and that one edge was shorter than the shortest shot"
+msgstr "  Oversiktsbilde i kantene: ingen -- den andre stemmen snakker bare én gang, og den ene kanten var kortere enn det korteste klippet"
+
+msgid "  Wide shot at the edges: only from %s -- the other voice speaks only once, near the end, so there is no opening one"
+msgstr "  Oversiktsbilde i kantene: bare fra %s -- den andre stemmen snakker bare én gang, nær slutten, så det er ikke noe i starten"
+
+msgid "  Wide shot at the edges: only until %s -- the other voice speaks only once, near the start, so there is no closing one"
+msgstr "  Oversiktsbilde i kantene: bare til %s -- den andre stemmen snakker bare én gang, nær starten, så det er ikke noe på slutten"
+
+msgid "  auphonic.com named a file \"%s\" -- not a plain file name, so it is not fetched"
+msgstr "  auphonic.com kalte en fil \"%s\" -- ikke et enkelt filnavn, så den hentes ikke"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no recording the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s kan ikke plasseres: lyden har ingenting til felles med resten av materialet, og ingen opptak plassert etter lyden har en tidskode å stille sin egen mot. Ett av dem trenger en tidskode som passer til denne, og den må settes med et annet program."
+
+msgid "--speaker-name gives %s two names, \"%s\" and \"%s\"; give each recording one."
+msgstr "--speaker-name gir %s to navn, \"%s\" og \"%s\"; gi hvert opptak ett."
+
+msgid "--speaker-name names %s, which is not one of the recordings of this run."
+msgstr "--speaker-name nevner %s, som ikke er et av opptakene i denne kjøringen."
+
+msgid "Fetching the model from %s (about %s MB): %s"
+msgstr "Henter modellen fra %s (omtrent %s MB): %s"
+
+msgid "In point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Inn-punktet er endret siden forrige kjøring: %s da, %s nå. Klippingen og lyden i videoene hører fortsatt til det gamle vinduet, så Resolve ville ikke fått det merkene sier nå -- trykk på Start igjen."
+
+msgid "No audio file carries a timecode. In point and Out point count from the moment every camera runs -- the position of the files to each other is measured."
+msgstr "Ingen lydfil bærer en tidskode. Inn-punkt og ut-punkt telles fra øyeblikket alle kameraene går -- filenes plassering i forhold til hverandre måles."
+
+msgid "Out point has changed since the last run: %s then, %s now. The cut and the sound inside the videos still belong to the old window, so Resolve would not get what the marks say now -- press Start again."
+msgstr "Ut-punktet er endret siden forrige kjøring: %s da, %s nå. Klippingen og lyden i videoene hører fortsatt til det gamle vinduet, så Resolve ville ikke fått det merkene sier nå -- trykk på Start igjen."
+
+msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
+msgstr "Produksjonen er ferdig, men ZIP-en med de enkelte sporene har ikke et enkelt filnavn"
+
+msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
+msgstr "Flere kameraer, men ikke noe lydopptak. Hvert kamera ville hatt sin egen lyd -- det er det Multitrack er til for. Ellers ett kamera etter det andre."
+
+msgid "The archive holds %s more than once, so nothing was taken out of it."
+msgstr "Arkivet inneholder %s mer enn én gang, så ingenting ble tatt ut av det."
+
+msgid "The assignment file names the recordings here, so --speaker-name would be dropped; give the names there or leave --speaker-name out."
+msgstr "Her navngir tildelingsfilen opptakene, så --speaker-name ville falt bort; angi navnene der eller utelat --speaker-name."
+
+msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
+msgstr "Den ferdige versjonen stemmer ikke med kontrollsummen sin, så den ble ikke pakket ut: %s oppført, %s kom."
+
+msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
+msgstr "Listen over kontrollsummer kunne ikke hentes, så den ferdige versjonen ble ikke pakket ut: %s"
+
+msgid "The list of checksums does not name %s, so the build was not unpacked."
+msgstr "Listen over kontrollsummer nevner ikke %s, så den ferdige versjonen ble ikke pakket ut."
+
+msgid "The list of model files names %s, which lies outside the model folder; nothing was fetched."
+msgstr "Listen over modellfiler nevner %s, som ligger utenfor modellmappen; ingenting ble hentet."
+
+msgid "The model could not be fetched from %s: %s"
+msgstr "Modellen kunne ikke hentes fra %s: %s"
+
+msgid "The speaker name for %s is empty; give a name or leave --speaker-name out."
+msgstr "Talernavnet for %s er tomt; angi et navn eller utelat --speaker-name."
+
+msgid "production finished, but its result has no plain file name"
+msgstr "produksjonen er ferdig, men resultatet har ikke et enkelt filnavn"
+
+msgid "taken from the source files, --lufs source -- nothing is adjusted"
+msgstr "tatt fra kildefilene, --lufs source -- ingenting justeres"
