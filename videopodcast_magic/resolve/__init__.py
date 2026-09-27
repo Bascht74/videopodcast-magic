@@ -239,10 +239,10 @@ def resolve_timeline_rate(fps):
 
 
 def file_frame_rate(info):
-    """The rate a video file runs at: the one its container declares.
+    """The rate a video file runs at, by stream_frame_rate's one rule.
 
-    An averaged reading is not a format, so the container's own figure
-    decides and the average stands in only where it names none.
+    video_facts keeps it as "nominal": the file's own rate, which --fps
+    does not touch.
     """
     return (info or {}).get("nominal") or (info or {}).get("fps") or 0.0
 

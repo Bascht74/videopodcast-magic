@@ -173,14 +173,9 @@ def video_facts(path, fps_default=None, tc_default_value=None):
     if v is None:
         raise RuntimeError(T('no video track in %s') % os.path.basename(path))
     a = [s for s in d.get("streams", []) if s.get("codec_type") == "audio"]
-    fps = fps_default
-    if not fps:
-        r = v.get("avg_frame_rate") or v.get("r_frame_rate") or "30/1"
-        try:
-            num, the_one = (int(x) for x in r.split("/"))
-            fps = num / the_one if the_one else 30.0
-        except Exception:
-            fps = 30.0
+    # The file's own rate, by the one rule; --fps overrides it for the run.
+    own = PROGRAM.stream_frame_rate(v) or 30.0
+    fps = fps_default or own
     tc = tc_default_value
     if tc is None:
         # The tracks before the file, for the reason in file_timecode:
@@ -192,16 +187,9 @@ def video_facts(path, fps_default=None, tc_default_value=None):
                 tc = source["timecode"]
                 break
     dur = float(d.get("format", {}).get("duration") or v.get("duration") or 0.0)
-    label_text = 0.0
-    try:
-        num, the_one = (float(x) for x in str(v.get("r_frame_rate")
-                                          or "0/0").split("/"))
-        label_text = num / the_one if the_one else 0.0
-    except Exception:
-        label_text = 0.0
     return {"fps": fps, "tc": tc, "duration": dur, "audio": a, "video": v,
             "width": v.get("width"), "height": v.get("height"),
-            "nominal": label_text or fps,
+            "nominal": own,
             "tags": (d.get("format") or {}).get("tags") or {}}
 
 
