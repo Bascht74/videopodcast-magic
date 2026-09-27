@@ -177,7 +177,8 @@ def extract_audio_for_plan(plan, tmpdir):
             if not e.get("camera_audio") or e.get("upfront"):
                 continue
             print(T('  %-24s from %s')
-                  % (e["speakers"], PROGRAM.camera_shown(e["camera"])))
+                  % (e["speakers"], PROGRAM.camera_shown(
+                      e.get("from_camera") or e["camera"])))
     if len(done) < 2:
         print(T('  Fewer than two cameras with sound -- too few for '
                 'Multitrack.'))
