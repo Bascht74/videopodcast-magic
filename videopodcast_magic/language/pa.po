@@ -3849,9 +3849,6 @@ msgstr "ਜਾਂਚ ਆਪ ਹੀ ਰੁਕ ਗਈ: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "ਇੱਥੇ ਇਨ ਪੁਆਇੰਟ ਜਾਂ ਆਊਟ ਪੁਆਇੰਟ ਪੜ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ।"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "ਆਊਟ ਪੁਆਇੰਟ ਇਨ ਪੁਆਇੰਟ ਤੋਂ 5 ਸਕਿੰਟ ਤੋਂ ਵੀ ਘੱਟ ਬਾਅਦ ਹੈ।"
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "ਲਗਭਗ %s ਘੱਟ ਹੈ। ਥਾਂ ਖਾਲੀ ਕਰੋ ਜਾਂ --out ਨਾਲ ਕੋਈ ਹੋਰ ਫੋਲਡਰ ਚੁਣੋ। ਰਨ ਦੌਰਾਨ ਆਰਜ਼ੀ ਫ਼ਾਈਲਾਂ ਫਿਰ ਕਿਸੇ ਹੋਰ ਥਾਂ ਜਾਂਦੀਆਂ ਹਨ, ਸਿਸਟਮ ਦੇ ਆਰਜ਼ੀ ਫੋਲਡਰ ਵਿੱਚ।"
 

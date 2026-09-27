@@ -3846,9 +3846,6 @@ msgstr "جانچ خود رک گئی: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "اِن پوائنٹ یا آؤٹ پوائنٹ یہاں پڑھا نہیں جا سکتا۔"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "آؤٹ پوائنٹ اِن پوائنٹ سے 5 سیکنڈ سے کم بعد ہے۔"
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "تقریباً %s کم ہے۔ جگہ خالی کریں یا --out کے ساتھ کوئی دوسرا فولڈر منتخب کریں۔ رن کے دوران عارضی فائلیں پھر کسی اور جگہ جاتی ہیں، سسٹم کے عارضی فولڈر میں۔"
 

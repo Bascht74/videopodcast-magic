@@ -3850,9 +3850,6 @@ msgstr "samo preverjanje se je ustavilo: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Vstopne ali izstopne točke tu ni mogoče prebrati."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Izstopna točka je manj kot 5 sekund za vstopno točko."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Manjka približno %s. Sprostite prostor ali z --out izberite drugo mapo. Začasne datoteke med zagonom gredo še drugam, v začasno mapo sistema."
 

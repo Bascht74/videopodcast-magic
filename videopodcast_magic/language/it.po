@@ -1647,9 +1647,6 @@ msgstr "misurato dalle registrazioni -- %s parlanti, %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Il punto di ingresso o il punto di uscita non si può leggere qui."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Il punto di uscita cade meno di 5 secondi dopo il punto di ingresso."
-
 msgid "because no speaker is assigned to it"
 msgstr "perché non le è assegnato nessun parlante"
 

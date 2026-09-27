@@ -3261,9 +3261,6 @@ msgstr "Порядок не важен. Для записи из несколь�
 msgid "Out point is %s after the last frame"
 msgstr "Точка выхода на %s позже последнего кадра"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Точка выхода меньше чем на 5 секунд позже точки входа."
-
 msgid "Output folder back beside each video file"
 msgstr "Папка вывода снова рядом с каждым видеофайлом"
 

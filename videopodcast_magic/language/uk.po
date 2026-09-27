@@ -1657,9 +1657,6 @@ msgstr "виміряно із записів -- мовців: %s, %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Точку входу або точку виходу тут прочитати не вдається."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Точка виходу лежить менш ніж за 5 секунд після точки входу."
-
 msgid "because no speaker is assigned to it"
 msgstr "бо їй не призначено жодного мовця"
 

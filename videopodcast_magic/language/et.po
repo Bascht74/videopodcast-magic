@@ -3847,9 +3847,6 @@ msgstr "kontroll ise peatus: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Algpunkti või lõpp-punkti ei saa siin lugeda."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Lõpp-punkt on vähem kui 5 sekundit pärast algpunkti."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Puudu on umbes %s. Vabasta ruumi või vali --out abil teine kaust. Ajutised failid lähevad käituse ajal veel kuhugi mujale, süsteemi ajutiste failide kausta."
 

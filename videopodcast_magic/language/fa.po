@@ -3846,9 +3846,6 @@ msgstr "خود بررسی متوقف شد: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "نقطه ورود یا نقطه خروج در اینجا خوانده نمی‌شود."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "نقطه خروج کمتر از 5 ثانیه پس از نقطه ورود است."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "حدود %s کم است. فضا را آزاد کنید یا با --out پوشه دیگری انتخاب کنید. فایل‌های موقت در طول اجرا باز هم جای دیگری می‌روند، به پوشه موقت سیستم."
 

@@ -3847,9 +3847,6 @@ msgstr "ukaguzi wenyewe ulisimama: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Alama ya kuingia au alama ya kutoka haiwezi kusomwa hapa."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Alama ya kutoka iko chini ya sekunde 5 baada ya alama ya kuingia."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Kunakosekana takriban %s. Toa nafasi au chagua folda nyingine kwa --out. Faili za muda wakati wa uendeshaji huenda mahali pengine tena, kwenye folda ya muda ya mfumo."
 

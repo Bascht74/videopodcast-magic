@@ -1623,9 +1623,6 @@ msgstr "録音から測定 -- 話者 %s 人、%s"
 msgid "In point or Out point cannot be read here."
 msgstr "ここではイン点またはアウト点を読み取れません。"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "アウト点がイン点から 5 秒未満の位置にあります。"
-
 msgid "because no speaker is assigned to it"
 msgstr "話者が割り当てられていないため"
 

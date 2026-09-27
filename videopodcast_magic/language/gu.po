@@ -3847,9 +3847,6 @@ msgstr "ચકાસણી પોતે જ અટકી ગઈ: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "અહીં ઇન પૉઇન્ટ અથવા આઉટ પૉઇન્ટ વાંચી શકાતો નથી."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "આઉટ પૉઇન્ટ ઇન પૉઇન્ટ પછી 5 સેકન્ડથી ઓછા અંતરે છે."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "આશરે %s ખૂટે છે. જગ્યા ખાલી કરો અથવા --out વડે બીજું ફોલ્ડર પસંદ કરો. રન દરમિયાનની કામચલાઉ ફાઇલો વળી બીજે જાય છે, સિસ્ટમના કામચલાઉ ફોલ્ડરમાં."
 

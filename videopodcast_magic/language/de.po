@@ -5552,9 +5552,6 @@ msgstr "die Prüfung selbst ist gescheitert: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Schnitt an oder Schnitt aus lässt sich hier nicht lesen."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Schnitt aus liegt weniger als 5 Sekunden nach Schnitt an."
-
 msgid ""
 "About %s missing. Free up space or choose another folder with --out. The "
 "temporary files during the run go somewhere else again, into the system "

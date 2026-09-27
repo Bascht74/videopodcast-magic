@@ -3755,9 +3755,6 @@ msgstr "ο ίδιος ο έλεγχος σταμάτησε: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Το σημείο In ή το σημείο Out δεν μπορεί να διαβαστεί εδώ."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Το σημείο Out βρίσκεται λιγότερο από 5 δευτερόλεπτα μετά το σημείο In."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Λείπουν περίπου %s. Ελευθερώστε χώρο ή επιλέξτε άλλον φάκελο με --out. Τα προσωρινά αρχεία κατά την εκτέλεση πηγαίνουν πάλι αλλού, στον προσωρινό φάκελο του συστήματος."
 

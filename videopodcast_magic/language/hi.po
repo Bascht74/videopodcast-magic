@@ -1631,9 +1631,6 @@ msgstr "रिकॉर्डिंग से मापा गया -- %s व�
 msgid "In point or Out point cannot be read here."
 msgstr "इन पॉइंट या आउट पॉइंट यहाँ पढ़ा नहीं जा सकता।"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "आउट पॉइंट इन पॉइंट के 5 सेकंड से कम बाद है।"
-
 msgid "because no speaker is assigned to it"
 msgstr "क्योंकि इसे कोई वक्ता नियत नहीं है"
 

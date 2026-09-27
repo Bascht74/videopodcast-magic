@@ -1623,9 +1623,6 @@ msgstr "从录音测得 -- %s 位说话人，%s"
 msgid "In point or Out point cannot be read here."
 msgstr "此处无法读取入点或出点。"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "出点距入点不足 5 秒。"
-
 msgid "because no speaker is assigned to it"
 msgstr "因为没有为它分配说话人"
 

@@ -3754,9 +3754,6 @@ msgstr "tjekket selv stoppede: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Ind-punkt eller ud-punkt kan ikke læses her."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Ud-punktet ligger mindre end 5 sekunder efter ind-punktet."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Omkring %s mangler. Frigør plads eller vælg en anden mappe med --out. De midlertidige filer under kørslen ligger et andet sted igen, i systemets temp-mappe."
 

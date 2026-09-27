@@ -3755,9 +3755,6 @@ msgstr "de controle zelf is gestopt: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Het In-punt of Uit-punt kan hier niet worden gelezen."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Het Uit-punt ligt minder dan 5 seconden na het In-punt."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Er ontbreekt ongeveer %s. Maak ruimte vrij of kies met --out een andere map. De tijdelijke bestanden tijdens de run gaan weer ergens anders heen, naar de tijdelijke map van het systeem."
 

@@ -3752,9 +3752,6 @@ msgstr "bản thân phép kiểm tra đã dừng: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Không đọc được điểm vào hoặc điểm ra ở đây."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Điểm ra nằm cách điểm vào chưa đến 5 giây."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Thiếu khoảng %s. Hãy giải phóng dung lượng hoặc chọn thư mục khác bằng --out. Các tệp tạm trong lúc chạy lại nằm ở chỗ khác, trong thư mục tạm của hệ thống."
 

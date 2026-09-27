@@ -193,6 +193,23 @@ def axis_starts_at(clocks):
     return says[len(says) // 2] if says else None
 
 
+def time_window_refused(new0, new1, t0, t1):
+    """Why an In and an Out point make no window, or "" where they do.
+
+    One rule for the run and for the window's trimming (apply_time_window
+    asks this very function): the Out point lies after the In point, and
+    what is left of the two inside the material, *t0* to *t1*, runs at
+    least five seconds. The line comes indented, as the run prints it.
+    """
+    if new1 <= new0:
+        return T('    Out point lies before In point -- that does not work.')
+    kept = min(new1, t1) - max(new0, t0)
+    if kept < 5:
+        return (T('    The window would be only %s long -- that cannot be '
+                  'intended.') % as_hms(max(0, kept)))
+    return ""
+
+
 def clip_to_time_window(args, t0, t1, ref_clip, clocks=()):
     """Apply the In point and the Out point to the measured window.
 
@@ -271,25 +288,22 @@ def clip_to_time_window(args, t0, t1, ref_clip, clocks=()):
     else:
         print(T('    In point   %s\n    Out point  %s')
               % (as_hms(new0), as_hms(new1)))
-    if new1 <= new0:
-        print(T('    Out point lies before In point -- that does not work.'))
-        return None, None
     outside = []
-    if new0 < t0 - 0.001:
+    if new1 > new0 and new0 < t0 - 0.001:
         outside.append(T('In point is %s before the first frame')
                           % as_hms(t0 - new0))
-    if new1 > t1 + 0.001:
+    if new1 > new0 and new1 > t1 + 0.001:
         outside.append(T('Out point is %s after the last frame')
                           % as_hms(new1 - t1))
     if outside:
         print(T('    Careful: %s. There is no picture there;') % T(' and ').join(
             outside))
         print(T('    the measured window is therefore kept.'))
-        new0, new1 = max(new0, t0), min(new1, t1)
-    if new1 - new0 < 5:
-        print(T('    The window would be only %s long -- that cannot be '
-                'intended.') % as_hms(max(0, new1 - new0)))
+    refused = time_window_refused(new0, new1, t0, t1)
+    if refused:
+        print(refused)
         return None, None
+    new0, new1 = max(new0, t0), min(new1, t1)
     kept, measured = as_hms(new1 - new0), as_hms(t1 - t0)
     # The bracket is there to say "yours instead of the measured one".
     # Where a point was pulled back the two are the same length, and

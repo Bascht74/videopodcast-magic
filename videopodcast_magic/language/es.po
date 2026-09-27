@@ -3251,9 +3251,6 @@ msgstr "El orden no importa. Para una grabación en varias partes basta el prime
 msgid "Out point is %s after the last frame"
 msgstr "El punto de salida está %s por detrás del último fotograma"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "El punto de salida está menos de 5 segundos después del punto de entrada."
-
 msgid "Output folder back beside each video file"
 msgstr "Carpeta de salida de nuevo junto a cada archivo de vídeo"
 

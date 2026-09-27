@@ -3266,9 +3266,6 @@ msgstr "L’ordre n’a pas d’importance. Pour un enregistrement en plusieurs 
 msgid "Out point is %s after the last frame"
 msgstr "Le point de sortie est %s après la dernière image"
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Le point de sortie est à moins de 5 secondes après le point d’entrée."
-
 msgid "Output folder back beside each video file"
 msgstr "Dossier de sortie de nouveau à côté de chaque fichier vidéo"
 

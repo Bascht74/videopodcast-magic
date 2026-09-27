@@ -3756,9 +3756,6 @@ msgstr "maga az ellenőrzés állt le: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Az In pont vagy az Out pont itt nem olvasható."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Az Out pont kevesebb mint 5 másodperccel az In pont után van."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Körülbelül %s hiányzik. Szabadítson fel helyet, vagy válasszon másik mappát a --out kapcsolóval. A futás közbeni ideiglenes fájlok megint máshová kerülnek, a rendszer ideiglenes mappájába."
 

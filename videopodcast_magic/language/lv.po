@@ -3849,9 +3849,6 @@ msgstr "pati pārbaude apstājās: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Sākuma vai beigu punktu šeit nevar nolasīt."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Beigu punkts ir mazāk nekā 5 sekundes pēc sākuma punkta."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Trūkst apm. %s. Atbrīvojiet vietu vai izvēlieties citu mapi ar --out. Pagaidu faili izpildes laikā atrodas vēl citur, sistēmas pagaidu mapē."
 

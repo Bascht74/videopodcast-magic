@@ -3847,9 +3847,6 @@ msgstr "తనిఖీయే ఆగిపోయింది: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "ఇన్ పాయింట్ లేదా అవుట్ పాయింట్‌ను ఇక్కడ చదవలేము."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "అవుట్ పాయింట్ ఇన్ పాయింట్ తర్వాత 5 సెకన్ల కంటే తక్కువ దూరంలో ఉంది."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "సుమారు %s తక్కువగా ఉంది. స్థలం ఖాళీ చేయండి లేదా --out తో వేరే ఫోల్డర్ ఎంచుకోండి. రన్ సమయంలో తాత్కాలిక ఫైళ్లు మళ్లీ వేరే చోటికి, సిస్టమ్ తాత్కాలిక ఫోల్డర్‌లోకి వెళ్తాయి."
 

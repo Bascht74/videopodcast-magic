@@ -3848,9 +3848,6 @@ msgstr "pati patikra sustojo: %s"
 msgid "In point or Out point cannot be read here."
 msgstr "Pradžios arba pabaigos taško čia perskaityti neįmanoma."
 
-msgid "Out point lies less than 5 seconds after In point."
-msgstr "Pabaigos taškas yra mažiau nei 5 sekundės po pradžios taško."
-
 msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
 msgstr "Trūksta apie %s. Atlaisvinkite vietos arba pasirinkite kitą aplanką su --out. Laikinieji failai vykdymo metu saugomi dar kitur, sistemos laikinajame aplanke."
 

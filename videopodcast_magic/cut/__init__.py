@@ -1094,19 +1094,22 @@ def apply_time_window(d, in_point, out_point):
         return d, T('In point or Out point cannot be read here.')
     if from_s is None or until is None:
         return d, T('In point or Out point cannot be read here.')
-    # Trimmed to the material first, judged afterwards: the other way
-    # round, a window past the end of the material passes as a positive
-    # length and trimming turns it negative, with an empty complaint.
+    # A window wholly past the material says so; one in the wrong order
+    # is the run's refusal, and so is one too short once trimmed.
     asked_from, asked_until = from_s, until
-    from_s, until = max(0.0, from_s), min(length, until)
-    if length > 0 and (asked_from >= length or asked_until <= 0):
+    if length > 0 and asked_from < asked_until and (
+            asked_from >= length or asked_until <= 0):
         return d, (T('The time window lies outside the material: In '
                      'point at %s, Out point at %s, and the material '
                      'runs %s.')
                    % (as_hms(asked_from), as_hms(asked_until),
                       as_hms(length)))
-    if until - from_s < 5:
-        return d, T('Out point lies less than 5 seconds after In point.')
+    # The run's own rule and wording (timebase), reached on the program
+    # because that piece is read after this one; the run indents it.
+    refused = PROGRAM.time_window_refused(from_s, until, 0.0, length)
+    if refused:
+        return d, refused.strip()
+    from_s, until = max(0.0, from_s), min(length, until)
     fresh = dict(d)
     fresh.pop("marks_zero_s", None)   # trimmed, it starts at In point
     fresh.pop("marks_end_s", None)    # and ends at Out point
