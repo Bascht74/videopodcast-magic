@@ -402,6 +402,9 @@ def run_plan(values, lines, cameras, only_video):
     if separation_has_voices(values.get("speakers_of")):
         plan["speakers_of"] = values["speakers_of"]
         plan["voices_of"] = voices_of_values(values)
+    # Where the window's transcript is kept: the run reads it from there.
+    if values.get("words_of"):
+        plan["words_of"] = values["words_of"]
     return plan
 
 

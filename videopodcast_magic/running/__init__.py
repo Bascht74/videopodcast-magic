@@ -302,6 +302,10 @@ def window_values(state, model, prework_done, without_auphonic,
         "preset": preset_plaintext(),
         "done_folder": model.done_folder.get(),
         "speech_language": model.speech_language.get().strip(),
+        # Where the window's own transcript is kept, once it is there:
+        # the dry run and the run cut by it rather than by none (E-554).
+        "words_of": PROGRAM.window_words_reference(state,
+                                                   model.assign_lines),
         # What each recording's sound holds, by its first block.
         "sound": dict(state.get("sound_holds") or {}),
         "lufs": model.lufs.get(),

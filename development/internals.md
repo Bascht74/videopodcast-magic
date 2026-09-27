@@ -59,7 +59,7 @@ figure of the day is that command, not this paragraph**:
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2395** -- the time base and the camera files: every
+* `timebase/` **2441** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
@@ -72,7 +72,7 @@ figure of the day is that command, not this paragraph**:
   the findings
 * `setup/` **1388** -- finding ffmpeg, installing a missing module,
   keeping the key, and storing it from the terminal
-* `speech/` **1422** -- what is said and when, and what is written down
+* `speech/` **1462** -- what is said and when, and what is written down
   from it
 * `hearing/` **1323** -- decoding, envelopes, bands, phase, aligning
   audio to video
@@ -80,7 +80,7 @@ figure of the day is that command, not this paragraph**:
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **1029** -- the command line a run is given: written out of
+* `orders/` **1032** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
@@ -93,7 +93,7 @@ figure of the day is that command, not this paragraph**:
 * `herald/` **866** -- the progress bar, the stages, the console and log
   redirection with the line naming the Python it runs on, and the watch over a quiet run: `RunVitals` counts the
   run's children and reads whether any of them still moves
-* `pipeline/` **669** -- the plan: the camera audio out of the
+* `pipeline/` **671** -- the plan: the camera audio out of the
   pictures, the names and the plan the time base runs
 * `project/` **589** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
@@ -114,7 +114,7 @@ figure of the day is that command, not this paragraph**:
   material is HDR, the spellings a colour space name goes by, and the
   report on a finished file
 * `tables/` **417** -- the tables and trees the window builds
-* `running/` **652** -- what a run is offered before it starts, the
+* `running/` **656** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
   looks one up

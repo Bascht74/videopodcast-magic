@@ -467,7 +467,7 @@ window_title_follows	4
 window_tracks_seen_anew	5
 window_view_reaches_tabs	10
 window_voice_audio_heard	6
-window_words_caught_up	23
+window_words_caught_up	26
 window_zero_as_run	17
 window_zoom_stays_in	32
 cut_preview_seats_as_run	4
@@ -502,3 +502,4 @@ table_wide_is_the_run	2
 window_run_beats_kept	8
 time_refusal_as_run	8
 cut_recut_keeps_dips	6
+run_stored_words_cut	7
