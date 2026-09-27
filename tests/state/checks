@@ -165,7 +165,7 @@ run_clock_place_travels	7
 run_command_built	79
 run_done_tracks_used	13
 run_dry_leaves_out	4
-run_dry_reports_voices	13
+run_dry_reports_voices	14
 run_dry_run_not_stopped	6
 run_ffmpeg_new_enough	26
 run_ffmpeg_not_fetched	15
@@ -488,5 +488,6 @@ voice_originals_as_axis	6
 cut_voice_seat_wins	11
 time_axis_is_the_run	10
 window_axis_kept_by_key	6
-window_kept_cut_shown	5
+window_kept_cut_shown	7
 run_takes_dry_measure	9
+time_axis_one_store	6
