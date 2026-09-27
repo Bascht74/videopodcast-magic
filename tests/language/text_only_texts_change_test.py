@@ -646,8 +646,8 @@ bilder dokumente filme musik schreibtisch deutsch
 # German one. A label for readers, not prose in the source.
 NOT_GERMAN = set("""
 also alt ansi antialiasing api ascii backend byte codec codecs cpu ctrl
-desktops eng ext frontend gbr html installation iso lang man marker mpeg multi
-normal popen programme sei stand std standard systems url urls xml
+desktops eng ext frontend gbr html http installation iso lang man marker mpeg multi
+normal ort popen programme sei stand std standard systems url urls xml
 """.split())          # technical words a German dictionary happens to know
 
 

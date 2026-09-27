@@ -224,7 +224,7 @@ def model_file_inside(folder, name):
     The list comes off the network, so a name in it is not trusted to
     stay in the model folder. A backslash or a colon is refused on every
     system, because Windows reads them as a separator and a drive; the
-    rest -- an absolute name, "..", a folder that links elsewhere -- is
+    rest -- an absolute name, "..", a folder that points elsewhere -- is
     judged by where the name really resolves.
     """
     if not name or "\\" in name or ":" in name:
