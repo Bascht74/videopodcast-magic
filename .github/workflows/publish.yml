@@ -876,7 +876,7 @@ jobs:
       # on PyPI, so pip3 -c would stop on it -- the number is the same
       # release); and every package requirements.txt names has to be on
       # it, or the list is not what an installation brings.
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           pattern: freeze-*-py3.14
           path: /tmp/freeze
