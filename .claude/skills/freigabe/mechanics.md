@@ -139,9 +139,9 @@ lists below carry it on that way too.
 
 **What the short way gives up, and it is written here rather than
 found later.** A push runs the everyday suite, separation off;
-`publish.yml` turns it on. The one test that really runs the
-separation, `voice_split_hears_two`, therefore runs for a release only
-on the long way. A check run's name does not say which of the two
+`publish.yml` turns it on. The two tests that really run the
+separation, `voice_split_hears_two` and `voice_split_hears_blocks`,
+therefore run for a release only on the long way. A check run's name does not say which of the two
 suites made it, so the evidence job cannot tell and does not pretend
 to. **The owner settled it on 24.9.2026:** the short way is given up
 where the merge touches anything of the separation, and the line
@@ -149,8 +149,9 @@ names the file that sent it the long way. On 24.9.2026 that was
 `videopodcast_magic/speakers/`; **on 25.9.2026 he widened it to four
 places** -- that folder, the model under
 `videopodcast_magic/models/speaker-diarization-*/`, `requirements.txt`,
-which installs what it runs on, and `voice_split_hears_two_test.py`,
-matched by its file name anywhere under `tests/`, because the tests
+which installs what it runs on, and `voice_split_hears_two_test.py`
+-- with `voice_split_hears_blocks_test.py` since the two were split --
+matched by file name anywhere under `tests/`, because the tests
 are moving into folders of their own. `pyproject.toml` is deliberately
 not one of them: every release changes its version, so counting it
 would send every release the long way. The compare API lists at most

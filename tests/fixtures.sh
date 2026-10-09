@@ -472,7 +472,7 @@ fi
 # sentence each in turn give a recording whose truth is exact -- the
 # length of every turn is the length of the file that voice wrote, so
 # every boundary is known to the millisecond. voice_split_hears_two_test.py
-# runs the real separation over it.
+# and voice_split_hears_blocks_test.py run the real separation over it.
 #
 # Measured on 24 August 2026, Apple M4 Pro, macOS 26.6.1: the build
 # takes about 4 s, six turns come to about 32 s of audio, and the
