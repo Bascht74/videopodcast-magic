@@ -1908,6 +1908,13 @@ msgstr "%sটি প্রিসেট অনুযায়ী করা হয
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%sটি চ্যানেল -- ট্র্যাকে ভাগ করা হয়, ওপরের সারিগুলো দেখুন।"
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%sটি চ্যানেল -- কমান্ড লাইন এগুলোকে ট্র্যাকে ভাগ করে না, ফাইলটিকে একটি "
+"চ্যানেলে মিশিয়ে দেয়, দুজন মানুষ এক কণ্ঠে পরিণত হয়।"
+
 msgid "%s checked"
 msgstr "%sটি যাচাই করা হয়েছে"
 
@@ -2027,6 +2034,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)sটি শট</b>, মধ্যমা 
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "প্রতিটি চ্যানেল-জোড়া আলাদাভাবে বিচার করা হয়: একটি স্টেরিও ট্র্যাক, অথবা দুটি মাইক্রোফোন আর তাই দুটি ট্র্যাক। নীরব ইনপুট বাদ পড়ে। ফাইলের নিচের সারিগুলো বলে কী মাপা হয়েছে, আর টিক চিহ্ন তা বাতিল করে দেয়।"
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"প্রতিটির জন্য আলাদা ট্র্যাক পেতে এর চ্যানেলগুলো আলাদা ফাইল হিসেবে সংরক্ষণ "
+"করুন, অথবা এটি উইন্ডোতে খুলুন, যা চ্যানেলের সারি অনুযায়ী এটি ভাগ করে। "
+"Singletrack প্রোডাকশন হিসেবে আপলোডের আগেই রান থেমে যায়: auphonic.com একটি "
+"ফাইলে সর্বোচ্চ দুটি চ্যানেল নেয়।"
 
 msgid "Add files ..."
 msgstr "ফাইল যোগ করুন ..."

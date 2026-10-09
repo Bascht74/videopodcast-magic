@@ -1906,6 +1906,13 @@ msgstr "%s satta efter förinställningen"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s kanaler -- delas upp i spår, se raderna ovan."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s kanaler -- kommandoraden delar inte upp dem i spår utan slår ihop filen "
+"till en kanal, två personer till en röst."
+
 msgid "%s checked"
 msgstr "%s kontrollerade"
 
@@ -2025,6 +2032,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)s klipp</b>, median %(med)s s, kortaste
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Varje kanalpar bedöms för sig: ett stereospår, eller två mikrofoner och därmed två spår. Tysta ingångar faller bort. Raderna under filen säger vad som mättes, och bocken går före."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Spara dess kanaler som egna filer så att var och en blir ett spår, eller "
+"öppna den i fönstret, som delar upp den efter kanalraderna. Som "
+"Singletrack-produktion stannar körningen före uppladdningen: auphonic.com "
+"tar högst två kanaler i en fil."
 
 msgid "Add files ..."
 msgstr "Lägg till filer ..."

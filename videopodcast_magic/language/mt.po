@@ -1939,6 +1939,13 @@ msgstr "aġġornati skont il-preset: %s"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "Kanali: %s -- jinqasmu f'binarji, ara r-ringieli ta' fuq."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"Kanali: %s -- il-linja tal-kmand ma taqsamhomx f'binarji u tgħaqqad il-fajl "
+"f'kanal wieħed, żewġ persuni f'leħen wieħed."
+
 msgid "%s checked"
 msgstr "ikkontrollati: %s"
 
@@ -2058,6 +2065,17 @@ msgstr "<span style='color:%(t)s'><b>Qatgħat: %(n)s</b>, medjan %(med)s s, l-iq
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Kull par ta' kanali jiġi ġġudikat għalih: binarju stereo wieħed, jew żewġ mikrofoni u għalhekk żewġ binarji. L-inputs siekta jitħallew barra. Ir-ringieli taħt il-fajl jgħidu x'ġie mkejjel, u l-marka tegħleb dan."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Issejvja l-kanali tiegħu bħala fajls separati biex kull wieħed isir "
+"binarju, jew iftħu fit-tieqa, li taqsmu skont ir-ringieli tal-kanali. Bħala "
+"produzzjoni Singletrack, it-tħaddim jieqaf qabel it-tlugħ: auphonic.com "
+"jieħu l-aktar żewġ kanali f'fajl wieħed."
 
 msgid "A negative value makes the picture lead the sound."
 msgstr "Valur negattiv iġiegħel l-istampa tmur qabel il-ħoss."

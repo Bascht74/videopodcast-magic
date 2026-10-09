@@ -2461,6 +2461,13 @@ msgstr "%s несёт таймкод с другой стороны полуно
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s каналов -- разбиваются на дорожки, см. строки выше."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s каналов -- командная строка не разбивает их на дорожки и сводит файл в "
+"один канал: два человека в один голос."
+
 msgid "%s channels against %s"
 msgstr "%s каналов против %s"
 
@@ -2863,6 +2870,17 @@ msgstr "Огибающие и звук камер готовятся в фоне
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Каждая пара каналов оценивается отдельно: одна стереодорожка либо два микрофона и, значит, две дорожки. Молчащие входы выпадают. Строки под файлом говорят, что было измерено, а галочка это перебивает."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Сохраните его каналы как отдельные файлы, чтобы каждый стал дорожкой, или "
+"откройте его в окне, которое разбивает его по строкам каналов. Как "
+"Singletrack-продукция запуск останавливается до загрузки: auphonic.com "
+"принимает в одном файле не больше двух каналов."
 
 msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
 msgstr "Всё после этого шага отсутствует. В папке лежит часть прогона, а не результат."

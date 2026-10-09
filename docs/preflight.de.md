@@ -358,7 +358,8 @@ die Datei einen Platz, und es wird nichts vorgeschlagen.
   dann bleibt die Länge erhalten ([Aufbereitung über
   auphonic.com](auphonic.de.md), „Was der Vorflug im Preset liest“).
 - **Das Multitrack-Preset enthält keine Spur.** Auf auphonic.com eine
-  Spur im Preset anlegen. Die erste Spur des Presets bestimmt die
+  Spur im Preset anlegen; ein dort hinterlegtes Intro oder Outro zählt
+  nicht als Spur. Die erste Spur des Presets bestimmt die
   Bearbeitung aller Spuren; ohne sie kommen sie so zurück, wie sie
   hochgeladen wurden.
 - **Ein Kanal liegt am Anschlag.** Wenn dieselbe Stimme ein zweites Mal
@@ -381,3 +382,13 @@ Im Fenster gibt es diese Optionen nicht.
 
 `--anyway` läuft trotz eines Abbruchs, `--no-preflight` überspringt die
 Prüfung ganz, `--preflight-again` misst alles neu statt nur das Geänderte.
+
+Die Kommandozeile kennt keine Kanalzeilen und zerlegt keine Datei in
+Spuren. Eine Datei mit mehr als zwei Kanälen legt sie auf einen Kanal
+zusammen, aus zwei Menschen wird eine Stimme, und der Bericht sagt das
+als Hinweis: `4 Kanäle -- die Kommandozeile zerlegt keine in Spuren und
+legt die Datei auf einen Kanal zusammen, zwei Menschen zu einer Stimme.`
+Geht eine solche Datei allein zu auphonic.com, hält der Lauf vor dem
+Hochladen an ([Kanäle](channels.de.md), „Mehr als zwei Kanäle in einer
+Datei“). Deshalb ihre Kanäle zuerst als eigene Dateien speichern oder
+die Datei im Fenster öffnen.

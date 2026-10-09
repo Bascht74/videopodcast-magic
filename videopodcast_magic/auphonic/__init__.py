@@ -1706,6 +1706,19 @@ def master_output_format(key, stereo=False):
     return entry
 
 
+def preset_track_template(preset):
+    """The preset's first track, whose settings all our tracks take.
+
+    A Multitrack preset's list holds intros and outros beside its
+    tracks, told apart by "type"; an intro's settings are no track's.
+    An entry with no type is taken for a track. None where none is one.
+    """
+    for entry in (preset.get("multi_input_files") or []):
+        if (entry.get("type") or "multitrack") == "multitrack":
+            return entry
+    return None
+
+
 def build_multitrack_request(preset, title, names, base_name, key=None,
                              stereo=False):
     """Build the production request from the preset that was read.
@@ -1718,10 +1731,8 @@ def build_multitrack_request(preset, title, names, base_name, key=None,
     # The transcript is made here: auphonic.com's speech recognition is
     # not asked for, whatever the preset says, and the preflight says so.
     request.pop("speech_recognition", None)
-    template = {}
-    for track in (preset.get("multi_input_files") or []):
-        template = dict(track.get("algorithms") or {})
-        break
+    template = dict((preset_track_template(preset) or {}).get("algorithms")
+                    or {})
     request["is_multitrack"] = True
     request["multi_input_files"] = [
         {"type": "multitrack", "id": n, "algorithms": dict(template)}

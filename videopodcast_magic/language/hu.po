@@ -1908,6 +1908,13 @@ msgstr "%s az előbeállításra állítva"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s csatorna -- sávokra bontva, lásd a fenti sorokat."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s csatorna -- a parancssor nem bontja sávokra, hanem egy csatornába vonja "
+"össze a fájlt: két ember egy hanggá válik."
+
 msgid "%s checked"
 msgstr "%s ellenőrizve"
 
@@ -2027,6 +2034,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)s snitt</b>, medián %(med)s mp, legrö
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Minden csatornapár külön kerül megítélésre: egy sztereó sáv, vagy két mikrofon és így két sáv. A csendes bemenetek kiesnek. A fájl alatti sorok azt mondják, mi lett mérve, a pipa pedig felülbírálja."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Mentse a csatornáit külön fájlokként, hogy mindegyik saját sáv legyen, vagy "
+"nyissa meg az ablakban, amely a csatornasorok szerint bontja szét. "
+"Singletrack produkcióként a futás a feltöltés előtt leáll: az auphonic.com "
+"egy fájlban legfeljebb két csatornát fogad."
 
 msgid "Add files ..."
 msgstr "Fájlok hozzáadása ..."

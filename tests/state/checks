@@ -46,7 +46,7 @@ auphonic_mono_not_stereo	7
 auphonic_names_stay_in	12
 auphonic_none_chosen	11
 auphonic_preset_checked	4
-auphonic_preset_fits	14
+auphonic_preset_fits	16
 auphonic_run_delivers	75
 auphonic_single_reused	11
 auphonic_speech_read	14
@@ -232,6 +232,7 @@ run_unreadable_named	6
 run_update_says_it_landed	7
 run_way_back_offered	15
 run_which_script	7
+run_wide_file_folded	5
 run_window_run_agrees	6
 silent	auphonic_key_kept
 sound_all_blocks_count	18

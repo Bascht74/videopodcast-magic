@@ -1908,6 +1908,13 @@ msgstr "dopasowane do presetu: %s"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "Kanały: %s -- dzielone na ścieżki, zobacz wiersze powyżej."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"Kanały: %s -- wiersz poleceń nie dzieli ich na ścieżki i składa plik do "
+"jednego kanału: dwie osoby w jeden głos."
+
 msgid "%s checked"
 msgstr "sprawdzono: %s"
 
@@ -2027,6 +2034,17 @@ msgstr "<span style='color:%(t)s'><b>ujęcia: %(n)s</b>, mediana %(med)s s, najk
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Każda para kanałów jest oceniana osobno: jedna ścieżka stereo albo dwa mikrofony, a więc dwie ścieżki. Ciche wejścia odpadają. Wiersze pod plikiem mówią, co zmierzono, a zaznaczenie ma pierwszeństwo."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Zapisz jego kanały jako osobne pliki, aby każdy stał się ścieżką, albo "
+"otwórz go w oknie, które dzieli go według wierszy kanałów. Jako produkcja "
+"Singletrack przebieg zatrzymuje się przed wysłaniem: auphonic.com przyjmuje "
+"w jednym pliku najwyżej dwa kanały."
 
 msgid "Add files ..."
 msgstr "Dodaj pliki ..."

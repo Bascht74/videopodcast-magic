@@ -1940,6 +1940,13 @@ msgstr "usklajeno s prednastavitvijo: %s"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "Kanali: %s -- razdelijo se na sledi, glejte vrstice zgoraj."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"Kanali: %s -- ukazna vrstica jih ne razdeli na sledi in datoteko združi v "
+"en kanal, dve osebi v en glas."
+
 msgid "%s checked"
 msgstr "preverjeno: %s"
 
@@ -2059,6 +2066,17 @@ msgstr "<span style='color:%(t)s'><b>Kadri: %(n)s</b>, mediana %(med)s s, najkra
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Vsak par kanalov se presoja posebej: ena stereo sled ali dva mikrofona in torej dve sledi. Tihi vhodi odpadejo. Vrstice pod datoteko povedo, kaj je bilo izmerjeno, kljukica pa to preglasi."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Shranite njene kanale kot ločene datoteke, da vsak postane sled, ali jo "
+"odprite v oknu, ki jo razdeli po vrsticah kanalov. Kot produkcija "
+"Singletrack se zagon ustavi pred nalaganjem: auphonic.com sprejme v eni "
+"datoteki največ dva kanala."
 
 msgid "A negative value makes the picture lead the sound."
 msgstr "Pri negativni vrednosti slika prehiteva zvok."

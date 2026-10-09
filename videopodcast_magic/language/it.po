@@ -2770,6 +2770,17 @@ msgstr "Resolve scala alla risoluzione della Timeline. Ciò che è più piccolo 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Ogni coppia di canali viene giudicata da sola: una traccia stereo, oppure due microfoni e quindi due tracce. Gli ingressi silenziosi vengono scartati. Le righe sotto il file dicono cosa è stato misurato, e la spunta ha la precedenza."
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Salvi i suoi canali come file separati per avere una traccia ciascuno, "
+"oppure lo apra nella finestra, che lo suddivide secondo le righe dei "
+"canali. Come produzione Singletrack l'esecuzione si ferma prima del "
+"caricamento: auphonic.com accetta al massimo due canali in un file."
+
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Contati qui, campione per campione, alla frequenza con cui il file è stato registrato: una sequenza di tre o più campioni sul valore più alto che un formato intero può contenere. Uno o due sono arrotondamento e non vengono segnalati. Ciò che lì è tagliato è perso e nessuna elaborazione lo riporta indietro -- ma la registrazione resta la registrazione, e questo non ferma nulla. Si contano solo i formati interi. Il float a 32 bit non ha un limite al fondo scala, quindi lì non c’è nulla da contare."
 
@@ -2832,6 +2843,13 @@ msgstr "%s kHz invece di %s kHz -- convertito durante l’elaborazione."
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s canali -- suddivisi in tracce, vedi le righe sopra."
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s canali -- la riga di comando non li suddivide in tracce e riduce il file "
+"a un solo canale: due persone in una sola voce."
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Il canale %d è al limite: %s volte tre o più campioni di fila, il più lungo %s (%s ms), il primo a %s."

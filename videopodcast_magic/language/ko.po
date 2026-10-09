@@ -1906,6 +1906,11 @@ msgstr "%s개를 프리셋에 맞춤"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "채널 %s개 -- 트랙으로 나눕니다. 위의 행을 보세요."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr "채널 %s개 -- 명령줄은 트랙으로 나누지 않고 파일을 한 채널로 합칩니다. 두 사람이 한 목소리가 됩니다."
+
 msgid "%s checked"
 msgstr "%s개 확인됨"
 
@@ -2025,6 +2030,15 @@ msgstr "<span style='color:%(t)s'><b>샷 %(n)s개</b>, 중앙값 %(med)s s, 최�
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "채널 쌍마다 따로 판단합니다: 스테레오 트랙 하나, 또는 마이크 둘이라서 트랙 둘. 무음 입력은 빠집니다. 파일 아래 행이 측정 결과를 보여 주며, 체크 표시가 그보다 우선합니다."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"채널을 각각 별도 파일로 저장하면 각각 트랙이 됩니다. 또는 채널 행에 따라 나누는 창에서 여세요. Singletrack 프로덕션이면 "
+"업로드 전에 실행이 멈춥니다. auphonic.com은 한 파일에 최대 두 채널만 받습니다."
 
 msgid "Add files ..."
 msgstr "파일 추가 ..."

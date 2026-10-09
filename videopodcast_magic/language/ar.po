@@ -2809,6 +2809,16 @@ msgstr "يُحجّم Resolve الصورة إلى دقة الـTimeline. كل م�
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "يُحكم على كل زوج من القنوات بمفرده: مسار ستيريو واحد، أو ميكروفونان وبالتالي مساران. المداخل الصامتة تُسقَط. الأسطر تحت الملف تقول ما قيس، وعلامة الاختيار تتغلب عليه."
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"احفظ قنواته كملفات مستقلة ليصبح لكل منها مسار، أو افتحه في النافذة التي "
+"تقسمه وفق أسطر القنوات. كإنتاج Singletrack يتوقف التشغيل قبل الرفع: لا يقبل "
+"auphonic.com أكثر من قناتين في ملف واحد."
+
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "يُعدّ هنا عيّنةً عيّنة، بمعدل العيّنات الذي سُجّل به الملف: سلسلة من ثلاث عيّنات أو أكثر عند أعلى قيمة يستطيع تنسيق الأعداد الصحيحة حملها. عيّنة أو اثنتان مجرد تقريب ولا يُبلَّغ عنهما. ما قُطع هناك قد ضاع ولا تعيده أي معالجة -- لكن التسجيل يبقى التسجيل، وهذا لا يوقف شيئًا. تُعدّ تنسيقات الأعداد الصحيحة فقط. أما 32 bit float فليس له حدّ عند المستوى الكامل، فلا شيء هناك يُعدّ."
 
@@ -2871,6 +2881,13 @@ msgstr "%s kHz بدلًا من %s kHz -- يُحوَّل أثناء المعال�
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "عدد القنوات %s -- تُقسَّم إلى مسارات، انظر الأسطر أعلاه."
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"عدد القنوات %s -- سطر الأوامر لا يقسمها إلى مسارات، بل يدمج الملف في قناة "
+"واحدة، فيصبح شخصان صوتًا واحدًا."
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "القناة %d عند الحدّ الأقصى: عدد المرات %s لثلاث عيّنات أو أكثر متتالية، أطولها %s (%s ms)، وأولها عند %s."

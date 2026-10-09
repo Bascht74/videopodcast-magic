@@ -5,8 +5,9 @@ check_preset in this process, the preset read replaced by a table of
 presets written with the field names auphonic.com answers. In order:
 which presets stop the run before the upload -- the wrong loudness, no
 track template, a cut that would shorten the sound -- and which go on;
-where the stop for a cut says to switch it off; and that what the
-preset has switched on is said, switch by switch, with its setting.
+where the stop for a cut says to switch it off; that what the preset
+has switched on is said, switch by switch, with its setting; and that
+an intro standing before the track in the preset's list is no template.
 """
 PLATFORM_BOUND = False
 import os
@@ -45,6 +46,8 @@ TRACK = {"id": "Speaker", "algorithms": {"denoise": True,
                                          "denoisemethod": "speech_isolation",
                                          "filtering": True,
                                          "filtermethod": "autoeq"}}
+INTRO = {"type": "intro", "id": "", "input_file": "intro.mp3",
+         "algorithms": {"backforeground": "foreground", "leveler": True}}
 CASES = {
  "fits": {"algorithms": {"loudnesstarget": -16, "normloudness": True,
                          "leveler": True, "crossgate": False,
@@ -73,6 +76,13 @@ CASES = {
                                      "silence_cutter": False,
                                      "filler_cutter": False},
                       "multi_input_files": [TRACK]},
+ # The API description's shape: an intro shares the list with the tracks,
+ # told apart by "type", and carries settings of its own.
+ "intro before the track": {"algorithms": {"loudnesstarget": -16},
+                            "multi_input_files": [INTRO, dict(
+                                TRACK, type="multitrack")]},
+ "only an intro": {"algorithms": {"loudnesstarget": -16},
+                   "multi_input_files": [INTRO]},
 }
 said = {}
 stop = {}
@@ -104,6 +114,8 @@ check("another loudness than the run's stops it",
       stop["other loudness"] is True, why("other loudness"))
 check("a Multitrack preset with no track stops it",
       stop["no track template"] is True, why("no track template"))
+check("a Multitrack preset with only an intro stops it",
+      stop["only an intro"] is True, why("only an intro"))
 check("a track switched to nothing only says so",
       stop["empty track template"] is False, why("empty track template"))
 check("a preset that cuts silence stops it",
@@ -138,6 +150,13 @@ check("a switch that is off is not named",
 track = " ".join(b.text for b in about("fits", "per track"))
 check("the track template's switches are said too",
       "denoise (speech_isolation)" in track,
+      "per track said %r" % track[:200])
+
+print("\n4. An intro before the track in the preset is no template")
+track = " ".join(b.text for b in about("intro before the track",
+                                       "per track"))
+check("the track's switches are said, not the intro's",
+      "denoise (speech_isolation)" in track and "leveler" not in track,
       "per track said %r" % track[:200])
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))

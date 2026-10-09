@@ -1906,6 +1906,13 @@ msgstr "%s rãnh đã đưa về cài đặt sẵn"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s kênh -- được cắt thành các rãnh, xem các dòng phía trên."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s kênh -- dòng lệnh không cắt chúng thành các rãnh mà gộp tệp thành một "
+"kênh, hai người thành một giọng."
+
 msgid "%s checked"
 msgstr "đã kiểm tra %s"
 
@@ -2025,6 +2032,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)s cảnh quay</b>, trung vị %(med)s s
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Mỗi cặp kênh được đánh giá riêng: một rãnh stereo, hoặc hai micrô và vì vậy hai rãnh. Đầu vào im lặng bị loại. Các dòng dưới tệp cho biết đã đo được gì, và dấu tích sẽ ghi đè lên đó."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Hãy lưu các kênh của tệp thành các tệp riêng để mỗi kênh thành một rãnh, "
+"hoặc mở tệp trong cửa sổ, nơi cắt nó theo các dòng kênh. Với bản sản xuất "
+"Singletrack, lần chạy dừng trước khi tải lên: auphonic.com chỉ nhận tối đa "
+"hai kênh trong một tệp."
 
 msgid "Add files ..."
 msgstr "Thêm tệp ..."

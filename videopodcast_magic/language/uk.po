@@ -2782,6 +2782,17 @@ msgstr "Resolve масштабує до роздільності Timeline. Ус�
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Кожну пару каналів оцінюють окремо: одна стереодоріжка або два мікрофони, а отже, дві доріжки. Тихі входи відкидаються. Рядки під файлом кажуть, що виміряно, а позначка має перевагу."
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Збережіть його канали як окремі файли, щоб кожен став доріжкою, або "
+"відкрийте його у вікні, яке розрізає його за рядками каналів. Як "
+"Singletrack-продукція запуск зупиняється перед завантаженням: auphonic.com "
+"приймає в одному файлі не більше двох каналів."
+
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Тут рахується відлік за відліком, із частотою, з якою записано файл: серія з трьох і більше відліків на найвищому значенні, яке може вмістити цілочисельний формат. Один або два -- це округлення, про них не повідомляється. Те, що там обрізано, втрачено, і жодна обробка його не поверне -- але запис лишається записом, і це нічого не зупиняє. Рахуються лише цілочисельні формати. 32-бітне число з рухомою комою не має упору на повній шкалі, тож там нічого рахувати."
 
@@ -2844,6 +2855,13 @@ msgstr "%s кГц замість %s кГц -- перетворюється пі�
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "Каналів: %s -- розрізаються на доріжки, див. рядки вище."
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"Каналів: %s -- командний рядок не розрізає їх на доріжки і зводить файл в "
+"один канал: дві людини в один голос."
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Канал %d упирається в межу: %s разів по три й більше відліки поспіль, найдовша серія %s (%s мс), перша на %s."

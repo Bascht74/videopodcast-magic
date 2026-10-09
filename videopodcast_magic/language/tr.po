@@ -2766,6 +2766,17 @@ msgstr "Resolve, Timeline çözünürlüğüne ölçekler. Daha küçük olan b�
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Her kanal çifti ayrı değerlendirilir: bir stereo iz ya da iki mikrofon ve dolayısıyla iki iz. Sessiz girişler düşer. Dosyanın altındaki satırlar neyin ölçüldüğünü söyler; onay işareti bunu geçersiz kılar."
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Her biri bir iz olsun diye kanallarını ayrı dosyalar olarak kaydedin ya da "
+"onu kanal satırlarına göre bölen pencerede açın. Singletrack prodüksiyonu "
+"olarak çalıştırma yüklemeden önce durur: auphonic.com bir dosyada en fazla "
+"iki kanal alır."
+
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Burada, dosyanın kaydedildiği örnekleme hızında, örnek örnek sayılır: bir tamsayı biçiminin tutabileceği en yüksek değerde art arda üç veya daha fazla örnek. Bir ya da iki örnek yuvarlamadır ve bildirilmez. Orada kesilen kaybolmuştur ve hiçbir işlem onu geri getirmez -- ama kayıt yine kayıttır ve bu hiçbir şeyi durdurmaz. Yalnızca tamsayı biçimleri sayılır. 32 bit kayan noktada tam ölçekte bir sınır yoktur, orada sayılacak bir şey yoktur."
 
@@ -2828,6 +2839,13 @@ msgstr "%s kHz yerine %s kHz -- işleme sırasında dönüştürülür."
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s kanal -- izlere bölünür, yukarıdaki satırlara bakın."
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s kanal -- komut satırı bunları izlere bölmez, dosyayı tek kanala indirir: "
+"iki kişi tek ses olur."
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanal %d sınıra dayanıyor: %s kez art arda üç veya daha fazla örnek, en uzunu %s (%s ms), ilki %s konumunda."
