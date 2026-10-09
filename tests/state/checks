@@ -145,6 +145,7 @@ project_errors_reach_run	4
 project_every_offset	11
 project_file_beats_last	6
 project_grades_stay_off	8
+project_group_per_camera	10
 project_half_taken_back	10
 project_handover_built	51
 project_hdr_follows	49
@@ -162,6 +163,7 @@ project_reference_kept	8
 project_refusal_heeded	46
 project_render_kept	4
 project_render_queued	67
+project_render_refused	11
 project_rerun_updates	10
 project_run_comes_back	18
 project_run_lands_whole	13
