@@ -257,17 +257,23 @@ jobs:
       fail-fast: false
       matrix:
         # Two versions on all three systems. 3.14 is the one the suite
-        # runs on at home; 3.10 is the floor the program names for
+        # runs on at home; 3.12 is the floor the program names for
         # itself in NEEDS_PYTHON, and a floor that is only ever walked
-        # on Linux is not a floor. What breaks between 3.10 and 3.14
+        # on Linux is not a floor. What breaks between 3.12 and 3.14
         # -- a path, an encoding, a Qt plugin -- breaks on Windows and
         # macOS, so that is where it has to be walked.
         #
-        # On Windows and macOS '3.10' comes out as 3.10.11: that is the
-        # last 3.10 CPython released as a binary, and setup-python
+        # On Windows and macOS '3.12' comes out as 3.12.10: that is the
+        # last 3.12 CPython released as a binary, and setup-python
         # builds newer ones from source for Linux only. Linux therefore
-        # runs a later 3.10 than the other two. That is the truth of the
-        # matter for anyone out there on 3.10 as well.
+        # runs a later 3.12 than the other two (3.12.15 in setup-python's
+        # list on 9.10.2026). That is the truth of the matter for anyone
+        # out there on 3.12 as well.
+        #
+        # Linux by its number, not as ubuntu-latest: GitHub moves that
+        # name from 24.04 to 26.04 between 19 October and 19 November
+        # 2026, and a runner that changes under a run is a red nobody
+        # can place. Named, the move happens in a commit of our own.
         #
         # And a seventh, the owner's rule of 26.9.2026: a test whose
         # verdict cannot differ between systems or Pythons says so in its
@@ -277,13 +283,13 @@ jobs:
         # against 597 to 1067). A release changes nothing about this --
         # it differs from a push by its languages and the separation.
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             label: Linux
             python: '3.14'
             tests: bound
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             label: Linux
-            python: '3.10'
+            python: '3.12'
             tests: bound
           - os: windows-latest
             label: Windows
@@ -291,7 +297,7 @@ jobs:
             tests: bound
           - os: windows-latest
             label: Windows
-            python: '3.10'
+            python: '3.12'
             tests: bound
           - os: macos-latest
             label: macOS
@@ -299,9 +305,9 @@ jobs:
             tests: bound
           - os: macos-latest
             label: macOS
-            python: '3.10'
+            python: '3.12'
             tests: bound
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             label: Neutral
             python: '3.14'
             tests: neutral
@@ -509,8 +515,8 @@ jobs:
           PY
 
       # apt is the bottleneck here, not the platform: Ubuntu 24.04
-      # carries ffmpeg 6.1.1, under the floor this program names, and
-      # nothing newer is in its archive. A static build settles it in
+      # carried ffmpeg 6.1.1 and 26.04 carries 8.0.1, both under the
+      # floor this program names, and nothing newer is in the archive. A static build settles it in
       # half a minute -- and it is the one of the three runners that
       # carries soxr, so the fine clock correction is exercised
       # somewhere. macOS takes what brew gives once its own formula

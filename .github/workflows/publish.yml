@@ -471,7 +471,7 @@ jobs:
   # and the publish job below holds it to exactly that.
   tests:
     # Short, because it is written in front of every one of the six
-    # names below it: "Suite / macOS py3.10" reads, "The suite /
+    # names below it: "Suite / macOS py3.12" reads, "The suite /
     # macos-latest / py3.14" is cut off before it says anything.
     name: "Suite"
     needs: evidence
@@ -867,10 +867,10 @@ jobs:
       # leave them here, from this very commit -- no other run is asked.
       # Both calls install the separation, so both lists carry it.
       #
-      # Python 3.14 and not 3.10: it is the newest the suite runs, the
+      # Python 3.14 and not 3.12: it is the newest the suite runs, the
       # one the suite runs on at home, and the one python.org hands
       # somebody installing today. A pin is a wheel for one Python;
-      # the 3.10 lists stay in the run for whoever needs them.
+      # the 3.12 lists stay in the run for whoever needs them.
       #
       # Three things are done to each, and nothing else: a head saying
       # what it is; the local label struck off a version (Linux installs

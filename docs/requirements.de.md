@@ -91,15 +91,15 @@ git+https://github.com/Bascht74/videopodcast-magic@v<version>`.
 Zweierlei muss vor diesem Befehl auf der Maschine liegen, denn beides
 kann pip nicht mitbringen:
 
-* **Python 3.10 oder neuer, und dessen pip.** Ein pip, das die
-  Projektdatei liest, hört unterhalb von 3.10 auf und nennt die
+* **Python 3.12 oder neuer, und dessen pip.** Ein pip, das die
+  Projektdatei liest, hört unterhalb von 3.12 auf und nennt die
   Version, die es erwartet hätte. **Das pip, das macOS mit seinem
   eigenen Python 3.9 mitbringt, liest sie gar nicht und meldet keinen
   Fehler**: am 4. September 2026 gemessen, antwortete `/usr/bin/pip3`
   — pip 21.2.4 — mit `Successfully installed UNKNOWN-0.0.0` und ließ
   einen leeren Ordner dieses Namens zurück. Kein Modul, kein Befehl,
   keine Fehlermeldung. **Wer `UNKNOWN` liest, hat das falsche pip
-  erwischt**, und die Antwort darauf ist, Python 3.10 oder neuer zu
+  erwischt**, und die Antwort darauf ist, Python 3.12 oder neuer zu
   installieren und dessen `pip3` zu nehmen.
 * **`ffmpeg` 9.0.1 oder neuer, samt `ffprobe`.** Sie sind kein Python,
   und keine Liste, die pip liest, hat einen Platz für sie. Das Programm
@@ -228,18 +228,21 @@ einer, den dieses Programm nicht geschrieben hat.
 
 ## Welches Python das Programm braucht
 
-3.10 oder neuer, darunter lehnt pip die Installation ab. Die
-Untergrenze ist das, was die Oberfläche braucht: PySide6 baut
-unterhalb von 3.10 nicht. Die Testsuite läuft auf 3.14.7, der Version,
-die hier täglich benutzt wird. Sie deckt nur 3.14.7 ab; was zwischen
-3.10 und 3.14.7 liegt, ist nicht gemessen. Für macOS und Windows
-liegt das Installationsprogramm unter
+3.12 oder neuer, darunter lehnt pip die Installation ab. Die
+Untergrenze ist das, was die geprüften Fassungen brauchen: Die Listen,
+die eine Veröffentlichung mitbringt, nennen `numpy` und `scipy` in
+Fassungen, die sich erst ab 3.12 installieren lassen, und unter Linux
+mit 3.10 stürzte der Abspieler im Fenster in `PySide6` ab. Die
+Testsuite läuft auf 3.14.7, der Version, die hier täglich benutzt
+wird, und auf dem Baurechner bei jedem Push auf 3.12 und 3.14 unter
+Linux, macOS und Windows; 3.13 dazwischen ist nicht gemessen. Für macOS
+und Windows liegt das Installationsprogramm unter
 <https://www.python.org/downloads/>; unter Linux kommt Python aus der
 Paketverwaltung der Distribution.
 
 `--version`, die Kopfzeile des Protokolls und die erste Zeile jedes
 Laufs sagen, welches Python läuft. Sie nennen die empfohlene Version,
-wenn es eine andere ist: `Python 3.11.15  (recommended version 3.14.7)`.
+wenn es eine andere ist: `Python 3.12.13  (recommended version 3.14.7)`.
 `--help` und `--version` antworten ohne `numpy`, `PySide6` und
 `ffmpeg`.
 
@@ -404,12 +407,12 @@ es ebenfalls, mit zwei Unterschieden:
 ## Wenn etwas klemmt
 
 * **pip lehnt ab und nennt eine Python-Version.** Dieses Python ist
-  älter als 3.10. Eine neuere installieren und denselben Befehl dieser
+  älter als 3.12. Eine neuere installieren und denselben Befehl dieser
   geben.
 * **pip antwortet `Successfully installed UNKNOWN-0.0.0`.**
   Installiert wurde nichts. Dieses pip ist zu alt, um die Projektdatei
   zu lesen; auf einem Mac ist das `/usr/bin/pip3`, und es gehört zu
-  Python 3.9. Python 3.10 oder neuer installieren und den Befehl
+  Python 3.9. Python 3.12 oder neuer installieren und den Befehl
   dessen `pip3` geben.
 * **pip sagt, die Umgebung werde von außen verwaltet.** Dieses Python
   gehört einem Paketverwalter. `pipx install` auf dieselbe Adresse,

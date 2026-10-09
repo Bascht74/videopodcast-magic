@@ -179,10 +179,10 @@ tools_repaired = setup.tools_repaired
 TOOL_TROUBLE = ("", "")
 
 
-# The floor is what PySide6 builds on. The command line alone could go
-# lower, but one number is easier to state than two; the ceiling is
-# what the suite runs on, and between the two is untested.
-NEEDS_PYTHON = (3, 10)
+# The floor is what a release's tested package lists install on (numpy
+# and scipy want 3.12; under 3.10 PySide6 crashed the player on Linux).
+# The ceiling is what the suite runs on at home; the builder walks both.
+NEEDS_PYTHON = (3, 12)
 LIKES_PYTHON = "3.14.7"
 if sys.version_info < NEEDS_PYTHON:
     sys.exit("%s needs Python %d.%d or newer -- this is "

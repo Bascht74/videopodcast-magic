@@ -279,7 +279,7 @@ with `pip3 install -c`.
 Windows freeze carries what only Windows installs, Linux carries the
 CPU torch from PyTorch's own index. **Python 3.14**, the newest the
 suite runs, the one it runs on at home, and the one python.org hands
-somebody installing today; a pin is a wheel for one Python. The 3.10
+somebody installing today; a pin is a wheel for one Python. The 3.12
 lists stay in the run as artifacts for whoever needs them.
 
 **Where they come from, on both ways, is this run.** Every bound job of

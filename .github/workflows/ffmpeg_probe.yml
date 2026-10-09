@@ -22,18 +22,18 @@ jobs:
         # The same six the suite runs on, so a time from here can be laid
         # beside a time from there.
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             python: '3.14'
-          - os: ubuntu-latest
-            python: '3.10'
+          - os: ubuntu-26.04
+            python: '3.12'
           - os: windows-latest
             python: '3.14'
           - os: windows-latest
-            python: '3.10'
+            python: '3.12'
           - os: macos-latest
             python: '3.14'
           - os: macos-latest
-            python: '3.10'
+            python: '3.12'
 
     env:
       PYTHONUTF8: '1'

@@ -107,7 +107,7 @@ It puts the program in an environment of its own and the command on
 the path.
 
 Two things pip cannot bring, because neither is Python: **Python
-itself**, 3.10 or newer, and **`ffmpeg` 9.0.1 or newer, with
+itself**, 3.12 or newer, and **`ffmpeg` 9.0.1 or newer, with
 `ffprobe`**. For the two tools the program looks on the search path,
 offers the package manager of the machine and asks before it runs it,
 and otherwise says where to fetch them. Below 9.0.1 the window opens
@@ -119,11 +119,11 @@ curve, Dolby Vision, timecode -- through untouched beside the
 picture.
 
 **One trap, measured on 4 September 2026.** A pip that reads the
-project file stops below Python 3.10 and says which version it wanted.
+project file stops below Python 3.12 and says which version it wanted.
 The pip macOS brings with its own Python 3.9 -- `/usr/bin/pip3` --
 reads nothing: it answers `Successfully installed UNKNOWN-0.0.0` and
 leaves an empty folder of that name, no command and no error. Reading
-`UNKNOWN` means the pip is the wrong one; install Python 3.10 or newer
+`UNKNOWN` means the pip is the wrong one; install Python 3.12 or newer
 and use its `pip3`.
 
 Later, and only when somebody wants what they are for, two models come
@@ -172,7 +172,7 @@ camera.*
 
 ## What it needs
 
-Python 3.10 or newer, and `ffmpeg` 9.0.1 or newer with `ffprobe` on the
+Python 3.12 or newer, and `ffmpeg` 9.0.1 or newer with `ffprobe` on the
 search path. That is the whole list: everything else is a Python
 package, every one of them stands on the list pip reads, and the
 install brings them all. ffmpeg is the exception it cannot help being,
