@@ -30,7 +30,7 @@ name = "videopodcast-magic"
 version = "3.0.0b28"
 description = "Raw material from a video podcast becomes an edited episode"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 license = "MIT"
 dependencies = [
     "numpy",     # the measuring: the cameras onto one time axis
