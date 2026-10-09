@@ -7,7 +7,9 @@ own URL -- the whole list sent to the production appends instead of
 matching, and three tracks became six that way. In order: the reuse
 comes through without an error, nothing is uploaded a second time, the
 track list stays out of the production, each track is addressed once,
-and the settings have arrived on all of them at the end. Auphonic is a
+and the settings have arrived on all of them at the end. Then two that
+go wrong: a track auphonic.com refuses is warned about and the rest go
+on, and tracks that appear while changing stop the run. Auphonic is a
 stand-in here; what is measured is which calls the program makes and
 what it puts into them.
 """
@@ -23,7 +25,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
-import json, sys, copy, time
+import contextlib, io, json, sys, copy, time
 
 began = time.time()
 done = 0
@@ -57,7 +59,7 @@ def production():
                  "type": "multitrack", "offset": 0.0,
                  "algorithms": dict(OLD)} for n in NAMES]}
 
-world = {"p": production(), "calls": []}
+world = {"p": production(), "calls": [], "refuse": None, "grow": False}
 
 def fake_curl(key, arguments, output_binary=False, progress=False):
     target = [a for a in arguments if a.startswith("https://")][0]
@@ -68,6 +70,9 @@ def fake_curl(key, arguments, output_binary=False, progress=False):
     world["calls"].append((target.replace(vpm.AUPHONIC, ""), body))
     if "/multi_input_files/" in target and body:
         sid = target.rsplit("/", 1)[-1].split(".")[0]
+        if sid == world["refuse"]:
+            return json.dumps({"status_code": 400,
+                               "error_message": REFUSED}).encode()
         for t in world["p"]["multi_input_files"]:
             if t["id"] == sid:
                 t["algorithms"] = dict(body["algorithms"])
@@ -78,8 +83,13 @@ def fake_curl(key, arguments, output_binary=False, progress=False):
         world["p"].update({k: v for k, v in body.items()
                            if k != "output_files"})
         return json.dumps({"status_code": 200, "data": world["p"]}).encode()
-    return json.dumps({"data": copy.deepcopy(world["p"])}).encode()
+    now = copy.deepcopy(world["p"])
+    if world["grow"]:
+        # What auphonic.com did with a track list sent whole: appended.
+        now["multi_input_files"].append({"id": "Guest", "input_file": None})
+    return json.dumps({"data": now}).encode()
 
+REFUSED = "denoise is not allowed"
 vpm._curl_call = fake_curl
 vpm.wait_for_production = lambda key, uuid, wait_s: copy.deepcopy(world["p"])
 vpm.download_results = lambda key, p, names, folder, base: "FETCHED"
@@ -151,6 +161,52 @@ check("every track carries the preset settings afterwards",
       len(right) == len(NAMES) and not off,
       "%d wanted, %d of %d carry them, off: %s"
       % (len(NAMES), len(right), len(now), ", ".join(off) or "none"))
+
+
+
+def reuse_again():
+    """The same reuse once more, quietly: (what it said, its error)."""
+    world["p"], world["calls"] = production(), []
+    said = io.StringIO()
+    try:
+        with contextlib.redirect_stdout(said):
+            vpm.reuse_production(
+                "secret", production(), copy.deepcopy(request),
+                {"preset_name": "Podcast_Multitrack"},
+                [{"name": n, "axis": "/tmp/%s.wav" % n} for n in NAMES],
+                list(NAMES), "/tmp", "base", 60, "rerun")
+        return said.getvalue(), ""
+    except Exception as why:     # a stop is one of the judgements below
+        return said.getvalue(), " ".join(str(why).split())
+
+
+print("\n--- a track refused ---")
+world["refuse"] = "Host"
+said, stopped = reuse_again()
+world["refuse"] = None
+warned = vpm.T('  Caution: track %s -- it keeps its settings.') % (
+    "Host: " + REFUSED)
+right = [t["id"] for t in world["p"]["multi_input_files"]
+         if t.get("algorithms") == NEW]
+check("a track auphonic.com refuses is warned about by name",
+      warned in said, "%r said: %s" % (warned.strip(), warned in said))
+check("and the other tracks are still brought to the preset",
+      right == ["Guest", "Co-host"] and not stopped,
+      "carry the settings: %s, wanted Guest, Co-host; %s"
+      % (", ".join(right) or "none", stopped or "-"))
+
+print("\n--- tracks appear while changing ---")
+world["grow"] = True
+said, stopped = reuse_again()
+world["grow"] = False
+added = " ".join((vpm.T('Tracks were added while changing (now %s). That '
+                        'makes the mix\n  wrong. Please delete the tracks '
+                        'without a file at auphonic.com.')
+                  % vpm.number_text(4, 0)).split())
+started = [t for t, _b in world["calls"] if t.endswith("/start.json")]
+check("tracks that appear while changing stop the run before it starts",
+      stopped == added and not started,
+      "raised %r, wanted %r; %d starts" % (stopped, added, len(started)))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
