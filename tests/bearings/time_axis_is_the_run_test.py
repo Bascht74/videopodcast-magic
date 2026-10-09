@@ -7,8 +7,10 @@ where the run takes the drift out, unstretched where the drift stays in.
 Sections: the interview fixture, whose two recordings of three blocks
 the run places by sound and whose one drift stays in; a synthetic
 camera with a recording in two blocks whose drift the run takes out;
-and that recording once more, its join answering that it cannot be
-placed. The run's side is read off the run's own functions.
+that recording once more, its join answering that it cannot be placed;
+and recordings whose blocks' timecodes leave a hole and overlap, each
+block where the run's joined file holds its first sample. The run's
+side is read off the run's own functions.
 """
 PLATFORM_BOUND = True
 import os
@@ -292,6 +294,86 @@ check("a head its join cannot place stands nowhere, though it alone did",
 by_clock = joined_as([0.0, 1.0, {"unplaceable": True}], weak=[HEAD])
 check("a head its clock placed keeps that place",
       HEAD_KEY in (by_clock.get("axis") or {}), nowhere_line(by_clock))
+
+#------------------------------- 4. Blocks a timecode hole or overlap parts
+
+print("\n4. Blocks whose timecodes leave a hole or overlap")
+TC_RATE = 48000
+# Odd lengths, so a place by length and one by stamp cannot meet by luck.
+SIZES = [1234567, 987653, 500001]
+HEAD_PLACE, HEAD_CLOCK = 100.0, 1.0001
+# A frame is 40 ms; this is the click's own sample and the rounding.
+NEAR = 0.002
+
+
+def clicked(name, samples, stamp):
+    """One block: quiet noise, a loud click on its first samples, a bext."""
+    x = np.random.default_rng(samples).normal(0, 0.01, samples)
+    x[:40] = 0.9
+    path = os.path.join(WORK, name)
+    subprocess.run(["ffmpeg", "-v", "error", "-f", "s16le", "-ar",
+                    str(TC_RATE), "-ac", "1", "-i", "pipe:0", "-c:a",
+                    "pcm_s24le", "-write_bext", "1", "-metadata",
+                    "time_reference=%d" % stamp, "-y", path],
+                   input=(x * 32767).astype("<i2").tobytes(), check=True)
+    return path
+
+
+def run_and_window(row):
+    """[(name, window, run, by length)] for the blocks after the head.
+
+    The run: where each click stands in the file join_the_plan writes,
+    on the head's clock. The window: blocks_after_their_head, the head
+    at HEAD_PLACE. By length: where the blocks end to end would lie.
+    """
+    with contextlib.redirect_stdout(io.StringIO()):
+        made = vpm.join_the_plan([{"audio": row[0], "blocks": row}], WORK)
+    x = vpm.decode_audio(made[0]["source"], rate=TC_RATE)
+    loud = np.flatnonzero(np.abs(x) > 0.5)
+    firsts = [loud[0]] + [b for a, b in zip(loud, loud[1:]) if b - a > 100]
+    data = vpm.blocks_after_their_head(
+        {"axis": {vpm.path_key(row[0]): HEAD_PLACE},
+         "clock": {vpm.path_key(row[0]): HEAD_CLOCK}}, {row[0]: row})
+    axis = data.get("axis") or {}
+    out, ahead = [], 0.0
+    for i, p in enumerate(row[1:]):
+        ahead += SIZES[i] / float(TC_RATE) / HEAD_CLOCK
+        w = axis.get(vpm.path_key(p))
+        out.append((name_of(p), None if w is None else w - HEAD_PLACE,
+                    firsts[i + 1] / float(TC_RATE) / HEAD_CLOCK
+                    if len(firsts) == len(row) else None, ahead))
+    return out
+
+
+def lines(placed):
+    return "; ".join("%s window %s, run %s, end to end %+.4f"
+                     % (n, figure(w), figure(r), e) for n, w, r, e in placed)
+
+
+def agree(placed):
+    return bool(placed) and all(w is not None and r is not None
+                                and abs(w - r) <= NEAR
+                                for _n, w, r, _e in placed)
+
+
+START = TC_RATE * 10
+HOLE = [clicked("CoPresenter_REC%05d.wav" % (i + 1), n, at) for i, (n, at)
+        in enumerate(zip(SIZES, [START, START + SIZES[0],
+                                 START + SIZES[0] + SIZES[1]
+                                 + int(1.5 * TC_RATE)]))]
+OVER = [clicked("Guest_REC%05d.wav" % (i + 1), n, at) for i, (n, at)
+        in enumerate(zip(SIZES, [START, START + SIZES[0]
+                                 - int(0.3 * TC_RATE),
+                                 START + SIZES[0] + SIZES[1]
+                                 - int(0.3 * TC_RATE)]))]
+hole = run_and_window(HOLE)
+over = run_and_window(OVER)
+print("   " + lines(hole))
+print("   " + lines(over))
+check("after a timecode hole, a block lies where the run's join has it",
+      agree(hole), lines(hole))
+check("after a timecode overlap, a block lies where the run's join has it",
+      agree(over), lines(over))
 
 shutil.rmtree(WORK, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))
