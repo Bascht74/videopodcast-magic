@@ -277,8 +277,19 @@ def stored():
 
 
 def stored_reference():
-    named = stored().get("timeline_reference")
-    return os.path.basename(named) if named else None
+    """The reference camera the project file names, as it stands, or None."""
+    return stored().get("timeline_reference")
+
+
+def same_file(a, b):
+    """Whether two paths name one file, compared as the program compares.
+
+    The file holds the program's key for a path, which on Windows is
+    lower case and has its own separators; so both sides are normalised.
+    """
+    def norm(p):
+        return os.path.normcase(os.path.normpath(os.path.abspath(p)))
+    return bool(a) and bool(b) and norm(a) == norm(b)
 
 
 def reopened(project):
@@ -328,9 +339,9 @@ def drive():
               "marks at %r fps, the heard cameras run at %.3f, the silent "
               "one at %.3f" % (rate, HEARD_FPS, SILENT_FPS))
         check("the project file names the camera the run takes as reference",
-              stored_reference() == os.path.basename(WIDE),
-              "timeline_reference names %r, the longest heard camera is %s"
-              % (stored_reference(), os.path.basename(WIDE)))
+              same_file(stored_reference(), WIDE),
+              "timeline_reference names %r, the longest heard camera is %r"
+              % (stored_reference(), WIDE))
 
         print("\n2. Opened again, in a process of its own")
         said = reopened(PROJECT)
@@ -416,12 +427,11 @@ def rewritten_at_start():
         after = {}
     named = after.get("timeline_reference")
     check("a run's start writes the file again and keeps the reference",
-          named is not None and os.path.basename(named)
-          == os.path.basename(WIDE),
-          "timeline_reference names %r after the rewrite, %r before; "
-          "project_write %s" % (named and os.path.basename(named),
-                                stored_reference(),
-                                "lifted" if body else "not found"))
+          same_file(named, WIDE),
+          "timeline_reference names %r after the rewrite, %r before, the "
+          "longest heard camera is %r; project_write %s"
+          % (named, stored_reference(), WIDE,
+             "lifted" if body else "not found"))
 
 
 QtCore.QTimer.singleShot(700, drive)
