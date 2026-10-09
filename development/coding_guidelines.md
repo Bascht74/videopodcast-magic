@@ -314,11 +314,10 @@ somewhere else.
 
 **And when something moves house, the subject decides, not the price.**
 A move out of one piece into another costs crossings at the seam --
-head lines, forced `PROGRAM.` reads, a name bound back -- and
-`development/price.py` counts them. **That number says what the move
-will cost. It never says whether the move is right.** What belongs to
-the same subject goes, even where it costs; what does not, stays, even
-where it would be free.
+head lines, forced `PROGRAM.` reads, a name bound back. **That count
+says what the move will cost. It never says whether the move is
+right.** What belongs to the same subject goes, even where it costs;
+what does not, stays, even where it would be free.
 
 Measured 7.9.2026, and it is written down because it nearly went the
 other way: `make_project_file` was to be moved into `cut/` because that
@@ -335,8 +334,8 @@ in one file instead of three" says what happened.
 
 **And the seam that is not made of names is the wider one.** Every
 piece reaches into one untyped record, `state`, by string key.
-`development/seam.py` counts it: **98 keys, 61 of them touched by more
-than one piece, 45 crossing the boundary of the window** on 7.9.2026.
+Counted on 7.9.2026: **98 keys, 61 of them touched by more than one
+piece, 45 crossing the boundary of the window**.
 A name that crosses stands in a head line and can be seen; a key does
 not. `state["speakers_local"]` written in one piece and read in five
 others is an agreement between six files that nothing declares and
