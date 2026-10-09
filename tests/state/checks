@@ -116,10 +116,13 @@ files_by_file_holds	28
 files_cam_lands_in_out	4
 files_clock_links_blocks	30
 files_colour_carried	14
+files_colour_change_said	6
 files_colour_fair	7
+files_colr_names_hdr	12
 files_curve_kept_once	12
 files_cut_without_keys	6
 files_data_track_kept	13
+files_folder_shown	3
 files_foreign_untouched	37
 files_hdr_complete	34
 files_intro_proposed	24
@@ -127,6 +130,7 @@ files_joined_by_hand	20
 files_left_out_named	7
 files_lengths_summed	6
 files_line_counts_misfit	10
+files_mov_damage_named	10
 files_mute_clip_intro	5
 files_named_as_written	15
 files_named_by_folder	27
@@ -136,6 +140,7 @@ files_order_kept	7
 files_probed_once	79
 files_project_first	17
 files_project_offered	35
+files_risky_edit_refused	6
 files_same_names_apart	9
 files_set_aside_skipped	14
 files_split_found_again	10
@@ -263,14 +268,17 @@ sound_camera_own_used	7
 sound_cameras_carry_cut	9
 sound_channels_split	35
 sound_check_reads_once	14
+sound_clip_spans_block	6
 sound_clipping_counted	14
 sound_delay_decides	14
 sound_each_gets_a_track	17
 sound_far_block_left_out	6
 sound_finished_mix_used	8
 sound_hush_reason	7
+sound_jingle_edges	5
 sound_join_any_rate	6
 sound_join_order	2
+sound_join_widens_mono	3
 sound_loudest_block	5
 sound_mix_hits_target	13
 sound_mix_says_the_name	9
@@ -390,6 +398,7 @@ time_second_try_places	18
 time_short_cam_as_run	5
 time_short_cam_found	6
 time_sound_stays_put	31
+time_split_keeps_stamp	3
 time_thin_block_refused	8
 time_track_starts_late	8
 time_tracks_alone	37
