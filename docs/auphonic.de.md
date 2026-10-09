@@ -141,7 +141,9 @@ Preset; das Programm schaltet darin nichts ein und nichts aus.
   mit seiner Einstellung in Klammern: `leveler, normloudness (-16 LUFS),
   filtering (autoeq) -- so, wie das Preset sie hat; das Programm ändert
   keinen.` Ein Multitrack-Preset hat eine zweite Zeile, `je Spur`, für
-  die Einstellungen, die seine erste Spur jeder Spur mitgibt.
+  die Einstellungen, die seine erste Spur jeder Spur mitgibt. Ein im
+  Preset hinterlegtes Intro oder Outro ist keine Spur und zählt hier
+  nicht mit.
 * `Schnitt` **hält den Lauf an**, wenn das Preset auphonic.com schneiden
   lässt -- **Cut Silence**, **Cut Fillers**, **Cut Coughs** oder **Cut
   Music**. Der Ton käme kürzer zurück als die Bilder, und jede Kamera

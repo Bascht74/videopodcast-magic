@@ -338,7 +338,8 @@ for it.
   ([Processing at auphonic.com](auphonic.md), "What the preflight reads
   in the preset").
 - **The multitrack preset holds no track.** Create one track in the
-  preset at auphonic.com. The first preset track sets the processing for
+  preset at auphonic.com; an intro or outro stored there does not count
+  as one. The first preset track sets the processing for
   all tracks; without it they come back as they were uploaded.
 - **A channel stands against the stop.** If the same voice was recorded
   a second time, on a camera for instance, use that recording instead.

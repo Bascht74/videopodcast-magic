@@ -358,7 +358,8 @@ die Datei einen Platz, und es wird nichts vorgeschlagen.
   dann bleibt die Länge erhalten ([Aufbereitung über
   auphonic.com](auphonic.de.md), „Was der Vorflug im Preset liest“).
 - **Das Multitrack-Preset enthält keine Spur.** Auf auphonic.com eine
-  Spur im Preset anlegen. Die erste Spur des Presets bestimmt die
+  Spur im Preset anlegen; ein dort hinterlegtes Intro oder Outro zählt
+  nicht als Spur. Die erste Spur des Presets bestimmt die
   Bearbeitung aller Spuren; ohne sie kommen sie so zurück, wie sie
   hochgeladen wurden.
 - **Ein Kanal liegt am Anschlag.** Wenn dieselbe Stimme ein zweites Mal

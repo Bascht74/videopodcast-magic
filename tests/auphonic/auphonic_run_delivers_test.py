@@ -120,7 +120,11 @@ PRESET = {
     "is_multitrack": True, "status": 3, "status_string": "Done",
     "algorithms": {"leveler": True, "denoise": True},
     "metadata": {"title": "from the preset", "artist": "somebody"},
+    # An intro before the track, as the API description allows: its
+    # settings are no track's.
     "multi_input_files": [
+        {"type": "intro", "id": "", "input_file": "intro.mp3",
+         "algorithms": {"backforeground": "foreground"}},
         {"type": "multitrack", "id": "PresetTrack",
          "algorithms": {"leveler": True, "backforeground": "auto"}}],
     "output_files": [{"format": "mp3", "ending": "mp3"}],

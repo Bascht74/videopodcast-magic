@@ -127,7 +127,8 @@ switches nothing on and nothing off in it.
   brackets: `leveler, normloudness (-16 LUFS), filtering (autoeq) -- as
   the preset has them, the program changes none.` A multitrack preset
   has a second line, `per track`, for the settings its first track
-  gives every track.
+  gives every track. An intro or outro stored in the preset is no track
+  and is passed over here.
 * `Cutting` **stops the run** where the preset lets auphonic.com cut --
   **Cut Silence**, **Cut Fillers**, **Cut Coughs** or **Cut Music**.
   The sound would come back shorter than the pictures, and every camera

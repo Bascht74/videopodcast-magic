@@ -1378,8 +1378,8 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
     alg = dict(p.get("algorithms") or {})
     out = [Finding("good", T('Preset'), "%s" % presetname)]
     out.append(Finding("good", T('Algorithms'), preset_switches(alg)))
-    template = p.get("multi_input_files") or []
-    track_alg = dict((template[0].get("algorithms") or {})) if template else {}
+    template = PROGRAM.preset_track_template(p)
+    track_alg = dict((template or {}).get("algorithms") or {})
     # Cutting is the production's, but a track's switch is read too.
     cuts = preset_cuts(alg)
     cuts += [c for c in preset_cuts(track_alg) if c not in cuts]
@@ -1426,7 +1426,7 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
               '%.0f or change the preset.')
             % target))
     if multitrack:
-        if not template:
+        if template is None:
             out.append(Finding(
                 "abort", T('Track template'),
                 T('the Multitrack preset has no track stored.'),
