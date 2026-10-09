@@ -179,10 +179,9 @@ tools_repaired = setup.tools_repaired
 TOOL_TROUBLE = ("", "")
 
 
-# The floor is what the tested package lists install on: numpy and
-# scipy in the versions a release was tested with want 3.12, and under
-# 3.10 PySide6 crashed the player on Linux. The ceiling is what the
-# suite runs on at home; the builder walks both ends.
+# The floor is what a release's tested package lists install on (numpy
+# and scipy want 3.12; under 3.10 PySide6 crashed the player on Linux).
+# The ceiling is what the suite runs on at home; the builder walks both.
 NEEDS_PYTHON = (3, 12)
 LIKES_PYTHON = "3.14.7"
 if sys.version_info < NEEDS_PYTHON:
