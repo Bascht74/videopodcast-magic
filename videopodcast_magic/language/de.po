@@ -6933,3 +6933,9 @@ msgstr "die fertige Mischung -- kein Sprecher, keine Kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Sprache: nur nach der Lautheit gelegt. Eine Aufnahme, die nichts\nmit den Kameras gemeinsam hat, wird abgelehnt. Gemischt: Musik oder ein Mix\nliegt unter den Stimmen, und wo die Lautheit nichts findet, darf die Phase sie legen.\nFertige Mischung: eine anderswo gemachte Stereo-Mischung, gelegt wie gemischter Ton. Sie kommt\nin die Kameradateien und die Übergabe anstelle der Mischung, die der Lauf baut --\nkein Sprecher, nicht geschnitten, nicht an auphonic.com geschickt.\nUnter „%s“ wird Sprache nicht angeboten."
+
+msgid "Enough for the %s this production needs."
+msgstr "Reicht für die %s, die diese Produktion braucht."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Reicht nicht für die %s, die diese Produktion braucht."

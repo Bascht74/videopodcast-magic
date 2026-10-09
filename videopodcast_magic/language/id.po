@@ -5159,3 +5159,9 @@ msgstr "mix jadi -- bukan pembicara, tanpa kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Ucapan: ditempatkan hanya menurut kenyaringannya. Rekaman yang tidak punya kesamaan apa pun\ndengan kamera ditolak. Campuran: musik atau mix ada di bawah suara-suara,\ndan di mana kenyaringan tidak menemukan apa pun, fase boleh menempatkannya.\nMix jadi: mix stereo yang dibuat di tempat lain, diletakkan seperti suara campuran. Mix ini masuk\nke berkas kamera dan serah terima menggantikan mix buatan proses --\nbukan pembicara, tidak dipotong, tidak dikirim ke auphonic.com.\nDengan \"%s\" Ucapan tidak ditawarkan."
+
+msgid "Enough for the %s this production needs."
+msgstr "Cukup untuk %s yang diperlukan produksi ini."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Tidak cukup untuk %s yang diperlukan produksi ini."

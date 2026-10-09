@@ -5153,3 +5153,9 @@ msgstr "成品混音 -- 不是说话人，没有摄像机"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "语音：仅按响度放置。与摄像机毫无共同之处的\n录音会被拒绝。混合：人声下面有音乐或混音，\n在响度找不到任何东西的地方，可以按相位放置。\n成品混音：在别处制作的立体声混音，按混合声音放置。它进入\n摄像机文件和交接文件，代替本次运行生成的混音 --\n不是说话人，不剪切，不发送到 auphonic.com。\n在“%s”下不提供语音。"
+
+msgid "Enough for the %s this production needs."
+msgstr "足够此次制作所需的 %s。"
+
+msgid "Not enough for the %s this production needs."
+msgstr "不足以支付此次制作所需的 %s。"

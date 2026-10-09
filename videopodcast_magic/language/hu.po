@@ -5200,3 +5200,9 @@ msgstr "a kész keverés -- nem beszélő, nincs kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Beszéd: csak a hangosság alapján kerül a helyére. Az a felvétel, amelynek semmi köze\na kamerákhoz, elutasításra kerül. Kevert: a hangok alatt zene vagy mix szól,\nés ahol a hangosság nem talál semmit, a fázis elhelyezheti.\nKész keverés: máshol készült sztereó keverés, kevert hangként elhelyezve. A kamerafájlokba\nés az átadásba kerül a futás által épített keverés helyett --\nnem beszélő, nincs vágva, nem megy az auphonic.com-ra.\n„%s” esetén a Beszéd nem választható."
+
+msgid "Enough for the %s this production needs."
+msgstr "Elég a produkcióhoz szükséges %s időre."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nem elég a produkcióhoz szükséges %s időre."

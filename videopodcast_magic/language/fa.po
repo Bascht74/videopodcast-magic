@@ -5201,3 +5201,9 @@ msgstr "میکس آماده -- گوینده نیست، بدون دوربین"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "گفتار: فقط بر اساس بلندی صدا جای‌گذاری می‌شود. ضبطی که هیچ اشتراکی\nبا دوربین‌ها ندارد رد می‌شود. ترکیبی: موسیقی یا میکس زیر صداها قرار دارد،\nو جایی که بلندی صدا چیزی نمی‌یابد، فاز می‌تواند آن را جای‌گذاری کند.\nمیکس آماده: میکس استریویی که جای دیگری ساخته شده، مانند صدای ترکیبی قرار می‌گیرد. به‌جای میکس پردازش\nوارد فایل‌های دوربین و تحویل می‌شود --\nگوینده نیست، بریده نمی‌شود، به auphonic.com فرستاده نمی‌شود.\nدر «%s» گفتار پیشنهاد نمی‌شود."
+
+msgid "Enough for the %s this production needs."
+msgstr "برای %s که این تولید لازم دارد کافی است."
+
+msgid "Not enough for the %s this production needs."
+msgstr "برای %s که این تولید لازم دارد کافی نیست."

@@ -5259,3 +5259,9 @@ msgstr "готовий мікс -- не мовець, без камери"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Мовлення: розміщується лише за гучністю. Запис, що не має нічого спільного\nз камерами, відхиляється. Змішаний: під голосами лежить музика чи мікс,\nі де гучність нічого не знаходить, його може розмістити фаза.\nГотовий мікс: стереомікс, зроблений деінде, розміщується як змішаний звук. Він іде\nу файли камер і в передачу замість міксу, який будує обробка --\nне мовець, не ріжеться, не надсилається на auphonic.com.\nЗа «%s» «Мовлення» не пропонується."
+
+msgid "Enough for the %s this production needs."
+msgstr "Вистачає на %s, потрібні цій продукції."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Не вистачає на %s, потрібні цій продукції."

@@ -5246,3 +5246,9 @@ msgstr "baigtas miksas -- ne kalbėtojas, be kameros"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Kalbėjimas: išdėstoma tik pagal garsumą. Įrašas, neturintis nieko bendra\nsu kameromis, atmetamas. Mišrus: po balsais yra muzika arba miksas,\nir kur garsumas nieko neranda, jį gali išdėstyti fazė.\nBaigtas miksas: kitur padarytas stereo miksas, dedamas kaip mišrus garsas. Jis patenka\ní kamerų failus ir perdavimą vietoj apdorojimo sukurto miksavimo --\nne kalbėtojas, nekarpomas, nesiunčiamas į auphonic.com.\nSu „%s“ Kalbėjimas nesiūlomas."
+
+msgid "Enough for the %s this production needs."
+msgstr "Pakanka šiai produkcijai reikalingoms %s."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nepakanka šiai produkcijai reikalingoms %s."

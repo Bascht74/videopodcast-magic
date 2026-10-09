@@ -5201,3 +5201,9 @@ msgstr "تیار مکس -- بولنے والا نہیں، کیمرا نہیں"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "بول چال: صرف لاؤڈنیس کے مطابق رکھی جاتی ہے۔ جس ریکارڈنگ میں کیمروں کے ساتھ کچھ بھی\nمشترک نہ ہو، وہ رد کر دی جاتی ہے۔ مخلوط: آوازوں کے نیچے موسیقی یا مکس ہوتا ہے،\nاور جہاں لاؤڈنیس کو کچھ نہ ملے، وہاں فیز اسے رکھ سکتا ہے۔\nتیار مکس: کہیں اور بنا ہوا اسٹیریو مکس، مخلوط آواز کی طرح رکھا جاتا ہے۔ یہ پروسیسنگ کے مکس کی جگہ\nکیمرا فائلوں اور حوالگی میں جاتا ہے --\nبولنے والا نہیں، کاٹا نہیں جاتا، auphonic.com کو نہیں بھیجا جاتا۔\n\"%s\" کے تحت بول چال پیش نہیں کی جاتی۔"
+
+msgid "Enough for the %s this production needs."
+msgstr "اس پروڈکشن کو درکار %s کے لیے کافی۔"
+
+msgid "Not enough for the %s this production needs."
+msgstr "اس پروڈکشن کو درکار %s کے لیے ناکافی۔"

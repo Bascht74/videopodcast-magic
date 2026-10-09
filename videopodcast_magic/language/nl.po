@@ -5199,3 +5199,9 @@ msgstr "de afgewerkte mix -- geen spreker, geen camera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Spraak: alleen op de luidheid geplaatst. Een opname die niets gemeen heeft\nmet de camera’s, wordt geweigerd. Gemengd: onder de stemmen ligt muziek of een mix,\nen waar de luidheid niets vindt, mag de fase haar plaatsen.\nAfgewerkte mix: een elders gemaakte stereomix, geplaatst als gemengd geluid. Hij gaat\nin de camerabestanden en de overdracht in plaats van de mix die de run bouwt --\ngeen spreker, niet geknipt, niet naar auphonic.com gestuurd.\nBij \"%s\" wordt Spraak niet aangeboden."
+
+msgid "Enough for the %s this production needs."
+msgstr "Genoeg voor de %s die deze productie nodig heeft."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Niet genoeg voor de %s die deze productie nodig heeft."

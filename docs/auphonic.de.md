@@ -95,16 +95,22 @@ Aus diesem Preset baut das Programm die Produktion neu.
 Ist der Schlüssel geprüft, zeigt eine Zeile unter dem Preset, wie viele
 Minuten Guthaben bei auphonic.com noch übrig sind und in welchem Tarif
 das Konto ist, kostenlos oder bezahlt -- ob ein Preset gewählt ist oder
-nicht, und auch bei **ohne Auphonic arbeiten**. Ist ein Preset gewählt, wird
-die Zeile rot, wenn das Guthaben nicht für die Produktion reicht.
-Gerechnet wird bei Multitrack mit der längsten Spur, sonst mit allen
-Spuren zusammen, und zwar bevor der Lauf sie auf eine Zeitachse legt --
-das kann sie nur länger machen. Ist das Konto im kostenlosen Tarif und
-die Multitrack-Produktion länger als 21 Minuten, kommt eine zweite,
-ebenfalls rote Zeile dazu: **Im kostenlosen Tarif nimmt auphonic.com
-eine Multitrack-Produktion nur bis etwa 21 Min. an.** Ohne Preset wird
-die Zeile nie rot, denn dann gibt es keine Produktion, an der sich das
-Guthaben messen ließe. Der Kasten fragt das Konto zusammen mit den
+nicht, und auch bei **ohne Auphonic arbeiten**. Ist ein Preset gewählt und
+sind die Aufnahmen vermessen, beurteilt eine zweite Zeile den Lauf, bevor
+er beginnt: **Reicht für die 40 Min., die diese Produktion braucht.**
+oder, mit roter Zeile, **Reicht nicht für die 40 Min., die diese
+Produktion braucht.** Was eine Produktion braucht, ist das, was
+auphonic.com dafür abrechnet: eine Multitrack-Produktion so lang wie
+ihre längste Spur, einzelne Spuren als je eigene Produktion, jede in
+ganzen Minuten und mit mindestens drei, zusammengezählt -- und das alles,
+bevor der Lauf die Spuren auf eine Zeitachse legt, was sie nur länger
+machen kann. Ist das Konto im kostenlosen Tarif und die
+Multitrack-Produktion länger als 21 Minuten, kommt eine weitere, ebenfalls
+rote Zeile dazu: **Im kostenlosen Tarif nimmt auphonic.com eine
+Multitrack-Produktion nur bis etwa 21 Min. an.** Für eine einzelne Spur
+gibt es im kostenlosen Tarif keine solche Grenze; dort zählt allein das
+Guthaben. Ohne Preset wird die Zeile nie rot, denn dann gibt es keine
+Produktion, an der sich das Guthaben messen ließe. Der Kasten fragt das Konto zusammen mit den
 Presets und sonst nie.
 
 Das Häkchen **Multitrack (je Sprecher eine Spur)** steht nicht im
@@ -231,9 +237,9 @@ unten -- und sagt, was es geantwortet hat: den Tarif, etwa
 `Das Konto bei auphonic.com ist im kostenlosen Tarif.`, und das Guthaben
 in Minuten, etwa `Guthaben bei auphonic.com: noch 80 Min., genug für die
 12 Min., die diese Produktion braucht.` Was eine Produktion braucht, wird
-in ganzen Minuten gezählt, aufgerundet und nie unter `1 Min.`, weil
-auphonic.com nicht weniger abrechnet: Eine Probe von 20 Sekunden braucht
-`1 Min.`, nicht `0 Min.`
+in ganzen Minuten gezählt, aufgerundet und nie unter `3 Min.`, weil
+auphonic.com für eine Produktion nicht weniger abrechnet: Eine Probe von
+20 Sekunden braucht `3 Min.`
 
 Zwei Dinge sagt der Lauf, und in beiden Fällen geht er weiter:
 
@@ -313,11 +319,9 @@ sobald auphonic.com fertig meldet.
 
 ### Wenn es die Produktion schon gibt
 
-Gesucht wird nur nach einer Multitrack-Produktion. Eine einzelne Spur
-geht bei jedem Lauf neu hoch, und jedes Hochladen kostet Guthaben.
-
-Das Programm erkennt die Produktion am Namen und fragt, was mit ihr
-geschehen soll:
+Das Programm erkennt die Produktion am Namen, eine Multitrack-Produktion
+ebenso wie eine einzelne Spur, und fragt, was mit ihr geschehen soll. Bei
+mehreren Spuren sind das die Antworten:
 
 1. vorhandenes Ergebnis übernehmen: nichts rechnen, nichts hochladen
 2. mit dem gewählten Preset neu rechnen, Dateien bleiben stehen: kostet
@@ -333,6 +337,15 @@ dort fragt das Programm, ob es sie übernimmt.
 
 Beim Neurechnen bringt das Programm auch die Spureinstellungen auf das
 Preset. Weitere Spuren dort gehen in den Mix, eine Warnung nennt sie.
+
+Bei einer einzelnen Spur fragt es dasselbe, nur ohne das, was allein
+mehrere Spuren können: das vorhandene Ergebnis übernehmen, alles neu
+hochladen oder abbrechen. Das Ergebnis wird angeboten, sobald
+auphonic.com die Produktion als fertig meldet; es wird geholt und
+zugeschnitten wie ein frisches, hochgeladen und abgerechnet wird nichts.
+Neu hochladen legt eine neue Produktion an und kostet Guthaben. Eine
+Multitrack-Produktion gleichen Namens übergeht das Programm, denn sie
+enthält Spuren und nicht diese Aufnahme.
 
 Eine Multitrack-Produktion wird ganz heruntergeladen, die Einzelspuren
 und jede weitere Ausgabe, die das Preset selbst erzeugt: der fertige
@@ -383,9 +396,9 @@ die Meldung sagt das.
   ganzen gemessenen Bereich.** Sie gehören zu einem anderen Lauf. Den
   Ordner dieses Laufs nehmen, oder den Ton noch einmal über
   auphonic.com schicken.
-* **Der Lauf soll Guthaben kosten, das nicht gemeint war.** Nur Punkt 3
-  lädt hoch, und nur das Hochladen kostet. Punkt 1 und Punkt 2 lassen
-  die Dateien stehen, wo sie sind.
+* **Der Lauf soll Guthaben kosten, das nicht gemeint war.** Nur die
+  Antwort, die alles neu hochlädt, lädt hoch, und nur das Hochladen
+  kostet. Die anderen Antworten lassen die Dateien stehen, wo sie sind.
 
 Der Ton ist jetzt aufbereitet und liegt in `auphonic-tracks/`. Wie die
 Spuren über mehrere Sprecher und mehrere Kameras verteilt werden, steht
@@ -398,9 +411,10 @@ Im Fenster gibt es diese Optionen nicht.
 * `--auphonic-preset` ohne Namen: das Programm fragt die vorhandenen
   Presets nummeriert ab, der Schlüssel ohne Dateien listet sie auf.
 * `--auphonic-resume result|rerun|adopt|upload|abort` beantwortet die
-  Frage nach einer schon vorhandenen Produktion im Voraus. Er erreicht
-  nur einen Lauf, der mehrere Spuren hochlädt; bei einer einzelnen Spur
-  gibt es keinen Upload je Spur, den man wieder aufnehmen könnte.
+  Frage nach einer schon vorhandenen Produktion im Voraus. Eine einzelne
+  Spur nimmt `result`, `upload` und `abort`; `rerun` und `adopt` haben
+  nur Sinn, wo mehrere Spuren hochgehen, und bei einer einzelnen Spur
+  fragt das Programm stattdessen.
 * `--auphonic-done ORDNER` holt nichts, sondern nimmt die dort
   liegenden Spuren, benannt nach den Sprechern. Liegt eine der
   Aufnahmen, die der Lauf bekommt, selbst in diesem Ordner, lehnt er sie

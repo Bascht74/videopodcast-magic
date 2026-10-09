@@ -5199,3 +5199,9 @@ msgstr "तैयार मिक्स -- वक्ता नहीं, कै�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "वाणी: केवल लाउडनेस से रखी जाती है। जिस रिकॉर्डिंग में कैमरों से कुछ भी\nसाझा नहीं, उसे अस्वीकार किया जाता है। मिश्रित: आवाज़ों के नीचे संगीत या मिक्स है,\nऔर जहाँ लाउडनेस कुछ नहीं पाती, वहाँ फ़ेज़ उसे रख सकता है।\nतैयार मिक्स: कहीं और बना स्टीरियो मिक्स, मिश्रित ध्वनि की तरह रखा जाता है। यह प्रोसेसिंग के मिक्स की जगह\nकैमरा फ़ाइलों और हस्तांतरण में जाता है --\nवक्ता नहीं, काटा नहीं जाता, auphonic.com को नहीं भेजा जाता।\n\"%s\" में वाणी का विकल्प नहीं मिलता।"
+
+msgid "Enough for the %s this production needs."
+msgstr "इस प्रोडक्शन के लिए ज़रूरी %s के लिए पर्याप्त।"
+
+msgid "Not enough for the %s this production needs."
+msgstr "इस प्रोडक्शन के लिए ज़रूरी %s के लिए पर्याप्त नहीं।"

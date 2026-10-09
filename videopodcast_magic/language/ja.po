@@ -5155,3 +5155,9 @@ msgstr "完成ミックス -- 話者なし、カメラなし"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "話し声: ラウドネスだけで配置します。カメラと共通するものが\nない録音は受け付けません。ミックス: 声の下に音楽やミックスがあり、\nラウドネスで何も見つからない所では位相で配置できます。\n完成ミックス: 別の場所で作られたステレオミックス。ミックスとして配置されます。\n処理が作るミックスの代わりにカメラファイルと引き渡しに入ります --\n話者ではなく、カットされず、auphonic.com へ送られません。\n「%s」では話し声は選べません。"
+
+msgid "Enough for the %s this production needs."
+msgstr "このプロダクションに必要な %s には足ります。"
+
+msgid "Not enough for the %s this production needs."
+msgstr "このプロダクションに必要な %s には足りません。"

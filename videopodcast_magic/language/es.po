@@ -5197,3 +5197,9 @@ msgstr "la mezcla final -- sin hablante, sin cámara"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Habla: se coloca solo por su sonoridad. Una grabación que no comparte nada\ncon las cámaras se rechaza. Mezclado: bajo las voces hay música o una mezcla,\ny donde la sonoridad no encuentra nada, la fase puede colocarla.\nMezcla final: una mezcla estéreo hecha en otro sitio, colocada como sonido mezclado. Va\na los archivos de cámara y a la entrega en lugar de la mezcla del proceso --\nsin hablante, sin cortes, sin envío a auphonic.com.\nCon «%s» no se ofrece Habla."
+
+msgid "Enough for the %s this production needs."
+msgstr "Suficiente para los %s que necesita esta producción."
+
+msgid "Not enough for the %s this production needs."
+msgstr "No es suficiente para los %s que necesita esta producción."

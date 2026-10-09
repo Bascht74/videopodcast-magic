@@ -5154,3 +5154,9 @@ msgstr "완성 믹스 -- 화자 없음, 카메라 없음"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "말소리: 라우드니스만으로 배치합니다. 카메라와 공통점이 없는\n녹음은 거부됩니다. 혼합: 목소리 아래에 음악이나 믹스가 있으며,\n라우드니스가 아무것도 찾지 못하는 곳에서는 위상으로 배치할 수 있습니다.\n완성 믹스: 다른 곳에서 만든 스테레오 믹스로, 혼합 소리처럼 배치됩니다.\n처리가 만드는 믹스 대신 카메라 파일과 인계 파일에 들어갑니다 --\n화자가 아니며, 잘리지 않고, auphonic.com으로 보내지지 않습니다.\n\"%s\"에서는 말소리를 고를 수 없습니다."
+
+msgid "Enough for the %s this production needs."
+msgstr "이 프로덕션에 필요한 %s에 충분합니다."
+
+msgid "Not enough for the %s this production needs."
+msgstr "이 프로덕션에 필요한 %s에 부족합니다."

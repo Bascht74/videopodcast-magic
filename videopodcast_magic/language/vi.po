@@ -5155,3 +5155,9 @@ msgstr "bản mix hoàn chỉnh -- không phải người nói, không máy quay
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Lời nói: chỉ đặt theo độ to. Bản ghi không có gì chung\nvới các máy quay sẽ bị từ chối. Hỗn hợp: dưới giọng nói có nhạc hoặc bản phối,\nvà ở chỗ độ to không tìm thấy gì, pha có thể đặt nó.\nBản mix hoàn chỉnh: bản mix stereo làm ở nơi khác, đặt như âm thanh hỗn hợp. Nó đi\nvào các tệp máy quay và bản bàn giao thay cho bản mix của lượt chạy --\nkhông phải người nói, không cắt, không gửi lên auphonic.com.\nVới \"%s\" thì Lời nói không được đưa ra."
+
+msgid "Enough for the %s this production needs."
+msgstr "Đủ cho %s mà bản sản xuất này cần."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Không đủ cho %s mà bản sản xuất này cần."

@@ -5204,3 +5204,9 @@ msgstr "ਤਿਆਰ ਮਿਕਸ -- ਬੁਲਾਰਾ ਨਹੀਂ, ਕੈਮ�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "ਗੱਲਬਾਤ: ਸਿਰਫ਼ ਲਾਊਡਨੈੱਸ ਨਾਲ ਰੱਖੀ ਜਾਂਦੀ ਹੈ। ਜਿਸ ਰਿਕਾਰਡਿੰਗ ਦਾ ਕੈਮਰਿਆਂ ਨਾਲ ਕੁਝ ਵੀ\nਸਾਂਝਾ ਨਹੀਂ, ਉਹ ਰੱਦ ਕੀਤੀ ਜਾਂਦੀ ਹੈ। ਮਿਸ਼ਰਤ: ਆਵਾਜ਼ਾਂ ਹੇਠ ਸੰਗੀਤ ਜਾਂ ਮਿਕਸ ਹੁੰਦਾ ਹੈ,\nਅਤੇ ਜਿੱਥੇ ਲਾਊਡਨੈੱਸ ਨੂੰ ਕੁਝ ਨਹੀਂ ਮਿਲਦਾ, ਉੱਥੇ ਫੇਜ਼ ਇਸ ਨੂੰ ਰੱਖ ਸਕਦਾ ਹੈ।\nਤਿਆਰ ਮਿਕਸ: ਕਿਤੇ ਹੋਰ ਬਣਿਆ ਸਟੀਰੀਓ ਮਿਕਸ, ਮਿਸ਼ਰਤ ਆਵਾਜ਼ ਵਾਂਗ ਰੱਖਿਆ ਜਾਂਦਾ ਹੈ। ਇਹ ਪ੍ਰੋਸੈਸਿੰਗ ਦੇ ਮਿਕਸ ਦੀ ਥਾਂ\nਕੈਮਰਾ ਫ਼ਾਈਲਾਂ ਅਤੇ ਸੌਂਪਣੀ ਵਿੱਚ ਜਾਂਦਾ ਹੈ --\nਬੁਲਾਰਾ ਨਹੀਂ, ਕੱਟਿਆ ਨਹੀਂ ਜਾਂਦਾ, auphonic.com ਨੂੰ ਨਹੀਂ ਭੇਜਿਆ ਜਾਂਦਾ।\n\"%s\" ਹੇਠ ਗੱਲਬਾਤ ਦੀ ਚੋਣ ਨਹੀਂ ਮਿਲਦੀ।"
+
+msgid "Enough for the %s this production needs."
+msgstr "ਇਸ ਪ੍ਰੋਡਕਸ਼ਨ ਨੂੰ ਚਾਹੀਦੇ %s ਲਈ ਕਾਫ਼ੀ।"
+
+msgid "Not enough for the %s this production needs."
+msgstr "ਇਸ ਪ੍ਰੋਡਕਸ਼ਨ ਨੂੰ ਚਾਹੀਦੇ %s ਲਈ ਕਾਫ਼ੀ ਨਹੀਂ।"

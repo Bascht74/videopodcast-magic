@@ -5201,3 +5201,9 @@ msgstr "המיקס המוגמר -- לא דובר, ללא מצלמה"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "דיבור: ממוקם לפי העוצמה הנתפסת בלבד. הקלטה שאין לה דבר משותף\nעם המצלמות נדחית. מעורב: מוזיקה או מיקס נמצאים מתחת לקולות,\nובמקום שהעוצמה לא מוצאת דבר, הפאזה רשאית למקם אותה.\nמיקס מוגמר: מיקס סטריאו שנעשה במקום אחר, ממוקם כצליל מעורב. הוא נכנס\nלקובצי המצלמות ולמסירה במקום המיקס שהעיבוד בונה --\nלא דובר, לא נחתך, לא נשלח ל-auphonic.com.\nתחת \"%s\" דיבור אינו מוצע."
+
+msgid "Enough for the %s this production needs."
+msgstr "מספיק ל-%s שההפקה הזו צריכה."
+
+msgid "Not enough for the %s this production needs."
+msgstr "לא מספיק ל-%s שההפקה הזו צריכה."

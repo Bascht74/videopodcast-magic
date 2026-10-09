@@ -5157,3 +5157,9 @@ msgstr "มิกซ์สำเร็จ -- ไม่ใช่ผู้พู�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "เสียงพูด: วางตามความดังเท่านั้น ไฟล์บันทึกที่ไม่มีอะไรร่วมกับกล้อง\nจะถูกปฏิเสธ ผสม: มีเพลงหรือมิกซ์อยู่ใต้เสียงพูด\nและตรงที่ความดังหาอะไรไม่พบ เฟสอาจวางให้ได้\nมิกซ์สำเร็จ: มิกซ์สเตอริโอที่ทำจากที่อื่น วางเหมือนเสียงผสม มันเข้าไป\nในไฟล์กล้องและการส่งมอบแทนมิกซ์ของการประมวลผล --\nไม่ใช่ผู้พูด ไม่ตัด ไม่ส่งไป auphonic.com\nภายใต้ \"%s\" จะไม่มีตัวเลือกเสียงพูด"
+
+msgid "Enough for the %s this production needs."
+msgstr "พอสำหรับ %s ที่งานนี้ต้องใช้"
+
+msgid "Not enough for the %s this production needs."
+msgstr "ไม่พอสำหรับ %s ที่งานนี้ต้องใช้"

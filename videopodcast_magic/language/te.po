@@ -5202,3 +5202,9 @@ msgstr "పూర్తయిన మిక్స్ -- వక్త కాదు
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "మాట: లౌడ్‌నెస్ ఆధారంగా మాత్రమే ఉంచబడుతుంది. కెమెరాలతో ఏదీ ఉమ్మడిగా\nలేని రికార్డింగ్ తిరస్కరించబడుతుంది. మిశ్రమం: గొంతుల కింద సంగీతం లేదా మిక్స్ ఉంటుంది,\nలౌడ్‌నెస్ ఏమీ కనుగొనని చోట ఫేజ్ దాన్ని ఉంచవచ్చు.\nపూర్తయిన మిక్స్: వేరే చోట చేసిన స్టీరియో మిక్స్, మిశ్రమ ధ్వనిలా ఉంచబడుతుంది. ప్రాసెసింగ్ మిక్స్‌కు బదులుగా\nకెమెరా ఫైళ్లలోకి, అప్పగింతలోకి వెళ్తుంది --\nవక్త కాదు, కత్తిరించబడదు, auphonic.com కు పంపబడదు.\n\"%s\" కింద మాట ఎంపిక ఇవ్వబడదు."
+
+msgid "Enough for the %s this production needs."
+msgstr "ఈ ప్రొడక్షన్‌కు కావలసిన %s కు సరిపోతుంది."
+
+msgid "Not enough for the %s this production needs."
+msgstr "ఈ ప్రొడక్షన్‌కు కావలసిన %s కు సరిపోదు."

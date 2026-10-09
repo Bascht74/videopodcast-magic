@@ -5198,3 +5198,9 @@ msgstr "valmis miksaus -- ei puhujaa, ei kameraa"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Puhe: sijoitetaan pelkän äänekkyyden mukaan. Tallenne, jolla ei ole mitään yhteistä\nkameroiden kanssa, hylätään. Sekoitettu: äänten alla on musiikkia tai miksaus,\nja missä äänekkyys ei löydä mitään, vaihe saa sijoittaa sen.\nValmis miksaus: muualla tehty stereomiksaus, sijoitettu kuin sekoitettu ääni. Se menee\nkameratiedostoihin ja luovutukseen ajon oman miksauksen tilalle --\nei puhuja, ei leikata, ei lähetetä auphonic.comiin.\nKohdassa ”%s” Puhetta ei tarjota."
+
+msgid "Enough for the %s this production needs."
+msgstr "Riittää tämän tuotannon tarvitsemaan %s."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Ei riitä tämän tuotannon tarvitsemaan %s."

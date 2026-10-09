@@ -5198,3 +5198,9 @@ msgstr "den färdiga mixen -- ingen talare, ingen kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Tal: placeras enbart efter ljudstyrkan. En inspelning som inte har något gemensamt\nmed kamerorna avvisas. Blandat: musik eller en mix ligger under rösterna,\noch där ljudstyrkan inte hittar något får fasen placera den.\nFärdig mix: en stereomix gjord någon annanstans, placerad som blandat ljud. Den hamnar\ni kamerafilerna och överlämningen i stället för körningens egen mix --\ningen talare, inte klippt, inte skickad till auphonic.com.\nUnder ”%s” erbjuds inte Tal."
+
+msgid "Enough for the %s this production needs."
+msgstr "Räcker för de %s som den här produktionen behöver."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Räcker inte för de %s som den här produktionen behöver."

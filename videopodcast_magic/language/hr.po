@@ -5243,3 +5243,9 @@ msgstr "gotovi miks -- bez govornika, bez kamere"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Govor: smješta se samo prema glasnoći. Snimka koja nema ništa zajedničko\ns kamerama se odbija. Miješano: ispod glasova su glazba ili miks,\ni gdje glasnoća ništa ne nađe, faza je smije smjestiti.\nGotovi miks: stereo miks napravljen drugdje, postavljen kao miješani zvuk. Ide\nu datoteke kamera i u predaju umjesto miksa koji gradi obrada --\nbez govornika, bez rezova, ne šalje se na auphonic.com.\nPod „%s” Govor se ne nudi."
+
+msgid "Enough for the %s this production needs."
+msgstr "Dovoljno za %s koliko treba ova produkcija."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nije dovoljno za %s koliko treba ova produkcija."

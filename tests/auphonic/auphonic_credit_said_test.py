@@ -4,16 +4,17 @@
 auphonic.com is never spoken to: `_curl_call` is replaced by a stand-in
 answering /api/user.json the way its API page shows it. Sections: the
 account read; the lines before an upload -- the plan, the credit in
-whole minutes, what a production needs rounded up to at least one, a
+whole minutes, what a production needs rounded up to at least three, a
 hint where the credit is short, and a warning with a note beside it
 where a free account's Multitrack production is longer than the 21
 minutes auphonic.com took, none on the border itself; a run that
 says it before anything goes up and goes on; the line in the Auphonic
-box, red where the production needs more, plain without a preset; the
-box in the window, fed the length of the rows, shown once the account
-answered, preset or not; and the check before the run, which says the
-same lines first, asks once, and stops nothing. File lengths are stood
-in for from the window on.
+box, saying enough or not enough, red where the production needs more,
+plain without a preset; the box in the window, fed what the rows are
+charged -- Singletrack productions each at least three minutes --
+shown once the account answered, preset or not; and the check before
+the run, which says the same lines first, asks once, and stops
+nothing. File lengths are stood in for from the window on.
 """
 PLATFORM_BOUND = True
 import os
@@ -188,17 +189,17 @@ check("short credit is no warning",
       % (len(warned(lines)), len(lines), warned(lines)))
 
 lines = verdict(HOUR, 20, False)
-check("a 20 s production is said to need 1 min, never 0 min",
-      lines[1:] == [ENOUGH % (minutes(60), minutes(1))],
+check("a 20 s production is said to need 3 min, the least charged",
+      lines[1:] == [ENOUGH % (minutes(60), minutes(3))],
       "1 h left for 20 s: %r" % (lines,))
-lines = verdict(HOUR, 90, False)
-check("a production of 1 min 30 s is said to need 2 min, rounded up",
-      lines[1:] == [ENOUGH % (minutes(60), minutes(2))],
-      "1 h left for 90 s: %r" % (lines,))
-lines = verdict({"hours": 30 / 3600.0, "paying": True}, 20, False)
-check("30 s of credit does not carry a 20 s production charged as 1 min",
-      lines[1:] == [SHORT % (minutes(0), minutes(1)), TRIES],
-      "30 s left for 20 s: %r" % (lines,))
+lines = verdict(HOUR, 210, False)
+check("a production of 3 min 30 s is said to need 4 min, rounded up",
+      lines[1:] == [ENOUGH % (minutes(60), minutes(4))],
+      "1 h left for 210 s: %r" % (lines,))
+lines = verdict({"hours": 150 / 3600.0, "paying": True}, 20, False)
+check("2 min 30 s of credit does not carry a 20 s production at 3 min",
+      lines[1:] == [SHORT % (minutes(2), minutes(3)), TRIES],
+      "150 s left for 20 s: %r" % (lines,))
 
 FREE = {"hours": 2.0, "paying": False}
 lines = verdict(FREE, 21 * 60 + 1, True)
@@ -266,16 +267,17 @@ def run_said(account):
         False), account)
 
 
-# Three seconds of sound are charged as a whole minute.
-ONE = minutes(1)
+# Three seconds of sound are charged as three minutes, the least.
+ONE = minutes(3)
 
-# Three seconds of sound against a fiftieth of an hour, 72 s: enough.
-text, calls = run_said(dict(PAID, credits=0.02))
+# Three seconds of sound against 0.06 of an hour, 216 s: enough.
+text, calls = run_said(dict(PAID, credits=0.06))
 mark = text.find("<<the upload begins here>>")
 enough = text.find(ENOUGH % (ONE, ONE))
+# Between the two the run looks for a production of its title.
 check("a run asks the account before its upload, not after",
-      len(calls) == 2 and calls[0][-1].endswith("/api/user.json")
-      and "-F" in calls[1],
+      calls and calls[0][-1].endswith("/api/user.json")
+      and "-F" in calls[-1] and not any("-F" in c for c in calls[:-1]),
       "calls in order: %r" % ([c[-1] if "-F" not in c else "upload"
                                for c in calls],))
 plan = text.find(PAYING)
@@ -336,10 +338,19 @@ check("the box shows what the account has left once it answered",
 check("credit that carries the production is not red",
       RED not in line.styleSheet(), "150 min for 40: style %r"
       % line.styleSheet())
+ENOUGH_BOX = T('Enough for the %s this production needs.')
+NOT_ENOUGH_BOX = T('Not enough for the %s this production needs.')
+check("the box says the credit is enough for what the production needs",
+      ENOUGH_BOX % minutes(40) in line.text()
+      and NOT_ENOUGH_BOX % minutes(40) not in line.text(),
+      "150 min for 40: text %r" % line.text())
 show({"hours": 0.5, "paying": True}, False, 40 * 60)
 check("the box is red when the production needs more than is left",
       RED in line.styleSheet(), "30 min for 40: style %r"
       % line.styleSheet())
+check("the box says the credit is not enough for what the production needs",
+      NOT_ENOUGH_BOX % minutes(40) in line.text(),
+      "30 min for 40: text %r" % line.text())
 show({"hours": 0.0, "paying": True}, False)
 check("the box is red when no credit is left",
       RED in line.styleSheet(), "style %r" % line.styleSheet())
@@ -390,6 +401,17 @@ alone = types.SimpleNamespace(assign_lines=model.assign_lines, files=[],
 check("Singletrack productions add up",
       vpm.run_seconds_of(alone, False) == 40 * 60.0,
       "25 and 15 min apart: %r" % (vpm.run_seconds_of(alone, False),))
+LONG.update({"Guest.wav": 20, "Presenter.wav": 20})
+check("each Singletrack production is charged at least 3 min",
+      vpm.run_seconds_of(alone, False) == 6 * 60.0,
+      "20 s and 20 s apart: %r s, 360 s wanted"
+      % (vpm.run_seconds_of(alone, False),))
+LONG.update({"Guest.wav": 200, "Presenter.wav": 200})
+check("each Singletrack production is rounded up before they add up",
+      vpm.run_seconds_of(alone, False) == 8 * 60.0,
+      "200 s and 200 s apart: %r s, 480 s wanted"
+      % (vpm.run_seconds_of(alone, False),))
+LONG.update({"Guest.wav": 25 * 60, "Presenter.wav": 15 * 60})
 
 page, multi = QtWidgets.QWidget(), QtWidgets.QPushButton()
 page_layout = QtWidgets.QVBoxLayout(page)
@@ -427,6 +449,9 @@ check("the window shows the credit once a preset is chosen",
 check("it is red when the rows need more than is left",
       RED in credit.styleSheet(), "20 min for 25: style %r"
       % credit.styleSheet())
+check("the window says the credit is not enough for the rows' 25 min",
+      T('Not enough for the %s this production needs.') % minutes(25)
+      in credit.text(), "20 min for 25: text %r" % credit.text())
 state["account"] = {"hours": 30 / 60.0, "paying": True}
 built[6]()
 check("and not red when the credit carries them",

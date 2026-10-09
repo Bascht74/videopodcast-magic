@@ -89,7 +89,11 @@ Was herauskommt, hängt am Material:
 
 - **Nur Ton.** Eine einzelne Aufnahme wird aus ihren Blöcken zu einer
   Datei `<Name>_joined.wav` zusammengelegt oder geht allein zu
-  auphonic.com; das Ziel gilt hier. Mehrere Aufnahmen kommen auf eine
+  auphonic.com; das Ziel gilt hier. Läuft sie noch einmal, findet das
+  Programm ihre Produktion bei auphonic.com am Namen wieder und fragt,
+  bevor es ein zweites Mal hochlädt und bezahlt
+  ([Aufbereitung bei auphonic.com](auphonic.de.md), „Wenn es die
+  Produktion schon gibt“). Mehrere Aufnahmen kommen auf eine
   Zeitachse, mit Häkchen wie ohne, genau wie
   [Multitrack](multitrack.de.md), „Multitrack ganz ohne Kamera“, es
   beschreibt, und gehen als eine Multitrack-Produktion zu auphonic.com.

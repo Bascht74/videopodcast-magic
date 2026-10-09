@@ -509,11 +509,10 @@ def run_tracks_of(model):
 
 
 def run_seconds_of(model, multitrack):
-    """How long the rows' productions at auphonic.com last, in seconds.
+    """What the rows' productions at auphonic.com are charged, in seconds.
 
     A row lasts as long as its blocks end to end, a track as its
-    longest row. One Multitrack production lasts as long as its longest
-    track; Singletrack productions are charged each, so they add up. The
+    longest row; charged_seconds says what the tracks are charged. The
     run lays the tracks on one axis first, which only lengthens them, so
     this is the least it needs. 0 where nothing is measured.
     """
@@ -525,8 +524,7 @@ def run_seconds_of(model, multitrack):
                   ) / float(PROGRAM.SR)
         track = name.get().strip() or i
         tracks[track] = max(tracks.get(track, 0.0), row)
-    lengths = list(tracks.values()) or [0.0]
-    return max(lengths) if multitrack else sum(lengths)
+    return PROGRAM.charged_seconds(list(tracks.values()), multitrack)
 
 
 def missing_conditions(files, production, multitrack, assign_lines,

@@ -5382,3 +5382,9 @@ msgstr "المزيج الجاهز -- ليس متحدثًا، بلا كاميرا
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "كلام: يُوضع بالجهارة وحدها. التسجيل الذي لا يشترك في شيء\nمع الكاميرات يُرفض. مختلط: موسيقى أو مزيج تحت الأصوات،\nوحيث لا تجد الجهارة شيئًا يجوز للطور أن يضعه.\nمزيج جاهز: مزيج ستيريو صُنع في مكان آخر، يوضع كصوت مختلط. يدخل\nفي ملفات الكاميرات والتسليم بدل المزيج الذي تبنيه المعالجة --\nليس متحدثًا، لا يُقطع، لا يُرسل إلى auphonic.com.\nتحت \"%s\" لا يُعرض كلام."
+
+msgid "Enough for the %s this production needs."
+msgstr "يكفي لـ %s التي يحتاجها هذا الإنتاج."
+
+msgid "Not enough for the %s this production needs."
+msgstr "لا يكفي لـ %s التي يحتاجها هذا الإنتاج."

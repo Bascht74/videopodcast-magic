@@ -5247,3 +5247,9 @@ msgstr "gatavais mikss -- nav runātājs, nav kameras"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Runa: novieto tikai pēc skaļuma. Ieraksts, kam nav nekā kopīga\nar kamerām, tiek noraidīts. Jaukts: zem balsīm ir mūzika vai miksējums,\nun kur skaļums neko neatrod, to drīkst novietot fāze.\nGatavs mikss: citur veidots stereo mikss, novietots kā jaukta skaņa. Tas nonāk\nkameru failos un nodošanā apstrādes paša miksa vietā --\nnav runātājs, netiek griezts, netiek sūtīts uz auphonic.com.\nAr „%s“ Runa netiek piedāvāta."
+
+msgid "Enough for the %s this production needs."
+msgstr "Pietiek šim producējumam vajadzīgajām %s."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nepietiek šim producējumam vajadzīgajām %s."

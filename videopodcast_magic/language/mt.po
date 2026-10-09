@@ -5291,3 +5291,9 @@ msgstr "it-taħlita lesta -- mhux kelliem, l-ebda kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Taħdit: jitqiegħed skont il-qawwa tal-ħoss biss. Reġistrazzjoni li ma taqsam xejn\nmal-kameras tiġi rrifjutata. Imħallat: mużika jew taħlita tinsab taħt il-vuċijiet,\nu fejn il-qawwa tal-ħoss ma ssib xejn, il-fażi tista' tqegħedha.\nTaħlita lesta: taħlita stereo magħmula x'imkien ieħor, imqiegħda bħala ħoss imħallat. Tidħol\nfil-fajls tal-kameras u fil-konsenja minflok it-taħlita tal-proċess --\nmhux kelliem, mhux maqtugħa, mhux mibgħuta lil auphonic.com.\nTaħt \"%s\" it-Taħdit mhux offrut."
+
+msgid "Enough for the %s this production needs."
+msgstr "Biżżejjed għall-%s li teħtieġ din il-produzzjoni."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Mhux biżżejjed għall-%s li teħtieġ din il-produzzjoni."

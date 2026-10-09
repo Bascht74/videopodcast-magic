@@ -5243,3 +5243,9 @@ msgstr "mixul final -- fără vorbitor, fără cameră"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Vorbire: plasat doar după sonoritate. O înregistrare care nu are nimic în comun\ncu camerele este refuzată. Mixt: sub voci se află muzică sau un mix,\niar acolo unde sonoritatea nu găsește nimic, faza o poate plasa.\nMix final: un mix stereo făcut în altă parte, plasat ca sunet mixt. Intră\nîn fișierele camerelor și în predare în locul mixului procesării --\nfără vorbitor, fără tăieturi, fără trimitere la auphonic.com.\nLa „%s” Vorbire nu este oferită."
+
+msgid "Enough for the %s this production needs."
+msgstr "Destul pentru cele %s de care are nevoie această producție."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nu ajunge pentru cele %s de care are nevoie această producție."

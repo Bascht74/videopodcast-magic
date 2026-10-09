@@ -5242,3 +5242,9 @@ msgstr "hotový mix -- žiadny hovoriaci, žiadna kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Reč: umiestni sa len podľa hlasitosti. Nahrávka, ktorá nemá nič spoločné\ns kamerami, sa odmietne. Zmiešané: pod hlasmi je hudba alebo mix,\na kde hlasitosť nič nenájde, smie ju umiestniť fáza.\nHotový mix: stereo mix vytvorený inde, umiestnený ako zmiešaný zvuk. Ide\ndo súborov kamier a do odovzdania namiesto mixu, ktorý zostaví beh --\nžiadny hovoriaci, nestrihá sa, neposiela sa na auphonic.com.\nPri „%s“ sa Reč neponúka."
+
+msgid "Enough for the %s this production needs."
+msgstr "Stačí na %s, ktoré táto produkcia potrebuje."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nestačí na %s, ktoré táto produkcia potrebuje."
