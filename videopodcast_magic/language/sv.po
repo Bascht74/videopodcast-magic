@@ -3775,9 +3775,6 @@ msgstr "\nKLIPPNING MED ÖVERSIKTSBILDEN"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nFÖRSTA KLIPPNING EFTER TALARE"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Fler än två kanaler går till auphonic.com som en: nedmixningen stängs bara av för stereo.\n  Där kanalerna ska hållas isär, dela filen i spår först."
-
 msgid "First cut by speaker"
 msgstr "Första klippning efter talare"
 
@@ -5198,3 +5195,12 @@ msgstr "den färdiga mixen -- ingen talare, ingen kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Tal: placeras enbart efter ljudstyrkan. En inspelning som inte har något gemensamt\nmed kamerorna avvisas. Blandat: musik eller en mix ligger under rösterna,\noch där ljudstyrkan inte hittar något får fasen placera den.\nFärdig mix: en stereomix gjord någon annanstans, placerad som blandat ljud. Den hamnar\ni kamerafilerna och överlämningen i stället för körningens egen mix --\ningen talare, inte klippt, inte skickad till auphonic.com.\nUnder ”%s” erbjuds inte Tal."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s har %s kanaler, och auphonic.com tar högst två i en fil. Ingenting skickades.\n"
+"  Ange vilka kanaler som hör ihop: på fliken Filer & produktion fälls filen ut i en rad per kanal, och bocken på en rad slår ihop den med nästa. Visar filen inga kanalrader, spara först dess kanaler som egna filer."

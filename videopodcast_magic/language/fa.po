@@ -3867,9 +3867,6 @@ msgstr "\nبرش با نمای باز"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nنخستین برش بر اساس گوینده"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  بیش از دو کانال به‌صورت یکی به auphonic.com می‌روند: ادغام فقط برای استریو خاموش می‌شود.\n  جایی که کانال‌ها باید جدا بمانند، ابتدا فایل را به ترک‌ها برش دهید."
-
 msgid "First cut by speaker"
 msgstr "نخستین برش بر اساس گوینده"
 
@@ -5201,3 +5198,12 @@ msgstr "میکس آماده -- گوینده نیست، بدون دوربین"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "گفتار: فقط بر اساس بلندی صدا جای‌گذاری می‌شود. ضبطی که هیچ اشتراکی\nبا دوربین‌ها ندارد رد می‌شود. ترکیبی: موسیقی یا میکس زیر صداها قرار دارد،\nو جایی که بلندی صدا چیزی نمی‌یابد، فاز می‌تواند آن را جای‌گذاری کند.\nمیکس آماده: میکس استریویی که جای دیگری ساخته شده، مانند صدای ترکیبی قرار می‌گیرد. به‌جای میکس پردازش\nوارد فایل‌های دوربین و تحویل می‌شود --\nگوینده نیست، بریده نمی‌شود، به auphonic.com فرستاده نمی‌شود.\nدر «%s» گفتار پیشنهاد نمی‌شود."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s دارای %s کانال است و auphonic.com در هر فایل حداکثر دو کانال می‌پذیرد. چیزی ارسال نشد.\n"
+"  مشخص کنید کدام کانال‌ها با هم هستند: در زبانه فایل‌ها & تولید فایل به یک ردیف برای هر کانال باز می‌شود و تیک روی یک ردیف آن را با ردیف بعدی یکی می‌کند. اگر فایل ردیف کانال نشان نمی‌دهد، ابتدا کانال‌های آن را به‌صورت فایل‌های جداگانه ذخیره کنید."

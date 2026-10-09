@@ -3870,9 +3870,6 @@ msgstr "\nਵਾਈਡ ਸ਼ਾਟ ਨਾਲ ਕੱਟ"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nਬੁਲਾਰੇ ਅਨੁਸਾਰ ਪਹਿਲਾ ਕੱਟ"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  ਦੋ ਤੋਂ ਵੱਧ ਚੈਨਲ auphonic.com ਨੂੰ ਇੱਕ ਵਜੋਂ ਜਾਂਦੇ ਹਨ: ਰਲਾਉਣਾ ਸਿਰਫ਼ ਸਟੀਰੀਓ ਲਈ ਬੰਦ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।\n  ਜਿੱਥੇ ਚੈਨਲ ਵੱਖਰੇ ਰਹਿਣੇ ਚਾਹੀਦੇ ਹਨ, ਉੱਥੇ ਪਹਿਲਾਂ ਫ਼ਾਈਲ ਨੂੰ ਟਰੈਕਾਂ ਵਿੱਚ ਕੱਟੋ।"
-
 msgid "First cut by speaker"
 msgstr "ਬੁਲਾਰੇ ਅਨੁਸਾਰ ਪਹਿਲਾ ਕੱਟ"
 
@@ -5204,3 +5201,12 @@ msgstr "ਤਿਆਰ ਮਿਕਸ -- ਬੁਲਾਰਾ ਨਹੀਂ, ਕੈਮ�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "ਗੱਲਬਾਤ: ਸਿਰਫ਼ ਲਾਊਡਨੈੱਸ ਨਾਲ ਰੱਖੀ ਜਾਂਦੀ ਹੈ। ਜਿਸ ਰਿਕਾਰਡਿੰਗ ਦਾ ਕੈਮਰਿਆਂ ਨਾਲ ਕੁਝ ਵੀ\nਸਾਂਝਾ ਨਹੀਂ, ਉਹ ਰੱਦ ਕੀਤੀ ਜਾਂਦੀ ਹੈ। ਮਿਸ਼ਰਤ: ਆਵਾਜ਼ਾਂ ਹੇਠ ਸੰਗੀਤ ਜਾਂ ਮਿਕਸ ਹੁੰਦਾ ਹੈ,\nਅਤੇ ਜਿੱਥੇ ਲਾਊਡਨੈੱਸ ਨੂੰ ਕੁਝ ਨਹੀਂ ਮਿਲਦਾ, ਉੱਥੇ ਫੇਜ਼ ਇਸ ਨੂੰ ਰੱਖ ਸਕਦਾ ਹੈ।\nਤਿਆਰ ਮਿਕਸ: ਕਿਤੇ ਹੋਰ ਬਣਿਆ ਸਟੀਰੀਓ ਮਿਕਸ, ਮਿਸ਼ਰਤ ਆਵਾਜ਼ ਵਾਂਗ ਰੱਖਿਆ ਜਾਂਦਾ ਹੈ। ਇਹ ਪ੍ਰੋਸੈਸਿੰਗ ਦੇ ਮਿਕਸ ਦੀ ਥਾਂ\nਕੈਮਰਾ ਫ਼ਾਈਲਾਂ ਅਤੇ ਸੌਂਪਣੀ ਵਿੱਚ ਜਾਂਦਾ ਹੈ --\nਬੁਲਾਰਾ ਨਹੀਂ, ਕੱਟਿਆ ਨਹੀਂ ਜਾਂਦਾ, auphonic.com ਨੂੰ ਨਹੀਂ ਭੇਜਿਆ ਜਾਂਦਾ।\n\"%s\" ਹੇਠ ਗੱਲਬਾਤ ਦੀ ਚੋਣ ਨਹੀਂ ਮਿਲਦੀ।"
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s ਵਿੱਚ %s ਚੈਨਲ ਹਨ, ਅਤੇ auphonic.com ਇੱਕ ਫ਼ਾਈਲ ਵਿੱਚ ਵੱਧ ਤੋਂ ਵੱਧ ਦੋ ਲੈਂਦਾ ਹੈ। ਕੁਝ ਵੀ ਨਹੀਂ ਭੇਜਿਆ ਗਿਆ।\n"
+"  ਦੱਸੋ ਕਿ ਕਿਹੜੇ ਚੈਨਲ ਇਕੱਠੇ ਜਾਂਦੇ ਹਨ: ਫ਼ਾਈਲਾਂ & ਪ੍ਰੋਡਕਸ਼ਨ ਟੈਬ ਉੱਤੇ ਫ਼ਾਈਲ ਹਰ ਚੈਨਲ ਲਈ ਇੱਕ ਕਤਾਰ ਵਿੱਚ ਖੁੱਲ੍ਹਦੀ ਹੈ, ਅਤੇ ਕਤਾਰ ਦਾ ਟਿੱਕ ਉਸਨੂੰ ਅਗਲੀ ਨਾਲ ਜੋੜਦਾ ਹੈ। ਜੇ ਫ਼ਾਈਲ ਚੈਨਲ ਦੀਆਂ ਕਤਾਰਾਂ ਨਹੀਂ ਦਿਖਾਉਂਦੀ, ਤਾਂ ਪਹਿਲਾਂ ਇਸਦੇ ਚੈਨਲ ਵੱਖਰੀਆਂ ਫ਼ਾਈਲਾਂ ਵਜੋਂ ਸੰਭਾਲੋ।"

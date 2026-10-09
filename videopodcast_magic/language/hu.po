@@ -3777,9 +3777,6 @@ msgstr "\nVÁGÁS A TOTÁLLAL"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nELSŐ VÁGÁS BESZÉLŐK SZERINT"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Kettőnél több csatorna egyként megy az auphonic.com-ra: az összehajtás csak sztereónál van kikapcsolva.\n  Ahol a csatornáknak külön kell maradniuk, előbb vágja a fájlt sávokra."
-
 msgid "First cut by speaker"
 msgstr "Első vágás beszélők szerint"
 
@@ -5200,3 +5197,12 @@ msgstr "a kész keverés -- nem beszélő, nincs kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Beszéd: csak a hangosság alapján kerül a helyére. Az a felvétel, amelynek semmi köze\na kamerákhoz, elutasításra kerül. Kevert: a hangok alatt zene vagy mix szól,\nés ahol a hangosság nem talál semmit, a fázis elhelyezheti.\nKész keverés: máshol készült sztereó keverés, kevert hangként elhelyezve. A kamerafájlokba\nés az átadásba kerül a futás által épített keverés helyett --\nnem beszélő, nincs vágva, nem megy az auphonic.com-ra.\n„%s” esetén a Beszéd nem választható."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"A(z) %s fájlban %s csatorna van, az auphonic.com pedig egy fájlban legfeljebb kettőt fogad el. Semmi sem lett elküldve.\n"
+"  Adja meg, mely csatornák tartoznak össze: a(z) Fájlok & produkció lapon a fájl csatornánként egy sorra nyílik, és egy sor pipája összevonja a következővel. Ha a fájl nem mutat csatornasorokat, előbb mentse a csatornáit külön fájlokba."

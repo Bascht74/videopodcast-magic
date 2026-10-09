@@ -1966,9 +1966,6 @@ msgstr "  Не хватает:  %s"
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  Mixdown с auphonic.com: %s LUFS, пик %s dBTP (%s)"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Больше двух каналов уходят на auphonic.com как один: свёртка отключается только для стерео.\n  Там, где каналы должны остаться раздельными, сначала разрежьте файл на дорожки."
-
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  Full-Mix не найден -- Timeline остаётся немой."
 
@@ -5241,3 +5238,12 @@ msgstr "готовый микс -- не спикер, без камеры"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Речь: размещается только по громкости. Запись, у которой нет ничего общего\nс камерами, отклоняется. Смешанный: под голосами лежит музыка или микс,\nи где громкость ничего не находит, её может разместить фаза.\nГотовый микс: стереомикс, сделанный в другом месте, размещается как смешанный звук. Он идёт\nв файлы камер и в передачу вместо микса, который строит обработка --\nне спикер, не режется, не отправляется на auphonic.com.\nПри «%s» «Речь» не предлагается."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"В %s %s канала, а auphonic.com принимает в одном файле не больше двух. Ничего не отправлено.\n"
+"  Укажите, какие каналы идут вместе: на вкладке Файлы & продукция файл раскрывается в одну строку на канал, а отметка в строке объединяет её со следующей. Если у файла нет строк каналов, сначала сохраните его каналы как отдельные файлы."

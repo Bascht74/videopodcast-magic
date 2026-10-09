@@ -3868,9 +3868,6 @@ msgstr "\nवाइड शॉटसह कट"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nवक्त्यानुसार पहिला कट"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  दोनपेक्षा जास्त चॅनेल auphonic.com वर एक म्हणून जातात: एकत्रीकरण फक्त स्टिरिओसाठी बंद केले जाते.\n  जिथे चॅनेल वेगळे राहायला हवेत, तिथे आधी फाइल ट्रॅकमध्ये कापा."
-
 msgid "First cut by speaker"
 msgstr "वक्त्यानुसार पहिला कट"
 
@@ -5202,3 +5199,12 @@ msgstr "तयार मिक्स -- वक्ता नाही, कॅम�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "बोलणे: फक्त लाऊडनेसनुसार ठेवले जाते. ज्या रेकॉर्डिंगमध्ये कॅमेऱ्यांशी काहीही\nसामाईक नाही ते नाकारले जाते. मिश्र: आवाजांखाली संगीत किंवा मिक्स असते,\nआणि जिथे लाऊडनेसला काहीच सापडत नाही तिथे फेज ते ठेवू शकतो.\nतयार मिक्स: दुसरीकडे बनवलेला स्टीरिओ मिक्स, मिश्र आवाजासारखा ठेवला जातो. तो प्रक्रियेच्या मिक्सऐवजी\nकॅमेरा फाइल्स आणि हस्तांतरणात जातो --\nवक्ता नाही, कापला जात नाही, auphonic.com ला पाठवला जात नाही.\n\"%s\" मध्ये बोलणे हा पर्याय मिळत नाही."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s मध्ये %s चॅनेल आहेत, आणि auphonic.com एका फाइलमध्ये जास्तीत जास्त दोन घेते. काहीही पाठवले नाही.\n"
+"  कोणते चॅनेल एकत्र जातात ते सांगा: फाइली & प्रॉडक्शन टॅबवर फाइल प्रत्येक चॅनेलसाठी एका ओळीत उघडते, आणि ओळीवरची खूण तिला पुढच्या ओळीशी जोडते. फाइल चॅनेलच्या ओळी दाखवत नसेल, तर आधी तिचे चॅनेल स्वतंत्र फाइल म्हणून जतन करा."

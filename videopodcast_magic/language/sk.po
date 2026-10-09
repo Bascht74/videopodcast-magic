@@ -3778,9 +3778,6 @@ msgstr "\nSTRIH SO ŠIROKÝM ZÁBEROM"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nPRVÝ STRIH PODĽA REČNÍKOV"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Viac než dva kanály idú na auphonic.com ako jeden: zlúčenie sa vypína len pri stereu.\n  Kde majú kanály zostať oddelené, rozdeľte súbor najprv na stopy."
-
 msgid "First cut by speaker"
 msgstr "Prvý strih podľa rečníkov"
 
@@ -5242,3 +5239,12 @@ msgstr "hotový mix -- žiadny hovoriaci, žiadna kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Reč: umiestni sa len podľa hlasitosti. Nahrávka, ktorá nemá nič spoločné\ns kamerami, sa odmietne. Zmiešané: pod hlasmi je hudba alebo mix,\na kde hlasitosť nič nenájde, smie ju umiestniť fáza.\nHotový mix: stereo mix vytvorený inde, umiestnený ako zmiešaný zvuk. Ide\ndo súborov kamier a do odovzdania namiesto mixu, ktorý zostaví beh --\nžiadny hovoriaci, nestrihá sa, neposiela sa na auphonic.com.\nPri „%s“ sa Reč neponúka."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s má %s kanály a auphonic.com prijme v jednom súbore najviac dva. Nič nebolo odoslané.\n"
+"  Určte, ktoré kanály patria k sebe: na karte Súbory & produkcia sa súbor rozbalí do jedného riadka na kanál a zaškrtnutie na riadku ho spojí s nasledujúcim. Ak súbor riadky kanálov neukazuje, uložte najprv jeho kanály ako samostatné súbory."

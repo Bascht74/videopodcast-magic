@@ -3868,9 +3868,6 @@ msgstr "\nMONTAAŽ ÜLDPLAANIGA"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nESIMENE MONTAAŽ KÕNELEJA JÄRGI"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Rohkem kui kaks kanalit läheb auphonic.com-i ühena: kokkuliitmine lülitatakse välja ainult stereo puhul.\n  Kui kanalid peavad eraldi jääma, lõika fail enne radadeks."
-
 msgid "First cut by speaker"
 msgstr "Esimene montaaž kõneleja järgi"
 
@@ -5202,3 +5199,12 @@ msgstr "valmis miks -- mitte kõneleja, kaamerata"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Kõne: paigutatakse ainult valjuse järgi. Salvestis, millel pole kaameratega\nmidagi ühist, lükatakse tagasi. Segatud: häälte all on muusika või miks,\nja kus valjus midagi ei leia, võib selle paigutada faas.\nValmis miks: mujal tehtud stereomiks, paigutatud nagu segatud heli. See läheb\nkaamerafailidesse ja üleandmisse töötluse enda miksi asemel --\nmitte kõneleja, ei lõigata, ei saadeta auphonic.com-i.\n„%s“ puhul Kõnet ei pakuta."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"Failis %s on %s kanalit, aga auphonic.com võtab ühes failis vastu kõige rohkem kaks. Midagi ei saadetud.\n"
+"  Määrake, millised kanalid kuuluvad kokku: vahekaardil Failid & produktsioon avaneb fail üheks reaks iga kanali kohta ja rea linnuke ühendab selle järgmisega. Kui fail kanaliridu ei näita, salvestage selle kanalid kõigepealt eraldi failideks."

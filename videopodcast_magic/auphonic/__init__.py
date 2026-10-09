@@ -1337,12 +1337,6 @@ def run_single_production(audio, preset, presetname, key, target_folder,
             T('  File:    %s (%s, %s)') % (os.path.basename(audio),
                                            as_data_size(size),
                                            channel_text(really))]
-    if really > 2:
-        rows.append(as_warn(T('  More than two channels go to auphonic.com '
-                              'as one: the fold is only switched off for '
-                              'stereo.\n  Where the channels are meant to '
-                              'stay apart, cut the file into tracks '
-                              'first.')))
     if production_said(key, T('PROCESSING AT AUPHONIC.COM:'), rows, dry_run,
                        lambda: PROGRAM.media_seconds(audio), False):
         return None

@@ -3775,9 +3775,6 @@ msgstr "\nKLIPNING MED OVERSIGTSBILLEDET"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nFØRSTE KLIPNING EFTER TALER"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Mere end to kanaler går til auphonic.com som én: nedmixet slås kun fra for stereo.\n  Hvor kanalerne skal holdes adskilt, så del filen op i spor først."
-
 msgid "First cut by speaker"
 msgstr "Første klipning efter taler"
 
@@ -5198,3 +5195,12 @@ msgstr "det færdige mix -- ingen taler, intet kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Tale: placeres alene efter lydstyrken. En optagelse, der intet har til fælles\nmed kameraerne, afvises. Blandet: musik eller et mix ligger under stemmerne,\nog hvor lydstyrken intet finder, må fasen placere den.\nFærdigt mix: et stereomix lavet et andet sted, placeret som blandet lyd. Det kommer\ni kamerafilerne og overdragelsen i stedet for kørslens eget mix --\ningen taler, ikke klippet, ikke sendt til auphonic.com.\nUnder ”%s” tilbydes Tale ikke."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s har %s kanaler, og auphonic.com tager højst to i én fil. Intet blev sendt.\n"
+"  Angiv hvilke kanaler der hører sammen: på fanen Filer & produktion folder filen sig ud i én række pr. kanal, og fluebenet på en række slår den sammen med den næste. Hvis filen ikke viser kanalrækker, så gem først dens kanaler som selvstændige filer."

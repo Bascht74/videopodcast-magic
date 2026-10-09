@@ -364,6 +364,11 @@ exist.
   speakers in that picture ([Multitrack](multitrack.md), "What goes into
   the camera files"). Every recording is in `auphonic-tracks/` as well,
   one file each.
+- **The run stops before the time axis, with `has 4 channels, and
+  auphonic.com takes at most two in one file`.** One recording of more
+  than two channels was to go up on its own, and nothing was sent. Say
+  which channels belong together ([Channels](channels.md), "More than
+  two channels in one file").
 - **A video file is missing from the result.** The run could not place
   it: its sound has nothing in common with the rest of the material, and
   it carries no timecode, or no camera the sound placed carries one to

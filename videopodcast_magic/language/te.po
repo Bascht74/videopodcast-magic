@@ -3868,9 +3868,6 @@ msgstr "\nవైడ్ షాట్‌తో కట్"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nవక్తల వారీగా మొదటి కట్"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  రెండు కంటే ఎక్కువ ఛానళ్లు auphonic.com కు ఒకటిగా వెళ్తాయి: ఛానళ్లను ఒకటిగా కలపడం స్టీరియోకు మాత్రమే ఆపివేయబడుతుంది.\n  ఛానళ్లు వేరుగా ఉండాల్సిన చోట, ముందుగా ఫైల్‌ను ట్రాక్‌లుగా విభజించండి."
-
 msgid "First cut by speaker"
 msgstr "వక్తల వారీగా మొదటి కట్"
 
@@ -5202,3 +5199,12 @@ msgstr "పూర్తయిన మిక్స్ -- వక్త కాదు
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "మాట: లౌడ్‌నెస్ ఆధారంగా మాత్రమే ఉంచబడుతుంది. కెమెరాలతో ఏదీ ఉమ్మడిగా\nలేని రికార్డింగ్ తిరస్కరించబడుతుంది. మిశ్రమం: గొంతుల కింద సంగీతం లేదా మిక్స్ ఉంటుంది,\nలౌడ్‌నెస్ ఏమీ కనుగొనని చోట ఫేజ్ దాన్ని ఉంచవచ్చు.\nపూర్తయిన మిక్స్: వేరే చోట చేసిన స్టీరియో మిక్స్, మిశ్రమ ధ్వనిలా ఉంచబడుతుంది. ప్రాసెసింగ్ మిక్స్‌కు బదులుగా\nకెమెరా ఫైళ్లలోకి, అప్పగింతలోకి వెళ్తుంది --\nవక్త కాదు, కత్తిరించబడదు, auphonic.com కు పంపబడదు.\n\"%s\" కింద మాట ఎంపిక ఇవ్వబడదు."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s లో %s ఛానెళ్లు ఉన్నాయి, auphonic.com ఒక ఫైల్‌లో గరిష్ఠంగా రెండు మాత్రమే తీసుకుంటుంది. ఏదీ పంపలేదు.\n"
+"  ఏ ఛానెళ్లు కలిసి వెళ్తాయో చెప్పండి: ఫైళ్లు & ప్రొడక్షన్ ట్యాబ్‌లో ఫైల్ ప్రతి ఛానెల్‌కు ఒక వరుసగా తెరుచుకుంటుంది, ఒక వరుసపై టిక్ దాన్ని తర్వాతి దానితో కలుపుతుంది. ఫైల్ ఛానెల్ వరుసలు చూపకపోతే, ముందుగా దాని ఛానెళ్లను వేర్వేరు ఫైళ్లుగా సేవ్ చేయండి."

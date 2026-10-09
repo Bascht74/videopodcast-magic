@@ -3868,9 +3868,6 @@ msgstr "\nPOTONGAN DENGAN BIDIKAN LEBAR"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nPOTONGAN AWAL PER PEMBICARA"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Lebih dari dua kanal dikirim ke auphonic.com sebagai satu: penggabungan hanya dimatikan untuk stereo.\n  Jika kanal-kanal harus tetap terpisah, potong dulu file menjadi beberapa trek."
-
 msgid "First cut by speaker"
 msgstr "Potongan awal per pembicara"
 
@@ -5159,3 +5156,12 @@ msgstr "mix jadi -- bukan pembicara, tanpa kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Ucapan: ditempatkan hanya menurut kenyaringannya. Rekaman yang tidak punya kesamaan apa pun\ndengan kamera ditolak. Campuran: musik atau mix ada di bawah suara-suara,\ndan di mana kenyaringan tidak menemukan apa pun, fase boleh menempatkannya.\nMix jadi: mix stereo yang dibuat di tempat lain, diletakkan seperti suara campuran. Mix ini masuk\nke berkas kamera dan serah terima menggantikan mix buatan proses --\nbukan pembicara, tidak dipotong, tidak dikirim ke auphonic.com.\nDengan \"%s\" Ucapan tidak ditawarkan."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s memiliki %s kanal, dan auphonic.com menerima paling banyak dua dalam satu file. Tidak ada yang dikirim.\n"
+"  Tentukan kanal mana yang satu kesatuan: di tab File & produksi file terbuka menjadi satu baris per kanal, dan centang pada sebuah baris menggabungkannya dengan baris berikutnya. Jika file tidak menampilkan baris kanal, simpan dulu kanal-kanalnya sebagai file tersendiri."

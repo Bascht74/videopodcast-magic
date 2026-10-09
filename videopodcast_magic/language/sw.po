@@ -3868,9 +3868,6 @@ msgstr "\nMKATO PAMOJA NA PICHA PANA"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nMKATO WA KWANZA KWA MZUNGUMZAJI"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Chaneli zaidi ya mbili huenda auphonic.com kama moja: kuziunganisha kuwa moja huzimwa kwa stereo pekee.\n  Pale chaneli zinapopaswa kubaki tofauti, kata faili kuwa treki kwanza."
-
 msgid "First cut by speaker"
 msgstr "Mkato wa kwanza kwa mzungumzaji"
 
@@ -5202,3 +5199,12 @@ msgstr "mchanganyiko uliokamilika -- si mzungumzaji, bila kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Mazungumzo: huwekwa kwa ukubwa wa sauti pekee. Rekodi isiyoshiriki chochote\nna kamera hukataliwa. Mchanganyiko: muziki au mchanganyiko uko chini ya sauti za watu,\nna pale ukubwa wa sauti usipopata kitu, fazi inaweza kuiweka.\nMchanganyiko uliokamilika: mchanganyiko wa stereo uliotengenezwa mahali pengine, huwekwa kama sauti mchanganyiko. Huingia\nkwenye faili za kamera na makabidhiano badala ya mchanganyiko wa uchakataji --\nsi mzungumzaji, haukatwi, hautumwi kwa auphonic.com.\nChini ya \"%s\" Mazungumzo hayatolewi."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s ina chaneli %s, na auphonic.com hupokea zisizozidi mbili katika faili moja. Hakuna kilichotumwa.\n"
+"  Sema chaneli zipi zinakwenda pamoja: kwenye kichupo Faili & utayarishaji faili hufunguka kuwa safu moja kwa kila chaneli, na alama ya tiki kwenye safu huiunganisha na inayofuata. Kama faili haionyeshi safu za chaneli, kwanza hifadhi chaneli zake kama faili tofauti."

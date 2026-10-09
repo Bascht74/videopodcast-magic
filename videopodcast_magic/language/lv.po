@@ -3870,9 +3870,6 @@ msgstr "\nMONTĀŽA AR KOPPLĀNU"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nPIRMĀ MONTĀŽA PĒC RUNĀTĀJA"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Vairāk nekā divi kanāli uz auphonic.com tiek sūtīti kā viens: apvienošana tiek izslēgta tikai stereo gadījumā.\n  Ja kanāliem jāpaliek atsevišķi, vispirms sadaliet failu celiņos."
-
 msgid "First cut by speaker"
 msgstr "Pirmā montāža pēc runātāja"
 
@@ -5247,3 +5244,12 @@ msgstr "gatavais mikss -- nav runātājs, nav kameras"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Runa: novieto tikai pēc skaļuma. Ieraksts, kam nav nekā kopīga\nar kamerām, tiek noraidīts. Jaukts: zem balsīm ir mūzika vai miksējums,\nun kur skaļums neko neatrod, to drīkst novietot fāze.\nGatavs mikss: citur veidots stereo mikss, novietots kā jaukta skaņa. Tas nonāk\nkameru failos un nodošanā apstrādes paša miksa vietā --\nnav runātājs, netiek griezts, netiek sūtīts uz auphonic.com.\nAr „%s“ Runa netiek piedāvāta."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s ir %s kanāli, bet auphonic.com vienā failā pieņem ne vairāk kā divus. Nekas netika nosūtīts.\n"
+"  Norādiet, kuri kanāli pieder kopā: cilnē Faili & produkcija fails izvēršas pa vienai rindai katram kanālam, un ķeksītis rindā apvieno to ar nākamo. Ja fails kanālu rindas nerāda, vispirms saglabājiet tā kanālus kā atsevišķus failus."

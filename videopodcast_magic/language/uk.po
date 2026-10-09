@@ -1288,9 +1288,6 @@ msgstr "Визначає, як auphonic.com обробляє звук.\n\n«%s»
 msgid "Auphonic will not take the settings: %s"
 msgstr "Auphonic не приймає налаштування: %s"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Понад два канали йдуть на auphonic.com як один: зведення вимикається лише для стерео.\n  Якщо канали мають лишатися окремо, спершу розріжте файл на доріжки."
-
 msgid "Uploading %s"
 msgstr "Вивантаження %s"
 
@@ -5259,3 +5256,12 @@ msgstr "готовий мікс -- не мовець, без камери"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Мовлення: розміщується лише за гучністю. Запис, що не має нічого спільного\nз камерами, відхиляється. Змішаний: під голосами лежить музика чи мікс,\nі де гучність нічого не знаходить, його може розмістити фаза.\nГотовий мікс: стереомікс, зроблений деінде, розміщується як змішаний звук. Він іде\nу файли камер і в передачу замість міксу, який будує обробка --\nне мовець, не ріжеться, не надсилається на auphonic.com.\nЗа «%s» «Мовлення» не пропонується."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s має %s канали, а auphonic.com приймає в одному файлі не більше двох. Нічого не надіслано.\n"
+"  Вкажіть, які канали йдуть разом: на вкладці Файли & випуск файл розгортається в один рядок на канал, а позначка в рядку об'єднує його з наступним. Якщо файл не показує рядків каналів, спершу збережіть його канали як окремі файли."

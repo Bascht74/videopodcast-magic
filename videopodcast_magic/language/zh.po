@@ -1254,9 +1254,6 @@ msgstr "决定 auphonic.com 如何处理音频。\n\n“%s”保留密钥，但�
 msgid "Auphonic will not take the settings: %s"
 msgstr "Auphonic 不接受这些设置：%s"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  超过两个声道时会合为一个发往 auphonic.com：只有立体声才会关闭合并。\n  如需保持声道分开，请先把文件切分成音轨。"
-
 msgid "Uploading %s"
 msgstr "正在上传 %s"
 
@@ -5153,3 +5150,12 @@ msgstr "成品混音 -- 不是说话人，没有摄像机"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "语音：仅按响度放置。与摄像机毫无共同之处的\n录音会被拒绝。混合：人声下面有音乐或混音，\n在响度找不到任何东西的地方，可以按相位放置。\n成品混音：在别处制作的立体声混音，按混合声音放置。它进入\n摄像机文件和交接文件，代替本次运行生成的混音 --\n不是说话人，不剪切，不发送到 auphonic.com。\n在“%s”下不提供语音。"
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s 有 %s 个声道，而 auphonic.com 每个文件最多只接受两个。没有发送任何内容。\n"
+"  请指明哪些声道属于一组：在“文件 & 制作”标签页中，该文件按声道展开为每个声道一行，勾选某一行会将其与下一行合并。如果文件没有显示声道行，请先将其各声道另存为单独的文件。"

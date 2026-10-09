@@ -3871,9 +3871,6 @@ msgstr "\nMUNTAĠĠ BIL-VEDUTA WIESGĦA"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nL-EWWEL MUNTAĠĠ SKONT IL-KELLIEM"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Aktar minn żewġ kanali jmorru fuq auphonic.com bħala wieħed: l-għaqda tintefa biss għall-istereo.\n  Fejn il-kanali għandhom jibqgħu separati, l-ewwel aqta' l-fajl f'binarji."
-
 msgid "First cut by speaker"
 msgstr "L-ewwel muntaġġ skont il-kelliem"
 
@@ -5291,3 +5288,12 @@ msgstr "it-taħlita lesta -- mhux kelliem, l-ebda kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Taħdit: jitqiegħed skont il-qawwa tal-ħoss biss. Reġistrazzjoni li ma taqsam xejn\nmal-kameras tiġi rrifjutata. Imħallat: mużika jew taħlita tinsab taħt il-vuċijiet,\nu fejn il-qawwa tal-ħoss ma ssib xejn, il-fażi tista' tqegħedha.\nTaħlita lesta: taħlita stereo magħmula x'imkien ieħor, imqiegħda bħala ħoss imħallat. Tidħol\nfil-fajls tal-kameras u fil-konsenja minflok it-taħlita tal-proċess --\nmhux kelliem, mhux maqtugħa, mhux mibgħuta lil auphonic.com.\nTaħt \"%s\" it-Taħdit mhux offrut."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s għandu %s kanali, u auphonic.com jaċċetta l-aktar tnejn f'fajl wieħed. Ma ntbagħat xejn.\n"
+"  Għid liema kanali jmorru flimkien: fit-tab Fajls & produzzjoni il-fajl jinfetaħ f'ringiela għal kull kanal, u l-marka fuq ringiela tgħaqqadha mal-li jmiss. Jekk il-fajl ma juri l-ebda ringiela tal-kanali, l-ewwel issejvja l-kanali tiegħu bħala fajls għalihom."

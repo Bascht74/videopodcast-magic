@@ -3776,9 +3776,6 @@ msgstr "\nMONTAGE MET HET TOTAALSHOT"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nEERSTE MONTAGE PER SPREKER"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Meer dan twee kanalen gaan als één naar auphonic.com: het samenvouwen wordt alleen voor stereo uitgeschakeld.\n  Waar de kanalen gescheiden moeten blijven, knip je het bestand eerst in sporen."
-
 msgid "First cut by speaker"
 msgstr "Eerste montage per spreker"
 
@@ -5199,3 +5196,12 @@ msgstr "de afgewerkte mix -- geen spreker, geen camera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Spraak: alleen op de luidheid geplaatst. Een opname die niets gemeen heeft\nmet de camera’s, wordt geweigerd. Gemengd: onder de stemmen ligt muziek of een mix,\nen waar de luidheid niets vindt, mag de fase haar plaatsen.\nAfgewerkte mix: een elders gemaakte stereomix, geplaatst als gemengd geluid. Hij gaat\nin de camerabestanden en de overdracht in plaats van de mix die de run bouwt --\ngeen spreker, niet geknipt, niet naar auphonic.com gestuurd.\nBij \"%s\" wordt Spraak niet aangeboden."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s heeft %s kanalen, en auphonic.com neemt er hoogstens twee in één bestand. Er is niets verstuurd.\n"
+"  Geef aan welke kanalen bij elkaar horen: op het tabblad Bestanden & productie klapt het bestand uit in één rij per kanaal, en het vinkje op een rij voegt die samen met de volgende. Toont het bestand geen kanaalrijen, sla de kanalen dan eerst op als eigen bestanden."

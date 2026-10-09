@@ -3871,9 +3871,6 @@ msgstr "\nMONTAŽA S SPLOŠNIM PLANOM"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nPRVA MONTAŽA PO GOVORCIH"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Več kot dva kanala gre na auphonic.com kot eden: združevanje se izklopi samo za stereo.\n  Kjer naj kanali ostanejo ločeni, datoteko najprej razrežite na sledi."
-
 msgid "First cut by speaker"
 msgstr "Prva montaža po govorcih"
 
@@ -5291,3 +5288,12 @@ msgstr "končni miks -- brez govorca, brez kamere"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Govor: umesti se samo po glasnosti. Posnetek, ki nima ničesar skupnega\ns kamerami, se zavrne. Mešano: pod glasovi je glasba ali miks,\nin kjer glasnost ne najde ničesar, ga sme umestiti faza.\nKončni miks: stereo miks, narejen drugje, postavljen kot mešan zvok. Gre\nv datoteke kamer in v predajo namesto miksa, ki ga zgradi tek --\nbrez govorca, brez rezov, ne pošlje se na auphonic.com.\nPri „%s“ Govor ni na voljo."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s ima %s kanale, auphonic.com pa v eni datoteki sprejme največ dva. Nič ni bilo poslano.\n"
+"  Povejte, kateri kanali spadajo skupaj: na zavihku Datoteke & produkcija se datoteka razpre v po eno vrstico za vsak kanal, kljukica v vrstici pa jo združi z naslednjo. Če datoteka ne kaže vrstic kanalov, najprej shranite njene kanale kot ločene datoteke."

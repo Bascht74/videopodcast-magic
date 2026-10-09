@@ -3869,9 +3869,6 @@ msgstr "\nМОНТАЖ С ОБЩИЯ ПЛАН"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nПЪРВИ МОНТАЖ ПО ГОВОРЕЩИ"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Повече от два канала отиват към auphonic.com като един: сливането се изключва само за стерео.\n  Където каналите трябва да останат отделни, първо разрежете файла на писти."
-
 msgid "First cut by speaker"
 msgstr "Първи монтаж по говорещи"
 
@@ -5203,3 +5200,12 @@ msgstr "готовият микс -- без говорител, без каме�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Реч: поставя се само по громкостта. Запис, който няма нищо общо\nс камерите, се отхвърля. Смесено: под гласовете има музика или микс,\nи където громкостта не намери нищо, фазата може да го постави.\nГотов микс: стерео микс, направен другаде, поставен като смесен звук. Отива\nвъв файловете на камерите и в предаването вместо микса на обработката --\nбез говорител, без рязане, не се изпраща на auphonic.com.\nПри „%s“ Реч не се предлага."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s има %s канала, а auphonic.com приема най-много два в един файл. Нищо не е изпратено.\n"
+"  Кажете кои канали вървят заедно: в раздела Файлове & продукция файлът се разгръща в един ред за всеки канал, а отметката на ред го обединява със следващия. Ако файлът не показва редове за канали, първо запишете каналите му като отделни файлове."
