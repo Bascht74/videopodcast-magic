@@ -766,7 +766,22 @@ jobs:
           fi
 
           url="git+https://github.com/$GITHUB_REPOSITORY@$TAG"
-          echo "   pip install $url"
+          # With the release's own known-good list for Linux, as the
+          # README tells somebody to install: section 5 above only asks
+          # that the list hangs and has the right shape, and a list pip
+          # cannot satisfy -- a version yanked from PyPI, one torch the
+          # others do not fit -- is found here and nowhere else. It is
+          # the copy section 5 fetched and held against the manifest.
+          known=/tmp/constraints-linux.txt
+          [ -s "$known" ] && ok=1 || ok=0
+          check "constraints-linux.txt is there to install with" "$ok" \
+            "$({ wc -l < "$known"; } 2>/dev/null || echo no) lines in $known"
+          if [ "$ok" = "0" ]; then
+            echo
+            echo "FAIL: $fails of these"
+            exit 1
+          fi
+          echo "   pip install -c constraints-linux.txt $url"
           # The dependencies are fetched with it and not skipped. They
           # are the slow half -- PySide6 and numpy are a few hundred
           # megabytes -- but a name in that list is spelled nowhere
@@ -779,11 +794,12 @@ jobs:
           ok=0
           for try in 1 2 3; do
             /tmp/package/bin/pip install --disable-pip-version-check \
-              "$url" && { ok=1; break; }
+              -c "$known" "$url" && { ok=1; break; }
             echo "  ... it did not install (try $try of 3)"
             sleep 10
           done
-          check "pip installs it from this tag" "$ok" "$url"
+          check "pip installs it from this tag with the known-good list" \
+            "$ok" "-c constraints-linux.txt $url"
           if [ "$ok" = "0" ]; then
             echo
             echo "FAIL: $fails of these"

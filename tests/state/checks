@@ -170,7 +170,7 @@ run_dry_run_not_stopped	6
 run_ffmpeg_new_enough	26
 run_ffmpeg_not_fetched	15
 run_ffmpeg_offered	21
-run_ffmpeg_sum_checked	7
+run_ffmpeg_sum_checked	9
 run_findings_reach_both	6
 run_install_is_watched	42
 run_log_within_reach	30
@@ -473,7 +473,7 @@ window_zoom_stays_in	32
 window_words_all_blocks	8
 window_output_no_debug	2
 run_camera_audio_planned	4
-source_freeze_attached	22
+source_freeze_attached	25
 run_no_own_camera_kept	5
 auphonic_credit_said	61
 source_crashes_named	7

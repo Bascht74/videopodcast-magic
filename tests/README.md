@@ -683,7 +683,7 @@ it is green.
 | `run_ffmpeg_new_enough` | The ffmpeg the program insists on: new enough, and only that. |
 | `run_ffmpeg_not_fetched` | The program fetches no ffmpeg of its own: it finds one, or says how. |
 | `run_ffmpeg_offered` | Getting ffmpeg is offered on all three systems, and a test run gets none. |
-| `run_ffmpeg_sum_checked` | A fetched ffmpeg build is unpacked only when the release's sum fits it. |
+| `run_ffmpeg_sum_checked` | A fetched ffmpeg build is unpacked only when the program's own sum fits. |
 | `run_findings_reach_both` | Every preflight finding reaches the log and the pane, not just a count. |
 | `run_finished_mix_refused` | A finished mix that cannot stand in for the mix is said, or stops the run. |
 | `run_install_is_watched` | Installing ffmpeg shows what it is doing while it does it. |
