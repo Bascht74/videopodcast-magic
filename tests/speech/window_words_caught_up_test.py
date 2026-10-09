@@ -5,7 +5,8 @@ The sections: where the words of a mix of two recordings land on the
 window's axis; what is stored, so the same recordings are not heard
 twice and a moved one is; one recording heard as it is, and the
 separation's words taken as they are -- the rest read back where its
-run is told they are kept; the round -- not before the axis, not while
+run is told they are kept; one recording in blocks the same, heard
+joined and once, the separation reading that hearing back; the round -- not before the axis, not while
 switched off -- its run told where they are kept once they are there,
 for these recordings alone, and a handover carrying them read as
 having words; the prework bar always finished; the four settings grey
@@ -160,7 +161,7 @@ def told_starts(state, rows):
     told = vpm.window_words_reference(state, rows) or {}
     kept, _way = vpm.window_words_kept(
         [tuple(r) for r in told.get("recordings") or ()],
-        told.get("language"))
+        told.get("language"), told.get("blocks") or ())
     return [round(w["start"], 2) for w in kept or ()]
 
 
@@ -264,6 +265,51 @@ check("and waited for while the separation writes them",
       and len(heard) == count,
       "round answered %r, held %r, %d more hearings"
       % (answer, state.get("window_words"), len(heard) - count))
+
+print("\n3b. One recording in blocks")
+# A recorder split one take: the first block three seconds, a word at
+# 0.5 s in it and at 1.0 s in the second, which the window lays end to
+# end behind the first. On the whole recording's time: 0.5 s and 4.0 s.
+FIRST = recording("CoPresenter_REC00018.wav", [(0.5, 0.3)], 3.0)
+SECOND = recording("CoPresenter_REC00019.wav", [(1.0, 0.3)], 3.0)
+BLOCKS = [FIRST, SECOND]
+WHOLE = [0.5, 4.0]
+
+
+def in_blocks():
+    """The window's state with the recording's blocks on the axis."""
+    return {"axis": {vpm.path_key(FIRST): 10.0,
+                     vpm.path_key(SECOND): 13.0},
+            "axis_clock": {}, "project_type": "", "speech_language": "en"}
+
+
+split = [(tuple(BLOCKS), Value("CoPresenter"), Value("Cam.mov"))]
+state = in_blocks()
+state["speakers_words_by"] = {FIRST: [{"start": 4.0, "end": 4.4,
+                                       "word": "Hi."}]}
+count = len(heard)
+vpm.window_words_round(state, split)
+got = [round(w["start"], 2)
+       for w in (state.get("window_words") or {}).get("words") or ()]
+check("a recording in blocks takes the separation's words as they are",
+      len(heard) == count and got == [4.0],
+      "%d more hearings, words at %s, wanted none and [4.0]"
+      % (len(heard) - count, got))
+state = in_blocks()
+count = len(heard)
+vpm.window_words_round(state, split)
+settled(state["window_words"])
+got = told_starts(state, split)
+check("unheard, it is heard once and its run reads it back on the axis",
+      len(heard) == count + 1 and got == WHOLE,
+      "%d more hearings, words read back at %s, wanted 1 and %s"
+      % (len(heard) - count, got, WHOLE))
+count = len(heard)
+again = vpm.words_at_hand(FIRST, "en", blocks=BLOCKS)
+check("the separation then reads that hearing back, hearing nothing",
+      len(heard) == count and [round(w["start"], 2) for w in again]
+      == WHOLE, "%d more hearings, words at %s, wanted none and %s"
+      % (len(heard) - count, [round(w["start"], 2) for w in again], WHOLE))
 
 print("\n4. When it does not start")
 state = ground()

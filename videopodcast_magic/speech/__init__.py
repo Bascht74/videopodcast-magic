@@ -1260,6 +1260,46 @@ def window_words_recordings(state, assign_lines):
     return sorted((p, round(s - begin, 4), c) for p, s, c in rows)
 
 
+def window_words_blocks(assign_lines):
+    """The blocks of the one recording the transcript is heard from, or [].
+
+    A recorder that split one take wrote several files, and the
+    separation hears them joined, on the whole one's time. Where they
+    are all the window hears, they are one recording here too. [] where
+    the rows in use hold several recordings, or one in a single file.
+    """
+    rows = []
+    for row, _nv, cv in assign_lines or ():
+        if cv.get() == PROGRAM.IGNORE_AUDIO:
+            continue
+        here = [p for p in row if os.path.exists(p)]
+        if here and here not in rows:
+            rows.append(here)
+    return list(rows[0]) if len(rows) == 1 and len(rows[0]) > 1 else []
+
+
+def window_words_one(recordings, blocks=()):
+    """The one recording these are, as (path, offset, clock, blocks), or None.
+
+    A file alone, or every block of one recording and nothing beside
+    them: then it is heard once, joined as the separation hears it, and
+    its words lie on the axis from where its first block lies -- the
+    window lays every further block end to end behind it, with its
+    clock. *blocks* empty for a file alone.
+    """
+    recordings = list(recordings or ())
+    whole = list(blocks or ())
+    keys = sorted(PROGRAM.path_key(p) for p, _o, _c in recordings)
+    if len(whole) > 1 and keys == sorted(PROGRAM.path_key(p) for p in whole):
+        head = [r for r in recordings
+                if PROGRAM.path_key(r[0]) == PROGRAM.path_key(whole[0])][0]
+        return head[0], head[1], head[2], whole
+    if len(recordings) == 1:
+        path, offset, clock = recordings[0]
+        return path, offset, clock, []
+    return None
+
+
 def window_words_mark(recordings, language=""):
     """What a mix of these recordings is stored under.
 
@@ -1312,18 +1352,22 @@ def window_words_placed(words, offset, clock):
             for w in (words or ())]
 
 
-def window_words_kept(recordings, language=""):
+def window_words_kept(recordings, language="", blocks=()):
     """The window's transcript of these recordings as stored: (words, way).
 
     Read, never heard: where window_words_heard leaves it, on the
-    window's axis -- one recording under what it holds, placed; several
-    under the mark of their mix. (None, "") where nothing is stored.
-    The run reads the window's words through here too (words_of).
+    window's axis -- one recording under what it holds, placed, its
+    *blocks* under what they hold joined; several under the mark of
+    their mix. (None, "") where nothing is stored. The run reads the
+    window's words through here too (words_of).
     """
     ways = [name for _wanted, name in WORD_WAYS]
-    if len(recordings or ()) == 1:
-        path, offset, clock = recordings[0]
-        words, way = words_stored(file_content_mark(path), language, ways)
+    one = window_words_one(recordings, blocks)
+    if one:
+        path, offset, clock, whole = one
+        words, way = words_stored(
+            blocks_content_mark(whole) if whole else file_content_mark(path),
+            language, ways)
         return ((None, "") if words is None
                 else (window_words_placed(words, offset, clock), way))
     if not recordings:
@@ -1332,17 +1376,20 @@ def window_words_kept(recordings, language=""):
                         ways)
 
 
-def window_words_heard(recordings, language, mark, report):
+def window_words_heard(recordings, language, mark, report, blocks=()):
     """The transcript of these recordings, on the axis, or [].
 
-    One recording is heard as it is, so the separation's recognition of
-    it and this one are the same stored answer. Several are mixed, but
-    only once nothing is stored under *mark*.
+    One recording is heard as it is, its *blocks* joined, so the
+    separation's recognition of it and this one are the same stored
+    answer. Several are mixed, but only once nothing is stored under
+    *mark*.
     """
-    if len(recordings) == 1:
-        path, offset, clock = recordings[0]
+    one = window_words_one(recordings, blocks)
+    if one:
+        path, offset, clock, whole = one
         report(T('Writing down what is said ...'), 0.1)
-        return window_words_placed(words_at_hand(path, language),
+        return window_words_placed(words_at_hand(path, language,
+                                                 blocks=whole),
                                    offset, clock)
     words, _way = window_words_kept(recordings, language)
     if words is not None:
@@ -1357,7 +1404,8 @@ def window_words_heard(recordings, language, mark, report):
         PROGRAM.shutil.rmtree(folder, True)
 
 
-def window_words_work(recordings, language, mark, held, report=None):
+def window_words_work(recordings, language, mark, held, report=None,
+                      blocks=()):
     """Hear the recordings in a thread of its own, and leave the words.
 
     Nothing here touches a widget: *report* crosses over on a signal,
@@ -1373,7 +1421,8 @@ def window_words_work(recordings, language, mark, held, report=None):
             report(text, share)
 
     try:
-        words = window_words_heard(recordings, language, mark, tell)
+        words = window_words_heard(recordings, language, mark, tell,
+                                   blocks)
     except Exception as e:
         print(T('  The speech recognition reports: %s') % str(e)[:140])
         words = []
@@ -1389,8 +1438,9 @@ def window_words_round(state, assign_lines, report=None):
 
     One at a time; a changed set of recordings or language is heard
     after it. The separation's words of the one recording are taken as
-    they are, and waited for while being written. True where the preview
-    has news: a transcript begun, or one arrived.
+    they are, and waited for while being written -- of one in blocks
+    too. True where the preview has news: a transcript begun, or one
+    arrived.
     """
     if not window_words_may(state):
         return False
@@ -1404,8 +1454,10 @@ def window_words_round(state, assign_lines, report=None):
     if held.get("mark") == mark:
         fresh, held["fresh"] = held.get("fresh"), False
         return bool(fresh)
-    if len(recordings) == 1:
-        path, offset, clock = recordings[0]
+    blocks = window_words_blocks(assign_lines)
+    one = window_words_one(recordings, blocks)
+    if one:
+        path, offset, clock, _whole = one
         if path in (state.get("speakers_words_now") or ()):
             return False
         heard = (state.get("speakers_words_by") or {}).get(path)
@@ -1418,7 +1470,7 @@ def window_words_round(state, assign_lines, report=None):
     held.update(mark=mark, busy=True, fresh=False, words=None)
     threading.Thread(target=window_words_work,
                      args=(recordings, window_words_language(state), mark,
-                           held, report), daemon=True).start()
+                           held, report, blocks), daemon=True).start()
     return True
 
 
@@ -1437,10 +1489,11 @@ def window_words_listening(state, d):
 def window_words_reference(state, assign_lines):
     """Where the window's transcript is kept, for its run's plan, or None.
 
-    Its language and recordings as window_words_kept reads them, and
-    only once the words for exactly these recordings are there: the dry
-    run and the run then cut by the same words (E-554). While they are
-    being written, or where none were, nothing.
+    Its language, recordings and the blocks of one recording as
+    window_words_kept reads them, and only once the words for exactly
+    these recordings are there: the dry run and the run then cut by the
+    same words (E-554). While they are being written, or where none
+    were, nothing.
     """
     # While they are written the words are None: busy says no more.
     held = state.get("window_words") or {}
@@ -1451,5 +1504,9 @@ def window_words_reference(state, assign_lines):
     if not recordings or held.get("mark") != window_words_mark(
             recordings, language):
         return None
-    return {"language": language,
+    told = {"language": language,
             "recordings": [[p, o, c] for p, o, c in recordings]}
+    blocks = window_words_blocks(assign_lines)
+    if blocks:
+        told["blocks"] = blocks
+    return told
