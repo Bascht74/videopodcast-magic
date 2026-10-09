@@ -7,7 +7,9 @@ never spoken to: `_curl_call` is replaced by a stand-in that answers
 from a table, which makes checkable what is sent, in what order, and
 what is not. What is sent is read whole -- the arguments and the files
 an @ points at -- because a key travels in a body as easily as in an
-argument. Every claim has its counter-check with a wrong input.
+argument. Every claim has its counter-check with a wrong input. Last,
+a Multitrack run's lookup by title takes the Multitrack production of
+that title and passes over a Singletrack one with an intro.
 """
 PLATFORM_BOUND = True
 import os
@@ -738,6 +740,20 @@ server.outputs = [
 got = single(server, folder, mono)
 check("with only an MP3 that one is taken",
       got and got.endswith("Episode.mp3"), repr(got))
+
+print("\n15. A Multitrack run looks up a Multitrack production")
+# Neither carries "is_multitrack", so only the list tells them apart:
+# a Singletrack production with an intro has a list too, by type.
+server, folder = fresh("lookup")
+server.listed = [
+    {"uuid": "SINGLEUUID", "metadata": {"title": TITLE},
+     "multi_input_files": [{"type": "intro", "id": "Jingle"}]},
+    {"uuid": "MULTIUUID", "metadata": {"title": TITLE},
+     "multi_input_files": [{"id": n} for n in NAMES]}]
+found = with_server(server, lambda: vpm.find_production_by_title(KEY, TITLE))
+check("the Multitrack one of its title is found, the Singletrack one not",
+      (found or {}).get("uuid") == "MULTIUUID",
+      "found %r" % (found or {}).get("uuid"))
 
 shutil.rmtree(D, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

@@ -356,7 +356,8 @@ result is offered once auphonic.com reports the production done; it is
 fetched and cut like a fresh one, and nothing is uploaded or charged.
 Uploading again makes a new production and costs credit. A multitrack
 production of the same name is passed over, since it holds tracks and
-not this recording.
+not this recording -- and for several tracks a single-track production
+of the same name is passed over the same way, even one with an intro.
 
 A multitrack production is downloaded whole, the single tracks and every
 further output the preset itself makes: the finished mixdown, chapter

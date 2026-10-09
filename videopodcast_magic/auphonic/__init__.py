@@ -1488,10 +1488,27 @@ def single_production_found(key, title):
         if ((p.get("metadata") or {}).get("title") or "").strip().lower() \
                 != wanted:
             continue
-        if p.get("is_multitrack") or p.get("multi_input_files"):
+        if made_as_multitrack(p):
             continue
         return p
     return None
+
+
+def made_as_multitrack(p):
+    """Whether auphonic.com made production *p* as a Multitrack one.
+
+    Its own "is_multitrack" says so where the answer carries it. Where
+    not, its list does: a Singletrack production with an intro or an
+    outro has a list too, and only a Multitrack one has an entry of
+    the type "multitrack" -- an entry with no type is taken for a
+    track, as preset_track_template takes it.
+    """
+    mark = p.get("is_multitrack")
+    if isinstance(mark, bool):
+        return mark
+    return any(isinstance(entry, dict)
+               and (entry.get("type") or "multitrack") == "multitrack"
+               for entry in (p.get("multi_input_files") or []))
 
 
 def single_audio_ready(p):
@@ -1756,12 +1773,16 @@ def build_multitrack_request(preset, title, names, base_name, key=None,
 
 
 def find_production_by_title(key, title):
-    """Return the Auphonic production with this title, or None."""
+    """The Multitrack production auphonic.com holds under *title*, or None.
+
+    A Singletrack production of that title is passed over: it holds one
+    recording, not these tracks.
+    """
     d = _parse_json(_curl_call(key, [AUPHONIC + "/api/productions.json?limit=50"]))
     wanted_name = (title or "").strip().lower()
     for p in (d.get("data") or []):
         if ((p.get("metadata") or {}).get("title") or "").strip().lower()\
-                == wanted_name:
+                == wanted_name and made_as_multitrack(p):
             return p
     return None
 

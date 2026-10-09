@@ -8,7 +8,8 @@ title is asked about, and taking its result uploads nothing and fetches
 it; the answers offered are the result, a new upload and stop, and an
 unfinished one offers no result; a new upload goes up, stop ends the
 run before anything does; a production that is no match -- a Multitrack
-one of that title, or another title -- is passed over unasked; and the
+one of that title, or another title -- is passed over unasked, while a
+Singletrack one with an intro in its list is asked about; and the
 run hands the --auphonic-resume answer on to a Singletrack run. The
 limit: auphonic.com's list is stood in for as a list of the fields the
 program reads, never measured against the real one here.
@@ -74,7 +75,8 @@ with open(AUDIO, "wb") as f:
     f.write(wav_bytes(1.0))
 
 
-def production(title=TITLE, status=3, multitrack=False, uuid="OLDUUID"):
+def production(title=TITLE, status=3, multitrack=False, uuid="OLDUUID",
+               intro=False):
     """A production as auphonic.com lists it, in the fields read here.
 
     One being computed again still lists the files of its last result,
@@ -91,6 +93,10 @@ def production(title=TITLE, status=3, multitrack=False, uuid="OLDUUID"):
     if multitrack:
         p["is_multitrack"] = True
         p["multi_input_files"] = [{"id": "Guest"}, {"id": "Presenter"}]
+    if intro:
+        # A Singletrack production with an intro lists it too, by type.
+        p["is_multitrack"] = False
+        p["multi_input_files"] = [{"type": "intro", "id": "Jingle"}]
     return p
 
 
@@ -222,6 +228,10 @@ print("\n3. A production that is no match is passed over")
 got, server, error = run([production(multitrack=True)])
 check("a Multitrack production of the same title is passed over unasked",
       not asked and len(server.uploads()) == 1,
+      "asked %r, %d uploads; %s" % (asked, len(server.uploads()), error))
+got, server, error = run([production(intro=True)])
+check("a Singletrack production with an intro is asked about",
+      asked == [["result", "upload", "abort"]] and not server.uploads(),
       "asked %r, %d uploads; %s" % (asked, len(server.uploads()), error))
 got, server, error = run([production(title="Episode 8")])
 check("a production of another title is passed over unasked",

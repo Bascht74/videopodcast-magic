@@ -388,7 +388,9 @@ auphonic.com die Produktion als fertig meldet; es wird geholt und
 zugeschnitten wie ein frisches, hochgeladen und abgerechnet wird nichts.
 Neu hochladen legt eine neue Produktion an und kostet Guthaben. Eine
 Multitrack-Produktion gleichen Namens übergeht das Programm, denn sie
-enthält Spuren und nicht diese Aufnahme.
+enthält Spuren und nicht diese Aufnahme. Umgekehrt übergeht es bei
+mehreren Spuren eine Einzelspur-Produktion gleichen Namens, auch eine
+mit Intro.
 
 Eine Multitrack-Produktion wird ganz heruntergeladen, die Einzelspuren
 und jede weitere Ausgabe, die das Preset selbst erzeugt: der fertige
