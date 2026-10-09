@@ -132,12 +132,6 @@ msgstr "Nicio presetare Singletrack proprie -- creați una"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "Nicio presetare proprie -- creați una pe auphonic.com"
 
-msgid "No Multitrack preset found in the account."
-msgstr "Nu s-a găsit nicio presetare Multitrack în cont."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Nu s-a găsit nicio presetare Singletrack în cont."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "Nicio presetare Multitrack în cont. Doar acestea: %s"
 
@@ -1359,9 +1353,6 @@ msgstr "Fișierul de atribuire nu se poate citi: %s"
 msgid "Camera audio not usable: %s"
 msgstr "Audio cameră inutilizabil: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK IMPOSIBIL\n  Sunt necesare cel puțin două piste de intrare, și s-a găsit doar %s.\n  O pistă este o înregistrare proprie, un canal al unui recorder\n  multicanal sau audio-ul unei camere -- acesta contează de îndată ce\n  Audio cameră spune \"folosiți audio intern\". Fără două dintre ele\n  nu este nimic de decuplat, iar același fișier trece ca o\n  producție obișnuită."
-
 msgid "No preset is called %r."
 msgstr "Nicio presetare nu se numește %r."
 
@@ -1472,9 +1463,6 @@ msgstr "PROIECT SALVAT\n  %s\n  Această rulare poate fi deschisă din nou mai t
 
 msgid "Presets could not be loaded: %s"
 msgstr "Presetările nu au putut fi încărcate: %s"
-
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Mai multe camere, dar niciun fișier audio. Fiecare cameră ar avea audio propriu --\npentru asta există --multitrack. Altfel, o cameră după alta."
 
 msgid "The file is NOT recognised as HDR."
 msgstr "Fișierul NU este recunoscut ca HDR."
@@ -1595,9 +1583,6 @@ msgstr "  Fereastră:         %s -- tot ce a auzit oricare pistă"
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: liniște timp de %s la început și %s la sfârșit"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nDupă unirea blocurilor rămâne o singură pistă, iar Multitrack are nevoie de una pentru fiecare voce. Acolo unde doi oameni au fost luați drept o singură înregistrare, --apart ține un bloc deoparte."
 
 msgid "RECOGNISED PLAN"
 msgstr "PLAN RECUNOSCUT"
@@ -2049,12 +2034,6 @@ msgstr "Adăugați fișiere ..."
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Alinierea se face după decalajul măsurat; timecode-ul este doar contraproba."
 
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Toate înregistrările poartă același nume -- din asta rezultă o singură pistă."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Toate rândurile poartă același nume -- rezultă o singură pistă, iar Multitrack are nevoie de cel puțin două."
-
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Atribuire: care pistă audio aparține cărei camere"
 
@@ -2208,9 +2187,6 @@ msgstr "Anvelopa a eșuat: %s"
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "Anvelopele și audio cameră se pregătesc în fundal."
 
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Fiecare rând are nevoie de un nume -- la Auphonic devine track ID."
-
 msgid "External preview -- the app does not know this format"
 msgstr "Previzualizare externă -- aplicația nu cunoaște acest format"
 
@@ -2315,15 +2291,6 @@ msgstr "Audio lipsă %s umplut cu liniște%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Modulul DaVinciResolveScript nu poate fi încărcat: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "O pistă audio pentru fiecare persoană, ținută separat până la auphonic.com.\nMerge și fără -- atunci însă fără de-bleed și nivelator.\nAre nevoie de două piste de intrare: o înregistrare proprie, un canal al unui\nînregistrator multicanal sau sunetul unui fișier video setat pe „folosiți\naudio intern”. Montajul pe camere nu are nevoie de această bifă."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (o pistă per vorbitor)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack are nevoie de cel puțin două piste de intrare. O pistă este o înregistrare proprie, un canal al unui recorder multicanal sau audio-ul unui fișier video setat pe \"folosiți audio intern\". Mai multe blocuri ale aceleiași înregistrări se numără ca una, pistele puse deoparte deloc."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Niciun sunet în uz încă -- adăugați o înregistrare audio sau setați în lista de fișiere Audio cameră al unui fișier video pe „folosiți audio intern”."
@@ -2463,9 +2430,6 @@ msgstr "Nu sunt obligatorii -- YouTube aplică atunci valori implicite (Sony BVM
 msgid "Not ready yet:"
 msgstr "Încă nu este gata:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "O înregistrare audio nu are încă numele vorbitorului."
-
 msgid "One frame back."
 msgstr "Un cadru înapoi."
 
@@ -2474,9 +2438,6 @@ msgstr "O secundă înapoi."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Fiecare plan în culoarea camerei sale. Treceți cu mausul pentru cameră și durată, clic pentru a sări."
-
-msgid "Only one speaker"
-msgstr "Un singur vorbitor"
 
 msgid "Open json project file"
 msgstr "Deschideți fișier de proiect json"
@@ -2733,9 +2694,6 @@ msgstr "Încă nu se cunosc vorbitori -- sunt determinați din piste de îndată
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "Cele trei numere sunt primarele, curba și matricea. Etichete diferite au nevoie de spații de culoare de intrare diferite în Resolve -- altfel o cameră arată altfel decât cealaltă."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Nu există înregistrări audio separate. Atunci se folosește audio de la camere (%s) -- fiecare devine o pistă, iar Auphonic elimină diafonia."
-
 msgid "There is no result yet."
 msgstr "Nu există încă un rezultat."
 
@@ -2850,8 +2808,22 @@ msgstr "Fără ea, fiecare player trebuie să ghicească, și toți ghicesc SDR.
 msgid "Without processing at auphonic.com"
 msgstr "Fără procesare la auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Nu există încă un montaj pe camere: are nevoie de două persoane, fiecare cu un nume și o cameră.\nÎnregistrările separate oferă asta cu bifa Multitrack, la fel și „mai mulți vorbitori” în câmpul Numele vorbitorului al unei înregistrări --\nvocile găsite acolo își primesc camera în tabelul de sub înregistrări.\nUn proiect Resolve se creează oricum -- toate camerele la pozițiile lor măsurate, gata pentru Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Nu există încă un montaj pe camere: are nevoie de două persoane, fiecare cu "
+"un nume și o cameră.\n"
+"Înregistrările separate oferă asta, fiecare sub propriul nume, la fel și "
+"„mai mulți vorbitori” în câmpul Numele vorbitorului al unei înregistrări --\n"
+"vocile găsite acolo își primesc camera în tabelul de sub înregistrări.\n"
+"Un proiect Resolve se creează oricum -- toate camerele la pozițiile lor "
+"măsurate, gata pentru Multicam."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Fără timecode, poziția fișierelor se măsoară."
@@ -3215,9 +3187,6 @@ msgstr "planul larg %s, mixul este prima sa pistă audio"
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s apare de mai multe ori. Aceste înregistrări sunt comasate într-o singură pistă și așezate una după alta după timecode -- corect dacă înregistrarea a fost oprită între timp."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Toate înregistrările poartă același nume. Asta dă o singură pistă -- Multitrack are nevoie de cel puțin două."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Două camere ar produce același fișier (%s). A doua l-ar suprascrie pe primul."
 
@@ -3284,9 +3253,6 @@ msgstr "o înregistrare proprie"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Pune această înregistrare într-o alta, cu toate blocurile ei.\nFolosiți-o acolo unde numele fișierelor nu oferă căutării niciun punct de sprijin."
 
-msgid "Cameras only"
-msgstr "Doar camerele"
-
 msgid "Curve number %d"
 msgstr "Curba numărul %d"
 
@@ -3334,9 +3300,6 @@ msgstr "Început %s"
 
 msgid "Take from source files"
 msgstr "Preluare din fișierele sursă"
-
-msgid "Take the camera audio"
-msgstr "Folosiți audio de la cameră"
 
 msgid "Target: %s"
 msgstr "Țintă: %s"
@@ -3536,9 +3499,6 @@ msgstr "Comasați-le"
 msgid "Mixing %s"
 msgstr "Se mixează %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack are nevoie de două piste în tabelul de mai sus -- o cameră contează ca una de îndată ce Audio cameră este setat pe „folosiți audio intern”."
-
 msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
 msgstr "O singură pistă -- pentru a doua, setați Audio cameră al unei camere pe \"folosiți audio intern\"."
 
@@ -3553,9 +3513,6 @@ msgstr "Folosit, sunetul acestui fișier devine o pistă ca oricare alta -- apar
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Niciun sunet cu care să se lucreze -- setați Audio cameră al unui fișier video pe „folosiți audio intern” sau adăugați o înregistrare audio."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack are nevoie de mai multe piste"
 
 msgid "Mute."
 msgstr "Fără sunet."
@@ -3637,9 +3594,6 @@ msgstr "Liniște"
 
 msgid "Speaker name"
 msgstr "Numele vorbitorului"
-
-msgid "Speaker names"
-msgstr "Numele vorbitorilor"
 
 msgid "Static metadata"
 msgstr "Metadate statice"
@@ -3883,9 +3837,6 @@ msgstr "  Pistele sunt folosite așa cum au fost înregistrate: aliniate, mixate
 
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  --without-auphonic și --auphonic-done au fost date amândouă. Pistele finalizate câștigă: nu a mai rămas nimic de trimis nicăieri."
-
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK IMPOSIBIL\n  Fără o cheie API nu este nimic de trimis la auphonic.com.\n  Cu --without-auphonic rulează în schimb local: aliniat,\n  mixat și montat, dar fără eliminarea diafoniei și fără nivelator."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Atenție: perechi măsurabile: doar %s din %s. Pentru restul nu s-a găsit niciun moment în care vorbește exact o persoană, așa că diafonia lor rămâne -- detectarea vorbitorilor este aici nesigură."
@@ -5064,9 +5015,6 @@ msgstr "Punctul Out s-a schimbat de la ultima rulare: atunci %s, acum %s. Montaj
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Producție încheiată, dar ZIP-ul cu pistele individuale nu are un nume simplu de fișier"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Mai multe camere, dar nicio înregistrare audio. Fiecare cameră ar avea propriul audio -- pentru asta există Multitrack. Altfel, o cameră după alta."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Arhiva conține %s de mai multe ori, deci nu s-a extras nimic din ea."
 
@@ -5273,3 +5221,21 @@ msgstr ""
 "\n"
 "%s are %s canale, iar auphonic.com acceptă cel mult două într-un fișier. Nu s-a trimis nimic.\n"
 "  Spuneți care canale merg împreună: în fila Fișiere & producție fișierul se desface într-un rând pentru fiecare canal, iar bifa de pe un rând îl unește cu următorul. Dacă fișierul nu arată rânduri de canale, salvați mai întâi canalele lui ca fișiere separate."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, pentru că %s piste se află pe aceeași axă a timpului. Se poate "
+"alege altă presetare Multitrack; pentru Singletrack, setați toate pistele în "
+"afară de una pe „nu folosiți”."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, pentru că există o singură pistă. Se poate alege altă presetare "
+"Singletrack; pentru Multitrack, adăugați o a doua pistă -- o înregistrare "
+"sau o cameră setată pe „folosiți audio intern”."

@@ -135,12 +135,6 @@ msgstr "Nav jūsu Singletrack priekšiestatījuma -- izveidojiet to"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "Nav jūsu priekšiestatījuma -- izveidojiet to vietnē auphonic.com"
 
-msgid "No Multitrack preset found in the account."
-msgstr "Kontā nav atrasts neviens Multitrack priekšiestatījums."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Kontā nav atrasts neviens Singletrack priekšiestatījums."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "Kontā nav Multitrack priekšiestatījuma. Ir tikai šie: %s"
 
@@ -1386,9 +1380,6 @@ msgstr "Piešķiršanas failu nevar nolasīt: %s"
 msgid "Camera audio not usable: %s"
 msgstr "Kameras skaņu nevar izmantot: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK NAV IESPĒJAMS\n  Vajag vismaz divus ievades celiņus, bet atrasts tikai: %s.\n  Celiņš ir atsevišķs ieraksts, daudzkanālu ierakstītāja kanāls\n  vai kameras skaņa -- tā tiek skaitīta, tiklīdz tās laukā\n  „Kameras skaņa“ ir „izmantot iekšējo skaņu“. Bez diviem tādiem\n  nav ko atsaistīt, un tas pats fails tiek apstrādāts kā\n  parasta produkcija."
-
 msgid "No preset is called %r."
 msgstr "Nav priekšiestatījuma ar nosaukumu %r."
 
@@ -1499,9 +1490,6 @@ msgstr "PROJEKTS SAGLABĀTS\n  %s\n  Šo izpildi vēlāk var atvērt atkal -- au
 
 msgid "Presets could not be loaded: %s"
 msgstr "Priekšiestatījumus neizdevās ielādēt: %s"
-
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Vairākas kameras, bet nav audio faila. Katrai kamerai būtu sava skaņa --\ntam ir paredzēts --multitrack. Citādi pa vienai kamerai."
 
 msgid "The file is NOT recognised as HDR."
 msgstr "Fails NETIEK atpazīts kā HDR."
@@ -1622,9 +1610,6 @@ msgstr "  Logs:                %s -- viss, ko dzirdēja jebkurš celiņš"
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: klusums %s sākumā un %s beigās"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nPēc bloku apvienošanas paliek tikai viens celiņš, bet Multitrack vajag pa vienam katrai balsij. Kur divi cilvēki tika uzskatīti par vienu ierakstu, --apart izņem no tā bloku."
 
 msgid "RECOGNISED PLAN"
 msgstr "ATPAZĪTĀ SHĒMA"
@@ -2082,12 +2067,6 @@ msgstr "Pievienot failus ..."
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Salāgošana notiek pēc izmērītās nobīdes; laika kods ir tikai kontrolpārbaudei."
 
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Visiem ierakstiem ir viens un tas pats vārds -- tas dod vienu celiņu."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Visām rindām ir viens un tas pats vārds -- tas dod vienu celiņu, bet Multitrack vajag vismaz divus."
-
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Piešķiršana: kurš audio celiņš kurai kamerai"
 
@@ -2241,9 +2220,6 @@ msgstr "Aploksni neizdevās izveidot: %s"
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "Aploksnes un kameras skaņa tiek sagatavotas fonā."
 
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Katrai rindai vajadzīgs vārds -- pakalpojumā Auphonic tas kļūst par track ID."
-
 msgid "External preview -- the app does not know this format"
 msgstr "Ārējs priekšskatījums -- lietotne nepazīst šo formātu"
 
@@ -2348,15 +2324,6 @@ msgstr "Trūkstošā skaņa %s aizpildīta ar klusumu%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Moduli DaVinciResolveScript nevar ielādēt: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Viens audio celiņš katrai personai, nodalīts līdz pat auphonic.com.\nDarbojas arī bez tā -- tad bez De-Bleed un Leveler.\nVajag divus ievades celiņus: atsevišķu ierakstu, daudzkanālu\nierakstītāja kanālu vai video faila skaņu, kam iestatīts\n„izmantot iekšējo skaņu“. Kameru montāžai šis ķeksītis nav vajadzīgs."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (celiņš katram runātājam)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack vajag vismaz divus ievades celiņus. Celiņš ir atsevišķs ieraksts, daudzkanālu ierakstītāja kanāls vai video faila skaņa, kam iestatīts „izmantot iekšējo skaņu“. Vairāki viena ieraksta bloki skaitās kā viens, noliktie celiņi netiek skaitīti vispār."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Vēl netiek izmantota neviena skaņa -- pievienojiet audio ierakstu vai failu sarakstā video faila laukā Kameras skaņa izvēlieties „izmantot iekšējo skaņu“."
@@ -2496,9 +2463,6 @@ msgstr "Nav obligāti -- tad YouTube piemēro noklusējuma vērtības (Sony BVM-
 msgid "Not ready yet:"
 msgstr "Vēl nav gatavs:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "Vienam audio ierakstam vēl nav runātāja vārda."
-
 msgid "One frame back."
 msgstr "Vienu kadru atpakaļ."
 
@@ -2507,9 +2471,6 @@ msgstr "Vienu sekundi atpakaļ."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Katrs plāns savas kameras krāsā. Novietojiet peli, lai redzētu kameru un ilgumu, noklikšķiniet, lai pārlēktu."
-
-msgid "Only one speaker"
-msgstr "Tikai viens runātājs"
 
 msgid "Open json project file"
 msgstr "Atvērt json projekta failu"
@@ -2757,9 +2718,6 @@ msgstr "Runātāji vēl nav zināmi -- tos nosaka no celiņiem, tiklīdz tiek at
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "Trīs skaitļi ir pamatkrāsas, līkne un matrica. Dažādiem tagiem programmā Resolve vajag dažādas ievades krāsu telpas -- citādi viena kamera izskatās citādi nekā otra."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Atsevišķu audio ierakstu nav. Tad tiek izmantota kameru skaņa (%s) -- katra kļūst par celiņu, un Auphonic noņem skaņas noplūdi."
-
 msgid "There is no result yet."
 msgstr "Rezultāta vēl nav."
 
@@ -2880,8 +2838,21 @@ msgstr "Bez šī marķējuma katram atskaņotājam jāmin, un visi min SDR. Prog
 msgid "Without processing at auphonic.com"
 msgstr "Bez apstrādes vietnē auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Kameru montāžas vēl nav: vajag divas personas, katru ar vārdu un kameru.\nAtsevišķi ieraksti to nodrošina ar atzīmētu Multitrack, tāpat arī „vairāki runātāji“ viena ieraksta laukā „Runātāja vārds“ --\ntur atrastās balsis saņem savu kameru tabulā zem ierakstiem.\nResolve projekts tiek izveidots jebkurā gadījumā -- visas kameras savās izmērītajās vietās, gatavas Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Kameru montāžas vēl nav: vajag divas personas, katru ar vārdu un kameru.\n"
+"Atsevišķi ieraksti to nodrošina, katrs ar savu vārdu, tāpat arī „vairāki "
+"runātāji“ viena ieraksta laukā „Runātāja vārds“ --\n"
+"tur atrastās balsis saņem savu kameru tabulā zem ierakstiem.\n"
+"Resolve projekts tiek izveidots jebkurā gadījumā -- visas kameras savās "
+"izmērītajās vietās, gatavas Multicam."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Bez laika koda failu novietojums tiek izmērīts."
@@ -3258,9 +3229,6 @@ msgstr "kopplāns %s, miksējums ir tā pirmais audio celiņš"
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s atkārtojas vairāk nekā vienu reizi. Šie ieraksti tiek apvienoti vienā celiņā un pēc laika koda novietoti viens aiz otra -- pareizi, ja ierakstīšana starplaikā tika apturēta."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Visiem ierakstiem ir viens un tas pats vārds. Tas veido vienu celiņu -- Multitrack vajag vismaz divus."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Divas kameras izveidotu vienu un to pašu failu (%s). Otrā pārrakstītu pirmo."
 
@@ -3327,9 +3295,6 @@ msgstr "atsevišķs ieraksts"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Ievieto šo ierakstu citā ar visiem tā blokiem.\nIzmantojiet, ja failu nosaukumi meklēšanai neko nedod."
 
-msgid "Cameras only"
-msgstr "Tikai kameras"
-
 msgid "Curve number %d"
 msgstr "Līknes numurs %d"
 
@@ -3380,9 +3345,6 @@ msgstr "Sākums %s"
 
 msgid "Take from source files"
 msgstr "Ņemt no avota failiem"
-
-msgid "Take the camera audio"
-msgstr "Ņemt kameru skaņu"
 
 msgid "Target: %s"
 msgstr "Galamērķis: %s"
@@ -3591,9 +3553,6 @@ msgstr "Apvienot"
 msgid "Mixing %s"
 msgstr "Miksēšana: %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack vajag divus celiņus tabulā augstāk -- kamera tiek ieskaitīta, tiklīdz tās laukā Kameras skaņa ir iestatīts „izmantot iekšējo skaņu“."
-
 msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
 msgstr "Tikai viens celiņš -- otrajam kādas kameras laukā Kameras skaņa iestatiet „izmantot iekšējo skaņu“."
 
@@ -3614,9 +3573,6 @@ msgstr "Ja to izmanto, šī faila skaņa kļūst par celiņu kā jebkurš cits -
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Nav skaņas, ar ko strādāt -- video faila laukā Kameras skaņa iestatiet „izmantot iekšējo skaņu“ vai pievienojiet audio ierakstu."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack vajag vairākus celiņus"
 
 msgid "Mute."
 msgstr "Izslēgt skaņu."
@@ -3722,9 +3678,6 @@ msgstr "Klusums"
 
 msgid "Speaker name"
 msgstr "Runātāja vārds"
-
-msgid "Speaker names"
-msgstr "Runātāju vārdi"
 
 msgid "Static metadata"
 msgstr "Statiskie metadati"
@@ -3974,9 +3927,6 @@ msgstr "  Celiņi tiek izmantoti tā, kā ierakstīti: salāgoti, miksēti un pi
 
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  Norādīti abi: --without-auphonic un --auphonic-done. Priekšroka ir gatavajiem celiņiem: vairs nav ko nekur sūtīt."
-
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK NAV IESPĒJAMS\n  Bez API atslēgas nav ko sūtīt uz auphonic.com.\n  Ar --without-auphonic tā vietā viss notiek lokāli: salāgots,\n  miksēts un samontēts, bet bez De-Bleed un Leveler."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Uzmanību: izmērāmi tikai %s no %s pāriem. Pārējiem netika atrasts brīdis, kad runā tieši viens cilvēks, tāpēc to skaņas noplūde paliek -- runātāju noteikšana šeit nav uzticama."
@@ -5068,9 +5018,6 @@ msgstr "Beigu punkts ir mainījies kopš pēdējās izpildes: toreiz %s, tagad %
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Produkcija pabeigta, bet ZIP ar atsevišķajiem celiņiem nav vienkārša faila nosaukuma"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Vairākas kameras, bet nav audio ieraksta. Katrai kamerai būtu sava skaņa -- tam ir paredzēts Multitrack. Citādi viena kamera pēc otras."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Arhīvā %s ir vairāk nekā vienu reizi, tāpēc no tā nekas netika atpakots."
 
@@ -5277,3 +5224,21 @@ msgstr ""
 "\n"
 "%s ir %s kanāli, bet auphonic.com vienā failā pieņem ne vairāk kā divus. Nekas netika nosūtīts.\n"
 "  Norādiet, kuri kanāli pieder kopā: cilnē Faili & produkcija fails izvēršas pa vienai rindai katram kanālam, un ķeksītis rindā apvieno to ar nākamo. Ja fails kanālu rindas nerāda, vispirms saglabājiet tā kanālus kā atsevišķus failus."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, jo %s celiņi atrodas uz vienas laika ass. Var izvēlēties citu "
+"Multitrack priekšiestatījumu; Singletrack gadījumā visus celiņus, izņemot "
+"vienu, iestatiet uz „neizmantot“."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, jo ir viens celiņš. Var izvēlēties citu Singletrack "
+"priekšiestatījumu; Multitrack gadījumā pievienojiet otru celiņu -- ierakstu "
+"vai kameru ar iestatījumu „izmantot iekšējo skaņu“."

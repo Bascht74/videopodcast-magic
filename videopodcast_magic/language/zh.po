@@ -396,9 +396,6 @@ msgstr "钥匙串"
 msgid "Measuring time axis ..."
 msgstr "正在测量时间轴 ..."
 
-msgid "Multitrack (one track per speaker)"
-msgstr "多轨（每位说话人一轨）"
-
 msgid "No files or project opened yet."
 msgstr "尚未打开文件或项目。"
 
@@ -413,9 +410,6 @@ msgstr "后退一帧。"
 
 msgid "One second back."
 msgstr "后退一秒。"
-
-msgid "Only one speaker"
-msgstr "只有一位说话人"
 
 msgid "Open result folder"
 msgstr "打开结果文件夹"
@@ -570,9 +564,6 @@ msgstr "未找到"
 msgid "a recording of its own"
 msgstr "独立的录音"
 
-msgid "Cameras only"
-msgstr "仅摄像机"
-
 msgid "End %s"
 msgstr "结束 %s"
 
@@ -599,9 +590,6 @@ msgstr "开始 %s"
 
 msgid "Take from source files"
 msgstr "取自源文件"
-
-msgid "Take the camera audio"
-msgstr "采用摄像机声音"
 
 msgid "Transfer"
 msgstr "传输"
@@ -751,9 +739,6 @@ msgid "Silence"
 msgstr "静音段"
 
 msgid "Speaker name"
-msgstr "说话人姓名"
-
-msgid "Speaker names"
 msgstr "说话人姓名"
 
 msgid "Ten seconds forward."
@@ -1032,9 +1017,6 @@ msgstr "未指定音频文件。"
 msgid "Unknown extension, skipped: %s"
 msgstr "未知扩展名，已跳过：%s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "多台摄像机，却没有音频文件。每台摄像机都会有自己的声音——\n这正是 --multitrack 的用途。否则请一台接一台地处理。"
-
 msgid "Not found: %s"
 msgstr "未找到：%s"
 
@@ -1217,12 +1199,6 @@ msgstr "  压缩包内：%s"
 
 msgid "Auphonic reports %s: %s"
 msgstr "Auphonic 报告 %s：%s"
-
-msgid "No Multitrack preset found in the account."
-msgstr "账户中未找到 Multitrack 预设。"
-
-msgid "No Singletrack preset found in the account."
-msgstr "账户中未找到 Singletrack 预设。"
 
 msgid "preset does not fit the run"
 msgstr "预设不适合本次运行"
@@ -1458,9 +1434,6 @@ msgstr "没有自己的摄像机：%s"
 msgid "   -- that is everybody, so every shot goes to the same camera."
 msgstr "   ——也就是所有人，因此每个镜头都用同一台摄像机。"
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "无法使用多轨\n  没有 API 密钥，就没有可发送到 auphonic.com 的内容。\n  使用 --without-auphonic 时改为本地运行：对齐、\n  混音并剪辑，但没有 De-Bleed 和 Leveler。"
-
 msgid "\nCAMERA CUT"
 msgstr "\n镜头切换"
 
@@ -1484,9 +1457,6 @@ msgstr "与平均值的距离"
 
 msgid "    %-20s shifted by %s ms%s"
 msgstr "    %-20s 移动了 %s ms%s"
-
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "无法使用多轨\n  至少需要两条输入音轨，但只找到了 %s 条。\n  一条音轨可以是一段单独的录音、多声道录音机的\n  一个声道，或一台摄像机的声音——只要其“摄像机声音”\n  设为“使用其音频”就算在内。没有其中两条，\n  就没有可以分离的内容，同一个文件会作为\n  普通制作处理。"
 
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  各摄像机彼此接近（亮度最多相差 %s 级）。"
@@ -2195,18 +2165,6 @@ msgstr "%s 和 %s 都设为 %s。只能有一个文件是它 —— 请把另一
 msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
 msgstr "%s 用在了不止一个声音上。一个名字就是一个人，镜头切换把一个人放在一台摄像机上 —— 同名的两个声音就等于一个人同时在两处。"
 
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack 需要多条音轨"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack 至少需要两条输入音轨。一条音轨是一段独立的录音、多声道录音机的一个声道，或设为“使用其音频”的视频文件的音频。同一录音的多个片段算作一条，搁置的音轨不计。"
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "每一行都需要一个名字 —— 在 Auphonic 中它会成为 track ID。"
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "所有行都是同一个名字 —— 这样只得到一条音轨，而 Multitrack 至少需要两条。"
-
 msgid "File names"
 msgstr "文件名"
 
@@ -2221,9 +2179,6 @@ msgstr "加载预设并选择一个，或将 API Key 留空。"
 
 msgid "Names used more than once"
 msgstr "重复使用的名字"
-
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "没有单独的录音。那就使用这 %s 台摄像机的声音 —— 每台成为一条音轨，由 Auphonic 去除串音。"
 
 msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
 msgstr "以下名字出现了不止一次：\n\n  %s\n\n这些录音会合并为一条音轨，并按时间码首尾相接。如果中途停止过录制，这样是对的。"
@@ -2374,9 +2329,6 @@ msgstr "\n没有结果：%s"
 
 msgid "\nNo usable video file -- without camera audio there is no common time axis."
 msgstr "\n没有可用的视频文件 —— 没有摄像机声音就没有共同的时间轴。"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\n合并片段后只剩一条音轨，而 Multitrack 需要每个声音一条。若两个人被当成了同一段录音，--apart 可将一个片段排除在外。"
 
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline 采用 %s：其中最高的一个，或 Resolve 在其之上的\n  下一个帧率。向上转换时 Resolve 会重复帧，向下时\n  会丢弃帧。每台摄像机保留自己的帧率，镜头切换也\n  按它计算。"
@@ -3902,9 +3854,6 @@ msgstr "  无法判断哪个声音属于哪支麦克风，因此改为测量各�
 msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
 msgstr "该名称已被其他人使用。一个名称代表一个人，而剪辑会把一个人放到一台摄像机上 -- 请为这个声音另起名称。"
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  所有录音名称相同。这样只会得到一条音轨 -- Multitrack 至少需要两条。"
-
 msgid "The model could not be written: %s"
 msgstr "无法写入模型：%s"
 
@@ -4037,8 +3986,19 @@ msgstr "没有时间码时，会测量文件的位置。"
 msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
 msgstr "本项目保持说话人分离关闭。剪辑照旧来自音轨或 auphonic.com。"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "还没有镜头切换：需要两个人，每人有一个名字和一台摄像机。\n分开的录音勾选 Multitrack 即可做到，单段录音在说话人姓名栏中填“多位说话人”也可以——\n在那里找到的声音会在录音下方的表格中获得各自的摄像机。\n无论如何都会创建 Resolve 项目——所有摄像机都在测得的位置上，可直接用于 Multicam。"
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"还没有镜头切换：需要两个人，每人有一个名字和一台摄像机。\n"
+"分开的录音各用自己的名字即可做到，单段录音在说话人姓名栏中填“多位说话人”也可以——\n"
+"在那里找到的声音会在录音下方的表格中获得各自的摄像机。\n"
+"无论如何都会创建 Resolve 项目——所有摄像机都在测得的位置上，可直接用于 Multicam。"
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "这需要某次运行的交接文件，而现在没有。"
@@ -4072,9 +4032,6 @@ msgstr "重新启动失败。请关闭窗口，并按之前的方式启动程序
 
 msgid "No newer version found. This one is %s."
 msgstr "没有找到更新的版本。当前是 %s。"
-
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack 需要上方表格中有两条音轨——摄像机的摄像机声音设为“使用其音频”后，就算作一条。"
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s 用在了不止一个说话人上——一个名字就是一个人，每个人都需要自己的名字。"
@@ -4127,9 +4084,6 @@ msgstr "跳到时间窗的开头。"
 msgid "Jumps to the end of the window."
 msgstr "跳到时间窗的结尾。"
 
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "每人一条音轨，一直分开保持到 auphonic.com。\n不勾选也能工作——但就没有 De-Bleed 和 Leveler。\n需要两条输入音轨：单独的录音、多声道录音机的\n一个声道，或设为“使用其音频”的\n视频文件的音频。镜头切换不需要这个勾选。"
-
 msgid "During greeting and farewell the picture stays wide."
 msgstr "在开场问候和结尾道别时，画面保持全景。"
 
@@ -4147,9 +4101,6 @@ msgstr "请重新启动程序以使其生效。"
 
 msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
 msgstr "MIT 许可证，Copyright (c) 2026 Sebastian Lotz。按原样提供，不附带任何形式的担保。"
-
-msgid "One audio recording has no speaker name yet."
-msgstr "有一段音频录音还没有说话人姓名。"
 
 msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
 msgstr "%s 已设为 %s，而一期节目只有一个。请在这里选择其他答案，或先去掉那个文件上的标记。"
@@ -4201,9 +4152,6 @@ msgstr "没有写入任何内容——还没有素材。"
 
 msgid "The text for %s could not be fetched."
 msgstr "无法获取 %s 的说明文字。"
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "所有录音都用同一个名字——这样只会得到一条音轨。"
 
 msgid "stays out"
 msgstr "不使用"
@@ -4974,9 +4922,6 @@ msgstr "出点自上次运行以来已改变：当时 %s，现在 %s。视频中
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "制作已完成，但包含各条单独音轨的 ZIP 没有简单的文件名"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "多台摄像机，却没有录音。每台摄像机都会有自己的声音 -- 这正是多轨的用途。否则请一台接一台地处理。"
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "压缩包中 %s 出现了不止一次，因此没有从中取出任何内容。"
 
@@ -5183,3 +5128,15 @@ msgstr ""
 "\n"
 "%s 有 %s 个声道，而 auphonic.com 每个文件最多只接受两个。没有发送任何内容。\n"
 "  请指明哪些声道属于一组：在“文件 & 制作”标签页中，该文件按声道展开为每个声道一行，勾选某一行会将其与下一行合并。如果文件没有显示声道行，请先将其各声道另存为单独的文件。"
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr "多轨，因为有 %s 条音轨在同一时间轴上。可以选择另一个多轨预设；若要单轨，请把除一条以外的所有音轨设为“不使用”。"
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr "单轨，因为只有一条音轨。可以选择另一个单轨预设；若要多轨，请加入第二条音轨——一段录音，或设为“使用其音频”的摄像机。"

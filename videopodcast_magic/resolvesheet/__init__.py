@@ -422,8 +422,8 @@ class ResolveSheet(QtWidgets.QScrollArea):
         # What stands in place of the camera cut: one line saying why.
         self.without_cut_label = label(
             T('There is no camera cut yet: it needs two people, each with a '
-              'name and a camera.\nSeparate recordings give that with the '
-              'Multitrack tick, and so does "several speakers" in the '
+              'name and a camera.\nSeparate recordings give that, each '
+              'under its own name, and so does "several speakers" in the '
               'Speaker name field of one recording --\nthe voices found there '
               'get their camera in the table under the recordings.\nA Resolve '
               'project is created anyway -- all cameras at their measured '
@@ -484,8 +484,8 @@ class ResolveSheet(QtWidgets.QScrollArea):
         model, state, parts = self.model, self.state, self.parts
         self.forecast_box = QtWidgets.QGroupBox(
             T('%s -- preview') % cut_title_of(
-                model.voice_lines, model.multitrack.get(),
-                model.assign_lines, len(model.camera_lines)))
+                model.voice_lines, model.assign_lines,
+                len(model.camera_lines)))
         # The three that stand or fall together, where the assignment can
         # reach them: it is rebuilt before this tab exists.
         state["cut_boxes"] = (self.cut_box, self.forecast_box,
@@ -511,7 +511,6 @@ class ResolveSheet(QtWidgets.QScrollArea):
         # What the project type greys or hides: the same way over as
         # cut_boxes.
         state["sync_parts"] = (self.sync_note, self.speaker_box,
-                               self.window.assignment_sheet.multitrack_bar,
                                parts["split_line"])
         (self.cut_band, self.cut_player, band_show,
          self.preview_file) = make_band_and_player(
@@ -544,7 +543,7 @@ class ResolveSheet(QtWidgets.QScrollArea):
             QtCore.Qt, QtWidgets, state, bridge, bridge_emit,
             model.assign_lines, model.camera_lines, model.voice_lines,
             self.cut_var, self.cut_parts, self.edge_on, start_var, end_var,
-            model.multitrack, self.parts["wide_cameras_now"],
+            self.parts["wide_cameras_now"],
             self.band_show, self.speech_show, self.window_info_show,
             self.question_note, self.cut_column, self.forecast_box,
             self.preview_label, self.speech_title, self.speech_table)

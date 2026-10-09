@@ -132,12 +132,6 @@ msgstr "Nincs saját Singletrack előbeállítás -- hozzon létre egyet"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "Nincs saját előbeállítás -- hozzon létre egyet az auphonic.com-on"
 
-msgid "No Multitrack preset found in the account."
-msgstr "Nem található Multitrack előbeállítás a fiókban."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Nem található Singletrack előbeállítás a fiókban."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "Nincs Multitrack előbeállítás a fiókban. Csak ezek: %s"
 
@@ -1359,9 +1353,6 @@ msgstr "A hozzárendelési fájl nem olvasható: %s"
 msgid "Camera audio not usable: %s"
 msgstr "A kamerahang nem használható: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "A MULTITRACK NEM LEHETSÉGES\n  Legalább két bemeneti sáv kell, és csak %s található.\n  Sáv egy saját felvétel, egy többcsatornás felvevő egy csatornája\n  vagy egy kamera hangja -- ez attól fogva számít, hogy a\n  Kamerahang mezője \"belső hang használata\" értéken áll. Kettő nélkül\n  nincs mit szétcsatolni, és ugyanaz a fájl közönséges\n  produkcióként fut végig."
-
 msgid "No preset is called %r."
 msgstr "Egyetlen előbeállítás neve sem %r."
 
@@ -1472,9 +1463,6 @@ msgstr "PROJEKT MENTVE\n  %s\n  Ez a futás később újra megnyitható -- bal f
 
 msgid "Presets could not be loaded: %s"
 msgstr "Az előbeállításokat nem sikerült betölteni: %s"
-
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Több kamera, de nincs hangfájl. Minden kamerának saját hangja lenne --\nerre való a --multitrack. Különben egyik kamera a másik után."
 
 msgid "The file is NOT recognised as HDR."
 msgstr "A fájl NEM ismerhető fel HDR-ként."
@@ -1595,9 +1583,6 @@ msgstr "  Ablak:        %s -- minden, amit bármelyik sáv hallott"
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: csend %s hosszan az elején és %s a végén"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nA blokkok összeillesztése után csak egy sáv marad, a Multitracknek pedig hangonként egy kell. Ahol két embert egy felvételnek vettek, a --apart kivesz belőle egy blokkot."
 
 msgid "RECOGNISED PLAN"
 msgstr "FELISMERT TERV"
@@ -2049,12 +2034,6 @@ msgstr "Fájlok hozzáadása ..."
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Az igazítás a mért eltolás szerint történik; a timecode csak az ellenpróba."
 
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Minden felvétel ugyanazt a nevet viseli -- ebből egyetlen sáv lesz."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Minden sor ugyanazt a nevet viseli -- ebből egyetlen sáv lesz, a Multitrack pedig legalább kettőt igényel."
-
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Hozzárendelés: melyik hangsáv melyik kamerához tartozik"
 
@@ -2208,9 +2187,6 @@ msgstr "A burkológörbe nem sikerült: %s"
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "A burkológörbék és a kamerahang a háttérben készülnek el."
 
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Minden sornak kell egy név -- az Auphonicnál ez lesz a track ID."
-
 msgid "External preview -- the app does not know this format"
 msgstr "Külső előnézet -- az alkalmazás nem ismeri ezt a formátumot"
 
@@ -2315,15 +2291,6 @@ msgstr "A hiányzó hang %s csenddel kitöltve%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "A DaVinciResolveScript modul nem tölthető be: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Személyenként egy hangsáv, egészen az auphonic.com-ig külön tartva.\nEnélkül is működik -- akkor viszont de-bleed és szintkiegyenlítő nélkül.\nKét bemeneti sáv kell hozzá: egy saját felvétel, egy többcsatornás\nfelvevő egy csatornája, vagy egy „belső hang használata” értékre állított\nvideófájl hangja. A kameravágásnak nincs szüksége erre a pipára."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (beszélőnként egy sáv)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "A Multitrack legalább két bemeneti sávot igényel. Egy sáv egy saját felvétel, egy többcsatornás felvevő egy csatornája vagy egy \"belső hang használata\" beállítású videófájl hangja. Ugyanannak a felvételnek több blokkja egynek számít, a félretett sávok egyáltalán nem."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Még nincs használatban hang -- adjon hozzá egy hangfelvételt, vagy állítsa a fájllistában egy videófájl Kamerahangját „belső hang használata” értékre."
@@ -2463,9 +2430,6 @@ msgstr "Nem kötelező -- a YouTube ilyenkor alapértelmezett értékeket alkalm
 msgid "Not ready yet:"
 msgstr "Még nem áll készen:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "Egy hangfelvételnek még nincs beszélőneve."
-
 msgid "One frame back."
 msgstr "Egy képkocka vissza."
 
@@ -2474,9 +2438,6 @@ msgstr "Egy másodperc vissza."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Minden beállítás a kamerája színében. Rámutatva kamera és időtartam, kattintva ugrás."
-
-msgid "Only one speaker"
-msgstr "Csak egy beszélő"
 
 msgid "Open json project file"
 msgstr "json projektfájl megnyitása"
@@ -2731,9 +2692,6 @@ msgstr "Még nem ismertek a beszélők -- a sávokból kerülnek elő, amint ez 
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "A három szám az alapszínek, a görbe és a mátrix. Különböző címkékhez különböző bemeneti színterek kellenek a Resolve-ban -- különben az egyik kamera másképp néz ki, mint a másik."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Nincsenek külön hangfelvételek. Ekkor a(z) %s kamera hangja kerül felhasználásra -- mindegyik egy sáv lesz, és az Auphonic eltávolítja az áthallást."
-
 msgid "There is no result yet."
 msgstr "Még nincs eredmény."
 
@@ -2848,8 +2806,23 @@ msgstr "Nélküle minden lejátszónak találgatnia kell, és mind SDR-t találg
 msgid "Without processing at auphonic.com"
 msgstr "Feldolgozás nélkül az auphonic.com-on"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Még nincs kameravágás: két személy kell hozzá, mindegyik névvel és kamerával.\nA külön felvételek ezt a Multitrack pipával adják meg, és ugyanígy a „több beszélő” egy felvétel Beszélő neve mezőjében --\naz ott talált hangok a felvételek alatti táblázatban kapják meg a kamerájukat.\nResolve-projekt mindenképp létrejön -- minden kamera a mért helyén, készen a Multicamre."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Még nincs kameravágás: két személy kell hozzá, mindegyik névvel és "
+"kamerával.\n"
+"A külön felvételek ezt megadják, mindegyik a saját nevén, és ugyanígy a "
+"„több beszélő” egy felvétel Beszélő neve mezőjében --\n"
+"az ott talált hangok a felvételek alatti táblázatban kapják meg a "
+"kamerájukat.\n"
+"Resolve-projekt mindenképp létrejön -- minden kamera a mért helyén, készen a "
+"Multicamre."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Timecode nélkül a fájlok helyzetét a program megméri."
@@ -3213,9 +3186,6 @@ msgstr "totál: %s, a keverés az első hangsávja"
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s többször szerepel. Ezek a felvételek egy sávvá lesznek összevonva, és a timecode-juk szerint egymás után kerülnek -- helyes, ha közben a felvétel le lett állítva."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Minden felvétel ugyanazt a nevet viseli. Ez egy sávot ad -- a Multitrackhez legalább kettő kell."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Két kamera ugyanazt a fájlt adná (%s). A második felülírná az elsőt."
 
@@ -3282,9 +3252,6 @@ msgstr "saját felvétel"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Ezt a felvételt egy másikba teszi, minden blokkjával együtt.\nOtt használja, ahol a fájlnevek semmi támpontot nem adnak a keresésnek."
 
-msgid "Cameras only"
-msgstr "Csak kamerák"
-
 msgid "Curve number %d"
 msgstr "%d. számú görbe"
 
@@ -3332,9 +3299,6 @@ msgstr "Kezdet %s"
 
 msgid "Take from source files"
 msgstr "Átvétel a forrásfájlokból"
-
-msgid "Take the camera audio"
-msgstr "A kamerahang használata"
 
 msgid "Target: %s"
 msgstr "Cél: %s"
@@ -3534,9 +3498,6 @@ msgstr "Összevonás"
 msgid "Mixing %s"
 msgstr "%s keverése"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "A Multitrackhez két sáv kell a fenti táblázatban -- egy kamera akkor számít egynek, ha a Kamerahang „belső hang használata” értékre van állítva."
-
 msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
 msgstr "Csak egy sáv -- egy másodikhoz állítsa egy kamera Kamerahang mezőjét \"belső hang használata\" értékre."
 
@@ -3551,9 +3512,6 @@ msgstr "Ha használatban van, ennek a fájlnak a hangja olyan sáv lesz, mint b�
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Nincs hang, amivel dolgozni lehetne -- állítsa egy videófájl Kamerahangját „belső hang használata” értékre, vagy adjon hozzá egy hangfelvételt."
-
-msgid "Multitrack needs several tracks"
-msgstr "A Multitrack több sávot igényel"
 
 msgid "Mute."
 msgstr "Némítás."
@@ -3635,9 +3593,6 @@ msgstr "Csend"
 
 msgid "Speaker name"
 msgstr "Beszélő neve"
-
-msgid "Speaker names"
-msgstr "Beszélők nevei"
 
 msgid "Static metadata"
 msgstr "Statikus metaadatok"
@@ -3881,9 +3836,6 @@ msgstr "  A sávok úgy kerülnek felhasználásra, ahogy felvették őket: igaz
 
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  --without-auphonic és --auphonic-done is meg lett adva. A kész sávok nyernek: nincs már mit sehová küldeni."
-
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "A MULTITRACK NEM LEHETSÉGES\n  API-kulcs nélkül nincs mit elküldeni az auphonic.com-ra.\n  A --without-auphonic kapcsolóval helyette helyben fut: igazítva,\n  keverve és vágva, de áthallás-eltávolítás és szintkiegyenlítő nélkül."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Figyelem: csak %s pár mérhető a(z) %s közül. A többinél nem volt olyan pillanat, amikor pontosan egy ember beszél, így az áthallásuk benne marad -- a beszélők felismerése itt megbízhatatlan."
@@ -5021,9 +4973,6 @@ msgstr "Az Out pont megváltozott a legutóbbi futás óta: akkor %s, most %s. A
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "A produkció befejeződött, de az egyes sávokat tartalmazó ZIP-nek nincs egyszerű fájlneve"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Több kamera, de nincs hangfelvétel. Minden kamerának saját hangja lenne -- erre való a Multitrack mód. Különben egyik kamerát a másik után."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Az archívum többször is tartalmazza ezt: %s, ezért semmi sem lett belőle kivéve."
 
@@ -5230,3 +5179,21 @@ msgstr ""
 "\n"
 "A(z) %s fájlban %s csatorna van, az auphonic.com pedig egy fájlban legfeljebb kettőt fogad el. Semmi sem lett elküldve.\n"
 "  Adja meg, mely csatornák tartoznak össze: a(z) Fájlok & produkció lapon a fájl csatornánként egy sorra nyílik, és egy sor pipája összevonja a következővel. Ha a fájl nem mutat csatornasorokat, előbb mentse a csatornáit külön fájlokba."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, mert %s sáv egy idővonalon van. Másik Multitrack előbeállítás is "
+"választható; Singletrackhez egy kivételével minden sávot állítson „ne "
+"használja” értékre."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, mert egy sáv van. Másik Singletrack előbeállítás is "
+"választható; Multitrackhez adjon hozzá egy második sávot -- egy felvételt "
+"vagy egy „belső hang használata” beállítású kamerát."

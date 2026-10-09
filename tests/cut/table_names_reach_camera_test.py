@@ -6,7 +6,7 @@ a placeholder is not a value: what reads the field has to read the
 guess too. The sections: the cell that says where a camera gets its
 audio from, its names sorted as the file name sorts them, lower case
 and umlauts too, and the mix where nobody is on it; and the file name
-the camera is offered. What this cannot show is that the window really
+the camera is offered, its own where nobody is on it. What this cannot show is that the window really
 hands these fields in; that is one call at each of the two places.
 """
 PLATFORM_BOUND = True
@@ -98,11 +98,9 @@ check("and it is the name the run would build out of that name",
       "%r against %r"
       % (grey, vpm.camera_output_name("Interview", CAMERA, ["CoPresenter"])))
 empty = vpm.camera_name_suggestion("Interview", CAMERA, [field("", "")])
-check("a camera nobody is on falls back on the overall mix",
-      empty == vpm.camera_output_name("Interview", CAMERA,
-                                      ["Audio-Full-Mix"]),
-      "%r against %r" % (empty, vpm.camera_output_name(
-          "Interview", CAMERA, ["Audio-Full-Mix"])))
+check("a camera nobody is on is offered its own file name",
+      empty == "GuestCam_01011858_C003",
+      "%r against 'GuestCam_01011858_C003'" % empty)
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

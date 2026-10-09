@@ -140,7 +140,9 @@ PRESET_CHILD = "\n".join([
 code, last, _said = run([sys.executable, "-c", PRESET_CHILD, "--dry-run"],
                         FENCE)
 asked = times_asked(ASKED)
-WANT = "1  %s" % PRESET
+# Its kind behind it, as auphonic.com marks it: the list has no tracks
+# to say which kind a run needs.
+WANT = "1  %s  (%s)" % (PRESET, vpm.T('Singletrack mode'))
 check("the fetched presets come from the stand-in, never the "
       "network", asked >= 1,
       "the stand-in was asked %d times against at least 1" % asked)

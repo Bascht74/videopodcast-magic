@@ -65,15 +65,10 @@ class AssignmentSheet(QtWidgets.QScrollArea):
         self.view_position = QtWidgets.QVBoxLayout(self.view_box)
 
     def _assign_boxes_build(self):
-        """Under the tables: the Multitrack row, auphonic.com, the prework."""
-        # The Multitrack tick lives here, under the tables: whether a
-        # camera gives a track of its own is decided in this very table.
-        self.multitrack_bar = QtWidgets.QWidget()
-        self.multitrack_row = QtWidgets.QHBoxLayout(self.multitrack_bar)
-        self.multitrack_row.setContentsMargins(0, 6, 0, 0)
-        self.assign_position.addWidget(self.multitrack_bar)
-        # And right under it what auphonic.com is to make of those tracks:
-        # "what should this run do" in one place, filled by the window.
+        """Under the tables: auphonic.com, the prework."""
+        # Right under the tables what auphonic.com is to make of their
+        # tracks: "what should this run do" in one place, filled by the
+        # window.
         run_box = QtWidgets.QGroupBox(
             T('Processing at auphonic.com (optional)'))
         self.run_layout = QtWidgets.QVBoxLayout(run_box)

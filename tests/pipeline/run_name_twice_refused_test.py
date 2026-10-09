@@ -67,7 +67,7 @@ assign = [(PRESENTER, vpm.Value("Presenter"), vpm.Value(cam["Presenter"])),
 voices = [(vpm.voice_key(source, ground.LABEL[who]), vpm.Value(who),
            vpm.Value(cam[who])) for who in sorted(ground.LABEL)]
 held = vpm.missing_conditions(
-    PRESENTER + [source], ground.PRODUCTION, False, assign, [], voices,
+    PRESENTER + [source], ground.PRODUCTION, assign, [], voices,
     [source]).get(22)
 check("the window holds the start back and names the name twice",
       held == SAID, "the sheet says %r against %r" % (held, SAID))

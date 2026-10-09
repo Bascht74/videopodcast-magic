@@ -411,9 +411,6 @@ msgstr "Trousseau"
 msgid "Measuring time axis ..."
 msgstr "Mesure de l’axe temporel ..."
 
-msgid "Multitrack (one track per speaker)"
-msgstr "Multipiste (une piste par intervenant)"
-
 msgid "No files or project opened yet."
 msgstr "Aucun fichier ni projet ouvert pour l’instant."
 
@@ -428,9 +425,6 @@ msgstr "Une image en arrière."
 
 msgid "One second back."
 msgstr "Une seconde en arrière."
-
-msgid "Only one speaker"
-msgstr "Un seul locuteur"
 
 msgid "Open result folder"
 msgstr "Ouvrir le dossier des résultats"
@@ -585,9 +579,6 @@ msgstr "introuvable"
 msgid "a recording of its own"
 msgstr "un enregistrement à lui"
 
-msgid "Cameras only"
-msgstr "Caméras seulement"
-
 msgid "End %s"
 msgstr "Fin %s"
 
@@ -614,9 +605,6 @@ msgstr "Début %s"
 
 msgid "Take from source files"
 msgstr "Reprendre des fichiers source"
-
-msgid "Take the camera audio"
-msgstr "Prendre l’audio de la caméra"
 
 msgid "Transfer"
 msgstr "Transférer"
@@ -767,9 +755,6 @@ msgstr "Silence"
 
 msgid "Speaker name"
 msgstr "Nom du locuteur"
-
-msgid "Speaker names"
-msgstr "Noms des locuteurs"
 
 msgid "Ten seconds forward."
 msgstr "Dix secondes en avant."
@@ -1190,9 +1175,6 @@ msgstr "\nAucun fichier vidéo utilisable -- sans audio de caméra, pas d’axe 
 
 msgid "\nOnly one track found a place -- there is nothing left to lay it against."
 msgstr "\nUne seule piste a trouvé sa place -- il ne reste rien contre quoi la poser."
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nUne fois les blocs assemblés il ne reste qu’une piste, et le multipiste en demande une par voix. Là où deux personnes ont été prises pour un seul enregistrement, --apart en tient un bloc à l’écart."
 
 msgid "\nPREFLIGHT -- %s"
 msgstr "\nVÉRIFICATION PRÉALABLE -- %s"
@@ -2695,12 +2677,6 @@ msgstr "Algorithmes"
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "L’alignement se fait sur le décalage mesuré ; le timecode ne sert que de contre-épreuve."
 
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Tous les enregistrements portent le même nom -- cela ne fait qu’une seule piste."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Toutes les lignes portent le même nom -- cela ne fait qu’une seule piste, et le multipiste en demande au moins deux."
-
 msgid "Assignment file not readable: %s"
 msgstr "Fichier d’affectation illisible : %s"
 
@@ -2893,9 +2869,6 @@ msgstr "Les enveloppes et l’audio des caméras sont préparés en arrière-pla
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Chaque paire de canaux est jugée pour elle-même : une piste stéréo, ou deux micros et donc deux pistes. Les entrées silencieuses tombent. Les lignes sous le fichier disent ce qui a été mesuré, et la case à cocher l’emporte."
 
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Chaque ligne a besoin d’un nom -- chez Auphonic il devient le track ID."
-
 msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
 msgstr "Tout ce qui vient après cette étape manque. Le dossier contient une partie d’une exécution, pas un résultat."
 
@@ -3040,12 +3013,6 @@ msgstr "Sonie de l’épisode terminé"
 msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
 msgstr "Licence MIT, Copyright (c) 2026 Sebastian Lotz. Remis tel quel, sans garantie d’aucune sorte."
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTIPISTE IMPOSSIBLE\n  Il faut au moins deux pistes d’entrée, et il n’en a été trouvé que %s.\n  Une piste est un enregistrement à part, un canal d’un enregistreur\n  multicanal ou l’audio d’une caméra -- celui-ci compte dès que son\n  Audio de la caméra dit « utiliser l’audio ». Sans deux d’entre elles\n  il n’y a rien à découpler, et le même fichier passe comme une\n  production ordinaire."
-
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTIPISTE IMPOSSIBLE\n  Sans API Key, il n’y a rien à envoyer à auphonic.com.\n  Avec --without-auphonic cela tourne en local à la place : aligné,\n  mixé et monté, mais sans De-Bleed ni Leveler."
-
 msgid "MUTED"
 msgstr "MUET"
 
@@ -3082,15 +3049,6 @@ msgstr "Mixage des pistes pour la séparation"
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Le module DaVinciResolveScript ne peut pas être chargé : %s"
 
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multipiste a besoin d’au moins deux pistes d’entrée. Une piste est un enregistrement à part entière, un canal d’un enregistreur multicanal ou l’audio d’un fichier vidéo réglé sur « utiliser l’audio ». Plusieurs blocs du même enregistrement comptent pour un, et les pistes mises de côté pas du tout."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multipiste a besoin de plusieurs pistes"
-
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multipiste a besoin de deux pistes dans le tableau ci-dessus -- une caméra en compte pour une dès que son Audio de la caméra est réglé sur « utiliser l’audio »."
-
 msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
 msgstr "AUCUN FICHIER AUDIO -- L’AUDIO DE LA CAMÉRA EST UTILISÉ"
 
@@ -3107,17 +3065,11 @@ msgstr ""
 "Pas de clé API. L’enregistrer une fois dans l’interface, ou avec "
 "--store-auphonic-key. La clé se trouve dans les réglages du compte Auphonic."
 
-msgid "No Multitrack preset found in the account."
-msgstr "Aucun préréglage Multitrack trouvé dans le compte."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "Aucun préréglage Multitrack dans le compte. Seulement ceux-ci : %s"
 
 msgid "No Multitrack preset of your own -- create one"
 msgstr "Aucun préréglage Multitrack personnel -- en créer un"
-
-msgid "No Singletrack preset found in the account."
-msgstr "Aucun préréglage Singletrack trouvé dans le compte."
 
 msgid "No Singletrack preset in the account. Only these: %s"
 msgstr "Aucun préréglage Singletrack dans le compte. Seulement ceux-ci : %s"
@@ -3223,12 +3175,6 @@ msgstr "Numéro %d"
 
 msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
 msgstr "Activé fait de ce canal et du suivant une piste stéréo.\nLe suivant n’a alors plus de case à lui -- il est pris.\nCe qui a été mesuré se trouve dans la ligne à côté."
-
-msgid "One audio recording has no speaker name yet."
-msgstr "Un enregistrement audio n’a pas encore de nom de locuteur."
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Une piste audio par personne, tenue à part jusqu’à auphonic.com.\nCela marche aussi sans -- mais alors sans de-bleed ni leveler.\nIl faut deux pistes d’entrée : un enregistrement à part entière, un canal\nd’un enregistreur multicanal ou l’audio d’un fichier vidéo réglé sur\n« utiliser l’audio ». Le montage caméra n’a pas besoin de cette case."
 
 msgid "One name for two voices"
 msgstr "Un nom pour deux voix"
@@ -3425,9 +3371,6 @@ msgstr "Séparation des locuteurs : %s"
 
 msgid "Set to %s; %s is one click away."
 msgstr "Réglé sur %s ; %s est à un clic."
-
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Plusieurs caméras, mais aucun fichier audio. Chaque caméra aurait son propre audio --\nc’est à cela que sert --multitrack. Sinon, une caméra après l’autre."
 
 msgid "Several project files lie with this material. Which one?\n\n%s"
 msgstr "Plusieurs fichiers de projet se trouvent avec ce matériel. Lequel ?\n\n%s"
@@ -3657,11 +3600,24 @@ msgstr "Le plan large tient %s s, moins que la durée minimale de plan de %s s -
 msgid "The work can be written to a project file first."
 msgstr "Le travail peut d’abord être écrit dans un fichier de projet."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Il n’y a pas d’enregistrements audio séparés. L’audio des %s caméras est alors utilisé -- chacune devient une piste, et Auphonic retire la diaphonie."
-
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Pas encore de montage caméra : il faut deux personnes, chacune avec un nom et une caméra.\nDes enregistrements séparés le permettent avec la case Multipiste, et « plusieurs intervenants » dans le champ Nom du locuteur d’un enregistrement aussi --\nles voix trouvées là reçoivent leur caméra dans le tableau sous les enregistrements.\nUn projet Resolve est créé de toute façon -- toutes les caméras à leurs places mesurées, prêtes pour Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Pas encore de montage caméra : il faut deux personnes, chacune avec un nom "
+"et une caméra.\n"
+"Des enregistrements séparés le permettent, chacun sous son propre nom, et « "
+"plusieurs intervenants » dans le champ Nom du locuteur d’un enregistrement "
+"aussi --\n"
+"les voix trouvées là reçoivent leur caméra dans le tableau sous les "
+"enregistrements.\n"
+"Un projet Resolve est créé de toute façon -- toutes les caméras à leurs "
+"places mesurées, prêtes pour Multicam."
 
 msgid "There is no key."
 msgstr "Il n’y a pas de clé."
@@ -4343,9 +4299,6 @@ msgstr "détermination de qui parle quand ..."
 
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s apparaît plusieurs fois. Ces enregistrements sont réunis en une seule piste et placés à la suite selon leur timecode -- correct si l’enregistrement a été arrêté entre-temps."
-
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Tous les enregistrements portent le même nom. Cela donne une seule piste -- le mode multipiste en exige au moins deux."
 
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Deux caméras donneraient le même fichier (%s). La seconde écraserait la première."
@@ -5030,9 +4983,6 @@ msgstr "Le point de sortie a changé depuis la dernière exécution : %s alors, 
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Production terminée, mais le ZIP avec les pistes individuelles n’a pas de simple nom de fichier"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Plusieurs caméras mais aucun enregistrement audio. Chaque caméra aurait son propre audio -- c’est à cela que sert Multipiste. Sinon, une caméra après l’autre."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "L’archive contient %s plus d’une fois, rien n’en a donc été extrait."
 
@@ -5239,3 +5189,21 @@ msgstr ""
 "\n"
 "%s a %s canaux, et auphonic.com en accepte au plus deux par fichier. Rien n'a été envoyé.\n"
 "  Indiquez quels canaux vont ensemble : dans l'onglet Fichiers & production, le fichier se déplie en une ligne par canal, et la case d'une ligne la réunit à la suivante. Si le fichier n'affiche aucune ligne de canal, enregistrez d'abord ses canaux comme fichiers distincts."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multipiste, car %s pistes se trouvent sur un même axe temporel. Un autre "
+"préréglage multipiste peut être choisi ; pour une piste unique, mettez "
+"toutes les pistes sauf une sur « ne pas utiliser »."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Piste unique, car il y a une seule piste. Un autre préréglage à piste unique "
+"peut être choisi ; pour le multipiste, ajoutez une deuxième piste -- un "
+"enregistrement, ou une caméra réglée sur « utiliser l’audio »."

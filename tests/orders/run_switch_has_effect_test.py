@@ -8,7 +8,8 @@ The second question is the same one a step further out -- the mark
 "[multitrack only]" was set once and printed to nobody, because --help
 builds a parser of its own and never reached the place it was set in.
 And the mark stands where it means something: --multitrack itself does
-not carry it.
+not carry it. --multitrack is the one switch let off the first question,
+kept for a release with no effect, and only while its help says so.
 """
 PLATFORM_BOUND = True
 import os
@@ -130,9 +131,19 @@ for entry in switches:
     elif entry.dest in keys:
         by_key[entry.dest] = "as a key"
 
+# Taken and doing nothing on purpose, for one release, so that older
+# command lines still run. Let off only where its help says so.
+RETIRED = ("multitrack",)
 found("all %d switches are read, none merely taken" % len(switches),
       ["/".join(entry.option_strings) or entry.dest for entry in switches
-       if entry.dest not in read_by_name and entry.dest not in by_key])
+       if entry.dest not in read_by_name and entry.dest not in by_key
+       and entry.dest not in RETIRED])
+retired = [entry for entry in switches if entry.dest in RETIRED]
+check("a switch kept without effect says so in its help",
+      len(retired) == len(RETIRED)
+      and all("does nothing" in (entry.help or "") for entry in retired),
+      "%d of %d found, helps %r"
+      % (len(retired), len(RETIRED), [entry.help for entry in retired]))
 print("     %d read off the namespace, %d by name: %s"
       % (len(dests & read_by_name), len(by_key),
          ", ".join("%s %s" % (k, v) for k, v in sorted(by_key.items()))))

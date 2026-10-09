@@ -4,9 +4,9 @@
 The key for auphonic.com and the preset used to stand in one box on the
 first sheet, so choosing a preset meant paging away from the table where
 that choice belongs. They are apart now -- key and Resolve check behind
-"Settings ...", preset and the Multitrack tick under the assignment
-table. In order: the window with a project opened in it, the first sheet
-without the key box, preset and tick beside the table, the settings
+"Settings ...", the preset under the assignment table. In order: the
+window with a project opened in it, the first sheet without the key
+box, the preset beside the table, the settings
 window opening on the button and closing again, and last whether the run
 got through its steps at all rather than breaking off.
 """
@@ -55,7 +55,6 @@ KEY_BOX = vpm.T('Access to auphonic.com')
 RESOLVE_BOX = vpm.T('Connection to Resolve')
 RUN_BOX = vpm.T('Processing at auphonic.com (optional)')
 PLACE_BOX = vpm.T('Production')
-MULTI = vpm.T('Multitrack (one track per speaker)')
 SETTINGS = vpm.T('Settings ...')
 CONNECT = vpm.T('Connect')
 CLOSE = vpm.T('Close')
@@ -84,7 +83,7 @@ with open(project, "w", encoding="utf-8") as f:
                "files": [{"path": one, "kind": "audio"},
                          {"path": two, "kind": "audio"}],
                "out_folder": os.path.join(folder, "Ergebnis"),
-               "production": "Settings", "multitrack": True,
+               "production": "Settings",
                "assignment": {}, "preset": ""}, f)
 os.makedirs(os.path.join(folder, "Ergebnis"), exist_ok=True)
 QtWidgets.QFileDialog.getOpenFileName = staticmethod(
@@ -221,9 +220,6 @@ def assignment_sheet():
           len(carry) >= 1,
           "%d visible lists there, %d of them offering %r"
           % (len(lists), len(carry), vpm.PRESET_NONE))
-    ticks = [w.text() for w in parts(win(), QtWidgets.QCheckBox)]
-    check("the multitrack tick stands on the assignment sheet",
-          MULTI in ticks, "%d ticks there: %s" % (len(ticks), ticks))
 
 
 def settings_window():

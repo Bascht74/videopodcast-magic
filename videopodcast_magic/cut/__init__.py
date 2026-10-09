@@ -1462,21 +1462,20 @@ def camera_gets_from(names):
                              key=name_order))
             if names else T('the mix of all tracks'))
 
-def camera_name_suggestion(production, camera, values, multitrack=True,
-                           sync=False):
+def camera_name_suggestion(production, camera, values, sync=False):
     """The file name a camera is offered, out of the speakers on it.
 
     A speaker whose name is only suggested belongs in the camera's file
     name too, and that name travels to Resolve; sorted, as the handover
-    sorts them. A camera nobody is on carries the full mix under
-    Multitrack; without it, its own stem. Sync only knows nobody: there
-    every camera keeps its own stem, whatever its rows or its sound say.
+    sorts them. A camera nobody is on keeps its own stem, whatever kind
+    of production the tracks make. Sync only knows nobody: there every
+    camera keeps its own stem, whatever its rows or its sound say.
     """
     if sync:
         return camera_name_of(production, camera, [], False)
     return camera_name_of(production, camera,
                           sorted(speaker_names_of(values), key=name_order),
-                          multitrack)
+                          False)
 
 def camera_name_of(production, camera, names, multitrack):
     """A camera's file name out of these speaker names, in this order."""
@@ -1488,10 +1487,10 @@ def camera_name_of(production, camera, names, multitrack):
 def camera_names_offered(production, camera, values):
     """Every name the table can have offered this camera by itself.
 
-    Both ticks of Multitrack, and the speakers in the order of the rows,
-    plainly sorted and by name_order: a project file keeps every field,
-    and a name the table wrote there in an order it once used was never
-    typed. And the camera's own stem, which Sync only offers.
+    Both ticks of the Multitrack box older versions had, and the
+    speakers in row order, plainly sorted and by name_order: a project
+    file keeps every field, and a name the table wrote there once was
+    never typed. And the camera's own stem.
     """
     names = speaker_names_of(values)
     offered = set(camera_name_of(production, camera, order, tick)
@@ -1849,7 +1848,7 @@ def wide_too_short(number):
 
 def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
                  camera_lines, voice_lines, cut_var, cut_parts, edge_on,
-                 start_var, end_var, multitrack, wide_cameras_now, band_show,
+                 start_var, end_var, wide_cameras_now, band_show,
                  speech_show, window_info_show, question_note, cut_column,
                  forecast_box, preview_label, speech_title, speech_table):
     """The preview: the cut a run of what is set now would make.
@@ -1928,7 +1927,7 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         # Empty table headers promise content that does not exist.
         forecast_empty(True)
         forecast_box.setTitle(T('%s -- preview') % cut_title_of(
-            voice_lines, multitrack.get(), assign_lines, len(camera_lines)))
+            voice_lines, assign_lines, len(camera_lines)))
         state["cut_numbers"] = None
         band_show(None)
         preview_set(T('No speakers are known yet -- they are worked '
@@ -2035,8 +2034,7 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         preview_label.setToolTip("")
         forecast_empty(False)
         forecast_box.setTitle(T('%s -- preview  (length %s)') % (
-            cut_title_of(voice_lines, multitrack.get(),
-                         assign_lines, len(camera_lines)),
+            cut_title_of(voice_lines, assign_lines, len(camera_lines)),
             as_hms(max(b for _a, b, _w in numbers["cut"]))))
         # Where the segments come from belongs with them: self-measured is
         # coarser than what auphonic.com delivers.

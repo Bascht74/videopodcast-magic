@@ -40,11 +40,11 @@ auphonic_key_out_of_view	24
 auphonic_key_reg_shut	9
 auphonic_key_typed	11
 auphonic_keyring_offered	18
-auphonic_kind_one_rule	10
+auphonic_kind_one_rule	11
 auphonic_may_be_skipped	28
 auphonic_mono_not_stereo	7
 auphonic_names_stay_in	12
-auphonic_none_chosen	12
+auphonic_none_chosen	11
 auphonic_preset_checked	4
 auphonic_preset_fits	5
 auphonic_run_delivers	73
@@ -67,7 +67,7 @@ cut_list_rebuilt	11
 cut_no_wide_silences	21
 cut_note_moves_no_shot	11
 cut_note_says_who_speaks	19
-cut_offer_needs_two	91
+cut_offer_needs_two	85
 cut_one_camera_marks	19
 cut_one_turn_one_edge	7
 cut_opening_wide_holds	7
@@ -163,7 +163,7 @@ project_same_offset	11
 project_settings_return	31
 project_sync_multicam	19
 project_tag_reason_fits	8
-project_ticks_come_back	4
+project_ticks_come_back	3
 project_top_rate_wins	20
 project_two_stay_two	6
 project_two_timelines_go	16
@@ -174,7 +174,7 @@ run_cam_fault_no_half	10
 run_camera_audio_planned	4
 run_choice_kept	17
 run_clock_place_travels	7
-run_command_built	79
+run_command_built	70
 run_done_tracks_used	13
 run_dry_leaves_no_trace	8
 run_dry_leaves_out	4
@@ -217,11 +217,11 @@ run_space_has_margin	19
 run_starter_arch_fits	30
 run_stays_local	20
 run_stop_heard_midway	32
-run_stop_names_why	30
+run_stop_names_why	27
 run_stop_passes_through	13
 run_stored_words_cut	7
 run_switch_changes_it	12
-run_switch_has_effect	9
+run_switch_has_effect	10
 run_sync_only_no_cut	20
 run_takes_dry_measure	9
 run_threads_keep_order	17
@@ -238,7 +238,6 @@ sound_any_count_judged	56
 sound_bleed_reported	16
 sound_block_gap_said	4
 sound_both_sides_alike	16
-sound_camera_counts	17
 sound_camera_judged_too	42
 sound_camera_own_used	7
 sound_cameras_carry_cut	9
@@ -309,7 +308,6 @@ table_stereo_splits	5
 table_sync_keeps_stem	6
 table_sync_none_derived	6
 table_sync_stem_shown	3
-table_tick_keeps_camera	13
 table_typed_name_stays	8
 table_wide_is_the_run	2
 text_german_arrives	12
@@ -444,7 +442,7 @@ window_exit_keeps_all	7
 window_first_kind_holds	6
 window_foot_on_one_line	8
 window_grey_opens_again	25
-window_grey_says_why	40
+window_grey_says_why	37
 window_groups_make_room	5
 window_handover_follows	3
 window_handover_found	5
@@ -471,12 +469,12 @@ window_picture_returns	10
 window_play_follows_tab	23
 window_point_named	4
 window_prework_box_goes	3
-window_project_type_set	46
+window_project_type_set	43
 window_reads_as_chosen	20
 window_restart_carries	17
 window_run_beats_kept	8
 window_run_handover_kept	8
-window_setup_kept_apart	19
+window_setup_kept_apart	18
 window_sheets_fit	16
 window_silent_hears_none	5
 window_size_as_run	6

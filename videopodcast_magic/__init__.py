@@ -602,7 +602,7 @@ def run_from_command_line(args, ap):
     key_for_run(args)
     if args.auphonic_key and not args.files:
         try:
-            return print_presets(api_key_from_anywhere(args), args.multitrack)
+            return print_presets(api_key_from_anywhere(args))
         except Exception as e:
             print(T('Presets could not be loaded: %s') % e)
             return 1
@@ -652,18 +652,13 @@ def run_from_command_line(args, ap):
     # project type, so Sync refuses here what the window refuses.
     if run_preflight(args, audio_paths, video_paths, args.project_type):
         return 1
-    if args.multitrack and not audio_paths:
-        # Cameras only: their own audio becomes the track, and how many
-        # tracks that is has to be measured -- one camera with two
+    if not audio_paths and len(video_paths) > 1:
+        # Cameras only: each camera's own audio becomes a track, and how
+        # many tracks that is has to be measured -- one camera with two
         # microphones is two. So the plan is built before the decision.
         return multitrack_or_single(args, ap, audio_paths, video_paths)
     if not audio_paths:
-        # Picture only, no multitrack: the camera audio becomes the track.
-        if len(video_paths) > 1:
-            print(T('Several cameras but no audio file. Each camera would '
-                    'have its own audio --\nthat is what --multitrack is '
-                    'for. Otherwise one camera after another.'))
-            return 1
+        # One camera and nothing else: its audio becomes the track.
         args._camera_audio = tempfile.mkdtemp(prefix="vpm_camaudio_")
         atexit.register(shutil.rmtree, args._camera_audio, True)
         try:
@@ -672,13 +667,8 @@ def run_from_command_line(args, ap):
             print(T('Camera audio not usable: %s') % e)
             return 1
         print()
-    missing = check_mode_fits_input(audio_paths, args)
-    if missing:
-        print(missing)
-        return 1
-    # One way in, whatever --multitrack says: the switch decides how
-    # the recordings are grouped and nothing else -- not the time axis,
-    # not the arithmetic, not which code writes the files.
+    # One way in: whether the tracks go up as one Multitrack production
+    # follows from them, and --multitrack, still taken, decides nothing.
     return multitrack_or_single(args, ap, audio_paths, video_paths)
 
 
@@ -710,7 +700,6 @@ take_from(loudness)
 bearings = beside("bearings", program=PROGRAM)
 take_from(bearings)
 
-check_mode_fits_input = bearings.check_mode_fits_input
 guess_speaker_name = bearings.guess_speaker_name
 speaker_guesses = bearings.speaker_guesses
 split_audio_and_video = bearings.split_audio_and_video

@@ -49,10 +49,10 @@ STEM = "PresentersCam_01011855_C002"
 ROWS = [vpm.SpeakerName("Guest"), vpm.SpeakerName("", "PresentersCam")]
 
 print("1. The name the table offers")
-sync = vpm.camera_name_suggestion("Interview", CAMERA, ROWS, False, True)
+sync = vpm.camera_name_suggestion("Interview", CAMERA, ROWS, True)
 check("under Sync only a camera with a speaker is offered its stem",
       sync == STEM, "%r against %r" % (sync, STEM))
-cut = vpm.camera_name_suggestion("Interview", CAMERA, ROWS, False)
+cut = vpm.camera_name_suggestion("Interview", CAMERA, ROWS)
 check("and in a cut project the same rows still name the speaker",
       "Guest" in cut and cut != STEM, "%r -- wanted 'Guest' in it" % cut)
 

@@ -420,7 +420,6 @@ def make_project_file(QtWidgets, window, state, model, report, write,
         model.speech_language.set(PROGRAM.language_of_system())
         model.lufs.set(loudness_last())
         model.edge_on.set(True)
-        model.multitrack.set(False)
         model.project_type.set("")
         window.project_closed.emit()
 
@@ -533,14 +532,8 @@ def make_project_file(QtWidgets, window, state, model, report, write,
                                 state.get("speakers_source") or "")
         PROGRAM.cameras_carry_path(model.remembered,
                                    [p for p, a in present if a == "video"])
-        if d.get("multitrack"):
-            model.multitrack.set(True)
         window.presets_wanted.emit()
         window.files_changed.emit()
-        if model.multitrack.get():
-            # The tick fires nothing where it already stood, so the later
-            # tabs are told by hand that the project is open.
-            window.mode_changed.emit()
         state["results"] = []
         for name in SPEAKER_STATE:
             state.pop(name, None)

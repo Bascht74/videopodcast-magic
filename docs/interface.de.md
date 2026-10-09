@@ -352,9 +352,8 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Die Spalten **Sprechername** und **Sprecher** fehlen, und mit ihnen
   der Eintrag **mehrere Sprecher**, die Stimmzeilen, der Knopf **Ein
   Sprecher mehr in ...** und die Zeile **Auf diesem Rechner nicht**:
-  wer spricht, fragt niemand, weil nichts geschnitten wird. Auch die
-  Zeile **Multitrack (je Sprecher eine Spur)** fehlt, und das Häkchen
-  ist aus. Auch **gehört zu** fehlt, und in der Kameratabelle
+  wer spricht, fragt niemand, weil nichts geschnitten wird. Auch
+  **gehört zu** fehlt, und in der Kameratabelle
   **bekommt Audio von**: ohne Sprecher gibt es nichts zuzuordnen, die
   eine Aufnahme kommt in jede Kameradatei. Geblieben sind die Zeile der
   Aufnahme mit ihrem Timecode, die Kameratabelle mit **Kamera**, **neue
@@ -476,11 +475,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Schnitt fällt bei jedem Sprecherwechsel, und Resolve bekommt je Person
   einen Clip. Bei einer Person und einer zweiten Kamera, auf der niemand
   ist, heißt er **Schnitt mit dem Weitwinkel**: die Kamera dieser Person
-  steht, und der Weitwinkel bricht sie auf. Mit gesetztem **Multitrack**
-  bleibt der Name **Kameraschnitt**.
+  steht, und der Weitwinkel bricht sie auf.
 
-  Der Kasten erscheint, sobald **Multitrack** gesetzt ist oder zwei
-  Personen einen Namen und eine Kamera tragen. Woher die beiden kommen,
+  Der Kasten erscheint, sobald zwei Personen einen Namen und eine Kamera
+  tragen. Woher die beiden kommen,
   macht keinen Unterschied, und beide Herkünfte zählen zusammen: eine
   Stimme unter einer getrennten Aufnahme und eine Aufnahme mit eigenem
   Namen sind zwei Personen, ebenso zwei Stimmen oder zwei Aufnahmen. Eine
@@ -492,11 +490,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Platz.
 
   Beide hinteren Reiter stehen mit und ohne getrennte Spuren da, und die
-  Zuordnung ebenso: **gehört zu** wird mit dem Häkchen gefragt und ohne
-  es, denn zu welcher Kamera eine Aufnahme gehört, ist ohnehin
-  dieselbe Frage, und der Lauf macht dieselbe Antwort daraus. Das
-  Häkchen anzuklicken kostet deshalb nichts — von Hand gewählte Kameras
-  bleiben stehen.
+  Zuordnung ebenso: **gehört zu** wird gefragt, gleich, welche Art von
+  Produktion die Spuren ergeben, denn zu welcher Kamera eine Aufnahme
+  gehört, ist ohnehin dieselbe Frage, und der Lauf macht dieselbe
+  Antwort daraus.
 
   Mit **Nur synchronisieren** bleibt der Reiter, und ein Satz ganz oben
   sagt, was er nicht ist: **Nur synchronisieren: kein Schnitt. Die
@@ -543,24 +540,24 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   neuen Ort nach einer Übergabe suchen ([Resolve](resolve.de.md) sagt,
   wo es sucht).
 
-**Multitrack (je Sprecher eine Spur)** hat eine eigene Zeile unter der
-Zuordnungstabelle, über dem Auphonic-Kasten. Es geht mit auphonic.com
-und ohne; nach dem API Key fragt das Programm erst auf dem Weg über
-auphonic.com. Der Kameraschnitt braucht das Häkchen nicht. Beim
-Projekttyp **Nur synchronisieren** fehlt die Zeile, und das Häkchen ist
-aus: je Sprecher eine Spur ist eine Frage für den Schnitt nach Sprecher.
+Unter der Zuordnungstabelle steht der Auphonic-Kasten mit der Liste
+**Preset**. Welche Art von Preset sie anbietet, folgt aus den Spuren in
+der Tabelle, angekreuzt wird dafür nichts: zwei Spuren oder mehr auf
+einer Zeitachse gehen als eine Multitrack-Produktion hoch, eine
+einzelne Spur als Singletrack-Produktion. Eine graue Zeile unter der
+Liste sagt, welche Art und warum -- `Multitrack, weil 3 Spuren auf
+einer Zeitachse liegen.` --, und was daran etwas ändert: ein anderes
+Preset derselben Art, oder für Singletrack alle Spuren bis auf eine auf
+**nicht verwenden**, für Multitrack eine zweite Spur dazu, eine
+Aufnahme oder eine Kamera auf **Ton verwenden**. Es geht mit
+auphonic.com und ohne; nach dem API Key fragt das Programm erst auf dem
+Weg über auphonic.com.
 
-Multitrack braucht zwei Eingangsspuren. Eine Eingangsspur ist eine
-eigene Aufnahme, ein Kanal eines mehrkanaligen Aufnahmegeräts oder der
-Ton einer Videodatei, die auf **Ton verwenden** steht. Mehrere Blöcke
-derselben Aufnahme zählen als eine Spur, eine beiseitegelegte Spur gar
-nicht.
-
-Das Häkchen bleibt anklickbar, was auch immer im Projekt liegt. Bei nur
-einer Spur sagt das eine graue Zeile daneben, und sie nennt den Weg zur
-zweiten: **Kameraton** bei einer Kamera, gestellt auf
-**Ton verwenden**. Wenn jede Kamera ihren Ton schon hergibt, sagt diese
-Zeile, dass keiner mehr übrig ist.
+Eine Eingangsspur ist eine eigene Aufnahme, ein Kanal eines
+mehrkanaligen Aufnahmegeräts oder der Ton einer Videodatei, die auf
+**Ton verwenden** steht. Mehrere Blöcke derselben Aufnahme zählen als
+eine Spur, Zeilen unter einem Namen ebenso, eine beiseitegelegte Spur
+gar nicht. Der Kameraschnitt braucht keine zwei davon.
 
 Unter dem Auphonic-Kasten erscheint ein zweiter Balken, solange das
 Material vermessen wird, mit einer Zeile je Datei und dem Stand jeder
@@ -658,18 +655,10 @@ Er und **Start** bleiben gesperrt, solange etwas offen ist, und
   **Ton verwenden**,
 - kein Produktionsname,
 - kein Projekttyp gewählt,
-- weniger als zwei Spuren in der Zuordnungstabelle für Multitrack,
-- bei Multitrack eine Aufnahme ganz ohne Namen: keiner getippt, und
-  keiner, den der Dateiname nahelegt -- der graue Vorschlag gilt als
-  Name, wo nichts darüber getippt wird,
-- bei Multitrack alle Aufnahmen unter demselben Namen,
 - eine **Stimme** unter einem Namen, den schon jemand anderes trägt: der
   Schnitt setzt eine Person auf eine Kamera, und ein Name auf zwei
   Stimmen wäre diese Person an zwei Stellen -- es sei denn, es ist
   dieselbe Stimme, in zwei Aufnahmen gehört,
-- ohne Multitrack mehrere Kameras und keine Tonaufnahme: jede Kamera
-  brächte ihren eigenen Ton mit, und eine Spur je Kamera ist das, wofür
-  Multitrack da ist,
 - zwei Kameras mit derselben Ausgabedatei.
 
 Das Feld oder die Zeile, die gemeint ist, wird rot. Ein Häkchen hinter
@@ -805,7 +794,7 @@ Abschnitt, der nichts meldet, kriecht er langsam weiter und bleibt vor
 dem Ende stehen.
 
 Für den Lauf selbst nennt die Zeile den Abschnitt, auf beiden Wegen mit
-denselben Namen, mit Multitrack und ohne:
+denselben Namen:
 
 - **Plan wird gelesen**
 - **Ton aus den Kameras**: überall dort, wo der Ton einer Kamera eine

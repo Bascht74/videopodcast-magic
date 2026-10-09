@@ -321,9 +321,8 @@ Four tabs, in the order they are needed.
   **Speaker name** and **Speakers** are gone, and with them the entry
   **several speakers**, the voice rows, the button **One more speaker
   in ...** and the line **Not on this machine**: nobody is asked who
-  speaks, because nothing will be cut. The line **Multitrack (one track
-  per speaker)** is gone as well, and the tick is off. So is **belongs
-  to**, and in the camera table **gets audio from**: without speakers
+  speaks, because nothing will be cut. So is **belongs to**, and in the
+  camera table **gets audio from**: without speakers
   there is nothing to assign, and the one recording goes into every
   camera file. What stays is the recording's row with its timecode, the
   camera table with **Camera**, **new file name**, **Kind** and
@@ -436,10 +435,9 @@ Four tabs, in the order they are needed.
   every change of speaker, and Resolve gets one clip per person. With
   one person and a second camera nobody is on it is called **Cut with
   the wide shot**: that person's camera stands, and the wide shot breaks
-  it up. With **Multitrack** ticked the name stays **Camera cut**.
+  it up.
 
-  The box appears as soon as **Multitrack** is ticked, or as soon as two
-  people carry a name and a camera. Where those two came from makes no
+  The box appears as soon as two people carry a name and a camera. Where those two came from makes no
   difference, and the two sources count together: a voice under a
   separated recording and a recording with a name of its own are two
   people, just as two voices are, or two recordings. One person is enough
@@ -450,10 +448,9 @@ Four tabs, in the order they are needed.
   place.
 
   Both rear tabs are there with or without separate tracks, and so is
-  the assignment: **belongs to** is asked with the tick and without it,
-  because which camera a recording belongs to is the same question
-  either way and the run makes the same answer of it. Clicking the tick
-  therefore costs nothing -- the cameras picked by hand stay picked.
+  the assignment: **belongs to** is asked whatever kind of production
+  the tracks make, because which camera a recording belongs to is the
+  same question either way and the run makes the same answer of it.
 
   With **Sync only** the tab stays, and one sentence at its top says
   what it is not: **Sync only: no cut. The handover carries the
@@ -495,23 +492,23 @@ Four tabs, in the order they are needed.
   file**, looks for a handover in the new place at once
   ([Resolve](resolve.md) says where it looks).
 
-**Multitrack (one track per speaker)** has a line of its own under the
-assignment table, above the Auphonic box. It works with auphonic.com and
-without; the program asks for the API key only on the way over
-auphonic.com. The camera cut does not need the tick. With the project
-type **Sync only** the line is not there and the tick is off: one track
-per speaker is a question for a cut by speaker.
+Under the assignment table stands the Auphonic box with the **Preset**
+list. Which kind of preset it offers follows from the tracks in the
+table, and nothing is ticked for it: two tracks or more on one time
+axis go up as one Multitrack production, a single track as a
+Singletrack one. A grey line under the list says which kind and why --
+`Multitrack, because 3 tracks lie on one time axis.` -- and what
+changes it: another preset of the same kind, or for Singletrack every
+track but one set to **do not use**, for Multitrack a second track
+added, a recording or a camera set to **use internal audio**. It works
+with auphonic.com and without; the program asks for the API key only on
+the way over auphonic.com.
 
-Multitrack needs two input tracks. An input track is a recording of its
-own, a channel of a multichannel recorder, or the audio of a video file
-set to **use internal audio**. Several blocks of one recording count as one
-track, and a track set aside counts as none.
-
-The tick stays clickable whatever the material. With one track only a
-grey line beside it says so, and it names the way to a second:
-**Camera audio** at a camera, set to **use internal audio**. If every camera
-already gives its audio away, that line says there is none left to
-take.
+An input track is a recording of its own, a channel of a multichannel
+recorder, or the audio of a video file set to **use internal audio**.
+Several blocks of one recording count as one track, rows under one name
+are one track, and a track set aside counts as none. The camera cut
+does not need two of them.
 
 Under the Auphonic box a second bar appears while the material is being
 measured, one line per file with how far each has got. A line goes as
@@ -603,18 +600,10 @@ is stands under the buttons**, with the tab it is on:
   **use internal audio**,
 - no production name,
 - no project type chosen,
-- fewer than two tracks in the assignment table for multitrack,
-- with multitrack, a recording with no name at all: none typed, and
-  none the file name suggests -- the grey suggestion counts as the name
-  wherever nothing is typed over it,
-- with multitrack, all recordings under the same name,
 - a **Voice** under a name that is on somebody else: the cut puts a
   person on one camera, and one name on two voices would be that person
   in two places -- unless the two are the same voice heard in two
   recordings,
-- without multitrack, several cameras and no audio recording: each
-  camera would bring its own sound, and a track per camera is what
-  Multitrack is for,
 - two cameras with the same output file.
 
 The field or the row it means turns red. A tick behind a tab means
@@ -741,7 +730,7 @@ A step that reports a real percentage takes the bar with it. A step that
 reports nothing lets the bar creep on slowly and stop short of the end.
 
 For the run itself the line names the stage, by the same names on both
-paths, with Multitrack and without:
+paths:
 
 - **Reading the plan**
 - **Audio out of the cameras**: wherever a camera's sound is a track in

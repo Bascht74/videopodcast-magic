@@ -96,7 +96,7 @@ check("two files of one name in two folders are told apart by a number",
 def held_back(camera_lines):
     """What the window says is missing on the assignment sheet."""
     return vpm.missing_conditions(
-        ["/m/a.wav"], "Ep12", False,
+        ["/m/a.wav"], "Ep12",
         [(["/m/a.wav"], vpm.Value("Anna"), vpm.Value(""))],
         camera_lines).get(22)
 
@@ -132,7 +132,7 @@ def marked(camera_lines):
     line = QtWidgets.QLabel("", sheet)
     line.setVisible(False)
     vpm.assignment_marks_show(
-        [], [], fields, camera_lines, True,
+        [], [], fields, camera_lines,
         {"audio_reason": None, "video_reason": line, "voiced": set()})
     # The sheet is never shown, so the answer has to be asked of it and
     # not of the screen.

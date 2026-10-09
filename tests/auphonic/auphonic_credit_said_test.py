@@ -413,7 +413,7 @@ check("each Singletrack production is rounded up before they add up",
       % (vpm.run_seconds_of(alone, False),))
 LONG.update({"Guest.wav": 25 * 60, "Presenter.wav": 15 * 60})
 
-page, multi = QtWidgets.QWidget(), QtWidgets.QPushButton()
+page = QtWidgets.QWidget()
 page_layout = QtWidgets.QVBoxLayout(page)
 arrived = []
 bridge = types.SimpleNamespace(presets=types.SimpleNamespace(
@@ -421,7 +421,7 @@ bridge = types.SimpleNamespace(presets=types.SimpleNamespace(
 state = {"account": {"hours": 20 / 60.0, "paying": True}}
 built = vpm.make_auphonic_box(
     QtWidgets, state, bridge, lambda *a: None, page_layout, lambda: None,
-    lambda: None, multi, vpm.Value(""), lambda: "", lambda *a: None,
+    lambda: None, vpm.Value(""), lambda: "", lambda *a: None,
     lambda: vpm.run_tracks_of(model))
 credit = [w for w in page.findChildren(QtWidgets.QLabel)
           if w.wordWrap() and not w.text().startswith(T('Preset:'))]

@@ -39,7 +39,6 @@ class ProjectModel(object):
         self.in_point = Value("")
         self.out_point = Value("")
         self.project_type = Value("")    # "cut", "sync", or not asked
-        self.multitrack = Value(False)
         self.edge_on = Value(True)       # the wide shot at both edges
         self.lufs = Value(lufs)
         self.speech_language = Value(speech_language)

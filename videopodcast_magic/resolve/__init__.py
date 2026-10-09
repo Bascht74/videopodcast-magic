@@ -2343,8 +2343,7 @@ def make_resolve_check(QtWidgets, bridge, bridge_emit, resolve_position,
     above the cut tab are one theme. gui() calls it below settings_open,
     which the way into the settings window reaches for.
     """
-    # The box only appears with multitrack, which is where the
-    # speaker-to-camera assignment is. Resolve is checked on opening.
+    # Resolve is checked on opening.
     resolve_box = QtWidgets.QGroupBox(T('Connection to Resolve'))
     # Two areas side by side as in the assignment: what is configured on the
     # left, what comes of it on the right.

@@ -130,12 +130,6 @@ msgstr "Chưa có cài đặt sẵn Singletrack riêng -- hãy tạo một cái"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "Chưa có cài đặt sẵn riêng -- hãy tạo trên auphonic.com"
 
-msgid "No Multitrack preset found in the account."
-msgstr "Không tìm thấy cài đặt sẵn Multitrack nào trong tài khoản."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Không tìm thấy cài đặt sẵn Singletrack nào trong tài khoản."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "Tài khoản không có cài đặt sẵn Multitrack. Chỉ có: %s"
 
@@ -1357,9 +1351,6 @@ msgstr "Không đọc được tệp gán: %s"
 msgid "Camera audio not usable: %s"
 msgstr "Âm thanh máy quay không dùng được: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "KHÔNG THỂ DÙNG MULTITRACK\n  Cần ít nhất hai rãnh đầu vào, nhưng chỉ tìm thấy %s.\n  Một rãnh là một bản ghi riêng, một kênh của máy ghi nhiều\n  kênh, hoặc âm thanh của một máy quay -- rãnh này được tính ngay khi\n  Âm thanh máy quay của nó là \"dùng âm thanh tích hợp\". Không có hai rãnh\n  thì không có gì để tách riêng, và cùng tệp đó chạy như một\n  bản sản xuất thông thường."
-
 msgid "No preset is called %r."
 msgstr "Không có cài đặt sẵn nào tên %r."
 
@@ -1470,9 +1461,6 @@ msgstr "ĐÃ LƯU DỰ ÁN\n  %s\n  Có thể mở lại lần chạy này sau -
 
 msgid "Presets could not be loaded: %s"
 msgstr "Không tải được cài đặt sẵn: %s"
-
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Nhiều máy quay nhưng không có tệp âm thanh. Mỗi máy quay sẽ có âm thanh riêng --\n--multitrack dùng cho việc đó. Nếu không thì lần lượt từng máy quay."
 
 msgid "The file is NOT recognised as HDR."
 msgstr "Tệp KHÔNG được nhận là HDR."
@@ -1593,9 +1581,6 @@ msgstr "  Khoảng thời gian:        %s -- mọi thứ mà bất kỳ rãnh n�
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: im lặng %s ở đầu và %s ở cuối"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nSau khi nối các khối chỉ còn lại một rãnh, mà Multitrack cần mỗi giọng nói một rãnh. Nơi hai người bị coi là một bản ghi, --apart giữ một khối ra ngoài."
 
 msgid "RECOGNISED PLAN"
 msgstr "KẾ HOẠCH ĐÃ NHẬN RA"
@@ -2047,12 +2032,6 @@ msgstr "Thêm tệp ..."
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Căn chỉnh dựa theo độ lệch đo được; mã thời gian chỉ để đối chiếu."
 
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Tất cả bản ghi mang cùng một tên -- như vậy chỉ thành một rãnh."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Tất cả các dòng đều cùng một tên -- như vậy chỉ thành một rãnh, mà Multitrack cần ít nhất hai."
-
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Gán: rãnh âm thanh nào thuộc máy quay nào"
 
@@ -2206,9 +2185,6 @@ msgstr "Tạo đường bao thất bại: %s"
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "Đường bao và âm thanh máy quay được chuẩn bị ở chế độ nền."
 
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Mỗi dòng cần một tên -- tại Auphonic tên đó trở thành track ID."
-
 msgid "External preview -- the app does not know this format"
 msgstr "Xem trước bên ngoài -- ứng dụng không biết định dạng này"
 
@@ -2313,15 +2289,6 @@ msgstr "Âm thanh thiếu %s được lấp bằng im lặng%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Không tải được mô-đun DaVinciResolveScript: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Mỗi người một rãnh âm thanh, giữ riêng cho đến tận auphonic.com.\nKhông có nó cũng được -- khi đó không có De-Bleed và Leveler.\nCần hai rãnh đầu vào: một bản ghi riêng, một kênh của máy ghi\nnhiều kênh, hoặc âm thanh của một tệp video được đặt thành\n\"dùng âm thanh tích hợp\". Dựng chuyển máy quay không cần dấu tích này."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (mỗi người nói một rãnh)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack cần ít nhất hai rãnh đầu vào. Một rãnh là một bản ghi riêng, một kênh của máy ghi nhiều kênh, hoặc âm thanh của một tệp video được đặt thành \"dùng âm thanh tích hợp\". Nhiều khối của cùng một bản ghi được tính là một, các rãnh để riêng ra thì không tính."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Chưa dùng âm thanh nào -- thêm một bản ghi âm, hoặc trong danh sách tệp đặt Âm thanh máy quay của một tệp video thành \"dùng âm thanh tích hợp\"."
@@ -2461,9 +2428,6 @@ msgstr "Không bắt buộc -- khi đó YouTube dùng giá trị mặc định (
 msgid "Not ready yet:"
 msgstr "Chưa sẵn sàng:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "Một bản ghi âm chưa có tên người nói."
-
 msgid "One frame back."
 msgstr "Lùi một khung hình."
 
@@ -2472,9 +2436,6 @@ msgstr "Lùi một giây."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Mỗi cảnh quay mang màu của máy quay tương ứng. Di chuột lên để xem máy quay và thời lượng, bấm để nhảy đến."
-
-msgid "Only one speaker"
-msgstr "Chỉ một người nói"
 
 msgid "Open json project file"
 msgstr "Mở tệp dự án json"
@@ -2727,9 +2688,6 @@ msgstr "Chưa biết người nói nào -- họ sẽ được xác định từ 
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "Ba con số là màu cơ bản, đường cong và ma trận. Nhãn khác nhau cần không gian màu đầu vào khác nhau trong Resolve -- nếu không, máy quay này sẽ trông khác máy quay kia."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Không có bản ghi âm riêng. Khi đó âm thanh của %s máy quay được dùng -- mỗi máy thành một rãnh, và Auphonic loại bỏ rò tiếng."
-
 msgid "There is no result yet."
 msgstr "Chưa có kết quả."
 
@@ -2844,8 +2802,23 @@ msgstr "Thiếu nó, mọi trình phát đều phải đoán, và tất cả đ�
 msgid "Without processing at auphonic.com"
 msgstr "Không xử lý tại auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Chưa có dựng chuyển máy quay: cần hai người, mỗi người có một tên và một máy quay.\nCác bản ghi riêng làm được điều đó với dấu tích Multitrack, và \"nhiều người nói\" trong trường Tên người nói của một bản ghi cũng vậy --\ncác giọng nói tìm thấy ở đó được gán máy quay trong bảng bên dưới các bản ghi.\nDù vậy vẫn tạo một dự án Resolve -- mọi máy quay ở vị trí đã đo, sẵn sàng cho Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Chưa có dựng chuyển máy quay: cần hai người, mỗi người có một tên và một máy "
+"quay.\n"
+"Các bản ghi riêng làm được điều đó, mỗi bản ghi với tên riêng của nó, và "
+"\"nhiều người nói\" trong trường Tên người nói của một bản ghi cũng vậy --\n"
+"các giọng nói tìm thấy ở đó được gán máy quay trong bảng bên dưới các bản "
+"ghi.\n"
+"Dù vậy vẫn tạo một dự án Resolve -- mọi máy quay ở vị trí đã đo, sẵn sàng "
+"cho Multicam."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Khi không có mã thời gian, vị trí của các tệp sẽ được đo."
@@ -3209,9 +3182,6 @@ msgstr "cảnh rộng %s, bản trộn là rãnh âm thanh đầu tiên của n�
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s xuất hiện nhiều lần. Các bản ghi này được gộp thành một rãnh và xếp nối tiếp theo mã thời gian -- đúng nếu việc ghi đã bị dừng giữa chừng."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Tất cả bản ghi đều mang cùng một tên. Như vậy chỉ thành một rãnh -- Multitrack cần ít nhất hai."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Hai máy quay sẽ tạo ra cùng một tệp (%s). Tệp thứ hai sẽ ghi đè tệp thứ nhất."
 
@@ -3278,9 +3248,6 @@ msgstr "một bản ghi riêng"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Đưa bản ghi này vào một bản ghi khác, cùng mọi khối của nó.\nDùng khi tên tệp không cho việc tìm kiếm manh mối nào."
 
-msgid "Cameras only"
-msgstr "Chỉ máy quay"
-
 msgid "Curve number %d"
 msgstr "Đường cong số %d"
 
@@ -3328,9 +3295,6 @@ msgstr "Đầu %s"
 
 msgid "Take from source files"
 msgstr "Lấy từ tệp nguồn"
-
-msgid "Take the camera audio"
-msgstr "Dùng âm thanh máy quay"
 
 msgid "Target: %s"
 msgstr "Đích: %s"
@@ -3530,9 +3494,6 @@ msgstr "Gộp lại"
 msgid "Mixing %s"
 msgstr "Đang trộn %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack cần hai rãnh trong bảng phía trên -- một máy quay được tính là một rãnh khi Âm thanh máy quay của nó được đặt thành \"dùng âm thanh tích hợp\"."
-
 msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
 msgstr "Chỉ có một rãnh -- để có rãnh thứ hai, hãy đặt Âm thanh máy quay của một máy quay thành \"dùng âm thanh tích hợp\"."
 
@@ -3547,9 +3508,6 @@ msgstr "Khi được dùng, âm thanh của tệp này trở thành một rãnh 
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Không có âm thanh để làm việc -- đặt Âm thanh máy quay của một tệp video thành \"dùng âm thanh tích hợp\", hoặc thêm một bản ghi âm."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack cần nhiều rãnh"
 
 msgid "Mute."
 msgstr "Tắt tiếng."
@@ -3630,9 +3588,6 @@ msgid "Silence"
 msgstr "Im lặng"
 
 msgid "Speaker name"
-msgstr "Tên người nói"
-
-msgid "Speaker names"
 msgstr "Tên người nói"
 
 msgid "Static metadata"
@@ -3877,9 +3832,6 @@ msgstr "  Các rãnh được dùng như khi ghi: căn chỉnh, trộn và đưa
 
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  Đã chỉ định cả --without-auphonic và --auphonic-done. Các rãnh đã xong được ưu tiên: không còn gì để gửi đi đâu nữa."
-
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "KHÔNG THỂ DÙNG MULTITRACK\n  Không có khóa API thì không có gì để gửi đến auphonic.com.\n  Với --without-auphonic, việc xử lý chạy cục bộ thay thế: căn chỉnh,\n  trộn và dựng, nhưng không có De-Bleed và Leveler."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Cảnh báo: chỉ đo được %s trong %s cặp. Với các cặp còn lại không tìm thấy lúc nào chỉ đúng một người nói, nên rò tiếng của chúng vẫn còn -- việc xác định ai nói khi nào ở đây không đáng tin cậy."
@@ -4976,9 +4928,6 @@ msgstr "Điểm ra đã thay đổi từ lượt chạy trước: trước là %
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Bản sản xuất đã xong nhưng tệp ZIP chứa các rãnh riêng lẻ không có tên tệp đơn giản"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Nhiều máy quay nhưng không có bản ghi âm thanh. Mỗi máy quay sẽ có âm thanh riêng -- Multitrack dùng cho việc đó. Nếu không thì lần lượt từng máy quay."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Tệp nén chứa %s nhiều hơn một lần, nên không lấy gì ra từ đó."
 
@@ -5185,3 +5134,21 @@ msgstr ""
 "\n"
 "%s có %s kênh, mà auphonic.com chỉ nhận tối đa hai kênh trong một tệp. Chưa gửi gì cả.\n"
 "  Hãy cho biết kênh nào đi cùng nhau: trên thẻ Tệp & bản sản xuất, tệp mở ra thành một hàng cho mỗi kênh, và dấu chọn trên một hàng ghép nó với hàng kế tiếp. Nếu tệp không hiện hàng kênh nào, trước hết hãy lưu các kênh của nó thành những tệp riêng."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, vì có %s rãnh nằm trên một trục thời gian. Có thể chọn một cài "
+"đặt sẵn Multitrack khác; để thành Singletrack, đặt mọi rãnh trừ một rãnh "
+"thành \"không dùng\"."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, vì chỉ có một rãnh. Có thể chọn một cài đặt sẵn Singletrack "
+"khác; để thành Multitrack, thêm một rãnh thứ hai -- một bản ghi, hoặc một "
+"máy quay đặt \"dùng âm thanh tích hợp\"."

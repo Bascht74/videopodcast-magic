@@ -130,12 +130,6 @@ msgstr "Geen eigen Singletrack-voorinstelling -- maak er een aan"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "Geen eigen voorinstelling -- maak er een aan op auphonic.com"
 
-msgid "No Multitrack preset found in the account."
-msgstr "Geen Multitrack-voorinstelling gevonden in het account."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Geen Singletrack-voorinstelling gevonden in het account."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "Geen Multitrack-voorinstelling in het account. Alleen deze: %s"
 
@@ -1357,9 +1351,6 @@ msgstr "Toewijzingsbestand niet leesbaar: %s"
 msgid "Camera audio not usable: %s"
 msgstr "Camerageluid niet bruikbaar: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK NIET MOGELIJK\n  Er zijn minstens twee ingangssporen nodig, en er is maar %s gevonden.\n  Een spoor is een eigen opname, een kanaal van een meerkanaals\n  recorder, of het geluid van een camera -- dat telt mee zodra het\n  Camerageluid op \"intern geluid gebruiken\" staat. Zonder twee daarvan\n  valt er niets los te koppelen, en hetzelfde bestand loopt door als een\n  gewone productie."
-
 msgid "No preset is called %r."
 msgstr "Geen voorinstelling heet %r."
 
@@ -1470,9 +1461,6 @@ msgstr "PROJECT OPGESLAGEN\n  %s\n  Deze uitvoering kan later weer worden geopen
 
 msgid "Presets could not be loaded: %s"
 msgstr "Voorinstellingen konden niet worden geladen: %s"
-
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Meerdere camera's maar geen audiobestand. Elke camera zou zijn eigen geluid hebben --\ndaar is --multitrack voor. Anders de ene camera na de andere."
 
 msgid "The file is NOT recognised as HDR."
 msgstr "Het bestand wordt NIET als HDR herkend."
@@ -1593,9 +1581,6 @@ msgstr "  Tijdvenster:                    %s -- alles wat een spoor heeft gehoor
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: stilte van %s aan het begin en %s aan het eind"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nNa het samenvoegen van de blokken blijft maar één spoor over, en Multitrack heeft er één per stem nodig. Waar twee mensen voor één opname zijn gehouden, houdt --apart een blok erbuiten."
 
 msgid "RECOGNISED PLAN"
 msgstr "HERKEND PLAN"
@@ -2047,12 +2032,6 @@ msgstr "Bestanden toevoegen ..."
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Uitlijnen gaat op de gemeten offset; de timecode is alleen de controle."
 
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Alle opnamen hebben dezelfde naam -- dat wordt één spoor."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Alle rijen hebben dezelfde naam -- dat geeft één spoor, en Multitrack heeft er minstens twee nodig."
-
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Toewijzing: welk audiospoor bij welke camera hoort"
 
@@ -2206,9 +2185,6 @@ msgstr "Omhullende mislukt: %s"
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "Omhullenden en camerageluid worden op de achtergrond voorbereid."
 
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Elke rij heeft een naam nodig -- bij Auphonic wordt dat de track ID."
-
 msgid "External preview -- the app does not know this format"
 msgstr "Extern voorbeeld -- de app kent dit formaat niet"
 
@@ -2313,15 +2289,6 @@ msgstr "Ontbrekend geluid %s opgevuld met stilte%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Module DaVinciResolveScript kan niet worden geladen: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Eén audiospoor per persoon, gescheiden gehouden tot aan auphonic.com.\nWerkt ook zonder -- dan zonder De-Bleed en Leveler.\nHet heeft twee invoersporen nodig: een eigen opname, een kanaal van een\nmeerkanaalsrecorder, of het geluid van een videobestand dat op\n\"intern geluid gebruiken\" staat. De cameramontage heeft dit vinkje niet nodig."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (één spoor per spreker)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack heeft minstens twee invoersporen nodig. Een spoor is een eigen opname, een kanaal van een meerkanaalsrecorder, of het geluid van een videobestand dat op \"intern geluid gebruiken\" staat. Meerdere blokken van dezelfde opname tellen als één, opzijgezette sporen helemaal niet."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Nog geen geluid in gebruik -- voeg een audio-opname toe, of zet in de bestandslijst het Camerageluid van een videobestand op \"intern geluid gebruiken\"."
@@ -2461,9 +2428,6 @@ msgstr "Niet verplicht -- YouTube past dan standaardwaarden toe (Sony BVM-X300).
 msgid "Not ready yet:"
 msgstr "Nog niet klaar:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "Eén audio-opname heeft nog geen sprekernaam."
-
 msgid "One frame back."
 msgstr "Eén frame terug."
 
@@ -2472,9 +2436,6 @@ msgstr "Eén seconde terug."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Elk shot in de kleur van zijn camera. Wijs aan voor camera en duur, klik om te springen."
-
-msgid "Only one speaker"
-msgstr "Maar één spreker"
 
 msgid "Open json project file"
 msgstr "json-projectbestand openen"
@@ -2729,9 +2690,6 @@ msgstr "Nog geen sprekers bekend -- ze worden uit de sporen bepaald zodra dit ta
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "De drie getallen zijn primaire kleuren, curve en matrix. Verschillende labels hebben in Resolve verschillende invoerkleurruimtes nodig -- anders ziet de ene camera er anders uit dan de andere."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Er zijn geen aparte audio-opnamen. Dan wordt het geluid van de %s camera's gebruikt -- elke wordt een spoor, en Auphonic verwijdert de overspraak."
-
 msgid "There is no result yet."
 msgstr "Er is nog geen resultaat."
 
@@ -2846,8 +2804,23 @@ msgstr "Zonder dit moet elke speler raden, en ze raden allemaal SDR. Stel in Res
 msgid "Without processing at auphonic.com"
 msgstr "Zonder bewerking bij auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Er is nog geen cameramontage: daarvoor zijn twee personen nodig, elk met een naam en een camera.\nAparte opnamen leveren dat met het vinkje Multitrack, en \"meerdere sprekers\" in het veld Sprekernaam van één opname ook --\nde stemmen die daar gevonden worden krijgen hun camera in de tabel onder de opnamen.\nEr wordt toch een Resolve-project aangemaakt -- alle camera's op hun gemeten plek, klaar voor Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Er is nog geen cameramontage: daarvoor zijn twee personen nodig, elk met een "
+"naam en een camera.\n"
+"Aparte opnamen leveren dat, elk onder een eigen naam, en \"meerdere "
+"sprekers\" in het veld Sprekernaam van één opname ook --\n"
+"de stemmen die daar gevonden worden krijgen hun camera in de tabel onder de "
+"opnamen.\n"
+"Er wordt toch een Resolve-project aangemaakt -- alle camera's op hun gemeten "
+"plek, klaar voor Multicam."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Zonder timecode wordt de positie van de bestanden gemeten."
@@ -3212,9 +3185,6 @@ msgstr "totaalshot %s, de mix is het eerste audiospoor ervan"
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s komt meer dan eens voor. Deze opnamen worden samengevoegd tot één spoor en op hun timecode achter elkaar gelegd -- juist als de opname tussendoor is gestopt."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Alle opnamen dragen dezelfde naam. Dat wordt één spoor -- Multitrack heeft er minstens twee nodig."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Twee camera's zouden hetzelfde bestand opleveren (%s). De tweede zou de eerste overschrijven."
 
@@ -3281,9 +3251,6 @@ msgstr "een eigen opname"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Voegt deze opname in een andere in, met al haar blokken.\nGebruik dit waar de bestandsnamen de zoekfunctie geen houvast geven."
 
-msgid "Cameras only"
-msgstr "Alleen camera's"
-
 msgid "Curve number %d"
 msgstr "Curve nummer %d"
 
@@ -3331,9 +3298,6 @@ msgstr "Begin %s"
 
 msgid "Take from source files"
 msgstr "Overnemen uit bronbestanden"
-
-msgid "Take the camera audio"
-msgstr "Camerageluid gebruiken"
 
 msgid "Target: %s"
 msgstr "Doel: %s"
@@ -3533,9 +3497,6 @@ msgstr "Samenvoegen"
 msgid "Mixing %s"
 msgstr "%s mixen"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack heeft twee sporen nodig in de tabel hierboven -- een camera telt als één zodra het Camerageluid op \"intern geluid gebruiken\" staat."
-
 msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
 msgstr "Maar één spoor -- zet voor een tweede het Camerageluid van een camera op \"intern geluid gebruiken\"."
 
@@ -3550,9 +3511,6 @@ msgstr "Wordt het gebruikt, dan wordt het geluid van dit bestand een spoor als e
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Geen geluid om mee te werken -- zet het Camerageluid van een videobestand op \"intern geluid gebruiken\", of voeg een audio-opname toe."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack heeft meerdere sporen nodig"
 
 msgid "Mute."
 msgstr "Dempen."
@@ -3634,9 +3592,6 @@ msgstr "Stilte"
 
 msgid "Speaker name"
 msgstr "Sprekernaam"
-
-msgid "Speaker names"
-msgstr "Sprekernamen"
 
 msgid "Static metadata"
 msgstr "Statische metadata"
@@ -3880,9 +3835,6 @@ msgstr "  De sporen worden gebruikt zoals ze zijn opgenomen: uitgelijnd, gemixt 
 
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  --without-auphonic en --auphonic-done zijn allebei opgegeven. De kant-en-klare sporen winnen: er valt nergens meer iets naartoe te sturen."
-
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK NIET MOGELIJK\n  Zonder API-sleutel valt er niets naar auphonic.com te sturen.\n  Met --without-auphonic loopt het in plaats daarvan lokaal: uitgelijnd,\n  gemixt en gemonteerd, maar zonder De-Bleed en Leveler."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Let op: maar %s van %s paren meetbaar. Voor de rest is geen moment gevonden waarop precies één persoon spreekt, dus hun overspraak blijft erin -- wie wanneer spreekt, is hier onbetrouwbaar."
@@ -5020,9 +4972,6 @@ msgstr "Het Uit-punt is sinds de vorige run veranderd: toen %s, nu %s. De montag
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Productie klaar, maar de ZIP met de afzonderlijke sporen heeft geen gewone bestandsnaam"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Meerdere camera's maar geen audio-opname. Elke camera zou zijn eigen geluid hebben -- daar is Multitrack voor. Anders de ene camera na de andere."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Het archief bevat %s meer dan eens, dus er is niets uit gehaald."
 
@@ -5229,3 +5178,21 @@ msgstr ""
 "\n"
 "%s heeft %s kanalen, en auphonic.com neemt er hoogstens twee in één bestand. Er is niets verstuurd.\n"
 "  Geef aan welke kanalen bij elkaar horen: op het tabblad Bestanden & productie klapt het bestand uit in één rij per kanaal, en het vinkje op een rij voegt die samen met de volgende. Toont het bestand geen kanaalrijen, sla de kanalen dan eerst op als eigen bestanden."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, omdat %s sporen op één tijdas liggen. Een andere "
+"Multitrack-voorinstelling is te kiezen; voor Singletrack zet u alle sporen "
+"op één na op \"niet gebruiken\"."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, omdat er één spoor is. Een andere Singletrack-voorinstelling is "
+"te kiezen; voor Multitrack voegt u een tweede spoor toe -- een opname, of "
+"een camera op \"intern geluid gebruiken\"."

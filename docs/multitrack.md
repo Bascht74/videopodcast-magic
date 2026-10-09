@@ -9,26 +9,31 @@ Several people at a table, each with a microphone that hears everyone.
 Taking that bleed out of the audio is the one thing only auphonic.com
 does.
 
-Multitrack is the tick for one track per person. Everybody on one
-recording stays one track. The speaker separation tells the voices in it
-apart and gives the cut, not a track each
-([Speech recognition and speaker separation](speech.md)).
+Multitrack is one track per person, sent to auphonic.com as one
+production. Nothing is ticked for it: the material decides. Two tracks
+or more on one time axis make a Multitrack production, a single track
+makes a Singletrack one. Everybody on one recording stays one track. The
+speaker separation tells the voices in it apart and gives the cut, not a
+track each ([Speech recognition and speaker separation](speech.md)).
 
-The tick asks for one track per person, and nothing else: with it
-**Start** waits until the table holds two tracks at least, each with a
-name, and cameras without any audio recording give their sound as a
-track each. The common time axis, the names and cameras in the table,
-the camera cut, the files that come out and the kind of production that
-goes to auphonic.com are the same with the tick and without it. Who ends up in the cut does not hang on where they
-came in by either: a recording of one person, the sound of a camera, a
-channel of a recorder and a voice a separation found all count alike,
-and only **do not use** keeps somebody out.
+Cameras without any audio recording give their sound as a track each.
+Who ends up in the cut does not hang on where they came in by either: a
+recording of one person, the sound of a camera, a channel of a recorder
+and a voice a separation found all count alike, and only **do not use**
+keeps somebody out.
 
-The tick belongs to **Cut by speaker**. With the project type **Sync
-only** the line is not on the tab and the tick is off: one track per
-person is a question about who speaks, and that type asks nobody. It
-takes one audio recording and puts it into every camera file as the
-`Full-Mix` ([The simple path](simple-path.md) says how the two
+Under the preset list one line says which kind it is and why --
+`Multitrack, because 3 tracks lie on one time axis.` -- and the list
+offers only presets of that kind. The same line says what changes it:
+another preset of the same kind, or tracks set to **do not use** or
+added ([Processing at auphonic.com](auphonic.md)). Earlier versions had
+a tick **Multitrack (one track per speaker)** under the tables; a
+project saved with it opens as any other, and the tick it saved is not
+read.
+
+With the project type **Sync only** nobody is asked who speaks. That
+type takes one audio recording and puts it into every camera file as
+the `Full-Mix` ([The simple path](simple-path.md) says how the two
 questions stand to each other).
 
 Everything else runs locally. [Processing at auphonic.com](auphonic.md)
@@ -81,11 +86,8 @@ cases:
 - **do not use**: out entirely, and the speaker name goes grey and says
   **not used** in it. For a recording whose video is still missing.
 
-The selector is there with the **Multitrack** tick and without it: which
-camera a recording belongs to is the same question either way, and the
-camera cut asks it whether the tick is set or not. Clicking the tick
-therefore takes nothing away -- a camera picked by hand stays picked.
-Only where a recording shows its voices as rows of their own does the
+A camera picked by hand stays picked, whatever kind of production the
+tracks make. Only where a recording shows its voices as rows of their own does the
 selector give way: the rows below carry the cameras then, and the
 recording's own cell says so in grey.
 
@@ -114,7 +116,7 @@ and says **occurs more than once. These recordings are merged into one
 track and placed in sequence by their timecode -- correct if recording
 was stopped in between**, which is exactly what that grouping is for.
 Before the run the same thing is asked once more, under **Names used
-more than once**, with the Multitrack tick and without it.
+more than once**.
 
 A voice merges only with itself. Where a separated voice sounds like a
 voice already named in another recording, it may carry the same name,
@@ -132,8 +134,8 @@ outro is noticed while watching it. A click on a row fetches that file
 into the player. Under **Sync only** the column **gets audio from** is
 not there: nobody is assigned, so it would have nothing to say.
 
-**new file name** is what will come out of that camera, with the tick
-and without it, under **Sync only** too: the run writes the camera file
+**new file name** is what will come out of that camera, under **Sync
+only** too: the run writes the camera file
 under that name. It is a proposal until somebody types over it, and a
 typed name -- here or for a voice -- stays exactly as typed, even one
 that looks like a proposal with a number on it, such as `Wide 2`. In a
@@ -151,12 +153,12 @@ usually lies beside the material, where a folder full of files all
 beginning with the same word tells nobody anything.
 
 A camera with no speaker's name on it -- no speaker, and not its own
-sound kept as a track -- gets `Audio-Full-Mix` where the speakers would
-stand when the tick is set, because what it carries is the whole sound;
-without the tick it is offered its own file name, `CAM_B.mov` the name
-`CAM_B`. Under **Sync only** every camera is offered its own file name,
-whoever might be on it: that type asks nobody who speaks, so there is
-nobody to name.
+sound kept as a track -- is offered its own file name, `CAM_B.mov` the
+name `CAM_B`, whatever kind of production the tracks make. A project
+saved by an earlier version may hold `CAM_B_Audio-Full-Mix` for such a
+camera; nobody typed that, so it gives way to `CAM_B`. Under **Sync
+only** every camera is offered its own file name, whoever might be on
+it: that type asks nobody who speaks, so there is nobody to name.
 
 The camera's video track in Resolve is called after the speakers, in the
 same order -- `Guest + Presenter`; a camera nobody speaks on is called
@@ -210,10 +212,6 @@ or **ignore this video** where another file already holds the intro, or
 where nothing at all could be measured of the file
 ([The interface](interface.md)).
 
-The **Multitrack** tick sits under the tables, on the line of its own
-that [The interface](interface.md) describes, and nowhere else. On the
-command line it is `--multitrack`.
-
 Multitrack needs two input tracks. Three things count as a track:
 
 - a recording of its own,
@@ -222,13 +220,14 @@ Multitrack needs two input tracks. Three things count as a track:
   internal audio**.
 
 The program counts the rows of the upper table, minus those on **do not
-use**. The camera cut does not need this field.
+use**; rows carrying the same name are one track. The camera cut does
+not need two of them.
 
 ![The two tables of the assignment](images/assignment.png)
 
 *Tab Assignment & time window: the recordings with their camera, the
-cameras with the column Camera audio, and under both tables the
-Multitrack tick and the box for auphonic.com.*
+cameras with the column Camera audio, and under both tables the box for
+auphonic.com.*
 
 ### Making camera sound a track
 
@@ -435,8 +434,7 @@ bext chunk, and iXML comes along for Premiere and Media Composer.
 Sometimes there is no picture: several microphones on one table, and
 nothing filming. With several recordings and no video file the program
 builds the axis out of the tracks themselves -- they are laid against
-each other instead of against a camera -- and it does so with the
-Multitrack tick and without it.
+each other instead of against a camera.
 
 The longest recording is the reference, for the same reason the longest
 camera is: it overlaps most with the others. Every other track is
@@ -475,11 +473,11 @@ against what the preset masters to ([Preflight](preflight.md)).
 
 ### When something goes wrong
 
-- **Multitrack, no picture, and the run stops straight away.** Once the
-  blocks are grouped only one track is left, and Multitrack means one
-  track per voice. Rather than glue two people into one file the run
-  stops before it joins anything. Where two people were taken for one
-  recording, `--apart` keeps a block out of the grouping.
+- **No picture, and two people end up in one file.** Once the blocks
+  are grouped only one track is left, and one recording's blocks are
+  simply joined -- a single track is no Multitrack production. Where two
+  people were taken for one recording, `--apart` keeps a block out of
+  the grouping.
 - **Only one track found a place.** The others could not be measured
   against the reference, and one track on its own has nothing left to
   lie against. The lines above name each one and why it was dropped.
@@ -535,11 +533,6 @@ against what the preset masters to ([Preflight](preflight.md)).
   a track.
   They no longer become tracks by themselves: a camera recording a
   usable track cannot be told from one merely filming in the same room.
-- **Several cameras, no audio recording, Multitrack off, and Start
-  stays locked.** The line under **Start** says **Several cameras but no
-  audio recording**. Each camera would bring its own sound, and a track
-  per camera is what Multitrack is for. Tick **Multitrack**, add an
-  audio recording, or run the cameras one after another.
 - **A voice carries a name somebody else has, and Start stays locked.**
   A name is a person, and the cut puts a person on one camera; the same
   name twice would be one person in two places. Give the voice a name of

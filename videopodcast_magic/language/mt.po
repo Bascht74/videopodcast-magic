@@ -136,12 +136,6 @@ msgstr "M'għandekx preset Singletrack tiegħek -- oħloq wieħed"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "M'għandekx preset tiegħek -- oħloq wieħed fuq auphonic.com"
 
-msgid "No Multitrack preset found in the account."
-msgstr "Ma nstab l-ebda preset Multitrack fil-kont."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Ma nstab l-ebda preset Singletrack fil-kont."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "M'hemmx preset Multitrack fil-kont. Dawn biss: %s"
 
@@ -1387,9 +1381,6 @@ msgstr "Il-fajl tal-assenjazzjoni ma jistax jinqara: %s"
 msgid "Camera audio not usable: %s"
 msgstr "L-awdjo tal-kamera ma jistax jintuża: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK MHUX POSSIBBLI\n  Iridu jkunu mill-inqas żewġ binarji tad-dħul, u nstab biss %s.\n  Binarju huwa reġistrazzjoni għaliha, kanal ta' reġistratur\n  b'ħafna kanali, jew l-awdjo ta' kamera -- dan jgħodd hekk kif\n  \"Awdjo tal-kamera\" tagħha jgħid \"uża l-awdjo intern\". Mingħajr tnejn minnhom\n  m'hemm xejn x'tissepara, u l-istess fajl jgħaddi bħala\n  produzzjoni ordinarja."
-
 msgid "No preset is called %r."
 msgstr "L-ebda preset ma jismu %r."
 
@@ -1500,9 +1491,6 @@ msgstr "PROĠETT ISSEJVJAT\n  %s\n  Dan it-tħaddim jista' jerġa' jinfetaħ akt
 
 msgid "Presets could not be loaded: %s"
 msgstr "Il-presets ma setgħux jitgħabbew: %s"
-
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Diversi kameras iżda l-ebda fajl tal-awdjo. Kull kamera jkollha l-awdjo tagħha --\ngħal dan hemm --multitrack. Inkella kamera waħda wara l-oħra."
 
 msgid "The file is NOT recognised as HDR."
 msgstr "Il-fajl MHUX magħruf bħala HDR."
@@ -1623,9 +1611,6 @@ msgstr "  Tieqa:               %s -- dak kollu li sema' kwalunkwe binarju"
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: silenzju ta' %s fil-bidu u %s fl-aħħar"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nWara li jingħaqdu l-blokki jibqa' binarju wieħed biss, u Multitrack jeħtieġ wieħed għal kull leħen. Fejn żewġ persuni ttieħdu għal reġistrazzjoni waħda, --apart iżomm blokk barra minnha."
 
 msgid "RECOGNISED PLAN"
 msgstr "PJAN RIKONOXXUT"
@@ -2083,12 +2068,6 @@ msgstr "Żid fajls ..."
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "L-allinjament isir skont l-ispostament imkejjel; it-timecode huwa biss il-kontroll inkroċjat."
 
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Ir-reġistrazzjonijiet kollha għandhom l-istess isem -- dan jagħmel binarju wieħed biss."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Ir-ringieli kollha għandhom l-istess isem -- dan jagħmel binarju wieħed biss, u Multitrack jeħtieġ mill-inqas tnejn."
-
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Assenjazzjoni: liema binarju tal-awdjo jappartjeni għal liema kamera"
 
@@ -2242,9 +2221,6 @@ msgstr "L-inviluppu falla: %s"
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "L-inviluppi u l-awdjo tal-kameras jiġu ppreparati fl-isfond."
 
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Kull ringiela teħtieġ isem -- f'Auphonic isir it-track ID."
-
 msgid "External preview -- the app does not know this format"
 msgstr "Dehra minn qabel esterna -- l-app ma tafx dan il-format"
 
@@ -2349,15 +2325,6 @@ msgstr "L-awdjo nieqes %s imtela bis-silenzju%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Il-modulu DaVinciResolveScript ma jistax jitgħabba: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Binarju tal-awdjo wieħed għal kull persuna, separat sa auphonic.com.\nJaħdem ukoll mingħajru -- imbagħad mingħajr De-Bleed u Leveler.\nJeħtieġ żewġ binarji tad-dħul: reġistrazzjoni għaliha, kanal ta' reġistratur\nb'ħafna kanali, jew l-awdjo ta' fajl tal-vidjo ssettjat fuq \"uża l-awdjo intern\".\nIl-muntaġġ tal-kameras ma jeħtieġx din il-marka."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (binarju għal kull kelliem)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack jeħtieġ mill-inqas żewġ binarji tad-dħul. Binarju huwa reġistrazzjoni għaliha, kanal ta' reġistratur b'ħafna kanali, jew l-awdjo ta' fajl tal-vidjo ssettjat fuq \"uża l-awdjo intern\". Diversi blokki tal-istess reġistrazzjoni jgħoddu bħala wieħed, binarji mwarrba ma jgħoddu xejn."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "L-ebda ħoss għadu ma qed jintuża -- żid reġistrazzjoni tal-awdjo, jew fil-lista tal-fajls issettja l-Awdjo tal-kamera ta' fajl tal-vidjo fuq \"uża l-awdjo intern\"."
@@ -2497,9 +2464,6 @@ msgstr "Mhux obbligatorju -- imbagħad YouTube japplika valuri standard (Sony BV
 msgid "Not ready yet:"
 msgstr "Għadu mhux lest:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "Reġistrazzjoni tal-awdjo waħda għad m'għandhiex isem ta' kelliem."
-
 msgid "One frame back."
 msgstr "Qafas wieħed lura."
 
@@ -2508,9 +2472,6 @@ msgstr "Sekonda waħda lura."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Kull qatgħa bil-kulur tal-kamera tagħha. Għaddi l-maws minn fuqha għall-kamera u t-tul, ikklikkja biex taqbeż."
-
-msgid "Only one speaker"
-msgstr "Kelliem wieħed biss"
 
 msgid "Open json project file"
 msgstr "Iftaħ fajl tal-proġett json"
@@ -2758,9 +2719,6 @@ msgstr "L-ebda kelliem għadu magħruf -- jinstabu mill-binarji hekk kif jinfeta
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "It-tliet numri huma l-kuluri primarji, il-kurva u l-matriċi. Tags differenti jeħtieġu spazji tal-kulur tad-dħul differenti f'Resolve -- inkella kamera waħda tidher differenti mill-oħra."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "M'hemmx reġistrazzjonijiet tal-awdjo separati. Imbagħad jintuża l-awdjo tal-kameras (%s) -- kull waħda ssir binarju, u Auphonic ineħħi t-tnixxija."
-
 msgid "There is no result yet."
 msgstr "Għad m'hemmx riżultat."
 
@@ -2881,8 +2839,23 @@ msgstr "Mingħajru kull plejer irid jiddevina, u kollha jiddevinaw SDR. F'Resolv
 msgid "Without processing at auphonic.com"
 msgstr "Mingħajr ipproċessar fuq auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Għad m'hemmx muntaġġ tal-kameras: hemm bżonn żewġ persuni, kull waħda b'isem u kamera.\nReġistrazzjonijiet separati jagħtu dan bil-marka Multitrack, u hekk ukoll \"diversi kellimin\" fil-qasam Isem il-kelliem ta' reġistrazzjoni waħda --\nl-ilħna misjuba hemm jieħdu l-kamera tagħhom fit-tabella taħt ir-reġistrazzjonijiet.\nProġett f'Resolve jinħoloq xorta waħda -- il-kameras kollha fil-postijiet imkejla tagħhom, lesti għal Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Għad m'hemmx muntaġġ tal-kameras: hemm bżonn żewġ persuni, kull waħda b'isem "
+"u kamera.\n"
+"Reġistrazzjonijiet separati jagħtu dan, kull waħda b'isimha, u hekk ukoll "
+"\"diversi kellimin\" fil-qasam Isem il-kelliem ta' reġistrazzjoni waħda --\n"
+"l-ilħna misjuba hemm jieħdu l-kamera tagħhom fit-tabella taħt "
+"ir-reġistrazzjonijiet.\n"
+"Proġett f'Resolve jinħoloq xorta waħda -- il-kameras kollha fil-postijiet "
+"imkejla tagħhom, lesti għal Multicam."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Mingħajr timecode, il-pożizzjoni tal-fajls titkejjel."
@@ -3259,9 +3232,6 @@ msgstr "veduta wiesgħa %s, it-taħlita hija l-ewwel binarju tal-awdjo tagħha"
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  L-isem %s jidher aktar minn darba. Dawn ir-reġistrazzjonijiet jingħaqdu f'binarju wieħed u jitqiegħdu wara xulxin skont it-timecode tagħhom -- korrett jekk ir-reġistrazzjoni twaqqfet fin-nofs."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Ir-reġistrazzjonijiet kollha għandhom l-istess isem. Dan jagħmel binarju wieħed -- Multitrack jeħtieġ mill-inqas tnejn."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Żewġ kameras kienu jipproduċu l-istess fajl (%s). It-tieni kienet tikteb fuq l-ewwel."
 
@@ -3328,9 +3298,6 @@ msgstr "reġistrazzjoni għaliha"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Idaħħal din ir-reġistrazzjoni f'oħra, bil-blokki kollha tagħha.\nUżaha fejn l-ismijiet tal-fajls ma jagħtu xejn lit-tfittxija."
 
-msgid "Cameras only"
-msgstr "Kameras biss"
-
 msgid "Curve number %d"
 msgstr "Kurva numru %d"
 
@@ -3381,9 +3348,6 @@ msgstr "Bidu %s"
 
 msgid "Take from source files"
 msgstr "Mill-fajls tas-sors"
-
-msgid "Take the camera audio"
-msgstr "Ħu l-awdjo tal-kameras"
 
 msgid "Target: %s"
 msgstr "Destinazzjoni: %s"
@@ -3592,9 +3556,6 @@ msgstr "Għaqqadhom"
 msgid "Mixing %s"
 msgstr "Taħlit: %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack jeħtieġ żewġ binarji fit-tabella ta' fuq -- kamera tgħodd għal wieħed ladarba l-Awdjo tal-kamera tagħha jkun issettjat fuq \"uża l-awdjo intern\"."
-
 msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
 msgstr "Binarju wieħed biss -- għat-tieni, issettja l-Awdjo tal-kamera ta' kamera fuq \"uża l-awdjo intern\"."
 
@@ -3615,9 +3576,6 @@ msgstr "Jekk jintuża, il-ħoss ta' dan il-fajl isir binarju bħal kull ieħor -
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "L-ebda ħoss biex taħdem bih -- issettja l-Awdjo tal-kamera ta' fajl tal-vidjo fuq \"uża l-awdjo intern\", jew żid reġistrazzjoni tal-awdjo."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack jeħtieġ diversi binarji"
 
 msgid "Mute."
 msgstr "Isikket il-ħoss."
@@ -3723,9 +3681,6 @@ msgstr "Silenzju"
 
 msgid "Speaker name"
 msgstr "Isem il-kelliem"
-
-msgid "Speaker names"
-msgstr "Ismijiet tal-kellimin"
 
 msgid "Static metadata"
 msgstr "Metadata statika"
@@ -3975,9 +3930,6 @@ msgstr "  Il-binarji jintużaw kif ġew irreġistrati: allinjati, imħallta u\n 
 
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  Ingħataw kemm --without-auphonic kif ukoll --auphonic-done. Il-binarji lesti jirbħu: ma fadal xejn x'jintbagħat imkien."
-
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK MHUX POSSIBBLI\n  Mingħajr ċavetta tal-API m'hemm xejn x'jintbagħat lil auphonic.com.\n  B'--without-auphonic minflok jaħdem lokalment: allinjat,\n  imħallat u maqtugħ, iżda mingħajr De-Bleed u Leveler."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Attenzjoni: %s biss minn %s pari jistgħu jitkejlu. Għall-bqija ma nstabx mument fejn titkellem eżatt persuna waħda, għalhekk it-tnixxija tagħhom tibqa' -- is-sejbien tal-kellimin hawn mhuwiex affidabbli."
@@ -5112,9 +5064,6 @@ msgstr "Il-punt tal-ħruġ inbidel mill-aħħar tħaddim: %s dak iż-żmien, %s 
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Il-produzzjoni lesta, iżda ż-ZIP bil-binarji individwali m'għandux isem ta' fajl sempliċi"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Diversi kameras iżda l-ebda reġistrazzjoni tal-awdjo. Kull kamera jkollha l-awdjo tagħha -- għal dan hemm Multitrack. Inkella kamera waħda wara l-oħra."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "L-arkivju fih %s aktar minn darba, għalhekk xejn ma nħareġ minnu."
 
@@ -5321,3 +5270,21 @@ msgstr ""
 "\n"
 "%s għandu %s kanali, u auphonic.com jaċċetta l-aktar tnejn f'fajl wieħed. Ma ntbagħat xejn.\n"
 "  Għid liema kanali jmorru flimkien: fit-tab Fajls & produzzjoni il-fajl jinfetaħ f'ringiela għal kull kanal, u l-marka fuq ringiela tgħaqqadha mal-li jmiss. Jekk il-fajl ma juri l-ebda ringiela tal-kanali, l-ewwel issejvja l-kanali tiegħu bħala fajls għalihom."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, għax %s binarji jinsabu fuq assi wieħed tal-ħin. Jista' "
+"jintgħażel preset Multitrack ieħor; għal Singletrack, issettja l-binarji "
+"kollha ħlief wieħed fuq \"tużax\"."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, għax hemm binarju wieħed. Jista' jintgħażel preset Singletrack "
+"ieħor; għal Multitrack, żid binarju ieħor -- reġistrazzjoni, jew kamera "
+"ssettjata fuq \"uża l-awdjo intern\"."

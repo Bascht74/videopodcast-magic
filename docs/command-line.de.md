@@ -6,9 +6,9 @@
 `--help` gibt diese Liste auch aus, immer auf Englisch. Vorgaben in Klammern.
 Ein Schalter, der nur dort etwas bedeutet, wo mehrere Spuren gemeinsam
 zu auphonic.com gehen, trägt in den Tabellen hier `[multitrack only]`;
-`--help` kennzeichnet ihn ebenso, dazu `--multitrack` selbst, und die
-Marke bleibt englisch, in welcher Sprache der Lauf auch läuft. Alle
-anderen Schalter wirken mit dem Häkchen Multitrack wie ohne.
+`--help` kennzeichnet ihn ebenso, und die Marke bleibt englisch, in
+welcher Sprache der Lauf auch läuft. Alle anderen Schalter wirken
+gleich, welche Art von Produktion die Spuren ergeben.
 
 ```text
 $ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
@@ -85,7 +85,9 @@ Schlüsselbund, die Registry oder den Schlüsselbund des Desktops (Linux),
 nie auf die Kommandozeile: über das Fenster oder mit
 `--store-auphonic-key`. Ein abgelegter Schlüssel schaltet die
 Aufbereitung ein, und eine Kommandozeile mit Schaltern, aber ohne
-Dateien listet dann nur die Presets.
+Dateien listet dann nur die Presets -- alle, mit ihrer Art dahinter, wo
+auphonic.com sie nennt: ohne Dateien gibt es keine Spuren, die sagen
+könnten, welche Art ein Lauf braucht.
 
 | Schalter | Wirkung |
 |---|---|
@@ -94,8 +96,8 @@ Dateien listet dann nur die Presets.
 | `--auphonic-wait SEKUNDEN` | wie lange der Lauf darauf wartet, dass auphonic.com fertig wird; ist die Zeit um, bricht er ab und nennt die Adresse der Produktion, die dort weiterläuft; ist sie fertig, holt ein späterer Lauf ihr Ergebnis mit `--auphonic-resume result` ab. Höher wartet länger (7200, zwei Stunden) |
 | `--auphonic-resume WAS` | Produktion ist schon da: `result`, `rerun`, `adopt`, `upload`, `abort` (das Programm fragt)  `[multitrack only]` |
 | `--auphonic-done ORDNER` | schon aufbereitete Spuren, nach den Sprechern benannt. Der Lauf nimmt sie von dort, statt sie hochzuladen, und das Guthaben bleibt unangetastet |
-| `--multitrack` | jede Tondatei als eigene Spur, damit auphonic.com das Übersprechen herausnehmen kann. Wo zwei Spuren oder mehr gemeinsam hochgehen -- mit diesem Schalter oder ohne ihn --, muss das Preset ein Multitrack-Preset sein |
-| `--assign DATEI` | JSON, welcher Ton zu welcher Kamera gehört, unter welchem Sprechernamen und was nicht verwendet wird; die Oberfläche schreibt es für jeden Lauf, mit Multitrack wie ohne |
+| `--multitrack` | nicht mehr nötig und ohne Wirkung; in dieser Version noch angenommen, damit ältere Kommandozeilen laufen. Ob die Spuren als eine Multitrack-Produktion hochgehen, folgt aus dem Material: zwei Spuren oder mehr auf einer Zeitachse tun es, eine einzelne Spur nicht, und das Preset muss von dieser Art sein. Mehrere Kameras ohne Tonaufnahme geben ihren Ton auch ohne den Schalter je als eigene Spur |
+| `--assign DATEI` | JSON, welcher Ton zu welcher Kamera gehört, unter welchem Sprechernamen und was nicht verwendet wird; die Oberfläche schreibt es für jeden Lauf |
 | `--without-auphonic` | auf diesem Rechner ausrichten, mischen und schreiben, Kameraschnitt aus eigener Spracherkennung |
 
 ## Das Zeitfenster setzen
@@ -122,7 +124,7 @@ Dateien listet dann nur die Presets.
 | `--on-uncertain WERT` | die Erkennung ist unsicher, und es redet jemand: `wide`, `listener`, `alternate`, `hold` -- beim Halten bleibt das Bild höchstens so lange stehen, wie `--silence-hold` erlaubt, danach kommt der Weitwinkel; gibt es keinen, bleibt es bis zum Ende der unsicheren Strecke stehen (wide) |
 | `--on-question WERT` | nach einer Frage: `off`, `answer`, `listener` (answer) |
 | `--wide-shot DATEI` | diese Videodatei ist ein Weitwinkel: eine Kamera, vor der niemand sitzt, sie nimmt keinen Sprecher; wiederholbar. Ohne ihn sind es die Kameras ohne zugeordneten Sprecher -- außer bei `--project-type sync`, wo nur eine hier genannte Kamera einer ist |
-| `--new-name DATEI NAME` | diese Videodatei wird als NAME geschrieben (die Endung kommt dahinter), und ihre Spur in der Übergabe trägt diesen Namen; wiederholbar. Ohne ihn der eigene Name der Datei. Wirksam ist er überall, wo jede Kamera nach ihrer Datei heißt, auch neben `--speakers-from` oder einer Zuordnungsdatei ohne Kameras. Neben einer Zuordnungsdatei, die die Kameras selbst benennt (`--assign`), und bei `--multitrack` mit Kameras allein, deren Dateien nach den Spuren aus ihrem Ton heißen, ginge er stillschweigend verloren; deshalb lehnt der Lauf ihn dort ab. Ebenso abgelehnt, bevor etwas geschrieben wird: ein NAME mit Ordner- oder Laufwerkstrenner (`/`, `\`, `:`), mit Punkt am Anfang oder leer, eine DATEI, die keine der Kameras ist oder zwei Namen bekommt, und zwei Kameras, die in derselben Datei landen würden, wobei Groß- und Kleinschreibung als gleich gilt |
+| `--new-name DATEI NAME` | diese Videodatei wird als NAME geschrieben (die Endung kommt dahinter), und ihre Spur in der Übergabe trägt diesen Namen; wiederholbar. Ohne ihn der eigene Name der Datei. Wirksam ist er überall, wo jede Kamera nach ihrer Datei heißt, auch neben `--speakers-from` oder einer Zuordnungsdatei ohne Kameras. Neben einer Zuordnungsdatei, die die Kameras selbst benennt (`--assign`), und bei Kameras allein, deren Dateien nach den Spuren aus ihrem Ton heißen, ginge er stillschweigend verloren; deshalb lehnt der Lauf ihn dort ab. Ebenso abgelehnt, bevor etwas geschrieben wird: ein NAME mit Ordner- oder Laufwerkstrenner (`/`, `\`, `:`), mit Punkt am Anfang oder leer, eine DATEI, die keine der Kameras ist oder zwei Namen bekommt, und zwei Kameras, die in derselben Datei landen würden, wobei Groß- und Kleinschreibung als gleich gilt |
 | `--speaker-name DATEI NAME` | die Aufnahme, zu der DATEI gehört, spricht NAME: ihre Spur, ihre Zeilen im Protokoll und der Schnitt tragen diesen Namen; DATEI darf jeder ihrer Blöcke sein; wiederholbar. Ohne ihn wird der Name aus dem Dateinamen geraten. Das Fenster schreibt die Namen stattdessen in seine Zuordnungsdatei. Abgelehnt, bevor etwas geschrieben wird: neben `--assign`, eine DATEI, die keine der Aufnahmen ist oder zwei Namen bekommt, ein leerer NAME |
 | `--camera-label DATEI NAME` | die Meldungen des Laufs nennen diese Videodatei NAME; wiederholbar. Ohne ihn der eigene Name der Datei. Das Fenster schickt ihn für die zweite von zwei gleichnamigen Dateien, „(2)“, wie es sie zeigt |
 | `--wide-after SEKUNDEN` | ab dieser Standzeit bricht das Programm die Einstellung an einer Satzgrenze auf, nicht nach der Uhr, 0 aus (70) |
@@ -196,7 +198,7 @@ führt die Kapitel auf.
   setzen: `--auphonic-preset "<Name des Presets>"`. Ohne sie kommt das
   zweite Wort als Dateiname an.
 * **Kein Schlüssel abgelegt.** Ein Lauf, der zu auphonic.com senden
-  würde, hält an, bevor er beginnt, mit `--multitrack` wie ohne. Einmal
+  würde, hält an, bevor er beginnt. Einmal
   einen Schlüssel mit `--store-auphonic-key` ablegen, oder
   `--without-auphonic` auf diesem Rechner ausrichten, mischen und
   schneiden lassen. Ein Probelauf (`--dry-run`) braucht keinen Schlüssel

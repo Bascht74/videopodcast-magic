@@ -1361,15 +1361,6 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             return 1
         if finished_mix_homeless(args):
             return 1
-        if args.multitrack and len(plan) < 2:
-            # Multitrack means one track per voice. Joining what is
-            # left would glue two people into one file, so it is not
-            # even begun.
-            print(T('\nOnly one track is left once the blocks are joined, '
-                    'and multitrack needs one per voice. Where two people '
-                    'were taken for one recording, --apart keeps a block '
-                    'out of it.'))
-            return 1
         tmpdir = tempfile.mkdtemp(prefix="vpm_mt_")
         atexit.register(shutil.rmtree, tmpdir, True)
         made = join_the_plan(plan, tmpdir)
