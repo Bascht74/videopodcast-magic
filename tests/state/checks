@@ -458,6 +458,7 @@ window_groups_make_room	5
 window_handover_follows	3
 window_handover_found	5
 window_hears_while_split	8
+window_help_says_version	10
 window_idle_bar_hidden	6
 window_kept_cut_shown	5
 window_key_off_line	6
@@ -483,6 +484,7 @@ window_point_named	4
 window_preview_speeds_up	6
 window_prework_box_goes	3
 window_project_type_set	43
+window_question_answered	7
 window_reads_as_chosen	20
 window_restart_carries	17
 window_run_beats_kept	8
@@ -493,6 +495,7 @@ window_silent_hears_none	5
 window_size_as_run	6
 window_sound_fault_named	5
 window_sound_sync_fixed	6
+window_soxr_asked_once	8
 window_speaker_cell_fits	17
 window_speaker_langs1	17
 window_speaker_langs2	17
