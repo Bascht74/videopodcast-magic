@@ -88,14 +88,14 @@ git+https://github.com/Bascht74/videopodcast-magic@v<version>`.
 Two things have to be on the machine before that command, because pip
 can bring neither:
 
-* **Python 3.10 or newer, and its pip.** A pip that reads the project
-  file stops below 3.10 and names the version it wanted. **The pip
+* **Python 3.12 or newer, and its pip.** A pip that reads the project
+  file stops below 3.12 and names the version it wanted. **The pip
   macOS brings with its own Python 3.9 reads nothing and says nothing
   is wrong**: measured on 4 September 2026, `/usr/bin/pip3` --
   pip 21.2.4 -- answered `Successfully installed UNKNOWN-0.0.0` and
   left behind an empty folder of that name. No module, no command, no
   error. **Reading `UNKNOWN` means the pip is the wrong one**, and the
-  answer is to install Python 3.10 or newer and use its `pip3`.
+  answer is to install Python 3.12 or newer and use its `pip3`.
 * **`ffmpeg` 9.0.1 or newer, and `ffprobe` beside it.** They are not
   Python and no list pip reads can name them. The program offers to
   get them, on all three systems.
@@ -218,17 +218,20 @@ hand, and one this program did not write.
 
 ## Which Python the program needs
 
-3.10 or newer, and pip refuses the install below that. The floor is
-what the interface needs: PySide6 does not build below 3.10. The
-test suite runs on 3.14.7, the version this is used on daily. It
-covers 3.14.7 only; anything between it and 3.10 is not measured.
+3.12 or newer, and pip refuses the install below that. The floor is
+what the tested versions need: the lists a release carries name
+`numpy` and `scipy` in versions that install on 3.12 and later only,
+and on Linux under 3.10 the window's player crashed in `PySide6`.
+The test suite runs on 3.14.7, the version this is used on daily,
+and on the builder, at every push, on 3.12 and 3.14 on Linux, macOS and
+Windows; 3.13 between them is not measured.
 The installers for macOS and Windows are at
 <https://www.python.org/downloads/>; on Linux the distribution's own
 package brings it.
 
 `--version`, the header of the log and the first line of every run say
 which Python is running. They name the recommended one when it is
-another: `Python 3.11.15  (recommended version 3.14.7)`. `--help` and
+another: `Python 3.12.13  (recommended version 3.14.7)`. `--help` and
 `--version` answer without `numpy`, `PySide6` and `ffmpeg`.
 
 ```text
@@ -381,12 +384,12 @@ well, with two differences:
 ## When something goes wrong
 
 * **pip refuses and names a Python version.** This Python is older
-  than 3.10. Install a newer one and give the same command to that
+  than 3.12. Install a newer one and give the same command to that
   one.
 * **pip answers `Successfully installed UNKNOWN-0.0.0`.** Nothing was
   installed. This pip is too old to read the project file; on a Mac
   that is `/usr/bin/pip3`, which belongs to Python 3.9. Install
-  Python 3.10 or newer and give the command to its `pip3`.
+  Python 3.12 or newer and give the command to its `pip3`.
 * **pip says the environment is externally managed.** This Python
   belongs to a package manager. `pipx install` on the same address,
   with `--pip-args="-c <the list's address>"`, is the way round it.
