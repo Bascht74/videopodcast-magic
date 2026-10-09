@@ -5033,9 +5033,6 @@ msgstr "Aquí el archivo de asignación nombra las grabaciones, así que --speak
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "La compilación no coincide con su suma de comprobación, así que no se ha desempaquetado: %s en la lista, %s recibido."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "No se ha podido obtener la lista de sumas de comprobación, así que la compilación no se ha desempaquetado: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "La lista de sumas de comprobación no nombra %s, así que la compilación no se ha desempaquetado."
 

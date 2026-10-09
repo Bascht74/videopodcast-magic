@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
-"""A fetched ffmpeg build is unpacked only when the release's sum fits it.
+"""A fetched ffmpeg build is unpacked only when the program's own sum fits.
 
-The build comes off a moving tag somebody else fills, and before this
-was held against anything a stand-in whose ffmpeg was a shell script
-was reported as a success. The release lists a SHA-256 for every
-archive in it, so the fetch asks that list and unpacks nothing it does
-not match. The cases in order: the sum fits, and the two programs
-arrive; the sum differs, the list cannot be had, the list does not name
-the archive, or the archive holds ffmpeg twice -- and in each of those
-nothing lands in the tools folder, the archive is gone again, and the
-reason is said. The one function that opens a connection is replaced
-and the sockets are shut besides, so nothing here goes outside.
+The build is somebody else's, and before this was held against anything
+a stand-in whose ffmpeg was a shell script was reported as a success.
+A list of sums fetched from beside the build can be swapped with it, so
+the program names one fixed build, carries its sum itself and asks the
+network for the archive alone. The cases in order: every build offered
+is a named one with its sum in the program; the sum fits, the two
+programs arrive and nothing but the archive was fetched; the sum
+differs, the program carries none for the archive, or the archive holds
+ffmpeg twice -- and in each of those nothing lands in the tools folder,
+the archive is gone again, and the reason is said. The one function
+that opens a connection is replaced and the sockets are shut besides,
+so nothing here goes outside.
 """
 PLATFORM_BOUND = True
 import os
@@ -27,6 +29,7 @@ SCRIPT = the_program.SCRIPT
 import hashlib
 import io
 import lzma
+import re
 import shutil
 import socket
 import tarfile
@@ -75,22 +78,21 @@ GOOD = build_tar(os.path.join(WORK, "good.tar.xz"),
                   "build/bin/ffplay", "build/LICENSE.txt"])
 TWICE = build_tar(os.path.join(WORK, "twice.tar.xz"),
                   ["build/bin/ffmpeg", "build/bin/ffprobe", "other/ffmpeg"])
-# The address is asked of the program for the machine run() pretends
-# to be, not written here: it moves with every ffmpeg line. What this
-# test holds fixed is the list's name beside it, which BtbN chose.
+# The addresses are asked of the program for the four machines a build
+# exists for, not written here: they move with every build it names.
+MACHINES = (("linux", "x86_64"), ("linux", "aarch64"),
+            ("win32", "AMD64"), ("win32", "ARM64"))
 was_machine = (m.sys.platform, m.platform.machine)
+offered = {}
 try:
-    m.sys.platform, m.platform.machine = "linux", (lambda: "x86_64")
-    URL = m.ffmpeg_build_url()
+    for system, machine in MACHINES:
+        m.sys.platform = system
+        m.platform.machine = lambda machine=machine: machine
+        offered["%s %s" % (system, machine)] = m.ffmpeg_build_url()
 finally:
     m.sys.platform, m.platform.machine = was_machine
-PLACE, ARCHIVE = URL.rsplit("/", 1)
-SUMS = PLACE + "/checksums.sha256"
-
-
-def listing(sums):
-    """A checksum list in the shape sha256sum writes, as BtbN's is."""
-    return "".join("%s  %s\n" % (s, n) for n, s in sums).encode()
+URL = offered["linux x86_64"]
+ARCHIVE = URL.rsplit("/", 1)[-1]
 
 
 def sha(data):
@@ -101,13 +103,15 @@ def outside(address):
     raise OSError("the test shut the network: %r" % (address,))
 
 
-def run(served):
+def run(served, sums):
     """fetch_ffmpeg_build on a Linux machine against that stand-in release.
 
     *served* maps an address to the bytes it answers with; any other
-    address answers like a missing file. Returns what it answered, what
-    lay in the tools folder afterwards, whether a fetched file was left
-    on disk, the addresses asked, and everything it said.
+    address answers like a missing file. *sums* stands in for the sums
+    the program carries, because the archive served is a stand-in and
+    not the real build. Returns what it answered, what lay in the tools
+    folder afterwards, whether a fetched file was left on disk, the
+    addresses asked, and everything it said.
     """
     room = tempfile.mkdtemp(prefix="vpm_tools_", dir=WORK)
     asked, kept, said = [], [], []
@@ -123,21 +127,22 @@ def run(served):
 
     was = (os.environ.pop("VPM_SILENT", None), os.environ.get("PATH"),
            m.sys.platform, m.platform.machine, m.fetch_archive,
-           m.tools_folder, m.open_page, socket.socket.connect,
-           socket.create_connection)
+           m.tools_folder, m.open_page, m.FFMPEG_BUILD_SUMS,
+           socket.socket.connect, socket.create_connection)
     try:
         m.sys.platform, m.platform.machine = "linux", (lambda: "x86_64")
         m.fetch_archive = fetch
         m.tools_folder = lambda make=False: room
         m.open_page = lambda url: False
+        m.FFMPEG_BUILD_SUMS = sums
         socket.socket.connect = lambda one, address, *rest: outside(address)
         socket.create_connection = lambda address, *rest, **more: \
             outside(address)
         answer = m.fetch_ffmpeg_build(asked=True, say=said.append)
     finally:
         (silent, path, m.sys.platform, m.platform.machine, m.fetch_archive,
-         m.tools_folder, m.open_page, socket.socket.connect,
-         socket.create_connection) = was
+         m.tools_folder, m.open_page, m.FFMPEG_BUILD_SUMS,
+         socket.socket.connect, socket.create_connection) = was
         if silent is not None:
             os.environ["VPM_SILENT"] = silent
         if path is not None:
@@ -151,25 +156,45 @@ def run(served):
 
 
 try:
-    url, sums = URL, SUMS
-    OTHER = "ffmpeg-n9.0-latest-win64-gpl-9.0.zip"
-    fits = run({url: GOOD,
-                sums: listing([(OTHER, sha(b"x")), (ARCHIVE, sha(GOOD))])})
-    wrong = run({url: GOOD, sums: listing([(ARCHIVE, sha(b"other"))])})
-    no_list = run({url: GOOD})
-    unnamed = run({url: GOOD, sums: listing([(OTHER, sha(GOOD))])})
-    twice = run({url: TWICE, sums: listing([(ARCHIVE, sha(TWICE))])})
+    url = URL
+    OTHER = "ffmpeg-another-build-win64-gpl.zip"
+    fits = run({url: GOOD}, {OTHER: sha(b"x"), ARCHIVE: sha(GOOD)})
+    wrong = run({url: GOOD}, {ARCHIVE: sha(b"other")})
+    unnamed = run({url: GOOD}, {OTHER: sha(GOOD)})
+    twice = run({url: TWICE}, {ARCHIVE: sha(TWICE)})
 finally:
     shutil.rmtree(WORK, ignore_errors=True)
 
-print("1. A build whose sum fits is unpacked")
+print("1. Every build offered is a named one, with its sum in the program")
+# "latest" is the tag BtbN moves to each new build: a sum written here
+# against it would be wrong the next morning.
+moving = sorted(u for u in offered.values() if "latest" in u)
+check("no build offered comes off the moving latest tag",
+      not moving and "" not in offered.values(),
+      "%d of %d addresses name it, %d are empty: %r"
+      % (len(moving), len(offered), list(offered.values()).count(""),
+         moving or offered))
+unsummed = sorted(
+    "%s: %r" % (machine, m.FFMPEG_BUILD_SUMS.get(u.rsplit("/", 1)[-1]))
+    for machine, u in offered.items()
+    if not re.fullmatch(r"[0-9a-f]{64}",
+                        m.FFMPEG_BUILD_SUMS.get(u.rsplit("/", 1)[-1]) or ""))
+check("every build offered has its sum written in the program",
+      not unsummed,
+      "%d of %d machines with no SHA-256 for their archive: %s"
+      % (len(unsummed), len(offered), "; ".join(unsummed)))
+
+print("\n2. A build whose sum fits is unpacked")
 check("a build whose listed sum fits is unpacked and reported",
       fits[0] is True and fits[1] == ["ffmpeg", "ffprobe"],
       "it answered %r and left %r in the tools folder, wanted True and "
       "ffmpeg, ffprobe -- asked %r, said %r"
       % (fits[0], fits[1], fits[3], fits[4][-200:]))
+check("and nothing is fetched but the build itself",
+      fits[3] == [URL],
+      "it asked %r, wanted only %r" % (fits[3], URL))
 
-print("\n2. A build that does not fit is refused, and says why")
+print("\n3. A build that does not fit is refused, and says why")
 check("a build whose sum differs is refused and nothing unpacked",
       wrong[0] is False and wrong[1] == [],
       "it answered %r and left %r in the tools folder, wanted False and "
@@ -182,14 +207,7 @@ check("and the refusal names the sum listed and the sum that came",
 check("and the refused archive is not left lying on disk",
       wrong[2] == [],
       "%r still there after the refusal" % (wrong[2],))
-check("a build is refused when the list of sums cannot be had",
-      no_list[0] is False and no_list[1] == []
-      and m.T('The list of checksums could not be fetched, so the build '
-              'was not unpacked: %s')
-      % "HTTP Error 404: Not Found (the test's stand-in)" in no_list[4],
-      "it answered %r, left %r in the tools folder, said %r"
-      % (no_list[0], no_list[1], no_list[4][-300:]))
-check("a build is refused when the list does not name its archive",
+check("a build is refused when the program carries no sum for it",
       unnamed[0] is False and unnamed[1] == []
       and m.T('The list of checksums does not name %s, so the build was '
               'not unpacked.') % ARCHIVE in unnamed[4],

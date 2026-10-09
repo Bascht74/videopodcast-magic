@@ -5,11 +5,17 @@
 
 ## Das Programm installieren
 
-Ein Befehl installiert es, und einen zweiten Weg hinein gibt es nicht:
+Ein Befehl installiert es, und einen zweiten Weg hinein gibt es
+nicht. Er lautet auf jedem System gleich bis auf das letzte Wort der
+Liste, die er nennt — `macos`, `windows` oder `linux`:
 
 ```
-pip3 install git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-windows.txt git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-linux.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
+
+Eine der drei Zeilen, die für das eigene System.
 
 Zurück bleibt der Befehl `videopodcast-magic`, aufrufbar aus jedem
 Ordner. Alles, was das Programm an Python braucht, kommt in diesem
@@ -47,8 +53,11 @@ eingeschlossen.
 Sache von Sekunden:**
 
 ```
-pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -U -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
+
+— das ist die Zeile für den Mac; auf einem anderen System ändert sich
+der Name der Liste wie oben.
 
 Dazwischen steht kein Paketverzeichnis: die Adresse ist die Ablage
 selbst. pip liest sie jedes Mal neu, vergleicht die Versionsnummer
@@ -63,15 +72,19 @@ der pip aus dem heraushält, was er selbst pflegt, und die Meldung
 nennt den Weg daran vorbei: `pipx install` auf dieselbe Adresse legt
 das Programm in eine eigene Umgebung und den Befehl in den Suchpfad.
 
-**Auf der Maschine, an der die Folgen geschnitten werden, die
-geprüften Fassungen statt der neuesten.** Jede Veröffentlichung trägt
-neben dem Archiv je System eine Liste der Paketfassungen, auf denen
-ihre Testreihe grün lief — `constraints-macos.txt`,
+**Die geprüften Fassungen, nicht die neuesten.** Dafür stehen das
+`-c` und die Adresse dahinter. Jede Veröffentlichung trägt neben dem
+Archiv je System eine Liste der Paketfassungen, auf denen ihre
+Testreihe grün lief — `constraints-macos.txt`,
 `constraints-windows.txt`, `constraints-linux.txt`, gebaut mit Python
-3.14 —, und wer mit der für sein System installiert, `pip3 install -c
-constraints-macos.txt
-git+https://github.com/Bascht74/videopodcast-magic@v<version>`, bekommt
-genau diese.
+3.14 —, und die Adresse im Befehl führt immer zur Liste der neuesten
+Veröffentlichung. pip nimmt also genau diese Fassungen und nicht, was
+an diesem Tag gerade das Neueste ist; ein Paket, das die Liste nicht
+nennt, wählt pip wie bisher selbst. Wer eine bestimmte
+Veröffentlichung statt der neuesten will, nennt sie zweimal, in der
+Adresse der Liste und hinter dem `@`: `pip3 install -c
+https://github.com/Bascht74/videopodcast-magic/releases/download/v<version>/constraints-macos.txt
+git+https://github.com/Bascht74/videopodcast-magic@v<version>`.
 
 Zweierlei muss vor diesem Befehl auf der Maschine liegen, denn beides
 kann pip nicht mitbringen:
@@ -331,11 +344,12 @@ Maschine hat:
 * **Windows: Es holt eines.** Windows bringt keine Paketverwaltung mit,
   also lädt das Programm einen Bau mit soxr und legt `ffmpeg.exe` und
   `ffprobe.exe` in einen eigenen Ordner unter den lokalen Daten des
-  Benutzers. Von Hand muss dafür nichts in PATH. Bevor etwas
-  ausgepackt wird, hält es den Download gegen `checksums.sha256`
-  derselben Veröffentlichung; lässt sich diese Liste nicht holen, nennt
-  sie das Archiv nicht oder steht dort eine andere Summe, wird nichts
-  ausgepackt, der Download gelöscht, und das Programm sagt, warum. Ein
+  Benutzers. Von Hand muss dafür nichts in PATH. Es ist immer derselbe
+  Bau: Das Programm nennt ihn und trägt seine Prüfsumme gleich daneben,
+  und bevor etwas ausgepackt wird, hält es den Download gegen diese
+  Summe. Weicht sie ab, wird nichts ausgepackt, der Download gelöscht,
+  und das Programm sagt, warum. Ein neueres ffmpeg kommt deshalb nur mit
+  einer neueren Fassung dieses Programms, nie hinter seinem Rücken. Ein
   Archiv, das eines der beiden Werkzeuge doppelt enthält, wird ebenso
   abgelehnt. Schlägt der Download fehl, bietet es stattdessen an,
   ffmpeg.org zu öffnen.

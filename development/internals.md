@@ -70,7 +70,7 @@ figure of the day is that command, not this paragraph**:
 * `preflight/` **1919** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
-* `setup/` **1388** -- finding ffmpeg, installing a missing module,
+* `setup/` **1377** -- finding ffmpeg, installing a missing module,
   keeping the key, and storing it from the terminal
 * `speech/` **1455** -- what is said and when, and what is written down
   from it

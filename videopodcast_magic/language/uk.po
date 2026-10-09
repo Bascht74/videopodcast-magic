@@ -5095,9 +5095,6 @@ msgstr "Тут записи називає файл призначення, то
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Збірка не збігається зі своєю контрольною сумою, тому її не розпаковано: у списку %s, надійшло %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Не вдалося завантажити список контрольних сум, тому збірку не розпаковано: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Список контрольних сум не називає %s, тому збірку не розпаковано."
 

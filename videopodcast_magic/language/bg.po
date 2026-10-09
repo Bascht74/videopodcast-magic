@@ -5039,9 +5039,6 @@ msgstr "Файлът с разпределението тук именува з�
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Готовата компилация не съответства на контролната си сума, затова не беше разархивирана: в списъка е %s, пристигна %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Списъкът с контролни суми не можа да бъде изтеглен, затова готовата компилация не беше разархивирана: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Списъкът с контролни суми не посочва %s, затова готовата компилация не беше разархивирана."
 

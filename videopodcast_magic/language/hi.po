@@ -5035,9 +5035,6 @@ msgstr "यहाँ रिकॉर्डिंग के नाम निय�
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "तैयार बिल्ड अपने चेकसम से मेल नहीं खाता, इसलिए अनपैक नहीं किया गया: सूची में %s, पहुँचा %s।"
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "चेकसम की सूची नहीं लाई जा सकी, इसलिए तैयार बिल्ड अनपैक नहीं किया गया: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "चेकसम की सूची में %s का नाम नहीं है, इसलिए तैयार बिल्ड अनपैक नहीं किया गया।"
 

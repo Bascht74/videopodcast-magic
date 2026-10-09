@@ -5038,9 +5038,6 @@ msgstr "Faili ya ugawaji inazipa rekodi majina hapa, kwa hiyo --speaker-name ing
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Kifurushi kilichojengwa hakilingani na checksum yake, kwa hiyo hakikufunguliwa: %s kwenye orodha, %s kilifika."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Orodha ya checksum haikuweza kuletwa, kwa hiyo kifurushi kilichojengwa hakikufunguliwa: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Orodha ya checksum haitaji %s, kwa hiyo kifurushi kilichojengwa hakikufunguliwa."
 

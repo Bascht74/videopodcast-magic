@@ -5079,9 +5079,6 @@ msgstr "Ovdje snimke imenuje datoteka dodjele, pa bi --speaker-name bio odbačen
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Gotova verzija ne odgovara svojem kontrolnom zbroju, pa nije raspakirana: na popisu %s, stiglo %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Popis kontrolnih zbrojeva nije bilo moguće preuzeti, pa gotova verzija nije raspakirana: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Popis kontrolnih zbrojeva ne navodi %s, pa gotova verzija nije raspakirana."
 

@@ -5078,9 +5078,6 @@ msgstr "Nahrávky tu pomenúva súbor priradenia, takže by --speaker-name bolo 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Zostavenie nezodpovedá svojmu kontrolnému súčtu, preto nebolo rozbalené: v zozname %s, prišlo %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Zoznam kontrolných súčtov sa nepodarilo stiahnuť, preto zostavenie nebolo rozbalené: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Zoznam kontrolných súčtov neuvádza %s, preto zostavenie nebolo rozbalené."
 

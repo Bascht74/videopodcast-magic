@@ -5038,9 +5038,6 @@ msgstr "ఇక్కడ రికార్డింగ్‌లకు పేర�
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "బిల్డ్ దాని చెక్‌సమ్‌తో సరిపోలలేదు, కాబట్టి అన్‌ప్యాక్ చేయబడలేదు: జాబితాలో %s, వచ్చింది %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "చెక్‌సమ్‌ల జాబితాను తీసుకురావడం సాధ్యం కాలేదు, కాబట్టి బిల్డ్ అన్‌ప్యాక్ చేయబడలేదు: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "చెక్‌సమ్‌ల జాబితాలో %s లేదు, కాబట్టి బిల్డ్ అన్‌ప్యాక్ చేయబడలేదు."
 

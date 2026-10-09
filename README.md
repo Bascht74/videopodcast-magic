@@ -47,18 +47,36 @@ is in **[docs/overview.md](docs/overview.md)**.
 
 ## Getting it
 
-One command, and there is no second way in:
+One command, and there is no second way in. It installs the package
+versions the newest release was tested with: every release carries one
+list of them per system, and the command names the one for yours. Copy
+the line for your system:
+
+On a Mac:
 
 ```
-pip3 install git+https://github.com/Bascht74/videopodcast-magic
-videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
+
+On Windows:
+
+```
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-windows.txt git+https://github.com/Bascht74/videopodcast-magic
+```
+
+On Linux:
+
+```
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-linux.txt git+https://github.com/Bascht74/videopodcast-magic
+```
+
+and then start the program with `videopodcast-magic`.
 
 The newer version comes on the same address and takes the place of the
-one installed:
+one installed -- the same line with `-U`, here the one for a Mac:
 
 ```
-pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -U -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
 
 **Wait for the first one. It takes minutes, and it is meant to.**

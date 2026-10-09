@@ -5037,9 +5037,6 @@ msgstr "اینجا فایل تخصیص نام ضبط‌ها را تعیین می
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "نسخه ساخته‌شده با چک‌سام خود مطابقت ندارد، پس از حالت فشرده خارج نشد: %s در فهرست، %s رسید."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "فهرست چک‌سام‌ها دریافت نشد، پس نسخه ساخته‌شده از حالت فشرده خارج نشد: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "فهرست چک‌سام‌ها نامی از %s نمی‌برد، پس نسخه ساخته‌شده از حالت فشرده خارج نشد."
 

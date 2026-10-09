@@ -4995,9 +4995,6 @@ msgstr "File pemetaan menamai rekaman di sini, jadi --speaker-name akan diabaika
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Paket siap pakai tidak cocok dengan checksum-nya, jadi tidak diekstrak: %s tercantum, %s yang tiba."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Daftar checksum tidak dapat diambil, jadi paket siap pakai tidak diekstrak: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Daftar checksum tidak menyebut %s, jadi paket siap pakai tidak diekstrak."
 

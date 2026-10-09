@@ -49,18 +49,36 @@ auf der Platte bis zum fertigen Resolve-Projekt, steht in
 
 ## Installieren
 
-Ein Befehl, und einen zweiten Weg hinein gibt es nicht:
+Ein Befehl, und einen zweiten Weg hinein gibt es nicht. Er installiert
+die Paketfassungen, mit denen die neueste Veröffentlichung geprüft
+wurde: Jede Veröffentlichung trägt je System eine Liste davon, und der
+Befehl nennt die für deines. Kopiere die Zeile für dein System:
+
+Auf dem Mac:
 
 ```
-pip3 install git+https://github.com/Bascht74/videopodcast-magic
-videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
+
+Unter Windows:
+
+```
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-windows.txt git+https://github.com/Bascht74/videopodcast-magic
+```
+
+Unter Linux:
+
+```
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-linux.txt git+https://github.com/Bascht74/videopodcast-magic
+```
+
+und starte das Programm danach mit `videopodcast-magic`.
 
 Die neuere Fassung kommt über dieselbe Adresse und tritt an die Stelle
-der installierten:
+der installierten — dieselbe Zeile mit `-U`, hier die für den Mac:
 
 ```
-pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -U -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
 
 **Beim ersten Befehl heißt es warten. Er dauert Minuten, und das soll

@@ -5047,9 +5047,6 @@ msgstr "Burada kayıtları atama dosyası adlandırıyor, bu yüzden --speaker-n
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Derleme sağlama toplamıyla uyuşmuyor, bu yüzden açılmadı: listede %s, gelen %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Sağlama toplamları listesi indirilemedi, bu yüzden derleme açılmadı: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Sağlama toplamları listesi %s dosyasını içermiyor, bu yüzden derleme açılmadı."
 

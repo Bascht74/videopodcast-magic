@@ -5,11 +5,17 @@
 
 ## Getting the program
 
-One command installs it, and there is no second way in:
+One command installs it, and there is no second way in. It is the
+same on every system but for the last word of the list it names --
+`macos`, `windows` or `linux`:
 
 ```
-pip3 install git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-windows.txt git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-linux.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
+
+One of the three lines, the one for your system.
 
 It leaves the command `videopodcast-magic` behind, callable out of any
 folder. Everything the program needs in Python comes with it in that
@@ -45,8 +51,11 @@ command puts everything back, the separation with it.
 seconds:**
 
 ```
-pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -U -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
+
+-- the line for a Mac; on another system the list's name changes as
+above.
 
 No package registry stands in between: the address is the repository
 itself, and pip reads it afresh each time, compares the version there
@@ -61,14 +70,19 @@ the refusal names the way round it: `pipx install` on the same address
 puts the program in an environment of its own and the command on the
 path.
 
-**On the machine the episodes are edited on, the versions that were
-tested rather than the newest.** Every release carries, beside the
-archive, one list per system of the package versions its suite ran
-green on -- `constraints-macos.txt`, `constraints-windows.txt`,
-`constraints-linux.txt`, made on Python 3.14 -- and installing with the
-one for your system, `pip3 install -c constraints-macos.txt
-git+https://github.com/Bascht74/videopodcast-magic@v<version>`, takes
-exactly those.
+**The versions that were tested, rather than the newest.** That is
+what the `-c` and the address after it are for. Every release carries,
+beside the archive, one list per system of the package versions its
+suite ran green on -- `constraints-macos.txt`,
+`constraints-windows.txt`, `constraints-linux.txt`, made on Python
+3.14 -- and the address in the command always leads to the list of the
+newest release, so pip takes exactly those versions instead of
+whatever is newest that day. A package the list does not name, pip
+chooses as before. Whoever wants one particular release rather than
+the newest names it twice, in the list's address and after the `@`:
+`pip3 install -c
+https://github.com/Bascht74/videopodcast-magic/releases/download/v<version>/constraints-macos.txt
+git+https://github.com/Bascht74/videopodcast-magic@v<version>`.
 
 Two things have to be on the machine before that command, because pip
 can bring neither:
@@ -313,12 +327,13 @@ machine has:
 * **Windows: it fetches one.** Windows brings no package manager, so
   the program downloads a build that has soxr and puts `ffmpeg.exe` and
   `ffprobe.exe` in a folder of its own, under the user's own local
-  data. Nothing has to go into PATH by hand. The download is held
-  against `checksums.sha256` of the same release before anything is
-  unpacked; where that list cannot be fetched, does not name the
-  archive or gives another sum, nothing is unpacked, the download is
-  deleted and the program says why. An archive holding either tool
-  twice is refused as well. Where the download fails it offers to open
+  data. Nothing has to go into PATH by hand. It is always the same
+  build, named in the program with its checksum beside it, and the
+  download is held against that checksum before anything is unpacked;
+  where it differs, nothing is unpacked, the download is deleted and
+  the program says why. A newer ffmpeg therefore comes only with a
+  newer version of this program, never behind its back. An archive
+  holding either tool twice is refused as well. Where the download fails it offers to open
   ffmpeg.org instead.
 * **Linux: the package manager first, then a download.** `apt-get`,
   `dnf`, `zypper` or `pacman`, with `sudo` in front where the run is

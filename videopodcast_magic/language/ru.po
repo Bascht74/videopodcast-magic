@@ -5077,9 +5077,6 @@ msgstr "Здесь записи называет файл назначения, 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Готовая сборка не сходится со своей контрольной суммой, поэтому не распакована: в списке %s, пришло %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Список контрольных сумм не удалось получить, поэтому готовая сборка не распакована: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Список контрольных сумм не называет %s, поэтому готовая сборка не распакована."
 

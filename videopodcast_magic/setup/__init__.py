@@ -576,19 +576,28 @@ def open_ffmpeg_page():
 
 
 # Where a built ffmpeg comes from for the two systems that compile
-# none. Both carry --enable-libsoxr. The size moves with every build:
-# measured 27.9.2026, linux64 151 MB and win64 194 MB.
+# none. Both carry --enable-libsoxr. Measured 9.10.2026 on the build
+# named below: linux64 151 MB and win64 194 MB.
 
-# "latest" is a moving tag on the 9.0 line, so what arrived is asked
-# afterwards rather than promised here. Name: line, machine, licence,
-# line, kind of archive.
+# One fixed build, a month's last (kept two years, a day's 14 days);
+# its sums stand here, not fetched beside it, which a swap would swap
+# too. A newer build comes only with a newer program.
 FFMPEG_BUILD_PLACE = ("https://github.com/BtbN/FFmpeg-Builds/releases"
-                      "/download/latest/ffmpeg-n9.0-latest-%s-gpl-9.0.%s")
+                      "/download/autobuild-2026-09-30-13-08"
+                      "/ffmpeg-n9.0.2-17-g2a571b6068-%s-gpl-9.0.%s")
 
-# The same release lists the SHA-256 of every archive in it, one line
-# each in the shape sha256sum writes: 64 hex digits, two spaces, the
-# file name. Measured 27.9.2026, 48 lines, 5 KB.
-FFMPEG_BUILD_SUMS = "checksums.sha256"
+# Each archive's SHA-256, measured 9.10.2026 on the downloaded file and
+# the same as the one that release lists in its checksums.sha256.
+FFMPEG_BUILD_SUMS = {
+    "ffmpeg-n9.0.2-17-g2a571b6068-linux64-gpl-9.0.tar.xz":
+        "68ee646831adaae2495618346f3bba94ff207ff83bbd34d643e7004730d66269",
+    "ffmpeg-n9.0.2-17-g2a571b6068-linuxarm64-gpl-9.0.tar.xz":
+        "91afcd7695d4bbbb9e0057aa10baaf9875ec4e1a97303f9059ec971336a2ab46",
+    "ffmpeg-n9.0.2-17-g2a571b6068-win64-gpl-9.0.zip":
+        "a0e45723c72141975f51d8666302e614711745f3102b704ca3f82c897a58d278",
+    "ffmpeg-n9.0.2-17-g2a571b6068-winarm64-gpl-9.0.zip":
+        "6dcd0626f9f6d6c7323565e57410e9f37ed14a85946ec9ea9caff294ca32f5c0",
+}
 
 
 def ffmpeg_build_url():
@@ -657,36 +666,16 @@ def sha256_of(path):
     return whole.hexdigest()
 
 
-def listed_sum(listing, name):
-    """The sum that list of checksums gives for that file name, or "".
+def build_checked(archive):
+    """Hold the fetched archive against the sum carried here. "" if it fits.
 
-    The list is what sha256sum writes: the sum, a space, a space or a
-    star, the name. A line whose sum is no SHA-256 counts as no line.
+    Otherwise the sentence saying why it may not be unpacked: the
+    program carries no sum for this archive, or the sum differs.
+    Nothing is fetched here: a sum fetched from beside the build is a
+    sum whoever swaps the build can swap too.
     """
-    with open(listing, encoding="utf-8", errors="replace") as f:
-        for line in f:
-            parts = line.split()
-            if len(parts) == 2 and parts[1].lstrip("*") == name \
-                    and re.fullmatch(r"[0-9a-fA-F]{64}", parts[0]):
-                return parts[0].lower()
-    return ""
-
-
-def build_checked(url, archive):
-    """Hold the fetched archive against the release's own list. "" if it fits.
-
-    Otherwise the sentence saying why it may not be unpacked: the list
-    did not come, it does not name this archive, or the sum differs.
-    The list is fetched through fetch_archive, the one door outward.
-    """
-    listing = archive + ".sums"
-    trouble = fetch_archive(url.rsplit("/", 1)[0] + "/" + FFMPEG_BUILD_SUMS,
-                            listing)
-    if trouble:
-        return T('The list of checksums could not be fetched, so the build '
-                 'was not unpacked: %s') % trouble
     name = os.path.basename(archive)
-    wanted = listed_sum(listing, name)
+    wanted = FFMPEG_BUILD_SUMS.get(name, "")
     if not wanted:
         return T('The list of checksums does not name %s, so the build '
                  'was not unpacked.') % name
@@ -777,9 +766,9 @@ def fetch_ffmpeg_build(asked=False, say=None):
     try:
         trouble = fetch_archive(url, archive, say)
         if not trouble:
-            # A moving tag and a file somebody else built: what came is
-            # held against the release's own list before any of it runs.
-            trouble = build_checked(url, archive)
+            # A file somebody else built: what came is held against the
+            # sum this program carries before any of it runs.
+            trouble = build_checked(archive)
         if trouble:
             tell("  " + trouble)
             return open_ffmpeg_page() if sys.platform == "win32" else False

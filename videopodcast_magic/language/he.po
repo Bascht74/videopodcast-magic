@@ -5037,9 +5037,6 @@ msgstr "כאן קובץ השיוך נותן את שמות ההקלטות, ולכ
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "הגרסה הבנויה אינה תואמת לסכום הביקורת שלה, ולכן לא חולצה: ברשימה %s, הגיע %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "לא ניתן היה להוריד את רשימת סכומי הביקורת, ולכן הגרסה הבנויה לא חולצה: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "רשימת סכומי הביקורת אינה מציינת את %s, ולכן הגרסה הבנויה לא חולצה."
 

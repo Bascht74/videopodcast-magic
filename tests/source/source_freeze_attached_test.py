@@ -6,8 +6,10 @@ a green suite, under its system and Python; both of publish.yml's suite
 calls install the separation, and it takes the three py3.14 lists, sums
 them into SHA256SUMS.txt before the tag and attaches them in the command
 that makes the release; release.yml asks each hangs, is in the manifest
-with its sum, and is name==version lines; the manual in both languages
-says to install with it. Read as text: the workflows run on the builder.
+with its sum, and is name==version lines, and installs the package once
+with the Linux list; both READMEs and the manual in both languages give
+the install line with each system's list. Read as text: the workflows
+run on the builder.
 """
 PLATFORM_BOUND = False
 import os
@@ -162,16 +164,43 @@ check("that it is name==version lines and nothing else",
       and "==[^+[:space:];]+$" in section,
       "%d lines in the section" % section.count("\n"))
 
-print("\nthe manual says how to use it")
-# A paragraph may break a line anywhere, inside a command as well.
-english = " ".join(read("docs", "requirements.md").split())
-german = " ".join(read("docs", "requirements.de.md").split())
+installing = [s for s in steps(job(release_yml, "contract"))
+              if first_line(s).startswith(
+                  'name: "Contract: it installs as a package')]
+installing = installing[0] if installing else ""
+pip_line = re.search(r"bin/pip install [^\n]*\\\n\s*([^\n]*)", installing)
+pip_line = " ".join(pip_line.group(0).split()) if pip_line else ""
+check("and the package is installed once with the Linux list",
+      "known=/tmp/constraints-linux.txt" in installing
+      and '-c "$known" "$url"' in pip_line,
+      "the install reads: %s" % (pip_line or "no pip install line"))
+
+print("\nthe READMEs and the manual give the line with the list")
+# The line a reader copies, one per system: the list of the newest
+# release for that system, then the repository. A paragraph may break a
+# line anywhere, inside a command as well.
+LINE = ("pip3 install -c https://github.com/Bascht74/videopodcast-magic"
+        "/releases/latest/download/constraints-%s.txt "
+        "git+https://github.com/Bascht74/videopodcast-magic")
+
+
+def lines_missing(*path):
+    text = " ".join(read(*path).split())
+    return [s for s in SYSTEMS if LINE % s not in text]
+
+
+missing = lines_missing("README.md")
+check("README.md gives the install line with each system's list",
+      not missing, "no line for: %s" % (missing or "-"))
+missing = lines_missing("README.de.md")
+check("README.de.md gives the install line with each system's list",
+      not missing, "no line for: %s" % (missing or "-"))
+missing = lines_missing("docs", "requirements.md")
 check("requirements.md says to install with -c",
-      "pip3 install -c constraints-macos.txt" in english,
-      "%d characters read" % len(english))
+      not missing, "no line for: %s" % (missing or "-"))
+missing = lines_missing("docs", "requirements.de.md")
 check("requirements.de.md says to install with -c",
-      "pip3 install -c constraints-macos.txt" in german,
-      "%d characters read" % len(german))
+      not missing, "no line for: %s" % (missing or "-"))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
