@@ -496,9 +496,27 @@ def audio_sink(QtMultimedia, parent):
     away 1.94 dB against a ceiling that cannot be raised.
     """
     out = QtMultimedia.QAudioOutput(parent)
+    # Against a deadlock in PySide6 itself: see primed().
+    primed(out)
     out.setVolume(loud(1.0))
     out.setMuted(hushed(False))
     return out
+
+
+def primed(out):
+    """Ask PySide once, here, what Qt's media thread would ask it later.
+
+    PySide6 6.12: the first disconnectNotify() of a QAudioOutput asks
+    Python whether it is overridden. From Qt's media thread, under Qt's
+    lock, that waits for Python while Python waits for the lock in
+    stop() or play(). Connecting and letting go here answers it once.
+    """
+    out.volumeChanged.connect(_nothing)
+    out.volumeChanged.disconnect(_nothing)
+
+
+def _nothing(*_args):
+    """Receives the one signal primed() connects and lets go again."""
 
 
 def readable_on(colour):
