@@ -397,6 +397,15 @@ export VPM_CUT_OFF
 NOTED="$RUN_TEMP/noted"
 mkdir -p "$NOTED"
 export NOTED
+# One file per test holding what it printed, written as it prints. The
+# time the file was last written is the test's last sign of life: a test
+# the time limit killed is run again alone only if it was still printing
+# in its last HUNG_AFTER seconds (the owner's decision for 3.0.0b29).
+# One that went quiet that long has hung, and a second go hangs again.
+SAID="$RUN_TEMP/said"
+mkdir -p "$SAID"
+HUNG_AFTER=60
+export SAID HUNG_AFTER
 
 # The long ones first. xargs hands the list out in the order it is
 # given, so a slow test named late in the alphabet starts last and its
@@ -547,8 +556,19 @@ run_one() {
   fell_text=""
   fell_count=0
   while :; do
-    out=$(VPM_COUNT_STARTS="$STARTS/$t" \
-          $LIMIT "$PY" "$file" 2>&1); rc=$?
+    # Into a file and not straight into $(...): its time of last writing
+    # is read below when the limit killed the test. PYTHONUNBUFFERED
+    # puts every line there as it is printed.
+    VPM_COUNT_STARTS="$STARTS/$t" \
+      $LIMIT "$PY" "$file" > "$SAID/$t" 2>&1; rc=$?
+    out=$(< "$SAID/$t")
+    quiet=""
+    if [ -n "$LIMIT" ] && { [ $rc -eq 124 ] || [ $rc -eq 137 ]; }; then
+      # Asked only of a test the limit killed, so it costs no process
+      # anywhere else. Python, because stat(1) differs between systems.
+      quiet=$("$PY" -c 'import os, sys, time
+print(int(time.time() - os.path.getmtime(sys.argv[1])))' "$SAID/$t")
+    fi
     fell=0
     if [ $rc -ne 0 ] || said_red "$out"; then
       fell=1
@@ -621,6 +641,15 @@ $short"
       # a polite TERM was not enough and it had to go further.
       if [ -n "$LIMIT" ] && { [ $rc -eq 124 ] || [ $rc -eq 137 ]; }; then
         echo "      killed by the ${LIMIT##* } s time limit -- it never finished"
+        # Right under it, where the pass that runs a red test again
+        # alone looks: only "still working" goes again.
+        if said_red "$out"; then
+          echo "      it had said FAIL or a traceback, so it does not go again"
+        elif [ "${quiet:-0}" -ge "$HUNG_AFTER" ]; then
+          echo "      hung: nothing printed in its last $quiet s"
+        else
+          echo "      still working: last line $quiet s before the limit"
+        fi
       elif [ $rc -gt 128 ]; then
         # Right under the name, where wobbly.sh looks for it.
         echo "      crashed ($(crash_said "$rc" "$out")), go $try of $TRIES"
@@ -754,13 +783,20 @@ done
 # between a fault and a crowd. A test that is red beside eleven others
 # and green by itself has found nothing, but it has proved nothing
 # either, so it lands under "unsteady" rather than being counted green.
-# Not a test the time limit killed: run again it cost a second 300 s,
-# and on 26.9.2026 those reruns made most of the builder's red runs.
+# A test the time limit killed goes again only if it was still working
+# -- it printed in its last HUNG_AFTER seconds and had said no FAIL --
+# because a crowd slows a test down as surely as it upsets one (the
+# owner's decision for 3.0.0b29). One that had gone quiet has hung and
+# would cost a second 300 s to hang again; one that had said FAIL has
+# its verdict.
 ALONE=${ALONE:-1}
 if [ "$ALONE" = 1 ] && [ "$WORKERS" -gt 1 ]; then
   for t in $TESTS; do
     case "$(head -1 "$OUT/$t")" in RED*) ;; *) continue ;; esac
-    grep -q "^      killed by the .* time limit" "$OUT/$t" && continue
+    if grep -q "^      killed by the .* time limit" "$OUT/$t" \
+       && ! grep -q "^      still working: " "$OUT/$t"; then
+      continue
+    fi
     was=$(cat "$OUT/$t")
     began=$SECONDS
     printf '  %s  again, alone: %-24s' "$(date '+%H:%M:%S')" "$t"
