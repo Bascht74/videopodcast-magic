@@ -41,7 +41,7 @@ Der Bericht gilt für beide Betriebsarten.
 | Timecode | die Uhren der Dateien gegeneinander | Hinweis, wo eine Uhr nicht gestellt war |
 | Raum | Übersprechen je Sprecherpaar, gegen die 3:1-Regel | Hinweis für die *nächste* Aufnahme |
 | System | freier Plattenplatz gegen den geschätzten Bedarf | Hinweis, wenn es knapp wird, **Abbruch**, wenn es nicht reicht; ein Probelauf gibt nur den Hinweis |
-| Auphonic | Algorithmen des Presets, Lautheitsziel, Spurvorlage | **Abbruch** bei Widerspruch |
+| Auphonic | Algorithmen des Presets, Schnitt, Lautheitsziel, Spurvorlage | **Abbruch** bei Widerspruch |
 | Projekttyp | bei **Nur synchronisieren** eine zweite Tonaufnahme | **Abbruch** |
 | Fertige Mischung | eine fertige Mischung und keine Videodatei; eine, die kürzer ist als jede Kamera | **Abbruch**; Hinweis -- wo sie endet, ist der Full-Mix still |
 | Lautheit | welches Ziel gilt und woher es kommt | — |
@@ -349,6 +349,15 @@ die Datei einen Platz, und es wird nichts vorgeschlagen.
   Wert zurück, der Mix geht auf den anderen. Ohne `--lufs` gilt −16;
   mastert das Preset auf etwas anderes, hält der Lauf deshalb vor dem
   Hochladen an.
+- **Das Preset schneidet.** `Schnitt` nennt, was das Preset
+  auphonic.com herausschneiden lässt -- **Cut Silence**, **Cut
+  Fillers**, **Cut Coughs** oder **Cut Music** --, und der Lauf hält vor
+  dem Hochladen an: Der Ton käme kürzer zurück als die Bilder, und jede
+  Kamera verrutschte ab dem ersten Schnitt. Auf auphonic.com im Preset
+  unter **Audio Algorithms**, **Automatic Cutting** den Haken
+  herausnehmen, oder **Cut Mode** auf **Set Cuts To Silent** stellen;
+  dann bleibt die Länge erhalten ([Aufbereitung über
+  auphonic.com](auphonic.de.md), „Was der Vorflug im Preset liest“).
 - **Das Multitrack-Preset enthält keine Spur.** Auf auphonic.com eine
   Spur im Preset anlegen. Die erste Spur des Presets bestimmt die
   Bearbeitung aller Spuren; ohne sie kommen sie so zurück, wie sie

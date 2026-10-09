@@ -40,7 +40,7 @@ The report holds for both modes.
 | Timecode | the clocks of the files against each other | note where a clock was not set |
 | Room | bleed per pair of speakers, against the 3:1 rule | note for the *next* recording |
 | System | free disk space against the estimated need | note where it is tight, **stop** where it is short; a dry run only notes it |
-| Auphonic | preset algorithms, loudness target, track template | **stop** on a contradiction |
+| Auphonic | preset algorithms, cutting, loudness target, track template | **stop** on a contradiction |
 | Project type | with **Sync only**, a second audio recording | **stop** |
 | Finished mix | a finished mix and no video file; one shorter than every camera | **stop**; note -- where it ends, the Full-Mix is silent |
 | Loudness | which target holds and where it comes from | -- |
@@ -328,6 +328,15 @@ for it.
   Both at once does not work: the tracks come back at one value and the
   mix goes to the other. A call without `--lufs` means -16, so a preset
   that masters to anything else stops the run before the upload.
+- **The preset cuts.** `Cutting` names what the preset lets
+  auphonic.com cut out -- **Cut Silence**, **Cut Fillers**, **Cut
+  Coughs** or **Cut Music** -- and the run stops before the upload: the
+  sound would come back shorter than the pictures, and every camera
+  after the first cut would slip. In the preset at auphonic.com, under
+  **Audio Algorithms**, **Automatic Cutting**, untick it, or set **Cut
+  Mode** to **Set Cuts To Silent**, which keeps the length
+  ([Processing at auphonic.com](auphonic.md), "What the preflight reads
+  in the preset").
 - **The multitrack preset holds no track.** Create one track in the
   preset at auphonic.com. The first preset track sets the processing for
   all tracks; without it they come back as they were uploaded.
