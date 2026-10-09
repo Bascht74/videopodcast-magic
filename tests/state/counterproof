@@ -3557,6 +3557,9 @@ sound_join_any_rate	2026-10-09	and no hole is said between its blocks	hearing/__
 sound_join_any_rate	2026-10-09	the second block starts where its stamp puts it	hearing/__init__.py join_layout: '"delays": [int(round((t - t0) * own[p] / SR))' made '[int(round(t - t0))', so a block's delay is given in working samples at its own rate (copy broken04)	the second block starts where its stamp puts it            FAIL the second block's tone begins at 5.05 s, wanted 10.00 s
 open	sound_join_order	the first named file is first
 open	sound_join_order	the second one second
+sound_join_widens_mono	2026-10-09	a mono and a stereo block join as stereo, both lengths long	hearing/__init__.py join_audio_parts(): channels = 1 in place of channels = PROGRAM.widest_track(paths)	a mono and a stereo block join as stereo, both lengths long FAIL 1 channels, 0 samples, 2 blocks; wanted 2, 48000, 2
+sound_join_widens_mono	2026-10-09	a single block is handed back as it is, nothing written	hearing/__init__.py join_audio_parts(): if len(paths) == 0: in place of if len(paths) == 1: before the early return	a single block is handed back as it is, nothing written    FAIL handed back single.wav, 1 blocks, a file written: True
+sound_join_widens_mono	2026-10-09	the mono block stands on both sides at its own level	material/__init__.py channel_filter(): return "pan=stereo|c0=0.707*c0|c1=0.707*c0" in place of c0=c0|c1=c0 -- the equal-power 3 dB down	the mono block stands on both sides at its own level       FAIL left 0.0312, right 0.0312, the block alone 0.0442
 open	sound_loudest_block	a block of pure silence does not erase the show
 open	sound_loudest_block	and it is the loudest block's
 open	sound_loudest_block	and the block it read is left as it was
