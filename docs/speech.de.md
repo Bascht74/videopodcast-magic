@@ -475,7 +475,10 @@ errät sie aus dem Ton. Auf dem macOS-Weg wird eine Sprache jedes Mal
 in derselben Spielart gehört: in der Spielart der Region des Macs, wo
 es eine gibt (de-CH auf einem Schweizer Mac, en-GB auf einem
 britischen), sonst in einer festen -- Englisch in en-US, Deutsch in
-de-DE, Französisch in fr-FR --, sonst in der alphabetisch ersten. Der Lauf schreibt den Text neben dem
+de-DE, Französisch in fr-FR --, sonst in der alphabetisch ersten.
+Bietet der Mac für die Sprache gar keine Spielart an, hört macOS sie
+nicht in der Systemsprache: Das Protokoll sagt es, und Whisper
+übernimmt -- im Fenster nur, wo faster-whisper schon installiert ist. Der Lauf schreibt den Text neben dem
 Kameraschnitt mit, nicht davor.
 
 Auf dem macOS-Weg meldet die Erkennung hinterher, wie es ihr ergangen
