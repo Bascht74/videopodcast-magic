@@ -102,10 +102,16 @@ What each set delivers:
 
 | Set | delivers |
 |---|---|
-| `main` | `files`, `blocks`, `assignment`, `resolve-cut`, `settings` |
+| `main` | `files`, `blocks`, `assignment`, `resolve-cut`, `cut-band`, `settings` |
 | `split` | `voices` |
 | `channels` | `channels` |
 | `output` | `output` |
+
+`cut-band` is the preview box of the Resolve sheet alone -- the cut,
+the band and the legend under it. The window is grown until the sheet
+no longer scrolls, since at the `resolve-cut` size band and legend stand
+below the frame, and a run that cannot show the legend whole and under
+the band deletes the picture and says why in a `FAIL` line.
 
 **The smallest unit is one set in one language, not one picture.**
 Whoever needs only `resolve-cut` runs `main` and gets `files`, `blocks`,
