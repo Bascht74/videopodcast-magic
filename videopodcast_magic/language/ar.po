@@ -436,9 +436,6 @@ msgstr "سلسلة المفاتيح"
 msgid "Measuring time axis ..."
 msgstr "قياس محور الزمن ..."
 
-msgid "Multitrack (one track per speaker)"
-msgstr "متعدد المسارات (مسار لكل متحدث)"
-
 msgid "No files or project opened yet."
 msgstr "لم يُفتح أي ملف أو مشروع بعد."
 
@@ -453,9 +450,6 @@ msgstr "إطار واحد للخلف."
 
 msgid "One second back."
 msgstr "ثانية واحدة للخلف."
-
-msgid "Only one speaker"
-msgstr "متحدث واحد فقط"
 
 msgid "Open result folder"
 msgstr "فتح مجلد النتائج"
@@ -610,9 +604,6 @@ msgstr "غير موجود"
 msgid "a recording of its own"
 msgstr "تسجيل خاص به"
 
-msgid "Cameras only"
-msgstr "الكاميرات فقط"
-
 msgid "End %s"
 msgstr "النهاية %s"
 
@@ -639,9 +630,6 @@ msgstr "البداية %s"
 
 msgid "Take from source files"
 msgstr "أخذها من الملفات المصدر"
-
-msgid "Take the camera audio"
-msgstr "استخدام صوت الكاميرا"
 
 msgid "Transfer"
 msgstr "نقل"
@@ -792,9 +780,6 @@ msgstr "صمت"
 
 msgid "Speaker name"
 msgstr "اسم المتحدث"
-
-msgid "Speaker names"
-msgstr "أسماء المتحدثين"
 
 msgid "Ten seconds forward."
 msgstr "عشر ثوانٍ للأمام."
@@ -1087,9 +1072,6 @@ msgstr "لم يُحدَّد ملف صوتي."
 msgid "Unknown extension, skipped: %s"
 msgstr "امتداد غير معروف، تم تخطيه: %s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "عدة كاميرات ولكن لا ملف صوتي. سيكون لكل كاميرا صوتها الخاص --\nولهذا يوجد --multitrack. وإلا فكاميرا تلو الأخرى."
-
 msgid "Not found: %s"
 msgstr "غير موجود: %s"
 
@@ -1272,12 +1254,6 @@ msgstr "  في الأرشيف: %s"
 
 msgid "Auphonic reports %s: %s"
 msgstr "يُبلغ Auphonic بـ %s: %s"
-
-msgid "No Multitrack preset found in the account."
-msgstr "لم يُعثر على إعداد مسبق Multitrack في الحساب."
-
-msgid "No Singletrack preset found in the account."
-msgstr "لم يُعثر على إعداد مسبق Singletrack في الحساب."
 
 msgid "preset does not fit the run"
 msgstr "الإعداد المسبق لا يناسب التشغيل"
@@ -1516,9 +1492,6 @@ msgstr "بلا كاميرا خاصة: %s"
 msgid "   -- that is everybody, so every shot goes to the same camera."
 msgstr "   -- هذا هو الجميع، لذا تذهب كل لقطة إلى الكاميرا نفسها."
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "لا يمكن استخدام وضع متعدد المسارات\n  بدون مفتاح API لا يوجد ما يُرسل إلى auphonic.com.\n  مع --without-auphonic يعمل محليًا بدلًا من ذلك: محاذاة\n  ومزج وقطع، ولكن بدون De-Bleed وLeveler."
-
 msgid "\nCAMERA CUT"
 msgstr "\nقطع الكاميرا"
 
@@ -1542,9 +1515,6 @@ msgstr "البعد عن المتوسط"
 
 msgid "    %-20s shifted by %s ms%s"
 msgstr "    %-20s أُزيح بمقدار %s ms%s"
-
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "لا يمكن استخدام وضع متعدد المسارات\n  يلزم مساران على الأقل، ولم يُعثر إلا على %s.\n  المسار هو تسجيل مستقل، أو قناة من جهاز تسجيل\n  متعدد القنوات، أو صوت كاميرا -- ويُحتسب هذا حالما يكون\n  «صوت الكاميرا» فيها على «استخدام الصوت». وبدون اثنين منها\n  لا يوجد ما يُفصل، ويمر الملف نفسه\n  كإنتاج عادي."
 
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  الكاميرات متقاربة (%s درجات سطوع على الأكثر)."
@@ -2263,18 +2233,6 @@ msgstr "%s و%s كلاهما مضبوط على %s. ملف واحد فقط يمك
 msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
 msgstr "%s موضوع على أكثر من صوت واحد. الاسم شخص، والمونتاج يضع الشخص على كاميرا واحدة -- صوتان باسم واحد يعنيان شخصًا واحدًا في مكانين."
 
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack يحتاج إلى عدة مسارات"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack يحتاج إلى مسارَي إدخال على الأقل. المسار تسجيل مستقل، أو قناة من جهاز تسجيل متعدد القنوات، أو صوت ملف فيديو مضبوط على \"استخدام الصوت\". عدة كتل من التسجيل نفسه تُحسب مسارًا واحدًا، والمسارات الموضوعة جانبًا لا تُحسب إطلاقًا."
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "كل صف يحتاج إلى اسم -- يصبح في Auphonic الـ track ID."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "كل الصفوف تحمل الاسم نفسه -- وهذا ينتج مسارًا واحدًا، وMultitrack يحتاج إلى اثنين على الأقل."
-
 msgid "File names"
 msgstr "أسماء الملفات"
 
@@ -2289,9 +2247,6 @@ msgstr "حمّل الإعدادات المسبقة واختر واحدًا، أ�
 
 msgid "Names used more than once"
 msgstr "أسماء مستخدمة أكثر من مرة"
-
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "لا توجد تسجيلات صوتية منفصلة. عندها يُستخدم صوت الكاميرات الـ %s -- تصبح كل منها مسارًا، ويزيل Auphonic التسرب الصوتي."
 
 msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
 msgstr "هذه الأسماء تتكرر:\n\n  %s\n\nتُدمج التسجيلات في مسار واحد وتوضع متتالية حسب الكود الزمني. هذا صحيح إذا أُوقف التسجيل في الأثناء."
@@ -2442,9 +2397,6 @@ msgstr "\nانتهى بلا نتيجة: %s"
 
 msgid "\nNo usable video file -- without camera audio there is no common time axis."
 msgstr "\nلا يوجد ملف فيديو صالح -- بلا صوت الكاميرا لا يوجد محور زمن مشترك."
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nيبقى مسار واحد فقط بعد ضم الكتل، وMultitrack يحتاج إلى مسار لكل صوت. حيث اعتُبر شخصان تسجيلًا واحدًا، يُبقي --apart كتلة خارجه."
 
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  تحصل الـ Timeline على %s: الأعلى بينها، أو المعدل التالي الذي يملكه Resolve\n  فوقه. عند التحويل للأعلى يكرر Resolve الإطارات، وللأسفل\n  يحذفها. تحتفظ كل كاميرا بمعدلها الخاص، ويحسب المونتاج\n  به."
@@ -3970,9 +3922,6 @@ msgstr "  تعذّر معرفة أي صوت ينتمي إلى أي ميكروف�
 msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
 msgstr "هذا الاسم مُعطى لشخص آخر بالفعل. الاسم يعني شخصًا، والمونتاج يضع الشخص على كاميرا واحدة -- رجاءً أعطِ هذا الصوت اسمًا خاصًا به."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  كل التسجيلات تحمل الاسم نفسه. هذا يصنع مسارًا واحدًا -- يحتاج Multitrack إلى اثنين على الأقل."
-
 msgid "The model could not be written: %s"
 msgstr "تعذّرت كتابة النموذج: %s"
 
@@ -4105,8 +4054,21 @@ msgstr "دون كود زمني يُقاس موضع الملفات."
 msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
 msgstr "يُبقي فصل المتحدثين معطلًا لهذا المشروع. عندئذ يأتي المونتاج من المسارات أو من auphonic.com، كما من قبل."
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "لا يوجد قطع كاميرا بعد: يحتاج إلى شخصين، لكل منهما اسم وكاميرا.\nالتسجيلات المنفصلة توفر ذلك مع علامة Multitrack، وكذلك \"عدة متحدثين\" في حقل اسم المتحدث لتسجيل واحد --\nوالأصوات التي يُعثر عليها هناك تأخذ كاميرتها في الجدول أسفل التسجيلات.\nيُنشأ مشروع Resolve على أي حال -- كل الكاميرات في مواضعها المقيسة، جاهزة لـ Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"لا يوجد قطع كاميرا بعد: يحتاج إلى شخصين، لكل منهما اسم وكاميرا.\n"
+"التسجيلات المنفصلة توفر ذلك، كل منها باسمه الخاص، وكذلك \"عدة متحدثين\" في "
+"حقل اسم المتحدث لتسجيل واحد --\n"
+"والأصوات التي يُعثر عليها هناك تأخذ كاميرتها في الجدول أسفل التسجيلات.\n"
+"يُنشأ مشروع Resolve على أي حال -- كل الكاميرات في مواضعها المقيسة، جاهزة لـ "
+"Multicam."
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "يحتاج ذلك إلى ملف التسليم من تشغيل، ولا يوجد أي منه."
@@ -4140,9 +4102,6 @@ msgstr "لم تنجح إعادة التشغيل. أغلق النافذة وشغ�
 
 msgid "No newer version found. This one is %s."
 msgstr "لم يُعثر على إصدار أحدث. هذا الإصدار هو %s."
-
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "يحتاج Multitrack إلى مسارين في الجدول أعلاه -- وتُحسب الكاميرا مسارًا متى ضُبط صوت الكاميرا فيها على \"استخدام الصوت\"."
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s موجود على أكثر من متحدث -- الاسم شخص، وكل شخص يحتاج إلى اسمه الخاص."
@@ -4195,9 +4154,6 @@ msgstr "يقفز إلى بداية النافذة."
 msgid "Jumps to the end of the window."
 msgstr "يقفز إلى نهاية النافذة."
 
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "مسار صوتي لكل شخص، يبقى منفصلًا حتى auphonic.com.\nيعمل من دونه أيضًا -- ولكن دون De-Bleed وLeveler.\nيحتاج إلى مساري إدخال: تسجيل مستقل، أو قناة من\nمسجل متعدد القنوات، أو صوت ملف فيديو مضبوط على \"استخدام\nالصوت\". قطع الكاميرا لا يحتاج إلى هذه العلامة."
-
 msgid "During greeting and farewell the picture stays wide."
 msgstr "أثناء الترحيب والوداع تبقى الصورة واسعة."
 
@@ -4215,9 +4171,6 @@ msgstr "أعد تشغيل البرنامج كي يأخذه."
 
 msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
 msgstr "رخصة MIT، Copyright (c) 2026 Sebastian Lotz. يُقدَّم كما هو، دون أي ضمان من أي نوع."
-
-msgid "One audio recording has no speaker name yet."
-msgstr "تسجيل صوتي واحد ليس له اسم متحدث بعد."
 
 msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
 msgstr "%s مضبوط بالفعل على أنه %s، ولا يكون للحلقة منه إلا واحد. أجب هنا إجابة مختلفة، أو أزل العلامة عن ذلك الملف أولًا."
@@ -4269,9 +4222,6 @@ msgstr "لم يُكتب شيء -- لا توجد مادة بعد."
 
 msgid "The text for %s could not be fetched."
 msgstr "تعذر جلب نص %s."
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "كل التسجيلات تحمل الاسم نفسه -- وهذا يعطي مسارًا واحدًا."
 
 msgid "stays out"
 msgstr "يبقى خارجًا"
@@ -5206,9 +5156,6 @@ msgstr "تغيّرت نقطة النهاية منذ التشغيل الأخير:
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "انتهى الإنتاج، ولكن ملف ZIP بالمسارات المنفردة ليس له اسم ملف بسيط"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "عدة كاميرات ولكن بلا تسجيل صوتي. سيكون لكل كاميرا صوتها الخاص -- ولهذا وُجد متعدد المسارات. وإلا فكاميرا تلو الأخرى."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "يحتوي الأرشيف على %s أكثر من مرة، لذا لم يُستخرج منه شيء."
 
@@ -5382,3 +5329,21 @@ msgstr "المزيج الجاهز -- ليس متحدثًا، بلا كاميرا
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "كلام: يُوضع بالجهارة وحدها. التسجيل الذي لا يشترك في شيء\nمع الكاميرات يُرفض. مختلط: موسيقى أو مزيج تحت الأصوات،\nوحيث لا تجد الجهارة شيئًا يجوز للطور أن يضعه.\nمزيج جاهز: مزيج ستيريو صُنع في مكان آخر، يوضع كصوت مختلط. يدخل\nفي ملفات الكاميرات والتسليم بدل المزيج الذي تبنيه المعالجة --\nليس متحدثًا، لا يُقطع، لا يُرسل إلى auphonic.com.\nتحت \"%s\" لا يُعرض كلام."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack، لأن %s مسارات تقع على محور زمني واحد. يمكن اختيار إعداد مسبق "
+"Multitrack آخر؛ وللحصول على Singletrack اضبط كل المسارات إلا واحدًا على \"لا "
+"تستخدم\"."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack، لأن هناك مسارًا واحدًا. يمكن اختيار إعداد مسبق Singletrack آخر؛ "
+"وللحصول على Multitrack أضف مسارًا ثانيًا -- تسجيلًا، أو كاميرا مضبوطة على "
+"\"استخدام الصوت\"."

@@ -194,7 +194,7 @@ check("one recording without a picture takes the stored key",
       carried(alone) == (KEY, "store"),
       "key and origin %r, wanted the stored one from 'store'"
       % (carried(alone),))
-several = run_with("--multitrack", MATERIAL["host.wav"], MATERIAL["guest.wav"])
+several = run_with(MATERIAL["host.wav"], MATERIAL["guest.wav"])
 check("several recordings on one axis take the stored key",
       carried(several) == (KEY, "store"),
       "key and origin %r, wanted the stored one from 'store'"
@@ -204,11 +204,6 @@ check("a run with a picture takes the stored key",
       carried(pictured) == (KEY, "store"),
       "key and origin %r, wanted the stored one from 'store'"
       % (carried(pictured),))
-stop = vpm.check_mode_fits_input(
-    [MATERIAL["host.wav"], MATERIAL["guest.wav"]], several) \
-    if getattr(several, "multitrack", False) else "the run never got here"
-check("and multitrack does not stop for want of a key",
-      stop is None, "it said %r" % (str(stop)[:60],))
 local = run_with("--without-auphonic", MATERIAL["one.wav"])
 check("--without-auphonic leaves the stored key where it lies",
       getattr(local, "auphonic_key", "") is None,

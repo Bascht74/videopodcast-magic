@@ -2,10 +2,11 @@
 """The preset list and the run ask one rule for the kind of preset.
 
 Four ways, each asked of the window's preset list and of the run: two
-recordings with a picture and the Multitrack tick off, the same without
-a picture, without a picture with the tick on, and one recording alone.
-The list is the window's own box, fed the account's two presets; the run
-is the time base in this process. auphonic.com is stood in for where the
+recordings with a picture, the same without a picture, the same with
+--multitrack given, which is still taken and changes nothing, and one
+recording alone. The list is the window's own box, fed the account's two
+presets, and the line under it says which kind and why; the run is the
+time base in this process. auphonic.com is stood in for where the
 piece looks it up, and so is where the axis is measured: with a picture
 the run stops there, without one both recordings are placed at nought.
 """
@@ -132,29 +133,44 @@ def boxes():
             if type(w).__name__ == "PresetBox"]
 
 
-def listed(videos, tick, names=("Guest", "Presenter")):
-    """The presets the window's box offers for these named recordings."""
+def listed(videos, names=("Guest", "Presenter")):
+    """What the window's box offers for these named recordings.
+
+    (the presets that can be picked, the texts of the lines on its page).
+    """
     paths = {"Guest": GUEST, "Presenter": PRESENTER}
     model = types.SimpleNamespace(
         assign_lines=[(None, vpm.Value(n), vpm.Value(vpm.MIX_ONLY))
                       for n in names],
         files=[(paths[n], "audio") for n in names]
         + [(v, "video") for v in videos],
-        clip_kinds={}, multitrack=vpm.Value(tick))
-    # The page and the button are kept: Qt deletes what Python lets go.
-    kept.append((QtWidgets.QWidget(), QtWidgets.QPushButton()))
-    holder, layout = [], QtWidgets.QVBoxLayout(kept[-1][0])
+        clip_kinds={})
+    # The page is kept: Qt deletes what Python lets go.
+    page = QtWidgets.QWidget()
+    kept.append(page)
+    holder, layout = [], QtWidgets.QVBoxLayout(page)
     bridge = types.SimpleNamespace(presets=types.SimpleNamespace(
         connect=holder.append))
     before = set(boxes())
     kept.append(vpm.make_auphonic_box(
         QtWidgets, {}, bridge, lambda *a: None, layout, lambda: None,
-        lambda: None, kept[-1][1], vpm.Value(""), lambda: "",
-        lambda *a: None, lambda: vpm.run_tracks_of(model)))
+        lambda: None, vpm.Value(""), lambda: "", lambda *a: None,
+        lambda: vpm.run_tracks_of(model)))
     holder[0](list(PRESETS), "", "FAKEKEY-0000")
     box = (set(boxes()) - before).pop()
-    return [box.itemData(i) for i in range(1, box.count())
-            if box.model().item(i).isEnabled()]
+    return ([box.itemData(i) for i in range(1, box.count())
+             if box.model().item(i).isEnabled()],
+            [w.text() for w in page.findChildren(QtWidgets.QLabel)
+             if not w.isHidden()])
+
+
+MULTI_WHY = vpm.T('Multitrack, because %s tracks lie on one time axis. '
+                  'Another Multitrack preset can be picked; for '
+                  'Singletrack, set every track but one to "do not use".')
+SINGLE_WHY = vpm.T('Singletrack, because there is one track. Another '
+                   'Singletrack preset can be picked; for Multitrack, add '
+                   'a second track -- a recording, or a camera set to "use '
+                   'internal audio".')
 
 
 def run(videos, preset, *switches, names=("Guest", "Presenter")):
@@ -178,11 +194,15 @@ def run(videos, preset, *switches, names=("Guest", "Presenter")):
 
 
 try:
-    print("Two recordings with a picture, the Multitrack tick off")
-    offered = listed([CAMERA], False)
+    print("Two recordings with a picture")
+    offered, lines = listed([CAMERA])
     check("the list offers the Multitrack preset for two on a picture",
           offered == ["Podcast_Multi"],
           "the list offers %s, wanted ['Podcast_Multi']" % offered)
+    check("the line under the list says Multitrack, and why, for two",
+          MULTI_WHY % "2" in lines,
+          "the page shows %r, wanted %r among them"
+          % (lines, MULTI_WHY % "2"))
     code, seen, up = run([CAMERA], "Podcast_Multi")
     check("the run takes it, and asks before the time axis",
           seen == ["preset", "axis"],
@@ -194,8 +214,8 @@ try:
           "returned %r against 1, asked in this order: %s, wanted the "
           "preset and no axis" % (code, seen))
 
-    print("\nTwo recordings without a picture, the tick off")
-    offered = listed([], False)
+    print("\nTwo recordings without a picture")
+    offered, _lines = listed([])
     check("the list offers the Multitrack preset for two without a picture",
           offered == ["Podcast_Multi"],
           "the list offers %s, wanted ['Podcast_Multi']" % offered)
@@ -210,11 +230,7 @@ try:
           "returned %r against 0, asked in this order: %s, sent %s, wanted "
           "the axis and [('multi 2', 'u2')]" % (code, seen, up))
 
-    print("\nTwo recordings without a picture, the tick on")
-    offered = listed([], True)
-    check("the list offers the Multitrack preset for tracks on one axis",
-          offered == ["Podcast_Multi"],
-          "the list offers %s, wanted ['Podcast_Multi']" % offered)
+    print("\nTwo recordings without a picture, --multitrack given")
     code, seen, up = run([], "Podcast_Multi", "--multitrack")
     check("the run sends them as one Multitrack production",
           code == 0 and "axis" in seen and up == [("multi 2", "u2")],
@@ -222,10 +238,13 @@ try:
           "the axis and [('multi 2', 'u2')]" % (code, seen, up))
 
     print("\nOne recording without a picture")
-    offered = listed([], False, names=("Guest",))
+    offered, lines = listed([], names=("Guest",))
     check("the list offers the Singletrack preset for one recording alone",
           offered == ["Podcast_Single"],
           "the list offers %s, wanted ['Podcast_Single']" % offered)
+    check("the line under the list says Singletrack, and why, for one",
+          SINGLE_WHY in lines,
+          "the page shows %r, wanted %r among them" % (lines, SINGLE_WHY))
     code, seen, up = run([], "Podcast_Single", names=("Guest",))
     check("the run sends one recording as a Singletrack production",
           code == 0 and up == [("single", "u1")],

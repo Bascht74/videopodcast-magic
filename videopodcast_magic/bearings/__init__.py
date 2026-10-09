@@ -2249,65 +2249,6 @@ def camera_output_name(production, camera, speaker=()):
     return without_repeated_words(name)
 
 
-def cameras_as_tracks(args):
-    """How many cameras contribute their own audio as a track.
-
-    Not a property of the command line but of the material: the answer
-    travels in the assignment file, and without one it is none.
-    """
-    path = getattr(args, "assign", None)
-    if not path or not os.path.exists(path):
-        return 0
-    try:
-        with open(path, encoding="utf-8") as f:
-            d = json.load(f)
-    except (ValueError, OSError):
-        return 0
-    rows = (d.get("tracks_of") if isinstance(d, dict) else d) or []
-    return sum(1 for e in rows if isinstance(e, dict)
-               and (e.get("camera_audio") or e.get("own_audio")
-                    or e.get("from_camera")))
-
-
-def check_mode_fits_input(audio_paths, args):
-    """Report whether the selection fits the mode. Returns a message or None.
-
-    Recordings are counted, not files: three blocks from one recorder are
-    one source. A camera counts once the assignment marks its audio as a
-    track, so one microphone recording and two cameras with their own
-    sound are three tracks. Several cameras are allowed but not required.
-    """
-    if not args.multitrack:
-        return None
-    chains = len(group_recording_parts(audio_paths, args.no_follow_ups,
-                                       getattr(args, "apart", ()),
-                                       getattr(args, "together", ())))
-    chains += cameras_as_tracks(args)
-    if chains < 2:
-        return as_warn(
-            T('MULTITRACK NOT POSSIBLE\n  At least two input tracks are '
-              'needed, and only %s was found.\n  A track is a recording of '
-              'its own, a channel of a multichannel\n  recorder, or the '
-              'audio of a camera -- that counts as soon as its\n  Camera '
-              'audio says "use internal audio". Without two of them '
-              'there\n  '
-              'is nothing to decouple, and the same file runs through as an\n'
-              '  ordinary production.')
-            % number_text(chains, 0))
-    # A key is only needed where something is going to be sent. With
-    # --auphonic-done the tracks are finished and lie in a folder.
-    brings_own = bool(getattr(args, "auphonic_done", None))
-    if (not args.auphonic_key
-            and not getattr(args, "without_auphonic", False)
-            and not brings_own):
-        return as_warn(T('MULTITRACK NOT POSSIBLE\n  Without an API key '
-                         'there is nothing to send to auphonic.com.\n  With '
-                         '--without-auphonic it runs locally instead: '
-                         'aligned,\n  mixed and cut, but without de-bleed '
-                         'and leveler.'))
-    return None
-
-
 def named_people(pairs):
     """The people in these (name, camera) pairs who have both.
 
@@ -2365,17 +2306,16 @@ def assignment_pairs(voice_rows, assign_rows=()):
             + [(nv.get(), cv.get()) for _r, nv, cv in assign_rows])
 
 
-def cut_title_of(voice_rows, multitrack_on, assign_rows=(), cameras=0):
+def cut_title_of(voice_rows, assign_rows=(), cameras=0):
     """The name the cut box carries, read off the assignment sheet.
 
     The preview box stands beside it and has to say the same, so both
     names are worked out in one place.
     """
-    return cut_box_title(assignment_pairs(voice_rows, assign_rows),
-                         bool(multitrack_on), cameras)
+    return cut_box_title(assignment_pairs(voice_rows, assign_rows), cameras)
 
 
-def cut_kind_of(pairs, multitrack_on=False, cameras=0):
+def cut_kind_of(pairs, cameras=0):
     """Which of the three things this cut is: "cameras", "wide", "speakers".
 
     Between two cameras the picture changes hands; on one camera the cut
@@ -2387,21 +2327,20 @@ def cut_kind_of(pairs, multitrack_on=False, cameras=0):
     on_camera = set(c for n, c in pairs
                     if (n or "").strip()
                     and c not in (IGNORE_AUDIO, MIX_ONLY))
-    # Nothing separated yet says nothing about what will come of it, and
-    # with Multitrack the pairs hold only the voices of the separation.
-    if multitrack_on or not on_camera or len(on_camera) > 1:
+    # Nothing separated yet says nothing about what will come of it.
+    if not on_camera or len(on_camera) > 1:
         return "cameras"
     if len(named_people(pairs)) < 2 and cameras >= 2:
         return "wide"
     return "speakers"
 
 
-def cut_box_title(pairs, multitrack_on=False, cameras=0):
+def cut_box_title(pairs, cameras=0):
     """What the cut box in the window is called."""
     return {"cameras": T('Camera cut'),
             "wide": T('Cut with the wide shot'),
             "speakers": T('First cut by speaker')}[
-                cut_kind_of(pairs, multitrack_on, cameras)]
+                cut_kind_of(pairs, cameras)]
 
 
 def cut_log_heading(pairs, cameras=0):
@@ -2413,7 +2352,7 @@ def cut_log_heading(pairs, cameras=0):
     cut_kind_of cannot tell "not yet" from "never".
     """
     kind = ("speakers" if not named_people(pairs)
-            else cut_kind_of(pairs, False, cameras))
+            else cut_kind_of(pairs, cameras))
     return {"cameras": T('\nCAMERA CUT'),
             "wide": T('\nCUT WITH THE WIDE SHOT'),
             "speakers": T('\nFIRST CUT BY SPEAKER')}[kind]

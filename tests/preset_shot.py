@@ -88,15 +88,7 @@ def step():
             g.grab().save(OUT + "/2_checked.png")
             b.setCurrentText(vpm.label_of(vpm.PRESET_NONE))
             app.processEvents()
-            multitrack = vpm.T('Multitrack (one track per speaker)')
-            # Without files the assignment sheet is in no window yet, so
-            # the tick is found over every widget rather than over one.
-            multi = [w for w in app.allWidgets()
-                     if isinstance(w, QtWidgets.QCheckBox)
-                     and w.text().startswith(multitrack)][0]
-            print("3. Entry chosen:", repr(b.currentText()),
-                  "| Multitrack on:", multi.isChecked(),
-                  "| enabled:", multi.isEnabled())
+            print("3. Entry chosen:", repr(b.currentText()))
             g.grab().save(OUT + "/3_without_auphonic.png")
             print("\ndone"); app.quit(); return
     except Exception as e:

@@ -413,9 +413,6 @@ msgstr "Anahtar Zinciri"
 msgid "Measuring time axis ..."
 msgstr "Zaman ekseni ölçülüyor ..."
 
-msgid "Multitrack (one track per speaker)"
-msgstr "Çok izli (konuşmacı başına bir iz)"
-
 msgid "No files or project opened yet."
 msgstr "Henüz dosya ya da proje açılmadı."
 
@@ -430,9 +427,6 @@ msgstr "Bir kare geri."
 
 msgid "One second back."
 msgstr "Bir saniye geri."
-
-msgid "Only one speaker"
-msgstr "Yalnızca bir konuşmacı"
 
 msgid "Open result folder"
 msgstr "Sonuç klasörünü aç"
@@ -587,9 +581,6 @@ msgstr "bulunamadı"
 msgid "a recording of its own"
 msgstr "kendine ait bir kayıt"
 
-msgid "Cameras only"
-msgstr "Yalnızca kameralar"
-
 msgid "End %s"
 msgstr "Bitiş %s"
 
@@ -616,9 +607,6 @@ msgstr "Başlangıç %s"
 
 msgid "Take from source files"
 msgstr "Kaynak dosyalardan al"
-
-msgid "Take the camera audio"
-msgstr "Kamera sesini al"
 
 msgid "Transfer"
 msgstr "Aktarım"
@@ -769,9 +757,6 @@ msgstr "Sessizlik"
 
 msgid "Speaker name"
 msgstr "Konuşmacı adı"
-
-msgid "Speaker names"
-msgstr "Konuşmacı adları"
 
 msgid "Ten seconds forward."
 msgstr "On saniye ileri."
@@ -1052,9 +1037,6 @@ msgstr "Ses dosyası belirtilmedi."
 msgid "Unknown extension, skipped: %s"
 msgstr "Bilinmeyen uzantı, atlandı: %s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Birkaç kamera var ama ses dosyası yok. Her kameranın kendi sesi olurdu --\n--multitrack bunun için var. Aksi halde kameraları tek tek verin."
-
 msgid "Not found: %s"
 msgstr "Bulunamadı: %s"
 
@@ -1237,12 +1219,6 @@ msgstr "  Arşivde: %s"
 
 msgid "Auphonic reports %s: %s"
 msgstr "Auphonic bildiriyor %s: %s"
-
-msgid "No Multitrack preset found in the account."
-msgstr "Hesapta Multitrack hazır ayarı bulunamadı."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Hesapta Singletrack hazır ayarı bulunamadı."
 
 msgid "preset does not fit the run"
 msgstr "hazır ayar bu çalıştırmaya uymuyor"
@@ -1481,9 +1457,6 @@ msgstr "Kendi kamerası olmayanlar: %s"
 msgid "   -- that is everybody, so every shot goes to the same camera."
 msgstr "   -- bu herkes demek, dolayısıyla her çekim aynı kameraya gider."
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "ÇOK İZLİ OLMUYOR\n  API anahtarı olmadan auphonic.com’a gönderilecek bir şey yok.\n  --without-auphonic ile bunun yerine yerel çalışır: hizalanır,\n  karıştırılır ve kurgulanır, ama de-bleed ve leveler olmadan."
-
 msgid "\nCAMERA CUT"
 msgstr "\nKAMERA KURGUSU"
 
@@ -1507,9 +1480,6 @@ msgstr "Ortalamaya uzaklık"
 
 msgid "    %-20s shifted by %s ms%s"
 msgstr "    %-20s %s ms kaydırıldı%s"
-
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "ÇOK İZLİ OLMUYOR\n  En az iki giriş izi gerekli, yalnızca %s bulundu.\n  Bir iz; ayrı bir kayıt, çok kanallı bir kayıt cihazının bir kanalı\n  ya da bir kameranın sesidir -- kamera sesi, Kamera sesi ayarı\n  “sesi kullan” dediği anda sayılır. İkisi olmadan\n  ayrıştırılacak bir şey yoktur ve aynı dosya sıradan bir\n  prodüksiyon olarak geçer."
 
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Kameralar birbirine yakın (parlaklıkta en çok %s adım)."
@@ -2220,18 +2190,6 @@ msgstr "%s ve %s ikisi de %s olarak ayarlı. Bu yalnızca bir dosya olabilir -- 
 msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
 msgstr "%s birden fazla seste duruyor. Bir ad bir kişidir ve kurgu bir kişiyi tek bir kameraya koyar -- aynı adı taşıyan iki ses, iki yerde bulunan tek bir kişi olurdu."
 
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack birden çok iz gerektirir"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack en az iki giriş izi gerektirir. Bir iz; ayrı bir kayıt, çok kanallı bir kayıt cihazının bir kanalı ya da \"sesi kullan\" olarak ayarlanmış bir video dosyasının sesidir. Aynı kaydın birden çok bloğu tek iz sayılır, kenara ayrılmış izler hiç sayılmaz."
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Her satırın bir adı olmalı -- Auphonic'te bu, track ID olur."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Tüm satırlar aynı adı taşıyor -- bu tek bir iz eder, Multitrack ise en az iki iz gerektirir."
-
 msgid "File names"
 msgstr "Dosya adları"
 
@@ -2246,9 +2204,6 @@ msgstr "Hazır ayarları yükleyip birini seçin ya da API Key alanını boş b�
 
 msgid "Names used more than once"
 msgstr "Birden çok kez kullanılan adlar"
-
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Ayrı ses kaydı yok. O zaman %s kameranın sesi kullanılır -- her biri bir iz olur ve Auphonic sızmayı giderir."
 
 msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
 msgstr "Bu adlar birden çok kez geçiyor:\n\n  %s\n\nKayıtlar tek bir izde birleştirilir ve Timecode'larına göre art arda dizilir. Arada kayıt durdurulduysa bu doğrudur."
@@ -2399,9 +2354,6 @@ msgstr "\nSonuçsuz kaldı: %s"
 
 msgid "\nNo usable video file -- without camera audio there is no common time axis."
 msgstr "\nKullanılabilir video dosyası yok -- kamera sesi olmadan ortak zaman ekseni olmaz."
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nBloklar birleştirildikten sonra yalnızca bir iz kalıyor, çok izli mod ise ses başına bir iz ister. İki kişinin tek bir kayıt sanıldığı yerde --apart bir bloğu dışarıda tutar."
 
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline %s alır: aralarındaki en yüksek hız ya da Resolve'un bunun\n  üstündeki bir sonraki hızı. Yukarı dönüştürürken Resolve kareleri tekrarlar,\n  aşağı dönüştürürken atar. Her kamera kendi hızını korur ve kurgu\n  o hızla sayar."
@@ -3927,9 +3879,6 @@ msgstr "  Hangi sesin hangi mikrofona ait olduğu anlaşılamadı, bu yüzden bu
 msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
 msgstr "Bu ad zaten başka birinde. Bir ad bir kişidir ve kurgu bir kişiyi bir kameraya koyar -- lütfen bu sese kendi adını verin."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Tüm kayıtlar aynı adı taşıyor. Bu tek bir iz eder -- Multitrack en az iki ister."
-
 msgid "The model could not be written: %s"
 msgstr "Model yazılamadı: %s"
 
@@ -4062,8 +4011,22 @@ msgstr "Timecode yoksa dosyaların konumu ölçülür."
 msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
 msgstr "Bu proje için ayırmayı kapalı bırakır. Kurgu o zaman eskisi gibi izlerden ya da auphonic.com'dan gelir."
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Henüz kamera kurgusu yok: her birinin bir adı ve bir kamerası olan iki kişi gerekiyor.\nAyrı kayıtlar bunu Çok izli işaretiyle sağlar, bir kaydın Konuşmacı adı alanındaki \"birden çok konuşmacı\" da öyle --\norada bulunan sesler kameralarını kayıtların altındaki tabloda alır.\nYine de bir Resolve projesi oluşturulur -- tüm kameralar ölçülen yerlerinde, Multicam için hazır."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Henüz kamera kurgusu yok: her birinin bir adı ve bir kamerası olan iki kişi "
+"gerekiyor.\n"
+"Ayrı kayıtlar, her biri kendi adıyla, bunu sağlar, bir kaydın Konuşmacı adı "
+"alanındaki \"birden çok konuşmacı\" da öyle --\n"
+"orada bulunan sesler kameralarını kayıtların altındaki tabloda alır.\n"
+"Yine de bir Resolve projesi oluşturulur -- tüm kameralar ölçülen yerlerinde, "
+"Multicam için hazır."
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Bunun için bir çalıştırmanın devir dosyası gerekiyor, ama hiç yok."
@@ -4097,9 +4060,6 @@ msgstr "Yeniden başlatma olmadı. Pencereyi kapatın ve programı daha önce ya
 
 msgid "No newer version found. This one is %s."
 msgstr "Daha yeni bir sürüm bulunamadı. Bu sürüm %s."
-
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Çok izli, yukarıdaki tabloda iki iz gerektirir -- bir kamera, Kamera sesi \"sesi kullan\" olarak ayarlandığında bir iz sayılır."
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s birden fazla konuşmacıda var -- bir ad bir kişidir ve her kişinin kendi adı olmalı."
@@ -4152,9 +4112,6 @@ msgstr "Pencerenin başına atlar."
 msgid "Jumps to the end of the window."
 msgstr "Pencerenin sonuna atlar."
 
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Kişi başına bir ses izi, auphonic.com'a kadar ayrı tutulur.\nOnsuz da çalışır -- o zaman de-bleed ve leveler olmadan.\nİki giriş izi gerekir: kendine ait bir kayıt, çok kanallı bir kayıt cihazının\nbir kanalı ya da \"sesi kullan\" olarak ayarlanmış bir video dosyasının\nsesi. Kamera kurgusunun bu işarete ihtiyacı yok."
-
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Selamlama ve veda sırasında görüntü geniş kalır."
 
@@ -4172,9 +4129,6 @@ msgstr "Bunu algılaması için programı yeniden başlatın."
 
 msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
 msgstr "MIT lisansı, Copyright (c) 2026 Sebastian Lotz. Olduğu gibi, hiçbir türde garanti olmadan verilir."
-
-msgid "One audio recording has no speaker name yet."
-msgstr "Bir ses kaydının henüz konuşmacı adı yok."
 
 msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
 msgstr "%s zaten %s olarak ayarlı ve bir bölümde bundan bir tane olur. Burada farklı yanıt verin ya da önce o dosyadaki işareti kaldırın."
@@ -4226,9 +4180,6 @@ msgstr "Hiçbir şey yazılmadı -- henüz malzeme yok."
 
 msgid "The text for %s could not be fetched."
 msgstr "%s için metin alınamadı."
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Tüm kayıtlar aynı adı taşıyor -- bu tek bir iz eder."
 
 msgid "stays out"
 msgstr "dışarıda kalır"
@@ -5035,9 +4986,6 @@ msgstr "Çıkış noktası son çalıştırmadan beri değişti: o zaman %s, şi
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Prodüksiyon bitti ama tek tek izleri içeren ZIP'in düz bir dosya adı yok"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Birden fazla kamera var ama ses kaydı yok. Her kameranın kendi sesi olurdu -- Çok izli bunun için var. Aksi halde kameralar birer birer."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Arşiv %s dosyasını birden fazla kez içeriyor, bu yüzden içinden hiçbir şey çıkarılmadı."
 
@@ -5211,3 +5159,21 @@ msgstr "hazır miks -- konuşmacı yok, kamera yok"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Konuşma: yalnızca ses yüksekliğine göre yerleştirilir. Kameralarla hiçbir ortak\nyanı olmayan kayıt reddedilir. Karışık: seslerin altında müzik ya da bir miks vardır,\nve ses yüksekliğinin bir şey bulamadığı yerde faz onu yerleştirebilir.\nHazır miks: başka yerde yapılmış stereo miks, karışık ses gibi yerleştirilir. İşlemin kurduğu\nmiksin yerine kamera dosyalarına ve teslime girer --\nkonuşmacı değil, kesilmez, auphonic.com'a gönderilmez.\n\"%s\" altında Konuşma sunulmaz."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Çok izli, çünkü %s iz tek bir zaman ekseninde. Başka bir çok izli hazır ayar "
+"seçilebilir; tek iz için biri dışındaki tüm izleri \"kullanma\" olarak "
+"ayarlayın."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Tek izli, çünkü tek bir iz var. Başka bir tek izli hazır ayar seçilebilir; "
+"çok iz için ikinci bir iz ekleyin -- bir kayıt ya da \"sesi kullan\" olarak "
+"ayarlanmış bir kamera."

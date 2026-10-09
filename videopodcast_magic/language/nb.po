@@ -130,12 +130,6 @@ msgstr "Ingen egen Singletrack-forhåndsinnstilling -- opprett en"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "Ingen egen forhåndsinnstilling -- opprett en på auphonic.com"
 
-msgid "No Multitrack preset found in the account."
-msgstr "Ingen Multitrack-forhåndsinnstilling funnet i kontoen."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Ingen Singletrack-forhåndsinnstilling funnet i kontoen."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "Ingen Multitrack-forhåndsinnstilling i kontoen. Bare disse: %s"
 
@@ -1357,9 +1351,6 @@ msgstr "Tildelingsfilen kan ikke leses: %s"
 msgid "Camera audio not usable: %s"
 msgstr "Kameralyden kan ikke brukes: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK IKKE MULIG\n  Det trengs minst to inngangsspor, og bare %s ble funnet.\n  Et spor er et eget opptak, en kanal fra en flerkanals\n  opptaker eller lyden fra et kamera -- den teller med så snart dets\n  Kameralyd sier \"bruk intern lyd\". Uten to av dem er det\n  ingenting å koble fra hverandre, og den samme filen går gjennom som en\n  vanlig produksjon."
-
 msgid "No preset is called %r."
 msgstr "Ingen forhåndsinnstilling heter %r."
 
@@ -1470,9 +1461,6 @@ msgstr "PROSJEKT LAGRET\n  %s\n  Denne kjøringen kan åpnes igjen senere -- øv
 
 msgid "Presets could not be loaded: %s"
 msgstr "Forhåndsinnstillingene kunne ikke lastes inn: %s"
-
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Flere kameraer, men ingen lydfil. Hvert kamera ville hatt sin egen lyd --\ndet er det --multitrack er til. Ellers ett kamera om gangen."
 
 msgid "The file is NOT recognised as HDR."
 msgstr "Filen gjenkjennes IKKE som HDR."
@@ -1593,9 +1581,6 @@ msgstr "  Vindu:               %s -- alt noe spor hørte"
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: stillhet i %s i starten og %s på slutten"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nBare ett spor er igjen når blokkene er satt sammen, og Multitrack trenger ett per stemme. Der to personer ble tatt for ett opptak, holder --apart en blokk utenfor."
 
 msgid "RECOGNISED PLAN"
 msgstr "GJENKJENT PLAN"
@@ -2047,12 +2032,6 @@ msgstr "Legg til filer ..."
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Justeringen går etter den målte forskyvningen; tidskoden er bare kryssjekken."
 
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Alle opptak bærer samme navn -- det gir ett enkelt spor."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Alle radene bærer samme navn -- det gir ett eneste spor, og Multitrack trenger minst to."
-
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Tildeling: hvilket lydspor hører til hvilket kamera"
 
@@ -2206,9 +2185,6 @@ msgstr "Envelopekurve mislyktes: %s"
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "Envelopekurver og kameralyd forberedes i bakgrunnen."
 
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Hver rad trenger et navn -- hos Auphonic blir det track ID."
-
 msgid "External preview -- the app does not know this format"
 msgstr "Ekstern forhåndsvisning -- appen kjenner ikke dette formatet"
 
@@ -2313,15 +2289,6 @@ msgstr "Manglende lyd %s fylt med stillhet%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Modulen DaVinciResolveScript kan ikke lastes: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Ett lydspor per person, holdt adskilt hele veien til auphonic.com.\nVirker også uten -- da uten de-bleed og nivåutjevner.\nDet krever to inngangsspor: et eget opptak, en kanal fra en\nflerkanals opptaker eller lyden fra en videofil som står på\n\"bruk intern lyd\". Kameraklippingen trenger ikke denne haken."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (ett spor per taler)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack trenger minst to inngangsspor. Et spor er et eget opptak, en kanal fra en flerkanalsopptaker eller lyden fra en videofil som er satt til \"bruk intern lyd\". Flere blokker av samme opptak teller som ett, spor lagt til side ikke i det hele tatt."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Ingen lyd i bruk ennå -- legg til et lydopptak, eller sett Kameralyd for en videofil til \"bruk intern lyd\" i fillisten."
@@ -2461,9 +2428,6 @@ msgstr "Det er ikke påkrevd -- YouTube bruker da standardverdier (Sony BVM-X300
 msgid "Not ready yet:"
 msgstr "Ikke klar ennå:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "Ett lydopptak har ikke noe talernavn ennå."
-
 msgid "One frame back."
 msgstr "Ett bilde tilbake."
 
@@ -2472,9 +2436,6 @@ msgstr "Ett sekund tilbake."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Hvert bilde i fargen til kameraet sitt. Hold musen over for kamera og varighet, klikk for å hoppe."
-
-msgid "Only one speaker"
-msgstr "Bare én taler"
 
 msgid "Open json project file"
 msgstr "Åpne json-prosjektfil"
@@ -2729,9 +2690,6 @@ msgstr "Ingen talere er kjent ennå -- de finnes ut fra sporene så snart denne 
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "De tre tallene er primærfarger, kurve og matrise. Ulike merkinger krever ulike inndata-fargerom i Resolve -- ellers ser det ene kameraet annerledes ut enn det andre."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Det finnes ingen separate lydopptak. Da brukes lyden fra de %s kameraene -- hvert blir et spor, og Auphonic fjerner overhøringen."
-
 msgid "There is no result yet."
 msgstr "Det finnes ikke noe resultat ennå."
 
@@ -2846,8 +2804,22 @@ msgstr "Uten den må hver avspiller gjette, og alle gjetter SDR. Sett i Resolve 
 msgid "Without processing at auphonic.com"
 msgstr "Uten behandling hos auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Det finnes ingen kameraklipping ennå: den krever to personer, hver med et navn og et kamera.\nSeparate opptak gir det med haken Multitrack, og det gjør også \"flere talere\" i feltet Talernavn for et opptak --\nstemmene som finnes der, får kameraet sitt i tabellen under opptakene.\nEt Resolve-prosjekt opprettes uansett -- alle kameraer på sine målte plasser, klare for Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Det finnes ingen kameraklipping ennå: den krever to personer, hver med et "
+"navn og et kamera.\n"
+"Separate opptak gir det, hvert under sitt eget navn, og det gjør også "
+"\"flere talere\" i feltet Talernavn for et opptak --\n"
+"stemmene som finnes der, får kameraet sitt i tabellen under opptakene.\n"
+"Et Resolve-prosjekt opprettes uansett -- alle kameraer på sine målte "
+"plasser, klare for Multicam."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Uten tidskode måles filenes plassering."
@@ -3211,9 +3183,6 @@ msgstr "oversiktsbilde %s, miksen er dets første lydspor"
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s forekommer mer enn én gang. Disse opptakene slås sammen til ett spor og legges etter hverandre etter tidskoden sin -- riktig hvis opptaket ble stoppet innimellom."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Alle opptak bærer samme navn. Det gir ett spor -- Multitrack trenger minst to."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  To kameraer ville gitt samme fil (%s). Det andre ville overskrevet det første."
 
@@ -3280,9 +3249,6 @@ msgstr "et eget opptak"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Legger dette opptaket inn i et annet, med alle blokkene det har.\nBruk det der filnavnene ikke gir søket noe å gå etter."
 
-msgid "Cameras only"
-msgstr "Bare kameraer"
-
 msgid "Curve number %d"
 msgstr "Kurve nummer %d"
 
@@ -3330,9 +3296,6 @@ msgstr "Start %s"
 
 msgid "Take from source files"
 msgstr "Ta fra kildefilene"
-
-msgid "Take the camera audio"
-msgstr "Bruk kameralyden"
 
 msgid "Target: %s"
 msgstr "Mål: %s"
@@ -3532,9 +3495,6 @@ msgstr "Slå dem sammen"
 msgid "Mixing %s"
 msgstr "Mikser %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack trenger to spor i tabellen ovenfor -- et kamera teller som ett så snart Kameralyd for det står på \"bruk intern lyd\"."
-
 msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
 msgstr "Bare ett spor -- sett Kameralyd for et kamera til \"bruk intern lyd\" for å få ett til."
 
@@ -3549,9 +3509,6 @@ msgstr "Brukes den, blir lyden i denne filen et spor som alle andre -- det dukke
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Ingen lyd å arbeide med -- sett Kameralyd for en videofil til \"bruk intern lyd\", eller legg til et lydopptak."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack trenger flere spor"
 
 msgid "Mute."
 msgstr "Slå av lyden."
@@ -3632,9 +3589,6 @@ msgid "Silence"
 msgstr "Stillhet"
 
 msgid "Speaker name"
-msgstr "Talernavn"
-
-msgid "Speaker names"
 msgstr "Talernavn"
 
 msgid "Static metadata"
@@ -3882,9 +3836,6 @@ msgstr "  Sporene brukes slik de ble tatt opp: innrettet, mikset og brakt til\n 
 
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  --without-auphonic og --auphonic-done ble begge angitt. De ferdige sporene vinner: det er ingenting igjen å sende noe sted."
-
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK IKKE MULIG\n  Uten API-nøkkel er det ingenting å sende til auphonic.com.\n  Med --without-auphonic kjører det lokalt i stedet: innrettet,\n  mikset og klippet, men uten fjerning av overhøring og nivåutjevner."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Advarsel: bare %s av %s par målbare. For de øvrige ble det ikke funnet noe øyeblikk der nøyaktig én person snakker, så overhøringen deres blir værende -- talerdeteksjonen er upålitelig her."
@@ -5022,9 +4973,6 @@ msgstr "Ut-punktet er endret siden forrige kjøring: %s da, %s nå. Klippingen o
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Produksjonen er ferdig, men ZIP-en med de enkelte sporene har ikke et enkelt filnavn"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Flere kameraer, men ikke noe lydopptak. Hvert kamera ville hatt sin egen lyd -- det er det Multitrack er til for. Ellers ett kamera etter det andre."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Arkivet inneholder %s mer enn én gang, så ingenting ble tatt ut av det."
 
@@ -5198,3 +5146,21 @@ msgstr "den ferdige miksen -- ingen taler, intet kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Tale: plasseres etter lydstyrken alene. Et opptak som ikke har noe til felles\nmed kameraene, avvises. Blandet: musikk eller en miks ligger under stemmene,\nog der lydstyrken ikke finner noe, kan fasen plassere det.\nFerdig miks: en stereomiks laget et annet sted, plassert som blandet lyd. Den går\ninn i kamerafilene og overleveringen i stedet for kjøringens egen miks --\ningen taler, ikke klippet, ikke sendt til auphonic.com.\nUnder «%s» tilbys ikke Tale."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, fordi %s spor ligger på én tidsakse. En annen "
+"Multitrack-forhåndsinnstilling kan velges; for Singletrack setter du alle "
+"spor unntatt ett til \"ikke bruk\"."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, fordi det er ett spor. En annen Singletrack-forhåndsinnstilling "
+"kan velges; for Multitrack legger du til et spor til -- et opptak, eller et "
+"kamera satt til \"bruk intern lyd\"."

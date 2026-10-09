@@ -18,7 +18,7 @@ done. It stands one step wider now:
 Six windows are built for real, one per case, offscreen, each with a
 project of its own opened in it:
 
-  several recordings, the tick set     cut there   "Camera cut"
+  several recordings                   cut there   "Camera cut"
   one recording, the voices separated  cut there   "Camera cut"
   one recording, one voice, 2 cameras  cut there   "Cut with the wide shot"
   one recording, one voice, 1 camera   cut away    the sentence instead
@@ -78,45 +78,44 @@ SEGMENTS = [["V0", 1.0, 4.0], ["V0", 9.0, 11.5], ["V1", 5.0, 8.0]]
 #
 #   tracks    the audio recordings in the project
 #   cameras   how many of CAMERAS go in
-#   tick      the Multitrack tick
 #   stored    how many voices the stored separation holds
 #   answered  whether somebody answered "several speakers" for it
 #   voices    how many voice rows must then stand in the sheet
 #   cut       whether the cut box and its preview are on the screen
 #   title     what the cut box is called where it is on the screen
 PLAN = {
-    "multitrack": dict(
-        say="several recordings, the tick set",
-        tracks=(ONE_TRACK, TWO_TRACK), cameras=2, tick=True,
+    "several": dict(
+        say="several recordings",
+        tracks=(ONE_TRACK, TWO_TRACK), cameras=2,
         stored=0, answered=False, voices=0,
         cut=True, title='Camera cut'),
     "separated": dict(
         say="one recording, two voices separated",
-        tracks=(ONE_TRACK,), cameras=2, tick=False,
+        tracks=(ONE_TRACK,), cameras=2,
         stored=2, answered=True, voices=2,
         cut=True, title='Camera cut'),
     "one_voice": dict(
         say="one recording, one voice, two cameras",
-        tracks=(ONE_TRACK,), cameras=2, tick=False,
+        tracks=(ONE_TRACK,), cameras=2,
         stored=1, answered=True, voices=1,
         cut=True, title='Cut with the wide shot'),
     "one_camera": dict(
         say="one recording, one voice, one camera",
-        tracks=(ONE_TRACK,), cameras=1, tick=False,
+        tracks=(ONE_TRACK,), cameras=1,
         stored=1, answered=True, voices=1,
         cut=False, title=None),
     "unanswered": dict(
         say="a separation nobody answered for",
-        tracks=(ONE_TRACK,), cameras=2, tick=False,
+        tracks=(ONE_TRACK,), cameras=2,
         stored=2, answered=False, voices=0,
         cut=True, title='Cut with the wide shot'),
     "plain": dict(
         say="one recording, nothing separated",
-        tracks=(ONE_TRACK,), cameras=2, tick=False,
+        tracks=(ONE_TRACK,), cameras=2,
         stored=0, answered=False, voices=0,
         cut=True, title='Cut with the wide shot'),
 }
-CASES = ("multitrack", "separated", "one_voice", "one_camera",
+CASES = ("several", "separated", "one_voice", "one_camera",
          "unanswered", "plain")
 
 # The size the pictures for the manual are taken at. Fixed rather than
@@ -152,7 +151,6 @@ def own_project(case, vpm):
                    for n in wanted],
          "out_folder": os.path.join(own, "Result"),
          "production": "Cut gate",
-         "multitrack": bool(plan["tick"]),
          "assignment": assignment, "preset": ""}
     if plan["stored"]:
         # Stored the way the program stores it, with the fingerprint of
@@ -393,14 +391,6 @@ def look(case):
                     return True
         return False
 
-    def tick(window):
-        """The Multitrack checkbox, so the case can say what it is."""
-        head = drawn(vpm.T('Multitrack (one track per speaker)'))
-        for b in window.findChildren(QtWidgets.QCheckBox):
-            if drawn(b.text()) == head:
-                return b
-        return None
-
     resolve = drawn(vpm.T('Resolve cut')).split()[0]
     result = {"case": case}
     step = [0]
@@ -451,8 +441,6 @@ def look(case):
             result["assignment"] = assignment_of(window)
             result["cameras"] = cameras_of(window)
             result["marked"] = marked_voices(window)
-            box = tick(window)
-            result["tick"] = None if box is None else bool(box.isChecked())
             result["sheet"] = sheet(window, resolve)
             result["first"] = reading(window)
             step[0] = 2
@@ -587,9 +575,6 @@ for case in CASES:
     check("  the camera sheet holds %d camera(s)" % plan["cameras"],
           len(cams["rows"]) == plan["cameras"],
           "%s in a %s" % (json.dumps(cams["rows"]), cams["kind"]))
-    check("  the Multitrack tick is %s"
-          % ("set" if plan["tick"] else "not set"),
-          d.get("tick") is bool(plan["tick"]), str(d.get("tick")))
 
     voices = [v for r in got["rows"] for v in r["voices"]]
     check("  %d voice row(s) under the recording" % plan["voices"],

@@ -94,7 +94,7 @@ def voice_rows(named):
 
 def held(voices, assign=()):
     """What the window's start says on the assignment tab, or None."""
-    return vpm.missing_conditions([FIRST, SECOND], "Pilot", False,
+    return vpm.missing_conditions([FIRST, SECOND], "Pilot",
                                   list(assign), [], voices,
                                   [FIRST, SECOND]).get(22)
 

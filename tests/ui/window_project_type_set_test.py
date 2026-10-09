@@ -6,14 +6,14 @@ strip offers the two and an empty entry; while it is empty Start is
 grey and the footer says so; the first look at the assignment tab asks
 once through the hook a test answers, a look that chose nothing is not
 asked again, a new production asks afresh and the answer lands in the
-field; sync only hides the speaker name column and the Multitrack line
-and greys the cut tab under one sentence, its preview and wide shot
+field; sync only hides the speaker name column and greys the cut
+tab under one sentence, its preview and wide shot
 note standing empty -- and with the speakers go
 "belongs to" and the camera's audio source, while the new file name
 stays, since it names the file on every path, and a camera nobody is
-on is offered its own stem there; back on cut it all returns, and the
-Multitrack tick offers such a camera the full mix instead, a typed
-name staying; the type goes round through the project file; a file from
+on is offered its own stem there; back on cut it all returns, and
+such a camera keeps its stem there too; the type goes round through the
+project file; a file from
 before the question reads as cut and asks nothing, and the full-mix
 name it saved for such a camera gives way to the stem while a name
 typed into it stays; one saved before the answer opens unanswered,
@@ -249,20 +249,6 @@ def file_names():
             for r in range(t.rowCount())}
 
 
-def multitrack_box():
-    """The Multitrack tick itself, by its wording."""
-    for w in win().findChildren(QtWidgets.QCheckBox):
-        if w.text() == vpm.T('Multitrack (one track per speaker)'):
-            return w
-
-
-def multitrack_line():
-    """The line holding the Multitrack tick: what sync only hides."""
-    for w in win().findChildren(QtWidgets.QCheckBox):
-        if w.text() == vpm.T('Multitrack (one track per speaker)'):
-            return w.parentWidget()
-
-
 def group(title):
     for g in win().findChildren(QtWidgets.QGroupBox):
         if g.title() == title:
@@ -439,9 +425,6 @@ def step():
                   names.get("C_camera.mov") == "C_camera",
                   "the field says %r, wanted 'C_camera'; all fields %s"
                   % (names.get("C_camera.mov"), names))
-            check("the Multitrack line is hidden",
-                  multitrack_line().isHidden(),
-                  "hidden %r" % multitrack_line().isHidden())
             check("the Auphonic box stays",
                   not group(vpm.T('Processing at auphonic.com '
                                   '(optional)')).isHidden(),
@@ -483,29 +466,16 @@ def step():
                   and table_hidden(camera_table()) == [],
                   "hidden heads %s in the tree, %s in the camera table"
                   % (head_hidden(t), table_hidden(camera_table())))
-            check("the Multitrack line is back",
-                  not multitrack_line().isHidden(),
-                  "hidden %r" % multitrack_line().isHidden())
             waited_for = preview_ran()
             check("and the preview speaks again",
                   preview_words() != "",
                   "the preview says %r; %s"
                   % (preview_words()[:90], waited_for))
-            t = camera_table()
-            [t.cellWidget(r, 1) for r in range(t.rowCount())
-             if t.item(r, 0).text() == "C_camera.mov"][0].setText(
-                 "Typed_name")
-            multitrack_box().setChecked(True); app.processEvents()
             names = file_names()
-            check("with Multitrack it is offered the full mix instead",
-                  names.get("B_camera.mov") == "B_camera_Audio-Full-Mix",
-                  "the field says %r, wanted 'B_camera_Audio-Full-Mix'; all "
-                  "fields %s" % (names.get("B_camera.mov"), names))
-            check("while a name typed before the tick stays",
-                  names.get("C_camera.mov") == "Typed_name",
-                  "the field says %r, wanted 'Typed_name'; all fields %s"
-                  % (names.get("C_camera.mov"), names))
-            multitrack_box().setChecked(False); app.processEvents()
+            check("on cut too a camera nobody is on keeps its own stem",
+                  names.get("B_camera.mov") == "B_camera",
+                  "the field says %r, wanted 'B_camera'; all fields %s"
+                  % (names.get("B_camera.mov"), names))
             tab_to(2)
             check("the sentence is gone from the cut tab",
                   sync_sentence() is None or sync_sentence().isHidden(),

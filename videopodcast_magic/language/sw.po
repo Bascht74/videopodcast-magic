@@ -134,12 +134,6 @@ msgstr "Huna mpangilio awali wa Singletrack -- unda mmoja"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "Huna mpangilio awali -- unda mmoja kwenye auphonic.com"
 
-msgid "No Multitrack preset found in the account."
-msgstr "Hakuna mpangilio awali wa Multitrack uliopatikana kwenye akaunti."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Hakuna mpangilio awali wa Singletrack uliopatikana kwenye akaunti."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "Hakuna mpangilio awali wa Multitrack kwenye akaunti. Ipo hii tu: %s"
 
@@ -1385,9 +1379,6 @@ msgstr "Faili ya ugawaji haisomeki: %s"
 msgid "Camera audio not usable: %s"
 msgstr "Sauti ya kamera haitumiki: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK HAIWEZEKANI\n  Zinahitajika angalau treki mbili za kuingiza, na imepatikana %s tu.\n  Treki ni rekodi inayojitegemea, chaneli ya kinasa sauti cha chaneli\n  nyingi, au sauti ya kamera -- hiyo inahesabika mara tu\n  Sauti ya kamera yake inaposema \"tumia sauti ya ndani\". Bila mbili kati yake\n  hakuna cha kutenganisha, na faili ileile inapita kama\n  utayarishaji wa kawaida."
-
 msgid "No preset is called %r."
 msgstr "Hakuna mpangilio awali unaoitwa %r."
 
@@ -1498,9 +1489,6 @@ msgstr "MRADI UMEHIFADHIWA\n  %s\n  Uendeshaji huu unaweza kufunguliwa tena baad
 
 msgid "Presets could not be loaded: %s"
 msgstr "Mipangilio awali haikuweza kusomwa: %s"
-
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Kamera kadhaa lakini hakuna faili ya sauti. Kila kamera ingekuwa na sauti yake --\nhiyo ndiyo kazi ya --multitrack. Vinginevyo kamera moja baada ya nyingine."
 
 msgid "The file is NOT recognised as HDR."
 msgstr "Faili HAITAMBULIWI kama HDR."
@@ -1621,9 +1609,6 @@ msgstr "  Masafa ya muda:      %s -- kila kitu ambacho treki yoyote ilisikia"
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: kimya cha %s mwanzoni na %s mwishoni"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nTreki moja tu inabaki baada ya kuunganisha bloku, na multitrack inahitaji moja kwa kila sauti ya mtu. Pale watu wawili walipochukuliwa kuwa rekodi moja, --apart hutoa bloku moja nje yake."
 
 msgid "RECOGNISED PLAN"
 msgstr "MPANGO ULIOTAMBULIWA"
@@ -2081,12 +2066,6 @@ msgstr "Ongeza faili ..."
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Upangaji sawa unafuata msogeo uliopimwa; timecode ni ukaguzi mtambuka tu."
 
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Rekodi zote zina jina moja -- hiyo inakuwa treki moja tu."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Safu zote zina jina moja -- hiyo inakuwa treki moja tu, na Multitrack inahitaji angalau mbili."
-
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Ugawaji: treki ipi ya sauti ni ya kamera ipi"
 
@@ -2240,9 +2219,6 @@ msgstr "Mkunjo wa sauti umeshindwa: %s"
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "Mikunjo ya sauti na sauti ya kamera vinaandaliwa chinichini."
 
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Kila safu inahitaji jina -- kwenye Auphonic linakuwa track ID."
-
 msgid "External preview -- the app does not know this format"
 msgstr "Hakiki ya nje -- programu haijui muundo huu"
 
@@ -2347,15 +2323,6 @@ msgstr "Sauti inayokosekana %s imejazwa kimya%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Moduli DaVinciResolveScript haiwezi kuingizwa: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Treki moja ya sauti kwa kila mtu, zikiwa tofauti hadi auphonic.com.\nInafanya kazi pia bila hiki -- basi bila De-Bleed na Leveler.\nInahitaji treki mbili za ingizo: rekodi tofauti, chaneli ya\nkinasa sauti cha chaneli nyingi, au sauti ya faili ya video iliyowekwa \"tumia\nsauti ya ndani\". Mkato wa kamera hauhitaji alama hii ya tiki."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (treki moja kwa mzungumzaji)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack inahitaji angalau treki mbili za ingizo. Treki ni rekodi tofauti, chaneli ya kinasa sauti cha chaneli nyingi, au sauti ya faili ya video iliyowekwa \"tumia sauti ya ndani\". Bloku kadhaa za rekodi moja huhesabiwa kuwa moja, na treki zilizowekwa kando hazihesabiwi kabisa."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Bado hakuna sauti inayotumika -- ongeza rekodi ya sauti, au weka Sauti ya kamera ya faili ya video kuwa \"tumia sauti ya ndani\" katika orodha ya faili."
@@ -2495,9 +2462,6 @@ msgstr "Si lazima -- basi YouTube hutumia thamani chaguo-msingi (Sony BVM-X300).
 msgid "Not ready yet:"
 msgstr "Bado si tayari:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "Rekodi moja ya sauti bado haina jina la mzungumzaji."
-
 msgid "One frame back."
 msgstr "Fremu moja nyuma."
 
@@ -2506,9 +2470,6 @@ msgstr "Sekunde moja nyuma."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Kila kipande kwa rangi ya kamera yake. Elea juu yake kuona kamera na muda, bofya kuruka."
-
-msgid "Only one speaker"
-msgstr "Mzungumzaji mmoja tu"
 
 msgid "Open json project file"
 msgstr "Fungua faili ya mradi ya json"
@@ -2756,9 +2717,6 @@ msgstr "Bado hakuna wazungumzaji wanaojulikana -- wanatambuliwa kutoka kwenye tr
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "Namba hizo tatu ni rangi za msingi, mkunjo na matriki. Lebo tofauti zinahitaji nafasi tofauti za rangi ya ingizo katika Resolve -- vinginevyo kamera moja itaonekana tofauti na nyingine."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Hakuna rekodi tofauti za sauti. Basi sauti za kamera zote %s zinatumika -- kila moja inakuwa treki, na Auphonic huondoa uvujaji wa sauti."
-
 msgid "There is no result yet."
 msgstr "Bado hakuna matokeo."
 
@@ -2879,8 +2837,24 @@ msgstr "Bila hiyo kila kicheza lazima kikisie, na vyote vinakisia SDR. Katika Re
 msgid "Without processing at auphonic.com"
 msgstr "Bila uchakataji katika auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Bado hakuna mkato wa kamera: unahitaji watu wawili, kila mmoja na jina na kamera.\nRekodi tofauti hutoa hilo kwa alama ya tiki ya Multitrack, vivyo hivyo \"wazungumzaji kadhaa\" katika sehemu ya Jina la mzungumzaji ya rekodi moja --\nsauti za watu zinazopatikana hapo hupata kamera zao katika jedwali chini ya rekodi.\nMradi wa Resolve unaundwa hata hivyo -- kamera zote kwenye nafasi zao zilizopimwa, tayari kwa Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Bado hakuna mkato wa kamera: unahitaji watu wawili, kila mmoja na jina na "
+"kamera.\n"
+"Rekodi tofauti hutoa hilo, kila moja kwa jina lake, vivyo hivyo "
+"\"wazungumzaji kadhaa\" katika sehemu ya Jina la mzungumzaji ya rekodi moja "
+"--\n"
+"sauti za watu zinazopatikana hapo hupata kamera zao katika jedwali chini ya "
+"rekodi.\n"
+"Mradi wa Resolve unaundwa hata hivyo -- kamera zote kwenye nafasi zao "
+"zilizopimwa, tayari kwa Multicam."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Bila timecode, nafasi ya faili hupimwa."
@@ -3256,9 +3230,6 @@ msgstr "picha pana %s, mchanganyiko ni treki yake ya kwanza ya sauti"
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  Jina linatokea zaidi ya mara moja: %s. Rekodi hizi zinaunganishwa kuwa treki moja na kupangwa kwa mfuatano kwa timecode yao -- sahihi ikiwa kurekodi kulisimamishwa katikati."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Rekodi zote zina jina moja. Hilo linatoa treki moja -- Multitrack inahitaji angalau mbili."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Kamera mbili zingetoa faili moja (%s). Ya pili ingeandika juu ya ya kwanza."
 
@@ -3325,9 +3296,6 @@ msgstr "rekodi yake yenyewe"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Huweka rekodi hii ndani ya nyingine, pamoja na bloku zake zote.\nTumia hii pale ambapo majina ya faili hayaupi utafutaji chochote cha kufuata."
 
-msgid "Cameras only"
-msgstr "Kamera pekee"
-
 msgid "Curve number %d"
 msgstr "Mkunjo namba %d"
 
@@ -3378,9 +3346,6 @@ msgstr "Mwanzo %s"
 
 msgid "Take from source files"
 msgstr "Chukua kutoka faili chanzo"
-
-msgid "Take the camera audio"
-msgstr "Chukua sauti ya kamera"
 
 msgid "Target: %s"
 msgstr "Folda lengwa: %s"
@@ -3589,9 +3554,6 @@ msgstr "Ziunganishe"
 msgid "Mixing %s"
 msgstr "Kuchanganya %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack inahitaji treki mbili kwenye jedwali lililo juu -- kamera inahesabiwa kuwa moja pindi Sauti ya kamera yake inapowekwa kuwa \"tumia sauti ya ndani\"."
-
 msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
 msgstr "Treki moja tu -- weka Sauti ya kamera ya kamera moja kuwa \"tumia sauti ya ndani\" ili kupata treki ya pili."
 
@@ -3612,9 +3574,6 @@ msgstr "Ikitumika, sauti ya faili hii inakuwa treki kama nyingine yoyote -- inao
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Hakuna sauti ya kufanyia kazi -- weka Sauti ya kamera ya faili ya video kuwa \"tumia sauti ya ndani\", au ongeza rekodi ya sauti."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack inahitaji treki kadhaa"
 
 msgid "Mute."
 msgstr "Hunyamazisha."
@@ -3720,9 +3679,6 @@ msgstr "Kimya"
 
 msgid "Speaker name"
 msgstr "Jina la mzungumzaji"
-
-msgid "Speaker names"
-msgstr "Majina ya wazungumzaji"
 
 msgid "Static metadata"
 msgstr "Metadata tuli"
@@ -3975,9 +3931,6 @@ msgstr "  Treki zinatumika kama zilivyorekodiwa: zimepangwa sawa, zimechanganywa
 
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  --without-auphonic na --auphonic-done zimetolewa zote mbili. Treki zilizokamilika zinashinda: hakuna kilichobaki cha kutuma popote."
-
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK HAIWEZEKANI\n  Bila ufunguo wa API hakuna cha kutuma kwa auphonic.com.\n  Kwa --without-auphonic inaendeshwa kwenye kompyuta hii badala yake: imepangwa sawa,\n  imechanganywa na kukatwa, lakini bila De-Bleed na Leveler."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Tahadhari: jozi %s tu kati ya %s zinapimika. Kwa zilizobaki hakuna wakati uliopatikana ambapo mtu mmoja tu anazungumza, kwa hiyo uvujaji wa sauti wa jozi hizo unabaki -- utambuzi wa wazungumzaji hauaminiki hapa."
@@ -5026,9 +4979,6 @@ msgstr "Alama ya kutoka imebadilika tangu uendeshaji uliopita: %s wakati huo, %s
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Utayarishaji umekamilika, lakini ZIP yenye treki moja moja haina jina la kawaida la faili"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Kamera kadhaa lakini hakuna rekodi ya sauti. Kila kamera ingekuwa na sauti yake -- hiyo ndiyo kazi ya Multitrack. Vinginevyo kamera moja baada ya nyingine."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Jalada lina %s zaidi ya mara moja, kwa hiyo hakuna kilichotolewa ndani yake."
 
@@ -5202,3 +5152,21 @@ msgstr "mchanganyiko uliokamilika -- si mzungumzaji, bila kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Mazungumzo: huwekwa kwa ukubwa wa sauti pekee. Rekodi isiyoshiriki chochote\nna kamera hukataliwa. Mchanganyiko: muziki au mchanganyiko uko chini ya sauti za watu,\nna pale ukubwa wa sauti usipopata kitu, fazi inaweza kuiweka.\nMchanganyiko uliokamilika: mchanganyiko wa stereo uliotengenezwa mahali pengine, huwekwa kama sauti mchanganyiko. Huingia\nkwenye faili za kamera na makabidhiano badala ya mchanganyiko wa uchakataji --\nsi mzungumzaji, haukatwi, hautumwi kwa auphonic.com.\nChini ya \"%s\" Mazungumzo hayatolewi."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, kwa sababu nyimbo %s ziko kwenye mhimili mmoja wa muda. "
+"Mpangilio awali mwingine wa Multitrack unaweza kuchaguliwa; kwa Singletrack, "
+"weka nyimbo zote isipokuwa moja kwenye \"usitumie\"."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, kwa sababu kuna wimbo mmoja. Mpangilio awali mwingine wa "
+"Singletrack unaweza kuchaguliwa; kwa Multitrack, ongeza wimbo wa pili -- "
+"rekodi, au kamera iliyowekwa kwenye \"tumia sauti ya ndani\"."

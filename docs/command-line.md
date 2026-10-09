@@ -6,9 +6,9 @@
 `--help` prints this list too, always in English. Defaults in brackets.
 A switch that only means something where several tracks go up to
 auphonic.com together carries `[multitrack only]` in the tables here;
-`--help` marks it the same way, and `--multitrack` too, and the marker
-stays English whatever the language of the run. Every other switch
-works with the Multitrack tick and without it.
+`--help` marks it the same way, and the marker stays English whatever
+the language of the run. Every other switch works whatever kind of
+production the tracks make.
 
 ```text
 $ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
@@ -84,7 +84,9 @@ The key comes from the account settings into the Keychain, the
 Registry or the desktop's keyring (Linux), once, never onto the command
 line: through the window, or with `--store-auphonic-key`. A stored key
 turns processing on, and a command line with switches but no files then
-only lists the presets.
+only lists the presets -- every one, with its kind behind it where
+auphonic.com says it, since without files there are no tracks to say
+which kind a run needs.
 
 | Switch | Does |
 |---|---|
@@ -93,8 +95,8 @@ only lists the presets.
 | `--auphonic-wait SECONDS` | how long the run waits for auphonic.com to finish; when the time is up the run stops and names the address of the production, which goes on there; once it is finished, a later run takes its result with `--auphonic-resume result`. Higher waits longer (7200, two hours) |
 | `--auphonic-resume WHAT` | production already there: `result`, `rerun`, `adopt`, `upload`, `abort` (the program asks)  `[multitrack only]` |
 | `--auphonic-done FOLDER` | tracks already processed, named after the speakers. The run takes them from there instead of uploading them, and the account keeps its credit |
-| `--multitrack` | every audio file as its own track, so auphonic.com can take the bleed out. Where two tracks or more go up together -- with this switch or without it -- the preset has to be a multitrack preset |
-| `--assign FILE` | JSON saying which audio belongs to which camera, under which speaker names and which are not used; the interface writes it for every run, with Multitrack and without |
+| `--multitrack` | no longer needed, and does nothing; still taken in this version, so that older command lines run. Whether the tracks go up as one Multitrack production follows from the material: two tracks or more on one time axis do, a single track does not, and the preset has to be of that kind. Several cameras without an audio recording give their sound as a track each without it |
+| `--assign FILE` | JSON saying which audio belongs to which camera, under which speaker names and which are not used; the interface writes it for every run |
 | `--without-auphonic` | align, mix and write locally, camera cut from our own speech detection |
 
 ## Setting the time window
@@ -121,7 +123,7 @@ only lists the presets.
 | `--on-uncertain VALUE` | the recognition is uncertain and somebody is speaking: `wide`, `listener`, `alternate`, `hold` -- the picture holds no longer than `--silence-hold`, then the wide shot comes; without a wide shot it holds to the end of the stretch (wide) |
 | `--on-question VALUE` | after a question: `off`, `answer`, `listener` (answer) |
 | `--wide-shot FILE` | this video file is a wide shot: a camera nobody sits in front of, it takes no speaker; repeatable. Without it the cameras with no speaker assigned are the wide shots -- except with `--project-type sync`, where only a camera given here is one |
-| `--new-name FILE NAME` | this video file is written as NAME (the ending is hung on) and its track in the handover carries that name; repeatable. Without it the file's own name. It acts wherever each camera is named after its file, also beside `--speakers-from` or an assignment file that names no cameras. Beside an assignment file that names the cameras (`--assign`), and with `--multitrack` and cameras alone, whose files are named after the tracks taken from their sound, it would be dropped and is refused instead. Refused before anything is written as well: a NAME with a folder or drive separator (`/`, `\`, `:`), beginning with a dot or empty, a FILE that is not one of the cameras or given two names, and two cameras in one file, upper and lower case counting as the same |
+| `--new-name FILE NAME` | this video file is written as NAME (the ending is hung on) and its track in the handover carries that name; repeatable. Without it the file's own name. It acts wherever each camera is named after its file, also beside `--speakers-from` or an assignment file that names no cameras. Beside an assignment file that names the cameras (`--assign`), and with cameras alone, whose files are named after the tracks taken from their sound, it would be dropped and is refused instead. Refused before anything is written as well: a NAME with a folder or drive separator (`/`, `\`, `:`), beginning with a dot or empty, a FILE that is not one of the cameras or given two names, and two cameras in one file, upper and lower case counting as the same |
 | `--speaker-name FILE NAME` | the recording FILE belongs to is spoken by NAME: its track, its lines in the log and the cut carry that name; FILE may be any of its blocks; repeatable. Without it the name is guessed from the file name. The window writes the names into its assignment file instead. Refused before anything is written: beside `--assign`, a FILE that is not one of the recordings or given two names, an empty NAME |
 | `--camera-label FILE NAME` | the run's messages name this video file NAME; repeatable. Without it the file's own name. The window sends it for the second of two files of one name, "(2)" as it shows it |
 | `--wide-after SECONDS` | from this hold time on the program breaks the shot up at a sentence boundary, not by the clock, 0 off (70) |
@@ -194,7 +196,7 @@ chapters.
   `--auphonic-preset "<name of the preset>"`. Without them the second
   word arrives as a file name.
 * **No key stored.** A run that would send to auphonic.com stops before
-  it starts, with `--multitrack` or without it. Store a key once with
+  it starts. Store a key once with
   `--store-auphonic-key`, or let `--without-auphonic` align, mix and cut
   on this machine. A dry run (`--dry-run`) needs no key and goes on to
   the preflight, which says the same.

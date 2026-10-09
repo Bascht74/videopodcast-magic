@@ -401,9 +401,6 @@ msgstr "कीचेन"
 msgid "Measuring time axis ..."
 msgstr "समय-अक्ष मापा जा रहा है ..."
 
-msgid "Multitrack (one track per speaker)"
-msgstr "मल्टीट्रैक (प्रति वक्ता एक ट्रैक)"
-
 msgid "No files or project opened yet."
 msgstr "अभी कोई फ़ाइल या परियोजना नहीं खोली गई।"
 
@@ -418,9 +415,6 @@ msgstr "एक फ़्रेम पीछे।"
 
 msgid "One second back."
 msgstr "एक सेकंड पीछे।"
-
-msgid "Only one speaker"
-msgstr "केवल एक वक्ता"
 
 msgid "Open result folder"
 msgstr "परिणाम फ़ोल्डर खोलें"
@@ -575,9 +569,6 @@ msgstr "नहीं मिला"
 msgid "a recording of its own"
 msgstr "अपनी अलग रिकॉर्डिंग"
 
-msgid "Cameras only"
-msgstr "केवल कैमरे"
-
 msgid "End %s"
 msgstr "अंत %s"
 
@@ -604,9 +595,6 @@ msgstr "आरंभ %s"
 
 msgid "Take from source files"
 msgstr "स्रोत फ़ाइलों से लें"
-
-msgid "Take the camera audio"
-msgstr "कैमरा ऑडियो लें"
 
 msgid "Transfer"
 msgstr "स्थानांतरण"
@@ -757,9 +745,6 @@ msgstr "मौन"
 
 msgid "Speaker name"
 msgstr "वक्ता का नाम"
-
-msgid "Speaker names"
-msgstr "वक्ताओं के नाम"
 
 msgid "Ten seconds forward."
 msgstr "दस सेकंड आगे।"
@@ -1040,9 +1025,6 @@ msgstr "कोई ऑडियो फ़ाइल नहीं दी गई।"
 msgid "Unknown extension, skipped: %s"
 msgstr "अज्ञात एक्सटेंशन, छोड़ा गया: %s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "कई कैमरे, पर कोई ऑडियो फ़ाइल नहीं। हर कैमरे का अपना ऑडियो होगा --\n--multitrack इसी के लिए है। नहीं तो एक के बाद एक कैमरा।"
-
 msgid "Not found: %s"
 msgstr "नहीं मिला: %s"
 
@@ -1225,12 +1207,6 @@ msgstr "  आर्काइव में: %s"
 
 msgid "Auphonic reports %s: %s"
 msgstr "Auphonic रिपोर्ट करता है %s: %s"
-
-msgid "No Multitrack preset found in the account."
-msgstr "खाते में कोई Multitrack प्रीसेट नहीं मिला।"
-
-msgid "No Singletrack preset found in the account."
-msgstr "खाते में कोई Singletrack प्रीसेट नहीं मिला।"
 
 msgid "preset does not fit the run"
 msgstr "प्रीसेट इस रन के अनुकूल नहीं"
@@ -1469,9 +1445,6 @@ msgstr "जिनका अपना कैमरा नहीं: %s"
 msgid "   -- that is everybody, so every shot goes to the same camera."
 msgstr "   -- यानी सभी, इसलिए हर शॉट एक ही कैमरे पर जाता है।"
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "मल्टीट्रैक संभव नहीं\n  API कुंजी के बिना auphonic.com को भेजने के लिए कुछ नहीं है।\n  --without-auphonic के साथ यह इसके बजाय स्थानीय रूप से चलता है: संरेखित,\n  मिक्स और कट किया हुआ, पर De-Bleed और Leveler के बिना।"
-
 msgid "\nCAMERA CUT"
 msgstr "\nकैमरा कट"
 
@@ -1495,9 +1468,6 @@ msgstr "औसत से दूरी"
 
 msgid "    %-20s shifted by %s ms%s"
 msgstr "    %-20s को %s ms खिसकाया गया%s"
-
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "मल्टीट्रैक संभव नहीं\n  कम से कम दो इनपुट ट्रैक चाहिए, और केवल %s मिला।\n  ट्रैक एक अलग रिकॉर्डिंग है, किसी मल्टीचैनल रिकॉर्डर का\n  एक चैनल, या किसी कैमरे का ऑडियो -- यह तभी गिना जाता है जब उसका\n  कैमरा ऑडियो “ऑडियो का उपयोग करें” कहता है। इनमें से दो के बिना\n  अलग करने को कुछ नहीं है, और वही फ़ाइल एक\n  सामान्य प्रोडक्शन के रूप में चलती है।"
 
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  कैमरे एक-दूसरे के करीब हैं (अधिकतम %s चमक-स्तर)।"
@@ -2208,18 +2178,6 @@ msgstr "%s और %s दोनों %s पर सेट हैं। ऐसी 
 msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
 msgstr "%s एक से अधिक आवाज़ पर लगा है। एक नाम एक व्यक्ति है, और कट एक व्यक्ति को एक कैमरे पर रखता है -- एक नाम की दो आवाज़ें एक व्यक्ति को दो जगह रख देंगी।"
 
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack को कई ट्रैक चाहिए"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack को कम से कम दो इनपुट ट्रैक चाहिए। ट्रैक एक अलग रिकॉर्डिंग है, मल्टीचैनल रिकॉर्डर का एक चैनल, या किसी वीडियो फ़ाइल का ऑडियो जो \"ऑडियो का उपयोग करें\" पर सेट है। एक ही रिकॉर्डिंग के कई खंड एक गिने जाते हैं, अलग रखे गए ट्रैक बिल्कुल नहीं।"
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "हर पंक्ति को एक नाम चाहिए -- Auphonic में यही track ID बनता है।"
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "सभी पंक्तियों का नाम एक ही है -- इससे एक ही ट्रैक बनता है, और Multitrack को कम से कम दो चाहिए।"
-
 msgid "File names"
 msgstr "फ़ाइल नाम"
 
@@ -2234,9 +2192,6 @@ msgstr "प्रीसेट लोड करें और एक चुने�
 
 msgid "Names used more than once"
 msgstr "एक से अधिक बार प्रयुक्त नाम"
-
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "कोई अलग ऑडियो रिकॉर्डिंग नहीं है। तब %s कैमरों का ऑडियो उपयोग होता है -- हर एक ट्रैक बनता है, और Auphonic रिसाव हटा देता है।"
 
 msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
 msgstr "ये नाम एक से अधिक बार आते हैं:\n\n  %s\n\nरिकॉर्डिंग एक ट्रैक में मिला दी जाती हैं और उनके टाइमकोड के अनुसार एक के बाद एक रखी जाती हैं। यह सही है यदि बीच में रिकॉर्डिंग रोकी गई थी।"
@@ -2387,9 +2342,6 @@ msgstr "\nबिना परिणाम के समाप्त: %s"
 
 msgid "\nNo usable video file -- without camera audio there is no common time axis."
 msgstr "\nकोई उपयोगी वीडियो फ़ाइल नहीं -- कैमरा ऑडियो के बिना कोई साझा समय-अक्ष नहीं।"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nखंड जोड़ने के बाद केवल एक ट्रैक बचता है, और Multitrack को हर आवाज़ के लिए एक चाहिए। जहाँ दो लोगों को एक रिकॉर्डिंग मान लिया गया, वहाँ --apart एक खंड को उससे बाहर रखता है।"
 
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline को %s मिलता है: इनमें सबसे ऊँची, या उसके ऊपर Resolve की\n  अगली दर। ऊपर बदलने पर Resolve फ़्रेम दोहराता है, नीचे बदलने पर\n  उन्हें हटा देता है। हर कैमरा अपनी दर रखता है, और कट उसी में\n  गिनता है।"
@@ -3915,9 +3867,6 @@ msgstr "  कौन-सी आवाज़ किस माइक्रोफ़
 msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
 msgstr "यह नाम पहले से किसी और का है। एक नाम एक व्यक्ति है, और कट एक व्यक्ति को एक कैमरे पर रखता है -- कृपया इस आवाज़ को अपना अलग नाम दें।"
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  सभी रिकॉर्डिंग का नाम एक ही है। इससे एक ट्रैक बनता है -- Multitrack को कम से कम दो चाहिए।"
-
 msgid "The model could not be written: %s"
 msgstr "मॉडल लिखा नहीं जा सका: %s"
 
@@ -4050,8 +3999,22 @@ msgstr "टाइमकोड के बिना फ़ाइलों की �
 msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
 msgstr "इस परियोजना के लिए पृथक्करण बंद रखता है। तब कट पहले की तरह ट्रैकों से या auphonic.com से आता है।"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "अभी कोई कैमरा कट नहीं है: इसके लिए दो लोग चाहिए, हर एक का एक नाम और एक कैमरा।\nअलग रिकॉर्डिंग यह Multitrack टिक से देती हैं, और किसी एक रिकॉर्डिंग के वक्ता का नाम फ़ील्ड में \"कई वक्ता\" भी --\nवहाँ मिली आवाज़ों को रिकॉर्डिंग के नीचे की तालिका में उनका कैमरा मिलता है।\nResolve परियोजना फिर भी बनती है -- सभी कैमरे अपनी मापी गई जगहों पर, Multicam के लिए तैयार।"
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"अभी कोई कैमरा कट नहीं है: इसके लिए दो लोग चाहिए, हर एक का एक नाम और एक "
+"कैमरा।\n"
+"अलग रिकॉर्डिंग, हर एक अपने नाम से, यह देती हैं, और किसी एक रिकॉर्डिंग के "
+"वक्ता का नाम फ़ील्ड में \"कई वक्ता\" भी --\n"
+"वहाँ मिली आवाज़ों को रिकॉर्डिंग के नीचे की तालिका में उनका कैमरा मिलता है।\n"
+"Resolve परियोजना फिर भी बनती है -- सभी कैमरे अपनी मापी गई जगहों पर, Multicam "
+"के लिए तैयार।"
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "इसके लिए किसी रन की सौंपने वाली फ़ाइल चाहिए, और वह नहीं है।"
@@ -4085,9 +4048,6 @@ msgstr "फिर से शुरू करना काम नहीं आय
 
 msgid "No newer version found. This one is %s."
 msgstr "कोई नया संस्करण नहीं मिला। यह %s है।"
-
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack को ऊपर की तालिका में दो ट्रैक चाहिए -- कैमरा तब एक गिना जाता है जब उसका कैमरा ऑडियो \"ऑडियो का उपयोग करें\" पर सेट हो।"
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s एक से अधिक वक्ता पर है -- एक नाम एक व्यक्ति है, और हर व्यक्ति को अपना नाम चाहिए।"
@@ -4140,9 +4100,6 @@ msgstr "विंडो की शुरुआत पर जाता है।"
 msgid "Jumps to the end of the window."
 msgstr "विंडो के अंत पर जाता है।"
 
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "हर व्यक्ति के लिए एक ऑडियो ट्रैक, auphonic.com तक अलग रखा गया।\nइसके बिना भी काम करता है -- तब De-Bleed और Leveler के बिना।\nइसके लिए दो इनपुट ट्रैक चाहिए: एक अलग रिकॉर्डिंग, मल्टीचैनल\nरिकॉर्डर का एक चैनल, या \"ऑडियो का उपयोग करें\" पर सेट\nकिसी वीडियो फ़ाइल का ऑडियो। कैमरा कट को इस टिक की ज़रूरत नहीं।"
-
 msgid "During greeting and farewell the picture stays wide."
 msgstr "अभिवादन और विदाई के दौरान चित्र वाइड रहता है।"
 
@@ -4160,9 +4117,6 @@ msgstr "इसे लागू करने के लिए प्रोग्�
 
 msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
 msgstr "MIT लाइसेंस, Copyright (c) 2026 Sebastian Lotz. जैसा है वैसा सौंपा गया, किसी भी प्रकार की वारंटी के बिना।"
-
-msgid "One audio recording has no speaker name yet."
-msgstr "एक ऑडियो रिकॉर्डिंग का अभी कोई वक्ता नाम नहीं है।"
 
 msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
 msgstr "%s पहले से %s के रूप में सेट है, और एक एपिसोड में ऐसा एक ही होता है। यहाँ कुछ और उत्तर दें, या पहले उस फ़ाइल से निशान हटाएँ।"
@@ -4214,9 +4168,6 @@ msgstr "कुछ नहीं लिखा गया -- अभी कोई स
 
 msgid "The text for %s could not be fetched."
 msgstr "%s का पाठ प्राप्त नहीं किया जा सका।"
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "सभी रिकॉर्डिंग का नाम एक ही है -- इससे एक ही ट्रैक बनता है।"
 
 msgid "stays out"
 msgstr "बाहर रहता है"
@@ -5023,9 +4974,6 @@ msgstr "आउट पॉइंट पिछले रन के बाद बद
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "प्रोडक्शन पूरा हुआ, पर अलग-अलग ट्रैकों वाली ZIP का कोई सादा फ़ाइल नाम नहीं"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "कई कैमरे, पर कोई ऑडियो रिकॉर्डिंग नहीं। हर कैमरे का अपना ऑडियो होगा -- मल्टीट्रैक इसी के लिए है। नहीं तो एक के बाद एक कैमरा।"
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "आर्काइव में %s एक से अधिक बार है, इसलिए उसमें से कुछ नहीं निकाला गया।"
 
@@ -5199,3 +5147,21 @@ msgstr "तैयार मिक्स -- वक्ता नहीं, कै�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "वाणी: केवल लाउडनेस से रखी जाती है। जिस रिकॉर्डिंग में कैमरों से कुछ भी\nसाझा नहीं, उसे अस्वीकार किया जाता है। मिश्रित: आवाज़ों के नीचे संगीत या मिक्स है,\nऔर जहाँ लाउडनेस कुछ नहीं पाती, वहाँ फ़ेज़ उसे रख सकता है।\nतैयार मिक्स: कहीं और बना स्टीरियो मिक्स, मिश्रित ध्वनि की तरह रखा जाता है। यह प्रोसेसिंग के मिक्स की जगह\nकैमरा फ़ाइलों और हस्तांतरण में जाता है --\nवक्ता नहीं, काटा नहीं जाता, auphonic.com को नहीं भेजा जाता।\n\"%s\" में वाणी का विकल्प नहीं मिलता।"
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"मल्टीट्रैक, क्योंकि %s ट्रैक एक ही समय-अक्ष पर हैं। कोई दूसरा Multitrack "
+"प्रीसेट चुना जा सकता है; सिंगलट्रैक के लिए एक को छोड़कर सभी ट्रैक \"उपयोग न "
+"करें\" पर रखें।"
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"सिंगलट्रैक, क्योंकि एक ही ट्रैक है। कोई दूसरा Singletrack प्रीसेट चुना जा "
+"सकता है; मल्टीट्रैक के लिए दूसरा ट्रैक जोड़ें -- एक रिकॉर्डिंग, या \"ऑडियो "
+"का उपयोग करें\" पर रखा कैमरा।"

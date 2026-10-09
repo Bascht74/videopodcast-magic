@@ -4041,8 +4041,7 @@ def speech_table_fill(Qt, QtGui, QtWidgets, table, d):
 
 
 def assignment_marks_show(audio_fields, assign_lines, video_fields,
-                          camera_lines, multitrack_on, state,
-                          voice_lines=()):
+                          camera_lines, state, voice_lines=()):
     """Mark the trouble spots red, and say beside the tables what they are.
 
     Three things are caught before they do damage: two recordings under
@@ -4082,12 +4081,7 @@ def assignment_marks_show(audio_fields, assign_lines, video_fields,
                   'a person, and the cut puts a person on one '
                   'camera -- please give this voice its own.'))
     if audio_reason is not None:
-        if duplicate and multitrack_on and len(set(names)) < 2:
-            audio_reason.setText(
-                T('✕  All recordings carry the same name. That makes '
-                  'one track -- Multitrack needs at least two.'))
-            audio_reason.setVisible(True)
-        elif duplicate:
+        if duplicate:
             audio_reason.setText(
                 T('✕  %s occurs more than once. These recordings are '
                   'merged into one track and placed in sequence by '
@@ -4121,7 +4115,7 @@ def assignment_marks_show(audio_fields, assign_lines, video_fields,
 
 
 def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
-                    files, remembered, state, tree_open, multitrack, player,
+                    files, remembered, state, tree_open, player,
                     assignment_check, player_load, speaker_split_kick_off,
                     voices_of):
     """The rows of the assignment tree, and the voices under them.
@@ -4133,7 +4127,7 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
     the module, not the widget.
     """
     def assignment_state_show():
-        """What the material allows: the cut box, and the tick's line.
+        """What the material allows: the cut box, and what Sync greys.
 
         The camera cut needs speakers told apart, and whether they came
         of separate tracks or of one recording taken apart is no part of
@@ -4145,8 +4139,8 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
         if boxes:
             pairs = assignment_pairs(voice_lines, assign_lines)
             seen = len(camera_lines)
-            on = bool(multitrack.get()) or cut_has_people(pairs, seen)
-            boxes[0].setTitle(cut_box_title(pairs, multitrack.get(), seen))
+            on = cut_has_people(pairs, seen)
+            boxes[0].setTitle(cut_box_title(pairs, seen))
             # Sync only: the boxes stand, greyed, under one sentence
             # saying why -- a tab gone empty says nothing.
             boxes[0].setVisible(on or sync_only)
@@ -4154,20 +4148,13 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
             boxes[2].setVisible(not on and not sync_only)
         parts = state.get("sync_parts")
         if parts:
-            note, speaker_box, multitrack_bar, split_line = parts
+            note, speaker_box, split_line = parts
             note.setVisible(sync_only)
             for box in (boxes[0], boxes[1], speaker_box):
                 box.setEnabled(not sync_only)
-            multitrack_bar.setVisible(not sync_only)
             # Shown again by the separation's own line, in cut.
             if sync_only:
                 split_line.setVisible(False)
-        note = state.get("multitrack_note")
-        if note is not None:
-            used = [r for r in assign_lines if r[2].get() != IGNORE_AUDIO]
-            note.setText(multitrack_state_note(
-                len(used), sum(1 for _b, _nv, own, _n in camera_lines
-                               if not own.get())))
 
     def voice_play(key):
         """Hand that voice to the player on the right.

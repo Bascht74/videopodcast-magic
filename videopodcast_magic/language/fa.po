@@ -133,12 +133,6 @@ msgstr "پیش‌تنظیم Singletrack شخصی ندارید -- یکی بساز
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "پیش‌تنظیم شخصی ندارید -- در auphonic.com یکی بسازید"
 
-msgid "No Multitrack preset found in the account."
-msgstr "هیچ پیش‌تنظیم Multitrack در حساب پیدا نشد."
-
-msgid "No Singletrack preset found in the account."
-msgstr "هیچ پیش‌تنظیم Singletrack در حساب پیدا نشد."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "هیچ پیش‌تنظیم Multitrack در حساب نیست. فقط این‌ها هست: %s"
 
@@ -1384,9 +1378,6 @@ msgstr "فایل تخصیص خوانا نیست: %s"
 msgid "Camera audio not usable: %s"
 msgstr "صدای دوربین قابل استفاده نیست: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "Multitrack ممکن نیست\n  دست‌کم دو ترک ورودی لازم است و فقط %s پیدا شد.\n  یک ترک یعنی یک ضبط جداگانه، یک کانال از یک ضبط‌کننده\n  چندکاناله، یا صدای یک دوربین -- که از وقتی به حساب می‌آید که\n  صدای دوربین آن «استفاده از صدای داخلی» باشد. بدون دو تا از آن‌ها\n  چیزی برای جداسازی نیست و همان فایل به‌صورت یک\n  تولید معمولی پردازش می‌شود."
-
 msgid "No preset is called %r."
 msgstr "هیچ پیش‌تنظیمی با نام %r وجود ندارد."
 
@@ -1497,9 +1488,6 @@ msgstr "پروژه ذخیره شد\n  %s\n  این اجرا را می‌توان
 
 msgid "Presets could not be loaded: %s"
 msgstr "پیش‌تنظیم‌ها دریافت نشدند: %s"
-
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "چند دوربین اما بدون فایل صوتی. هر دوربین صدای خودش را خواهد داشت --\n--multitrack برای همین است. وگرنه یک دوربین پس از دیگری."
 
 msgid "The file is NOT recognised as HDR."
 msgstr "فایل به‌عنوان HDR شناخته نمی‌شود."
@@ -1620,9 +1608,6 @@ msgstr "  بازه زمانی:          %s -- هر آنچه هر ترکی شنی
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: سکوت به مدت %s در ابتدا و %s در انتها"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nپس از پیوستن بلوک‌ها فقط یک ترک باقی می‌ماند، و Multitrack برای هر صدا یک ترک لازم دارد. جایی که دو نفر به‌عنوان یک ضبط در نظر گرفته شده‌اند، --apart یک بلوک را بیرون از آن نگه می‌دارد."
 
 msgid "RECOGNISED PLAN"
 msgstr "طرح شناسایی‌شده"
@@ -2080,12 +2065,6 @@ msgstr "افزودن فایل ..."
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "هم‌ترازی بر اساس آفست اندازه‌گیری‌شده است؛ تایم‌کد فقط برای بررسی متقابل است."
 
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "همه ضبط‌ها نام یکسانی دارند -- از آن فقط یک ترک ساخته می‌شود."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "همه ردیف‌ها نام یکسانی دارند -- از آن فقط یک ترک ساخته می‌شود، و Multitrack دست‌کم دو ترک لازم دارد."
-
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "تخصیص: کدام ترک صوتی متعلق به کدام دوربین است"
 
@@ -2239,9 +2218,6 @@ msgstr "پوش ناموفق بود: %s"
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "پوش‌ها و صدای دوربین در پس‌زمینه آماده می‌شوند."
 
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "هر ردیف به یک نام نیاز دارد -- در Auphonic به track ID تبدیل می‌شود."
-
 msgid "External preview -- the app does not know this format"
 msgstr "پیش‌نمایش خارجی -- برنامه این قالب را نمی‌شناسد"
 
@@ -2346,15 +2322,6 @@ msgstr "صدای ناموجود %s با سکوت پر شد%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "ماژول DaVinciResolveScript بارگذاری نمی‌شود: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "یک ترک صوتی برای هر نفر، که تا auphonic.com جدا می‌ماند.\nبدون آن هم کار می‌کند -- آن‌گاه بدون De-Bleed و Leveler.\nبه دو ترک ورودی نیاز دارد: یک ضبط جداگانه، یک کانال از یک ضبط‌کننده\nچندکاناله، یا صدای فایل ویدیویی‌ای که روی «استفاده از صدای داخلی»\nتنظیم شده است. برش دوربین به این تیک نیازی ندارد."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (یک ترک برای هر گوینده)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack دست‌کم به دو ترک ورودی نیاز دارد. هر ترک یا یک ضبط جداگانه است، یا یک کانال از ضبط‌کننده چندکاناله، یا صدای فایل ویدیویی‌ای که روی «استفاده از صدای داخلی» تنظیم شده باشد. چند بلوک از یک ضبط یکی شمرده می‌شوند و ترک‌های کنارگذاشته اصلاً شمرده نمی‌شوند."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "هنوز هیچ صدایی به کار نرفته است -- یک ضبط صوتی بیفزایید، یا در فهرست فایل‌ها صدای دوربین یک فایل ویدیویی را روی «استفاده از صدای داخلی» بگذارید."
@@ -2494,9 +2461,6 @@ msgstr "الزامی نیست -- در این صورت YouTube مقادیر پی�
 msgid "Not ready yet:"
 msgstr "هنوز آماده نیست:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "یک ضبط صوتی هنوز نام گوینده ندارد."
-
 msgid "One frame back."
 msgstr "یک فریم به عقب."
 
@@ -2505,9 +2469,6 @@ msgstr "یک ثانیه به عقب."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "هر نما به رنگ دوربینش. برای دیدن دوربین و مدت، نشانگر را روی آن نگه دارید؛ برای پرش کلیک کنید."
-
-msgid "Only one speaker"
-msgstr "فقط یک گوینده"
 
 msgid "Open json project file"
 msgstr "باز کردن فایل پروژه json"
@@ -2755,9 +2716,6 @@ msgstr "هنوز هیچ گوینده‌ای شناخته نیست -- به محض
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "این سه عدد رنگ‌های اصلی، منحنی و ماتریس هستند. برچسب‌های متفاوت در Resolve فضاهای رنگ ورودی متفاوت لازم دارند -- وگرنه یک دوربین با دیگری فرق می‌کند."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "هیچ ضبط صوتی جداگانه‌ای نیست. در این صورت صدای %s دوربین به کار می‌رود -- هر کدام یک ترک می‌شود و Auphonic نشت صدا را حذف می‌کند."
-
 msgid "There is no result yet."
 msgstr "هنوز نتیجه‌ای نیست."
 
@@ -2878,8 +2836,22 @@ msgstr "بدون آن هر پخش‌کننده‌ای باید حدس بزند،
 msgid "Without processing at auphonic.com"
 msgstr "بدون پردازش در auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "هنوز برش دوربین وجود ندارد: به دو نفر نیاز دارد که هر کدام نام و دوربین داشته باشند.\nضبط‌های جداگانه با تیک Multitrack این را فراهم می‌کنند، و «چند گوینده» در فیلد نام گوینده یک ضبط نیز --\nصداهایی که آنجا یافت می‌شوند، دوربینشان را در جدول زیر ضبط‌ها می‌گیرند.\nپروژه Resolve به هر حال ساخته می‌شود -- همه دوربین‌ها در جای اندازه‌گیری‌شده‌شان، آماده برای Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"هنوز برش دوربین وجود ندارد: به دو نفر نیاز دارد که هر کدام نام و دوربین "
+"داشته باشند.\n"
+"ضبط‌های جداگانه، هر کدام با نام خودش، این را فراهم می‌کنند، و «چند گوینده» "
+"در فیلد نام گوینده یک ضبط نیز --\n"
+"صداهایی که آنجا یافت می‌شوند، دوربینشان را در جدول زیر ضبط‌ها می‌گیرند.\n"
+"پروژه Resolve به هر حال ساخته می‌شود -- همه دوربین‌ها در جای "
+"اندازه‌گیری‌شده‌شان، آماده برای Multicam."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "بدون تایم‌کد، جایگاه فایل‌ها اندازه‌گیری می‌شود."
@@ -3255,9 +3227,6 @@ msgstr "نمای باز %s، میکس نخستین ترک صوتی آن است"
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s بیش از یک بار آمده است. این ضبط‌ها در یک ترک ادغام می‌شوند و بر اساس تایم‌کدشان پشت سر هم قرار می‌گیرند -- درست است اگر ضبط در این میان متوقف شده باشد."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  همه ضبط‌ها یک نام دارند. این یک ترک می‌سازد -- Multitrack دست‌کم به دو ترک نیاز دارد."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  دو دوربین یک فایل یکسان می‌سازند (%s). دومی روی اولی بازنویسی می‌کند."
 
@@ -3324,9 +3293,6 @@ msgstr "ضبط جداگانه"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "این ضبط را با همه بلوک‌هایش در ضبط دیگری قرار می‌دهد.\nبرای جایی است که نام فایل‌ها سرنخی به جست‌وجو نمی‌دهند."
 
-msgid "Cameras only"
-msgstr "فقط دوربین‌ها"
-
 msgid "Curve number %d"
 msgstr "منحنی شماره %d"
 
@@ -3377,9 +3343,6 @@ msgstr "آغاز %s"
 
 msgid "Take from source files"
 msgstr "برگرفته از فایل‌های منبع"
-
-msgid "Take the camera audio"
-msgstr "استفاده از صدای دوربین"
 
 msgid "Target: %s"
 msgstr "مقصد: %s"
@@ -3588,9 +3551,6 @@ msgstr "ادغام"
 msgid "Mixing %s"
 msgstr "در حال میکس %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack به دو ترک در جدول بالا نیاز دارد -- یک دوربین از زمانی یک ترک به شمار می‌آید که صدای دوربین آن روی «استفاده از صدای داخلی» تنظیم شده باشد."
-
 msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
 msgstr "فقط یک ترک -- برای ترک دوم، صدای دوربینِ یکی از دوربین‌ها را روی «استفاده از صدای داخلی» بگذارید."
 
@@ -3611,9 +3571,6 @@ msgstr "در صورت استفاده، صدای این فایل مانند هر 
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "صدایی برای کار وجود ندارد -- صدای دوربینِ یک فایل ویدیویی را روی «استفاده از صدای داخلی» بگذارید، یا یک ضبط صوتی اضافه کنید."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack به چند ترک نیاز دارد"
 
 msgid "Mute."
 msgstr "بی‌صدا کردن."
@@ -3719,9 +3676,6 @@ msgstr "سکوت"
 
 msgid "Speaker name"
 msgstr "نام گوینده"
-
-msgid "Speaker names"
-msgstr "نام گویندگان"
 
 msgid "Static metadata"
 msgstr "فراداده ایستا"
@@ -3974,9 +3928,6 @@ msgstr "  ترک‌ها همان‌طور که ضبط شده‌اند به کا�
 
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  هر دو --without-auphonic و --auphonic-done داده شدند. اولویت با ترک‌های آماده است: چیزی برای فرستادن به جایی نمانده است."
-
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "Multitrack ممکن نیست\n  بدون کلید API چیزی برای فرستادن به auphonic.com وجود ندارد.\n  با --without-auphonic به‌جای آن به‌صورت محلی اجرا می‌شود: هم‌تراز،\n  میکس‌شده و برش‌خورده، اما بدون De-Bleed و Leveler."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  احتیاط: فقط %s جفت از %s جفت قابل اندازه‌گیری است. برای بقیه لحظه‌ای پیدا نشد که دقیقاً یک نفر صحبت کند، پس نشت صدای آن‌ها باقی می‌ماند -- تشخیص گوینده در اینجا قابل اعتماد نیست."
@@ -5025,9 +4976,6 @@ msgstr "نقطه خروج از آخرین اجرا تغییر کرده است: �
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "تولید به پایان رسید، اما ZIP ترک‌های جداگانه نام فایل ساده ندارد"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "چند دوربین اما هیچ ضبط صوتی. هر دوربین صدای خودش را می‌داشت -- Multitrack برای همین است. وگرنه یک دوربین پس از دیگری."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "بایگانی %s را بیش از یک بار در خود دارد، پس چیزی از آن بیرون آورده نشد."
 
@@ -5201,3 +5149,21 @@ msgstr "میکس آماده -- گوینده نیست، بدون دوربین"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "گفتار: فقط بر اساس بلندی صدا جای‌گذاری می‌شود. ضبطی که هیچ اشتراکی\nبا دوربین‌ها ندارد رد می‌شود. ترکیبی: موسیقی یا میکس زیر صداها قرار دارد،\nو جایی که بلندی صدا چیزی نمی‌یابد، فاز می‌تواند آن را جای‌گذاری کند.\nمیکس آماده: میکس استریویی که جای دیگری ساخته شده، مانند صدای ترکیبی قرار می‌گیرد. به‌جای میکس پردازش\nوارد فایل‌های دوربین و تحویل می‌شود --\nگوینده نیست، بریده نمی‌شود، به auphonic.com فرستاده نمی‌شود.\nدر «%s» گفتار پیشنهاد نمی‌شود."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack، چون %s ترک روی یک محور زمانی قرار دارند. می‌توان پیش‌تنظیم "
+"Multitrack دیگری برگزید؛ برای Singletrack همه ترک‌ها جز یکی را روی «استفاده "
+"نشود» بگذارید."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack، چون یک ترک وجود دارد. می‌توان پیش‌تنظیم Singletrack دیگری "
+"برگزید؛ برای Multitrack ترک دومی بیفزایید -- یک ضبط، یا دوربینی که روی "
+"«استفاده از صدای داخلی» است."

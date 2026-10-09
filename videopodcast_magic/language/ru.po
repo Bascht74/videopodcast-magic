@@ -406,9 +406,6 @@ msgstr "Связка ключей"
 msgid "Measuring time axis ..."
 msgstr "Измерение оси времени ..."
 
-msgid "Multitrack (one track per speaker)"
-msgstr "Многодорожечно (по дорожке на говорящего)"
-
 msgid "No files or project opened yet."
 msgstr "Пока не открыт ни файл, ни проект."
 
@@ -423,9 +420,6 @@ msgstr "На кадр назад."
 
 msgid "One second back."
 msgstr "На секунду назад."
-
-msgid "Only one speaker"
-msgstr "Только один говорящий"
 
 msgid "Open result folder"
 msgstr "Открыть папку с результатом"
@@ -580,9 +574,6 @@ msgstr "не найдено"
 msgid "a recording of its own"
 msgstr "собственная запись"
 
-msgid "Cameras only"
-msgstr "Только камеры"
-
 msgid "End %s"
 msgstr "Конец %s"
 
@@ -609,9 +600,6 @@ msgstr "Начало %s"
 
 msgid "Take from source files"
 msgstr "Взять из исходных файлов"
-
-msgid "Take the camera audio"
-msgstr "Взять звук камеры"
 
 msgid "Transfer"
 msgstr "Передача"
@@ -762,9 +750,6 @@ msgstr "Тишина"
 
 msgid "Speaker name"
 msgstr "Имя говорящего"
-
-msgid "Speaker names"
-msgstr "Имена говорящих"
 
 msgid "Ten seconds forward."
 msgstr "На десять секунд вперёд."
@@ -1188,9 +1173,6 @@ msgstr "\nНет пригодного видеофайла -- без звука 
 
 msgid "\nOnly one track found a place -- there is nothing left to lay it against."
 msgstr "\nМесто нашла только одна дорожка -- больше нет ничего, к чему её приложить."
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nПосле сборки блоков остаётся одна дорожка, а для Multitrack нужно по одной на голос. Там, где двух людей приняли за одну запись, --apart оставляет блок в стороне."
 
 msgid "\nPREFLIGHT -- %s"
 msgstr "\nПРЕДПОЛЁТНАЯ ПРОВЕРКА -- %s"
@@ -2693,12 +2675,6 @@ msgstr "Алгоритмы"
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Выравнивание идёт по измеренному смещению; таймкод служит только для сверки."
 
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Все записи носят одно имя -- из этого выходит одна-единственная дорожка."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Все строки носят одно имя -- из этого выходит одна-единственная дорожка, а Multitrack нужны минимум две."
-
 msgid "Assignment file not readable: %s"
 msgstr "Файл назначения не читается: %s"
 
@@ -2891,9 +2867,6 @@ msgstr "Огибающие и звук камер готовятся в фоне
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Каждая пара каналов оценивается отдельно: одна стереодорожка либо два микрофона и, значит, две дорожки. Молчащие входы выпадают. Строки под файлом говорят, что было измерено, а галочка это перебивает."
 
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Каждой строке нужно имя -- у Auphonic это track ID."
-
 msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
 msgstr "Всё после этого шага отсутствует. В папке лежит часть прогона, а не результат."
 
@@ -3038,12 +3011,6 @@ msgstr "Громкость готового эпизода"
 msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
 msgstr "Лицензия MIT, Copyright (c) 2026 Sebastian Lotz. Передаётся как есть, без гарантий любого рода."
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK НЕВОЗМОЖЕН\n  Нужны минимум две входные дорожки, а найдена только %s.\n  Дорожка -- это отдельная запись, канал многоканального\n  рекордера или звук камеры: он идёт в счёт, как только\n  его Звук камеры говорит «использовать звук». Без двух\n  таких нечего разделять, и тот же файл проходит как\n  обычная продукция."
-
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK НЕВОЗМОЖЕН\n  Без API Key нечего отправлять на auphonic.com.\n  С --without-auphonic вместо этого он работает локально:\n  выровнено, сведено и смонтировано, но без De-Bleed и Leveler."
-
 msgid "MUTED"
 msgstr "БЕЗ ЗВУКА"
 
@@ -3080,15 +3047,6 @@ msgstr "Микширование дорожек для разделения"
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Модуль DaVinciResolveScript не загружается: %s"
 
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Для Multitrack нужны минимум две входные дорожки. Дорожка -- это собственная запись, канал многоканального рекордера или звук видеофайла, у которого стоит «использовать звук». Несколько блоков одной записи считаются за одну, а отложенные дорожки не считаются вовсе."
-
-msgid "Multitrack needs several tracks"
-msgstr "Для Multitrack нужно несколько дорожек"
-
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Для Multitrack нужны две дорожки в таблице выше -- камера считается за одну, как только её Звук камеры стоит на «использовать звук»."
-
 msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
 msgstr "НЕТ ЗВУКОВОГО ФАЙЛА -- БЕРЁТСЯ ЗВУК КАМЕРЫ"
 
@@ -3105,17 +3063,11 @@ msgstr ""
 "Нет API-ключа. Сохраните его один раз в интерфейсе или с помощью "
 "--store-auphonic-key. Он есть в настройках учётной записи Auphonic."
 
-msgid "No Multitrack preset found in the account."
-msgstr "В учётной записи не найдено ни одного пресета Multitrack."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "В учётной записи нет пресета Multitrack. Есть только эти: %s"
 
 msgid "No Multitrack preset of your own -- create one"
 msgstr "Нет своего пресета Multitrack -- создать"
-
-msgid "No Singletrack preset found in the account."
-msgstr "В учётной записи не найдено ни одного пресета Singletrack."
 
 msgid "No Singletrack preset in the account. Only these: %s"
 msgstr "В учётной записи нет пресета Singletrack. Есть только эти: %s"
@@ -3221,12 +3173,6 @@ msgstr "Номер %d"
 
 msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
 msgstr "Включено -- этот и следующий канал становятся одной стереодорожкой.\nУ следующего тогда нет своей галочки -- он занят.\nЧто измерено, стоит в строке рядом."
-
-msgid "One audio recording has no speaker name yet."
-msgstr "У одной звукозаписи ещё нет имени говорящего."
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "По одной звуковой дорожке на человека, раздельно вплоть до auphonic.com.\nРаботает и без этого -- тогда без de-bleed и leveler.\nНужны две входные дорожки: собственная запись, канал\nмногоканального рекордера или звук видеофайла, поставленный на\n«использовать звук». Монтажу камер эта галочка не нужна."
 
 msgid "One name for two voices"
 msgstr "Одно имя на два голоса"
@@ -3425,9 +3371,6 @@ msgstr "Разделение говорящих: %s"
 
 msgid "Set to %s; %s is one click away."
 msgstr "Задано %s; %s -- в один клик."
-
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Несколько камер, но ни одного звукового файла. У каждой камеры был бы свой звук --\nдля этого есть --multitrack. Иначе -- по одной камере за раз."
 
 msgid "Several project files lie with this material. Which one?\n\n%s"
 msgstr "Рядом с этим материалом лежит несколько файлов проекта. Какой?\n\n%s"
@@ -3657,11 +3600,21 @@ msgstr "Общий план держится %s с, меньше самого к
 msgid "The work can be written to a project file first."
 msgstr "Работу можно сначала записать в файл проекта."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Отдельных звукозаписей нет. Тогда берётся звук %s камер -- каждая становится дорожкой, а Auphonic убирает просачивание."
-
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Монтажа камер пока нет: нужны два человека, у каждого имя и камера.\nОтдельные записи дают это галочкой Multitrack, и «несколько говорящих» в поле Имя говорящего одной записи тоже --\nнайденные там голоса получают свою камеру в таблице под записями.\nПроект Resolve создаётся всё равно -- все камеры на измеренных местах, готовые для Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Монтажа камер пока нет: нужны два человека, у каждого имя и камера.\n"
+"Отдельные записи дают это, каждая под своим именем, и «несколько говорящих» "
+"в поле Имя говорящего одной записи тоже --\n"
+"найденные там голоса получают свою камеру в таблице под записями.\n"
+"Проект Resolve создаётся всё равно -- все камеры на измеренных местах, "
+"готовые для Multicam."
 
 msgid "There is no key."
 msgstr "Ключа нет."
@@ -4343,9 +4296,6 @@ msgstr "определяется, кто когда говорит ..."
 
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s встречается несколько раз. Эти записи сводятся в одну дорожку и укладываются друг за другом по их timecode -- верно, если между ними запись останавливали."
-
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Все записи носят одно и то же имя. Из этого выйдет одна дорожка -- для Multitrack нужны минимум две."
 
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Две камеры дали бы один и тот же файл (%s). Второй перезаписал бы первый."
@@ -5065,9 +5015,6 @@ msgstr "Точка выхода изменилась с прошлого про�
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Продукция готова, но у ZIP с отдельными дорожками нет простого имени файла"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Несколько камер, но нет звукозаписи. У каждой камеры был бы свой звук -- для этого и есть Multitrack. Иначе одну камеру за другой."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Архив содержит %s больше одного раза, поэтому из него ничего не извлечено."
 
@@ -5241,3 +5188,21 @@ msgstr "готовый микс -- не спикер, без камеры"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Речь: размещается только по громкости. Запись, у которой нет ничего общего\nс камерами, отклоняется. Смешанный: под голосами лежит музыка или микс,\nи где громкость ничего не находит, её может разместить фаза.\nГотовый микс: стереомикс, сделанный в другом месте, размещается как смешанный звук. Он идёт\nв файлы камер и в передачу вместо микса, который строит обработка --\nне спикер, не режется, не отправляется на auphonic.com.\nПри «%s» «Речь» не предлагается."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, потому что %s дорожек лежат на одной оси времени. Можно выбрать "
+"другой пресет Multitrack; для одной дорожки поставьте все дорожки, кроме "
+"одной, на «не использовать»."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Одна дорожка, потому что дорожка одна. Можно выбрать другой пресет для одной "
+"дорожки; для Multitrack добавьте вторую дорожку -- запись или камеру с "
+"«использовать звук»."

@@ -593,6 +593,26 @@ def production_is_multitrack(tracks, together):
     return bool(together) and tracks >= 2
 
 
+def preset_kind_said(tracks, together):
+    """Which kind of preset the rows need, why, and how to change it.
+
+    One sentence beside the preset list, by production_is_multitrack's
+    rule: the list offers only that kind, and without the reason it
+    reads as presets gone missing. "" where no track is there yet.
+    """
+    if not tracks:
+        return ""
+    if production_is_multitrack(tracks, together):
+        return (T('Multitrack, because %s tracks lie on one time axis. '
+                  'Another Multitrack preset can be picked; for '
+                  'Singletrack, set every track but one to "do not use".')
+                % number_text(tracks, 0))
+    return T('Singletrack, because there is one track. Another '
+             'Singletrack preset can be picked; for Multitrack, add a '
+             'second track -- a recording, or a camera set to "use '
+             'internal audio".')
+
+
 def presets_for_mode(key, multitrack):
     """Return only the presets that match the mode.
 
@@ -603,17 +623,23 @@ def presets_for_mode(key, multitrack):
             if preset_fits_mode(m, multitrack)]
 
 
-def print_presets(key, multitrack=False):
-    """Print the account's presets for this mode, as --list-presets."""
-    items = presets_for_mode(key, multitrack)
+def print_presets(key):
+    """Print the account's presets, as --list-presets.
+
+    Every one, its kind behind it where the kind is known: a list asked
+    for without material has no tracks to say which kind it needs, and
+    the run picks from the kind its tracks make.
+    """
+    items = list_presets(key) or []
     if not items:
-        print(T('No Multitrack preset found in the account.') if multitrack
-              else T('No Singletrack preset found in the account.'))
+        print(T('No presets stored in the account. One can be '
+                'created in the web interface.'))
         return 0
     print(T('Presets:'))
     # The number in front is typed back below; %2d keeps a column.
-    for i, (name, _, _) in enumerate(items, 1):
-        print("  %2d  %s" % (i, name))
+    for i, (name, _, mark) in enumerate(items, 1):
+        print("  %2d  %s" % (i, name if mark is None else "%s  (%s)" % (
+            name, T('Multitrack mode') if mark else T('Singletrack mode'))))
     return 0
 
 
@@ -1010,15 +1036,14 @@ def credit_row(run_layout):
 
 
 def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
-                      settings_open, buttons_check, multi_button,
-                      out_folder, commonest_folder, report, tracks_now):
+                      settings_open, buttons_check, out_folder,
+                      commonest_folder, report, tracks_now):
     """The key for auphonic.com, and the preset a run is given.
 
     Here and not in the window because the two are one theme: the key is
     checked by fetching the presets, and what comes back is what the
     preset box offers -- of the kind *tracks_now*, (tracks, on one axis,
-    seconds), needs. gui() calls it below multi_button, which the preset
-    switches on when it says no processing is wanted.
+    seconds), needs, with a line under it saying which kind and why.
     """
     # --- In two places in the window: the key behind "Settings ...", set
     #     once; the preset under the assignment, chosen every time.
@@ -1088,6 +1113,11 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     done_label = label("", COLOURS["good"])
     second_line.addWidget(done_label)
     second_line.addStretch(1)
+    # Why the list holds the kind it holds, and what changes it.
+    kind_line = label("", COLOURS["quiet"])
+    kind_line.setWordWrap(True)
+    kind_line.setVisible(False)
+    run_layout.addWidget(kind_line)
     credit_show = credit_row(run_layout)
 
     def without_auphonic():
@@ -1095,12 +1125,11 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
         return preset_box.currentData() == PRESET_NONE
 
     def without_auphonic_toggled(*_):
-        """Multitrack no longer hangs off auphonic.com.
+        """Without a preset the run stays local, and Start is asked again.
 
-        Without a preset the run stays local: aligned, mixed, cut -- only
-        de-bleed, leveler and noise removal are missing.
+        Aligned, mixed, cut -- only de-bleed, leveler and noise removal
+        are missing.
         """
-        multi_button.setEnabled(True)
         buttons_check()
         # The account is said once it answered, preset or not; only a
         # preset chosen holds it against the rows.
@@ -1152,11 +1181,14 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     keep_button.toggled.connect(remember_toggled)
 
     def presets_filter():
-        """Offer only the presets of the kind the run needs."""
+        """Offer only the presets of the kind the run needs, and say why."""
         preset_box_fill(preset_box,
                         preset_entries(state["presets"], kind_needed(),
                                        label_of(PRESET_NONE), PRESET_NONE),
                         state, PRESET_NONE)
+        said = preset_kind_said(*tracks_now()[:2])
+        kind_line.setText(said)
+        kind_line.setVisible(bool(said))
         without_auphonic_toggled()
 
     def kind_needed():
@@ -1251,11 +1283,7 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     check_button.clicked.connect(lambda: presets_load(asked=True))
 
     def api_key_changed():
-        """A new key means unchecked until OK is pressed again.
-
-        Multitrack is not touched: it works without auphonic.com too, so a
-        key being retyped is no reason to switch it off.
-        """
+        """A new key means unchecked until OK is pressed again."""
         state["presets"] = None
         state["account"] = None
         button_green(False)

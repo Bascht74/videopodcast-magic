@@ -276,33 +276,6 @@ def run_argv(values, assignment_file_path=""):
     # either path, so both ask first; a name left empty merges nothing.
     names = [(r.get("speakers") or "").strip() for r in lines]
     duplicate = sorted(set(n for n in names if n and names.count(n) > 1))
-    if values.get("multitrack"):
-        if only_video:
-            messages.append((
-                "question", T('Cameras only'),
-                T('There are no separate audio recordings. Then the audio '
-                  'of the %s cameras is used -- each becomes a track, and '
-                  'Auphonic removes the bleed.')
-                % number_text(len(values.get("rows") or []), 0),
-                T('Take the camera audio')))
-        if len(lines) < 2:
-            return error(
-                T('Multitrack needs several tracks'),
-                T('Multitrack needs at least two input tracks. A track is '
-                  'a recording of its own, a channel of a multichannel '
-                  'recorder, or the audio of a video file set to "use '
-                  'internal audio". Several blocks of the same recording '
-                  'count as one, tracks set aside not at all.'))
-        if not all(names):
-            return error(
-                T('Speaker names'),
-                T('Every row needs a name -- at Auphonic it becomes the '
-                  'track ID.'))
-        if duplicate and len(set(names)) < 2:
-            return error(
-                T('Only one speaker'),
-                T('All rows carry the same name -- that makes a single '
-                  'track, and Multitrack needs at least two.'))
     if duplicate:
         messages.append((
             "question", T('Names used more than once'),
@@ -319,10 +292,6 @@ def run_argv(values, assignment_file_path=""):
             T('File names'),
             T('Two cameras would produce the same new file. Please '
               'give different names.'))
-    # One plan on both paths: the tick only groups the recordings, so
-    # the chosen cameras and "do not use" reach every run alike.
-    if values.get("multitrack"):
-        argv += ["--multitrack"]
     if assignment_file_path:
         argv += ["--assign", assignment_file_path]
     if values.get("speakers_wanted") is False:
@@ -833,10 +802,10 @@ def build_argument_parser():
     ap.add_argument("--no-single-tracks", dest="no_single_tracks",
                     action="store_true",
                     help="put only the mix into the video, not the single "
-                         "recordings beside it. Without Multitrack several "
-                         "recordings running at the same time are mixed "
-                         "into one track; by default each also goes in on "
-                         "its own, unprocessed, so the edit can reach for "
+                         "recordings beside it. Several recordings running "
+                         "at the same time are mixed into one track; by "
+                         "default each also goes in on its own, "
+                         "unprocessed, so the edit can reach for "
                          "one voice. That costs about 520 MB per track and "
                          "hour.")
     ap.add_argument("--together", action="append", nargs="+",
@@ -880,14 +849,13 @@ def build_argument_parser():
                          "detection of our own. No de-bleed, no leveler, no "
                          "noise removal.")
     ap.add_argument("--multitrack", action="store_true",
-                    help="send every audio file to Auphonic as its own "
-                         "track, so the bleed between the microphones can be "
-                         "removed. Needs two input tracks -- a recording "
-                         "of its own, a channel of a multichannel "
-                         "recorder, or the audio of a camera -- and a "
-                         "multitrack preset. Which audio belongs to which "
-                         "camera comes from --assign; the interface writes "
-                         "that file.")
+                    help="no longer needed, and does nothing; accepted for "
+                         "this release only, so older command lines still "
+                         "run. Whether the tracks go to Auphonic as one "
+                         "Multitrack production follows from the material: "
+                         "two tracks or more on one time axis do, a single "
+                         "track does not. The preset has to be of that "
+                         "kind.")
     ap.add_argument("--speech-language-camera", dest="speech_language_camera",
                     default="", metavar="CODE",
                     type=PROGRAM.spoken_language_offered,

@@ -396,9 +396,6 @@ msgstr "キーチェーン"
 msgid "Measuring time axis ..."
 msgstr "時間軸を計測中 ..."
 
-msgid "Multitrack (one track per speaker)"
-msgstr "マルチトラック（話者ごとに1トラック）"
-
 msgid "No files or project opened yet."
 msgstr "まだファイルもプロジェクトも開いていません。"
 
@@ -413,9 +410,6 @@ msgstr "1 フレーム戻ります。"
 
 msgid "One second back."
 msgstr "1 秒戻ります。"
-
-msgid "Only one speaker"
-msgstr "話者は一人だけ"
 
 msgid "Open result folder"
 msgstr "結果フォルダーを開く"
@@ -570,9 +564,6 @@ msgstr "見つかりません"
 msgid "a recording of its own"
 msgstr "専用の録音"
 
-msgid "Cameras only"
-msgstr "カメラのみ"
-
 msgid "End %s"
 msgstr "終了 %s"
 
@@ -599,9 +590,6 @@ msgstr "開始 %s"
 
 msgid "Take from source files"
 msgstr "元ファイルから取得"
-
-msgid "Take the camera audio"
-msgstr "カメラ音声を使う"
 
 msgid "Transfer"
 msgstr "受け渡し"
@@ -751,9 +739,6 @@ msgid "Silence"
 msgstr "無音"
 
 msgid "Speaker name"
-msgstr "話者名"
-
-msgid "Speaker names"
 msgstr "話者名"
 
 msgid "Ten seconds forward."
@@ -1032,9 +1017,6 @@ msgstr "音声ファイルが指定されていません。"
 msgid "Unknown extension, skipped: %s"
 msgstr "不明な拡張子のためスキップ：%s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "カメラが複数あるのに音声ファイルがありません。各カメラが自分の音声を持つことになります --\nそのための --multitrack です。そうでなければカメラを 1 台ずつ。"
-
 msgid "Not found: %s"
 msgstr "見つかりません：%s"
 
@@ -1217,12 +1199,6 @@ msgstr "  アーカイブ内：%s"
 
 msgid "Auphonic reports %s: %s"
 msgstr "Auphonic の報告 %s：%s"
-
-msgid "No Multitrack preset found in the account."
-msgstr "アカウントに Multitrack プリセットが見つかりません。"
-
-msgid "No Singletrack preset found in the account."
-msgstr "アカウントに Singletrack プリセットが見つかりません。"
 
 msgid "preset does not fit the run"
 msgstr "プリセットがこの実行に合いません"
@@ -1461,9 +1437,6 @@ msgstr "専用カメラなし：%s"
 msgid "   -- that is everybody, so every shot goes to the same camera."
 msgstr "   -- つまり全員なので、どのショットも同じカメラになります。"
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "マルチトラックは使えません\n  API キーがなければ auphonic.com に送るものがありません。\n  --without-auphonic を使うと代わりにローカルで実行されます：位置合わせ、\n  ミックス、カットは行われますが、De-Bleed と Leveler はありません。"
-
 msgid "\nCAMERA CUT"
 msgstr "\nカメラ切り替え"
 
@@ -1487,9 +1460,6 @@ msgstr "平均との差"
 
 msgid "    %-20s shifted by %s ms%s"
 msgstr "    %-20s を %s ms ずらしました%s"
-
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "マルチトラックは使えません\n  入力トラックが 2 本以上必要ですが、見つかったのは %s だけです。\n  トラックとは、単独の録音、マルチチャンネル\n  レコーダーの 1 チャンネル、またはカメラの音声です -- カメラの音声は、\n  「カメラ音声」が「音声を使う」になっていれば数えられます。2 本なければ\n  分離するものがなく、同じファイルが通常の\n  制作として処理されます。"
 
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  カメラ同士は近い状態です（明るさの差は最大 %s 段階）。"
@@ -2198,18 +2168,6 @@ msgstr "%s と %s の両方が %s に設定されています。そうできる�
 msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
 msgstr "%s が複数の声に付いています。名前は一人の人物で、切り替えは一人を一台のカメラに置きます。同じ名前の二つの声は、一人が二か所にいることになります。"
 
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack には複数のトラックが必要です"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack には入力トラックが二つ以上必要です。トラックとは独立した録音、マルチチャンネルレコーダーの一つのチャンネル、または「音声を使う」に設定された映像ファイルの音声です。同じ録音の複数のブロックは一つと数え、脇に置いたトラックは数えません。"
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "どの行にも名前が必要です。Auphonic ではそれが track ID になります。"
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "すべての行が同じ名前です。それではトラックが一つになり、Multitrack には二つ以上必要です。"
-
 msgid "File names"
 msgstr "ファイル名"
 
@@ -2224,9 +2182,6 @@ msgstr "プリセットを読み込んで一つ選ぶか、API Key を空欄に�
 
 msgid "Names used more than once"
 msgstr "複数回使われている名前"
-
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "別録りの音声がありません。その場合は %s 台のカメラの音声を使います。それぞれがトラックになり、Auphonic がかぶりを取り除きます。"
 
 msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
 msgstr "次の名前が複数回出てきます:\n\n  %s\n\n録音は一つのトラックにまとめられ、タイムコードに従って順に並べられます。途中で録音を止めた場合はこれで正しい状態です。"
@@ -2377,9 +2332,6 @@ msgstr "\n結果なしで終了: %s"
 
 msgid "\nNo usable video file -- without camera audio there is no common time axis."
 msgstr "\n使える映像ファイルがありません -- カメラ音声がなければ共通の時間軸は作れません。"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nブロックを結合するとトラックが一つしか残らず、Multitrack には声ごとに一つ必要です。二人が一つの録音と見なされた場合は、--apart でブロックをそこから外せます。"
 
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline は %s になります: その中で最も高いもの、またはその上で Resolve が\n  持つ次のレートです。上へ変換すると Resolve はフレームを繰り返し、下へは\n  フレームを捨てます。各カメラは自分のレートを保ち、切り替えは\n  そのレートで数えます。"
@@ -3905,9 +3857,6 @@ msgstr "  どの声がどのマイクのものか判別できなかったため�
 msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
 msgstr "この名前は既に別の人に付いています。名前は 1 人の人物を表し、カットは 1 人を 1 台のカメラに割り当てます -- この声には別の名前を付けてください。"
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  すべての録音が同じ名前です。これでは 1 トラックになります -- Multitrack には少なくとも 2 つ必要です。"
-
 msgid "The model could not be written: %s"
 msgstr "モデルを書き込めませんでした: %s"
 
@@ -4040,8 +3989,19 @@ msgstr "タイムコードがなければ、ファイルの位置は測定され
 msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
 msgstr "このプロジェクトでは話者分離をオフのままにします。カットはこれまでどおりトラックまたは auphonic.com から得られます。"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "まだカメラ切り替えはありません: 名前とカメラを持つ2人が必要です。\n別々の録音なら Multitrack のチェックで、1つの録音なら話者名欄の「複数の話者」でも同じことができます --\nそこで見つかった声には、録音の下の表でカメラを割り当てます。\nそれでも Resolve プロジェクトは作成されます -- すべてのカメラが測定した位置にあり、Multicam の準備ができています。"
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"まだカメラ切り替えはありません: 名前とカメラを持つ2人が必要です。\n"
+"別々の録音でも、それぞれに名前があれば同じことができ、1つの録音なら話者名欄の「複数の話者」でもできます --\n"
+"そこで見つかった声には、録音の下の表でカメラを割り当てます。\n"
+"それでも Resolve プロジェクトは作成されます -- すべてのカメラが測定した位置にあり、Multicam の準備ができています。"
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "それには実行の受け渡しファイルが必要ですが、ありません。"
@@ -4075,9 +4035,6 @@ msgstr "再起動できませんでした。ウィンドウを閉じ、前と同
 
 msgid "No newer version found. This one is %s."
 msgstr "新しいバージョンは見つかりませんでした。これは %s です。"
-
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack には上の表に2つのトラックが必要です -- カメラは、カメラ音声を「音声を使う」にすると1つに数えられます。"
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s が複数の話者に付いています -- 名前は1人の人を表し、人ごとに別の名前が必要です。"
@@ -4130,9 +4087,6 @@ msgstr "時間枠の先頭へ移動します。"
 msgid "Jumps to the end of the window."
 msgstr "時間枠の末尾へ移動します。"
 
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "1人につき1本の音声トラックを、auphonic.com まで分けたまま扱います。\nなくても動作します -- その場合 De-Bleed と Leveler はありません。\n入力トラックが2本必要です: 単独の録音、マルチチャンネル\nレコーダーの1チャンネル、または「音声を使う」に設定した\n映像ファイルの音声。カメラ切り替えにはこのチェックは不要です。"
-
 msgid "During greeting and farewell the picture stays wide."
 msgstr "あいさつと締めくくりの間は、映像は引きのままです。"
 
@@ -4150,9 +4104,6 @@ msgstr "反映させるには、プログラムを再起動してください。
 
 msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
 msgstr "MIT ライセンス、Copyright (c) 2026 Sebastian Lotz。現状のまま提供され、いかなる保証もありません。"
-
-msgid "One audio recording has no speaker name yet."
-msgstr "話者名がまだない音声録音が1つあります。"
 
 msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
 msgstr "%s はすでに %s に設定されていて、1つのエピソードにそれは1つだけです。ここでは別の答えを選ぶか、先にそのファイルの印を外してください。"
@@ -4204,9 +4155,6 @@ msgstr "何も書き出していません -- まだ素材がありません。"
 
 msgid "The text for %s could not be fetched."
 msgstr "%s のテキストを取得できませんでした。"
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "すべての録音が同じ名前です -- その場合トラックは1本になります。"
 
 msgid "stays out"
 msgstr "使わない"
@@ -4979,9 +4927,6 @@ msgstr "前回の実行からアウト点が変わりました: 前回 %s、現�
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "制作は完了しましたが、個別トラックの ZIP に単純なファイル名がありません"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "カメラが複数ありますが、音声録音がありません。各カメラに独自の音声があることになります -- そのためのマルチトラックです。そうでなければカメラを 1 台ずつ処理してください。"
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "アーカイブに %s が複数回含まれているため、何も取り出しませんでした。"
 
@@ -5155,3 +5100,19 @@ msgstr "完成ミックス -- 話者なし、カメラなし"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "話し声: ラウドネスだけで配置します。カメラと共通するものが\nない録音は受け付けません。ミックス: 声の下に音楽やミックスがあり、\nラウドネスで何も見つからない所では位相で配置できます。\n完成ミックス: 別の場所で作られたステレオミックス。ミックスとして配置されます。\n処理が作るミックスの代わりにカメラファイルと引き渡しに入ります --\n話者ではなく、カットされず、auphonic.com へ送られません。\n「%s」では話し声は選べません。"
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"マルチトラック：%s 本のトラックが1つの時間軸上にあるためです。別の Multitrack "
+"プリセットを選べます。シングルトラックにするには、1本を除くすべてのトラックを「使用しない」にします。"
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"シングルトラック：トラックが1本だけのためです。別の Singletrack プリセットを選べます。マルチトラックにするには、2本目のトラックを加えます "
+"-- 録音、または「音声を使う」にしたカメラ。"

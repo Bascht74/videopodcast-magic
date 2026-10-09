@@ -165,15 +165,6 @@ def keep_box():
     return None
 
 
-def multitrack_box():
-    """The tick that decides which presets fit, found by its caption."""
-    for b in among(QtWidgets.QCheckBox):
-        if drawn(b.text()).strip() == vpm.T('Multitrack (one track per '
-                                            'speaker)'):
-            return b
-    return None
-
-
 def notes():
     """The two lines about the key, by the names the program gives them."""
     return [w for w in among(QtWidgets.QLabel)
@@ -260,16 +251,13 @@ def drive():
 def unfitting(field, connect, tick, want):
     """The refusal over presets of the other kind only: both sentences.
 
-    Gives back what the note begins with, or None without the tick.
+    Gives back what the note begins with.
     """
     print("\n3. The store refuses it over presets that fit only the other "
           "mode")
-    multi = multitrack_box()
-    if multi is None:
-        bad.append("the Multitrack tick was found [no check box says %r]"
-                   % vpm.T('Multitrack (one track per speaker)'))
-        return None
-    multi_on = multi.isChecked()
+    # No recording in this window, so the kind it needs is Singletrack;
+    # the material decides it, and the account offers the other kind.
+    multi_on = False
     vpm.list_presets = lambda key: [("Podcast_Other", "u3", not multi_on)]
     # The tick goes on again through a save that is taken and written
     # nowhere; the refusing store then answers the Connect below.

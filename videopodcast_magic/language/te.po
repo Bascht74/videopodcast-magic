@@ -134,12 +134,6 @@ msgstr "మీ సొంత Singletrack ప్రీసెట్ లేదు --
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "మీ సొంత ప్రీసెట్ లేదు -- auphonic.com లో ఒకటి సృష్టించండి"
 
-msgid "No Multitrack preset found in the account."
-msgstr "ఖాతాలో Multitrack ప్రీసెట్ ఏదీ కనబడలేదు."
-
-msgid "No Singletrack preset found in the account."
-msgstr "ఖాతాలో Singletrack ప్రీసెట్ ఏదీ కనబడలేదు."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "ఖాతాలో Multitrack ప్రీసెట్ లేదు. ఉన్నవి ఇవి మాత్రమే: %s"
 
@@ -1385,9 +1379,6 @@ msgstr "కేటాయింపు ఫైల్ చదవడం సాధ్య
 msgid "Camera audio not usable: %s"
 msgstr "కెమెరా ఆడియో ఉపయోగించలేము: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK సాధ్యం కాదు\n  కనీసం రెండు ఇన్‌పుట్ ట్రాక్‌లు అవసరం, కానీ %s మాత్రమే దొరికింది.\n  ట్రాక్ అంటే సొంత రికార్డింగ్, మల్టీఛానల్ రికార్డర్‌లోని ఒక\n  ఛానల్, లేదా ఒక కెమెరా ఆడియో -- దాని కెమెరా ఆడియో \"అంతర్గత ఆడియో వాడు\"\n  అని ఉన్న వెంటనే అది లెక్కలోకి వస్తుంది. అలాంటివి రెండు లేకపోతే విడదీయడానికి\n  ఏమీ ఉండదు, అదే ఫైల్ ఒక సాధారణ ప్రొడక్షన్‌గా\n  నడుస్తుంది."
-
 msgid "No preset is called %r."
 msgstr "%r అనే ప్రీసెట్ లేదు."
 
@@ -1498,9 +1489,6 @@ msgstr "ప్రాజెక్ట్ సేవ్ చేయబడింది\
 
 msgid "Presets could not be loaded: %s"
 msgstr "ప్రీసెట్‌లను లోడ్ చేయడం సాధ్యం కాలేదు: %s"
-
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "అనేక కెమెరాలు ఉన్నాయి కానీ ఆడియో ఫైల్ లేదు. ప్రతి కెమెరాకు దాని సొంత ఆడియో ఉంటుంది --\nదాని కోసమే --multitrack. లేకపోతే ఒక కెమెరా తర్వాత మరొకటి."
 
 msgid "The file is NOT recognised as HDR."
 msgstr "ఈ ఫైల్ HDR గా గుర్తించబడలేదు."
@@ -1621,9 +1609,6 @@ msgstr "  సమయ పరిధి:             %s -- ఏ ట్రాక్ �
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: ప్రారంభంలో %s, చివరలో %s నిశ్శబ్దం"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nబ్లాక్‌లను కలిపాక ఒకే ట్రాక్ మిగిలింది, కానీ Multitrack కోసం ప్రతి స్వరానికి ఒక ట్రాక్ అవసరం. ఇద్దరు వ్యక్తులను ఒకే రికార్డింగ్‌గా పొరబడిన చోట, --apart ఒక బ్లాక్‌ను దాని నుండి వేరుగా ఉంచుతుంది."
 
 msgid "RECOGNISED PLAN"
 msgstr "గుర్తించిన ప్రణాళిక"
@@ -2081,12 +2066,6 @@ msgstr "ఫైళ్లను జోడించు ..."
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "సమలేఖనం కొలిచిన ఆఫ్‌సెట్ ఆధారంగా జరుగుతుంది; టైమ్‌కోడ్ కేవలం అడ్డ తనిఖీ మాత్రమే."
 
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "అన్ని రికార్డింగ్‌లకు ఒకే పేరు ఉంది -- దాంతో ఒకే ట్రాక్ ఏర్పడుతుంది."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "అన్ని వరుసలకు ఒకే పేరు ఉంది -- దాంతో ఒకే ట్రాక్ ఏర్పడుతుంది, కానీ Multitrack కు కనీసం రెండు కావాలి."
-
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "కేటాయింపు: ఏ ఆడియో ట్రాక్ ఏ కెమెరాకు చెందుతుంది"
 
@@ -2240,9 +2219,6 @@ msgstr "ఎన్వలప్ విఫలమైంది: %s"
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "ఎన్వలప్‌లు, కెమెరా ఆడియో నేపథ్యంలో సిద్ధం చేయబడుతున్నాయి."
 
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "ప్రతి వరుసకు ఒక పేరు కావాలి -- Auphonic లో అది track ID అవుతుంది."
-
 msgid "External preview -- the app does not know this format"
 msgstr "బాహ్య ప్రివ్యూ -- ఈ ఫార్మాట్ యాప్‌కు తెలియదు"
 
@@ -2347,15 +2323,6 @@ msgstr "లేని ఆడియో %s నిశ్శబ్దంతో ని
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "DaVinciResolveScript మాడ్యూల్ లోడ్ కాదు: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "ప్రతి వ్యక్తికి ఒక ఆడియో ట్రాక్, auphonic.com వరకు వేరువేరుగా.\nఇది లేకుండా కూడా పనిచేస్తుంది -- అప్పుడు బ్లీడ్ తొలగింపు, లెవెలర్ లేకుండా.\nదీనికి రెండు ఇన్‌పుట్ ట్రాక్‌లు కావాలి: సొంత రికార్డింగ్, మల్టీఛానల్ రికార్డర్‌లోని\nఒక ఛానల్, లేదా \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేసిన వీడియో ఫైల్ ఆడియో.\nకెమెరా కట్‌కు ఈ టిక్ అవసరం లేదు."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (ప్రతి వక్తకు ఒక ట్రాక్)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack కు కనీసం రెండు ఇన్‌పుట్ ట్రాక్‌లు కావాలి. ట్రాక్ అంటే సొంత రికార్డింగ్, మల్టీఛానల్ రికార్డర్‌లోని ఒక ఛానల్, లేదా \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేసిన వీడియో ఫైల్ ఆడియో. ఒకే రికార్డింగ్‌లోని అనేక బ్లాక్‌లు ఒకటిగా లెక్కించబడతాయి, పక్కన పెట్టిన ట్రాక్‌లు అసలు లెక్కించబడవు."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "ఇంకా ఏ ఆడియో వాడుకలో లేదు -- ఒక ఆడియో రికార్డింగ్ జోడించండి, లేదా ఫైల్ జాబితాలో ఒక వీడియో ఫైల్ కెమెరా ఆడియోను \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేయండి."
@@ -2495,9 +2462,6 @@ msgstr "తప్పనిసరి కాదు -- అప్పుడు YouTub
 msgid "Not ready yet:"
 msgstr "ఇంకా సిద్ధంగా లేదు:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "ఒక ఆడియో రికార్డింగ్‌కు ఇంకా వక్త పేరు లేదు."
-
 msgid "One frame back."
 msgstr "ఒక ఫ్రేమ్ వెనక్కి."
 
@@ -2506,9 +2470,6 @@ msgstr "ఒక సెకను వెనక్కి."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "ప్రతి షాట్ దాని కెమెరా రంగులో. కెమెరా, నిడివి కోసం మౌస్ ఉంచండి, వెళ్లడానికి క్లిక్ చేయండి."
-
-msgid "Only one speaker"
-msgstr "ఒక్క వక్త మాత్రమే"
 
 msgid "Open json project file"
 msgstr "json ప్రాజెక్ట్ ఫైల్ తెరువు"
@@ -2756,9 +2717,6 @@ msgstr "ఇంకా వక్తలు తెలియదు -- ఈ ట్య�
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "మూడు సంఖ్యలు: ప్రాథమిక రంగులు, కర్వ్, మ్యాట్రిక్స్. వేర్వేరు ట్యాగ్‌లకు Resolve లో వేర్వేరు ఇన్‌పుట్ కలర్ స్పేస్‌లు కావాలి -- లేకపోతే ఒక కెమెరా మరొకదానిలా కనిపించదు."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "వేరువేరు ఆడియో రికార్డింగ్‌లు లేవు. అప్పుడు %s కెమెరాల ఆడియో వాడబడుతుంది -- ప్రతిదీ ఒక ట్రాక్ అవుతుంది, Auphonic బ్లీడ్‌ను తొలగిస్తుంది."
-
 msgid "There is no result yet."
 msgstr "ఇంకా ఫలితం లేదు."
 
@@ -2879,8 +2837,23 @@ msgstr "అది లేకుండా ప్రతి ప్లేయర్ �
 msgid "Without processing at auphonic.com"
 msgstr "auphonic.com లో ప్రాసెసింగ్ లేకుండా"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "ఇంకా కెమెరా కట్ లేదు: దానికి ఇద్దరు వ్యక్తులు కావాలి, ప్రతి ఒక్కరికీ ఒక పేరు, ఒక కెమెరా.\nవేరువేరు రికార్డింగ్‌లు Multitrack టిక్‌తో అది ఇస్తాయి, ఒక రికార్డింగ్ యొక్క వక్త పేరు ఫీల్డ్‌లో \"అనేక వక్తలు\" కూడా ఇస్తుంది --\nఅక్కడ కనుగొన్న స్వరాలకు రికార్డింగ్‌ల కింద ఉన్న పట్టికలో కెమెరా ఇవ్వబడుతుంది.\nఏమైనా Resolve ప్రాజెక్ట్ సృష్టించబడుతుంది -- అన్ని కెమెరాలు వాటి కొలిచిన స్థానాల్లో, Multicam కోసం సిద్ధంగా."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"ఇంకా కెమెరా కట్ లేదు: దానికి ఇద్దరు వ్యక్తులు కావాలి, ప్రతి ఒక్కరికీ ఒక "
+"పేరు, ఒక కెమెరా.\n"
+"వేరువేరు రికార్డింగ్‌లు, ప్రతిదీ తన సొంత పేరుతో, అది ఇస్తాయి, ఒక రికార్డింగ్ "
+"యొక్క వక్త పేరు ఫీల్డ్‌లో \"అనేక వక్తలు\" కూడా ఇస్తుంది --\n"
+"అక్కడ కనుగొన్న స్వరాలకు రికార్డింగ్‌ల కింద ఉన్న పట్టికలో కెమెరా "
+"ఇవ్వబడుతుంది.\n"
+"ఏమైనా Resolve ప్రాజెక్ట్ సృష్టించబడుతుంది -- అన్ని కెమెరాలు వాటి కొలిచిన "
+"స్థానాల్లో, Multicam కోసం సిద్ధంగా."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "టైమ్‌కోడ్ లేకుండా ఫైళ్ల స్థానం కొలవబడుతుంది."
@@ -3256,9 +3229,6 @@ msgstr "వైడ్ షాట్ %s, దాని మొదటి ఆడియ�
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  ఒకటి కంటే ఎక్కువసార్లు ఉంది: %s. ఈ రికార్డింగ్‌లు ఒకే ట్రాక్‌గా కలిపి, వాటి టైమ్‌కోడ్ క్రమంలో ఒకదాని తర్వాత ఒకటి ఉంచబడతాయి -- మధ్యలో రికార్డింగ్ ఆపివేసి ఉంటే ఇది సరైనదే."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  అన్ని రికార్డింగ్‌లకు ఒకే పేరు ఉంది. దాంతో ఒకే ట్రాక్ వస్తుంది -- Multitrack కు కనీసం రెండు కావాలి."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  రెండు కెమెరాలు ఒకే ఫైల్‌ను సృష్టిస్తాయి (%s). రెండోది మొదటిదాన్ని ఓవర్‌రైట్ చేస్తుంది."
 
@@ -3325,9 +3295,6 @@ msgstr "సొంత రికార్డింగ్"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "ఈ రికార్డింగ్‌ను దాని అన్ని బ్లాక్‌లతో సహా మరో రికార్డింగ్‌లో ఉంచుతుంది.\nఫైల్ పేర్ల నుండి శోధనకు ఏ ఆధారమూ దొరకనప్పుడు దీన్ని వాడండి."
 
-msgid "Cameras only"
-msgstr "కెమెరాలు మాత్రమే"
-
 msgid "Curve number %d"
 msgstr "కర్వ్ సంఖ్య %d"
 
@@ -3378,9 +3345,6 @@ msgstr "ప్రారంభం %s"
 
 msgid "Take from source files"
 msgstr "మూల ఫైళ్ల నుండి తీసుకో"
-
-msgid "Take the camera audio"
-msgstr "కెమెరా ఆడియో తీసుకో"
 
 msgid "Target: %s"
 msgstr "గమ్యం: %s"
@@ -3589,9 +3553,6 @@ msgstr "వాటిని కలుపు"
 msgid "Mixing %s"
 msgstr "మిక్స్ చేస్తోంది: %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack కు పై పట్టికలో రెండు ట్రాక్‌లు కావాలి -- ఒక కెమెరా యొక్క కెమెరా ఆడియోను \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేసిన వెంటనే అది ఒకటిగా లెక్కించబడుతుంది."
-
 msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
 msgstr "ఒకే ట్రాక్ -- రెండోదాని కోసం ఒక కెమెరా యొక్క కెమెరా ఆడియోను \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేయండి."
 
@@ -3612,9 +3573,6 @@ msgstr "వాడితే, ఈ ఫైల్ ఆడియో మిగతా వ
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "పని చేయడానికి ఆడియో లేదు -- ఒక వీడియో ఫైల్ యొక్క కెమెరా ఆడియోను \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేయండి, లేదా ఒక ఆడియో రికార్డింగ్ జోడించండి."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack కు అనేక ట్రాక్‌లు కావాలి"
 
 msgid "Mute."
 msgstr "మ్యూట్ చేయి."
@@ -3720,9 +3678,6 @@ msgstr "నిశ్శబ్దం"
 
 msgid "Speaker name"
 msgstr "వక్త పేరు"
-
-msgid "Speaker names"
-msgstr "వక్తల పేర్లు"
 
 msgid "Static metadata"
 msgstr "స్థిర మెటాడేటా"
@@ -3975,9 +3930,6 @@ msgstr "  ట్రాక్‌లు రికార్డ్ చేసిన�
 
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  --without-auphonic మరియు --auphonic-done రెండూ ఇవ్వబడ్డాయి. పూర్తయిన ట్రాక్‌లకే ప్రాధాన్యం: ఇక ఎక్కడికీ పంపాల్సింది ఏమీ లేదు."
-
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK సాధ్యం కాదు\n  API కీ లేకుండా auphonic.com కు పంపడానికి ఏమీ లేదు.\n  --without-auphonic తో బదులుగా ఇది స్థానికంగా నడుస్తుంది: సమలేఖనం,\n  మిక్స్, కట్ చేయబడుతుంది, కానీ బ్లీడ్ తొలగింపు, లెవెలర్ లేకుండా."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  జాగ్రత్త: కొలవగలిగిన జతలు %s మాత్రమే (మొత్తం %s). మిగిలిన వాటికి సరిగ్గా ఒక్కరే మాట్లాడే క్షణం దొరకలేదు, కాబట్టి వాటి బ్లీడ్ అలాగే ఉంటుంది -- ఇక్కడ వక్తల గుర్తింపు నమ్మదగినది కాదు."
@@ -5026,9 +4978,6 @@ msgstr "అవుట్ పాయింట్ గత రన్ తర్వా�
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "ప్రొడక్షన్ పూర్తయింది, కానీ వేర్వేరు ట్రాక్‌లతో ఉన్న ZIP కు సాధారణ ఫైల్ పేరు లేదు"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "అనేక కెమెరాలు ఉన్నాయి కానీ ఆడియో రికార్డింగ్ లేదు. ప్రతి కెమెరాకు దాని సొంత ఆడియో ఉంటుంది -- అందుకే Multitrack ఉంది. లేకపోతే ఒక కెమెరా తర్వాత మరొకటి."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "ఆర్కైవ్‌లో %s ఒకటి కంటే ఎక్కువసార్లు ఉంది, కాబట్టి దాని నుండి ఏదీ తీయబడలేదు."
 
@@ -5202,3 +5151,21 @@ msgstr "పూర్తయిన మిక్స్ -- వక్త కాదు
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "మాట: లౌడ్‌నెస్ ఆధారంగా మాత్రమే ఉంచబడుతుంది. కెమెరాలతో ఏదీ ఉమ్మడిగా\nలేని రికార్డింగ్ తిరస్కరించబడుతుంది. మిశ్రమం: గొంతుల కింద సంగీతం లేదా మిక్స్ ఉంటుంది,\nలౌడ్‌నెస్ ఏమీ కనుగొనని చోట ఫేజ్ దాన్ని ఉంచవచ్చు.\nపూర్తయిన మిక్స్: వేరే చోట చేసిన స్టీరియో మిక్స్, మిశ్రమ ధ్వనిలా ఉంచబడుతుంది. ప్రాసెసింగ్ మిక్స్‌కు బదులుగా\nకెమెరా ఫైళ్లలోకి, అప్పగింతలోకి వెళ్తుంది --\nవక్త కాదు, కత్తిరించబడదు, auphonic.com కు పంపబడదు.\n\"%s\" కింద మాట ఎంపిక ఇవ్వబడదు."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, ఎందుకంటే %s ట్రాక్‌లు ఒకే సమయ అక్షంపై ఉన్నాయి. వేరే Multitrack "
+"ప్రీసెట్ ఎంచుకోవచ్చు; Singletrack కోసం ఒకటి తప్ప అన్ని ట్రాక్‌లను "
+"\"వాడవద్దు\"కు మార్చండి."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, ఎందుకంటే ఒకే ట్రాక్ ఉంది. వేరే Singletrack ప్రీసెట్ "
+"ఎంచుకోవచ్చు; Multitrack కోసం రెండో ట్రాక్ జోడించండి -- ఒక రికార్డింగ్, లేదా "
+"\"అంతర్గత ఆడియో వాడు\"కు పెట్టిన కెమెరా."
