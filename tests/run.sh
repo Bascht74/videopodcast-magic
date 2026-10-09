@@ -511,7 +511,10 @@ if [ "$FLOORS$SILENT" = "||" ]; then
     echo "      One run of the whole suite sets them."
   fi
 fi
-export CHECKS FLOORS SILENT CHECKS_FRESH
+# FLOORS and SILENT reach the workers through the file of functions
+# below, not the environment: FLOORS holds a row per test, 12 KB on
+# 9.10.2026, and grows with every test added.
+export CHECKS CHECKS_FRESH
 
 crash_block() {
   # Everything from where the ground gave way to the end of the output.
@@ -747,8 +750,18 @@ $short"
     "$(head -1 "$OUT/$t")" "$((SECONDS - began))" \
     "$( [ -s "$STARTS/$t" ] && wc -l < "$STARTS/$t" | tr -d ' ' || echo 0)"
 }
-export -f run_one crash_block crash_said test_file said_red
-export OUT HERE LIMIT TOTAL TRIES PY
+# The workers read the functions, and the floors they hold each test
+# to, from a file and not from the environment. An exported function is
+# an environment variable, and Git Bash's xargs refuses to start once
+# the environment leaves it less than 2 KB of its 32000-byte argument
+# space: it aborts on "assertion bc_ctl.arg_max >= LINE_MAX" and runs
+# nothing. On 9.10.2026 run_one grew by 700 bytes and both Windows jobs
+# went red with 353 tests never started. The five functions are 7 KB
+# and FLOORS 12 KB; in a file they cost the environment one path.
+FUNCS="$RUN_TEMP/functions.sh"
+{ declare -f run_one crash_block crash_said test_file said_red
+  declare -p FLOORS SILENT; } > "$FUNCS"
+export FUNCS OUT HERE LIMIT TOTAL TRIES PY
 
 # A test that measures real time cannot share the machine. Playing a
 # second of sound takes a second; beside eleven others it took sixteen
@@ -774,7 +787,7 @@ TOTAL=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -cv '^$')
 # -L and not -I: macOS's xargs builds an -I line of at most 255 bytes,
 # and on the chain of sixteen *_langsN names it ran nothing (26.9.2026).
 echo "$CROWD" | grep -v '^$' \
-  | xargs -P "$WORKERS" -L 1 bash -c 'for t in "$@"; do run_one "$t"; done' _
+  | xargs -P "$WORKERS" -L 1 bash -c '. "$FUNCS"; for t in "$@"; do run_one "$t"; done' _
 for t in $ALONE_ONLY; do
   echo "$TESTS" | tr ' \n' '\n\n' | grep -qx "$t" && run_one "$t"
 done
