@@ -195,6 +195,7 @@ run_ffmpeg_sum_checked	9
 run_findings_reach_both	6
 run_finished_mix_refused	7
 run_install_is_watched	42
+run_join_done_or_dry	5
 run_kept_by_its_line	10
 run_log_within_reach	30
 run_long_names_keep_end	16
