@@ -534,6 +534,18 @@ import AVFoundation
         .lowercased() == asked { return l }
     return nil
   }
+  // Every locale the recognition is used in is reserved for this
+  // program, the reservation outlives the process, and the sixth is
+  // refused: "Too many allocated locales, 5 maximum". So the oldest
+  // name in the alphabet is let go when the list is full.
+  static func makeRoom(for loc: Locale) async {
+    let held = await AssetInventory.reservedLocales
+    if held.contains(where: { $0.identifier == loc.identifier }) { return }
+    if held.count < AssetInventory.maximumReservedLocales { return }
+    if let away = held.sorted(by: { $0.identifier < $1.identifier }).first {
+      _ = await AssetInventory.release(reservedLocale: away)
+    }
+  }
   static func main() async {
     let t0 = Date()
     let args = CommandLine.arguments
@@ -550,6 +562,7 @@ import AVFoundation
     let tr = SpeechTranscriber(locale: loc, transcriptionOptions: [],
                                reportingOptions: [],
                                attributeOptions: [.audioTimeRange])
+    await makeRoom(for: loc)
     do {
       let url = URL(fileURLWithPath: args[1])
       let file = try AVAudioFile(forReading: url)
