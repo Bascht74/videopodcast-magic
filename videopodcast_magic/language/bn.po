@@ -270,6 +270,9 @@ msgstr "  বক্তৃতা শনাক্তকারী তৈরি হ�
 msgid "  The speech recognition reports: %s"
 msgstr "  বক্তৃতা শনাক্তকরণ জানাচ্ছে: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS এখানে %s শুনতে পারে না, Whisper এটি নেয়"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  শনাক্ত করা হয়েছে (%s): প্রস্তুত হতে %s s, শুনতে %s s"
 

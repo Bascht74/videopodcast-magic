@@ -270,6 +270,9 @@ msgstr "  Recunoașterea vorbirii este construită (%s s)."
 msgid "  The speech recognition reports: %s"
 msgstr "  Recunoașterea vorbirii raportează: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS nu recunoaște aici această limbă (%s), o preia Whisper"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Recunoscut în %s: gata în %s s, ascultat în %s s"
 

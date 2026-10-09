@@ -848,8 +848,17 @@ def macos_words(audio_path, language=""):
     language = speech_locale(language)
     if language:
         region, offered = recogniser_locales(program)
-        language = speech_locale_choice(language, offered, region) \
-            or language
+        chosen = speech_locale_choice(language, offered, region)
+        # A list without the language means this Mac cannot hear it, and
+        # the system's own language would write wrong words; no list at
+        # all says nothing about the language, so the code goes on.
+        if offered and not chosen:
+            print(T('  macOS hears no %s here, Whisper takes it')
+                  % next((T(name) for tag, name in SPOKEN_LANGUAGES
+                          if SPEECH_CODES.get(tag) == language.split("-")[0]),
+                         language))
+            return None
+        language = chosen or language
     handle, out = tempfile.mkstemp(suffix=".tsv", prefix="vpm_words_")
     os.close(handle)
     try:

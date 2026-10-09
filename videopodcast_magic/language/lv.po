@@ -273,6 +273,9 @@ msgstr "  Runas atpazinējs ir izveidots (%s s)."
 msgid "  The speech recognition reports: %s"
 msgstr "  Runas atpazīšana ziņo: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS šeit neatpazīst šo valodu (%s), to pārņem Whisper"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Atpazīts valodā %s: gatavs %s s laikā, noklausīts %s s laikā"
 

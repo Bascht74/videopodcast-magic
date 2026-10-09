@@ -3925,6 +3925,9 @@ msgstr "  正在构建语音识别器 ..."
 msgid "  The speech recognition reports: %s"
 msgstr "  语音识别报告：%s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  此处 macOS 无法识别%s，由 Whisper 接手"
+
 msgid "  The speech recogniser is built (%s s)."
 msgstr "  语音识别器已构建（%s 秒）。"
 

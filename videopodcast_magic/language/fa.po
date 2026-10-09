@@ -271,6 +271,9 @@ msgstr "  بازشناس گفتار ساخته شد (%s s)."
 msgid "  The speech recognition reports: %s"
 msgstr "  بازشناسی گفتار گزارش می‌دهد: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS اینجا %s را نمی‌شناسد، Whisper آن را بر عهده می‌گیرد"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  بازشناسی در %s: آماده در %s s، شنیده‌شده در %s s"
 

@@ -272,6 +272,9 @@ msgstr "  ప్రసంగ గుర్తింపు సాధనం సి�
 msgid "  The speech recognition reports: %s"
 msgstr "  ప్రసంగ గుర్తింపు నివేదిక: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS ఇక్కడ %s ను గుర్తించదు, Whisper దానిని తీసుకుంటుంది"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  గుర్తింపు (%s): సిద్ధం కావడానికి %s s, వినడానికి %s s"
 

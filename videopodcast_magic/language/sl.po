@@ -275,6 +275,9 @@ msgstr "  Razpoznavalnik govora je zgrajen (%s s)."
 msgid "  The speech recognition reports: %s"
 msgstr "  Razpoznavanje govora sporoča: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS tukaj ne prepozna tega jezika (%s), prevzame ga Whisper"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Razpoznano v jeziku %s: pripravljeno v %s s, preposlušano v %s s"
 

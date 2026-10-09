@@ -270,6 +270,9 @@ msgstr "  Moduł rozpoznawania mowy jest gotowy (%s s)."
 msgid "  The speech recognition reports: %s"
 msgstr "  Rozpoznawanie mowy zgłasza: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS nie rozpoznaje tu tego języka (%s), przejmuje go Whisper"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Rozpoznano w języku %s: gotowe po %s s, odsłuchano w %s s"
 

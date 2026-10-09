@@ -270,6 +270,9 @@ msgstr "  สร้างตัวรู้จำเสียงพูดแล�
 msgid "  The speech recognition reports: %s"
 msgstr "  การรู้จำเสียงพูดรายงาน: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS ที่นี่ไม่รู้จักภาษา%s Whisper จะรับช่วงแทน"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  รู้จำในภาษา %s: พร้อมใน %s s, ฟังใน %s s"
 

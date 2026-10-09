@@ -3955,6 +3955,9 @@ msgstr "  Costruzione del riconoscitore vocale ..."
 msgid "  The speech recognition reports: %s"
 msgstr "  Il riconoscimento vocale segnala: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS qui non riconosce %s, se ne occupa Whisper"
+
 msgid "  The speech recogniser is built (%s s)."
 msgstr "  Il riconoscitore vocale è costruito (%s s)."
 

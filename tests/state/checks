@@ -418,6 +418,7 @@ voice_split_mends_itself	11
 voice_split_names_fault	7
 voice_tracks_read_once	4
 voice_turns_found	6
+voice_unheard_to_whisper	4
 voice_words_intact	48
 voice_zero_all_cameras	4
 window_all_come_up	6

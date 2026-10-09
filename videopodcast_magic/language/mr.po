@@ -272,6 +272,9 @@ msgstr "  उच्चार ओळख साधन तयार झाले (%
 msgid "  The speech recognition reports: %s"
 msgstr "  उच्चार ओळख कळवते: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS येथे %s ओळखत नाही, Whisper ते हाताळते"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  %s मध्ये ओळखले: %s s मध्ये तयार, %s s मध्ये ऐकले"
 

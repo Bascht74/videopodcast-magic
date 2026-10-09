@@ -271,6 +271,9 @@ msgstr "  تقریر کی شناخت کا انجن بن گیا (%s s)۔"
 msgid "  The speech recognition reports: %s"
 msgstr "  تقریر کی شناخت کی اطلاع: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS یہاں %s نہیں پہچانتا، Whisper اسے سنبھالتا ہے"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  %s میں پہچانا گیا: %s s میں تیار، %s s میں سنا گیا"
 
