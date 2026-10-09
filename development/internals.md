@@ -35,7 +35,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 9.10.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **4323** -- who speaks and when: the separation itself,
+* `speakers/` **4324** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -65,7 +65,7 @@ figure of the day is that command, not this paragraph**:
   camera's drift goes out is `camera_drift`'s alone, by the rule every
   recording answers to (`drift_clear`: three times its uncertainty)
   and one bound of its own, 500 ppm
-* `auphonic/` **2270** -- the sending to auphonic.com and the fetching
+* `auphonic/` **2291** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
 * `preflight/` **2034** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
@@ -88,7 +88,7 @@ figure of the day is that command, not this paragraph**:
   recordings above, the voices under them, the cameras below, what it
   keeps between builds and the camera names somebody typed; read by
   `assignmentsheet/` and nothing else
-* `upkeep/` **724** -- which release is out, the way back, pip putting
+* `upkeep/` **773** -- which release is out, the way back, pip putting
   one in place, and what the window offers of all three
 * `herald/` **885** -- the progress bar, the stages, the console and log
   redirection with the line naming the Python it runs on, and the watch over a quiet run: `RunVitals` counts the
