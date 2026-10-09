@@ -27,6 +27,7 @@ on:
   push:
     branches:
       - '**'
+      - '!stress/**'
   # A pull request runs the suite only when it comes from a fork. Our
   # own branches are answered by their push, above, and a second run on
   # the merged branch cost twelve jobs where six answer -- measured
