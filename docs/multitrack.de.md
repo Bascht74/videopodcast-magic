@@ -377,9 +377,10 @@ Beide Grenzen nehmen diese Angaben:
 Die Knöpfe bleiben gesperrt, solange die gemeinsame Zeitachse fehlt.
 Danach gelten sie für alle Dateien gleich, auch für die ohne Timecode.
 
-**Eine Uhrzeit geht auch dann, wenn die längste Kamera keine Uhr
-trägt.** In ihr wird das Fenster gezählt, aber sie muss nicht die sein,
-die die Tageszeit kennt: die Achse hängt dann an den Uhren der übrigen
+**Eine Uhrzeit geht auch dann, wenn die Referenzkamera keine Uhr
+trägt.** Das Fenster wird in der längsten Kamera gezählt, die gehört
+wurde -- eine längere, deren Ton nichts hergibt, wird übergangen --, und
+sie muss nicht die sein, die die Tageszeit kennt: die Achse hängt dann an den Uhren der übrigen
 Dateien, und der Lauf sagt, an welchen er sie gehängt hat und worauf ihr
 erstes Bild damit steht. Erst wenn keine einzige Datei auf der Achse
 eine Uhr trägt, hat eine Uhrzeit nichts, worüber sie sich umrechnen
@@ -421,7 +422,8 @@ Im selben Block meldet jede Kamera ihren Versatz und ihren Uhrengang.
 Wo keine Messung einen Uhrengang ergeben hat, steht statt einer Zahl,
 dass keiner gemessen ist. Die Referenz sagt `Uhrengang: nichts gemessen
 -- das ist die Referenz, gegen die die anderen gehalten werden`: Es ist
-die längste Kamera, die, gegen die alle anderen gemessen wurden, und an
+die längste Kamera, die gehört wurde, die, gegen die alle anderen
+gemessen wurden, und an
 ihr hat also keine Messung etwas ergeben. Hat der Ton eine Kamera zwar
 platziert, aber auf zu wenigen Punkten, um daraus einen Gang zu
 bestimmen, heißt es `Uhrengang: nicht gemessen -- sein Ton gab zu

@@ -350,9 +350,10 @@ Both boundaries take these entries:
 The buttons stay locked until the common time axis is there. After that
 they hold for every file alike, including those without a timecode.
 
-**A clock time works even where the longest camera carries no clock.**
-It is the longest camera the window is counted in, and it need not be
-the one that knows the time of day: the axis is hung on the clocks of
+**A clock time works even where the reference camera carries no clock.**
+The window is counted in the longest camera that was heard -- a longer
+one whose sound gives nothing is passed over -- and it need not be the
+one that knows the time of day: the axis is hung on the clocks of
 the other files, and the run says which ones it took and what they make
 the first frame of that camera read. Only where not one file on the axis
 carries a clock does a clock time have nothing to be converted through;
@@ -391,8 +392,8 @@ leaves that camera's start where it is.
 In the same block each camera reports its offset and its clock drift.
 Where nothing measured a drift, the line says so instead of a number.
 The reference says `Clock drift: nothing measured -- this is the
-reference the others are held against`: it is the longest camera, the
-one all the others were measured against, so there is nothing about it
+reference the others are held against`: it is the longest camera that
+was heard, the one all the others were measured against, so there is nothing about it
 that a measurement produced. A camera its sound placed, but on too few
 points to fit a drift, says `Clock drift: not measured -- too few points
 of its sound held for one`. And in the block `MEASURING THE TIME AXIS`,
