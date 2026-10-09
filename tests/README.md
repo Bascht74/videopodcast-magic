@@ -1,6 +1,6 @@
 # The test suite
 
-491 tests against the program in `../videopodcast_magic/`. Every one of them stands
+492 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -249,7 +249,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-491 tests. The name is the one a red line carries, and beside it the
+492 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -273,6 +273,7 @@ it is green.
 | `files_curve_kept_once` | One file leaves one envelope, whatever name it was asked for. |
 | `files_cut_without_keys` | A camera is cut to the window even where its key frames cannot be read. |
 | `files_data_track_kept` | A camera's data track is carried over only where ffmpeg writes it whole. |
+| `files_folder_shown` | On a Mac a written file is shown selected in Finder, a folder opened. |
 | `files_foreign_untouched` | Copying atoms over onto everything that is not a camera file. |
 | `files_hdr_complete` | #65: Does a finished file carry everything that marks it as HDR? |
 | `files_intro_proposed` | A jingle is proposed as the intro, not for "ignore this video". |
@@ -832,7 +833,7 @@ the source, the texts and the documents as a whole.
 | `loudness/` | `sound_both_sides_alike`, `sound_mix_hits_target`, `sound_mix_says_the_name`, `sound_peaks_limited`, `sound_speakers_matched` |
 | `material/` | `files_block_stays_apart`, `files_blocks_join_exact`, `files_clock_links_blocks`, `files_joined_by_hand`, `files_left_out_named`, `files_only_window_kept`, `files_order_kept`, `files_split_found_again`, `run_clock_place_travels`, `run_mute_camera_placed`, `sound_all_blocks_count`, `sound_any_count_judged`, `sound_camera_judged_too`, `sound_channels_split`, `sound_clip_spans_block`, `sound_clipping_counted`, `sound_delay_decides`, `sound_hush_reason`, `sound_jingle_edges`, `sound_loudest_block`, `sound_one_pass_agrees`, `sound_silent_no_pair`, `sound_stereo_kept`, `table_blocks_judged`, `table_stereo_splits`, `time_drift_taken_out`, `time_split_keeps_stamp` |
 | `menus/` | `window_menu_greys_along`, `window_play_follows_tab`, `window_view_reaches_tabs` |
-| `metadata/` | `files_atom_travels`, `files_colour_carried`, `files_colour_change_said`, `files_data_track_kept`, `files_foreign_untouched`, `files_mov_damage_named`, `files_risky_edit_refused`, `project_audio_counted`, `text_units_translated` |
+| `metadata/` | `files_atom_travels`, `files_colour_carried`, `files_colour_change_said`, `files_data_track_kept`, `files_folder_shown`, `files_foreign_untouched`, `files_mov_damage_named`, `files_risky_edit_refused`, `project_audio_counted`, `text_units_translated` |
 | `orders/` | `run_command_built`, `run_no_own_camera_kept`, `run_project_type_reaches`, `run_switch_changes_it`, `run_switch_has_effect`, `run_three_ways_agree` |
 | `pipeline/` | `files_cam_lands_in_out`, `run_done_tracks_used`, `run_name_twice_refused`, `run_names_as_window`, `run_new_name_checked`, `run_no_drift_noughts`, `run_no_upload_no_hint`, `run_one_shots_return_0`, `run_overwrite_is_said`, `run_own_sound_with_cam`, `run_promise_is_written`, `run_recordings_apart`, `run_simple_path_agrees`, `run_stays_local`, `run_stop_names_why`, `run_sync_only_no_cut`, `run_typed_name_used`, `sound_camera_own_used`, `sound_cameras_carry_cut`, `sound_finished_mix_used`, `sound_tracks_written`, `time_clock_from_any_file`, `time_length_names_change`, `time_one_track_aligned`, `time_point_pulled_back`, `time_reference_silent`, `time_sound_stays_put`, `time_tracks_alone`, `time_window_is_shared` |
 | `player/` | `cut_box_fits_the_picture`, `cut_note_moves_no_shot`, `cut_note_says_who_speaks`, `cut_player_in_sync`, `cut_player_jump_lands`, `cut_player_right_file`, `cut_player_speeds_up`, `window_blocks_placed`, `window_clock_sound_said`, `window_cut_colours`, `window_no_full_screen`, `window_not_started_said`, `window_notes_break_up`, `window_picture_returns`, `window_sound_fault_named`, `window_stop_what_runs`, `window_tc_point_named`, `window_zoom_stays_in` |
