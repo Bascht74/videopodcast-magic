@@ -5083,9 +5083,6 @@ msgstr "Piešķiršanas fails šeit nosauc ierakstus, tāpēc --speaker-name tik
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Gatavais būvējums neatbilst savai kontrolsummai, tāpēc tas netika atpakots: sarakstā %s, pienāca %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Kontrolsummu sarakstu neizdevās lejupielādēt, tāpēc gatavais būvējums netika atpakots: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Kontrolsummu sarakstā nav %s, tāpēc gatavais būvējums netika atpakots."
 

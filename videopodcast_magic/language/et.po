@@ -5038,9 +5038,6 @@ msgstr "Määramisfail annab siin salvestistele nimed, seega --speaker-name jäe
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Valmisehitus ei vasta oma kontrollsummale, seega seda lahti ei pakitud: loendis %s, saabus %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Kontrollsummade loendit ei õnnestunud alla laadida, seega valmisehitust lahti ei pakitud: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Kontrollsummade loendis pole %s, seega valmisehitust lahti ei pakitud."
 

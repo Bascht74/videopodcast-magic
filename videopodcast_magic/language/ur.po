@@ -5037,9 +5037,6 @@ msgstr "یہاں ریکارڈنگز کے نام تفویض فائل دیتی ہ�
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "بلڈ اپنے چیک سم سے مطابقت نہیں رکھتا، اس لیے ان پیک نہیں کیا گیا: فہرست میں %s، پہنچا %s۔"
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "چیک سموں کی فہرست نہیں لائی جا سکی، اس لیے بلڈ ان پیک نہیں کیا گیا: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "چیک سموں کی فہرست میں %s کا نام نہیں، اس لیے بلڈ ان پیک نہیں کیا گیا۔"
 

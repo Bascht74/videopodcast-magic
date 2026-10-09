@@ -4991,9 +4991,6 @@ msgstr "ここでは割り当てファイルが録音に名前を付けるため
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "ビルドがチェックサムと一致しないため、展開しませんでした: 一覧は %s、届いたのは %s。"
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "チェックサムの一覧を取得できなかったため、ビルドを展開しませんでした: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "チェックサムの一覧に %s がないため、ビルドを展開しませんでした。"
 

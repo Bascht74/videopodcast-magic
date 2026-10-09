@@ -4991,9 +4991,6 @@ msgstr "Ở đây tệp gán đặt tên cho các bản ghi, nên --speaker-name
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Bản dựng sẵn không khớp với tổng kiểm tra, nên đã không giải nén: danh sách ghi %s, nhận được %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Không thể tải danh sách tổng kiểm tra, nên bản dựng sẵn đã không được giải nén: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Danh sách tổng kiểm tra không có %s, nên bản dựng sẵn đã không được giải nén."
 

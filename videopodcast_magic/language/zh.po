@@ -4989,9 +4989,6 @@ msgstr "这里由分配文件为录音命名，因此 --speaker-name 会被丢�
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "预编译版本与其校验和不符，因此未解压：列表中为 %s，收到的是 %s。"
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "无法获取校验和列表，因此未解压预编译版本：%s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "校验和列表中没有 %s，因此未解压预编译版本。"
 

@@ -5052,9 +5052,6 @@ msgstr "Qui il file di assegnazione dà i nomi alle registrazioni, quindi --spea
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "La build non corrisponde al suo checksum, quindi non è stata estratta: %s nell’elenco, %s arrivato."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Impossibile scaricare l’elenco dei checksum, quindi la build non è stata estratta: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "L’elenco dei checksum non nomina %s, quindi la build non è stata estratta."
 

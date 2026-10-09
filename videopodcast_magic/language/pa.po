@@ -5040,9 +5040,6 @@ msgstr "ਇੱਥੇ ਨਿਰਧਾਰਨ ਫ਼ਾਈਲ ਰਿਕਾਰਡਿ
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "ਬਿਲਡ ਆਪਣੇ ਚੈੱਕਸਮ ਨਾਲ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ, ਇਸ ਲਈ ਅਨਪੈਕ ਨਹੀਂ ਕੀਤਾ ਗਿਆ: ਸੂਚੀ ਵਿੱਚ %s, ਪਹੁੰਚਿਆ %s।"
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "ਚੈੱਕਸਮਾਂ ਦੀ ਸੂਚੀ ਲਿਆਂਦੀ ਨਹੀਂ ਜਾ ਸਕੀ, ਇਸ ਲਈ ਬਿਲਡ ਅਨਪੈਕ ਨਹੀਂ ਕੀਤਾ ਗਿਆ: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "ਚੈੱਕਸਮਾਂ ਦੀ ਸੂਚੀ ਵਿੱਚ %s ਨਹੀਂ ਹੈ, ਇਸ ਲਈ ਬਿਲਡ ਅਨਪੈਕ ਨਹੀਂ ਕੀਤਾ ਗਿਆ।"
 

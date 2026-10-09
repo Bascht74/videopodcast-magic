@@ -5082,9 +5082,6 @@ msgstr "Priskyrimo failas čia pavadina įrašus, todėl --speaker-name būtų i
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Sukompiliuota versija neatitinka savo kontrolinės sumos, todėl nebuvo išpakuota: sąraše %s, atėjo %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Nepavyko atsisiųsti kontrolinių sumų sąrašo, todėl sukompiliuota versija nebuvo išpakuota: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Kontrolinių sumų sąraše nėra %s, todėl sukompiliuota versija nebuvo išpakuota."
 

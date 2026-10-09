@@ -5079,9 +5079,6 @@ msgstr "Овде снимке именује датотека доделе, па
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Готова верзија не одговара својој контролној суми, па није распакована: %s на листи, %s стигло."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Листа контролних сума није могла да се преузме, па готова верзија није распакована: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Листа контролних сума не наводи %s, па готова верзија није распакована."
 

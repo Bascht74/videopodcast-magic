@@ -5038,9 +5038,6 @@ msgstr "இங்கே பதிவுகளுக்குப் பெயர�
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "பில்ட் அதன் சரிபார்ப்புத் தொகையுடன் பொருந்தவில்லை, எனவே பிரித்தெடுக்கப்படவில்லை: பட்டியலில் %s, வந்தது %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "சரிபார்ப்புத் தொகைகளின் பட்டியலைப் பெற முடியவில்லை, எனவே பில்ட் பிரித்தெடுக்கப்படவில்லை: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "சரிபார்ப்புத் தொகைகளின் பட்டியலில் %s இல்லை, எனவே பில்ட் பிரித்தெடுக்கப்படவில்லை."
 

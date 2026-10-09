@@ -5036,9 +5036,6 @@ msgstr "Itt a hozzárendelési fájl nevezi meg a felvételeket, így a --speake
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "A fordított változat nem egyezik az ellenőrző összegével, ezért nem lett kicsomagolva: a listában %s, megérkezett %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Az ellenőrző összegek listája nem tölthető le, ezért a fordított változat nem lett kicsomagolva: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Az ellenőrző összegek listája nem nevezi meg ezt: %s, ezért a fordított változat nem lett kicsomagolva."
 

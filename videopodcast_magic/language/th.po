@@ -4993,9 +4993,6 @@ msgstr "ไฟล์การกำหนดเป็นตัวตั้งช
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "บิลด์ไม่ตรงกับค่าตรวจสอบ จึงไม่ได้แตกไฟล์: ในรายการคือ %s ที่ได้รับคือ %s"
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "ดึงรายการค่าตรวจสอบไม่ได้ จึงไม่ได้แตกไฟล์บิลด์: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "รายการค่าตรวจสอบไม่มี %s จึงไม่ได้แตกไฟล์บิลด์"
 

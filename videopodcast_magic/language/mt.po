@@ -5127,9 +5127,6 @@ msgstr "Il-fajl tal-assenjazzjoni hawn isemmi r-reġistrazzjonijiet, għalhekk -
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Il-verżjoni lesta ma taqbilx mas-somma ta' kontroll tagħha, għalhekk ma ġietx estratta: %s fil-lista, %s wasal."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Il-lista tas-somom ta' kontroll ma setgħetx titniżżel, għalhekk il-verżjoni lesta ma ġietx estratta: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Il-lista tas-somom ta' kontroll ma ssemmix %s, għalhekk il-verżjoni lesta ma ġietx estratta."
 

@@ -5127,9 +5127,6 @@ msgstr "Datoteka dodelitve tukaj poimenuje posnetke, zato bi bil --speaker-name 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Zgrajena različica se ne ujema s svojo kontrolno vsoto, zato ni bila razpakirana: na seznamu %s, prispelo %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Seznama kontrolnih vsot ni bilo mogoče prenesti, zato zgrajena različica ni bila razpakirana: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Seznam kontrolnih vsot ne navaja %s, zato zgrajena različica ni bila razpakirana."
 

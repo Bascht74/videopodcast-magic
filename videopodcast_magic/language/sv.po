@@ -5034,9 +5034,6 @@ msgstr "Här namnger tilldelningsfilen inspelningarna, så --speaker-name skulle
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Det färdiga bygget stämmer inte med sin kontrollsumma, så det packades inte upp: %s listad, %s kom fram."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Listan med kontrollsummor gick inte att hämta, så det färdiga bygget packades inte upp: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Listan med kontrollsummor nämner inte %s, så det färdiga bygget packades inte upp."
 

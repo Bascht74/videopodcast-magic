@@ -5045,9 +5045,6 @@ msgstr "Ici, le fichier d’affectation nomme les enregistrements, donc --speake
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "La compilation ne correspond pas à sa somme de contrôle, elle n’a donc pas été décompressée : %s dans la liste, %s reçu."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "La liste des sommes de contrôle n’a pas pu être récupérée, la compilation n’a donc pas été décompressée : %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "La liste des sommes de contrôle ne nomme pas %s, la compilation n’a donc pas été décompressée."
 

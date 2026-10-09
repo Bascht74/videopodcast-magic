@@ -5079,9 +5079,6 @@ msgstr "Tutaj nagrania nazywa plik przypisania, więc --speaker-name zostałby p
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Kompilacja nie zgadza się ze swoją sumą kontrolną, więc nie została rozpakowana: na liście %s, dotarło %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Nie udało się pobrać listy sum kontrolnych, więc kompilacja nie została rozpakowana: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Lista sum kontrolnych nie wymienia %s, więc kompilacja nie została rozpakowana."
 

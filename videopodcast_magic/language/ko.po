@@ -4990,9 +4990,6 @@ msgstr "여기서는 할당 파일이 녹음 이름을 정하므로 --speaker-na
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "빌드가 체크섬과 일치하지 않아 압축을 풀지 않았습니다: 목록에는 %s, 도착한 것은 %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "체크섬 목록을 가져올 수 없어 빌드의 압축을 풀지 않았습니다: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "체크섬 목록에 %s이(가) 없어 빌드의 압축을 풀지 않았습니다."
 

@@ -6769,9 +6769,6 @@ msgstr "Die Zuordnungsdatei benennt hier die Aufnahmen, also würde --speaker-na
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Der fertige Bau passt nicht zu seiner Prüfsumme, deshalb wurde er nicht ausgepackt: %s steht in der Liste, %s ist angekommen."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Die Liste der Prüfsummen ließ sich nicht holen, deshalb wurde der fertige Bau nicht ausgepackt: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Die Liste der Prüfsummen nennt %s nicht, deshalb wurde der fertige Bau nicht ausgepackt."
 

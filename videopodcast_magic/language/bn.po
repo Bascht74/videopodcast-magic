@@ -5036,9 +5036,6 @@ msgstr "এখানে বরাদ্দ ফাইলই রেকর্ডি
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "তৈরি বিল্ডটি তার চেকসামের সঙ্গে মেলে না, তাই আনপ্যাক করা হয়নি: তালিকায় %s, এসেছে %s।"
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "চেকসামের তালিকা আনা যায়নি, তাই তৈরি বিল্ডটি আনপ্যাক করা হয়নি: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "চেকসামের তালিকায় %s নেই, তাই তৈরি বিল্ডটি আনপ্যাক করা হয়নি।"
 

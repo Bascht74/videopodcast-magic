@@ -105,24 +105,30 @@ mac = driven("darwin", "arm64", OnlyBrew)
 
 # The name of the archive, not the whole address: what the address is
 # built out of stands in one place in the program, and holding the
-# ending against it here would only repeat that place.
+# ending against it here would only repeat that place. Of the name only
+# the machine and the kind of archive are asked: the version in front
+# moves with every build the program names.
 def archive(url):
     return url.rsplit("/", 1)[-1]
 
 
+def built_for(url, machine, ending):
+    return ("-%s-gpl-" % machine) in archive(url) \
+        and archive(url).endswith(ending)
+
+
 check("Linux is offered a built ffmpeg to fetch",
-      archive(linux[0]) == "ffmpeg-n9.0-latest-linux64-gpl-9.0.tar.xz",
+      built_for(linux[0], "linux64", ".tar.xz"),
       "it names %r, wanted the linux64 archive -- what a distribution "
       "holds is under the floor, Ubuntu 24.04 carries 6.1.1"
       % (archive(linux[0]),))
 check("Windows is offered a built ffmpeg to fetch",
-      archive(windows[0]) == "ffmpeg-n9.0-latest-win64-gpl-9.0.zip",
+      built_for(windows[0], "win64", ".zip"),
       "it names %r, wanted the win64 archive -- Windows has no package "
       "manager to ask at all" % (archive(windows[0]),))
 check("an arm machine is offered the build for its own processor",
-      archive(linux_arm[0]) == "ffmpeg-n9.0-latest-linuxarm64-gpl-9.0.tar.xz"
-      and archive(windows_arm[0])
-      == "ffmpeg-n9.0-latest-winarm64-gpl-9.0.zip",
+      built_for(linux_arm[0], "linuxarm64", ".tar.xz")
+      and built_for(windows_arm[0], "winarm64", ".zip"),
       "arm Linux %r, arm Windows %r"
       % (archive(linux_arm[0]), archive(windows_arm[0])))
 # A machine nothing is built for gets no address at all: an address

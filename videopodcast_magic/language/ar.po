@@ -5218,9 +5218,6 @@ msgstr "ملف الإسناد يسمّي التسجيلات هنا، لذا سي
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "النسخة المبنية لا تطابق مجموع التحقق الخاص بها، لذا لم يُفكّ ضغطها: المُدرَج %s، والواصل %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "تعذّر جلب قائمة مجاميع التحقق، لذا لم يُفكّ ضغط النسخة المبنية: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "قائمة مجاميع التحقق لا تذكر %s، لذا لم يُفكّ ضغط النسخة المبنية."
 

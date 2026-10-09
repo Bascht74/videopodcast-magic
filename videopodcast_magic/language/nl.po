@@ -5035,9 +5035,6 @@ msgstr "Hier geeft het toewijzingsbestand de opnamen hun namen, dus --speaker-na
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "De build komt niet overeen met zijn controlesom, dus hij is niet uitgepakt: %s vermeld, %s aangekomen."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "De lijst met controlesommen kon niet worden opgehaald, dus de build is niet uitgepakt: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "De lijst met controlesommen noemt %s niet, dus de build is niet uitgepakt."
 

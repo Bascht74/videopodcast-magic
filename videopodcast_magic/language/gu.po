@@ -5038,9 +5038,6 @@ msgstr "અહીં ફાળવણી ફાઇલ રેકોર્ડિં
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "બિલ્ડ તેના ચેકસમ સાથે મેળ ખાતું નથી, તેથી અનપૅક કરાયું નથી: યાદીમાં %s, આવ્યું %s."
 
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "ચેકસમની યાદી લાવી શકાઈ નહીં, તેથી બિલ્ડ અનપૅક કરાયું નથી: %s"
-
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "ચેકસમની યાદીમાં %s નથી, તેથી બિલ્ડ અનપૅક કરાયું નથી."
 
