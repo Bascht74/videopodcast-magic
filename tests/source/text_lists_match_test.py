@@ -25,8 +25,9 @@ Left out on purpose, so a red line here always means a real defect:
 defaults the manual writes in words because the program works the value
 out at run time, where the parser holds None and the manual is the
 better answer; the bold labels of a chapter, most of which are
-subheadings rather than labels; and screenshots, which no test judges
-without a reference image per system.
+subheadings rather than labels; screenshots, which no test judges
+without a reference image per system; and the READMEs' pipx line, whose
+switches are pipx's own.
 """
 PLATFORM_BOUND = False
 import os
@@ -407,6 +408,10 @@ for name in READMES:
             other_ways.append("%s:%d offers 'python3 -m videopodcast_magic', "
                               "and the package has had no __main__ since it "
                               "became a folder" % (name, number))
+        # The line that hands pip the package list through pipx: its
+        # switches are pipx's, not the program's.
+        if line.startswith("pipx "):
+            continue
         for switch in SWITCH.findall(line):
             if switch not in switches:
                 unknown.append("%s:%d names %s, the program has no such "

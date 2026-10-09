@@ -520,13 +520,40 @@ jobs:
       # Not on the neutral job, and not the Qt libraries below either: its
       # tests start no ffmpeg and open no window, and run.sh neither asks
       # for ffmpeg nor builds fixtures for that half.
+      #
+      # The build is the one the program itself fetches for a Linux user,
+      # read out of videopodcast_magic/setup/__init__.py with its sum:
+      # FFMPEG_BUILD_PLACE and FFMPEG_BUILD_SUMS. Not the moving latest
+      # tag, which BtbN keeps for days, and not a copy written here --
+      # the suite then runs against what a user gets, and a newer build
+      # comes with a newer program, here as there.
       - name: "Install: ffmpeg (Linux)"
         if: (runner.os == 'Linux' && matrix.tests != 'neutral') && env.CHOSEN == 'true'
         run: |
           set -e
-          base=https://github.com/BtbN/FFmpeg-Builds/releases/download/latest
-          name=ffmpeg-n9.0-latest-linux64-gpl-9.0
-          curl -fsSL --retry 3 -o /tmp/ff.tar.xz "$base/$name.tar.xz"
+          held=$(python3 - <<'PY'
+          import ast
+          held = {}
+          with open("videopodcast_magic/setup/__init__.py", encoding="utf-8") as f:
+              for node in ast.parse(f.read()).body:
+                  if isinstance(node, ast.Assign) and len(node.targets) == 1 \
+                          and getattr(node.targets[0], "id", "") in (
+                              "FFMPEG_BUILD_PLACE", "FFMPEG_BUILD_SUMS"):
+                      held[node.targets[0].id] = ast.literal_eval(node.value)
+          url = held["FFMPEG_BUILD_PLACE"] % ("linux64", "tar.xz")
+          print(url, held["FFMPEG_BUILD_SUMS"].get(url.rsplit("/", 1)[-1], ""))
+          PY
+          )
+          url=${held% *}
+          sum=${held##* }
+          name=$(basename "$url" .tar.xz)
+          if [ -z "$sum" ] || [ "$sum" = "$url" ]; then
+            echo "FAIL: the program names $url and carries no sum for it."
+            exit 1
+          fi
+          echo "build: $url"
+          curl -fsSL --retry 3 -o /tmp/ff.tar.xz "$url"
+          echo "$sum  /tmp/ff.tar.xz" | sha256sum -c -
           tar -xJf /tmp/ff.tar.xz -C /tmp
           sudo install -m755 "/tmp/$name/bin/ffmpeg" "/tmp/$name/bin/ffprobe" \
                              /usr/local/bin/

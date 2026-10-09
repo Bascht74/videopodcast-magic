@@ -978,9 +978,10 @@ underneath. Two buttons:
 was installed with pip3, and pip keeps the record of which version is
 in place; writing over the file would leave that record standing and
 wrong. So **Update** runs the same command anybody would type --
-`pip3 install -U` on the address the program came from -- in the
-Python the program is running in, so the installation that gets the
-new version is the one that would start.
+`pip3 install -U` on the address the program came from, with the
+package list that release was tested with -- in the Python the
+program is running in, so the installation that gets the new version
+is the one that would start.
 
 **Every line pip writes goes into the fourth tab, Output, as it
 arrives.** That tab is where to watch, and the window stays usable

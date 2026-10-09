@@ -44,7 +44,7 @@ Python underneath, then the preflight with eight checks and one hint.*
 | `--parallel COUNT` | this many video files at once; 0 decides for you, 1 one after another (0) |
 | `--dry-run` | work everything out up to the finished cut and report it, write nothing |
 | `--version` | version number, and the Python this runs on |
-| `--update` | run `pip3 install -U` on the address the program came from with the newest release hung on the end, in the Python it is running in, and write what pip says into the terminal. Any other run only ever says that a newer version is out |
+| `--update` | run `pip3 install -U` on the address the program came from with the newest release hung on the end and that release's package list for this system (`-c`), in the Python it is running in, and write what pip says into the terminal. Any other run only ever says that a newer version is out |
 
 ## What happens to audio and picture
 

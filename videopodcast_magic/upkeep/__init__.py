@@ -59,6 +59,15 @@ UPDATE_OFF = bool(os.environ.get("VPM_NO_UPDATE_CHECK"))
 # downloaded. No PyPI in it: pip reads the repository itself, and
 # pip_update hangs the release on the end.
 PIP_SOURCE = "git+https://github.com/" + PROGRAM.REPOSITORY
+# Where a release keeps its known-good package lists, one per system:
+# the versions its suite ran green on. The tag and the system are hung
+# in, so pip gets the list of the release it installs, never "latest".
+CONSTRAINTS_PLACE = ("https://github.com/" + PROGRAM.REPOSITORY
+                     + "/releases/download/%s/constraints-%s.txt")
+# The first release that carries those lists. pip3 -c stops on an
+# address that answers 404 -- measured on v3.0.0b27 -- so the way back
+# to an older one goes without.
+FIRST_WITH_CONSTRAINTS = "v3.0.0b28"
 
 # How far back the way back reaches. Below v3.0.0b0 the repository is
 # no package at all -- v2.32.0-beta has neither pyproject.toml nor
@@ -341,16 +350,54 @@ def newer_release(asked=False):
 #-------------------------------------------- Letting pip put it in place
 
 
-def not_installed_note():
+def constraints_url(tag):
+    """The address of that release's package list for this system, or "".
+
+    "" for a release older than the lists, and for a system no list is
+    made for: pip then resolves as it always did.
+    """
+    if version_key(tag) < version_key(FIRST_WITH_CONSTRAINTS):
+        return ""
+    system = {"darwin": "macos", "win32": "windows"}.get(
+        sys.platform, "linux" if sys.platform.startswith("linux") else "")
+    if not system:
+        return ""
+    return CONSTRAINTS_PLACE % (tag, system)
+
+
+def pip_arguments(tag):
+    """What pip install is given for that release, after "install".
+
+    -U, the release's own package list where it has one, and the
+    address with the release hung on it.
+    """
+    listed = constraints_url(tag)
+    return (["-U"] + (["-c", listed] if listed else [])
+            + [PIP_SOURCE + "@" + tag])
+
+
+def pip_command(tag=""):
+    """The pip3 line for that release, or for the one running here.
+
+    The line a person types, so it is the one pip_update runs: the
+    same release, the same package list. VERSION reads 3.0.0b28 where
+    the tag reads v3.0.0b28.
+    """
+    return " ".join(["pip3", "install"]
+                    + pip_arguments(tag or "v" + VERSION))
+
+
+def not_installed_note(tag=""):
     """The one sentence for "pip has nothing here to update".
 
     One place, so the window and the console cannot say two different
     things. pip is the only way in and the only way on; a copy in a
-    folder of its own is no version pip keeps a record of.
+    folder of its own is no version pip keeps a record of. *tag* is
+    the release on offer; without one, the one running here.
     """
     return T('This copy runs out of a folder of its own, so pip has '
              'nothing here to update. This installs it: %s') % (
-                 "pip3 install -U " + PIP_SOURCE)
+                 pip_command(tag))
 
 
 def pip_update(tag, say):
@@ -358,10 +405,11 @@ def pip_update(tag, say):
 
     The one road, forwards and backwards alike: a direct git address
     tells pip to install what the address names rather than only to
-    climb. pip's lines go on as they arrive -- silence looks broken.
+    climb, and the release's own package list holds every package at
+    the version its suite ran green on. pip's lines go on as they
+    arrive -- silence looks broken.
     """
-    order = [sys.executable, "-m", "pip", "install", "-U",
-             PIP_SOURCE + "@" + tag]
+    order = [sys.executable, "-m", "pip", "install"] + pip_arguments(tag)
     say("  %s\n" % " ".join(order))
     try:
         started = subprocess.Popen(order, stdout=subprocess.PIPE,
@@ -381,18 +429,19 @@ def pip_update(tag, say):
     return ""
 
 
-def update_promise(owner):
+def update_promise(owner, tag=""):
     """What the window says it will do before it asks.
 
     Two different things happen, so two sentences are owed. *owner* is
     the folder a package manager installed this into; where there is
-    none there is nothing pip keeps a record of, and it says so first.
+    none there is nothing pip keeps a record of, and it says so first,
+    with the line for *tag*, the release on offer.
     """
     if owner:
         return T('Update? pip fetches it into %s. What pip says appears '
                  'under Output, and the new version runs from the next '
                  'start.') % owner
-    return not_installed_note()
+    return not_installed_note(tag)
 
 
 def update_fetched(tag, owner):
@@ -403,7 +452,7 @@ def update_fetched(tag, owner):
     folder. pip takes minutes, so the window runs it beside itself.
     """
     if not owner:
-        return not_installed_note()
+        return not_installed_note(tag)
     if PROGRAM.UPDATE_SINK is None:
         return T('There is no window to show what pip says.')
     PROGRAM.UPDATE_SINK(lambda say: pip_update(tag, say))
@@ -424,7 +473,7 @@ def update_note():
     if installed_by_a_package_manager():
         print(T('--update fetches it and puts it in place.'))
     else:
-        print(not_installed_note())
+        print(not_installed_note(tag))
     if page:
         print("  %s" % page)
 
@@ -445,7 +494,7 @@ def update_from_command_line():
         print(T('No newer version found. This one is %s.') % VERSION)
         return 0
     if not installed_by_a_package_manager():
-        print(not_installed_note())
+        print(not_installed_note(tag))
         return 1
     # Whoever typed --update has a console, so pip writes into it as it
     # goes -- write_through is to this what UPDATE_SINK is to the window.
@@ -570,7 +619,7 @@ def update_offer(window, asked=False):
     head.setFont(font)
     rows.addWidget(head)
 
-    said = QtWidgets.QLabel(update_promise(owner))
+    said = QtWidgets.QLabel(update_promise(owner, tag))
     said.setWordWrap(True)
     rows.addWidget(said)
 

@@ -95,9 +95,16 @@ and stops where it is already the one installed.
 **Where `pip3 install` refuses**, saying the environment is externally
 managed, this Python belongs to a package manager -- Homebrew's, or a
 Linux distribution's -- which keeps pip out of what it maintains, and
-the refusal names the way round it:
-`pipx install git+https://github.com/Bascht74/videopodcast-magic` puts
-the program in an environment of its own and the command on the path.
+the refusal names the way round it, pipx, with the same list handed
+on to pip -- here the line for a Mac, `linux` in place of `macos` on
+Linux:
+
+```
+pipx install --pip-args="-c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt" git+https://github.com/Bascht74/videopodcast-magic
+```
+
+It puts the program in an environment of its own and the command on
+the path.
 
 Two things pip cannot bring, because neither is Python: **Python
 itself**, 3.10 or newer, and **`ffmpeg` 9.0.1 or newer, with
