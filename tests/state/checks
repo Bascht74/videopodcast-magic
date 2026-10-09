@@ -452,6 +452,7 @@ voice_zero_all_cameras	4
 window_all_come_up	6
 window_amounts_grouped	10
 window_answers_arrive	31
+window_audio_primed	2
 window_axis_asks_again	2
 window_axis_kept_by_key	6
 window_band_heeds_mouse	6
