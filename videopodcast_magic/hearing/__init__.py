@@ -662,6 +662,76 @@ def join_with_report(paths, target, keep_parts=False):
     return source, join_info
 
 
+def join_layout(paths, lengths, trs):
+    """How the run's join lays the blocks of one recording, before it runs.
+
+    One rule, so the window lays a block where the run joins it: {"order"
+    of the indices joined, "dropped" as blocks_within_reach names them,
+    "entries" (start in working samples, path, length) as the graph takes
+    them, "delays" in each one's own samples}; the last two None without
+    a timecode on every block, end to end in the order given.
+    """
+    order = list(range(len(paths)))
+    having_tc = all(t is not None for t in trs)
+    # A block hours away is another recording or a clock set wrong: it
+    # stays out, as block detection keeps it out, and is said.
+    dropped = []
+    if having_tc:
+        order, dropped = blocks_within_reach(paths, trs, lengths)
+    # Two recorders started together write the same number, and a sort
+    # by it would then depend on the order the files came in. Equal
+    # times mean at the same time, not end to end.
+    twice = having_tc and len(set(trs[i] for i in order)) != len(order)
+    if twice:
+        order = sorted(order, key=lambda i: (
+            trs[i], os.path.basename(paths[i]).lower()))
+    if not having_tc:
+        return {"order": order, "dropped": dropped, "entries": None,
+                "delays": None}
+    # Stamps count at their file's rate, lengths at the working one,
+    # compared in working samples and put back per file in the graph; else
+    # two 96 kHz blocks in a row lose a quarter and report a hole between.
+    own = dict((paths[i], float(wav_rate(paths[i]) or SR)) for i in order)
+    at = [trs[i] * SR / own[paths[i]] for i in order]
+    entries = [(t, paths[i], lengths[i]) for t, i in zip(at, order)]
+    entries = entries if twice else sorted(entries)
+    t0 = entries[0][0]
+    return {"order": order, "dropped": dropped, "entries": entries,
+            "delays": [int(round((t - t0) * own[p] / SR))
+                       for t, p, _n in entries]}
+
+
+def blocks_joined_at(paths, length_of=None):
+    """Where each block of one recording starts in the run's join, in s.
+
+    join_layout's answer: with a timecode on every block each at its
+    stamp, a hole kept and an overlap overlapping, a block past the
+    fence absent; without, end to end in the order given, and none
+    after a block of unknown length. {path: s}. *length_of* answers a
+    block's seconds in place of the file's own count.
+    """
+    paths = list(paths)
+    if length_of is None:
+        lengths = [sample_count(p) for p in paths]
+    else:
+        lengths = [int(round(float(length_of(p) or 0.0) * SR))
+                   for p in paths]
+    trs = [bext_time_reference(p) for p in paths]
+    laid = join_layout(paths, lengths, trs)
+    if laid["entries"] is None:
+        at, out = 0, {}
+        for i in laid["order"]:
+            out[paths[i]] = at / float(SR)
+            if lengths[i] <= 0:
+                # Guessing a length would put the rest of the recording
+                # somewhere and call it measured.
+                break
+            at += lengths[i]
+        return out
+    return dict((p, d / float(wav_rate(p) or SR))
+                for (_t, p, _n), d in zip(laid["entries"], laid["delays"]))
+
+
 def join_audio_parts(paths, target, keep_parts=False):
     """Join several audio files into one.
 
@@ -679,36 +749,17 @@ def join_audio_parts(paths, target, keep_parts=False):
             for p in paths]
     lengths = [sample_count(p) for p in paths]
     trs = [bext_time_reference(p) for p in paths]
-    # Two recorders started together write the same number, and a sort
-    # by it would then depend on the order the files came in. Equal
-    # times mean at the same time, not end to end.
-    having_tc = all(t is not None for t in trs)
-    # A block hours away is another recording or a clock set wrong: it
-    # stays out, as block detection keeps it out, and is said.
-    dropped = []
-    if having_tc:
-        keep, dropped = blocks_within_reach(paths, trs, lengths)
-        paths, same, lengths, trs = ([x[i] for i in keep]
-                                     for x in (paths, same, lengths, trs))
-        if len(paths) == 1:
-            return paths[0], {"blocks": 1, "parts": [], "dropped": dropped}
-    if having_tc and len(set(trs)) != len(trs):
-        order = sorted(range(len(paths)),
-                       key=lambda i: (trs[i], os.path.basename(paths[i]).lower()))
-        paths = [paths[i] for i in order]
-        lengths = [lengths[i] for i in order]
-        trs = [trs[i] for i in order]
-        same = [same[i] for i in order]
+    laid = join_layout(paths, lengths, trs)
+    dropped, entries = laid["dropped"], laid["entries"]
+    having_tc = entries is not None
+    paths, same, lengths, trs = ([x[i] for i in laid["order"]]
+                                 for x in (paths, same, lengths, trs))
+    if having_tc and len(paths) == 1:
+        return paths[0], {"blocks": 1, "parts": [], "dropped": dropped}
 
     if having_tc:
-        # Stamps count at their file's rate, lengths at the working one,
-        # compared in working samples and put back per file in the graph; else
-        # two 96 kHz blocks in a row lose a quarter and report a hole between.
         own = dict((p, float(wav_rate(p) or SR)) for p in paths)
         stamp = dict(zip(paths, trs))
-        at = [t * SR / own[p] for t, p in zip(trs, paths)]
-        entries = list(zip(at, paths, lengths)) if len(set(trs)) != len(trs) \
-            else sorted(zip(at, paths, lengths))
         t0, first = entries[0][0], stamp[entries[0][1]]
         total = max(t + n for t, _, n in entries) - t0
         gaps = []
@@ -731,7 +782,7 @@ def join_audio_parts(paths, target, keep_parts=False):
         parts, chains, markers, writes = [], [], [], []
         for i, (t, p, n) in enumerate(entries):
             parts += ["-i", p]
-            d = int(round((t - t0) * own[p] / SR))
+            d = laid["delays"][i]
             whole = int(round(total * own[p] / SR))
             f = [PROGRAM.channel_filter(PROGRAM.kept_channels(p), channels)]
             f += ["adelay=delays=%dS:all=1" % d] if d else []

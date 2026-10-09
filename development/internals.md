@@ -74,7 +74,7 @@ figure of the day is that command, not this paragraph**:
   keeping the key, and storing it from the terminal
 * `speech/` **1512** -- what is said and when, and what is written down
   from it
-* `hearing/` **1341** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1392** -- decoding, envelopes, bands, phase, aligning
   audio to video
 * `fittings/` **1322** -- helpers that shape what the window shows and
   hold none of its state
