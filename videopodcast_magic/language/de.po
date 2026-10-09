@@ -1783,7 +1783,7 @@ msgstr ""
 "                     klingt gequetscht -- %s dB weniger Verstärkung."
 
 msgid "  Transcript not possible (%s) -- it runs anyway."
-msgstr "  Niederschrift nicht möglich (%s) -- es läuft trotzdem."
+msgstr "  Transkript nicht möglich (%s) -- es läuft trotzdem."
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Weitwinkel am Rand: bis %s und ab %s"
@@ -2741,7 +2741,7 @@ msgid "  Tracks: %s"
 msgstr "  Spuren: %s"
 
 msgid "  Transcript: %s"
-msgstr "  Niederschrift: %s"
+msgstr "  Transkript: %s"
 
 msgid "  Uploaded:"
 msgstr "  Hochgeladen:"
@@ -6616,10 +6616,10 @@ msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
 msgstr ", Gang %s ppm bleibt stehen: nicht %s-mal so groß wie seine Unsicherheit von %s ppm"
 
 msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
-msgstr "Ohne Niederschrift wird keine Frage gefunden und keine Satzgrenze, also bewirken die beiden Einstellungen zur Frage und die beiden Weitwinkel-Einstellungen, die auf ein Satzende warten, nichts."
+msgstr "Ohne Transkript wird keine Frage gefunden und keine Satzgrenze, also bewirken die beiden Einstellungen zur Frage und die beiden Weitwinkel-Einstellungen, die auf ein Satzende warten, nichts."
 
 msgid "Without a transcript no question is found, so the two question settings do nothing."
-msgstr "Ohne Niederschrift wird keine Frage gefunden, also bewirken die beiden Einstellungen zur Frage nichts."
+msgstr "Ohne Transkript wird keine Frage gefunden, also bewirken die beiden Einstellungen zur Frage nichts."
 
 msgid "There is none yet: a run writes it, and from then on they work."
 msgstr "Noch gibt es keine: Ein Lauf schreibt sie, und von da an wirken sie."
@@ -6649,13 +6649,13 @@ msgid "Special cases"
 msgstr "Sonderfälle"
 
 msgid "Transcript"
-msgstr "Niederschrift"
+msgstr "Transkript"
 
 msgid "Writing down what is said ..."
 msgstr "Schreibe auf, was gesagt wird ..."
 
 msgid "Mixing the tracks for the transcript"
-msgstr "Spuren für die Niederschrift mischen"
+msgstr "Spuren für das Transkript mischen"
 
 msgid "It is being written down in the background; they open by themselves when it is done."
 msgstr "Sie wird im Hintergrund geschrieben; sobald sie fertig ist, öffnen sich die Einstellungen von selbst."
