@@ -209,8 +209,10 @@ because the whole tree is in it. The program's own files came to
 593 059 (measured 4.9.2026, after the move to a folder; 588 141 the
 same day, before it). That small one is what "the state of the
 program" means, and it is the reason to attach anything at all --
-**installing is `pip3 install git+...` and nothing else**, so the
-attachment documents a state rather than offering a way in. The owner,
+**installing is the README's pip3 line and nothing else** -- on a Mac
+`pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic`,
+the release's package list handed in with `-c` -- so the attachment
+documents a state rather than offering a way in. The owner,
 4.9.2026: the newest release comes over pip3; the archive writes the
 state of the work down once, cleanly.
 
