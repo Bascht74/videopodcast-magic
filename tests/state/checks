@@ -252,12 +252,14 @@ sound_delay_decides	14
 sound_each_gets_a_track	17
 sound_far_block_left_out	6
 sound_finished_mix_used	8
+sound_follows_device	7
 sound_hush_reason	7
 sound_join_any_rate	6
 sound_join_order	2
 sound_loudest_block	5
 sound_mix_hits_target	13
 sound_mix_says_the_name	9
+sound_mute_silences	9
 sound_one_pass_agrees	15
 sound_peaks_limited	7
 sound_silent_no_pair	3
@@ -427,6 +429,7 @@ window_amounts_grouped	10
 window_answers_arrive	31
 window_axis_asks_again	2
 window_axis_kept_by_key	6
+window_band_heeds_mouse	6
 window_bare_start_stands	3
 window_block_misfit_kept	8
 window_blocks_placed	6
@@ -445,6 +448,7 @@ window_crash_said	5
 window_cut_colours	8
 window_cut_tab_by_voice	8
 window_dark_follows	5
+window_drop_takes_files	7
 window_exit_keeps_all	7
 window_first_kind_holds	6
 window_foot_on_one_line	8
@@ -476,6 +480,7 @@ window_pair_said_apart	4
 window_picture_returns	10
 window_play_follows_tab	23
 window_point_named	4
+window_preview_speeds_up	6
 window_prework_box_goes	3
 window_project_type_set	43
 window_reads_as_chosen	20
