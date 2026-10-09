@@ -1,6 +1,6 @@
 # The test suite
 
-483 tests against the program in `../videopodcast_magic/`. Every one of them stands
+484 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -249,7 +249,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-483 tests. The name is the one a red line carries, and beside it the
+484 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -309,6 +309,7 @@ it is green.
 | `sound_cameras_carry_cut` | Cameras alone carry the sound, the cut and the handover, on both paths. |
 | `sound_channels_split` | A file with several channels becomes several tracks. |
 | `sound_check_reads_once` | The check of a written camera file reads it once, not once per track. |
+| `sound_clip_spans_block` | A clipped run is counted whole where the file is read in two blocks. |
 | `sound_clipping_counted` | Clipping is counted per channel, and only where the format has a stop. |
 | `sound_delay_decides` | One pair of microphones, or two of them? |
 | `sound_each_gets_a_track` | Without Multitrack: the mix, and the recordings beside it. |
@@ -822,7 +823,7 @@ the source, the texts and the documents as a whole.
 | `livery/` | `cut_wide_colour_apart`, `window_dark_follows` |
 | `logbook/` | `run_log_within_reach`, `run_outside_seen`, `window_exit_keeps_all` |
 | `loudness/` | `sound_both_sides_alike`, `sound_mix_hits_target`, `sound_mix_says_the_name`, `sound_peaks_limited`, `sound_speakers_matched` |
-| `material/` | `files_block_stays_apart`, `files_blocks_join_exact`, `files_clock_links_blocks`, `files_joined_by_hand`, `files_left_out_named`, `files_only_window_kept`, `files_order_kept`, `files_split_found_again`, `run_clock_place_travels`, `run_mute_camera_placed`, `sound_all_blocks_count`, `sound_any_count_judged`, `sound_camera_judged_too`, `sound_channels_split`, `sound_clipping_counted`, `sound_delay_decides`, `sound_hush_reason`, `sound_loudest_block`, `sound_one_pass_agrees`, `sound_silent_no_pair`, `sound_stereo_kept`, `table_blocks_judged`, `table_stereo_splits`, `time_drift_taken_out` |
+| `material/` | `files_block_stays_apart`, `files_blocks_join_exact`, `files_clock_links_blocks`, `files_joined_by_hand`, `files_left_out_named`, `files_only_window_kept`, `files_order_kept`, `files_split_found_again`, `run_clock_place_travels`, `run_mute_camera_placed`, `sound_all_blocks_count`, `sound_any_count_judged`, `sound_camera_judged_too`, `sound_channels_split`, `sound_clip_spans_block`, `sound_clipping_counted`, `sound_delay_decides`, `sound_hush_reason`, `sound_loudest_block`, `sound_one_pass_agrees`, `sound_silent_no_pair`, `sound_stereo_kept`, `table_blocks_judged`, `table_stereo_splits`, `time_drift_taken_out` |
 | `menus/` | `window_menu_greys_along`, `window_play_follows_tab`, `window_view_reaches_tabs` |
 | `metadata/` | `files_atom_travels`, `files_colour_carried`, `files_data_track_kept`, `files_foreign_untouched`, `project_audio_counted`, `text_units_translated` |
 | `orders/` | `run_command_built`, `run_no_own_camera_kept`, `run_project_type_reaches`, `run_switch_changes_it`, `run_switch_has_effect`, `run_three_ways_agree` |

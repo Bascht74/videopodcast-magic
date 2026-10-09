@@ -247,6 +247,7 @@ sound_camera_own_used	7
 sound_cameras_carry_cut	9
 sound_channels_split	35
 sound_check_reads_once	14
+sound_clip_spans_block	6
 sound_clipping_counted	14
 sound_delay_decides	14
 sound_each_gets_a_track	17
