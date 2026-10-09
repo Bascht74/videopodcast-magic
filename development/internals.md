@@ -42,7 +42,7 @@ figure of the day is that command, not this paragraph**:
   marks on the assignment table, and the speaking-time table
 * `ui/` **3260** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `player/` **3311** -- the moving picture: the player, the cut band,
+* `player/` **3324** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
 * `cut/` **3311** -- who is on camera when, and what carries it out

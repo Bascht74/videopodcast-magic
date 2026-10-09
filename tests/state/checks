@@ -274,6 +274,7 @@ sound_delay_decides	14
 sound_each_gets_a_track	17
 sound_far_block_left_out	6
 sound_finished_mix_used	8
+sound_follows_device	7
 sound_hush_reason	7
 sound_jingle_edges	5
 sound_join_any_rate	6
@@ -282,6 +283,7 @@ sound_join_widens_mono	3
 sound_loudest_block	5
 sound_mix_hits_target	13
 sound_mix_says_the_name	9
+sound_mute_silences	9
 sound_one_pass_agrees	15
 sound_peaks_limited	7
 sound_silent_no_pair	3
@@ -452,6 +454,7 @@ window_amounts_grouped	10
 window_answers_arrive	31
 window_axis_asks_again	2
 window_axis_kept_by_key	6
+window_band_heeds_mouse	6
 window_bare_start_stands	3
 window_block_misfit_kept	8
 window_blocks_placed	6
@@ -470,6 +473,7 @@ window_crash_said	5
 window_cut_colours	8
 window_cut_tab_by_voice	8
 window_dark_follows	5
+window_drop_takes_files	7
 window_exit_keeps_all	7
 window_first_kind_holds	6
 window_foot_on_one_line	8
@@ -479,6 +483,7 @@ window_groups_make_room	5
 window_handover_follows	3
 window_handover_found	5
 window_hears_while_split	8
+window_help_says_version	10
 window_idle_bar_hidden	6
 window_kept_cut_shown	5
 window_key_off_line	6
@@ -488,6 +493,7 @@ window_marks_take_spot	31
 window_menu_greys_along	27
 window_mix_reaches_run	15
 window_no_full_screen	5
+window_no_player_stands	7
 window_not_started_said	4
 window_note_names_kind	8
 window_note_names_way	4
@@ -500,8 +506,10 @@ window_pair_said_apart	4
 window_picture_returns	10
 window_play_follows_tab	23
 window_point_named	4
+window_preview_speeds_up	6
 window_prework_box_goes	3
 window_project_type_set	43
+window_question_answered	7
 window_reads_as_chosen	20
 window_restart_carries	17
 window_run_beats_kept	8
@@ -512,6 +520,7 @@ window_silent_hears_none	5
 window_size_as_run	6
 window_sound_fault_named	5
 window_sound_sync_fixed	6
+window_soxr_asked_once	8
 window_speaker_cell_fits	17
 window_speaker_langs1	17
 window_speaker_langs2	17

@@ -1590,6 +1590,15 @@ def mark_shown(p, text):
     return timecode_string(value, marks_fps_of(p)) if absolute else said
 
 
+def multimedia():
+    """Qt's two multimedia modules, or two Nones on a Qt built without."""
+    try:
+        from PySide6 import QtMultimedia, QtMultimediaWidgets
+    except ImportError:
+        return None, None
+    return QtMultimedia, QtMultimediaWidgets
+
+
 def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                      ffplay_preview, real_tc, state):
     """The building blocks of the preview: rail, video surface, player.
@@ -1598,7 +1607,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
     on the command line, and a class inheriting from a Qt widget could
     not even be defined then. What gui() supplies comes in as arguments.
     """
-    from PySide6 import QtMultimedia, QtMultimediaWidgets
+    QtMultimedia, QtMultimediaWidgets = multimedia()
     class WindowSlider(QtWidgets.QSlider):
         """A slider showing what is left of the material.
 
@@ -1688,7 +1697,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             return opt
 
     # Qt's own surface. Nothing is caught on it: no full screen to leave.
-    VideoSurface = QtMultimediaWidgets.QVideoWidget
+    VideoSurface = getattr(QtMultimediaWidgets, "QVideoWidget", None)
 
     class Player(QtWidgets.QWidget):
         """The viewer: a window inside the window that stays put.
@@ -3115,6 +3124,10 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
         Without *force* whatever is playing stays. With *force* the file
         is chosen again -- after opening a project, say.
         """
+        # The stand-in has no box to fill: a load opens ffplay, and a
+        # window opening unasked startles.
+        if not getattr(player, "plays", True):
+            return
         suggestion = player_suggestion()
         if suggestion is None:
             return

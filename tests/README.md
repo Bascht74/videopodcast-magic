@@ -1,6 +1,6 @@
 # The test suite
 
-508 tests against the program in `../videopodcast_magic/`. Every one of them stands
+517 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -249,7 +249,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-508 tests. The name is the one a red line carries, and beside it the
+517 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -320,6 +320,7 @@ it is green.
 | `sound_each_gets_a_track` | Without Multitrack: the mix, and the recordings beside it. |
 | `sound_far_block_left_out` | A block past the block limit per timecode is left out of the join, and said. |
 | `sound_finished_mix_used` | A finished mix given to a run is the Full-Mix, placed and as it came. |
+| `sound_follows_device` | The cut player's sound follows a new output device and keeps its place. |
 | `sound_hush_reason` | A channel that carries nothing says which rule caught it. |
 | `sound_jingle_edges` | Where an intro's sound starts and ends is found, and none is invented. |
 | `sound_join_any_rate` | Timecoded blocks in a row are joined whole at 44.1 and 96 kHz too. |
@@ -328,6 +329,7 @@ it is green.
 | `sound_loudest_block` | The facts of a recording come from its loudest block. |
 | `sound_mix_hits_target` | Loudness: does the range come along, and does it still normalise? |
 | `sound_mix_says_the_name` | While mixing, each sum is named by speaker, mix or label -- never by file. |
+| `sound_mute_silences` | Mute silences both players and gives the sound back, a test run never. |
 | `sound_one_pass_agrees` | Reading the channels: one pass has to say what one pass per channel said. |
 | `sound_peaks_limited` | The limiter holds every peak at the ceiling and backs off where it must. |
 | `sound_silent_no_pair` | A silent channel is never one side of a stereo track. |
@@ -576,6 +578,7 @@ it is green.
 | `window_answers_arrive` | What the window is told is what the calculation gets. |
 | `window_axis_asks_again` | A file added while the time axis is measured is measured too. |
 | `window_axis_kept_by_key` | The window's time axis is kept under the run's key, and taken back. |
+| `window_band_heeds_mouse` | The cut band names the shot under the mouse, and a click moves there. |
 | `window_bare_start_stands` | A bare start, as the installed command makes it, opens the window and ends. |
 | `window_block_misfit_kept` | A recording of several blocks keeps its misfit mark whatever block ran last. |
 | `window_blocks_placed` | The preview plays a recording in the block that holds the moment. |
@@ -594,6 +597,7 @@ it is green.
 | `window_cut_colours` | Every shot in the cut band stands at its time in its camera colour. |
 | `window_cut_tab_by_voice` | Opening Resolve cut asks Resolve and shows the cut by voice, on both paths. |
 | `window_dark_follows` | A desktop switched to dark leaves no light ground standing in the window. |
+| `window_drop_takes_files` | The empty file list takes files dragged onto it, and only files. |
 | `window_exit_keeps_all` | On Windows the window's end skips the teardown and keeps what it owes. |
 | `window_first_kind_holds` | A recording of several blocks is marked by its first block's Kind. |
 | `window_foot_on_one_line` | The buttons in the footer stand on one line, and say why they are off. |
@@ -603,6 +607,7 @@ it is green.
 | `window_handover_follows` | The Resolve button follows the handover over the cameras in the list. |
 | `window_handover_found` | The Resolve button finds a handover where a run over the list put it. |
 | `window_hears_while_split` | The words are written down while the speakers are being separated. |
+| `window_help_says_version` | The Help boxes name the version running and show its own release text. |
 | `window_idle_bar_hidden` | The one bar in the footer: does it come, rise, and go again? |
 | `window_kept_cut_shown` | The preview shows a handover a run kept for what is set now. |
 | `window_key_off_line` | The key stands on no command line: a window run's, a restart's, a typed one. |
@@ -612,6 +617,7 @@ it is green.
 | `window_menu_greys_along` | The five File entries that switch are as grey as the window. |
 | `window_mix_reaches_run` | A recording set to the finished mix in the window is the run's one too. |
 | `window_no_full_screen` | Nothing in the window takes the picture full screen any more. |
+| `window_no_player_stands` | A Qt without multimedia still builds the window, and ffplay plays. |
 | `window_not_started_said` | A camera switched to before it began says so, and the moment is kept. |
 | `window_note_names_kind` | A file with no place is told what became of it, not only what is wrong. |
 | `window_note_names_way` | A weak file's note names the way that placed it, not another one. |
@@ -624,8 +630,10 @@ it is green.
 | `window_picture_returns` | A refused format does not outlive the attempt it was about. |
 | `window_play_follows_tab` | The transport drives the player of the tab showing, or nothing. |
 | `window_point_named` | A jump no file can make names the point in the window's language. |
+| `window_preview_speeds_up` | The preview runs forward faster on every press, and says how fast. |
 | `window_prework_box_goes` | The box that shows the prework goes away once the prework is over. |
 | `window_project_type_set` | The project type is chosen once, and the later tabs take its shape. |
+| `window_question_answered` | A run's question reaches the window, and the run gets the answer chosen. |
 | `window_reads_as_chosen` | The window is laid out the way the chosen language reads. |
 | `window_restart_carries` | A restart carries the work over, or says plainly that it will not. |
 | `window_run_beats_kept` | After Start the preview shows the run's handover, not its own dry run. |
@@ -636,6 +644,7 @@ it is green.
 | `window_size_as_run` | The window's summary names the size the run really needs. |
 | `window_sound_fault_named` | A refused sound track costs neither the picture nor the truth. |
 | `window_sound_sync_fixed` | The In the sound field keeps one answer, and Sync only fixes it mixed. |
+| `window_soxr_asked_once` | A finer ffmpeg is offered once per version, and never to a test run. |
 | `window_speaker_cell_fits` | Whatever is written into the Speakers cell can be read there. |
 | `window_speaker_langs1` | Whatever is written into the Speakers cell can be read, first slice. |
 | `window_speaker_langs2` | Whatever is written into the Speakers cell can be read, second slice. |
@@ -852,7 +861,7 @@ the source, the texts and the documents as a whole.
 | `metadata/` | `files_atom_travels`, `files_colour_carried`, `files_colour_change_said`, `files_data_track_kept`, `files_folder_shown`, `files_foreign_untouched`, `files_mov_damage_named`, `files_risky_edit_refused`, `project_audio_counted`, `text_units_translated` |
 | `orders/` | `run_command_built`, `run_no_own_camera_kept`, `run_project_type_reaches`, `run_switch_changes_it`, `run_switch_has_effect`, `run_three_ways_agree` |
 | `pipeline/` | `files_cam_lands_in_out`, `run_done_tracks_used`, `run_name_twice_refused`, `run_names_as_window`, `run_new_name_checked`, `run_no_drift_noughts`, `run_no_upload_no_hint`, `run_one_shots_return_0`, `run_overwrite_is_said`, `run_own_sound_with_cam`, `run_promise_is_written`, `run_recordings_apart`, `run_simple_path_agrees`, `run_stays_local`, `run_stop_names_why`, `run_sync_only_no_cut`, `run_typed_name_used`, `sound_camera_own_used`, `sound_cameras_carry_cut`, `sound_finished_mix_used`, `sound_tracks_written`, `time_clock_from_any_file`, `time_length_names_change`, `time_one_track_aligned`, `time_point_pulled_back`, `time_reference_silent`, `time_sound_stays_put`, `time_tracks_alone`, `time_window_is_shared` |
-| `player/` | `cut_box_fits_the_picture`, `cut_note_moves_no_shot`, `cut_note_says_who_speaks`, `cut_player_in_sync`, `cut_player_jump_lands`, `cut_player_right_file`, `cut_player_speeds_up`, `window_blocks_placed`, `window_clock_sound_said`, `window_cut_colours`, `window_no_full_screen`, `window_not_started_said`, `window_notes_break_up`, `window_picture_returns`, `window_sound_fault_named`, `window_stop_what_runs`, `window_tc_point_named`, `window_zoom_stays_in` |
+| `player/` | `cut_box_fits_the_picture`, `cut_note_moves_no_shot`, `cut_note_says_who_speaks`, `cut_player_in_sync`, `cut_player_jump_lands`, `cut_player_right_file`, `cut_player_speeds_up`, `sound_follows_device`, `sound_mute_silences`, `window_band_heeds_mouse`, `window_blocks_placed`, `window_clock_sound_said`, `window_cut_colours`, `window_drop_takes_files`, `window_no_full_screen`, `window_no_player_stands`, `window_not_started_said`, `window_notes_break_up`, `window_picture_returns`, `window_preview_speeds_up`, `window_sound_fault_named`, `window_stop_what_runs`, `window_tc_point_named`, `window_zoom_stays_in` |
 | `preflight/` | `auphonic_preset_fits`, `files_bleed_not_by_tick`, `files_lengths_summed`, `files_line_counts_misfit`, `files_same_names_apart`, `files_set_aside_skipped`, `files_sync_one_recording`, `files_twin_cameras_named`, `run_dry_run_not_stopped`, `run_findings_reach_both`, `run_long_names_keep_end`, `run_odd_clock_named`, `run_rate_way_said_right`, `run_space_has_margin`, `run_unreadable_named`, `run_wide_file_folded`, `sound_bleed_reported`, `table_notes_in_one_row`, `window_size_as_run` |
 | `prework/` | `window_prework_box_goes` |
 | `project/` | `files_project_first`, `files_project_offered`, `project_close_forgets`, `project_keeps_answers`, `project_leaves_others`, `project_run_comes_back`, `project_settings_return`, `project_ticks_come_back`, `window_restart_carries` |
@@ -867,7 +876,7 @@ the source, the texts and the documents as a whole.
 | `stowage/` | `files_old_file_refused`, `files_stage_kept_by_key`, `run_choice_kept` |
 | `timebase/` | `auphonic_done_file_found`, `auphonic_no_result_ends`, `auphonic_wide_file_stops`, `files_cut_without_keys`, `files_stamp_by_place`, `run_cam_fault_no_half`, `run_finished_mix_refused`, `run_join_done_or_dry`, `run_kept_by_its_line`, `run_stored_words_cut`, `run_takes_dry_measure`, `run_words_heard_once`, `time_axis_one_store`, `time_camera_drift_clear`, `time_clock_apart_said`, `time_colour_own_camera`, `time_lost_end_named`, `time_marks_reach_result` |
 | `timecode/` | `cut_own_rate_counted`, `project_top_rate_wins`, `time_all_ways_agree`, `time_bext_at_own_rate`, `time_clock_read_at_rate`, `time_clock_track_first`, `time_drop_label_kept`, `time_length_is_in_to_out`, `time_one_rate_per_file`, `time_over_midnight` |
-| `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_pair_named_alike`, `table_pair_seats_apart`, `table_sync_stem_shown`, `table_typed_name_stays`, `window_all_come_up`, `window_answers_arrive`, `window_bare_start_stands`, `window_captions_fit`, `window_captions_langs1`, `window_captions_langs2`, `window_captions_langs3`, `window_captions_langs4`, `window_captions_langs5`, `window_captions_langs6`, `window_captions_langs7`, `window_captions_langs8`, `window_crash_said`, `window_grey_says_why`, `window_handover_follows`, `window_handover_found`, `window_key_off_line`, `window_marks_moved_grey`, `window_marks_take_spot`, `window_mix_reaches_run`, `window_offers_restart`, `window_output_no_debug`, `window_pair_said_apart`, `window_point_named`, `window_project_type_set`, `window_run_handover_kept`, `window_setup_kept_apart`, `window_sheets_fit`, `window_sound_sync_fixed`, `window_stands_still`, `window_symbol_from_file`, `window_title_follows`, `window_tracks_seen_anew`, `window_voice_audio_heard`, `window_zero_as_run` |
+| `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_pair_named_alike`, `table_pair_seats_apart`, `table_sync_stem_shown`, `table_typed_name_stays`, `window_all_come_up`, `window_answers_arrive`, `window_bare_start_stands`, `window_captions_fit`, `window_captions_langs1`, `window_captions_langs2`, `window_captions_langs3`, `window_captions_langs4`, `window_captions_langs5`, `window_captions_langs6`, `window_captions_langs7`, `window_captions_langs8`, `window_crash_said`, `window_grey_says_why`, `window_handover_follows`, `window_handover_found`, `window_help_says_version`, `window_key_off_line`, `window_marks_moved_grey`, `window_marks_take_spot`, `window_mix_reaches_run`, `window_offers_restart`, `window_output_no_debug`, `window_pair_said_apart`, `window_point_named`, `window_project_type_set`, `window_question_answered`, `window_run_handover_kept`, `window_setup_kept_apart`, `window_sheets_fit`, `window_sound_sync_fixed`, `window_soxr_asked_once`, `window_stands_still`, `window_symbol_from_file`, `window_title_follows`, `window_tracks_seen_anew`, `window_voice_audio_heard`, `window_zero_as_run` |
 | `upkeep/` | `run_only_newer_offered`, `run_update_says_it_landed`, `run_way_back_offered` |
 | `workbench/` | `run_threads_keep_order` |
 
