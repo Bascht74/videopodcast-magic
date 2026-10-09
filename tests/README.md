@@ -1,10 +1,6 @@
 # The test suite
 
-<<<<<<< HEAD
 479 tests against the program in `../videopodcast_magic/`. Every one of them stands
-=======
-479 tests against the program in `../videopodcast_magic/`. Every one of them stands
->>>>>>> worktree-agent-a885164cf3067abdb
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
