@@ -452,6 +452,7 @@ voice_zero_all_cameras	4
 window_all_come_up	6
 window_amounts_grouped	10
 window_answers_arrive	31
+window_audio_primed	2
 window_axis_asks_again	2
 window_axis_kept_by_key	6
 window_band_heeds_mouse	6
@@ -510,6 +511,7 @@ window_preview_speeds_up	6
 window_prework_box_goes	3
 window_project_type_set	43
 window_question_answered	7
+window_quit_no_stop	2
 window_reads_as_chosen	20
 window_restart_carries	17
 window_run_beats_kept	8

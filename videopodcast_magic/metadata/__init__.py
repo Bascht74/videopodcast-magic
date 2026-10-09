@@ -390,7 +390,7 @@ def _top_level_boxes(file_path):
     total = os.path.getsize(file_path)
     with open(file_path, "rb") as f:
         pos = 0
-        while pos < total - 8:
+        while pos <= total - 8:
             f.seek(pos)
             head = f.read(8)
             if len(head) < 8:

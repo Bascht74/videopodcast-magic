@@ -5,9 +5,9 @@ _verify_mov_after_edit is what copy_mov_atoms asks after writing, and
 an answer that is not empty makes it put the old moov back. A short clip
 is written here, and copies of it are damaged byte by byte the ways a
 write can go wrong. In order: the material and the sound file passing,
-then a top box too short to read, a box behind moov, a file cut short,
-the media data moved, a moov that has not grown, a file with no video
-track, an atom that did not arrive, and a file that is not there.
+then a top box too short to read, an empty box behind moov, a file cut
+short, the media data moved, a moov that has not grown, a file with no
+video track, an atom that did not arrive, and a file that is not there.
 """
 PLATFORM_BOUND = True
 import os
@@ -94,12 +94,12 @@ want = T('boxes no longer readable')
 check("a top box too short to read is named", got == want,
       "%r, wanted %r" % (got, want))
 
-# Sixteen bytes, not eight: an empty box flush with the end is not
-# read as a box at all (the loop stops eight bytes short of the end).
-behind = whole + struct.pack(">I4s", 16, b"free") + b"\0" * 8
+# Eight bytes, the smallest box there is: a header alone, flush with
+# the end of the file, is still a box behind moov.
+behind = whole + struct.pack(">I4s", 8, b"free")
 got = verdict(variant("behind.mov", behind))
 want = T('moov is no longer in its place')
-check("a box written behind moov is named", got == want,
+check("an empty box of eight bytes behind moov is named", got == want,
       "%r, wanted %r" % (got, want))
 
 got = verdict(variant("cut.mov", whole[:-10]))

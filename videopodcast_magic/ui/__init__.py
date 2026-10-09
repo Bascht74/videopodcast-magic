@@ -106,7 +106,6 @@ soxr_available = PROGRAM.soxr_available
 soxr_note = PROGRAM.soxr_note
 speakers_project_block = PROGRAM.speakers_project_block
 start_again = PROGRAM.start_again
-stop_if_running = PROGRAM.stop_if_running
 strip_marks = PROGRAM.strip_marks
 styles_follow_scheme = PROGRAM.styles_follow_scheme
 subprocess = PROGRAM.subprocess
@@ -2855,16 +2854,19 @@ def gui():
     window.screen_fit(app)
 
     def clean_up():
-        """Write the work down first, then stop the timers and the player."""
+        """Write the work down first, then stop the timers.
+
+        Not the media players: the process ends and the system frees
+        their files. stop() keeps Python while it waits for a lock in
+        Qt's media backend, whose thread holding it can wait for Python
+        -- measured on Linux under load, about one quit in 75 hung.
+        """
         state["closing"] = True
         try:
             axis_store(state.get("axis") or {})
             watchdog.stop()
             total_clock.stop()
             output_timer.stop()
-            if getattr(player, "player", None) is not None:
-                stop_if_running(QtMultimedia, player.player,
-                                player.track)
         except Exception:
             pass
 
