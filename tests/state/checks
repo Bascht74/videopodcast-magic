@@ -202,7 +202,7 @@ run_no_own_camera_kept	5
 run_no_upload_no_hint	8
 run_odd_clock_named	17
 run_one_shots_return_0	8
-run_only_newer_offered	84
+run_only_newer_offered	87
 run_outside_seen	14
 run_overwrite_is_said	15
 run_own_sound_with_cam	6
@@ -231,7 +231,7 @@ run_three_ways_agree	24
 run_typed_name_used	11
 run_unreadable_named	6
 run_update_says_it_landed	7
-run_way_back_offered	15
+run_way_back_offered	16
 run_which_script	7
 run_wide_file_folded	5
 run_window_run_agrees	6
