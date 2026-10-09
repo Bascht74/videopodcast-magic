@@ -106,7 +106,8 @@ def call(mode, progress=False):
         error = ""
     except Exception as why:     # the failure is what is judged here
         error = "%s: %s" % (type(why).__name__, why)
-    return error, time.time() - start
+    # On Windows curl's words arrive with \r\n; the words are what is judged
+    return error.replace("\r\n", "\n"), time.time() - start
 
 
 print("1. A short call that fails")
