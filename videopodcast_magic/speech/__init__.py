@@ -768,8 +768,8 @@ def speech_locale(language):
     return SPEECH_CODES.get(tag.lower(), tag)
 
 
-# The locale a language is heard in first where the machine offers it:
-# CLDR's likely region. Without it English wandered between en_NZ,
+# The locale a language is heard in where the machine's own region has
+# none of it: CLDR's likely region. Without it English wandered between en_NZ,
 # en_GB and en_IN from one call to the next on the same file.
 SPEECH_DEFAULT_LOCALES = {
     "de": "de-DE", "en": "en-US", "fr": "fr-FR", "es": "es-ES",
@@ -785,8 +785,8 @@ SPEECH_DEFAULT_LOCALES = {
 def speech_locale_choice(code, supported, region):
     """The locale out of *supported* to hear *code* in, or "" for none.
 
-    In this order: the locale asked for exactly, the fixed one for the
-    language, the language in the machine's *region*, then the first
+    In this order: the locale asked for exactly, the language in the
+    machine's *region*, the fixed one for the language, then the first
     of that language by name -- never by where the list put it, which
     changes from call to call.
     """
@@ -798,8 +798,9 @@ def speech_locale_choice(code, supported, region):
     head = asked.split("-")[0]
     fixed = SPEECH_DEFAULT_LOCALES.get(head, "").lower()
     heads = {head, fixed.split("-")[0]} - {""}
-    for wanted in (asked, fixed,
-                   "%s-%s" % (head, region.lower()) if region else ""):
+    for wanted in (asked,
+                   "%s-%s" % (head, region.lower()) if region else "",
+                   fixed):
         if wanted and wanted in by_plain:
             return by_plain[wanted]
     same = sorted(p for p in by_plain if p.split("-")[0] in heads)

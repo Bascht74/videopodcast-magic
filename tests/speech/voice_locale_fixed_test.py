@@ -4,7 +4,7 @@
 The recognition macOS brings with it lists the locales it offers in a
 different order on every call, and English came out as en_NZ, en_GB or
 en_IN on the same file. Sections: the choice over a given list and a
-given region -- the fixed locale, the machine's region, the first by
+given region -- the machine's region, the fixed locale, the first by
 name, a whole locale asked for, a language not offered -- then the
 door, where the chosen locale is what the recogniser is handed.
 
@@ -61,22 +61,20 @@ check("English is en_US whichever order the list comes in",
       got == ["en_US", "en_US", "en_US"],
       "three orders gave %s, wanted en_US each time" % got)
 
+got = [choose("de", ORDERS[1], "CH"), choose("en", ORDERS[2], "GB")]
+check("the machine's region comes before the fixed locale",
+      got == ["de_CH", "en_GB"],
+      "German on a Swiss Mac and English on a British one gave %s, "
+      "wanted ['de_CH', 'en_GB']" % got)
+
 without_us = (["en_NZ", "en_GB", "en_IN", "de_DE"],
               ["en_IN", "de_DE", "en_GB", "en_NZ"])
-got = [choose("en", order, "IN") for order in without_us]
-check("without the fixed locale, the machine's region decides",
-      got == ["en_IN", "en_IN"],
-      "region IN gave %s, wanted en_IN each time" % got)
 
 got = [choose("en", order, "DE") for order in without_us]
 check("with neither, the first by name, whatever the list's order",
       got == ["en_GB", "en_GB"],
       "region DE gave %s, wanted en_GB (before en_IN, en_NZ) each time"
       % got)
-
-got = choose("de", ORDERS[1], "CH")
-check("the fixed locale comes before the machine's region",
-      got == "de_DE", "German on a Swiss Mac gave %r, wanted 'de_DE'" % got)
 
 got = choose("en-GB", ORDERS[0], "DE")
 check("a whole locale asked for is taken as it stands",

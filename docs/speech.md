@@ -444,9 +444,9 @@ The program looks for the way it has and says in the log which one it
 took. Recognition takes the language setting of the run. If that is
 empty, macOS works with the system language and Whisper guesses it from
 the audio. On the macOS way a language is heard in the same variant
-every time -- English in en-US, German in de-DE, French in fr-FR --
-and where the Mac does not offer that one, in the variant of the Mac's
-own region, else in the first by name. The run writes the text down alongside the camera cut, not
+every time: the one of the Mac's own region where there is one (de-CH
+on a Swiss Mac, en-GB on a British one), else a fixed one -- English in
+en-US, German in de-DE, French in fr-FR -- else the first by name. The run writes the text down alongside the camera cut, not
 ahead of it.
 
 On the macOS way the recognition reports on itself afterwards, in the
