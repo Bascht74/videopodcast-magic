@@ -55,7 +55,7 @@ figure of the day is that command, not this paragraph**:
 * `loudness/` **482** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
-* `bearings/` **2371** -- where each file and each voice sits, and how
+* `bearings/` **2380** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
@@ -95,7 +95,7 @@ figure of the day is that command, not this paragraph**:
   run's children and reads whether any of them still moves
 * `pipeline/` **671** -- the plan: the camera audio out of the
   pictures, the names and the plan the time base runs
-* `project/` **582** -- the program's own project file: writing
+* `project/` **586** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
 * `filelist/` **544** -- the list of chosen files: the tree it is
