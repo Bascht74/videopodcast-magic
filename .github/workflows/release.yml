@@ -871,7 +871,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          # Linux by its number, as in tests.yml: ubuntu-latest moves
+          # to 26.04 between 19 October and 19 November 2026, and the
+          # move is to happen in a commit of ours, not under a run.
+          - os: ubuntu-26.04
             python: '3.14'
           - os: windows-latest
             python: '3.14'
@@ -886,7 +889,7 @@ jobs:
           # installs nothing, so the two extra runs cost about a minute
           # each. On Windows and macOS '3.12' comes out as 3.12.10, the
           # last one CPython released as a binary.
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             python: '3.12'
           - os: windows-latest
             python: '3.12'

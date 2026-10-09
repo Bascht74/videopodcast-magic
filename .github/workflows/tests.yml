@@ -270,6 +270,11 @@ jobs:
         # list on 9.10.2026). That is the truth of the matter for anyone
         # out there on 3.12 as well.
         #
+        # Linux by its number, not as ubuntu-latest: GitHub moves that
+        # name from 24.04 to 26.04 between 19 October and 19 November
+        # 2026, and a runner that changes under a run is a red nobody
+        # can place. Named, the move happens in a commit of our own.
+        #
         # And a seventh, the owner's rule of 26.9.2026: a test whose
         # verdict cannot differ between systems or Pythons says so in its
         # own file (PLATFORM_BOUND = False) and runs once, here, beside
@@ -278,11 +283,11 @@ jobs:
         # against 597 to 1067). A release changes nothing about this --
         # it differs from a push by its languages and the separation.
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             label: Linux
             python: '3.14'
             tests: bound
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             label: Linux
             python: '3.12'
             tests: bound
@@ -302,7 +307,7 @@ jobs:
             label: macOS
             python: '3.12'
             tests: bound
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             label: Neutral
             python: '3.14'
             tests: neutral
@@ -510,8 +515,8 @@ jobs:
           PY
 
       # apt is the bottleneck here, not the platform: Ubuntu 24.04
-      # carries ffmpeg 6.1.1, under the floor this program names, and
-      # nothing newer is in its archive. A static build settles it in
+      # carried ffmpeg 6.1.1 and 26.04 carries 8.0.1, both under the
+      # floor this program names, and nothing newer is in the archive. A static build settles it in
       # half a minute -- and it is the one of the three runners that
       # carries soxr, so the fine clock correction is exercised
       # somewhere. macOS takes what brew gives once its own formula
