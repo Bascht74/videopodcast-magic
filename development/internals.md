@@ -55,7 +55,7 @@ figure of the day is that command, not this paragraph**:
 * `loudness/` **482** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
-* `bearings/` **2371** -- where each file and each voice sits, and how
+* `bearings/` **2357** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
@@ -74,7 +74,7 @@ figure of the day is that command, not this paragraph**:
   keeping the key, and storing it from the terminal
 * `speech/` **1512** -- what is said and when, and what is written down
   from it
-* `hearing/` **1341** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1392** -- decoding, envelopes, bands, phase, aligning
   audio to video
 * `fittings/` **1322** -- helpers that shape what the window shows and
   hold none of its state

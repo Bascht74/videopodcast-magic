@@ -1181,18 +1181,6 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
     return answer, axis_text(answer)
 
 
-def envelope_seconds(path, HOP=5.0):
-    """How long a file runs, out of the envelope already measured.
-
-    No second reading: the curve is in memory or in the cache by then,
-    and it holds one value every HOP milliseconds. 0.0 where none.
-    """
-    try:
-        return len(video_envelope(path, HOP, 4000)) * HOP / 1000.0
-    except Exception:
-        return 0.0
-
-
 def block_at(blocks, when, begins):
     """Which block of a recording holds a moment, and how far into it.
 
@@ -1211,13 +1199,14 @@ def block_at(blocks, when, begins):
     return p, when - t
 
 
-def blocks_after_their_head(data, blocks, length_of=envelope_seconds):
-    """Put a continuation behind its head block.
+def blocks_after_their_head(data, blocks, length_of=None):
+    """Put a continuation where the run's join puts it, behind its head.
 
-    The grouping settles where the parts lie: the head's place plus what
-    runs before. *blocks* is {head: [head, second, ...]} and is the whole
-    of the distinction -- a block taken out and put back in on its own is
-    not in there, so it is a recording of its own and measured.
+    The grouping settles which parts lie together, blocks_joined_at
+    where, from the head's place on its clock. *blocks* is {head: [head,
+    second, ...]} and the whole of the distinction: a block put back in
+    on its own is not in there, so it is measured as a recording of its
+    own. *length_of* stands in for the files' own lengths.
     """
     axis = (data or {}).get("axis") or {}
     speed = (data or {}).get("clock") or {}
@@ -1226,17 +1215,14 @@ def blocks_after_their_head(data, blocks, length_of=envelope_seconds):
         keys = [path_key(p) for p in row or ()]
         if len(keys) < 2 or keys[0] not in axis:
             continue
-        at = axis[keys[0]]
-        for before, key in zip(row, keys[1:]):
-            runs = float(length_of(before) or 0.0)
-            if runs <= 0.0:
-                # Without the length of the block in front there is no
-                # place to work out. Guessing one would put the rest of
-                # the recording somewhere and call it measured.
-                break
-            # Its clock as the head's: a drift taken out shortens it.
-            at += runs / speed.get(keys[0], 1.0)
-            put[key] = (at, speed.get(keys[0], 1.0))
+        starts = PROGRAM.blocks_joined_at(row, length_of)
+        # Its clock as the head's: a drift taken out shortens it. A block
+        # the join leaves out, or one behind a length unknown, has none.
+        clock = speed.get(keys[0], 1.0)
+        for p, key in zip(row[1:], keys[1:]):
+            if p in starts:
+                put[key] = (axis[keys[0]] + (starts[p] - starts[row[0]])
+                            / clock, clock)
     if not put:
         return data
     axis.update((k, v[0]) for k, v in put.items())
@@ -1246,7 +1232,7 @@ def blocks_after_their_head(data, blocks, length_of=envelope_seconds):
 
 
 def axis_with_blocks(paths, tc_of=lambda p: None, HOP=5.0, blocks=None,
-                     length_of=envelope_seconds, phase_of=lambda p: True,
+                     length_of=None, phase_of=lambda p: True,
                      raw=None):
     """Measure a recording made of blocks as one recording.
 
