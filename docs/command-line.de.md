@@ -4,15 +4,12 @@
 [Inhalt](README.de.md).*
 
 `--help` gibt diese Liste auch aus, immer auf Englisch. Vorgaben in Klammern.
-Ein Schalter, der nur dort etwas bedeutet, wo mehrere Spuren gemeinsam
-zu auphonic.com gehen, trägt in den Tabellen hier `[multitrack only]`;
-`--help` kennzeichnet ihn ebenso, und die Marke bleibt englisch, in
-welcher Sprache der Lauf auch läuft. Alle anderen Schalter wirken
-gleich, welche Art von Produktion die Spuren ergeben.
+Jeder Schalter wirkt gleich, welche Art von Produktion die Spuren
+ergeben.
 
 ```text
 $ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
-    GuestCam_01011858_C003.mov --multitrack --lufs -16 --dry-run
+    GuestCam_01011858_C003.mov --lufs -16 --dry-run
 videopodcast-magic 3.0.0b25   Python 3.14.7
 /tmp/vpm_terminal/videopodcast_magic/__init__.py
 
@@ -94,7 +91,7 @@ könnten, welche Art ein Lauf braucht.
 | `--store-auphonic-key` | den Schlüssel im Terminal abfragen, ohne ihn anzuzeigen, im Schlüsselbund (macOS), in der Registry (Windows) oder im Schlüsselbund des Desktops (Linux) ablegen und zurücklesen; hinter dem Schalter darf nichts stehen (aus) |
 | `--auphonic-preset NAME` | Name oder Kennung des Presets (das Programm fragt) |
 | `--auphonic-wait SEKUNDEN` | wie lange der Lauf darauf wartet, dass auphonic.com fertig wird; ist die Zeit um, bricht er ab und nennt die Adresse der Produktion, die dort weiterläuft; ist sie fertig, holt ein späterer Lauf ihr Ergebnis mit `--auphonic-resume result` ab. Höher wartet länger (7200, zwei Stunden) |
-| `--auphonic-resume WAS` | Produktion ist schon da: `result`, `rerun`, `adopt`, `upload`, `abort` (das Programm fragt)  `[multitrack only]` |
+| `--auphonic-resume WAS` | Produktion ist schon da: `result`, `rerun`, `adopt`, `upload`, `abort` (das Programm fragt) |
 | `--auphonic-done ORDNER` | schon aufbereitete Spuren, nach den Sprechern benannt. Der Lauf nimmt sie von dort, statt sie hochzuladen, und das Guthaben bleibt unangetastet |
 | `--multitrack` | nicht mehr nötig und ohne Wirkung; in dieser Version noch angenommen, damit ältere Kommandozeilen laufen. Ob die Spuren als eine Multitrack-Produktion hochgehen, folgt aus dem Material: zwei Spuren oder mehr auf einer Zeitachse tun es, eine einzelne Spur nicht, und das Preset muss von dieser Art sein. Mehrere Kameras ohne Tonaufnahme geben ihren Ton auch ohne den Schalter je als eigene Spur |
 | `--assign DATEI` | JSON, welcher Ton zu welcher Kamera gehört, unter welchem Sprechernamen und was nicht verwendet wird; die Oberfläche schreibt es für jeden Lauf |

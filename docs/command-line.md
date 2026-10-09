@@ -4,15 +4,11 @@
 [contents](README.md).*
 
 `--help` prints this list too, always in English. Defaults in brackets.
-A switch that only means something where several tracks go up to
-auphonic.com together carries `[multitrack only]` in the tables here;
-`--help` marks it the same way, and the marker stays English whatever
-the language of the run. Every other switch works whatever kind of
-production the tracks make.
+Every switch works whatever kind of production the tracks make.
 
 ```text
 $ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
-    GuestCam_01011858_C003.mov --multitrack --lufs -16 --dry-run
+    GuestCam_01011858_C003.mov --lufs -16 --dry-run
 videopodcast-magic 3.0.0b25   Python 3.14.7
 /tmp/vpm_terminal/videopodcast_magic/__init__.py
 
@@ -93,7 +89,7 @@ which kind a run needs.
 | `--store-auphonic-key` | ask for the key in the terminal without showing it, store it in the Keychain (macOS), the Registry (Windows) or the desktop's keyring (Linux) and read it back; nothing may follow the switch (off) |
 | `--auphonic-preset NAME` | preset name or id (the program asks) |
 | `--auphonic-wait SECONDS` | how long the run waits for auphonic.com to finish; when the time is up the run stops and names the address of the production, which goes on there; once it is finished, a later run takes its result with `--auphonic-resume result`. Higher waits longer (7200, two hours) |
-| `--auphonic-resume WHAT` | production already there: `result`, `rerun`, `adopt`, `upload`, `abort` (the program asks)  `[multitrack only]` |
+| `--auphonic-resume WHAT` | production already there: `result`, `rerun`, `adopt`, `upload`, `abort` (the program asks) |
 | `--auphonic-done FOLDER` | tracks already processed, named after the speakers. The run takes them from there instead of uploading them, and the account keeps its credit |
 | `--multitrack` | no longer needed, and does nothing; still taken in this version, so that older command lines run. Whether the tracks go up as one Multitrack production follows from the material: two tracks or more on one time axis do, a single track does not, and the preset has to be of that kind. Several cameras without an audio recording give their sound as a track each without it |
 | `--assign FILE` | JSON saying which audio belongs to which camera, under which speaker names and which are not used; the interface writes it for every run |
