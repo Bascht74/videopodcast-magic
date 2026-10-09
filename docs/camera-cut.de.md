@@ -786,8 +786,9 @@ was man von Hand eingestellt hat und nicht wieder erraten kann. Das sind
 die Dateiliste, Name, Projekttyp und Ablageort der Produktion, das
 Zeitfenster, alle
 Werte des Kameraschnitts, wer zu welcher Kamera gehört, das
-Auphonic-Preset, die Stereo-Häkchen, die gemessene Lage jeder Datei und
-wie schnell ihr Recorder lief; der API Key steht **nicht** darin.
+Auphonic-Preset, die Stereo-Häkchen, die gemessene Lage jeder Datei,
+wie schnell ihr Recorder lief und an welcher Kamera die anderen gemessen
+wurden; der API Key steht **nicht** darin.
 
 Darin steht, was jemand geantwortet hat, und sonst nichts. Ein von Hand
 gewähltes Preset bleibt auch dann darin stehen, wenn die Presetliste
@@ -806,7 +807,10 @@ die niemand mehr sieht.
 
 Beim Öffnen prüft das Programm das Format der Datei und weist eine Datei
 in einem anderen Format ab. Ältere Projektdateien kann es nicht mehr
-öffnen.
+öffnen. Fehlt einer Datei nur etwas, das später dazugekommen ist -- wie
+schnell ein Recorder lief, an welcher Kamera die anderen gemessen wurden
+--, dann hat sie dasselbe Format und lässt sich öffnen; das Fehlende
+ermittelt das Programm dann so wie früher.
 
 Sie entsteht schon, sobald das Programm die Zeitachse gemessen hat, dann
 noch neben dem Material, weil es den Ausgabeordner noch nicht gibt. Wenn

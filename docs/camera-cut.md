@@ -738,8 +738,9 @@ everything set by hand that cannot be guessed again. That is the file
 list, the production name, the project type and the output folder, the
 time window, every
 value of the camera cut, who belongs to which camera, the Auphonic
-preset, the stereo ticks, the measured position of every file and how
-fast its recorder ran; the
+preset, the stereo ticks, the measured position of every file, how
+fast its recorder ran and which camera the others were measured
+against; the
 API key is **not** in there.
 
 It keeps what somebody answered, and nothing else. A preset picked by
@@ -757,7 +758,10 @@ about it, so that adding it again later starts from nothing rather than
 from an answer nobody can see any more.
 
 On opening, the program checks the format of the file and refuses a file
-in another format. It can no longer open older project files.
+in another format. It can no longer open older project files. A file
+that only lacks something added later -- how fast a recorder ran, which
+camera the others were measured against -- is in the same format and
+opens; what is missing is then worked out the way it was before.
 
 The file appears as soon as the program has measured the time axis, then
 still next to the material, because there is no output folder yet. If

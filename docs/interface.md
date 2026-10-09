@@ -1091,8 +1091,16 @@ of each file goes how fast its recorder ran, so that the second start
 does not have to measure the same minutes over again. Files that no
 longer fit it show red. A project file written before that speed was
 kept still opens: every recorder in it then counts as running even,
-which is what the program assumed all along. More about the project file
-stands in [camera-cut.md](camera-cut.md).
+which is what the program assumed all along.
+
+The project file also names the camera the run holds all the others
+against -- the longest camera whose sound was heard -- and a timecode
+typed into **In point** or **Out point** is read at that camera's frame
+rate. Because it is kept there, a reopened project reads a mark the way
+the run does, even where a longer camera without sound runs at another
+rate beside it. A project file that does not name that camera yet still
+opens; the window then counts by the longest camera, as it always did.
+More about the project file stands in [camera-cut.md](camera-cut.md).
 
 **Files dropped in while the measurement is running are measured too.**
 The measurement under way was started over the list as it stood and

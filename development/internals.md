@@ -1121,6 +1121,7 @@ On any mismatch the old `moov` comes back byte for byte.
 | `apart`, `together` | blocks taken out by hand, and put together by hand |
 | `channels` | the stereo ticks, per file and channel |
 | `timeline`, `timeline_absolute` | the measured position of every file, and how fast its recorder ran |
+| `timeline_reference` | the camera the measurement held the others against (the longest heard), whose rate every mark is read at |
 | `call` | the command line of the last run |
 
 The `assignment` cannot be guessed. `own:` holds only what somebody set
@@ -1136,6 +1137,14 @@ a file that changed is caught by `mtime` and `size` anyway. It is not a
 new format: an entry written before `clock` existed reads back as 1.0,
 so an older project file opens and the axis in it still holds. The
 format number stays 3.
+
+`timeline_reference` is added the same way. The window took the run's
+reference camera from the measurement, and a reopened project measures
+nothing: without the key it fell back on the longest camera by its
+file, which a longer silent camera at another rate is not for the run.
+A file without the key opens and names no reference, so the window
+counts by that old rule, as it did; a run's start rewrites the file and
+carries the key along with the `timeline` it belongs to.
 
 ## How a spot for the wide shot is scored
 
