@@ -484,7 +484,7 @@ den Text trotzdem nicht taugen.
 Was einmal abgehört wurde, wird nicht wieder abgehört, was immer es
 gekostet hat. Was aufgehoben wird und was neu gerechnet wird, steht
 weiter oben unter „Was aufgehoben wird und was neu gerechnet wird“.
-Startet das Fenster einen Lauf, wenn seine eigene Niederschrift schon
+Startet das Fenster einen Lauf, wenn sein eigenes Transkript schon
 steht, hört dieser nichts mehr ab: Er übernimmt die Wörter des
 Fensters, genau wie sein Trockenlauf, und so stehen der Schnitt und die
 drei Dateien unten auf denselben Wörtern, die schon die Vorschau
@@ -591,8 +591,8 @@ Diese Optionen gibt es im Fenster nicht.
   auseinander, gleich was sonst danach verlangt.
 * `--no-speech-recognition` lässt den Text weg.
 * `VPM_NO_SPEAKER_SPLIT=1` vor dem Aufruf: keine Spalte **Sprecher**,
-  kein Knopf, und die Trennung startet nie von selbst. Auch die
-  Niederschrift schreibt das Fenster dann nicht im Hintergrund; die vier
+  kein Knopf, und die Trennung startet nie von selbst. Auch das
+  Transkript schreibt das Fenster dann nicht im Hintergrund; die vier
   Einstellungen des Kameraschnitts, die die Wörter brauchen, warten
   dann auf einen Lauf.
 * `--project-type sync` schaltet alles davon auf einmal ab: keine

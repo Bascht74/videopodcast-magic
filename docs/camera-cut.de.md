@@ -233,7 +233,7 @@ in die vorherige.
 ### Die vier Einstellungen, die auf die Wörter warten
 
 **Nach einer Frage**, **Antwort früher im Bild**, **Weitwinkel nach**
-und **Weitwinkel höchstens** stehen grau da, solange keine Niederschrift
+und **Weitwinkel höchstens** stehen grau da, solange kein Transkript
 bekannt ist, und eine Zeile darunter sagt, warum: ohne aufgeschriebene
 Sprache wird keine Frage gefunden und keine Satzgrenze, also bewirken
 diese vier nichts. Vorher ließen sie sich setzen und taten trotzdem
@@ -246,23 +246,23 @@ liefert denselben einen Einschub, ob dort 40 steht oder 90, und
 und 15 Sekunden gegen 20 bis 30.
 
 **Weitwinkel mindestens** und **Weitwinkel spätestens** bleiben offen,
-auch ohne Niederschrift: die beiden zählen nach der Uhr und brauchen
+auch ohne Transkript: die beiden zählen nach der Uhr und brauchen
 keinen Satz. Offen sind sie, solange es überhaupt einen Weitwinkel gibt
 — der nächste Abschnitt handelt vom zweiten Grund, aus dem eine
 Einstellung grau dasteht.
 
-Die Niederschrift schreibt das Fenster selbst, im Hintergrund, sobald
+Das Transkript schreibt das Fenster selbst, im Hintergrund, sobald
 die Zeitachse steht: der Balken der Vorarbeit unter den Tabellen auf
-**Zuordnung & Zeitfenster** führt sie als eigene Zeile,
-**Niederschrift**. Solange sie entsteht, sagt die Zeile unter den vier
-genau das, und ist sie fertig, werden die vier von selbst frei; von da
+**Zuordnung & Zeitfenster** führt es als eigene Zeile,
+**Transkript**. Solange es entsteht, sagt die Zeile unter den vier
+genau das, und ist es fertig, werden die vier von selbst frei; von da
 an rechnet die Vorschau mit ihnen. Hat die Trennung die Wörter einer
 einzelnen Aufnahme schon aufgeschrieben, werden diese so übernommen,
-wie sie sind. Steht die Niederschrift, schneiden **Trockenlauf** und
+wie sie sind. Steht das Transkript, schneiden **Trockenlauf** und
 **Start** nach denselben Wörtern: Wird aus einer Frage in der Vorschau
-ein Reaktionsschnitt, dann auch im Lauf. Ein Lauf ohne sie -- von der
-Kommandozeile, oder bevor das Fenster fertig war -- schreibt seine
-eigene.
+ein Reaktionsschnitt, dann auch im Lauf. Ein Lauf ohne das Transkript -- von der
+Kommandozeile, oder bevor das Fenster fertig war -- schreibt sein
+eigenes.
 
 ### Wenn keine Kamera frei von Sprechern ist
 
@@ -328,7 +328,7 @@ für die Ränder hier nichts.
 
 Keines der beiden Graus bleibt für immer. Eine Kamera kennzeichnen oder
 einer den Sprecher wegnehmen, und die fünf sind im selben Augenblick
-wieder da — so wie die vier, sobald die Niederschrift steht.
+wieder da — so wie die vier, sobald das Transkript steht.
 
 ### Wenn die Sprache nicht sagt, wer zu zeigen ist
 
@@ -374,7 +374,7 @@ Wechsel vorgezogen. Wo Fragen wegfielen, folgt eine zweite Zeile mit der
 Zahl je Grund — der Hauptsprecher fragte, Fragender und Antwortender auf
 einer Kamera, niemand antwortete rechtzeitig, die Antwort behielt das
 Wort nicht, bei der Frage sprach niemand, das Bild wechselte dort nicht
-zum Antwortenden, die Antwort wurde mit der Frage davor gezählt. Ohne Niederschrift steht an ihrer Stelle genau das, damit eine
+zum Antwortenden, die Antwort wurde mit der Frage davor gezählt. Ohne Transkript steht an ihrer Stelle genau das, damit eine
 Einstellung, die nichts bewirken kann, nicht wie eine kaputte aussieht.
 
 **Zuhörer** heißt: wer als Nächstes spricht, und nur, wenn auf dieser
@@ -861,7 +861,7 @@ beendet ihn die letzte Teilsatzgrenze davor.
 tritt die längste Sprechpause in der Nähe an ihre Stelle, und dort wird
 geschnitten, gleich was gerade gesagt wird; ist auch keine brauchbare
 Pause da, wird eine Kamera nach der Uhr aufgebrochen, damit kein Stück
-von ihr länger als diese Zeit steht. Ohne Niederschrift gibt es
+von ihr länger als diese Zeit steht. Ohne Transkript gibt es
 überhaupt keine Satzgrenzen: der Weitwinkel geht dann an die längste
 Pause in der Nähe und steht die eingestellte Mindestzeit — deshalb ist
 die weiche Grenze gesperrt, solange die Wörter fehlen, und die harte
@@ -926,12 +926,12 @@ Lautheitsmessung läuft je Spur zweimal durch.
   Reiter **Zuordnung & Zeitfenster** jeder Stimme einen Namen und eine
   Kamera geben.
 * **Vier Einstellungen sind grau und nehmen nichts an.** Es ist noch
-  keine Niederschrift da. **Nach einer Frage**, **Antwort früher im
+  kein Transkript da. **Nach einer Frage**, **Antwort früher im
   Bild**, **Weitwinkel nach** und **Weitwinkel höchstens** brauchen
-  eine. Das Fenster schreibt sie im Hintergrund, sobald die Zeitachse
+  eines. Das Fenster schreibt es im Hintergrund, sobald die Zeitachse
   steht — der Balken der Vorarbeit zeigt dann die Zeile
-  **Niederschrift** —, und ist sie fertig, werden die vier von selbst
-  frei. Ist `VPM_NO_SPEAKER_SPLIT` gesetzt, schreibt das Fenster keine,
+  **Transkript** —, und ist es fertig, werden die vier von selbst
+  frei. Ist `VPM_NO_SPEAKER_SPLIT` gesetzt, schreibt das Fenster keines,
   und der erste Lauf tut es.
 * **Fünf Einstellungen sind grau, und der Weitwinkel lässt sich nicht
   wählen.** Jede Kamera trägt einen Sprecher, also gibt es keinen
@@ -966,7 +966,7 @@ Im Fenster gibt es dafür keine Entsprechung.
   öfter
 * `--reaction-hold` welchen Anteil der zehn Sekunden nach der Frage der
   Antwortende halten muss, zwischen 0 und 1 (0,7); höher und er greift
-  seltener. Beide gehören zur Frage und wollen eine Niederschrift, wie
+  seltener. Beide gehören zur Frage und wollen ein Transkript, wie
   die zwei Einstellungen dafür im Fenster
 * `--no-metrics` lässt die Kennzahlendatei und den Farbvergleich weg
 * `VPM_PLAYER_DEBUG=1` vor dem Aufruf stellt Uhr, Stand und Sollwert
