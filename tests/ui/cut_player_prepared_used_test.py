@@ -881,6 +881,37 @@ sound_waited = [0]
 SOUND_ROUNDS = 20
 
 
+# How long the window may hold the reading back after the sheet is
+# opened, counted in rounds of the step below. The reading waits while
+# the window is busy elsewhere -- the time axis, the camera sound -- and
+# the window says so itself (state["preview_waiting"]); the watchdog
+# starts it once the window is free. Here that work is done before the
+# sheet is opened and not one round is used; on the builder, about nine
+# times slower, it was still going (3.0.0b29, Windows), and judging in
+# the same breath read the wait as a reading that never came. The bound
+# is only paid in a run going red anyway, and stays well under the
+# whole run's.
+HELD_ROUNDS = 400
+held_waited = [0]
+held_by = [""]
+sheet_opened = [False]
+
+
+def held_back():
+    """What the window says holds the reading back, or "" for nothing.
+
+    The program's own flag, and beside it the parts of the window it is
+    made of, so a red line says which of them was still busy.
+    """
+    state = getattr(cut_sheet(), "state", None) or {}
+    if not state.get("preview_waiting"):
+        return ""
+    busy = [k for k in ("running", "waiting", "starting", "axis_running")
+            if state.get(k)]
+    return "held back (%s)" % (", ".join(busy)
+                                or "the camera sound, or a run's output")
+
+
 def open_the_cut_sheet():
     """Have the window work out who speaks when, here and now.
 
@@ -889,21 +920,39 @@ def open_the_cut_sheet():
     what sets the reading going. It runs in a thread of its own, and
     what comes of it is waited for below.
 
+    The window may hold the reading back while it is busy elsewhere,
+    and says so; that is waited out on its own word, never on a set
+    time, and the judgement follows either way. Where nothing holds it
+    back, nothing is waited for.
+
     The second look is taken while that reading is still running, and
     it is held here rather than raced against: a reading that had
     already come back would answer the question of the step after this
     one instead of this one's.
     """
-    opened = open_cut_sheet()
-    check("the Resolve sheet is there to be opened", opened,
-          "%r wanted; the window offers %s"
-          % (vpm.T('Resolve cut'), sheets_offered()))
-    if not opened:
-        return STOP
+    if not sheet_opened[0]:
+        sheet_opened[0] = True
+        opened = open_cut_sheet()
+        check("the Resolve sheet is there to be opened", opened,
+              "%r wanted; the window offers %s"
+              % (vpm.T('Resolve cut'), sheets_offered()))
+        if not opened:
+            return STOP
+    held = held_back()
+    if held and not measurements and held_waited[0] < HELD_ROUNDS:
+        held_by[0] = held_by[0] or held
+        held_waited[0] += 1
+        return AGAIN
+    waited_out = ("the window held it back for %d of %d rounds%s"
+                  % (held_waited[0], HELD_ROUNDS,
+                     held_by[0] and ", " + held_by[0]) if not held else
+                  "still %s after %d rounds, %.1f s of waiting"
+                  % (held, held_waited[0],
+                     held_waited[0] * AGAIN_MS / 1000.0))
     check("opening the Resolve sheet sets the speaker measurement going",
           len(measurements) == 1,
-          "%d measurements set going, wanted 1; %s"
-          % (len(measurements), measure_note()))
+          "%d measurements set going, wanted 1; %s; %s"
+          % (len(measurements), waited_out, measure_note()))
     working = vpm.T('working out who speaks when ...')
     check("and the sheet says while it runs that it is working it out",
           working in sheet_says(),
