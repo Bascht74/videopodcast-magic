@@ -1414,11 +1414,11 @@ def timeline_entries(axis, clocks, marks=None):
 def axis_still_valid(d, paths, fingerprint=file_fingerprint):
     """Report whether a measured axis still applies to these files.
 
-    All or nothing: the axis states how the files relate, and a half valid one
-    would look right and be worse than none. Returns {"axis", "clock", "weak",
-    "no_place", "brief", "clock_alone", "absolute"} or None, lists as the paths
-    came; no stored clock speed reads 1.0, and a file stored without a verdict
-    fits, as every file did before one was kept.
+    All or nothing: a half valid axis would look right and be worse than
+    none. Returns {"axis", "clock", "weak", "no_place", "brief",
+    "clock_alone", "absolute", "reference"} or None, lists as the paths
+    came; what a file stored before it was kept reads as before: clock
+    speed 1.0, a fit, no reference camera.
     """
     known = {}
     for e in ((d or {}).get("timeline") or []):
@@ -1464,9 +1464,11 @@ def axis_still_valid(d, paths, fingerprint=file_fingerprint):
             verdict(e, e["path"])
     if not axis:
         return None
+    named = (d or {}).get("timeline_reference")
     return {"axis": axis, "clock": speed, "weak": weak,
             "no_place": nowhere, "brief": brief, "clock_alone": alone,
-            "absolute": bool((d or {}).get("timeline_absolute"))}
+            "absolute": bool((d or {}).get("timeline_absolute")),
+            "reference": path_key(named) if named else None}
 
 
 def axis_worth_measuring(files, every, state, fingerprint=file_fingerprint):
@@ -1722,6 +1724,13 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
                                              state.get("axis_marks"))
             d["timeline_absolute"] = bool(state.get("axis_absolute"))
             d["timeline_phase"] = list(state.get("axis_phase_measuring") or [])
+            # The camera every mark is read at the rate of: reopened
+            # without it, the window falls back on the longest camera,
+            # which a longer silent one at another rate is not for the run.
+            if state.get("axis_reference"):
+                d["timeline_reference"] = state["axis_reference"]
+            else:
+                d.pop("timeline_reference", None)
         d["files"] = [{"path": p, "kind": a} for p, a in files]
         settings_extend(d)
         try:
