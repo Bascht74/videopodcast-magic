@@ -221,7 +221,7 @@ run_stop_names_why	27
 run_stop_passes_through	13
 run_stored_words_cut	7
 run_switch_changes_it	12
-run_switch_has_effect	10
+run_switch_has_effect	4
 run_sync_only_no_cut	20
 run_takes_dry_measure	9
 run_threads_keep_order	17

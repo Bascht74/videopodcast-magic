@@ -43,11 +43,6 @@ path_key = PROGRAM.path_key
 python_note = PROGRAM.python_note
 separation_has_voices = PROGRAM.separation_has_voices
 
-# The switches that need several recordings. Everything else works on
-# any run since the two paths became one -- the assignment file too.
-# Not --multitrack itself: a switch marked as needing itself says nothing.
-ONLY_MULTITRACK = ("auphonic_resume",)
-
 
 #--------------------------------------- Out of the window into an order
 # What the window holds, written as the command line a run is given.
@@ -901,12 +896,6 @@ def build_argument_parser():
     ap.add_argument("--dry-run", action="store_true",
                     help="work everything out up to the finished cut and report it, "
                          "write nothing")
-    # A switch that needs several recordings says so, or it would be
-    # taken and do nothing. Marked here rather than at the call site:
-    # --help builds its own parser and never reaches that one.
-    for entry in ap._actions:
-        if entry.dest in ONLY_MULTITRACK:
-            entry.help = (entry.help or "") + "  [multitrack only]"
     return ap
 
 
