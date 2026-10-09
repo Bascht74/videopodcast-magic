@@ -13,7 +13,7 @@ rates, run times, distributions, comparisons.
 ## How the program is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
-program lives any more -- 851 lines of it, against the 37 535 it held
+program lives any more -- 863 lines of it, against the 37 535 it held
 on 4.9.2026, the day the single file became a folder. **Forty-four
 pieces have moved out**, each in a folder of its own beside it with an
 `__init__.py` in it, and the way in reaches them with `beside()`.
@@ -32,59 +32,59 @@ filed under, which never follows a rename. `source_names_said_once`
 holds the first two to that one place.
 
 What is in them, largest first, every folder of the program on the list
-and counted 27.9.2026 with `wc -l` over its `__init__.py` -- and **the
+and counted 9.10.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **4337** -- who speaks and when: the separation itself,
+* `speakers/` **4323** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3320** -- the window and everything it shows, asks or offers,
+* `ui/` **3260** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `player/` **3311** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3313** -- who is on camera when, and what carries it out
+* `cut/` **3311** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
-* `resolve/` **2430** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2429** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
 * `material/` **2025** -- channels, chains, continuation files, and what
   a track is made of
 * `loudness/` **482** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
-* `bearings/` **2451** -- where each file and each voice sits, and how
+* `bearings/` **2371** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2577** -- the time base and the camera files: every
+* `timebase/` **2569** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
   recording answers to (`drift_clear`: three times its uncertainty)
   and one bound of its own, 500 ppm
-* `auphonic/` **2100** -- the sending to auphonic.com and the fetching
+* `auphonic/` **2259** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1919** -- whether the material fits together before the
+* `preflight/` **1995** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
-* `setup/` **1388** -- finding ffmpeg, installing a missing module,
+* `setup/` **1377** -- finding ffmpeg, installing a missing module,
   keeping the key, and storing it from the terminal
 * `speech/` **1512** -- what is said and when, and what is written down
   from it
 * `hearing/` **1341** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1323** -- helpers that shape what the window shows and
+* `fittings/` **1322** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **1090** -- the command line a run is given: written out of
+* `orders/` **1046** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
-* `assignmenttable/` **810** -- the table on the second tab:
+* `assignmenttable/` **809** -- the table on the second tab:
   recordings above, the voices under them, the cameras below, what it
   keeps between builds and the camera names somebody typed; read by
   `assignmentsheet/` and nothing else
@@ -95,7 +95,7 @@ figure of the day is that command, not this paragraph**:
   run's children and reads whether any of them still moves
 * `pipeline/` **671** -- the plan: the camera audio out of the
   pictures, the names and the plan the time base runs
-* `project/` **589** -- the program's own project file: writing
+* `project/` **582** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
 * `filelist/` **544** -- the list of chosen files: the tree it is
@@ -103,7 +103,7 @@ figure of the day is that command, not this paragraph**:
   several blocks shown as one entry
 * `prework/` **466** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them and what each is worth
-* `resolvesheet/` **625** -- the third tab: whether Resolve answers,
+* `resolvesheet/` **624** -- the third tab: whether Resolve answers,
   the camera cut with its settings, forecast and preview, what the
   player is fed with, and the speaker box
 * `livery/` **453** -- the colours, the clip colours of the cut band and
@@ -114,7 +114,7 @@ figure of the day is that command, not this paragraph**:
   material is HDR, the spellings a colour space name goes by, and the
   report on a finished file
 * `tables/` **417** -- the tables and trees the window builds
-* `running/` **657** -- what a run is offered before it starts, the
+* `running/` **656** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
   looks one up
@@ -124,7 +124,7 @@ figure of the day is that command, not this paragraph**:
 * `filesheet/` **458** -- the first tab: the drop area or the file
   list with its channel rows and findings, the video choices, and the
   production strip with the output folder
-* `assignmentsheet/` **273** -- the second tab: the assignment boxes,
+* `assignmentsheet/` **268** -- the second tab: the assignment boxes,
   the time window beside the preview player, and which audio runs under
   a camera; the table itself is `assignmenttable/`
 * `menus/` **238** -- the menu bar and what follows it
@@ -152,7 +152,7 @@ figure of the day is that command, not this paragraph**:
 `models/` is the odd one out among the folders: the speaker model lives
 there and no code at all, so `beside()` never reaches for it. There is
 nothing to build.
-* `projectmodel/` **147** -- the production's data the window works on:
+* `projectmodel/` **146** -- the production's data the window works on:
   the files, the output folder, the assignment and the choices, read by
   the project file, the run start and the file list; no widget, no Qt
 
@@ -573,7 +573,8 @@ same set taken from a copy of the tree before the cut.
 value do not.** Counted 6.9.2026 over the way in's top level, uses and
 not mentions: `INSTALL_TOOLS` went to `setup/`, `CEILING_DBTP` and
 `LIMIT_MAX_DB` to `material/` (and on 27.9.2026 on to `loudness/`, with
-their readers), `ONLY_MULTITRACK` to `orders/`. The four
+their readers), `ONLY_MULTITRACK` to `orders/` (since gone, with the
+mark it set in `--help`). The four
 kinds that stay: a value the way in reads itself (`LIKES_PYTHON` in the
 version check, `TOOL_TROUBLE` in `main`) or that more than one piece
 reads (`SPEECH_CODES`, out of `speech/` and out of `ui/`); a sink the
