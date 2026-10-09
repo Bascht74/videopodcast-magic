@@ -105,7 +105,9 @@ def step():
         app.quit()
 
 
-QtCore.QTimer.singleShot(800, step)
+# gui() builds the whole window before its loop starts, so the first
+# turn of the loop finds every player there is.
+QtCore.QTimer.singleShot(0, step)
 # The guard: a quit that never comes back still reaches the lines below.
 QtCore.QTimer.singleShot(60000, app.quit)
 sys.argv = ["videopodcast_magic.py"]
