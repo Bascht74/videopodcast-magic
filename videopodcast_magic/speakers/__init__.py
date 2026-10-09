@@ -4320,5 +4320,7 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
         if soon:
             soon()
 
+    # So the sheet can store an answer still waiting before it rebuilds.
+    state["voices_remember"] = voices_remember
     return (assignment_state_show, voice_play, assignment_row_show,
             folded_show, voice_add, voices_build, voices_remember)

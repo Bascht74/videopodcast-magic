@@ -2,14 +2,15 @@
 """A second separation leaves the first its voices, names and cameras.
 
 The steps: a recording set to several speakers, a name and a camera
-given to each voice found in it, then the camera's sound made material
-and set to several speakers too, and its voices named and seated as
-well. The sections: the first separation, its voices seated, the
-second beside it -- which takes none of the first's cameras and puts
-none of its own voices on one -- what the run is handed, with every
-voice on a camera of its own recording, the project file written, the
-camera's sound switched off again, and -- in a second window -- that
-file opened afresh.
+given to each voice found in it -- each name typed with a rebuild of the
+sheet already on its way, as late background work brings one on a loaded
+machine -- then the camera's sound made material and set to several
+speakers too, and its voices named and seated as well. The sections: the
+first separation, its voices seated, the second beside it -- which takes
+none of the first's cameras and puts none of its own voices on one --
+what the run is handed, with every voice on a camera of its own
+recording, the project file written, the camera's sound switched off
+again, and -- in a second window -- that file opened afresh.
 
 Where a seating takes effect is not asked here: the window's part ends
 at the handover, and cut_voice_on_its_camera measures what a run makes
@@ -506,8 +507,38 @@ def look(case, media, folder):
         if len(row[0]) != len(FOUND[ROOM]):
             return STOP
 
+    def bridge():
+        """The object the working threads report through, or None.
+
+        Built inside gui() and hung on nothing, so it is looked for.
+        """
+        import gc
+        for o in gc.get_objects():
+            try:
+                if type(o).__name__ == "Bridge" and hasattr(o, "split_done"):
+                    return o
+            except Exception:
+                pass
+
+    # How many rebuilds were sent under the typing: none, and the names
+    # would stand for want of the very thing they are asked against.
+    posted = [0]
+
     def type_names():
+        """Each name typed with a rebuild of the sheet already on its way.
+
+        Background work rebuilds the sheet when it ends -- the
+        recording's tracks cut, here said again -- and on a loaded
+        machine that lands under the typing. Posted on purpose before
+        each name, the rebuild comes in ahead of the name's storing.
+        """
+        said = bridge()
         for i, name in enumerate(NAMES):
+            if said is not None:
+                QtCore.QTimer.singleShot(
+                    0, lambda: said.split_done.emit(
+                        os.path.abspath(recording)))
+                posted[0] += 1
             fields = voice_fields(ROOM)
             if i < len(fields) and fields[i] is not None:
                 type_into(fields[i], name)
@@ -516,7 +547,9 @@ def look(case, media, folder):
         got = [str(w.text()).strip() for w in voice_fields(ROOM)
                if hasattr(w, "text")]
         check("each voice row took the name that was typed into it",
-              got == NAMES, "%s, wanted %s" % (got, NAMES))
+              got == NAMES and posted[0] == len(NAMES),
+              "%s, wanted %s -- %d rebuilds sent under the typing, "
+              "wanted %d" % (got, NAMES, posted[0], len(NAMES)))
 
     def seat_room():
         seat(ROOM)
