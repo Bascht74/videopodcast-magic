@@ -141,8 +141,12 @@ def stand_in_main():
     if ending["how"] == "stopped":
         raise vpm.Stopped("the stand-in run")
     if ending["how"] == "held":
-        with open(os.path.join(PLACE, "seen"), "w") as f:
+        # Written beside and renamed: the child ends as soon as "seen"
+        # exists, and a file it ends on half written reads empty.
+        with open(os.path.join(PLACE, "seen.part"), "w") as f:
             f.write(path)
+        os.replace(os.path.join(PLACE, "seen.part"),
+                   os.path.join(PLACE, "seen"))
         hold.wait()
     return 0
 
