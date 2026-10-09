@@ -5261,3 +5261,9 @@ msgstr "activată în presetare, deci auphonic.com transcrie și el -- textul ei
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- așa cum le are presetarea; programul nu schimbă niciunul."
+
+msgid "Enough for the %s this production needs."
+msgstr "Destul pentru cele %s de care are nevoie această producție."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nu ajunge pentru cele %s de care are nevoie această producție."

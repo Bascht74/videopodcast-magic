@@ -5400,3 +5400,9 @@ msgstr "مفعّل في الإعداد المسبق، لذا يكتب auphonic.c
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- كما هي في الإعداد المسبق؛ البرنامج لا يغيّر أيًا منها."
+
+msgid "Enough for the %s this production needs."
+msgstr "يكفي لـ %s التي يحتاجها هذا الإنتاج."
+
+msgid "Not enough for the %s this production needs."
+msgstr "لا يكفي لـ %s التي يحتاجها هذا الإنتاج."

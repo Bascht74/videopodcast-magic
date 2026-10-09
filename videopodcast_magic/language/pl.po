@@ -5261,3 +5261,9 @@ msgstr "włączone w presecie, więc auphonic.com też transkrybuje -- jego teks
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- tak, jak ma je preset; program nie zmienia żadnego."
+
+msgid "Enough for the %s this production needs."
+msgstr "Wystarczy na %s potrzebne tej produkcji."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nie wystarczy na %s potrzebne tej produkcji."

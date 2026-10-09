@@ -407,6 +407,9 @@ def list_presets(key):
 # went through, 22 were refused ("shorter than 20min", it says). Warned
 # of past it, never enforced.
 FREE_MULTITRACK_S = 21 * 60
+# The least auphonic.com charges a production, as its pricing pages say
+# (read 9.10.2026, not measured): three minutes, however short it is.
+CHARGED_AT_LEAST_S = 3 * 60
 
 
 def account_credit(key):
@@ -445,24 +448,40 @@ def credit_time(seconds, needed=False):
     """A span of credit in whole minutes.
 
     What is left is rounded down. What a production *needed* is rounded
-    up and never below one minute: auphonic.com charges whole minutes,
-    so a twenty-second production is not free.
+    up and never below CHARGED_AT_LEAST_S: auphonic.com charges whole
+    minutes, and a twenty-second production as three.
     """
     return T('%d min') % credit_minutes(seconds, needed)
 
 
 def credit_minutes(seconds, needed=False):
-    """The whole minutes credit_time says: left down, needed up, at least 1."""
+    """The whole minutes credit_time says: left down, needed up, at least 3."""
     if needed:
-        return max(1, int(-(-max(0.0, seconds) // 60)))
+        return max(CHARGED_AT_LEAST_S // 60,
+                   int(-(-max(0.0, seconds) // 60)))
     return int(max(0.0, seconds) // 60)
+
+
+def charged_seconds(lengths, multitrack):
+    """What auphonic.com charges for productions of *lengths*, in seconds.
+
+    One Multitrack production is charged as its longest track. Lone
+    tracks are a production each, and each is charged its own whole
+    minutes, at least CHARGED_AT_LEAST_S. A length of 0 is not measured
+    and charges nothing; none measured gives 0.
+    """
+    lengths = [s for s in lengths if s > 0]
+    if multitrack and lengths:
+        lengths = [max(lengths)]
+    return sum(credit_minutes(s, needed=True) * 60 for s in lengths)
 
 
 def credit_short(hours, seconds):
     """Whether *hours* of credit fall short of *seconds* of production.
 
-    Held against the whole minutes it is charged, at least one, so no
-    credit at all is short even where the length is not known.
+    Held against the whole minutes it is charged, at least
+    CHARGED_AT_LEAST_S, so no credit at all is short even where the
+    length is not known.
     """
     return (hours is not None
             and hours * 3600 < credit_minutes(seconds, needed=True) * 60)
@@ -483,8 +502,8 @@ def credit_note(account, multitrack, seconds=0):
     *seconds*: the production's length as the window knows it, 0, or
     None without a preset, which only says the plan and what is left.
     *short*, the line red: the credit is fewer than the production needs,
-    or a free Multitrack production longer than auphonic.com takes.
-    Without an answer there is no line.
+    or a free Multitrack production longer than auphonic.com takes. A
+    length adds a line saying whether it is enough; no answer, no line.
     """
     if not account:
         return "", False
@@ -498,6 +517,11 @@ def credit_note(account, multitrack, seconds=0):
     if seconds is None:
         return left, False
     short = credit_short(hours, seconds)
+    if seconds > 0 and hours is not None:
+        left += "\n" + ((T('Not enough for the %s this production needs.')
+                         if short else
+                         T('Enough for the %s this production needs.'))
+                        % credit_time(seconds, needed=True))
     if free_too_long(account, seconds, multitrack):
         left += "\n" + (T('On the free plan auphonic.com takes a Multitrack '
                           'production only up to about %s.')
@@ -1320,8 +1344,12 @@ def wishes_then_start(key, uuid, stereo=False):
 
 
 def run_single_production(audio, preset, presetname, key, target_folder,
-                  wait_s=7200, dry_run=False, title=None):
-    """Upload a file, start the production, wait, download the result."""
+                  wait_s=7200, dry_run=False, title=None, carry_on=None):
+    """Upload a file, start the production, wait, download the result.
+
+    A production of the same title found at auphonic.com is asked about
+    first, as a Multitrack one is; *carry_on* answers that in advance.
+    """
     step_begin("auphonic")
     title = title or os.path.splitext(os.path.basename(audio))[0]
     size = os.path.getsize(audio) / 1e6
@@ -1346,6 +1374,14 @@ def run_single_production(audio, preset, presetname, key, target_folder,
     if production_said(key, T('PROCESSING AT AUPHONIC.COM:'), rows, dry_run,
                        lambda: PROGRAM.media_seconds(audio), False):
         return None
+    # A second run finds the production the first one paid for, as a
+    # Multitrack run does, and is asked before it pays again.
+    existing = single_production_found(key, title)
+    if existing:
+        taken = reuse_single_production(key, existing, audio, title,
+                                        target_folder, carry_on)
+        if taken:
+            return taken
     # With a stereo recording the production is created but not started:
     # switching the mono fold off is a second call.
     later = stereo
@@ -1372,14 +1408,24 @@ def run_single_production(audio, preset, presetname, key, target_folder,
 
     # The same waiting the multitrack production does, in one function.
     p = wait_for_production(key, uuid, wait_s)
+    return single_result_fetched(key, p, audio, title, target_folder)
 
+
+def single_result_fetched(key, p, audio, title, target_folder):
+    """Fetch a finished Singletrack production's audio and its texts.
+
+    What auphonic.com put around the sound is cut against *audio*, the
+    recording this run would send -- the same one an earlier run sent,
+    since a lone recording is joined whole and cut to no window.
+    """
     files = p.get("output_files") or []
     if not files:
         raise RuntimeError(T('production finished, but no output file'))
     def rank(f):
-        # Lossless before lossy, in case the preset delivers several.
+        """Lossless before lossy, in case the preset delivers several."""
         nm = (f.get("filename") or "").lower()
-        return {".wav": 1, ".flac": 2, ".aiff": 3}.get(os.path.splitext(nm)[1], 9)
+        return {".wav": 1, ".flac": 2, ".aiff": 3}.get(
+            os.path.splitext(nm)[1], 9)
     best = sorted(files, key=rank)[0]
     name = plain_download_name(best.get("filename") or (title + ".wav"))
     if not name:
@@ -1396,9 +1442,75 @@ def run_single_production(audio, preset, presetname, key, target_folder,
                            % number_text(os.path.getsize(target), 0))
     cut_to_what_was_sent(audio, target)
     print(T('  Result: %s (%s) -- stays next to the video file\n')
-          % (os.path.basename(target), as_data_size(os.path.getsize(target) / 1e6)))
+          % (os.path.basename(target),
+             as_data_size(os.path.getsize(target) / 1e6)))
     fetch_text_outputs(key, files, target_folder, skip=best)
     return target
+
+
+def single_production_found(key, title):
+    """The Singletrack production auphonic.com holds under *title*, or None.
+
+    The title is the one a run gives its production, and a lone
+    recording is always one production, so the title finds it. A
+    Multitrack production of that title is passed over: its result is
+    tracks, not this recording. A list that is not one finds nothing.
+    """
+    d = _parse_json(_curl_call(
+        key, [AUPHONIC + "/api/productions.json?limit=50"]))
+    rows = d.get("data") if isinstance(d, dict) else None
+    wanted = (title or "").strip().lower()
+    for p in (rows if isinstance(rows, list) else ()):
+        if not isinstance(p, dict):
+            continue
+        if ((p.get("metadata") or {}).get("title") or "").strip().lower() \
+                != wanted:
+            continue
+        if p.get("is_multitrack") or p.get("multi_input_files"):
+            continue
+        return p
+    return None
+
+
+def single_audio_ready(p):
+    """Whether a Singletrack production is done and holds audio to fetch."""
+    return p.get("status") == 3 and any(
+        f.get("download_url") and not (f.get("filename") or "").lower()
+        .endswith(TRANSCRIPT_SUFFIXES) for f in (p.get("output_files") or []))
+
+
+def reuse_single_production(key, existing, audio, title, target_folder,
+                            carry_on=None):
+    """Ask about a Singletrack production found by its title.
+
+    The same question a Multitrack production gets, less what a single
+    file cannot do: its result where one is there, a new upload, or
+    stop. Returns the fetched result, or None where the file goes up
+    anew -- the only answer that costs credit.
+    """
+    print(T('\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME'))
+    print(T('  Status:      %s') % (existing.get("status_string") or "?"))
+    print(T('  Created:     %s') % (existing.get("creation_time") or "?")[:19]
+          .replace("T", " "))
+    ready = single_audio_ready(existing)
+    if ready:
+        print(T('  Results:'))
+        for f in existing.get("output_files") or []:
+            if f.get("download_url"):
+                print("    %s" % (f.get("filename") or "?"))
+    else:
+        print(T('  Results:     none'))
+    choice = ask_reuse_production(False, ready, carry_on)
+    if choice == "abort":
+        raise RuntimeError(
+            T('Stopped. Choose another production name -- then a new '
+              'production\n  is created -- or pick one of the other options.'))
+    if choice != "result" or not ready:
+        print(T('  The files are uploaded again -- this costs credit.'))
+        return None
+    print(T('  Existing result adopted -- nothing computed, nothing paid.'))
+    p = read_production(key, existing.get("uuid"))
+    return single_result_fetched(key, p, audio, title, target_folder)
 
 
 def fetch_text_outputs(key, files, target_folder, skip=None):

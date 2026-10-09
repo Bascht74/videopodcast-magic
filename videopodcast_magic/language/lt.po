@@ -5264,3 +5264,9 @@ msgstr "įjungtas išankstiniame nustatyme, todėl auphonic.com taip pat transkr
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- taip, kaip juos turi išankstinis nustatymas; programa nekeičia nė vieno."
+
+msgid "Enough for the %s this production needs."
+msgstr "Pakanka šiai produkcijai reikalingoms %s."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nepakanka šiai produkcijai reikalingoms %s."

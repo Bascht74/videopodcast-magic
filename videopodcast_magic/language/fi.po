@@ -5216,3 +5216,9 @@ msgstr "päällä esiasetuksessa, joten auphonic.com litteroi myös -- sen tekst
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- sellaisina kuin esiasetuksessa; ohjelma ei muuta yhtäkään."
+
+msgid "Enough for the %s this production needs."
+msgstr "Riittää tämän tuotannon tarvitsemaan %s."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Ei riitä tämän tuotannon tarvitsemaan %s."

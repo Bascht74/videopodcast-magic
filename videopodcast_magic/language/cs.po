@@ -5260,3 +5260,9 @@ msgstr "zapnuto v předvolbě, takže auphonic.com také přepisuje -- jeho text
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- tak, jak je předvolba má; program nemění žádný."
+
+msgid "Enough for the %s this production needs."
+msgstr "Stačí na %s, které tato produkce potřebuje."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nestačí na %s, které tato produkce potřebuje."

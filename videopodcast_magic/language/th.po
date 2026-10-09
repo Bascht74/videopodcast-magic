@@ -5175,3 +5175,9 @@ msgstr "เปิดอยู่ในพรีเซ็ต ดังนั้�
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- ตามที่พรีเซ็ตมี โปรแกรมไม่เปลี่ยนสักอย่าง"
+
+msgid "Enough for the %s this production needs."
+msgstr "พอสำหรับ %s ที่งานนี้ต้องใช้"
+
+msgid "Not enough for the %s this production needs."
+msgstr "ไม่พอสำหรับ %s ที่งานนี้ต้องใช้"

@@ -5356,3 +5356,9 @@ msgstr "casta air sa réamhshocrú, mar sin tras-scríobhann auphonic.com freisi
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- mar atá siad sa réamhshocrú; ní athraíonn an clár ceann ar bith."
+
+msgid "Enough for the %s this production needs."
+msgstr "Is leor é don %s a theastaíonn ón léiriú seo."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Ní leor é don %s a theastaíonn ón léiriú seo."

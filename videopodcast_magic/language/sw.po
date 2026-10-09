@@ -5220,3 +5220,9 @@ msgstr "imewashwa kwenye preset, kwa hiyo auphonic.com pia inanakili -- maandish
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- kama zilivyo kwenye preset; programu haibadilishi hata moja."
+
+msgid "Enough for the %s this production needs."
+msgstr "Zinatosha kwa %s zinazohitajika na uzalishaji huu."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Hazitoshi kwa %s zinazohitajika na uzalishaji huu."

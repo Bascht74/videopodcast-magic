@@ -5177,3 +5177,9 @@ msgstr "aktif di preset, jadi auphonic.com juga mentranskripsi -- teksnya tidak 
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- sebagaimana ada di preset; program tidak mengubah satu pun."
+
+msgid "Enough for the %s this production needs."
+msgstr "Cukup untuk %s yang diperlukan produksi ini."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Tidak cukup untuk %s yang diperlukan produksi ini."

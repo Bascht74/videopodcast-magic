@@ -5217,3 +5217,9 @@ msgstr "ενεργή στην προρύθμιση, οπότε το auphonic.com
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- όπως τα έχει η προρύθμιση· το πρόγραμμα δεν αλλάζει κανένα."
+
+msgid "Enough for the %s this production needs."
+msgstr "Αρκετά για τα %s που χρειάζεται αυτή η παραγωγή."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Όχι αρκετά για τα %s που χρειάζεται αυτή η παραγωγή."

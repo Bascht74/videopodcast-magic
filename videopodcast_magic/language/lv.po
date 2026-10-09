@@ -5265,3 +5265,9 @@ msgstr "ieslēgta sākotnējā iestatījumā, tāpēc auphonic.com arī transkri
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- tā, kā tos satur sākotnējais iestatījums; programma nemaina nevienu."
+
+msgid "Enough for the %s this production needs."
+msgstr "Pietiek šim producējumam vajadzīgajām %s."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nepietiek šim producējumam vajadzīgajām %s."

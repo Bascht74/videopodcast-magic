@@ -5218,3 +5218,9 @@ msgstr "bekapcsolva az előbeállításban, így az auphonic.com is átír -- a 
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- ahogy az előbeállításban vannak; a program egyiket sem változtatja meg."
+
+msgid "Enough for the %s this production needs."
+msgstr "Elég a produkcióhoz szükséges %s időre."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nem elég a produkcióhoz szükséges %s időre."

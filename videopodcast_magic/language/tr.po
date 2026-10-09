@@ -5229,3 +5229,9 @@ msgstr "ön ayarda açık, bu yüzden auphonic.com da yazıya döker -- metni in
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- ön ayarda olduğu gibi; program hiçbirini değiştirmez."
+
+msgid "Enough for the %s this production needs."
+msgstr "Bu prodüksiyonun gerektirdiği %s için yeterli."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Bu prodüksiyonun gerektirdiği %s için yetersiz."

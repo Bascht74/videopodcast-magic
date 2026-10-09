@@ -84,7 +84,10 @@ What comes out depends on the material:
 
 - **Audio only.** A single recording is joined from its blocks into one
   file `<name>_joined.wav`, or sent on its own to auphonic.com; the
-  target holds here. Several recordings are laid on one time axis, with
+  target holds here. Run again, it finds that production at
+  auphonic.com by its name and asks before it uploads and pays a second
+  time ([Processing at auphonic.com](auphonic.md), "When the production
+  already exists"). Several recordings are laid on one time axis, with
   the tick or without it, exactly as [Multitrack](multitrack.md),
   "Multitrack with no camera at all", describes, and go to auphonic.com
   as one multitrack production. The tracks keep the balance they were

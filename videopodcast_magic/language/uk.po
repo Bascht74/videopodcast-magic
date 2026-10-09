@@ -5277,3 +5277,9 @@ msgstr "увімкнено в пресеті, тож auphonic.com теж тра�
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- як вони задані в пресеті; програма не змінює жодного."
+
+msgid "Enough for the %s this production needs."
+msgstr "Вистачає на %s, потрібні цій продукції."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Не вистачає на %s, потрібні цій продукції."

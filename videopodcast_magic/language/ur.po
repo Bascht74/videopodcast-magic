@@ -5219,3 +5219,9 @@ msgstr "پری سیٹ میں آن ہے، اس لیے auphonic.com بھی ٹرا�
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- جیسے پری سیٹ میں ہیں؛ پروگرام کسی کو نہیں بدلتا۔"
+
+msgid "Enough for the %s this production needs."
+msgstr "اس پروڈکشن کو درکار %s کے لیے کافی۔"
+
+msgid "Not enough for the %s this production needs."
+msgstr "اس پروڈکشن کو درکار %s کے لیے ناکافی۔"

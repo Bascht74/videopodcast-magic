@@ -6951,3 +6951,9 @@ msgstr "im Preset eingeschaltet, also transkribiert auphonic.com mit -- ihr Text
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- so, wie das Preset sie hat; das Programm ändert keinen."
+
+msgid "Enough for the %s this production needs."
+msgstr "Reicht für die %s, die diese Produktion braucht."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Reicht nicht für die %s, die diese Produktion braucht."

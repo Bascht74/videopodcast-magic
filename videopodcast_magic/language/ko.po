@@ -5172,3 +5172,9 @@ msgstr "프리셋에서 켜져 있어 auphonic.com도 전사합니다 -- 그 텍
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- 프리셋에 있는 그대로이며, 프로그램은 아무것도 바꾸지 않습니다."
+
+msgid "Enough for the %s this production needs."
+msgstr "이 프로덕션에 필요한 %s에 충분합니다."
+
+msgid "Not enough for the %s this production needs."
+msgstr "이 프로덕션에 필요한 %s에 부족합니다."

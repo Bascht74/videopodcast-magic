@@ -5217,3 +5217,9 @@ msgstr "aan in de preset, dus auphonic.com transcribeert ook -- de tekst wordt n
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- zoals de preset ze heeft; het programma verandert er geen."
+
+msgid "Enough for the %s this production needs."
+msgstr "Genoeg voor de %s die deze productie nodig heeft."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Niet genoeg voor de %s die deze productie nodig heeft."

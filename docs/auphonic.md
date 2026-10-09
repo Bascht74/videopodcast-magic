@@ -86,14 +86,19 @@ rebuilds the production from that preset.
 Once the key is checked, a line under the preset shows the minutes of
 credit left at auphonic.com and the plan, free or paying -- whether a
 preset is chosen or not, and with **work without Auphonic** as well.
-With a preset chosen, the line turns red where the credit is fewer than
-the production needs -- as long as the longest track for Multitrack, all
-tracks together otherwise, before the run lays them on one axis, which
-can only make them longer. On the free plan a Multitrack production
-longer than 21 minutes adds a second line, red as well: **On the free
-plan auphonic.com takes a Multitrack production only up to about 21
-min.** Without a preset the line is never red: there is no production to
-hold the credit against. The box asks the account together with the
+With a preset chosen and the recordings measured, a second line judges
+the run before it starts: **Enough for the 40 min this production
+needs.**, or **Not enough for the 40 min this production needs.** with
+the line turned red. What a production needs is what auphonic.com
+charges for it: a Multitrack production as long as its longest track,
+and lone tracks one production each, every one in whole minutes and at
+least three, added up -- all of it before the run lays the tracks on
+one axis, which can only make them longer. On the free plan a
+Multitrack production longer than 21 minutes adds a further line, red
+as well: **On the free plan auphonic.com takes a Multitrack production
+only up to about 21 min.** A single track has no such border on the
+free plan; only the credit counts there. Without a preset the line is
+never red: there is no production to hold the credit against. The box asks the account together with the
 presets and at no other time.
 
 The tick **Multitrack (one track per speaker)** is not in the Auphonic
@@ -249,8 +254,8 @@ preflight asked it first, see below -- and says what it answered: the plan, `Acc
 `paying.` or `not known.`, and the credit in minutes, for instance
 `Credit at auphonic.com: 80 min left, enough for the 12 min this
 production needs.` What a production needs is counted in whole minutes,
-rounded up and never below `1 min`, since auphonic.com charges no less:
-a 20-second sample needs `1 min`, not `0 min`.
+rounded up and never below `3 min`, since auphonic.com charges no less
+for a production: a 20-second sample needs `3 min`.
 
 Two things are said, and the run goes on either way:
 
@@ -325,11 +330,9 @@ a few per cent and jumps to 100 when auphonic.com reports it done.
 
 ### When the production already exists
 
-Only a multitrack production is looked for. A single track goes up anew
-on every run, and every upload costs credit.
-
-The program finds the production by name and asks what should happen to
-it:
+The program finds the production by name, a multitrack one and a single
+track alike, and asks what should happen to it. For several tracks the
+answers are these:
 
 1. take the existing result: nothing computed, nothing uploaded
 2. recompute with the chosen preset, the files stay where they are:
@@ -345,6 +348,14 @@ whether to adopt those names.
 
 On a recompute the program brings the track settings to the preset as
 well. Further tracks there go into the mix, and a warning names them.
+
+A single track is asked the same, less what only several tracks can do:
+take the existing result, upload everything again, or cancel. The
+result is offered once auphonic.com reports the production done; it is
+fetched and cut like a fresh one, and nothing is uploaded or charged.
+Uploading again makes a new production and costs credit. A multitrack
+production of the same name is passed over, since it holds tracks and
+not this recording.
 
 A multitrack production is downloaded whole, the single tracks and every
 further output the preset itself makes: the finished mixdown, chapter
@@ -388,9 +399,9 @@ another run, and the message says so.
 * **The returned tracks fit neither the time window nor the whole
   measured range.** They belong to another run. Use the folder that
   belongs to this run, or let the audio go through auphonic.com again.
-* **A run is about to cost credit that was not meant.** Only answer 3
-  uploads, and only the upload costs. Answers 1 and 2 leave the files
-  where they are.
+* **A run is about to cost credit that was not meant.** Only the answer
+  that uploads everything again uploads, and only the upload costs. The
+  other answers leave the files where they are.
 
 The audio is now processed and lies in `auphonic-tracks/`. How the
 tracks are spread over several speakers and several cameras stands in
@@ -404,9 +415,10 @@ The window does not offer these.
   presets with numbers and asks for one, and a key without files lists
   them too.
 * `--auphonic-resume result|rerun|adopt|upload|abort` answers the
-  question about a production that already exists in advance. It
-  reaches only a run that uploads several tracks; a single track has no
-  per-track upload to take up again.
+  question about a production that already exists in advance. A single
+  track takes `result`, `upload` and `abort`; `rerun` and `adopt` mean
+  something only where several tracks go up, and for a single track the
+  program asks instead.
 * `--auphonic-done FOLDER` fetches nothing and takes the tracks lying
   there, named after the speakers. A recording handed to the run that
   lies in that folder itself is refused: the run stops before anything

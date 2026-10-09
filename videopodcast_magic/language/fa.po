@@ -5219,3 +5219,9 @@ msgstr "در پیش‌تنظیم روشن است، پس auphonic.com هم رون
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- همان‌طور که در پیش‌تنظیم هستند؛ برنامه هیچ‌کدام را تغییر نمی‌دهد."
+
+msgid "Enough for the %s this production needs."
+msgstr "برای %s که این تولید لازم دارد کافی است."
+
+msgid "Not enough for the %s this production needs."
+msgstr "برای %s که این تولید لازم دارد کافی نیست."

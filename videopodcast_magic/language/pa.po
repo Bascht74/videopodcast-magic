@@ -5222,3 +5222,9 @@ msgstr "ਪ੍ਰੀਸੈੱਟ ਵਿੱਚ ਚਾਲੂ, ਇਸ ਲਈ auphon
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- ਜਿਵੇਂ ਪ੍ਰੀਸੈੱਟ ਵਿੱਚ ਹਨ; ਪ੍ਰੋਗਰਾਮ ਕਿਸੇ ਨੂੰ ਨਹੀਂ ਬਦਲਦਾ।"
+
+msgid "Enough for the %s this production needs."
+msgstr "ਇਸ ਪ੍ਰੋਡਕਸ਼ਨ ਨੂੰ ਚਾਹੀਦੇ %s ਲਈ ਕਾਫ਼ੀ।"
+
+msgid "Not enough for the %s this production needs."
+msgstr "ਇਸ ਪ੍ਰੋਡਕਸ਼ਨ ਨੂੰ ਚਾਹੀਦੇ %s ਲਈ ਕਾਫ਼ੀ ਨਹੀਂ।"

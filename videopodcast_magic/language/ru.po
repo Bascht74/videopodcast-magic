@@ -5259,3 +5259,9 @@ msgstr "включено в пресете, поэтому auphonic.com тоже
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- как они заданы в пресете; программа не меняет ни одного."
+
+msgid "Enough for the %s this production needs."
+msgstr "Хватает на %s, нужные этой продукции."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Не хватает на %s, нужные этой продукции."

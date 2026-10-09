@@ -5309,3 +5309,9 @@ msgstr "mixgħul fil-preset, allura auphonic.com jittraskrivi wkoll -- it-test t
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- kif għandu l-preset; il-programm ma jibdel l-ebda wieħed."
+
+msgid "Enough for the %s this production needs."
+msgstr "Biżżejjed għall-%s li teħtieġ din il-produzzjoni."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Mhux biżżejjed għall-%s li teħtieġ din il-produzzjoni."

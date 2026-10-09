@@ -5173,3 +5173,9 @@ msgstr "プリセットでオンなので、auphonic.com も文字起こしし�
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- プリセットのとおり。プログラムはどれも変えません。"
+
+msgid "Enough for the %s this production needs."
+msgstr "このプロダクションに必要な %s には足ります。"
+
+msgid "Not enough for the %s this production needs."
+msgstr "このプロダクションに必要な %s には足りません。"

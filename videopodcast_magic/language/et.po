@@ -5220,3 +5220,9 @@ msgstr "eelseadistuses sisse lülitatud, nii et auphonic.com transkribeerib samu
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- nii nagu eelseadistuses; programm ei muuda ühtegi."
+
+msgid "Enough for the %s this production needs."
+msgstr "Piisab selle produktsiooni vajatud %s jaoks."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Ei piisa selle produktsiooni vajatud %s jaoks."

@@ -5220,3 +5220,9 @@ msgstr "முன்னமைவில் இயக்கத்தில், எ
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- முன்னமைவில் உள்ளபடியே; நிரல் எதையும் மாற்றுவதில்லை."
+
+msgid "Enough for the %s this production needs."
+msgstr "இந்தத் தயாரிப்புக்குத் தேவையான %s-க்குப் போதும்."
+
+msgid "Not enough for the %s this production needs."
+msgstr "இந்தத் தயாரிப்புக்குத் தேவையான %s-க்குப் போதாது."

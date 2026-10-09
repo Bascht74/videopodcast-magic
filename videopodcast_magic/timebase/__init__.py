@@ -803,7 +803,8 @@ def send_to_auphonic(args, tracks, folder, tmpdir, window, title="",
         else:
             done = dict((track["name"], run_single_production(
                 track["axis"], preset, presetname, key, folder,
-                args.auphonic_wait, args.dry_run, title or track["name"]))
+                args.auphonic_wait, args.dry_run, title or track["name"],
+                args.auphonic_resume))
                 for track in tracks)
     except PROGRAM.Stopped:
         # Stop ends the run; it is no failure of this step.

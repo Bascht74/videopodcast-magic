@@ -5221,3 +5221,9 @@ msgstr "включено в предварителната настройка, �
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- както ги има предварителната настройка; програмата не променя нито един."
+
+msgid "Enough for the %s this production needs."
+msgstr "Достатъчно за %s, които тази продукция изисква."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Недостатъчно за %s, които тази продукция изисква."

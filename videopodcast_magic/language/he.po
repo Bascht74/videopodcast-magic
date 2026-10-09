@@ -5219,3 +5219,9 @@ msgstr "מופעל בפריסט, ולכן auphonic.com מתמלל גם -- הטק
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- כפי שהם בפריסט; התוכנה לא משנה אף אחד."
+
+msgid "Enough for the %s this production needs."
+msgstr "מספיק ל-%s שההפקה הזו צריכה."
+
+msgid "Not enough for the %s this production needs."
+msgstr "לא מספיק ל-%s שההפקה הזו צריכה."

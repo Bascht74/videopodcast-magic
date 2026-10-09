@@ -5220,3 +5220,9 @@ msgstr "ప్రీసెట్‌లో ఆన్, కాబట్టి aupho
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- ప్రీసెట్‌లో ఉన్నట్లే; ప్రోగ్రామ్ దేనినీ మార్చదు."
+
+msgid "Enough for the %s this production needs."
+msgstr "ఈ ప్రొడక్షన్‌కు కావలసిన %s కు సరిపోతుంది."
+
+msgid "Not enough for the %s this production needs."
+msgstr "ఈ ప్రొడక్షన్‌కు కావలసిన %s కు సరిపోదు."

@@ -5216,3 +5216,9 @@ msgstr "påslagen i förinställningen, så auphonic.com transkriberar också --
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- som förinställningen har dem; programmet ändrar ingen."
+
+msgid "Enough for the %s this production needs."
+msgstr "Räcker för de %s som den här produktionen behöver."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Räcker inte för de %s som den här produktionen behöver."

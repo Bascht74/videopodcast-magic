@@ -47,6 +47,7 @@ auphonic_none_chosen	12
 auphonic_preset_checked	4
 auphonic_preset_fits	5
 auphonic_run_delivers	73
+auphonic_single_reused	11
 auphonic_speech_read	14
 auphonic_stays_quiet	30
 auphonic_unsaved_said	14
@@ -476,7 +477,7 @@ window_output_no_debug	2
 run_camera_audio_planned	4
 source_freeze_attached	25
 run_no_own_camera_kept	5
-auphonic_credit_said	61
+auphonic_credit_said	66
 source_crashes_named	7
 project_half_taken_back	10
 time_order_same_axis	8

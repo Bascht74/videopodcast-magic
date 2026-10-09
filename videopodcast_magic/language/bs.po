@@ -5258,3 +5258,9 @@ msgstr "uključeno u predlošku, pa auphonic.com također transkribuje -- njegov
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- kako ih predložak ima; program ne mijenja nijedan."
+
+msgid "Enough for the %s this production needs."
+msgstr "Dovoljno za %s koje ova produkcija treba."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nije dovoljno za %s koje ova produkcija treba."

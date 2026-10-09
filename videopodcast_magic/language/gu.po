@@ -5220,3 +5220,9 @@ msgstr "પ્રીસેટમાં ચાલુ, તેથી auphonic.com �
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- પ્રીસેટમાં છે તેમ; પ્રોગ્રામ કોઈને બદલતો નથી."
+
+msgid "Enough for the %s this production needs."
+msgstr "આ પ્રોડક્શનને જોઈતા %s માટે પૂરતું."
+
+msgid "Not enough for the %s this production needs."
+msgstr "આ પ્રોડક્શનને જોઈતા %s માટે પૂરતું નથી."

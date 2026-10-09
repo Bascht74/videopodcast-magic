@@ -5171,3 +5171,9 @@ msgstr "预设中已开启，因此 auphonic.com 也会转录 -- 其文本不会
 
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- 按预设原样，程序一个都不改。"
+
+msgid "Enough for the %s this production needs."
+msgstr "足够此次制作所需的 %s。"
+
+msgid "Not enough for the %s this production needs."
+msgstr "不足以支付此次制作所需的 %s。"
