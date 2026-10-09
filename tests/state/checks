@@ -33,6 +33,7 @@
 # ships -- a run under VPM_SCRIPT measures and writes nothing.
 auphonic_credit_said	66
 auphonic_curl_end_said	6
+auphonic_done_file_found	7
 auphonic_jingle_cut_away	11
 auphonic_key_answer_fits	18
 auphonic_key_by_pipe	68
