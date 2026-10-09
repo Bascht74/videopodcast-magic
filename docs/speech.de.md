@@ -499,6 +499,16 @@ gezeigt hat. Nur ein Lauf ohne sie -- von der Kommandozeile, oder
 gestartet, bevor das Fenster fertig war -- hört den Mix ab, den er
 selbst gemacht hat.
 
+Der Schnitt leidet darunter nicht. Gemessen an zwei Interviews von zwölf
+und vierzehn Minuten mit je zwei Mikrofonen: Der Schnitt nach den
+Wörtern des Fensters und der nach dem eigenen Abhören des Laufs zeigten
+mehr als 99 % der Zeit dieselbe Kamera, beim englischen mit
+faster-whisper waren sie sogar bildgenau gleich. Die paar Sekunden
+Unterschied waren Fragen, die eine der beiden Niederschriften gehört
+hatte und die andere nicht -- in beide Richtungen. Gespart wird das
+Abhören selbst: mit der Erkennung, die macOS mitbringt, weit unter einer
+Minute je Stunde Material, mit faster-whisper zehn bis fünfzehn Minuten.
+
 ### Die drei Dateien des Transkripts
 
 Was gehört wurde, landet neben dem Ergebnis im Ausgabeordner, in drei

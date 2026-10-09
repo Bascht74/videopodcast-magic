@@ -468,6 +468,16 @@ below rest on the same words the preview showed. Only a run without
 them -- from the command line, or started before the window was done --
 listens to the mix it made.
 
+The cut does not suffer for it. Measured on two interviews of twelve and
+fourteen minutes, two microphones each: the cut by the window's words
+and the cut by the run's own listening showed the same camera for more
+than 99 % of the time, and in the English one with faster-whisper they
+were the same to the frame. The few seconds apart were questions one of
+the two transcripts had heard and the other had not, in both
+directions. What the run saves is the listening itself: with the
+recognition macOS brings, well under a minute an hour of material; with
+faster-whisper ten to fifteen minutes.
+
 ### The three transcript files
 
 What was heard lands beside the result, in the output folder, as three
