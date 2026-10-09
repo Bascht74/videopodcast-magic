@@ -55,7 +55,7 @@ figure of the day is that command, not this paragraph**:
 * `loudness/` **482** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
-* `bearings/` **2357** -- where each file and each voice sits, and how
+* `bearings/` **2366** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
@@ -95,7 +95,7 @@ figure of the day is that command, not this paragraph**:
   run's children and reads whether any of them still moves
 * `pipeline/` **671** -- the plan: the camera audio out of the
   pictures, the names and the plan the time base runs
-* `project/` **582** -- the program's own project file: writing
+* `project/` **586** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
 * `filelist/` **544** -- the list of chosen files: the tree it is
@@ -1121,6 +1121,7 @@ On any mismatch the old `moov` comes back byte for byte.
 | `apart`, `together` | blocks taken out by hand, and put together by hand |
 | `channels` | the stereo ticks, per file and channel |
 | `timeline`, `timeline_absolute` | the measured position of every file, and how fast its recorder ran |
+| `timeline_reference` | the camera the measurement held the others against (the longest heard), whose rate every mark is read at |
 | `call` | the command line of the last run |
 
 The `assignment` cannot be guessed. `own:` holds only what somebody set
@@ -1136,6 +1137,14 @@ a file that changed is caught by `mtime` and `size` anyway. It is not a
 new format: an entry written before `clock` existed reads back as 1.0,
 so an older project file opens and the axis in it still holds. The
 format number stays 3.
+
+`timeline_reference` is added the same way. The window took the run's
+reference camera from the measurement, and a reopened project measures
+nothing: without the key it fell back on the longest camera by its
+file, which a longer silent camera at another rate is not for the run.
+A file without the key opens and names no reference, so the window
+counts by that old rule, as it did; a run's start rewrites the file and
+carries the key along with the `timeline` it belongs to.
 
 ## How a spot for the wide shot is scored
 

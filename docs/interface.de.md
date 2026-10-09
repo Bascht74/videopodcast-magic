@@ -1177,8 +1177,17 @@ Start dieselben Minuten nicht noch einmal messen muss. Dateien, die
 nicht dazu passen, erscheinen rot. Eine Projektdatei aus der Zeit, bevor
 dieser Gang mitgeschrieben wurde, lässt sich weiterhin öffnen: dann gilt
 jeder Recorder als gleichmäßig laufend, wovon das Programm vorher
-ohnehin ausgegangen ist. Mehr über die Projektdatei steht in
-[camera-cut.de.md](camera-cut.de.md).
+ohnehin ausgegangen ist.
+
+Außerdem nennt die Projektdatei die Kamera, an der der Lauf alle anderen
+ausrichtet -- die längste Kamera, deren Ton gehört wurde --, und ein
+Timecode, den man als **In-Punkt** oder **Out-Punkt** eintippt, gilt in
+deren Bildrate. Weil diese Kamera dort festgehalten ist, liest ein wieder
+geöffnetes Projekt eine Marke genauso wie der Lauf, auch wenn daneben
+eine längere Kamera ohne Ton mit einer anderen Bildrate läuft. Eine
+Projektdatei, in der diese Kamera noch nicht steht, lässt sich weiterhin
+öffnen; das Fenster rechnet dann wie bisher mit der längsten Kamera.
+Mehr über die Projektdatei steht in [camera-cut.de.md](camera-cut.de.md).
 
 **Wer eine Datei hineinzieht, während gemessen wird, bekommt sie
 mitgemessen.** Die laufende Messung wurde über die Liste angestoßen,
