@@ -1377,10 +1377,31 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
                        T('not readable (%s) -- unchecked.') % str(e)[:60])]
     alg = dict(p.get("algorithms") or {})
     out = [Finding("good", T('Preset'), "%s" % presetname)]
-    switched_on = sorted("%s=%s" % (k, v) for k, v in alg.items()
-                if v not in (False, None, "", 0))
-    out.append(Finding("good", T('Algorithms'),
-                       ", ".join(switched_on)[:300] or T('none switched on')))
+    out.append(Finding("good", T('Algorithms'), preset_switches(alg)))
+    template = p.get("multi_input_files") or []
+    track_alg = dict((template[0].get("algorithms") or {})) if template else {}
+    # Cutting is the production's, but a track's switch is read too.
+    cuts = preset_cuts(alg)
+    cuts += [c for c in preset_cuts(track_alg) if c not in cuts]
+    if cuts:
+        out.append(Finding(
+            "abort", T('Cutting'),
+            T('the preset cuts at auphonic.com (%s) -- the sound would come '
+              'back shorter than the pictures, and the cameras would slip.')
+            % ", ".join(cuts),
+            T('Switch it off in the preset on auphonic.com: Audio '
+              'Algorithms, Automatic Cutting -- untick %s, or set Cut Mode '
+              'to Set Cuts To Silent, which keeps the length.')
+            % ", ".join(cuts)))
+    if preset_listens(p):
+        out.append(Finding(
+            "good" if multitrack else "hint", T('Speech recognition'),
+            T('switched on in the preset -- not asked for, and nothing of '
+              'its text is fetched: the transcript is made here.')
+            if multitrack else
+            T('switched on in the preset, so auphonic.com transcribes as '
+              'well -- its text is not fetched: the transcript is made '
+              'here.')))
     target = alg.get("loudnesstarget")
     try:
         target = float(target) if target is not None else None
@@ -1405,7 +1426,6 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
               '%.0f or change the preset.')
             % target))
     if multitrack:
-        template = p.get("multi_input_files") or []
         if not template:
             out.append(Finding(
                 "abort", T('Track template'),
@@ -1414,17 +1434,73 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
                   'tracks. Otherwise they come back unprocessed. Create a '
                   'track in the preset in the web interface.')))
         else:
-            track_alg = dict((template[0].get("algorithms") or {}))
-            switched_on = sorted("%s=%s" % (k, v) for k, v in track_alg.items()
-                        if v not in (False, None, "", 0))
             out.append(Finding("good", T('per track'),
-                               ", ".join(switched_on)[:300] or T('none switched on')))
-            if not switched_on:
+                               preset_switches(track_alg)))
+            if not [v for v in track_alg.values() if v is True]:
                 out.append(Finding(
                     "hint", "",
                     T('the track template has nothing switched on -- the '
                       'tracks would come back exactly as uploaded.')))
     return out
+
+
+def preset_switches(alg):
+    """The processing switches a preset has on, as one line.
+
+    A switch is a key auphonic.com answers true; where it has a setting
+    beside it -- the loudness, the method -- that stands in brackets.
+    Shown, never changed: the preset decides what is processed.
+    """
+    beside = {"normloudness": "loudnesstarget", "denoise": "denoisemethod",
+              "filtering": "filtermethod"}
+    on = []
+    for k in sorted(alg):
+        if alg[k] is not True:
+            continue
+        setting = alg.get(beside.get(k, ""))
+        if k == "normloudness" and isinstance(setting, (int, float)):
+            on.append("%s (%s LUFS)" % (k, number_text(setting, 0)))
+        elif setting not in (None, "", False):
+            on.append("%s (%s)" % (k, setting))
+        else:
+            on.append(k)
+    if not on:
+        return T('none switched on')
+    return T('%s -- as the preset has them, the program changes none.') \
+        % ", ".join(on)[:300]
+
+
+def preset_cuts(alg):
+    """What a preset cuts out of the sound, by the names its page shows.
+
+    Empty where nothing is cut, or where the Cut Mode keeps the length:
+    "set_cuts_to_silence" fades to silence, "export_uncut_audio" leaves
+    the sound whole. Cutting moves everything after the cut, and the
+    pictures do not move with it. "cutter" is the older single switch,
+    seen in auphonic.com's own answers.
+    """
+    if alg.get("cut_mode") in ("set_cuts_to_silence", "export_uncut_audio"):
+        return []
+    names = (("silence_cutter", "Cut Silence"), ("filler_cutter", "Cut Fillers"),
+             ("cough_cutter", "Cut Coughs"), ("music_cutter", "Cut Music"),
+             ("cutter", "Automatic Cutting"))
+    found = []
+    for k, shown in names:
+        if alg.get(k) is True and shown not in found:
+            found.append(shown)
+    return found
+
+
+def preset_listens(p):
+    """True where a preset has auphonic.com's speech recognition on.
+
+    It is on where the preset carries a speech_recognition block with
+    anything in it: a service's id for an outside service, a language
+    alone for auphonic.com's own. Absent, None or empty is off.
+    """
+    said = p.get("speech_recognition")
+    return isinstance(said, dict) and any(v not in (None, "", [], {}, False)
+                                          for v in said.values())
 
 
 def report_findings(findings, heading, anyway=False):

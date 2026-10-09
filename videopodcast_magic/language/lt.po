@@ -5243,3 +5243,24 @@ msgstr "baigtas miksas -- ne kalbėtojas, be kameros"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Kalbėjimas: išdėstoma tik pagal garsumą. Įrašas, neturintis nieko bendra\nsu kameromis, atmetamas. Mišrus: po balsais yra muzika arba miksas,\nir kur garsumas nieko neranda, jį gali išdėstyti fazė.\nBaigtas miksas: kitur padarytas stereo miksas, dedamas kaip mišrus garsas. Jis patenka\ní kamerų failus ir perdavimą vietoj apdorojimo sukurto miksavimo --\nne kalbėtojas, nekarpomas, nesiunčiamas į auphonic.com.\nSu „%s“ Kalbėjimas nesiūlomas."
+
+msgid "Cutting"
+msgstr "Karpymas"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "išankstinis nustatymas karpo auphonic.com (%s) -- garsas grįžtų trumpesnis už vaizdą, ir kameros pasislinktų."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Išjunkite tai išankstiniame nustatyme auphonic.com: Audio Algorithms, Automatic Cutting -- nuimkite žymę nuo %s, arba nustatykite Cut Mode į Set Cuts To Silent, kuris išlaiko trukmę."
+
+msgid "Speech recognition"
+msgstr "Kalbos atpažinimas"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "įjungtas išankstiniame nustatyme -- neprašomas, ir nieko iš jo teksto neatsisiunčiama: transkripcija daroma čia."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "įjungtas išankstiniame nustatyme, todėl auphonic.com taip pat transkribuoja -- jo tekstas neatsisiunčiamas: transkripcija daroma čia."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- taip, kaip juos turi išankstinis nustatymas; programa nekeičia nė vieno."

@@ -5196,3 +5196,24 @@ msgstr "η έτοιμη μίξη -- όχι ομιλητής, όχι κάμερα
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Ομιλία: τοποθετείται μόνο με βάση την ακουστότητα. Μια ηχογράφηση που δεν έχει τίποτα κοινό\nμε τις κάμερες απορρίπτεται. Μεικτό: μουσική ή μίξη βρίσκεται κάτω από τις φωνές,\nκαι όπου η ακουστότητα δεν βρίσκει τίποτα, μπορεί να την τοποθετήσει η φάση.\nΈτοιμη μίξη: στερεοφωνική μίξη φτιαγμένη αλλού, τοποθετημένη ως μεικτός ήχος. Μπαίνει\nστα αρχεία των καμερών και στην παράδοση στη θέση της μίξης της επεξεργασίας --\nόχι ομιλητής, χωρίς κόψιμο, χωρίς αποστολή στο auphonic.com.\nΣτο «%s» η Ομιλία δεν προσφέρεται."
+
+msgid "Cutting"
+msgstr "Περικοπή"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "η προρύθμιση κόβει στο auphonic.com (%s) -- ο ήχος θα επέστρεφε πιο σύντομος από την εικόνα, και οι κάμερες θα μετατοπίζονταν."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Απενεργοποιήστε το στην προρύθμιση στο auphonic.com: Audio Algorithms, Automatic Cutting -- αποεπιλέξτε %s, ή ορίστε το Cut Mode σε Set Cuts To Silent, που διατηρεί τη διάρκεια."
+
+msgid "Speech recognition"
+msgstr "Αναγνώριση ομιλίας"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "ενεργή στην προρύθμιση -- δεν ζητείται, και τίποτα από το κείμενό της δεν λαμβάνεται: η απομαγνητοφώνηση γίνεται εδώ."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "ενεργή στην προρύθμιση, οπότε το auphonic.com απομαγνητοφωνεί επίσης -- το κείμενό της δεν λαμβάνεται: η απομαγνητοφώνηση γίνεται εδώ."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- όπως τα έχει η προρύθμιση· το πρόγραμμα δεν αλλάζει κανένα."

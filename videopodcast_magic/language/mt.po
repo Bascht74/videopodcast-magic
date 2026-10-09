@@ -5288,3 +5288,24 @@ msgstr "it-taħlita lesta -- mhux kelliem, l-ebda kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Taħdit: jitqiegħed skont il-qawwa tal-ħoss biss. Reġistrazzjoni li ma taqsam xejn\nmal-kameras tiġi rrifjutata. Imħallat: mużika jew taħlita tinsab taħt il-vuċijiet,\nu fejn il-qawwa tal-ħoss ma ssib xejn, il-fażi tista' tqegħedha.\nTaħlita lesta: taħlita stereo magħmula x'imkien ieħor, imqiegħda bħala ħoss imħallat. Tidħol\nfil-fajls tal-kameras u fil-konsenja minflok it-taħlita tal-proċess --\nmhux kelliem, mhux maqtugħa, mhux mibgħuta lil auphonic.com.\nTaħt \"%s\" it-Taħdit mhux offrut."
+
+msgid "Cutting"
+msgstr "Qtugħ"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "il-preset jaqta' fuq auphonic.com (%s) -- il-ħoss jerġa' lura iqsar mill-istampi, u l-kameras jiżżerżqu."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Itfih fil-preset fuq auphonic.com: Audio Algorithms, Automatic Cutting -- neħħi l-marka minn %s, jew issettja Cut Mode għal Set Cuts To Silent, li jżomm it-tul."
+
+msgid "Speech recognition"
+msgstr "Rikonoxximent tad-diskors"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "mixgħul fil-preset -- mhux mitlub, u xejn mit-test tiegħu ma jinġieb: it-traskrizzjoni ssir hawn."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "mixgħul fil-preset, allura auphonic.com jittraskrivi wkoll -- it-test tiegħu ma jinġiebx: it-traskrizzjoni ssir hawn."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- kif għandu l-preset; il-programm ma jibdel l-ebda wieħed."

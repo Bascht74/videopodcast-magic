@@ -5198,3 +5198,24 @@ msgstr "تیار مکس -- بولنے والا نہیں، کیمرا نہیں"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "بول چال: صرف لاؤڈنیس کے مطابق رکھی جاتی ہے۔ جس ریکارڈنگ میں کیمروں کے ساتھ کچھ بھی\nمشترک نہ ہو، وہ رد کر دی جاتی ہے۔ مخلوط: آوازوں کے نیچے موسیقی یا مکس ہوتا ہے،\nاور جہاں لاؤڈنیس کو کچھ نہ ملے، وہاں فیز اسے رکھ سکتا ہے۔\nتیار مکس: کہیں اور بنا ہوا اسٹیریو مکس، مخلوط آواز کی طرح رکھا جاتا ہے۔ یہ پروسیسنگ کے مکس کی جگہ\nکیمرا فائلوں اور حوالگی میں جاتا ہے --\nبولنے والا نہیں، کاٹا نہیں جاتا، auphonic.com کو نہیں بھیجا جاتا۔\n\"%s\" کے تحت بول چال پیش نہیں کی جاتی۔"
+
+msgid "Cutting"
+msgstr "کٹائی"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "پری سیٹ auphonic.com پر کاٹتا ہے (%s) -- آواز تصویر سے چھوٹی واپس آئے گی، اور کیمرے کھسک جائیں گے۔"
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "اسے auphonic.com پر پری سیٹ میں بند کریں: Audio Algorithms, Automatic Cutting -- %s سے نشان ہٹائیں، یا Cut Mode کو Set Cuts To Silent پر رکھیں، جو لمبائی برقرار رکھتا ہے۔"
+
+msgid "Speech recognition"
+msgstr "تقریر کی شناخت"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "پری سیٹ میں آن ہے -- مانگی نہیں جاتی، اور اس کا کوئی متن نہیں لایا جاتا: ٹرانسکرپٹ یہیں بنتا ہے۔"
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "پری سیٹ میں آن ہے، اس لیے auphonic.com بھی ٹرانسکرائب کرتا ہے -- اس کا متن نہیں لایا جاتا: ٹرانسکرپٹ یہیں بنتا ہے۔"
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- جیسے پری سیٹ میں ہیں؛ پروگرام کسی کو نہیں بدلتا۔"

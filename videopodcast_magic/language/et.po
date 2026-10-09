@@ -5199,3 +5199,24 @@ msgstr "valmis miks -- mitte kõneleja, kaamerata"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Kõne: paigutatakse ainult valjuse järgi. Salvestis, millel pole kaameratega\nmidagi ühist, lükatakse tagasi. Segatud: häälte all on muusika või miks,\nja kus valjus midagi ei leia, võib selle paigutada faas.\nValmis miks: mujal tehtud stereomiks, paigutatud nagu segatud heli. See läheb\nkaamerafailidesse ja üleandmisse töötluse enda miksi asemel --\nmitte kõneleja, ei lõigata, ei saadeta auphonic.com-i.\n„%s“ puhul Kõnet ei pakuta."
+
+msgid "Cutting"
+msgstr "Lõikamine"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "eelseadistus lõikab auphonic.com-is (%s) -- heli tuleks tagasi piltidest lühemana ja kaamerad nihkuksid."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Lülita see eelseadistuses auphonic.com-is välja: Audio Algorithms, Automatic Cutting -- eemalda linnuke %s, või sea Cut Mode väärtuseks Set Cuts To Silent, mis hoiab pikkuse."
+
+msgid "Speech recognition"
+msgstr "Kõnetuvastus"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "eelseadistuses sisse lülitatud -- seda ei küsita ja selle teksti ei laadita alla: transkriptsioon tehakse siin."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "eelseadistuses sisse lülitatud, nii et auphonic.com transkribeerib samuti -- selle teksti ei laadita alla: transkriptsioon tehakse siin."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- nii nagu eelseadistuses; programm ei muuda ühtegi."

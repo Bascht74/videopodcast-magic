@@ -5195,3 +5195,24 @@ msgstr "det færdige mix -- ingen taler, intet kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Tale: placeres alene efter lydstyrken. En optagelse, der intet har til fælles\nmed kameraerne, afvises. Blandet: musik eller et mix ligger under stemmerne,\nog hvor lydstyrken intet finder, må fasen placere den.\nFærdigt mix: et stereomix lavet et andet sted, placeret som blandet lyd. Det kommer\ni kamerafilerne og overdragelsen i stedet for kørslens eget mix --\ningen taler, ikke klippet, ikke sendt til auphonic.com.\nUnder ”%s” tilbydes Tale ikke."
+
+msgid "Cutting"
+msgstr "Klip"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "presettet klipper hos auphonic.com (%s) -- lyden ville komme kortere tilbage end billederne, og kameraerne ville forskyde sig."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Slå det fra i presettet på auphonic.com: Audio Algorithms, Automatic Cutting -- fjern fluebenet ved %s, eller sæt Cut Mode til Set Cuts To Silent, som bevarer længden."
+
+msgid "Speech recognition"
+msgstr "Talegenkendelse"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "slået til i presettet -- ikke bestilt, og intet af dens tekst hentes: transskriptionen laves her."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "slået til i presettet, så auphonic.com transskriberer også -- dens tekst hentes ikke: transskriptionen laves her."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- som presettet har dem; programmet ændrer ingen af dem."

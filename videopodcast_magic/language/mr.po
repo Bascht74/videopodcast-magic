@@ -5199,3 +5199,24 @@ msgstr "तयार मिक्स -- वक्ता नाही, कॅम�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "बोलणे: फक्त लाऊडनेसनुसार ठेवले जाते. ज्या रेकॉर्डिंगमध्ये कॅमेऱ्यांशी काहीही\nसामाईक नाही ते नाकारले जाते. मिश्र: आवाजांखाली संगीत किंवा मिक्स असते,\nआणि जिथे लाऊडनेसला काहीच सापडत नाही तिथे फेज ते ठेवू शकतो.\nतयार मिक्स: दुसरीकडे बनवलेला स्टीरिओ मिक्स, मिश्र आवाजासारखा ठेवला जातो. तो प्रक्रियेच्या मिक्सऐवजी\nकॅमेरा फाइल्स आणि हस्तांतरणात जातो --\nवक्ता नाही, कापला जात नाही, auphonic.com ला पाठवला जात नाही.\n\"%s\" मध्ये बोलणे हा पर्याय मिळत नाही."
+
+msgid "Cutting"
+msgstr "कटिंग"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "प्रीसेट auphonic.com वर कापतो (%s) -- आवाज चित्रांपेक्षा लहान परत येईल, आणि कॅमेरे सरकतील."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "auphonic.com वरील प्रीसेटमध्ये ते बंद करा: Audio Algorithms, Automatic Cutting -- %s ची खूण काढा, किंवा Cut Mode ला Set Cuts To Silent वर ठेवा, जे लांबी टिकवते."
+
+msgid "Speech recognition"
+msgstr "भाषण ओळख"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "प्रीसेटमध्ये चालू -- मागवली जात नाही, आणि तिचा कोणताही मजकूर आणला जात नाही: ट्रान्सक्रिप्ट इथेच बनते."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "प्रीसेटमध्ये चालू, म्हणून auphonic.com सुद्धा ट्रान्सक्राइब करते -- तिचा मजकूर आणला जात नाही: ट्रान्सक्रिप्ट इथेच बनते."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- प्रीसेटमध्ये आहेत तसे; प्रोग्राम एकही बदलत नाही."

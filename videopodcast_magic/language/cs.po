@@ -5239,3 +5239,24 @@ msgstr "hotový mix -- žádný mluvčí, žádná kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Řeč: umístí se jen podle hlasitosti. Nahrávka, která nemá nic společného\ns kamerami, se odmítne. Smíšené: pod hlasy leží hudba nebo mix,\na kde hlasitost nic nenajde, smí ji umístit fáze.\nHotový mix: stereo mix vytvořený jinde, umístěný jako smíšený zvuk. Jde\ndo souborů kamer a do předání místo mixu, který sestaví běh --\nžádný mluvčí, nestříhá se, neposílá se na auphonic.com.\nPři „%s“ se Řeč nenabízí."
+
+msgid "Cutting"
+msgstr "Střih"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "předvolba stříhá na auphonic.com (%s) -- zvuk by se vrátil kratší než obraz a kamery by se posunuly."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Vypněte to v předvolbě na auphonic.com: Audio Algorithms, Automatic Cutting -- zrušte zaškrtnutí %s, nebo nastavte Cut Mode na Set Cuts To Silent, který zachová délku."
+
+msgid "Speech recognition"
+msgstr "Rozpoznávání řeči"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "zapnuto v předvolbě -- nevyžádáno a nic z jeho textu se nestahuje: přepis vzniká zde."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "zapnuto v předvolbě, takže auphonic.com také přepisuje -- jeho text se nestahuje: přepis vzniká zde."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- tak, jak je předvolba má; program nemění žádný."

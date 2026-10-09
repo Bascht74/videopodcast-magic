@@ -5256,3 +5256,24 @@ msgstr "готовий мікс -- не мовець, без камери"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Мовлення: розміщується лише за гучністю. Запис, що не має нічого спільного\nз камерами, відхиляється. Змішаний: під голосами лежить музика чи мікс,\nі де гучність нічого не знаходить, його може розмістити фаза.\nГотовий мікс: стереомікс, зроблений деінде, розміщується як змішаний звук. Він іде\nу файли камер і в передачу замість міксу, який будує обробка --\nне мовець, не ріжеться, не надсилається на auphonic.com.\nЗа «%s» «Мовлення» не пропонується."
+
+msgid "Cutting"
+msgstr "Вирізання"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "пресет вирізає на auphonic.com (%s) -- звук повернувся б коротшим за зображення, і камери б з'їхали."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Вимкніть це в пресеті на auphonic.com: Audio Algorithms, Automatic Cutting -- зніміть позначку %s, або встановіть Cut Mode у Set Cuts To Silent, що зберігає довжину."
+
+msgid "Speech recognition"
+msgstr "Розпізнавання мовлення"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "увімкнено в пресеті -- не запитується, і нічого з його тексту не завантажується: транскрипт створюється тут."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "увімкнено в пресеті, тож auphonic.com теж транскрибує -- його текст не завантажується: транскрипт створюється тут."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- як вони задані в пресеті; програма не змінює жодного."

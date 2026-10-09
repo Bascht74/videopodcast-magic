@@ -5152,3 +5152,24 @@ msgstr "完成ミックス -- 話者なし、カメラなし"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "話し声: ラウドネスだけで配置します。カメラと共通するものが\nない録音は受け付けません。ミックス: 声の下に音楽やミックスがあり、\nラウドネスで何も見つからない所では位相で配置できます。\n完成ミックス: 別の場所で作られたステレオミックス。ミックスとして配置されます。\n処理が作るミックスの代わりにカメラファイルと引き渡しに入ります --\n話者ではなく、カットされず、auphonic.com へ送られません。\n「%s」では話し声は選べません。"
+
+msgid "Cutting"
+msgstr "カット"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "プリセットが auphonic.com でカットします (%s) -- 音が映像より短く戻り、カメラがずれます。"
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "auphonic.com のプリセットでオフにしてください: Audio Algorithms, Automatic Cutting -- %s のチェックを外すか、Cut Mode を長さを保つ Set Cuts To Silent にします。"
+
+msgid "Speech recognition"
+msgstr "音声認識"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "プリセットでオン -- 要求せず、そのテキストは何も取得しません: 文字起こしはここで作ります。"
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "プリセットでオンなので、auphonic.com も文字起こしします -- そのテキストは取得しません: 文字起こしはここで作ります。"
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- プリセットのとおり。プログラムはどれも変えません。"

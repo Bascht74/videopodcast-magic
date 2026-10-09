@@ -5152,3 +5152,24 @@ msgstr "bản mix hoàn chỉnh -- không phải người nói, không máy quay
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Lời nói: chỉ đặt theo độ to. Bản ghi không có gì chung\nvới các máy quay sẽ bị từ chối. Hỗn hợp: dưới giọng nói có nhạc hoặc bản phối,\nvà ở chỗ độ to không tìm thấy gì, pha có thể đặt nó.\nBản mix hoàn chỉnh: bản mix stereo làm ở nơi khác, đặt như âm thanh hỗn hợp. Nó đi\nvào các tệp máy quay và bản bàn giao thay cho bản mix của lượt chạy --\nkhông phải người nói, không cắt, không gửi lên auphonic.com.\nVới \"%s\" thì Lời nói không được đưa ra."
+
+msgid "Cutting"
+msgstr "Cắt"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "preset cắt tại auphonic.com (%s) -- âm thanh sẽ trở về ngắn hơn hình ảnh, và các camera sẽ bị lệch."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Tắt nó trong preset trên auphonic.com: Audio Algorithms, Automatic Cutting -- bỏ chọn %s, hoặc đặt Cut Mode thành Set Cuts To Silent, giữ nguyên độ dài."
+
+msgid "Speech recognition"
+msgstr "Nhận dạng giọng nói"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "đang bật trong preset -- không được yêu cầu, và không tải về gì từ văn bản của nó: bản chép lời được làm ở đây."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "đang bật trong preset, nên auphonic.com cũng chép lời -- văn bản của nó không được tải về: bản chép lời được làm ở đây."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- như trong preset; chương trình không thay đổi cái nào."

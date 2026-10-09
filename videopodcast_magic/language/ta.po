@@ -5199,3 +5199,24 @@ msgstr "முடிந்த மிக்ஸ் -- பேச்சாளர் 
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "பேச்சு: லவுட்னஸ் மூலம் மட்டுமே வைக்கப்படும். கேமராக்களுடன் எதையும்\nபகிராத பதிவு நிராகரிக்கப்படும். கலப்பு: குரல்களுக்குக் கீழே இசை அல்லது மிக்ஸ் உள்ளது,\nலவுட்னஸ் எதையும் காணாத இடத்தில் கட்டம் அதை வைக்கலாம்.\nமுடிந்த மிக்ஸ்: வேறு இடத்தில் செய்த ஸ்டீரியோ மிக்ஸ், கலப்பு ஒலியாக வைக்கப்படுகிறது. செயலாக்கத்தின் மிக்ஸுக்குப் பதில்\nகேமரா கோப்புகளிலும் ஒப்படைப்பிலும் செல்கிறது --\nபேச்சாளர் அல்ல, வெட்டப்படாது, auphonic.com-க்கு அனுப்பப்படாது.\n\"%s\" இல் பேச்சு தேர்வு இல்லை."
+
+msgid "Cutting"
+msgstr "வெட்டுதல்"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "முன்னமைவு auphonic.com இல் வெட்டுகிறது (%s) -- ஒலி படங்களை விடக் குறுகியதாகத் திரும்பும், கேமராக்கள் நகரும்."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "auphonic.com இல் முன்னமைவில் இதை அணைக்கவும்: Audio Algorithms, Automatic Cutting -- %s இன் தேர்வை நீக்கவும், அல்லது Cut Mode ஐ நீளத்தைக் காக்கும் Set Cuts To Silent ஆக அமைக்கவும்."
+
+msgid "Speech recognition"
+msgstr "பேச்சு அறிதல்"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "முன்னமைவில் இயக்கத்தில் -- கோரப்படவில்லை, அதன் உரை எதுவும் பெறப்படவில்லை: எழுத்துப்படி இங்கேயே உருவாக்கப்படுகிறது."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "முன்னமைவில் இயக்கத்தில், எனவே auphonic.com உம் எழுத்துப்படி எடுக்கிறது -- அதன் உரை பெறப்படவில்லை: எழுத்துப்படி இங்கேயே உருவாக்கப்படுகிறது."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- முன்னமைவில் உள்ளபடியே; நிரல் எதையும் மாற்றுவதில்லை."
