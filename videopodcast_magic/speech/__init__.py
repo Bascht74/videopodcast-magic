@@ -514,13 +514,9 @@ def read_words(path):
 
 #------------------------------------------------ The recognition of macOS
 
-# Compiled once and kept: audio in, one line per word out. Without
-# -parse-as-library a single file with @main does not build, and the
-# locale must come from supportedLocales -- de-DE, de-AT, de-CH exist.
-# Which one is chosen in speech_locale_choice, not here: --locales
-# hands the list and the machine's region over, and the run is given
-# the exact identifier back. The list comes in a different order on
-# every call, so a choice made in here by position wandered.
+# Compiled once and kept: audio in, one line per word out; @main needs
+# -parse-as-library. The locale is chosen in speech_locale_choice out
+# of what --locales lists, and only taken here.
 SPEECH_SWIFT = r'''import Foundation
 import Speech
 import AVFoundation
@@ -772,10 +768,9 @@ def speech_locale(language):
     return SPEECH_CODES.get(tag.lower(), tag)
 
 
-# The locale a language is heard in first, where the machine offers it:
-# the region CLDR names as the likely one for each language the field
-# offers. Without it English came out as en_NZ, en_GB or en_IN from one
-# call to the next on the same file.
+# The locale a language is heard in first where the machine offers it:
+# CLDR's likely region. Without it English wandered between en_NZ,
+# en_GB and en_IN from one call to the next on the same file.
 SPEECH_DEFAULT_LOCALES = {
     "de": "de-DE", "en": "en-US", "fr": "fr-FR", "es": "es-ES",
     "it": "it-IT", "nl": "nl-NL", "pt": "pt-BR", "pl": "pl-PL",
@@ -788,28 +783,23 @@ SPEECH_DEFAULT_LOCALES = {
 
 
 def speech_locale_choice(code, supported, region):
-    """The locale out of *supported* the recognition is to use, or "".
+    """The locale out of *supported* to hear *code* in, or "" for none.
 
-    *code* is what speech_locale gave -- "en", or a whole locale typed
-    on the command line; *supported* the identifiers the recogniser
-    lists, in whatever order it lists them; *region* the machine's.
-    Taken in this order: the locale asked for exactly, the fixed one
-    for the language, the language in the machine's region, and then
-    the first of that language by name -- never by where the list put
-    it. "" where the machine has nothing in that language.
+    In this order: the locale asked for exactly, the fixed one for the
+    language, the language in the machine's *region*, then the first
+    of that language by name -- never by where the list put it, which
+    changes from call to call.
     """
-    def plain(name):
-        return str(name or "").replace("_", "-").lower()
-
-    by_plain = {plain(l): l for l in supported or ()}
-    asked = plain(code)
+    by_plain = {str(l).replace("_", "-").lower(): l
+                for l in supported or ()}
+    asked = str(code or "").replace("_", "-").lower()
     if not asked:
         return ""
     head = asked.split("-")[0]
-    fixed = plain(SPEECH_DEFAULT_LOCALES.get(head, ""))
+    fixed = SPEECH_DEFAULT_LOCALES.get(head, "").lower()
     heads = {head, fixed.split("-")[0]} - {""}
     for wanted in (asked, fixed,
-                   "%s-%s" % (head, plain(region)) if region else ""):
+                   "%s-%s" % (head, region.lower()) if region else ""):
         if wanted and wanted in by_plain:
             return by_plain[wanted]
     same = sorted(p for p in by_plain if p.split("-")[0] in heads)
@@ -831,16 +821,16 @@ def recogniser_locales(program):
         p = subprocess.run([program, "--locales"],
                            stdout=subprocess.PIPE,
                            stderr=subprocess.STDOUT)
-        if p.returncode == 0:
-            for line in (p.stdout or b"").decode(
-                    "utf-8", "replace").splitlines():
-                parts = line.split()
-                if len(parts) == 2 and parts[0] == "REGION":
-                    region = parts[1]
-                elif len(parts) == 1 and parts[0] != "REGION":
-                    found.append(parts[0])
+        said = (p.stdout or b"").decode("utf-8", "replace") \
+            if p.returncode == 0 else ""
     except OSError:
-        pass
+        said = ""
+    for line in said.splitlines():
+        parts = line.split()
+        if len(parts) == 2 and parts[0] == "REGION":
+            region = parts[1]
+        elif len(parts) == 1 and parts[0] != "REGION":
+            found.append(parts[0])
     kept[program] = (region, found)
     return kept[program]
 
