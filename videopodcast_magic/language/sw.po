@@ -3554,12 +3554,6 @@ msgstr "Ziunganishe"
 msgid "Mixing %s"
 msgstr "Kuchanganya %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Treki moja tu -- weka Sauti ya kamera ya kamera moja kuwa \"tumia sauti ya ndani\" ili kupata treki ya pili."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Treki moja tu, na hakuna sauti ya kamera iliyobaki ya kuchukua."
-
 msgid "do not use internal audio"
 msgstr "bila sauti ya ndani"
 

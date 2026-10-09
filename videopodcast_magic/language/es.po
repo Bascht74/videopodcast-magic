@@ -3164,12 +3164,6 @@ msgstr "Activado convierte este canal y el siguiente en una pista estéreo.\nEl 
 msgid "One name for two voices"
 msgstr "Un nombre para dos voces"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Solo una pista -- para una segunda, elige una cámara y pon su Audio de la cámara en «usar el audio»."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Solo una pista, y no queda audio de cámara que tomar."
-
 msgid "Only one audio file and no picture -- nothing to do."
 msgstr "Solo un archivo de audio y ninguna imagen -- no hay nada que hacer."
 

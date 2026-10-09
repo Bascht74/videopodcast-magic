@@ -3556,12 +3556,6 @@ msgstr "Għaqqadhom"
 msgid "Mixing %s"
 msgstr "Taħlit: %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Binarju wieħed biss -- għat-tieni, issettja l-Awdjo tal-kamera ta' kamera fuq \"uża l-awdjo intern\"."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Binarju wieħed biss, u ma fadalx awdjo tal-kamera x'tieħu."
-
 msgid "do not use internal audio"
 msgstr "tużax l-awdjo intern"
 

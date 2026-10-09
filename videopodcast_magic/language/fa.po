@@ -3551,12 +3551,6 @@ msgstr "ادغام"
 msgid "Mixing %s"
 msgstr "در حال میکس %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "فقط یک ترک -- برای ترک دوم، صدای دوربینِ یکی از دوربین‌ها را روی «استفاده از صدای داخلی» بگذارید."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "فقط یک ترک، و صدای دوربینی برای برداشتن باقی نمانده است."
-
 msgid "do not use internal audio"
 msgstr "بدون صدای داخلی"
 

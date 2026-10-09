@@ -3554,12 +3554,6 @@ msgstr "ਇਨ੍ਹਾਂ ਨੂੰ ਜੋੜੋ"
 msgid "Mixing %s"
 msgstr "ਮਿਕਸ ਹੋ ਰਿਹਾ ਹੈ: %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "ਸਿਰਫ਼ ਇੱਕ ਟਰੈਕ -- ਦੂਜੇ ਲਈ ਕਿਸੇ ਕੈਮਰੇ ਦਾ ਕੈਮਰਾ ਆਡੀਓ \"ਅੰਦਰੂਨੀ ਆਡੀਓ ਵਰਤੋ\" 'ਤੇ ਸੈੱਟ ਕਰੋ।"
-
-msgid "One track only, and no camera audio left to take."
-msgstr "ਸਿਰਫ਼ ਇੱਕ ਟਰੈਕ, ਅਤੇ ਲੈਣ ਲਈ ਕੋਈ ਕੈਮਰਾ ਆਡੀਓ ਨਹੀਂ ਬਚਿਆ।"
-
 msgid "do not use internal audio"
 msgstr "ਅੰਦਰੂਨੀ ਆਡੀਓ ਨਾ ਵਰਤੋ"
 

@@ -1389,9 +1389,6 @@ msgstr "-- なし --"
 msgid " and "
 msgstr " と "
 
-msgid "One track only, and no camera audio left to take."
-msgstr "トラックは 1 本だけで、使えるカメラ音声も残っていません。"
-
 msgid "    Cross-check:"
 msgstr "    照合："
 
@@ -1403,9 +1400,6 @@ msgstr "時間軸を測定 -- ジャンプは同じ位置に着地します"
 
 msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
 msgstr "%s はエピソードの時間軸上にありません：素材の前か後ろに置かれ、中には挿入されません。イン点とアウト点はその間にあるものに属します。"
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "トラックは 1 本だけです -- 2 本目のために、いずれかのカメラの「カメラ音声」を「音声を使う」にしてください。"
 
 msgid "\nCAMERA COLOUR COMPARISON"
 msgstr "\nカメラの色の比較"

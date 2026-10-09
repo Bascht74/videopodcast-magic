@@ -3551,12 +3551,6 @@ msgstr "Liida kokku"
 msgid "Mixing %s"
 msgstr "Miksimine: %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Ainult üks rada -- teise jaoks vali mõne kaamera väljal Kaamera heli „kasuta sisemist heli“."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Ainult üks rada ja kaamera heli, mida võtta, pole enam alles."
-
 msgid "do not use internal audio"
 msgstr "ära kasuta sisemist heli"
 

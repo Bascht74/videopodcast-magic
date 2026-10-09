@@ -3552,12 +3552,6 @@ msgstr "انہیں ملا دیں"
 msgid "Mixing %s"
 msgstr "مکس کیا جا رہا ہے: %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "صرف ایک ٹریک -- دوسرے کے لیے کسی کیمرے کا کیمرا آڈیو \"اندرونی آڈیو استعمال کریں\" پر طے کریں۔"
-
-msgid "One track only, and no camera audio left to take."
-msgstr "صرف ایک ٹریک، اور لینے کے لیے کوئی کیمرا آڈیو باقی نہیں۔"
-
 msgid "do not use internal audio"
 msgstr "اندرونی آڈیو استعمال نہ کریں"
 

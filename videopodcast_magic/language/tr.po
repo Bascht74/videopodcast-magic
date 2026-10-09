@@ -1409,9 +1409,6 @@ msgstr "-- hiçbir şey --"
 msgid " and "
 msgstr " ve "
 
-msgid "One track only, and no camera audio left to take."
-msgstr "Yalnızca bir iz var ve alınacak kamera sesi kalmadı."
-
 msgid "    Cross-check:"
 msgstr "    Çapraz kontrol:"
 
@@ -1423,9 +1420,6 @@ msgstr "zaman ekseni ölçüldü -- atlamalar aynı noktaya düşer"
 
 msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
 msgstr "%s bölümün zaman ekseninde değil: malzemenin önüne ya da arkasına konur, içine kesilmez. Giriş noktası ve çıkış noktası aradaki kısma aittir."
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Yalnızca bir iz -- ikincisi için bir kameranın Kamera sesi ayarını “sesi kullan” yapın."
 
 msgid "\nCAMERA COLOUR COMPARISON"
 msgstr "\nKAMERA RENK KARŞILAŞTIRMASI"

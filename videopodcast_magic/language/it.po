@@ -1413,9 +1413,6 @@ msgstr "-- nulla --"
 msgid " and "
 msgstr " e "
 
-msgid "One track only, and no camera audio left to take."
-msgstr "Una sola traccia, e non resta audio della telecamera da prendere."
-
 msgid "    Cross-check:"
 msgstr "    Controprova:"
 
@@ -1427,9 +1424,6 @@ msgstr "asse dei tempi misurato -- i salti cadono nello stesso punto"
 
 msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
 msgstr "%s non sta sull’asse della puntata: viene messo prima o dopo il materiale, non tagliato dentro. Il punto di ingresso e il punto di uscita appartengono a ciò che sta in mezzo."
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Una sola traccia -- per una seconda imposta l’Audio della telecamera di una telecamera su “usa l’audio”."
 
 msgid "\nCAMERA COLOUR COMPARISON"
 msgstr "\nCONFRONTO DEI COLORI DELLE TELECAMERE"

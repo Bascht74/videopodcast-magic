@@ -3495,12 +3495,6 @@ msgstr "Slå ihop dem"
 msgid "Mixing %s"
 msgstr "Mixar %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Bara ett spår -- sätt Kameraljud för en kamera till \"använd internt ljud\" för att få ett andra."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Bara ett spår, och inget kameraljud kvar att ta."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Används det delas kanalerna som mätts under den här filen upp i spår, som för en inspelning.\nMätningen sker i vilket fall: det omdömet är grunden för beslutet, och synkroniseringen tar ljudet oavsett."
 

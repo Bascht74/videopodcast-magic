@@ -1397,9 +1397,6 @@ msgstr "-- कुछ नहीं --"
 msgid " and "
 msgstr " और "
 
-msgid "One track only, and no camera audio left to take."
-msgstr "केवल एक ट्रैक, और लेने को कोई कैमरा ऑडियो नहीं बचा।"
-
 msgid "    Cross-check:"
 msgstr "    प्रति-जाँच:"
 
@@ -1411,9 +1408,6 @@ msgstr "समय अक्ष मापा गया -- जंप एक ही
 
 msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
 msgstr "%s एपिसोड के समय अक्ष पर नहीं है: इसे सामग्री के आगे या पीछे रखा जाता है, उसके भीतर काटा नहीं जाता। इन पॉइंट और आउट पॉइंट उसी के हैं जो बीच में है।"
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "केवल एक ट्रैक -- दूसरे के लिए किसी कैमरे का कैमरा ऑडियो “ऑडियो का उपयोग करें” पर सेट करें।"
 
 msgid "\nCAMERA COLOUR COMPARISON"
 msgstr "\nकैमरों की रंग तुलना"

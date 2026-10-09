@@ -1444,9 +1444,6 @@ msgstr "-- لا شيء --"
 msgid " and "
 msgstr " و "
 
-msgid "One track only, and no camera audio left to take."
-msgstr "مسار واحد فقط، ولم يبقَ صوت كاميرا يمكن أخذه."
-
 msgid "    Cross-check:"
 msgstr "    التحقق المتقاطع:"
 
@@ -1458,9 +1455,6 @@ msgstr "قيس محور الزمن -- القفزات تصل إلى النقطة 
 
 msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
 msgstr "%s ليس على محور زمن الحلقة: يوضع قبل المادة أو بعدها، ولا يُقطع داخلها. نقطة البداية ونقطة النهاية تخصان ما بينهما."
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "مسار واحد فقط -- لمسار ثانٍ اضبط «صوت الكاميرا» لإحدى الكاميرات على «استخدام الصوت»."
 
 msgid "\nCAMERA COLOUR COMPARISON"
 msgstr "\nمقارنة ألوان الكاميرات"

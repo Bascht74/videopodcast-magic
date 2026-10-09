@@ -3553,12 +3553,6 @@ msgstr "Apvienot"
 msgid "Mixing %s"
 msgstr "Miksēšana: %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Tikai viens celiņš -- otrajam kādas kameras laukā Kameras skaņa iestatiet „izmantot iekšējo skaņu“."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Tikai viens celiņš, un kameras skaņas, ko ņemt, vairs nav."
-
 msgid "do not use internal audio"
 msgstr "neizmantot iekšējo skaņu"
 

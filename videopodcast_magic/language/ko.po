@@ -3489,12 +3489,6 @@ msgstr "합치기"
 msgid "Mixing %s"
 msgstr "%s 믹스 중"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "트랙이 하나뿐입니다 -- 두 번째 트랙을 위해 카메라 하나의 카메라 오디오를 \"내장 오디오 사용\"으로 설정하세요."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "트랙이 하나뿐이며, 더 사용할 카메라 오디오가 없습니다."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "사용하면 이 파일 아래에서 측정된 채널이 녹음과 마찬가지로 트랙으로 나뉩니다.\n측정은 어느 경우든 이루어집니다: 그 판정을 근거로 결정하며, 동기화에는 소리를 어차피 사용합니다."
 

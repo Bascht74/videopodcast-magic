@@ -3554,12 +3554,6 @@ msgstr "Združi jih"
 msgid "Mixing %s"
 msgstr "Miksanje: %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Samo ena sled -- za drugo nastavite Zvok kamere pri eni od kamer na „z notranjim zvokom“."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Samo ena sled, in ni več zvoka kamere, ki bi ga lahko vzeli."
-
 msgid "do not use internal audio"
 msgstr "brez notranjega zvoka"
 

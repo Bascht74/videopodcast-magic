@@ -3497,12 +3497,6 @@ msgstr "Συγχώνευσή τους"
 msgid "Mixing %s"
 msgstr "Μίξη %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Μόνο ένα κομμάτι -- για δεύτερο, ορίστε τον Ήχο κάμερας μιας κάμερας σε \"χρήση εσωτερικού ήχου\"."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Μόνο ένα κομμάτι, και δεν έχει μείνει ήχος κάμερας για χρήση."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Αν χρησιμοποιηθούν, τα κανάλια που μετρήθηκαν κάτω από αυτό το αρχείο χωρίζονται σε κομμάτια, όπως σε μια ηχογράφηση.\nΗ μέτρηση γίνεται ούτως ή άλλως: σε εκείνη την κρίση βασίζεται αυτή η απόφαση, και ο συγχρονισμός παίρνει τον ήχο σε κάθε περίπτωση."
 

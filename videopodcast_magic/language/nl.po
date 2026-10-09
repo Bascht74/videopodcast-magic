@@ -3497,12 +3497,6 @@ msgstr "Samenvoegen"
 msgid "Mixing %s"
 msgstr "%s mixen"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Maar één spoor -- zet voor een tweede het Camerageluid van een camera op \"intern geluid gebruiken\"."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Maar één spoor, en er is geen camerageluid meer over om te nemen."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Wordt het gebruikt, dan worden de onder dit bestand gemeten kanalen in sporen opgedeeld, zoals bij een opname.\nGemeten wordt er hoe dan ook: dat oordeel is de basis voor deze keuze, en synchroniseren gebruikt het geluid sowieso."
 

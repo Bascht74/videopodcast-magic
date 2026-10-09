@@ -3498,12 +3498,6 @@ msgstr "Споји их"
 msgid "Mixing %s"
 msgstr "Миксовање %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Само једна трака -- за другу поставите Аудио камере неке камере на \"користи интерни аудио\"."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Само једна трака, а није остао ниједан аудио камере који би се узео."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Ако се користе, канали измерени под овом датотеком секу се на траке, као код снимка.\nМерење се врши у сваком случају: на тој оцени се заснива ова одлука, а синхронизација узима звук без обзира на то."
 

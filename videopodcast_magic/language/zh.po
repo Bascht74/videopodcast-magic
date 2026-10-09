@@ -1389,9 +1389,6 @@ msgstr "-- 无 --"
 msgid " and "
 msgstr " 和 "
 
-msgid "One track only, and no camera audio left to take."
-msgstr "只有一条音轨，也没有剩余的摄像机声音可用。"
-
 msgid "    Cross-check:"
 msgstr "    交叉核对："
 
@@ -1403,9 +1400,6 @@ msgstr "已测量时间轴——跳转落在同一位置"
 
 msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
 msgstr "%s 不在本集的时间轴上：它放在素材之前或之后，而不是剪进素材中。入点和出点属于两者之间的内容。"
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "只有一条音轨——如需第二条，请把某台摄像机的“摄像机声音”设为“使用其音频”。"
 
 msgid "\nCAMERA COLOUR COMPARISON"
 msgstr "\n摄像机色彩比较"

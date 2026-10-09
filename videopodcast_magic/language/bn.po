@@ -3497,12 +3497,6 @@ msgstr "একত্র করুন"
 msgid "Mixing %s"
 msgstr "%s মিক্স করা হচ্ছে"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "শুধু একটি ট্র্যাক -- দ্বিতীয়টির জন্য একটি ক্যামেরায় ক্যামেরার অডিও \"ভেতরের অডিও ব্যবহার করুন\"-এ সেট করুন।"
-
-msgid "One track only, and no camera audio left to take."
-msgstr "শুধু একটি ট্র্যাক, এবং নেওয়ার মতো আর কোনো ক্যামেরার অডিও বাকি নেই।"
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "ব্যবহার করলে এই ফাইলের নিচে মাপা চ্যানেলগুলো ট্র্যাকে ভাগ করা হয়, যেমন একটি রেকর্ডিংয়ের ক্ষেত্রে হয়।\nমাপা হয় যেকোনো অবস্থাতেই: সেই রায়ের ভিত্তিতেই এটি ঠিক হয়, আর সিঙ্ক করার জন্য শব্দ সবসময়ই নেওয়া হয়।"
 

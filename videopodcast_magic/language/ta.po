@@ -3553,12 +3553,6 @@ msgstr "ஒன்றாக்கு"
 msgid "Mixing %s"
 msgstr "மிக்ஸ் செய்யப்படுகிறது: %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "ஒரே ஒரு தடம் -- இரண்டாவதற்கு ஒரு கேமராவின் கேமரா ஆடியோவை \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைக்கவும்."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "ஒரே ஒரு தடம், எடுப்பதற்குக் கேமரா ஆடியோ எதுவும் மீதமில்லை."
-
 msgid "do not use internal audio"
 msgstr "உள் ஆடியோ வேண்டாம்"
 

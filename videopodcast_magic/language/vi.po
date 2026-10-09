@@ -3494,12 +3494,6 @@ msgstr "Gộp lại"
 msgid "Mixing %s"
 msgstr "Đang trộn %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Chỉ có một rãnh -- để có rãnh thứ hai, hãy đặt Âm thanh máy quay của một máy quay thành \"dùng âm thanh tích hợp\"."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Chỉ có một rãnh, và không còn âm thanh máy quay nào để dùng."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Khi được dùng, các kênh đo được dưới tệp này được tách thành các rãnh, giống như với một bản ghi.\nViệc đo luôn diễn ra: kết quả đo đó là căn cứ để quyết định, và việc đồng bộ vẫn dùng âm thanh dù thế nào."
 

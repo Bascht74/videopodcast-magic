@@ -3549,12 +3549,6 @@ msgstr "รวมเข้าด้วยกัน"
 msgid "Mixing %s"
 msgstr "กำลังมิกซ์ %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "มีแทร็กเดียว -- หากต้องการแทร็กที่สอง โปรดตั้งค่า เสียงจากกล้อง ของกล้องตัวหนึ่งเป็น \"ใช้เสียงในตัว\""
-
-msgid "One track only, and no camera audio left to take."
-msgstr "มีแทร็กเดียว และไม่มีเสียงจากกล้องเหลือให้ใช้"
-
 msgid "do not use internal audio"
 msgstr "ไม่ใช้เสียงในตัว"
 

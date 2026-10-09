@@ -3498,12 +3498,6 @@ msgstr "Zlúčiť ich"
 msgid "Mixing %s"
 msgstr "Mixuje sa %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Len jedna stopa -- pre druhú nastavte Zvuk kamery niektorej kamery na \"použiť interný zvuk\"."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Len jedna stopa, a žiadny zvuk kamery, ktorý by sa dal vziať, už nezostáva."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Ak je použitý, rozdelia sa kanály zmerané pod týmto súborom na stopy, rovnako ako pri nahrávke.\nMeria sa tak či tak: na tomto výroku stojí rozhodnutie a synchronizácia si zvuk berie v každom prípade."
 

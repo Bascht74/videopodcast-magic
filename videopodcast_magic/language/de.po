@@ -5105,16 +5105,6 @@ msgstr "Zusammenfassen"
 msgid "Mixing %s"
 msgstr "Mische %s"
 
-msgid ""
-"One track only -- set a camera's Camera audio to \"use internal audio\" for a "
-"second."
-msgstr ""
-"Nur eine Spur -- für eine zweite den Kameraton einer Kamera auf \"Ton "
-"verwenden\" stellen."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Nur eine Spur, und es ist kein Kameraton mehr übrig."
-
 msgid "do not use internal audio"
 msgstr "Ton nicht verwenden"
 

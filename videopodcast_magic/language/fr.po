@@ -3179,12 +3179,6 @@ msgstr "Activé fait de ce canal et du suivant une piste stéréo.\nLe suivant n
 msgid "One name for two voices"
 msgstr "Un nom pour deux voix"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Une seule piste -- pour en avoir une deuxième, réglez l’Audio de la caméra d’une caméra sur « utiliser l’audio »."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Une seule piste, et plus aucun audio de caméra à prendre."
-
 msgid "Only one audio file and no picture -- nothing to do."
 msgstr "Un seul fichier audio et pas d’image -- rien à faire."
 

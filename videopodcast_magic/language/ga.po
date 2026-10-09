@@ -3561,12 +3561,6 @@ msgstr "Cumasc iad"
 msgid "Mixing %s"
 msgstr "Meascadh ar siúl: %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Rian amháin -- socraigh Fuaim an cheamara ar cheamara amháin ar \"úsáid fuaim inmheánach\" chun an dara rian a fháil."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Rian amháin, agus níl fuaim cheamara ar bith fágtha le tógáil."
-
 msgid "do not use internal audio"
 msgstr "gan fuaim inmheánach"
 

@@ -3553,12 +3553,6 @@ msgstr "Sujungti"
 msgid "Mixing %s"
 msgstr "Miksavimas: %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Tik vienas takelis -- antram kurios nors kameros lauke „Kameros garsas“ nustatykite „naudoti vidinį garsą“."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Tik vienas takelis, ir kameros garso paimti nebeliko."
-
 msgid "do not use internal audio"
 msgstr "nenaudoti vidinio garso"
 

@@ -3174,12 +3174,6 @@ msgstr "Включено -- этот и следующий канал стано
 msgid "One name for two voices"
 msgstr "Одно имя на два голоса"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Только одна дорожка -- для второй поставьте у камеры Звук камеры на «использовать звук»."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Только одна дорожка, и звука камеры больше не осталось."
-
 msgid "Only one audio file and no picture -- nothing to do."
 msgstr "Только один звуковой файл и никакого изображения -- делать нечего."
 

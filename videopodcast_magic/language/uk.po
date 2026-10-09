@@ -1423,9 +1423,6 @@ msgstr "-- нічого --"
 msgid " and "
 msgstr " і "
 
-msgid "One track only, and no camera audio left to take."
-msgstr "Лише одна доріжка, і звуку камер, який можна взяти, не лишилося."
-
 msgid "    Cross-check:"
 msgstr "    Перехресна перевірка:"
 
@@ -1437,9 +1434,6 @@ msgstr "вісь часу виміряно -- переходи потрапля�
 
 msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
 msgstr "%s не лежить на осі епізоду: його ставлять перед матеріалом або після нього, а не вмонтовують усередину. Точка входу й точка виходу належать до того, що між ними."
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Лише одна доріжка -- для другої встановіть у якоїсь камери Звук камери на «використовувати звук»."
 
 msgid "\nCAMERA COLOUR COMPARISON"
 msgstr "\nПОРІВНЯННЯ КОЛЬОРІВ КАМЕР"

@@ -3553,12 +3553,6 @@ msgstr "వాటిని కలుపు"
 msgid "Mixing %s"
 msgstr "మిక్స్ చేస్తోంది: %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "ఒకే ట్రాక్ -- రెండోదాని కోసం ఒక కెమెరా యొక్క కెమెరా ఆడియోను \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేయండి."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "ఒకే ట్రాక్, తీసుకోవడానికి కెమెరా ఆడియో ఏదీ మిగలలేదు."
-
 msgid "do not use internal audio"
 msgstr "అంతర్గత ఆడియో వద్దు"
 

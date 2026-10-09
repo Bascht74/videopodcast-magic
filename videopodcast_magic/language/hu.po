@@ -3498,12 +3498,6 @@ msgstr "Összevonás"
 msgid "Mixing %s"
 msgstr "%s keverése"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Csak egy sáv -- egy másodikhoz állítsa egy kamera Kamerahang mezőjét \"belső hang használata\" értékre."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Csak egy sáv, és nem maradt több felhasználható kamerahang."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Ha használatban van, a fájl alatt mért csatornák sávokra lesznek bontva, ahogy egy felvételnél.\nA mérés mindenképp megtörténik: azon az ítéleten alapul ez a döntés, és a szinkronizálás a hangot mindenképp felhasználja."
 

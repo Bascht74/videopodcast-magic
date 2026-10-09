@@ -66,7 +66,6 @@ kept_in_use = PROGRAM.kept_in_use
 label_of = PROGRAM.label_of
 math = PROGRAM.math
 microphones_apart_db = PROGRAM.microphones_apart_db
-multitrack_state_note = PROGRAM.multitrack_state_note
 number_text = PROGRAM.number_text
 os = PROGRAM.os
 parallel_map = PROGRAM.parallel_map

@@ -3499,12 +3499,6 @@ msgstr "Comasați-le"
 msgid "Mixing %s"
 msgstr "Se mixează %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "O singură pistă -- pentru a doua, setați Audio cameră al unei camere pe \"folosiți audio intern\"."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "O singură pistă, și nu a mai rămas niciun audio de cameră de preluat."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Folosite, canalele măsurate sub acest fișier sunt împărțite în piste, ca la o înregistrare.\nMăsurarea are loc oricum: pe acel verdict se bazează decizia, iar sincronizarea folosește sunetul indiferent de răspuns."
 

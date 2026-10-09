@@ -3499,12 +3499,6 @@ msgstr "Połącz je"
 msgid "Mixing %s"
 msgstr "Miksowanie: %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Tylko jedna ścieżka -- aby mieć drugą, ustaw w jednej z kamer Dźwięk z kamery na \"użyj dźwięku\"."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Tylko jedna ścieżka i nie został już żaden dźwięk z kamery do użycia."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Gdy jest używany, kanały zmierzone pod tym plikiem są dzielone na ścieżki, tak jak w przypadku nagrania.\nPomiar odbywa się tak czy inaczej: na podstawie tej oceny zapada decyzja, a synchronizacja i tak korzysta z dźwięku."
 

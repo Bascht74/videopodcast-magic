@@ -2358,25 +2358,6 @@ def cut_log_heading(pairs, cameras=0):
             "speakers": T('\nFIRST CUT BY SPEAKER')}[kind]
 
 
-def multitrack_state_note(tracks, cameras_left):
-    """Why Multitrack is not on offer here, in one line, or "".
-
-    The tick stays clickable: a greyed out control without a reason is a
-    dead end, so the line beside it says what is missing instead.
-    *tracks* is how many assignment rows are not set aside,
-    *cameras_left* how many cameras could still give their audio. Nothing
-    is said where nothing is known yet, or where two tracks are there.
-    """
-    if tracks >= 2:
-        return ""
-    if not tracks:
-        return ""
-    if cameras_left:
-        return T('One track only -- set a camera\'s Camera audio to '
-                 '"use internal audio" for a second.')
-    return T('One track only, and no camera audio left to take.')
-
-
 def split_audio_and_video(paths):
     audio, video, other = [], [], []
     for p in paths:

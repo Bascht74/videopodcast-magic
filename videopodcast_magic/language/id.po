@@ -3552,12 +3552,6 @@ msgstr "Gabungkan"
 msgid "Mixing %s"
 msgstr "Mencampur %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Hanya satu trek -- atur Audio kamera pada salah satu kamera ke \"gunakan audio internal\" untuk trek kedua."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Hanya satu trek, dan tidak ada audio kamera tersisa untuk diambil."
-
 msgid "do not use internal audio"
 msgstr "tanpa audio internal"
 

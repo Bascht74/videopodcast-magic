@@ -38,7 +38,6 @@ argparse = PROGRAM.argparse
 camera_labels = PROGRAM.camera_labels
 label_of = PROGRAM.label_of
 languages = PROGRAM.languages
-number_text = PROGRAM.number_text
 os = PROGRAM.os
 path_key = PROGRAM.path_key
 python_note = PROGRAM.python_note

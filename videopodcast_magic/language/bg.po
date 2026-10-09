@@ -3552,12 +3552,6 @@ msgstr "Обедини ги"
 msgid "Mixing %s"
 msgstr "Миксиране: %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Само една писта -- за втора задайте Звук на камерата на някоя камера на „с вътрешния звук“."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Само една писта, и не е останал звук от камера за вземане."
-
 msgid "do not use internal audio"
 msgstr "без вътрешния звук"
 

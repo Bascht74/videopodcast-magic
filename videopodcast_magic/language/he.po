@@ -3550,12 +3550,6 @@ msgstr "מיזוג"
 msgid "Mixing %s"
 msgstr "מיקס של %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "רצועה אחת בלבד -- לרצועה שנייה יש להגדיר את שמע המצלמה של אחת המצלמות ל\"שימוש בשמע הפנימי\"."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "רצועה אחת בלבד, ולא נותר שמע מצלמה לשימוש."
-
 msgid "do not use internal audio"
 msgstr "ללא השמע הפנימי"
 

@@ -3496,12 +3496,6 @@ msgstr "Yhdistä ne"
 msgid "Mixing %s"
 msgstr "Miksataan %s"
 
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Vain yksi raita -- aseta jonkin kameran Kameran ääni arvoon \"käytä sisäistä ääntä\", niin saat toisen."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Vain yksi raita, eikä kameran ääntä ole enää jäljellä otettavaksi."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Jos sitä käytetään, tämän tiedoston alla mitatut kanavat jaetaan raidoiksi kuten tallenteessa.\nMittaus tehdään joka tapauksessa: siihen tulokseen päätös perustuu, ja synkronointi käyttää ääntä silti."
 
