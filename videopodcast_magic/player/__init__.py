@@ -122,7 +122,7 @@ def stop_if_running(QtMultimedia, *players):
     stop() on a player that never started builds what lies behind it,
     as pause() does above, and waits for the same lock. Paused counts
     as running: a paused player still holds its file. tests/let_go.py
-    asks the same question before it stops a player.
+    asks the same question; nothing calls this at quit (ui/ clean_up).
     """
     for one in players:
         if (one.playbackState()
