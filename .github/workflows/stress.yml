@@ -444,7 +444,7 @@ jobs:
             echo '```'
             echo
             for f in kept/*-hung.txt kept/*-red.txt; do
-              [ -f "$f" ] && echo "* $(basename "$f")"
+              if [ -f "$f" ]; then echo "* $(basename "$f")"; fi
             done
           } | tee -a "$GITHUB_STEP_SUMMARY"
           bad=$(cat kept/*-count.txt 2>/dev/null \
