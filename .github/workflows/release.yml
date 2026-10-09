@@ -878,20 +878,20 @@ jobs:
           - os: macos-latest
             python: '3.14'
           # The floor the program names for itself: NEEDS_PYTHON is
-          # (3, 10), and it says so in a line it prints before
+          # (3, 12), and it says so in a line it prints before
           # anything else. Somebody who has a Python at all mostly
           # has the one that came with the machine -- and that machine
           # is as often a Windows or a Mac as it is a Linux, so the
           # floor is walked on all three. This job fetches one file and
           # installs nothing, so the two extra runs cost about a minute
-          # each. On Windows and macOS '3.10' comes out as 3.10.11, the
+          # each. On Windows and macOS '3.12' comes out as 3.12.10, the
           # last one CPython released as a binary.
           - os: ubuntu-latest
-            python: '3.10'
+            python: '3.12'
           - os: windows-latest
-            python: '3.10'
+            python: '3.12'
           - os: macos-latest
-            python: '3.10'
+            python: '3.12'
     env:
       TAG: ${{ inputs.tag || github.event.release.tag_name
                || github.ref_name }}

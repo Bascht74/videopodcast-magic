@@ -346,7 +346,7 @@ def judgements(source):
 
     Only the strings are read, never the shape of the expression around
     them: `ast.unparse` writes the same code differently on different
-    versions of Python, and a wording that moved between 3.10 and 3.14
+    versions of Python, and a wording that moved between 3.12 and 3.14
     would be red on the builder and green here.
 
     Trailing blanks come off, leading ones do not. A check name padded

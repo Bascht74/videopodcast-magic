@@ -41,7 +41,7 @@
 #   bash builder_times.sh                     the green run of the version
 #                                             HEAD says it is
 #   bash builder_times.sh <run id>            a named run
-#   JOB='macos-latest / py3.10' bash ...      one named machine
+#   JOB='macOS py3.12' bash ...               one named machine
 #   bash builder_times.sh --record <version> [<run id>]
 #                                             the same, and a section for
 #                                             that release appended to

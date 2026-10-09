@@ -257,17 +257,18 @@ jobs:
       fail-fast: false
       matrix:
         # Two versions on all three systems. 3.14 is the one the suite
-        # runs on at home; 3.10 is the floor the program names for
+        # runs on at home; 3.12 is the floor the program names for
         # itself in NEEDS_PYTHON, and a floor that is only ever walked
-        # on Linux is not a floor. What breaks between 3.10 and 3.14
+        # on Linux is not a floor. What breaks between 3.12 and 3.14
         # -- a path, an encoding, a Qt plugin -- breaks on Windows and
         # macOS, so that is where it has to be walked.
         #
-        # On Windows and macOS '3.10' comes out as 3.10.11: that is the
-        # last 3.10 CPython released as a binary, and setup-python
+        # On Windows and macOS '3.12' comes out as 3.12.10: that is the
+        # last 3.12 CPython released as a binary, and setup-python
         # builds newer ones from source for Linux only. Linux therefore
-        # runs a later 3.10 than the other two. That is the truth of the
-        # matter for anyone out there on 3.10 as well.
+        # runs a later 3.12 than the other two (3.12.15 in setup-python's
+        # list on 9.10.2026). That is the truth of the matter for anyone
+        # out there on 3.12 as well.
         #
         # And a seventh, the owner's rule of 26.9.2026: a test whose
         # verdict cannot differ between systems or Pythons says so in its
@@ -283,7 +284,7 @@ jobs:
             tests: bound
           - os: ubuntu-latest
             label: Linux
-            python: '3.10'
+            python: '3.12'
             tests: bound
           - os: windows-latest
             label: Windows
@@ -291,7 +292,7 @@ jobs:
             tests: bound
           - os: windows-latest
             label: Windows
-            python: '3.10'
+            python: '3.12'
             tests: bound
           - os: macos-latest
             label: macOS
@@ -299,7 +300,7 @@ jobs:
             tests: bound
           - os: macos-latest
             label: macOS
-            python: '3.10'
+            python: '3.12'
             tests: bound
           - os: ubuntu-latest
             label: Neutral
