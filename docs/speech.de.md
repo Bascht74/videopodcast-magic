@@ -471,7 +471,10 @@ measured](../development/measurements.md) (englisch).
 Das Programm sieht nach, welchen Weg es hat, und sagt im Protokoll,
 welchen es genommen hat. Die Erkennung nimmt die Spracheinstellung des
 Laufs. Bleibt sie leer, arbeitet macOS mit der Systemsprache und Whisper
-errät sie aus dem Ton. Der Lauf schreibt den Text neben dem
+errät sie aus dem Ton. Auf dem macOS-Weg wird eine Sprache jedes Mal
+in derselben Spielart gehört -- Englisch in en-US, Deutsch in de-DE,
+Französisch in fr-FR. Bietet der Mac diese nicht an, nimmt er die
+Spielart seiner eigenen Region, sonst die alphabetisch erste. Der Lauf schreibt den Text neben dem
 Kameraschnitt mit, nicht davor.
 
 Auf dem macOS-Weg meldet die Erkennung hinterher, wie es ihr ergangen
