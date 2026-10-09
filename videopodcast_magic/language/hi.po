@@ -5199,3 +5199,24 @@ msgstr "तैयार मिक्स -- वक्ता नहीं, कै�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "वाणी: केवल लाउडनेस से रखी जाती है। जिस रिकॉर्डिंग में कैमरों से कुछ भी\nसाझा नहीं, उसे अस्वीकार किया जाता है। मिश्रित: आवाज़ों के नीचे संगीत या मिक्स है,\nऔर जहाँ लाउडनेस कुछ नहीं पाती, वहाँ फ़ेज़ उसे रख सकता है।\nतैयार मिक्स: कहीं और बना स्टीरियो मिक्स, मिश्रित ध्वनि की तरह रखा जाता है। यह प्रोसेसिंग के मिक्स की जगह\nकैमरा फ़ाइलों और हस्तांतरण में जाता है --\nवक्ता नहीं, काटा नहीं जाता, auphonic.com को नहीं भेजा जाता।\n\"%s\" में वाणी का विकल्प नहीं मिलता।"
+
+msgid "Cutting"
+msgstr "कटिंग"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "प्रीसेट auphonic.com पर काटता है (%s) -- आवाज़ तस्वीर से छोटी लौटेगी, और कैमरे खिसक जाएँगे।"
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "इसे auphonic.com पर प्रीसेट में बंद करें: Audio Algorithms, Automatic Cutting -- %s से निशान हटाएँ, या Cut Mode को Set Cuts To Silent पर रखें, जो लंबाई बनाए रखता है।"
+
+msgid "Speech recognition"
+msgstr "वाक् पहचान"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "प्रीसेट में चालू -- माँगी नहीं जाती, और उसका कोई पाठ नहीं लाया जाता: ट्रांसक्रिप्ट यहीं बनता है।"
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "प्रीसेट में चालू, इसलिए auphonic.com भी ट्रांसक्राइब करता है -- उसका पाठ नहीं लाया जाता: ट्रांसक्रिप्ट यहीं बनता है।"
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- जैसे प्रीसेट में हैं; प्रोग्राम किसी को नहीं बदलता।"

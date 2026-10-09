@@ -5154,3 +5154,24 @@ msgstr "완성 믹스 -- 화자 없음, 카메라 없음"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "말소리: 라우드니스만으로 배치합니다. 카메라와 공통점이 없는\n녹음은 거부됩니다. 혼합: 목소리 아래에 음악이나 믹스가 있으며,\n라우드니스가 아무것도 찾지 못하는 곳에서는 위상으로 배치할 수 있습니다.\n완성 믹스: 다른 곳에서 만든 스테레오 믹스로, 혼합 소리처럼 배치됩니다.\n처리가 만드는 믹스 대신 카메라 파일과 인계 파일에 들어갑니다 --\n화자가 아니며, 잘리지 않고, auphonic.com으로 보내지지 않습니다.\n\"%s\"에서는 말소리를 고를 수 없습니다."
+
+msgid "Cutting"
+msgstr "자르기"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "프리셋이 auphonic.com에서 자릅니다 (%s) -- 소리가 영상보다 짧게 돌아오고 카메라가 어긋납니다."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "auphonic.com의 프리셋에서 끄세요: Audio Algorithms, Automatic Cutting -- %s 선택을 해제하거나, Cut Mode를 길이를 유지하는 Set Cuts To Silent로 설정하세요."
+
+msgid "Speech recognition"
+msgstr "음성 인식"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "프리셋에서 켜짐 -- 요청하지 않으며, 그 텍스트는 아무것도 가져오지 않습니다: 전사는 여기서 만듭니다."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "프리셋에서 켜져 있어 auphonic.com도 전사합니다 -- 그 텍스트는 가져오지 않습니다: 전사는 여기서 만듭니다."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- 프리셋에 있는 그대로이며, 프로그램은 아무것도 바꾸지 않습니다."

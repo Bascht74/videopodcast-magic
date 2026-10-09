@@ -5204,3 +5204,24 @@ msgstr "ਤਿਆਰ ਮਿਕਸ -- ਬੁਲਾਰਾ ਨਹੀਂ, ਕੈਮ�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "ਗੱਲਬਾਤ: ਸਿਰਫ਼ ਲਾਊਡਨੈੱਸ ਨਾਲ ਰੱਖੀ ਜਾਂਦੀ ਹੈ। ਜਿਸ ਰਿਕਾਰਡਿੰਗ ਦਾ ਕੈਮਰਿਆਂ ਨਾਲ ਕੁਝ ਵੀ\nਸਾਂਝਾ ਨਹੀਂ, ਉਹ ਰੱਦ ਕੀਤੀ ਜਾਂਦੀ ਹੈ। ਮਿਸ਼ਰਤ: ਆਵਾਜ਼ਾਂ ਹੇਠ ਸੰਗੀਤ ਜਾਂ ਮਿਕਸ ਹੁੰਦਾ ਹੈ,\nਅਤੇ ਜਿੱਥੇ ਲਾਊਡਨੈੱਸ ਨੂੰ ਕੁਝ ਨਹੀਂ ਮਿਲਦਾ, ਉੱਥੇ ਫੇਜ਼ ਇਸ ਨੂੰ ਰੱਖ ਸਕਦਾ ਹੈ।\nਤਿਆਰ ਮਿਕਸ: ਕਿਤੇ ਹੋਰ ਬਣਿਆ ਸਟੀਰੀਓ ਮਿਕਸ, ਮਿਸ਼ਰਤ ਆਵਾਜ਼ ਵਾਂਗ ਰੱਖਿਆ ਜਾਂਦਾ ਹੈ। ਇਹ ਪ੍ਰੋਸੈਸਿੰਗ ਦੇ ਮਿਕਸ ਦੀ ਥਾਂ\nਕੈਮਰਾ ਫ਼ਾਈਲਾਂ ਅਤੇ ਸੌਂਪਣੀ ਵਿੱਚ ਜਾਂਦਾ ਹੈ --\nਬੁਲਾਰਾ ਨਹੀਂ, ਕੱਟਿਆ ਨਹੀਂ ਜਾਂਦਾ, auphonic.com ਨੂੰ ਨਹੀਂ ਭੇਜਿਆ ਜਾਂਦਾ।\n\"%s\" ਹੇਠ ਗੱਲਬਾਤ ਦੀ ਚੋਣ ਨਹੀਂ ਮਿਲਦੀ।"
+
+msgid "Cutting"
+msgstr "ਕਟਾਈ"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "ਪ੍ਰੀਸੈੱਟ auphonic.com 'ਤੇ ਕੱਟਦਾ ਹੈ (%s) -- ਆਵਾਜ਼ ਤਸਵੀਰ ਨਾਲੋਂ ਛੋਟੀ ਵਾਪਸ ਆਵੇਗੀ, ਅਤੇ ਕੈਮਰੇ ਖਿਸਕ ਜਾਣਗੇ।"
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "ਇਸਨੂੰ auphonic.com 'ਤੇ ਪ੍ਰੀਸੈੱਟ ਵਿੱਚ ਬੰਦ ਕਰੋ: Audio Algorithms, Automatic Cutting -- %s ਤੋਂ ਨਿਸ਼ਾਨ ਹਟਾਓ, ਜਾਂ Cut Mode ਨੂੰ Set Cuts To Silent 'ਤੇ ਰੱਖੋ, ਜੋ ਲੰਬਾਈ ਬਣਾਈ ਰੱਖਦਾ ਹੈ।"
+
+msgid "Speech recognition"
+msgstr "ਬੋਲੀ ਪਛਾਣ"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "ਪ੍ਰੀਸੈੱਟ ਵਿੱਚ ਚਾਲੂ -- ਮੰਗੀ ਨਹੀਂ ਜਾਂਦੀ, ਅਤੇ ਇਸਦਾ ਕੋਈ ਪਾਠ ਨਹੀਂ ਲਿਆਇਆ ਜਾਂਦਾ: ਟ੍ਰਾਂਸਕ੍ਰਿਪਟ ਇੱਥੇ ਹੀ ਬਣਦੀ ਹੈ।"
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "ਪ੍ਰੀਸੈੱਟ ਵਿੱਚ ਚਾਲੂ, ਇਸ ਲਈ auphonic.com ਵੀ ਟ੍ਰਾਂਸਕ੍ਰਾਈਬ ਕਰਦਾ ਹੈ -- ਇਸਦਾ ਪਾਠ ਨਹੀਂ ਲਿਆਇਆ ਜਾਂਦਾ: ਟ੍ਰਾਂਸਕ੍ਰਿਪਟ ਇੱਥੇ ਹੀ ਬਣਦੀ ਹੈ।"
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- ਜਿਵੇਂ ਪ੍ਰੀਸੈੱਟ ਵਿੱਚ ਹਨ; ਪ੍ਰੋਗਰਾਮ ਕਿਸੇ ਨੂੰ ਨਹੀਂ ਬਦਲਦਾ।"

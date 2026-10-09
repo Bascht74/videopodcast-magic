@@ -123,6 +123,37 @@ gehen gemeinsam hoch, ob es gesetzt ist oder nicht, und die Liste der
 Presets bietet die Art an, die der Lauf brauchen wird. Ein Preset der
 falschen Art hält den Lauf an, bevor die Zeitachse gemessen wird.
 
+### Was der Vorflug im Preset liest
+
+Bevor die Zeitachse gemessen wird, liest das Programm das Preset aus,
+und der Vorflug sagt unter `VORFLUG -- passt das Preset zum Lauf?`, was
+er darin gefunden hat. Wie der Ton aufbereitet wird, entscheidet das
+Preset; das Programm schaltet darin nichts ein und nichts aus.
+
+* `Algorithmen` nennt jeden Schalter, den das Preset eingeschaltet hat,
+  mit seiner Einstellung in Klammern: `leveler, normloudness (-16 LUFS),
+  filtering (autoeq) -- so, wie das Preset sie hat; das Programm ändert
+  keinen.` Ein Multitrack-Preset hat eine zweite Zeile, `je Spur`, für
+  die Einstellungen, die seine erste Spur jeder Spur mitgibt.
+* `Schnitt` **hält den Lauf an**, wenn das Preset auphonic.com schneiden
+  lässt -- **Cut Silence**, **Cut Fillers**, **Cut Coughs** oder **Cut
+  Music**. Der Ton käme kürzer zurück als die Bilder, und jede Kamera
+  verrutschte ab dem ersten Schnitt. Die Zeile darunter sagt, wo es
+  auszuschalten ist: auf auphonic.com im Preset, unter **Audio
+  Algorithms**, **Automatic Cutting**. Steht **Cut Mode** auf **Set Cuts
+  To Silent** oder **Export Uncut Audio**, bleibt die Länge erhalten,
+  und der Lauf geht weiter.
+* `Spracherkennung` sagt in einer Zeile, wenn im Preset die
+  Spracherkennung von auphonic.com eingeschaltet ist. Sie hält nichts
+  an. Das Transkript entsteht ohnehin hier (siehe unten); eine
+  Multitrack-Produktion fordert sie deshalb nicht an, und keine der
+  beiden Arten holt ihren Text.
+
+Zwei weitere halten den Lauf an: ein Preset, das auf eine andere
+Lautheit mastert als der Lauf, und ein Multitrack-Preset, in dem keine
+Spur hinterlegt ist. Was dann zu tun ist, steht im
+[Vorflug](preflight.de.md).
+
 ### Den Schlüssel ohne Fenster ablegen
 
 Wer nur auf der Kommandozeile arbeitet, legt den Schlüssel einmal so ab:
@@ -153,6 +184,14 @@ Mix auf diesem Rechner ab und schreibt jedes Wort mit der Zeit mit, zu
 der es gesagt wurde: eine json-Datei mit Zeiten, eine srt-Datei für
 Untertitel und eine txt-Datei zum Lesen, in der Form, in der
 auphonic.com seine eigenen liefert.
+
+Ein Preset, in dem die Spracherkennung von auphonic.com eingeschaltet
+ist, ändert daran nichts. Eine Multitrack-Produktion wird ohne sie
+angelegt. Eine einzelne Spur geht mit dem Preset hoch, wie es ist, und
+auphonic.com transkribiert dann mit -- wer das nicht will, schaltet es
+im Preset aus. So oder so bleiben Untertitel, Sprachdaten und
+Transkript von dort auf auphonic.com und werden nicht geholt: Es gibt
+ein Transkript, und es ist das, das hier entsteht.
 
 Das kostet Rechenzeit, kein Guthaben. Es braucht weder Schlüssel noch
 Preset noch Upload, und ein Lauf ohne Auphonic schreibt dieselben drei
@@ -278,8 +317,9 @@ Eine einzelne Spur geht dann diese Schritte:
 4. Ein Balken mit der vergangenen Zeit und dem Stand, den auphonic.com
    meldet, etwa `Audio Processing`, bis dort `fertig` steht.
 5. `Lade <Name> herunter`: eine Tondatei, die verlustfreie, wenn das
-   Preset mehrere schreibt, und daneben nur, was Text ist -- Transkript,
-   Untertitel, Kapitelmarken.
+   Preset mehrere schreibt, und daneben nur, was Text ist --
+   Kapitelmarken, Auswertungen. Transkript und Untertitel von
+   auphonic.com sind nicht darunter.
 6. Hat auphonic.com etwas angefügt, `<Name>: auphonic.com hat am Ende
    6,4 s angefügt -- weggeschnitten`, und zuletzt `Ergebnis: <Name> (1
    MB) -- bleibt neben der Videodatei liegen`. Sie liegt im
@@ -336,8 +376,8 @@ Preset. Weitere Spuren dort gehen in den Mix, eine Warnung nennt sie.
 
 Eine Multitrack-Produktion wird ganz heruntergeladen, die Einzelspuren
 und jede weitere Ausgabe, die das Preset selbst erzeugt: der fertige
-Mixdown, Kapitelmarken, Auswertungen und ein eigenes Transkript, wo das
-Preset eines herstellt. Bezahlt ist das alles ohnehin mit der
+Mixdown, Kapitelmarken, Auswertungen -- alles außer dem Transkript von
+auphonic.com, das dort bleibt. Bezahlt ist das alles ohnehin mit der
 Produktion. Es landet in `auphonic-tracks/` neben den fertigen Videos,
 später auch die `final_*.wav`. Eine einzelne Spur bringt ihre Tondatei
 und das, was Text ist, zurück, wie oben beschrieben, und sonst nichts.

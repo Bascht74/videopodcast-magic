@@ -5291,3 +5291,24 @@ msgstr "končni miks -- brez govorca, brez kamere"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Govor: umesti se samo po glasnosti. Posnetek, ki nima ničesar skupnega\ns kamerami, se zavrne. Mešano: pod glasovi je glasba ali miks,\nin kjer glasnost ne najde ničesar, ga sme umestiti faza.\nKončni miks: stereo miks, narejen drugje, postavljen kot mešan zvok. Gre\nv datoteke kamer in v predajo namesto miksa, ki ga zgradi tek --\nbrez govorca, brez rezov, ne pošlje se na auphonic.com.\nPri „%s“ Govor ni na voljo."
+
+msgid "Cutting"
+msgstr "Rezanje"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "prednastavitev reže na auphonic.com (%s) -- zvok bi se vrnil krajši od slike, in kamere bi zdrsnile."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Izklopite to v prednastavitvi na auphonic.com: Audio Algorithms, Automatic Cutting -- odkljukajte %s, ali nastavite Cut Mode na Set Cuts To Silent, ki ohrani dolžino."
+
+msgid "Speech recognition"
+msgstr "Prepoznavanje govora"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "vklopljeno v prednastavitvi -- ni zahtevano, in nič od njegovega besedila se ne prenese: prepis nastane tukaj."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "vklopljeno v prednastavitvi, zato auphonic.com tudi prepisuje -- njegovo besedilo se ne prenese: prepis nastane tukaj."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- tako, kot jih ima prednastavitev; program ne spremeni nobenega."

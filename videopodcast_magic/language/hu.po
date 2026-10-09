@@ -5200,3 +5200,24 @@ msgstr "a kész keverés -- nem beszélő, nincs kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Beszéd: csak a hangosság alapján kerül a helyére. Az a felvétel, amelynek semmi köze\na kamerákhoz, elutasításra kerül. Kevert: a hangok alatt zene vagy mix szól,\nés ahol a hangosság nem talál semmit, a fázis elhelyezheti.\nKész keverés: máshol készült sztereó keverés, kevert hangként elhelyezve. A kamerafájlokba\nés az átadásba kerül a futás által épített keverés helyett --\nnem beszélő, nincs vágva, nem megy az auphonic.com-ra.\n„%s” esetén a Beszéd nem választható."
+
+msgid "Cutting"
+msgstr "Vágás"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "az előbeállítás vág az auphonic.com-on (%s) -- a hang rövidebben jönne vissza, mint a kép, és a kamerák elcsúsznának."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Kapcsolja ki az előbeállításban az auphonic.com-on: Audio Algorithms, Automatic Cutting -- vegye ki a pipát ebből: %s, vagy állítsa a Cut Mode-ot Set Cuts To Silent értékre, ami megtartja a hosszt."
+
+msgid "Speech recognition"
+msgstr "Beszédfelismerés"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "bekapcsolva az előbeállításban -- nincs kérve, és a szövegéből semmi sem töltődik le: az átirat itt készül."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "bekapcsolva az előbeállításban, így az auphonic.com is átír -- a szövege nem töltődik le: az átirat itt készül."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- ahogy az előbeállításban vannak; a program egyiket sem változtatja meg."

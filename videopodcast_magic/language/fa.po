@@ -5201,3 +5201,24 @@ msgstr "میکس آماده -- گوینده نیست، بدون دوربین"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "گفتار: فقط بر اساس بلندی صدا جای‌گذاری می‌شود. ضبطی که هیچ اشتراکی\nبا دوربین‌ها ندارد رد می‌شود. ترکیبی: موسیقی یا میکس زیر صداها قرار دارد،\nو جایی که بلندی صدا چیزی نمی‌یابد، فاز می‌تواند آن را جای‌گذاری کند.\nمیکس آماده: میکس استریویی که جای دیگری ساخته شده، مانند صدای ترکیبی قرار می‌گیرد. به‌جای میکس پردازش\nوارد فایل‌های دوربین و تحویل می‌شود --\nگوینده نیست، بریده نمی‌شود، به auphonic.com فرستاده نمی‌شود.\nدر «%s» گفتار پیشنهاد نمی‌شود."
+
+msgid "Cutting"
+msgstr "برش"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "پیش‌تنظیم در auphonic.com برش می‌زند (%s) -- صدا کوتاه‌تر از تصویر برمی‌گردد و دوربین‌ها جابه‌جا می‌شوند."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "آن را در پیش‌تنظیم در auphonic.com خاموش کنید: Audio Algorithms, Automatic Cutting -- تیک %s را بردارید، یا Cut Mode را روی Set Cuts To Silent بگذارید که طول را نگه می‌دارد."
+
+msgid "Speech recognition"
+msgstr "تشخیص گفتار"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "در پیش‌تنظیم روشن است -- درخواست نمی‌شود و چیزی از متن آن دریافت نمی‌شود: رونوشت همین‌جا ساخته می‌شود."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "در پیش‌تنظیم روشن است، پس auphonic.com هم رونویسی می‌کند -- متن آن دریافت نمی‌شود: رونوشت همین‌جا ساخته می‌شود."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- همان‌طور که در پیش‌تنظیم هستند؛ برنامه هیچ‌کدام را تغییر نمی‌دهد."

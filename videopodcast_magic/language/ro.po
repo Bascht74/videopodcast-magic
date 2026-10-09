@@ -5243,3 +5243,24 @@ msgstr "mixul final -- fără vorbitor, fără cameră"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Vorbire: plasat doar după sonoritate. O înregistrare care nu are nimic în comun\ncu camerele este refuzată. Mixt: sub voci se află muzică sau un mix,\niar acolo unde sonoritatea nu găsește nimic, faza o poate plasa.\nMix final: un mix stereo făcut în altă parte, plasat ca sunet mixt. Intră\nîn fișierele camerelor și în predare în locul mixului procesării --\nfără vorbitor, fără tăieturi, fără trimitere la auphonic.com.\nLa „%s” Vorbire nu este oferită."
+
+msgid "Cutting"
+msgstr "Tăiere"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "presetarea taie la auphonic.com (%s) -- sunetul ar reveni mai scurt decât imaginile, iar camerele ar aluneca."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Dezactivați-o în presetare pe auphonic.com: Audio Algorithms, Automatic Cutting -- debifați %s, sau setați Cut Mode la Set Cuts To Silent, care păstrează durata."
+
+msgid "Speech recognition"
+msgstr "Recunoaștere vocală"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "activată în presetare -- nu este cerută, și nimic din textul ei nu este descărcat: transcrierea se face aici."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "activată în presetare, deci auphonic.com transcrie și el -- textul ei nu este descărcat: transcrierea se face aici."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- așa cum le are presetarea; programul nu schimbă niciunul."

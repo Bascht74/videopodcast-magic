@@ -5211,3 +5211,24 @@ msgstr "hazır miks -- konuşmacı yok, kamera yok"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Konuşma: yalnızca ses yüksekliğine göre yerleştirilir. Kameralarla hiçbir ortak\nyanı olmayan kayıt reddedilir. Karışık: seslerin altında müzik ya da bir miks vardır,\nve ses yüksekliğinin bir şey bulamadığı yerde faz onu yerleştirebilir.\nHazır miks: başka yerde yapılmış stereo miks, karışık ses gibi yerleştirilir. İşlemin kurduğu\nmiksin yerine kamera dosyalarına ve teslime girer --\nkonuşmacı değil, kesilmez, auphonic.com'a gönderilmez.\n\"%s\" altında Konuşma sunulmaz."
+
+msgid "Cutting"
+msgstr "Kesme"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "ön ayar auphonic.com'da kesiyor (%s) -- ses görüntüden kısa dönerdi ve kameralar kayardı."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Bunu auphonic.com'daki ön ayarda kapatın: Audio Algorithms, Automatic Cutting -- %s işaretini kaldırın, ya da Cut Mode'u uzunluğu koruyan Set Cuts To Silent olarak ayarlayın."
+
+msgid "Speech recognition"
+msgstr "Konuşma tanıma"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "ön ayarda açık -- istenmiyor ve metninden hiçbir şey indirilmiyor: transkript burada yapılır."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "ön ayarda açık, bu yüzden auphonic.com da yazıya döker -- metni indirilmiyor: transkript burada yapılır."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- ön ayarda olduğu gibi; program hiçbirini değiştirmez."

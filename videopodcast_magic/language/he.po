@@ -5201,3 +5201,24 @@ msgstr "המיקס המוגמר -- לא דובר, ללא מצלמה"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "דיבור: ממוקם לפי העוצמה הנתפסת בלבד. הקלטה שאין לה דבר משותף\nעם המצלמות נדחית. מעורב: מוזיקה או מיקס נמצאים מתחת לקולות,\nובמקום שהעוצמה לא מוצאת דבר, הפאזה רשאית למקם אותה.\nמיקס מוגמר: מיקס סטריאו שנעשה במקום אחר, ממוקם כצליל מעורב. הוא נכנס\nלקובצי המצלמות ולמסירה במקום המיקס שהעיבוד בונה --\nלא דובר, לא נחתך, לא נשלח ל-auphonic.com.\nתחת \"%s\" דיבור אינו מוצע."
+
+msgid "Cutting"
+msgstr "חיתוך"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "הפריסט חותך ב-auphonic.com (%s) -- הצליל יחזור קצר מהתמונה, והמצלמות יזוזו."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "כבו את זה בפריסט ב-auphonic.com: Audio Algorithms, Automatic Cutting -- בטלו את הסימון של %s, או קבעו את Cut Mode ל-Set Cuts To Silent, ששומר על האורך."
+
+msgid "Speech recognition"
+msgstr "זיהוי דיבור"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "מופעל בפריסט -- לא מבוקש, ושום דבר מהטקסט שלו לא מורד: התמלול נעשה כאן."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "מופעל בפריסט, ולכן auphonic.com מתמלל גם -- הטקסט שלו לא מורד: התמלול נעשה כאן."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- כפי שהם בפריסט; התוכנה לא משנה אף אחד."

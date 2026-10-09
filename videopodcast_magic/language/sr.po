@@ -5243,3 +5243,24 @@ msgstr "готов микс -- без говорника, без камере"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Говор: поставља се само према гласноћи. Снимак који нема ништа заједничко\nса камерама се одбија. Мешано: испод гласова су музика или микс,\nи где гласноћа ништа не нађе, фаза сме да га постави.\nГотов микс: стерео микс направљен другде, постављен као мешани звук. Иде\nу датотеке камера и у предају уместо микса који гради обрада --\nбез говорника, без резова, не шаље се на auphonic.com.\nПод „%s“ Говор се не нуди."
+
+msgid "Cutting"
+msgstr "Сечење"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "предложак сече на auphonic.com (%s) -- звук би се вратио краћи од слике, а камере би се помериле."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Искључите то у предлошку на auphonic.com: Audio Algorithms, Automatic Cutting -- одзначите %s, или поставите Cut Mode на Set Cuts To Silent, који задржава дужину."
+
+msgid "Speech recognition"
+msgstr "Препознавање говора"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "укључено у предлошку -- није затражено, и ништа од његовог текста се не преузима: транскрипт настаје овде."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "укључено у предлошку, па auphonic.com такође транскрибује -- његов текст се не преузима: транскрипт настаје овде."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- како их предложак има; програм не мења ниједан."

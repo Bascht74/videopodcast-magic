@@ -5202,3 +5202,24 @@ msgstr "పూర్తయిన మిక్స్ -- వక్త కాదు
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "మాట: లౌడ్‌నెస్ ఆధారంగా మాత్రమే ఉంచబడుతుంది. కెమెరాలతో ఏదీ ఉమ్మడిగా\nలేని రికార్డింగ్ తిరస్కరించబడుతుంది. మిశ్రమం: గొంతుల కింద సంగీతం లేదా మిక్స్ ఉంటుంది,\nలౌడ్‌నెస్ ఏమీ కనుగొనని చోట ఫేజ్ దాన్ని ఉంచవచ్చు.\nపూర్తయిన మిక్స్: వేరే చోట చేసిన స్టీరియో మిక్స్, మిశ్రమ ధ్వనిలా ఉంచబడుతుంది. ప్రాసెసింగ్ మిక్స్‌కు బదులుగా\nకెమెరా ఫైళ్లలోకి, అప్పగింతలోకి వెళ్తుంది --\nవక్త కాదు, కత్తిరించబడదు, auphonic.com కు పంపబడదు.\n\"%s\" కింద మాట ఎంపిక ఇవ్వబడదు."
+
+msgid "Cutting"
+msgstr "కత్తిరింపు"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "ప్రీసెట్ auphonic.com లో కత్తిరిస్తుంది (%s) -- ధ్వని చిత్రాల కంటే చిన్నదిగా తిరిగి వస్తుంది, కెమెరాలు జారిపోతాయి."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "auphonic.com లో ప్రీసెట్‌లో దీన్ని ఆపివేయండి: Audio Algorithms, Automatic Cutting -- %s ఎంపికను తీసివేయండి, లేదా Cut Mode ను పొడవును ఉంచే Set Cuts To Silent కు సెట్ చేయండి."
+
+msgid "Speech recognition"
+msgstr "ప్రసంగ గుర్తింపు"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "ప్రీసెట్‌లో ఆన్ -- అడగబడదు, దాని పాఠం ఏదీ తీసుకురాబడదు: ట్రాన్స్‌క్రిప్ట్ ఇక్కడే తయారవుతుంది."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "ప్రీసెట్‌లో ఆన్, కాబట్టి auphonic.com కూడా ట్రాన్స్‌క్రైబ్ చేస్తుంది -- దాని పాఠం తీసుకురాబడదు: ట్రాన్స్‌క్రిప్ట్ ఇక్కడే తయారవుతుంది."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- ప్రీసెట్‌లో ఉన్నట్లే; ప్రోగ్రామ్ దేనినీ మార్చదు."

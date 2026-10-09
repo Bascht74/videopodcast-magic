@@ -5157,3 +5157,24 @@ msgstr "มิกซ์สำเร็จ -- ไม่ใช่ผู้พู�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "เสียงพูด: วางตามความดังเท่านั้น ไฟล์บันทึกที่ไม่มีอะไรร่วมกับกล้อง\nจะถูกปฏิเสธ ผสม: มีเพลงหรือมิกซ์อยู่ใต้เสียงพูด\nและตรงที่ความดังหาอะไรไม่พบ เฟสอาจวางให้ได้\nมิกซ์สำเร็จ: มิกซ์สเตอริโอที่ทำจากที่อื่น วางเหมือนเสียงผสม มันเข้าไป\nในไฟล์กล้องและการส่งมอบแทนมิกซ์ของการประมวลผล --\nไม่ใช่ผู้พูด ไม่ตัด ไม่ส่งไป auphonic.com\nภายใต้ \"%s\" จะไม่มีตัวเลือกเสียงพูด"
+
+msgid "Cutting"
+msgstr "การตัด"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "พรีเซ็ตตัดที่ auphonic.com (%s) -- เสียงจะกลับมาสั้นกว่าภาพ และกล้องจะเลื่อน"
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "ปิดในพรีเซ็ตบน auphonic.com: Audio Algorithms, Automatic Cutting -- เอาเครื่องหมายออกจาก %s หรือตั้ง Cut Mode เป็น Set Cuts To Silent ซึ่งคงความยาวไว้"
+
+msgid "Speech recognition"
+msgstr "การรู้จำเสียงพูด"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "เปิดอยู่ในพรีเซ็ต -- ไม่ได้ขอ และไม่ดึงข้อความใดของมันมา: ทรานสคริปต์ทำที่นี่"
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "เปิดอยู่ในพรีเซ็ต ดังนั้น auphonic.com ถอดความด้วย -- ไม่ดึงข้อความของมันมา: ทรานสคริปต์ทำที่นี่"
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- ตามที่พรีเซ็ตมี โปรแกรมไม่เปลี่ยนสักอย่าง"

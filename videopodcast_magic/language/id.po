@@ -5159,3 +5159,24 @@ msgstr "mix jadi -- bukan pembicara, tanpa kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Ucapan: ditempatkan hanya menurut kenyaringannya. Rekaman yang tidak punya kesamaan apa pun\ndengan kamera ditolak. Campuran: musik atau mix ada di bawah suara-suara,\ndan di mana kenyaringan tidak menemukan apa pun, fase boleh menempatkannya.\nMix jadi: mix stereo yang dibuat di tempat lain, diletakkan seperti suara campuran. Mix ini masuk\nke berkas kamera dan serah terima menggantikan mix buatan proses --\nbukan pembicara, tidak dipotong, tidak dikirim ke auphonic.com.\nDengan \"%s\" Ucapan tidak ditawarkan."
+
+msgid "Cutting"
+msgstr "Pemotongan"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "preset memotong di auphonic.com (%s) -- suara akan kembali lebih pendek daripada gambar, dan kamera akan bergeser."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Matikan di preset pada auphonic.com: Audio Algorithms, Automatic Cutting -- hapus centang %s, atau setel Cut Mode ke Set Cuts To Silent, yang menjaga durasi."
+
+msgid "Speech recognition"
+msgstr "Pengenalan ucapan"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "aktif di preset -- tidak diminta, dan tidak ada teksnya yang diunduh: transkrip dibuat di sini."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "aktif di preset, jadi auphonic.com juga mentranskripsi -- teksnya tidak diunduh: transkrip dibuat di sini."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- sebagaimana ada di preset; program tidak mengubah satu pun."

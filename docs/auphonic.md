@@ -111,6 +111,35 @@ it is set or not, and the preset list offers the kind the run will
 need. A preset of the wrong kind stops the run before the time axis is
 measured.
 
+### What the preflight reads in the preset
+
+Before the time axis is measured, the preset is read out, and the
+preflight says what it found under `PREFLIGHT -- does the preset fit
+the run?`. The preset decides how the sound is processed; the program
+switches nothing on and nothing off in it.
+
+* `Algorithms` names every switch the preset has on, with its setting in
+  brackets: `leveler, normloudness (-16 LUFS), filtering (autoeq) -- as
+  the preset has them, the program changes none.` A multitrack preset
+  has a second line, `per track`, for the settings its first track
+  gives every track.
+* `Cutting` **stops the run** where the preset lets auphonic.com cut --
+  **Cut Silence**, **Cut Fillers**, **Cut Coughs** or **Cut Music**.
+  The sound would come back shorter than the pictures, and every camera
+  after the first cut would slip. The line under it says where to switch
+  it off: on auphonic.com, in the preset, under **Audio Algorithms**,
+  **Automatic Cutting**. A **Cut Mode** of **Set Cuts To Silent** or
+  **Export Uncut Audio** keeps the length, and the run goes on.
+* `Speech recognition` says in one line when the preset has
+  auphonic.com's speech recognition switched on. It stops nothing. The
+  transcript is made here either way (see below), so a multitrack
+  production does not ask for it, and neither kind of production fetches
+  its text.
+
+Two more stop the run: a preset that masters to another loudness than
+the run's, and a multitrack preset with no track stored in it. What to
+do about each is in [Preflight](preflight.md).
+
 ### Storing the key without the window
 
 Whoever works only on the command line stores the key once with
@@ -139,6 +168,14 @@ None of the text comes from auphonic.com. The program listens to the
 finished mix on this machine and writes down every word with the time it
 was said: a json with times, an srt for subtitles and a txt to read, in
 the shape auphonic.com delivers its own.
+
+A preset with auphonic.com's speech recognition switched on changes
+nothing about that. A multitrack production is created without it. A
+single track goes up with the preset as it stands, so auphonic.com
+transcribes it as well -- switch it off in the preset where that is not
+wanted. Either way its subtitles, speech data and transcript stay at
+auphonic.com and are not fetched: there is one transcript, and it is
+the one made here.
 
 This costs the processor, not credit. It needs no key, no preset and no
 upload, and a run without Auphonic writes the same three files.
@@ -253,8 +290,9 @@ A single track then goes through these steps:
 4. A bar with the time gone by and the state auphonic.com reports, for
    instance `Audio Processing`, until it says `done`.
 5. `Downloading <name>`: one audio file, the lossless one where the
-   preset writes several, and beside it only what is text -- transcript,
-   subtitles, chapter marks.
+   preset writes several, and beside it only what is text -- chapter
+   marks, statistics. auphonic.com's own transcript and subtitles are
+   not among them.
 6. Where auphonic.com added something, `<name>: auphonic.com added 6.4 s
    at the end -- cut away`, and last `Result: <name> (1 MB) -- stays next
    to the video file`. It lies in the output folder itself, not in
@@ -310,8 +348,8 @@ well. Further tracks there go into the mix, and a warning names them.
 
 A multitrack production is downloaded whole, the single tracks and every
 further output the preset itself makes: the finished mixdown, chapter
-marks, analyses, and a transcript of its own where the preset produces
-one. All of that is paid for with the production either way. It lands in
+marks, analyses -- all but auphonic.com's transcript, which stays
+there. All of that is paid for with the production either way. It lands in
 `auphonic-tracks/` next to the finished videos, later the `final_*.wav`
 too. A single track brings back its audio file and what is text, as
 described above, and nothing else. A name auphonic.com

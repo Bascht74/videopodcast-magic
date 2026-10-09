@@ -5198,3 +5198,24 @@ msgstr "den ferdige miksen -- ingen taler, intet kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Tale: plasseres etter lydstyrken alene. Et opptak som ikke har noe til felles\nmed kameraene, avvises. Blandet: musikk eller en miks ligger under stemmene,\nog der lydstyrken ikke finner noe, kan fasen plassere det.\nFerdig miks: en stereomiks laget et annet sted, plassert som blandet lyd. Den går\ninn i kamerafilene og overleveringen i stedet for kjøringens egen miks --\ningen taler, ikke klippet, ikke sendt til auphonic.com.\nUnder «%s» tilbys ikke Tale."
+
+msgid "Cutting"
+msgstr "Klipping"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "forhåndsinnstillingen klipper hos auphonic.com (%s) -- lyden ville komme kortere tilbake enn bildene, og kameraene ville forskyve seg."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Slå det av i forhåndsinnstillingen på auphonic.com: Audio Algorithms, Automatic Cutting -- fjern haken ved %s, eller sett Cut Mode til Set Cuts To Silent, som beholder lengden."
+
+msgid "Speech recognition"
+msgstr "Talegjenkjenning"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "slått på i forhåndsinnstillingen -- ikke bestilt, og ingenting av teksten hentes: transkripsjonen lages her."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "slått på i forhåndsinnstillingen, så auphonic.com transkriberer også -- teksten hentes ikke: transkripsjonen lages her."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- slik forhåndsinnstillingen har dem; programmet endrer ingen."

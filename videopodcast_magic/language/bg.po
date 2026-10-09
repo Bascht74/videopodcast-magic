@@ -5203,3 +5203,24 @@ msgstr "готовият микс -- без говорител, без каме�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Реч: поставя се само по громкостта. Запис, който няма нищо общо\nс камерите, се отхвърля. Смесено: под гласовете има музика или микс,\nи където громкостта не намери нищо, фазата може да го постави.\nГотов микс: стерео микс, направен другаде, поставен като смесен звук. Отива\nвъв файловете на камерите и в предаването вместо микса на обработката --\nбез говорител, без рязане, не се изпраща на auphonic.com.\nПри „%s“ Реч не се предлага."
+
+msgid "Cutting"
+msgstr "Рязане"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "предварителната настройка реже в auphonic.com (%s) -- звукът би се върнал по-къс от картината и камерите биха се разместили."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Изключете го в предварителната настройка в auphonic.com: Audio Algorithms, Automatic Cutting -- махнете отметката от %s, или задайте Cut Mode на Set Cuts To Silent, което запазва дължината."
+
+msgid "Speech recognition"
+msgstr "Разпознаване на реч"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "включено в предварителната настройка -- не се заявява и нищо от текста му не се изтегля: транскрипцията се прави тук."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "включено в предварителната настройка, така че auphonic.com също транскрибира -- текстът му не се изтегля: транскрипцията се прави тук."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- както ги има предварителната настройка; програмата не променя нито един."

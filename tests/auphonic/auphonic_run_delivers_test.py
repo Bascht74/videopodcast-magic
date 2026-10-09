@@ -533,16 +533,20 @@ print("\n7. What is paid for is fetched, and fetched once")
 server, folder = fresh("extras")
 # Whatever else the preset produces beside the tracks -- chapter marks,
 # an analysis. The transcript is not among them: the program writes
-# that itself and never asks auphonic.com for it.
-twice = {"filename": "chapters.txt", "format": "txt",
+# that itself, and one a preset has auphonic.com write stays there.
+twice = {"filename": "chapters.txt", "format": "chaps",
          "download_url": "https://auphonic.com/dl/chapters.txt"}
-server.outputs = server.output_files() + [twice, dict(twice)]
+theirs = {"filename": "Episode.txt", "format": "transcript",
+          "download_url": "https://auphonic.com/dl/Episode.txt"}
+server.outputs = server.output_files() + [twice, dict(twice), theirs]
 result = multitrack(server, folder)
 check("the extra output came along", "chapters.txt" in server.downloads,
       repr(server.downloads))
 check("and it was fetched once, not twice",
       server.downloads.count("chapters.txt") == 1,
       "%d times" % server.downloads.count("chapters.txt"))
+check("auphonic.com's transcript stays at auphonic.com",
+      "Episode.txt" not in server.downloads, repr(server.downloads))
 check("the tracks are there all the same", sorted(result) == sorted(NAMES),
       repr(sorted(result)))
 
@@ -620,17 +624,23 @@ check("what only an answer can carry does not go back with it",
 
 print("\n11. What the production wrote about the audio comes along")
 # The program writes the transcript itself; what a preset produces
-# beside the audio -- subtitles, chapter marks -- is paid for either
-# way and is useless left on the server.
+# beside the audio -- chapter marks, an analysis -- is paid for either
+# way and is useless left on the server. Subtitles are speech
+# recognition's, and stay there with the rest of its text.
 server, folder = fresh("simpletext")
 server.outputs = [
     {"filename": "Episode.wav", "format": "wav",
      "download_url": "https://auphonic.com/dl/Episode.wav"},
-    {"filename": "Episode.srt", "format": "srt",
+    {"filename": "Episode.chapters.txt", "format": "chaps",
+     "download_url": "https://auphonic.com/dl/Episode.chapters.txt"},
+    {"filename": "Episode.srt", "format": "subtitle",
      "download_url": "https://auphonic.com/dl/Episode.srt"}]
 single(server, folder, mono)
-check("the subtitles landed beside the audio",
-      os.path.exists(os.path.join(folder, "Episode.srt")),
+check("the chapter marks landed beside the audio",
+      os.path.exists(os.path.join(folder, "Episode.chapters.txt")),
+      repr(sorted(os.listdir(folder))))
+check("auphonic.com's subtitles stay at auphonic.com",
+      not os.path.exists(os.path.join(folder, "Episode.srt")),
       repr(sorted(os.listdir(folder))))
 
 print("\n12. The counter-checks for the single file")

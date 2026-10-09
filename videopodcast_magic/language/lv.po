@@ -5247,3 +5247,24 @@ msgstr "gatavais mikss -- nav runātājs, nav kameras"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Runa: novieto tikai pēc skaļuma. Ieraksts, kam nav nekā kopīga\nar kamerām, tiek noraidīts. Jaukts: zem balsīm ir mūzika vai miksējums,\nun kur skaļums neko neatrod, to drīkst novietot fāze.\nGatavs mikss: citur veidots stereo mikss, novietots kā jaukta skaņa. Tas nonāk\nkameru failos un nodošanā apstrādes paša miksa vietā --\nnav runātājs, netiek griezts, netiek sūtīts uz auphonic.com.\nAr „%s“ Runa netiek piedāvāta."
+
+msgid "Cutting"
+msgstr "Griešana"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "sākotnējais iestatījums griež auphonic.com (%s) -- skaņa atgrieztos īsāka par attēliem, un kameras nobīdītos."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Izslēdziet to sākotnējā iestatījumā auphonic.com: Audio Algorithms, Automatic Cutting -- noņemiet atzīmi %s, vai iestatiet Cut Mode uz Set Cuts To Silent, kas saglabā garumu."
+
+msgid "Speech recognition"
+msgstr "Runas atpazīšana"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "ieslēgta sākotnējā iestatījumā -- netiek pieprasīta, un nekas no tās teksta netiek lejupielādēts: transkripcija tiek veidota šeit."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "ieslēgta sākotnējā iestatījumā, tāpēc auphonic.com arī transkribē -- tās teksts netiek lejupielādēts: transkripcija tiek veidota šeit."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- tā, kā tos satur sākotnējais iestatījums; programma nemaina nevienu."

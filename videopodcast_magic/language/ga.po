@@ -5338,3 +5338,24 @@ msgstr "an meascán críochnaithe -- ní cainteoir, gan ceamara"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Caint: curtha de réir a treise amháin. Diúltaítear do thaifeadadh nach bhfuil aon rud i gcoitinne aige\nleis na ceamaraí. Measctha: tá ceol nó meascán faoi na guthanna,\nagus nuair nach bhfaigheann an treise aon rud, féadfaidh an pas é a chur ina áit.\nMeascán críochnaithe: meascán steirió a rinneadh in áit eile, curtha mar fhuaim mheasctha. Téann sé\nisteach sna comhaid ceamara agus sa tabhairt anonn in áit mheascán an rith --\nní cainteoir é, ní ghearrtar é, ní sheoltar chuig auphonic.com é.\nFaoi \"%s\" ní thairgtear Caint."
+
+msgid "Cutting"
+msgstr "Gearradh"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "gearrann an réamhshocrú ag auphonic.com (%s) -- thiocfadh an fhuaim ar ais níos giorra ná na pictiúir, agus shleamhnódh na ceamaraí."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Múch é sa réamhshocrú ar auphonic.com: Audio Algorithms, Automatic Cutting -- bain an tic de %s, nó socraigh Cut Mode ar Set Cuts To Silent, a choinníonn an fad."
+
+msgid "Speech recognition"
+msgstr "Aithint cainte"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "casta air sa réamhshocrú -- níor iarradh é, agus ní fhaightear aon chuid dá théacs: déantar an tras-scríbhinn anseo."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "casta air sa réamhshocrú, mar sin tras-scríobhann auphonic.com freisin -- ní fhaightear a théacs: déantar an tras-scríbhinn anseo."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- mar atá siad sa réamhshocrú; ní athraíonn an clár ceann ar bith."

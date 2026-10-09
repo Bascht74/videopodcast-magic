@@ -1404,13 +1404,27 @@ def run_single_production(audio, preset, presetname, key, target_folder,
 def fetch_text_outputs(key, files, target_folder, skip=None):
     """Fetch what a production wrote about the audio, not the audio.
 
-    Transcript, subtitles, chapter marks: paid for either way.
+    Chapter marks, statistics: paid for either way. The transcript is
+    not among them -- it is made here, and auphonic.com's stays there.
     """
-    fetch_each(key, files, target_folder, skip,
+    fetch_each(key, [f for f in files or [] if not auphonic_transcript(f)],
+               target_folder, skip,
                lambda name: name.lower().endswith(TRANSCRIPT_SUFFIXES),
                lambda name: name,
                T('  %s is there already -- not fetched twice'),
                T('  Also fetched: %s'))
+
+
+def auphonic_transcript(f):
+    """True where an output file is auphonic.com's speech recognition.
+
+    Known by its format, one of the three auphonic.com's API description
+    names for it: "subtitle", "speech", "transcript". The transcript is
+    made here, and a second one beside it would be a second text of the
+    same words, differing in places.
+    """
+    return str((f or {}).get("format") or "").lower() in (
+        "subtitle", "speech", "transcript")
 
 
 def fetch_each(key, files, target_folder, skip, wanted, same, twice,
@@ -1567,6 +1581,9 @@ def build_multitrack_request(preset, title, names, base_name, key=None,
     adopted except what we set; its first track's settings apply to all.
     """
     request = {k: v for k, v in preset.items() if k not in PRESET_READ_ONLY}
+    # The transcript is made here: auphonic.com's speech recognition is
+    # not asked for, whatever the preset says, and the preflight says so.
+    request.pop("speech_recognition", None)
     template = {}
     for track in (preset.get("multi_input_files") or []):
         template = dict(track.get("algorithms") or {})
@@ -1824,7 +1841,9 @@ def download_results(key, p, names, target_folder, base):
     target = os.path.join(cache, zip_name)
     _download(key, zip_file.get("download_url"), target, zip_name)
     # Whatever else the preset produces belongs here: it is paid for.
-    fetch_each(key, p.get("output_files"), cache, zip_file,
+    # Its transcript does not -- the transcript is made here.
+    fetch_each(key, [f for f in p.get("output_files") or []
+                     if not auphonic_transcript(f)], cache, zip_file,
                lambda name: True, lambda name: name.lower(),
                T('  %s is in the production twice -- fetched once.'))
     return match_zip_entries_to_tracks(target, names, target_folder)

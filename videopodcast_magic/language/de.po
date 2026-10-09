@@ -6933,3 +6933,24 @@ msgstr "die fertige Mischung -- kein Sprecher, keine Kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Sprache: nur nach der Lautheit gelegt. Eine Aufnahme, die nichts\nmit den Kameras gemeinsam hat, wird abgelehnt. Gemischt: Musik oder ein Mix\nliegt unter den Stimmen, und wo die Lautheit nichts findet, darf die Phase sie legen.\nFertige Mischung: eine anderswo gemachte Stereo-Mischung, gelegt wie gemischter Ton. Sie kommt\nin die Kameradateien und die Übergabe anstelle der Mischung, die der Lauf baut --\nkein Sprecher, nicht geschnitten, nicht an auphonic.com geschickt.\nUnter „%s“ wird Sprache nicht angeboten."
+
+msgid "Cutting"
+msgstr "Schnitt"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "das Preset schneidet bei auphonic.com (%s) -- der Ton käme kürzer zurück als die Bilder, und die Kameras verrutschten."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Im Preset auf auphonic.com ausschalten: „Audio Algorithms“, „Automatic Cutting“ -- %s abwählen, oder „Cut Mode“ auf „Set Cuts To Silent“ stellen, das die Länge hält."
+
+msgid "Speech recognition"
+msgstr "Spracherkennung"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "im Preset eingeschaltet -- nicht angefordert, und von ihrem Text wird nichts geholt: das Transkript entsteht hier."
+
+msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
+msgstr "im Preset eingeschaltet, also transkribiert auphonic.com mit -- ihr Text wird nicht geholt: das Transkript entsteht hier."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- so, wie das Preset sie hat; das Programm ändert keinen."
