@@ -9,6 +9,9 @@ long as the one sent, whatever auphonic.com put around it; and the
 production, found again by its title, is deleted. The title has the
 tests' own shape, so a run killed half way is cleared by the sweep
 auphonic.sh makes at both ends.
+Should a production of that title stand there all the same, the run
+is told in advance to upload anew: a question would stop it, with no
+terminal to answer it.
 
 Syllables and not a steady tone: the free plan puts a jingle in front
 (26.4 s came back for 20 s, 27.9.2026), and the program finds the sound
@@ -64,7 +67,8 @@ try:
     try:
         result = vpm.run_single_production(
             audio, preset, "the account's preset", key,
-            os.path.join(folder, "back"), wait_s=900, title=title)
+            os.path.join(folder, "back"), wait_s=900, title=title,
+            carry_on="upload")
     except RuntimeError as e:
         why = said(e)
     check("the production comes back with a file",
@@ -88,7 +92,7 @@ try:
     print("\n3. The production is taken away again")
     found, why = None, ""
     try:
-        found = vpm.find_production_by_title(key, title)
+        found = vpm.single_production_found(key, title)
     except RuntimeError as e:
         why = said(e)
     check("the production stands at auphonic.com under the title given",
