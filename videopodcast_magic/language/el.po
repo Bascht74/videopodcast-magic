@@ -3776,9 +3776,6 @@ msgstr "\nΜΟΝΤΑΖ ΜΕ ΤΟ ΓΕΝΙΚΟ ΠΛΑΝΟ"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nΠΡΩΤΟ ΜΟΝΤΑΖ ΑΝΑ ΟΜΙΛΗΤΗ"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Περισσότερα από δύο κανάλια πηγαίνουν στο auphonic.com ως ένα: η αναδίπλωση απενεργοποιείται μόνο για στερεοφωνικό.\n  Όπου τα κανάλια πρέπει να μείνουν χωριστά, κόψτε πρώτα το αρχείο σε κομμάτια."
-
 msgid "First cut by speaker"
 msgstr "Πρώτο μοντάζ ανά ομιλητή"
 
@@ -5223,3 +5220,12 @@ msgstr "Αρκετά για τα %s που χρειάζεται αυτή η πα
 
 msgid "Not enough for the %s this production needs."
 msgstr "Όχι αρκετά για τα %s που χρειάζεται αυτή η παραγωγή."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"Το %s έχει %s κανάλια, και το auphonic.com δέχεται το πολύ δύο σε ένα αρχείο. Δεν στάλθηκε τίποτα.\n"
+"  Πείτε ποια κανάλια ανήκουν μαζί: στην καρτέλα Αρχεία & παραγωγή το αρχείο ανοίγει σε μία γραμμή ανά κανάλι, και το σημάδι σε μια γραμμή την ενώνει με την επόμενη. Αν το αρχείο δεν δείχνει γραμμές καναλιών, αποθηκεύστε πρώτα τα κανάλια του ως ξεχωριστά αρχεία."

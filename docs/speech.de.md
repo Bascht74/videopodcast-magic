@@ -68,6 +68,14 @@ aus allen Blöcken, auf der Zeit der ganzen Aufnahme; Wörter, die eine
 frühere Version nur im ersten Block gehört hat, werden einmal neu
 gehört.
 
+Das eigene Transkript des Fensters nimmt diese Wörter, wie sie sind. Wo
+die eine Aufnahme in Blöcken alles ist, was das Fenster hört, wird sie
+einmal gehört, für die Trennung, und für das Transkript kein zweites
+Mal. Die Wörter liegen auf der Zeitachse ab dort, wo der erste Block
+liegt, der Rest der Aufnahme dahinter, so wie der Lauf sie
+zusammensetzt -- auch dort, wo der Timecode des Rekorders zwischen zwei
+Blöcken eine Lücke lässt.
+
 Die Trennung ist der Weg für **eine gemeinsame Aufnahme**, auf der alle
 zu hören sind. Sie braucht das Häkchen **Multitrack (je Sprecher eine
 Spur)** nicht: die Spalte steht auf beiden Wegen da, auch bei einer

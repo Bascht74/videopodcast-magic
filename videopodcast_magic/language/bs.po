@@ -3863,9 +3863,6 @@ msgstr "\nREZ SA ŠIROKIM KADROM"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nPRVI REZ PO GOVORNICIMA"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Više od dva kanala ide na auphonic.com kao jedan: spajanje se isključuje samo za stereo.\n  Gdje kanali trebaju ostati odvojeni, najprije razrežite datoteku na trake."
-
 msgid "First cut by speaker"
 msgstr "Prvi rez po govornicima"
 
@@ -5264,3 +5261,12 @@ msgstr "Dovoljno za %s koje ova produkcija treba."
 
 msgid "Not enough for the %s this production needs."
 msgstr "Nije dovoljno za %s koje ova produkcija treba."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s ima %s kanala, a auphonic.com prima najviše dva u jednoj datoteci. Ništa nije poslano.\n"
+"  Recite koji kanali idu zajedno: na kartici Datoteke & produkcija datoteka se otvara u po jedan red za svaki kanal, a kvačica u redu spaja ga sa sljedećim. Ako datoteka ne prikazuje redove kanala, prvo sačuvajte njene kanale kao zasebne datoteke."

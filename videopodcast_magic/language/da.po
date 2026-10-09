@@ -3775,9 +3775,6 @@ msgstr "\nKLIPNING MED OVERSIGTSBILLEDET"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nFØRSTE KLIPNING EFTER TALER"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Mere end to kanaler går til auphonic.com som én: nedmixet slås kun fra for stereo.\n  Hvor kanalerne skal holdes adskilt, så del filen op i spor først."
-
 msgid "First cut by speaker"
 msgstr "Første klipning efter taler"
 
@@ -5222,3 +5219,12 @@ msgstr "Nok til de %s, denne produktion kræver."
 
 msgid "Not enough for the %s this production needs."
 msgstr "Ikke nok til de %s, denne produktion kræver."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s har %s kanaler, og auphonic.com tager højst to i én fil. Intet blev sendt.\n"
+"  Angiv hvilke kanaler der hører sammen: på fanen Filer & produktion folder filen sig ud i én række pr. kanal, og fluebenet på en række slår den sammen med den næste. Hvis filen ikke viser kanalrækker, så gem først dens kanaler som selvstændige filer."

@@ -3866,9 +3866,6 @@ msgstr "\nตัดต่อพร้อมภาพมุมกว้าง"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nการตัดต่อแรกตามผู้พูด"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  ช่องสัญญาณที่มากกว่าสองช่องจะถูกส่งไปยัง auphonic.com รวมเป็นช่องเดียว: การรวมช่องจะปิดเฉพาะกับสเตอริโอเท่านั้น\n  หากต้องการให้ช่องสัญญาณแยกกัน ให้ตัดไฟล์เป็นแทร็กก่อน"
-
 msgid "First cut by speaker"
 msgstr "การตัดต่อแรกตามผู้พูด"
 
@@ -5181,3 +5178,12 @@ msgstr "พอสำหรับ %s ที่งานนี้ต้องใ�
 
 msgid "Not enough for the %s this production needs."
 msgstr "ไม่พอสำหรับ %s ที่งานนี้ต้องใช้"
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s มี %s ช่องสัญญาณ แต่ auphonic.com รับได้ไม่เกินสองช่องต่อไฟล์ ไม่ได้ส่งอะไรออกไป\n"
+"  ระบุว่าช่องสัญญาณใดอยู่ด้วยกัน: ในแท็บ ไฟล์ & โปรดักชัน ไฟล์จะแยกเป็นหนึ่งแถวต่อช่องสัญญาณ และเครื่องหมายถูกในแถวจะรวมแถวนั้นกับแถวถัดไป หากไฟล์ไม่แสดงแถวช่องสัญญาณ ให้บันทึกช่องสัญญาณของไฟล์เป็นไฟล์แยกกันก่อน"

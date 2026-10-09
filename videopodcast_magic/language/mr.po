@@ -3868,9 +3868,6 @@ msgstr "\nवाइड शॉटसह कट"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nवक्त्यानुसार पहिला कट"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  दोनपेक्षा जास्त चॅनेल auphonic.com वर एक म्हणून जातात: एकत्रीकरण फक्त स्टिरिओसाठी बंद केले जाते.\n  जिथे चॅनेल वेगळे राहायला हवेत, तिथे आधी फाइल ट्रॅकमध्ये कापा."
-
 msgid "First cut by speaker"
 msgstr "वक्त्यानुसार पहिला कट"
 
@@ -5226,3 +5223,12 @@ msgstr "या प्रॉडक्शनला लागणाऱ्या %s 
 
 msgid "Not enough for the %s this production needs."
 msgstr "या प्रॉडक्शनला लागणाऱ्या %s साठी पुरेसे नाही."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s मध्ये %s चॅनेल आहेत, आणि auphonic.com एका फाइलमध्ये जास्तीत जास्त दोन घेते. काहीही पाठवले नाही.\n"
+"  कोणते चॅनेल एकत्र जातात ते सांगा: फाइली & प्रॉडक्शन टॅबवर फाइल प्रत्येक चॅनेलसाठी एका ओळीत उघडते, आणि ओळीवरची खूण तिला पुढच्या ओळीशी जोडते. फाइल चॅनेलच्या ओळी दाखवत नसेल, तर आधी तिचे चॅनेल स्वतंत्र फाइल म्हणून जतन करा."

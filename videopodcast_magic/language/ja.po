@@ -1254,9 +1254,6 @@ msgstr "auphonic.com が音声をどう処理するかを決めます。\n\n「%
 msgid "Auphonic will not take the settings: %s"
 msgstr "Auphonic が設定を受け付けません：%s"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  3 チャンネル以上は 1 つにまとめて auphonic.com に送られます：まとめを解除するのはステレオだけです。\n  チャンネルを分けたままにしたい場合は、先にファイルをトラックに分割してください。"
-
 msgid "Uploading %s"
 msgstr "%s をアップロード中"
 
@@ -5179,3 +5176,12 @@ msgstr "このプロダクションに必要な %s には足ります。"
 
 msgid "Not enough for the %s this production needs."
 msgstr "このプロダクションに必要な %s には足りません。"
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s には %s チャンネルありますが、auphonic.com が 1 ファイルで受け付けるのは 2 チャンネルまでです。何も送信していません。\n"
+"  どのチャンネルが組になるかを指定してください。ファイル & 制作 タブでファイルはチャンネルごとに 1 行ずつ開き、行のチェックでその行を次の行とまとめます。ファイルにチャンネルの行が出ない場合は、先にチャンネルを個別のファイルとして保存してください。"

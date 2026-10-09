@@ -3867,9 +3867,6 @@ msgstr "\nחיתוך עם השוט הרחב"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nחיתוך ראשון לפי דובר"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  יותר משני ערוצים נשלחים ל-auphonic.com כערוץ אחד: הקיפול מבוטל רק לסטריאו.\n  היכן שהערוצים אמורים להישאר נפרדים, יש לחתוך קודם את הקובץ לרצועות."
-
 msgid "First cut by speaker"
 msgstr "חיתוך ראשון לפי דובר"
 
@@ -5225,3 +5222,12 @@ msgstr "מספיק ל-%s שההפקה הזו צריכה."
 
 msgid "Not enough for the %s this production needs."
 msgstr "לא מספיק ל-%s שההפקה הזו צריכה."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"ל-%s יש %s ערוצים, ו-auphonic.com מקבל לכל היותר שניים בקובץ אחד. דבר לא נשלח.\n"
+"  ציינו אילו ערוצים שייכים יחד: בלשונית קבצים & הפקה הקובץ נפתח לשורה אחת לכל ערוץ, והסימון בשורה מצרף אותה לשורה הבאה. אם הקובץ אינו מציג שורות ערוצים, שמרו תחילה את ערוציו כקבצים נפרדים."

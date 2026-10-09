@@ -1278,9 +1278,6 @@ msgstr "Determina come auphonic.com elabora l’audio.\n\n“%s” lascia la chi
 msgid "Auphonic will not take the settings: %s"
 msgstr "Auphonic non accetta le impostazioni: %s"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Più di due canali vanno ad auphonic.com come uno solo: il downmix è disattivato solo per lo stereo.\n  Se i canali devono restare separati, taglia prima il file in tracce."
-
 msgid "Uploading %s"
 msgstr "Caricamento di %s"
 
@@ -5240,3 +5237,12 @@ msgstr "Sufficiente per i %s che richiede questa produzione."
 
 msgid "Not enough for the %s this production needs."
 msgstr "Non sufficiente per i %s che richiede questa produzione."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s ha %s canali, e auphonic.com ne accetta al massimo due per file. Non è stato inviato nulla.\n"
+"  Indica quali canali vanno insieme: nella scheda File & produzione il file si apre in una riga per canale, e la spunta su una riga la unisce alla successiva. Se il file non mostra righe di canale, salva prima i suoi canali come file a sé."

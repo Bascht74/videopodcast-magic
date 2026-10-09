@@ -3772,9 +3772,6 @@ msgstr "\n와이드 샷 포함 편집"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\n화자별 1차 편집"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  채널이 두 개보다 많으면 하나로 합쳐져 auphonic.com으로 갑니다: 합치기는 스테레오에서만 꺼집니다.\n  채널을 따로 유지해야 한다면 먼저 파일을 트랙으로 나누세요."
-
 msgid "First cut by speaker"
 msgstr "화자별 1차 편집"
 
@@ -5178,3 +5175,12 @@ msgstr "이 프로덕션에 필요한 %s에 충분합니다."
 
 msgid "Not enough for the %s this production needs."
 msgstr "이 프로덕션에 필요한 %s에 부족합니다."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s에는 채널이 %s개 있지만 auphonic.com은 한 파일에 최대 두 개만 받습니다. 아무것도 보내지 않았습니다.\n"
+"  어떤 채널이 함께 가는지 정하세요: 파일 & 프로덕션 탭에서 파일은 채널마다 한 행으로 펼쳐지고, 행의 체크는 그 행을 다음 행과 합칩니다. 파일에 채널 행이 보이지 않으면 먼저 채널을 각각 별도 파일로 저장하세요."

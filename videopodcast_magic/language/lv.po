@@ -3870,9 +3870,6 @@ msgstr "\nMONTĀŽA AR KOPPLĀNU"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nPIRMĀ MONTĀŽA PĒC RUNĀTĀJA"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Vairāk nekā divi kanāli uz auphonic.com tiek sūtīti kā viens: apvienošana tiek izslēgta tikai stereo gadījumā.\n  Ja kanāliem jāpaliek atsevišķi, vispirms sadaliet failu celiņos."
-
 msgid "First cut by speaker"
 msgstr "Pirmā montāža pēc runātāja"
 
@@ -5271,3 +5268,12 @@ msgstr "Pietiek šim producējumam vajadzīgajām %s."
 
 msgid "Not enough for the %s this production needs."
 msgstr "Nepietiek šim producējumam vajadzīgajām %s."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s ir %s kanāli, bet auphonic.com vienā failā pieņem ne vairāk kā divus. Nekas netika nosūtīts.\n"
+"  Norādiet, kuri kanāli pieder kopā: cilnē Faili & produkcija fails izvēršas pa vienai rindai katram kanālam, un ķeksītis rindā apvieno to ar nākamo. Ja fails kanālu rindas nerāda, vispirms saglabājiet tā kanālus kā atsevišķus failus."

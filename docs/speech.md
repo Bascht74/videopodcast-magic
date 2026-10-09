@@ -63,6 +63,13 @@ come from every block as well, on the time of the whole recording;
 words an earlier version heard in the first block alone are heard once
 more.
 
+The window's own transcript takes those words as they are. Where the
+one recording in blocks is all the window hears, it is heard once, for
+the separation, and not a second time for the transcript. The words lie
+on the time axis from where the first block lies, the rest of the
+recording behind it as the run joins it -- also where the recorder's
+timecode leaves a gap between two blocks.
+
 Separation is the way for **one common recording** that everybody is
 audible on. It does not need the tick **Multitrack (one track per
 speaker)**: the column stands there on both paths, with a single camera

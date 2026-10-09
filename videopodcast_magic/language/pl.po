@@ -3779,9 +3779,6 @@ msgstr "\nMONTAŻ Z PLANEM OGÓLNYM"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nPIERWSZY MONTAŻ WEDŁUG MÓWCÓW"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Więcej niż dwa kanały trafiają do auphonic.com jako jeden: składanie jest wyłączane tylko dla stereo.\n  Jeśli kanały mają pozostać osobno, najpierw podziel plik na ścieżki."
-
 msgid "First cut by speaker"
 msgstr "Pierwszy montaż według mówców"
 
@@ -5267,3 +5264,12 @@ msgstr "Wystarczy na %s potrzebne tej produkcji."
 
 msgid "Not enough for the %s this production needs."
 msgstr "Nie wystarczy na %s potrzebne tej produkcji."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s ma %s kanały, a auphonic.com przyjmuje w jednym pliku najwyżej dwa. Nic nie zostało wysłane.\n"
+"  Określ, które kanały należą do siebie: na karcie Pliki & produkcja plik rozwija się w jeden wiersz na kanał, a zaznaczenie w wierszu łączy go z następnym. Jeśli plik nie pokazuje wierszy kanałów, najpierw zapisz jego kanały jako osobne pliki."

@@ -384,6 +384,11 @@ nicht.
   die Sprecher in diesem Bild trägt ([Multitrack](multitrack.de.md),
   „Was in die Kameradateien kommt“). Jede Aufnahme steht außerdem in
   `auphonic-tracks/`, je eine Datei.
+- **Der Lauf hält vor der Zeitachse an, mit `hat 4 Kanäle, und
+  auphonic.com nimmt höchstens zwei in einer Datei`.** Eine Aufnahme mit
+  mehr als zwei Kanälen sollte allein hochgehen, und es wurde nichts
+  gesendet. Festlegen, welche Kanäle zusammengehören
+  ([Kanäle](channels.de.md), „Mehr als zwei Kanäle in einer Datei“).
 - **Eine Videodatei fehlt im Ergebnis.** Der Lauf konnte sie nicht
   einordnen: Ihr Ton hat mit dem übrigen Material nichts gemeinsam, und
   sie trägt keinen Timecode, oder keine Kamera, die der Ton eingeordnet

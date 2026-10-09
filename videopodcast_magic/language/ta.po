@@ -3868,9 +3868,6 @@ msgstr "\nவைட் ஷாட்டுடன் கட்"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nபேச்சாளர் வாரியாக முதல் கட்"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  இரண்டுக்கு மேற்பட்ட சேனல்கள் auphonic.com-க்கு ஒன்றாகச் செல்லும்: சேனல்களை ஒன்றாக்குதல் ஸ்டீரியோவுக்கு மட்டுமே அணைக்கப்படுகிறது.\n  சேனல்கள் தனித்தனியாக இருக்க வேண்டிய இடத்தில், முதலில் கோப்பைத் தடங்களாகப் பிரிக்கவும்."
-
 msgid "First cut by speaker"
 msgstr "பேச்சாளர் வாரியாக முதல் கட்"
 
@@ -5226,3 +5223,12 @@ msgstr "இந்தத் தயாரிப்புக்குத் தே�
 
 msgid "Not enough for the %s this production needs."
 msgstr "இந்தத் தயாரிப்புக்குத் தேவையான %s-க்குப் போதாது."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s இல் %s சேனல்கள் உள்ளன, auphonic.com ஒரு கோப்பில் அதிகபட்சம் இரண்டை மட்டுமே ஏற்கும். எதுவும் அனுப்பப்படவில்லை.\n"
+"  எந்தச் சேனல்கள் ஒன்றாகச் செல்கின்றன என்று சொல்லுங்கள்: கோப்புகள் & தயாரிப்பு தாவலில் கோப்பு ஒவ்வொரு சேனலுக்கும் ஒரு வரிசையாகத் திறக்கும், ஒரு வரிசையின் டிக் அதை அடுத்ததுடன் இணைக்கும். கோப்பு சேனல் வரிசைகளைக் காட்டவில்லை என்றால், முதலில் அதன் சேனல்களைத் தனிக் கோப்புகளாகச் சேமிக்கவும்."

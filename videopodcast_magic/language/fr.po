@@ -1968,9 +1968,6 @@ msgstr "  Il manque :  %s"
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  Mixdown d’auphonic.com : %s LUFS, crête %s dBTP (%s)"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Plus de deux canaux vont sur auphonic.com comme un seul : le repliement n’est désactivé que pour le stéréo.\n  Là où les canaux doivent rester séparés, découper d’abord le fichier en pistes."
-
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  Aucun Full-Mix trouvé -- la Timeline reste muette."
 
@@ -5233,3 +5230,12 @@ msgstr "Assez pour les %s que demande cette production."
 
 msgid "Not enough for the %s this production needs."
 msgstr "Pas assez pour les %s que demande cette production."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s a %s canaux, et auphonic.com en accepte au plus deux par fichier. Rien n'a été envoyé.\n"
+"  Indiquez quels canaux vont ensemble : dans l'onglet Fichiers & production, le fichier se déplie en une ligne par canal, et la case d'une ligne la réunit à la suivante. Si le fichier n'affiche aucune ligne de canal, enregistrez d'abord ses canaux comme fichiers distincts."

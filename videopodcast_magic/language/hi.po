@@ -1262,9 +1262,6 @@ msgstr "तय करता है कि auphonic.com ऑडियो को �
 msgid "Auphonic will not take the settings: %s"
 msgstr "Auphonic सेटिंग्स स्वीकार नहीं करता: %s"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  दो से अधिक चैनल auphonic.com पर एक होकर जाते हैं: फ़ोल्ड केवल स्टीरियो के लिए बंद होता है।\n  जहाँ चैनल अलग रहने चाहिए, वहाँ पहले फ़ाइल को ट्रैकों में काटें।"
-
 msgid "Uploading %s"
 msgstr "%s अपलोड हो रहा है"
 
@@ -5223,3 +5220,12 @@ msgstr "इस प्रोडक्शन के लिए ज़रूरी %
 
 msgid "Not enough for the %s this production needs."
 msgstr "इस प्रोडक्शन के लिए ज़रूरी %s के लिए पर्याप्त नहीं।"
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s में %s चैनल हैं, और auphonic.com एक फ़ाइल में अधिकतम दो लेता है। कुछ भी नहीं भेजा गया।\n"
+"  बताइए कि कौन से चैनल साथ जाते हैं: फ़ाइलें & प्रोडक्शन टैब पर फ़ाइल हर चैनल के लिए एक पंक्ति में खुलती है, और किसी पंक्ति का टिक उसे अगली से जोड़ देता है। अगर फ़ाइल चैनल की पंक्तियाँ नहीं दिखाती, तो पहले उसके चैनल अलग-अलग फ़ाइलों के रूप में सहेजें।"

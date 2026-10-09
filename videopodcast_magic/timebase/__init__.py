@@ -754,19 +754,22 @@ def preset_for_run(args, key, multitrack):
     return preset, name
 
 
-def preset_before_the_axis(args, count, together):
+def preset_before_the_axis(args, plan, together):
     """Choose the preset before the time axis, by the rule sending follows.
 
     A preset of the wrong kind stopped the run only once the axis was
-    measured. *count* tracks in the plan, *together* on one axis. Returns
-    1 where the run ends, None where it goes on; a run that sends
-    nothing asks nothing.
+    measured. The tracks of *plan*, *together* on one axis. A recording
+    too wide for one file stops it before that, unasked. Returns 1 where
+    the run ends, None where it goes on; a run that sends nothing asks
+    nothing.
     """
     if not (args.auphonic_key and run_uploads(args)):
         return None
+    multitrack = PROGRAM.production_is_multitrack(len(plan), together)
+    if not multitrack and too_wide_for_one_file(plan):
+        return 1
     try:
-        preset_for_run(args, api_key_from_anywhere(args),
-                       PROGRAM.production_is_multitrack(count, together))
+        preset_for_run(args, api_key_from_anywhere(args), multitrack)
     except PROGRAM.Stopped:
         # Stop ends the run; it is no failure of this step.
         raise
@@ -774,6 +777,33 @@ def preset_before_the_axis(args, count, together):
         print(T('\nNo preset chosen: %s') % e)
         return 1
     return None
+
+
+def too_wide_for_one_file(plan):
+    """Whether a recording of *plan* has more than two channels, and say so.
+
+    auphonic.com takes at most two channels in one file, and a
+    Singletrack production is one file. On the axis such a file folds to
+    one channel, two people into one voice; left at its loudness it went
+    up with all four. Which channels belong together is the channel
+    rows' question: the run stops before the axis. True where it stops.
+    """
+    wide = []
+    for e in plan:
+        first = (e.get("blocks") or [e["audio"]])[0]
+        if channel_count(first) > 2:
+            wide.append(first)
+    for first in wide:
+        print(as_bad(T('\n%s has %s channels, and auphonic.com takes at '
+                       'most two in one file. Nothing was sent.\n  Say '
+                       'which channels belong together: on the Files & '
+                       'production tab the file opens into one row per '
+                       'channel, and the tick on a row joins it with the '
+                       'next. Where the file shows no channel rows, save '
+                       'its channels as files of their own first.')
+                     % (PROGRAM.recording_shown(first),
+                        number_text(channel_count(first), 0))))
+    return bool(wide)
 
 
 def send_to_auphonic(args, tracks, folder, tmpdir, window, title="",
@@ -1320,7 +1350,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         args.production = guess_production_name(videos[0][0])
     # The preset before the axis, so a wrong kind stops the run here. Two
     # recordings or more share one axis even without a picture or tick.
-    stop = preset_before_the_axis(args, len(plan),
+    stop = preset_before_the_axis(args, plan,
                                   bool(videos) or len(plan) > 1)
     if stop is not None:
         return stop
@@ -1641,7 +1671,8 @@ def words_carried(args, tracks, window):
     if not heard_in or not window:
         return None
     words, way = PROGRAM.window_words_kept(heard_in,
-                                           given.get("language") or "")
+                                           given.get("language") or "",
+                                           given.get("blocks") or ())
     if not words:
         return None
     there = dict((path_key(p), o) for p, o, _c in heard_in)

@@ -129,6 +129,25 @@ goes up in stereo and comes back in one channel, the run says so and
 carries on. The mix keeps its two channels, and what is gone is the
 difference between the two microphones of that one track.
 
+### More than two channels in one file
+
+auphonic.com takes at most two channels in one file. A file with more
+than two that would go up on its own -- a production of a single track
+-- never goes: the run stops before the time axis is measured, sends
+nothing and says why, one line per file:
+
+```
+Rec.wav has 4 channels, and auphonic.com takes at most two in one file. Nothing was sent.
+```
+
+The answer lies in the channel rows above: say which channels belong
+together, and each pair and each channel on its own becomes a track.
+With two tracks or more the run sends them as one multitrack production
+([Processing at auphonic.com](auphonic.md)). Where the file has no
+channel rows -- its channels cannot be read, or the run was started from
+the command line, which has none -- save its channels as files of their
+own first, as described under "When the channels cannot be read".
+
 ### When something goes wrong
 
 * **Two people landed in one track.** Clear the tick on the row of the
@@ -142,6 +161,9 @@ difference between the two microphones of that one track.
   as soon as the measurement is in.
 * **A stereo track came back from auphonic.com in one channel.** The run
   says so and carries on. The mix keeps its two channels.
+* **The run stops with `has 4 channels, and auphonic.com takes at most
+  two in one file`.** Say in the channel rows which channels belong
+  together, as described under "More than two channels in one file".
 
 Every channel now has its place: a track of its own, one half of a
 stereo pair, or out of the run. What becomes of those tracks is in [The
