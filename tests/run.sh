@@ -526,6 +526,28 @@ crash_block() {
   [ -n "$at" ] && echo "$1" | tail -n +"$at"
 }
 
+# A test that faulthandler's timer stopped (dump_traceback_later): its
+# "Timeout (0:02:00)!" and the stack of every thread under it. Not to the
+# end of the output, as above -- a test that runs its windows one after
+# another prints the next window's lines below, and on 28.9.2026 those
+# pushed the stacks out of the last lines and left only "FAIL: make".
+# The block is the heading line and every line after it that is a
+# thread's heading, a frame ('  File "...'), one of faulthandler's own
+# '  <no Python frame>' or '  ...', or empty; the first other line ends
+# it -- a test's own indented line too.
+# Empty lines are kept only between two of its lines, never at its end.
+timeout_block() {
+  echo "$1" | awk '
+    !on && /^Timeout \([0-9]+:[0-9]+:[0-9]+(\.[0-9]+)?\)!/ {
+      on = 1; print; next }
+    !on { next }
+    /^$/ { gap++; next }
+    /^(Current thread|Thread) 0x/ || /^  (File "|<|\.\.\.)/ {
+      for (; gap > 0; gap--) print ""
+      print; next }
+    { exit }'
+}
+
 # A crash named as one: its code, and whether the test had already printed
 # its closing line -- then Python fell on its way out, not in a check.
 # Windows' access violation arrives here as 139: a shell's return code
@@ -670,33 +692,68 @@ $short"
                  echo "$out" | grep -E "$real" | grep -vE "$says"
                  echo "$out" | grep -E "[Ee]rror" | grep -vE "$says|$real"
                } | grep -v "^[[:space:]]*\$" )
-      # A test can be red and never say FAIL -- killed by the time limit,
-      # or exiting non-zero after a sentence of its own -- and then the
-      # end of its output is all there is.
-      [ -z "$lines" ] && lines=$(echo "$out" | grep -v "^[[:space:]]*\$" | tail -6)
-      [ -z "$lines" ] && lines="(the test printed nothing)"
       # A crash report is one block and must not be sampled. Python names
       # every thread and the lines it was on, and picking single lines
       # out of that by pattern keeps the thread with no Python in it and
-      # drops the one that says where the ground gave way.
+      # drops the one that says where the ground gave way. The same holds
+      # for the stacks faulthandler's timer writes, shown further down.
       crash=$(crash_block "$out")
+      hung=""
+      [ -z "$crash" ] && hung=$(timeout_block "$out")
+      # A test can be red and never say FAIL -- killed by the time limit,
+      # or exiting non-zero after a sentence of its own -- and then the
+      # end of its output is all there is. Not where faulthandler's
+      # stacks stand below: those are the better end.
+      if [ -z "$hung" ]; then
+        [ -z "$lines" ] \
+          && lines=$(echo "$out" | grep -v "^[[:space:]]*\$" | tail -6)
+        [ -z "$lines" ] && lines="(the test printed nothing)"
+      fi
       SHOW=12
       [ -n "$crash" ] && { lines="$crash"; SHOW=44; }
       # Twelve, not four: a red test prints one line per failed check and
       # one summing them up, and four leaves no room beside a traceback.
-      echo "$lines" | head -"${SHOW:-12}" | sed 's/^/      /'
-      rest=$(( $(echo "$lines" | wc -l) - ${SHOW:-12} ))
-      if [ "$rest" -gt 0 ]; then
-        echo "      ($rest more such lines -- run this test on its own)"
+      if [ -n "$lines" ]; then
+        echo "$lines" | head -"${SHOW:-12}" | sed 's/^/      /'
+        rest=$(( $(echo "$lines" | wc -l) - ${SHOW:-12} ))
+        if [ "$rest" -gt 0 ]; then
+          echo "      ($rest more such lines -- run this test on its own)"
+        fi
+      fi
+      # Where every thread stood when faulthandler's timer ran out, whole
+      # and under the lines above, which still name what fell. Capped at
+      # 44 lines as a crash report is, and the cut said -- but cut in the
+      # middle: faulthandler names the main thread last, and in a window
+      # that is the one waiting. What the test printed after the block is
+      # all that is left for the last lines below: the block itself would
+      # stand there a second time.
+      tail_of="$out"
+      if [ -n "$hung" ]; then
+        echo "      -- faulthandler's timer ran out; where its threads stood:"
+        rest=$(( $(echo "$hung" | wc -l) - 44 ))
+        if [ "$rest" -gt 0 ]; then
+          echo "$hung" | head -30 | sed 's/^/        /'
+          echo "        ($rest lines left out here -- run this test on its own)"
+          echo "$hung" | tail -14 | sed 's/^/        /'
+        else
+          echo "$hung" | sed 's/^/        /'
+        fi
+        # The same heading timeout_block starts on.
+        at=$(echo "$out" | grep -n -E -m1 \
+             '^Timeout \([0-9]+:[0-9]+:[0-9]+(\.[0-9]+)?\)!' | cut -d: -f1)
+        tail_of=$(echo "$out" \
+          | tail -n +"$(( at + $(echo "$hung" | wc -l) ))")
+        echo "$tail_of" | grep -q "[^[:space:]]" || tail_of=""
       fi
       # And the end of what it printed, whatever it looked like: the
       # ranking above drops every line that matches no pattern, so a test
       # that prints its own diagnosis would lose it. Left out where the
       # output is short enough to stand above already, and where the
       # block is a crash report, which is whole.
-      if [ -z "$crash" ] && [ "$(echo "$out" | wc -l)" -gt 14 ]; then
+      if [ -z "$crash" ] && [ -n "$tail_of" ] \
+         && { [ -n "$hung" ] || [ "$(echo "$out" | wc -l)" -gt 14 ]; }; then
         echo "      -- and the last lines it printed:"
-        echo "$out" | tail -14 | sed 's/^/        /'
+        echo "$tail_of" | tail -14 | sed 's/^/        /'
       fi
       # Red and skipped at once, said out loud, or the count of skips
       # further down does not add up and the part that was left out
@@ -756,10 +813,10 @@ $short"
 # the environment leaves it less than 2 KB of its 32000-byte argument
 # space: it aborts on "assertion bc_ctl.arg_max >= LINE_MAX" and runs
 # nothing. On 9.10.2026 run_one grew by 700 bytes and both Windows jobs
-# went red with 353 tests never started. The five functions are 7 KB
+# went red with 353 tests never started. The six functions are 8 KB
 # and FLOORS 12 KB; in a file they cost the environment one path.
 FUNCS="$RUN_TEMP/functions.sh"
-{ declare -f run_one crash_block crash_said test_file said_red
+{ declare -f run_one crash_block timeout_block crash_said test_file said_red
   declare -p FLOORS SILENT; } > "$FUNCS"
 export FUNCS OUT HERE LIMIT TOTAL TRIES PY
 
