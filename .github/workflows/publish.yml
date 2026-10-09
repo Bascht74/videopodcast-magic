@@ -319,9 +319,10 @@ jobs:
   #
   # What the short way gives up, written here rather than found later:
   # a push runs the suite with the speaker separation off, and this
-  # file turns it on (speaker_split: true, below). The one test that
-  # really runs the separation, voice_split_hears_two, therefore runs
-  # for a release only on the long way. Nothing in a check run's name
+  # file turns it on (speaker_split: true, below). The two tests that
+  # really run the separation, voice_split_hears_two and
+  # voice_split_hears_blocks, therefore run for a release only on the
+  # long way. Nothing in a check run's name
   # says which of the two suites it was, so this job cannot tell and
   # does not pretend to.
   #
@@ -330,8 +331,9 @@ jobs:
   # that was videopodcast_magic/speakers/, and on 25.9.2026 he widened
   # it to four places: that folder, the model it loads
   # (videopodcast_magic/models/speaker-diarization-*/), requirements.txt,
-  # which installs what it runs on, and voice_split_hears_two_test.py,
-  # the test that runs it, found by its file name anywhere under tests/
+  # which installs what it runs on, and voice_split_hears_two_test.py
+  # with voice_split_hears_blocks_test.py, split from it for 3.0.0b29,
+  # the tests that run it, found by file name anywhere under tests/
   # because the tests are moving into folders. pyproject.toml is not
   # one of them: its version changes with every release, and counting
   # it would send every release the long way. The four are written
@@ -428,14 +430,14 @@ jobs:
             exit 0
           fi
           # The separation, as the owner drew it on 25.9.2026: its code,
-          # its model, what installs it, the test that runs it by name
+          # its model, what installs it, the tests that run it, by name
           # anywhere under tests/. Not pyproject.toml -- every release
           # moves its version. The only place these four are written.
           cat > /tmp/separation.txt <<'RE'
           ^videopodcast_magic/speakers/
           ^videopodcast_magic/models/speaker-diarization-[^/]*/
           ^requirements\.txt$
-          ^tests/(.*/)?voice_split_hears_two_test\.py$
+          ^tests/(.*/)?voice_split_hears_(two|blocks)_test\.py$
           RE
           echo "separation: $(paste -sd ' ' /tmp/separation.txt)"
           # grep says 1 for no match; anything above is a grep that did

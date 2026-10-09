@@ -1012,12 +1012,13 @@ jobs:
           # The switch first, because it holds on all six and the
           # systems below it do not.
           #
-          # voice_split_hears_two is the only test that really runs the
+          # voice_split_hears_two and voice_split_hears_blocks (split
+          # from it for 3.0.0b29) are the only tests that really run the
           # separation. The two others that name pyannote work with
           # stand-ins and say so in their own first lines, and the rest
           # of the suite only ever sets VPM_NO_SPEAKER_SPLIT -- so with
           # the switch off, pyannote and torch were never installed and
-          # this one test is the whole of what cannot run.
+          # these two tests are the whole of what cannot run.
           #
           # Taken out, not left to skip, and that is the rule of this
           # step rather than a preference: run.sh allows one skipped
@@ -1030,10 +1031,14 @@ jobs:
             aside voice_split_hears_two \
               "this run was started with speaker_split off, so pyannote
                and torch were not installed -- 828 MB and about two
-               minutes on each of the six jobs, for the one test that
-               uses them. Every release runs it: publish.yml calls this
+               minutes on each of the six jobs, for the two tests that
+               use them. Every release runs it: publish.yml calls this
                workflow with speaker_split true. To run it here, start
                this workflow by hand and turn the switch on."
+            aside voice_split_hears_blocks \
+              "the same as voice_split_hears_two, split from it: this run
+               was started with speaker_split off, so pyannote and torch
+               were not installed. Every release runs it."
           fi
           # voice_split_hears_two is no longer in the list below, and
           # the reason it was there has run out rather than been argued
@@ -1084,6 +1089,12 @@ jobs:
                    what the separation costs on a Windows CPU has not been
                    measured. Linux runs it; measure this one and it can
                    run here too."
+              fi
+              if where voice_split_hears_blocks > /dev/null; then
+                aside voice_split_hears_blocks \
+                  "the same price as voice_split_hears_two, split from it:
+                   the separation on a Windows CPU, unmeasured. Linux runs
+                   it; measure that one and both can run here."
               fi
               aside source_resolve_recalled \
                 "it starts run.sh twice as a child and reads the closing
