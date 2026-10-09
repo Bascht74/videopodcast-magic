@@ -9,8 +9,7 @@ Der Schnitt braucht zwei Personen mit je einem Namen und einer Kamera.
 Eine Person genügt auch, solange es eine zweite Kamera gibt, auf der
 niemand ist. Zwei Personen liefern getrennte Aufnahmen, und ebenso die
 Stimmen, die auf einer Aufnahme auseinandergehalten wurden, deren
-**Sprechername** mit **mehrere Sprecher** beantwortet ist; das Häkchen
-**Multitrack** gehört nicht dazu. Beide Wege stehen in [Spracherkennung
+**Sprechername** mit **mehrere Sprecher** beantwortet ist. Beide Wege stehen in [Spracherkennung
 und Sprechertrennung](speech.de.md).
 
 **Wer im Schnitt ist, hängt nicht daran, woher er kam.** Eine eigene
@@ -79,7 +78,7 @@ ihrer eigenen Größe.
 Die Oberfläche nimmt alle Werte entgegen: auf dem Reiter
 **Resolve-Schnitt**, im Kasten **Kameraschnitt**. Je Wert ein Feld,
 daneben die Einheit und eine kurze Zeile. Den Kasten gibt es, sobald
-**Multitrack** gesetzt ist oder der Schnitt seine Personen hat — zwei
+der Schnitt seine Personen hat — zwei
 davon, oder eine mit einer zweiten Kamera, auf der niemand ist; vorher
 steht an seiner Stelle eine Zeile und sagt, was fehlt.
 
@@ -921,7 +920,7 @@ Lautheitsmessung läuft je Spur zweimal durch.
   Kamera. Das Protokoll sagt es unter `SPRECHER -- HIER GEMESSEN` oder
   `SPRECHER -- NACH STIMMEN GETRENNT`.
 * **Auf dem Reiter Resolve-Schnitt fehlt der Kasten für den Schnitt.**
-  **Multitrack** ist nicht gesetzt, und niemand trägt Namen und Kamera —
+  Niemand trägt Namen und Kamera —
   oder eine Person tut es und es gibt keine zweite Kamera. Auf dem
   Reiter **Zuordnung & Zeitfenster** jeder Stimme einen Namen und eine
   Kamera geben.

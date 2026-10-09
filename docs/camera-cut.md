@@ -9,7 +9,7 @@ The cut needs two people, each with a name and a camera. One person is
 enough as well, as long as a second camera is there that nobody is on.
 Separate recordings give two people, and so do the voices told apart on
 one recording whose **Speaker name** was answered with **several
-speakers**; the **Multitrack** tick is no part of it. Both ways are in
+speakers**. Both ways are in
 [Speech recognition and speaker separation](speech.md).
 
 **Who is in the cut does not depend on where they came from.** A file of
@@ -70,8 +70,7 @@ with, and a smaller camera sits in that frame at its own size.
 
 The interface takes every value on the **Resolve cut** tab, in the box
 **Camera cut**. One field per value, with the unit and a short line
-beside it. The box is there once **Multitrack** is ticked, or once the
-cut has its people -- two of them, or one with a second camera nobody is
+beside it. The box is there once the cut has its people -- two of them, or one with a second camera nobody is
 on; until then a line stands in its place and says what is missing.
 
 Inside the box the settings stand in three groups: **Timing**, **Wide
@@ -864,8 +863,8 @@ loudness measurement runs through each track twice.
   separation found a single voice and there is only one camera. The log
   says so, under `SPEAKERS -- MEASURED HERE` or
   `SPEAKERS -- SEPARATED BY VOICE`.
-* **No box for the cut on the Resolve cut tab.** **Multitrack** is not
-  ticked, and nobody carries a name and a camera -- or one person does
+* **No box for the cut on the Resolve cut tab.** Nobody carries a name
+  and a camera -- or one person does
   and there is no second camera. On the **Assignment & time window** tab
   give each voice a name and a camera.
 * **Four settings are grey and take nothing.** No transcript is written

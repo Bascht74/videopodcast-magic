@@ -71,9 +71,8 @@ recording behind it as the run joins it -- also where the recorder's
 timecode leaves a gap between two blocks.
 
 Separation is the way for **one common recording** that everybody is
-audible on. It does not need the tick **Multitrack (one track per
-speaker)**: the column stands there on both paths, with a single camera
-as well. Where a person has a microphone of their own and the
+audible on. It needs nothing ticked: the column stands there however many tracks
+there are, with a single camera as well. Where a person has a microphone of their own and the
 microphones can be told apart, that track is the truth and there is
 nothing to separate; where they hear each other too well for that, the
 run joins them and separates them together, with auphonic.com as

@@ -101,20 +101,20 @@ free plan; only the credit counts there. Without a preset the line is
 never red: there is no production to hold the credit against. The box asks the account together with the
 presets and at no other time.
 
-The tick **Multitrack (one track per speaker)** is not in the Auphonic
-box and needs no key. What it decides here is whether every person keeps
-a track of their own: only separate tracks can auphonic.com work on one
-by one and free of the bleed from the others. Where everybody stands in
-one track there is nothing for the de-bleed to take apart.
+Whether every person keeps a track of their own is settled in the
+tables on the **Assignment & time window** tab, not in this box, and
+needs no key. Only separate tracks can auphonic.com work on one by one
+and free of the bleed from the others. Where everybody stands in one
+track there is nothing for the de-bleed to take apart.
 
 The number of tracks decides the kind of production. A single track goes
-up as an ordinary production, two or more as a multitrack production,
-and the preset has to match: an ordinary preset for the one, a
-multitrack preset for the others. The tick does not decide it: two
-recordings with a picture, or two without any, go up together whether
-it is set or not, and the preset list offers the kind the run will
-need. A preset of the wrong kind stops the run before the time axis is
-measured.
+up as an ordinary production, two or more on one time axis as a
+multitrack production, and the preset has to match: an ordinary preset
+for the one, a multitrack preset for the others. Nothing is ticked for
+it. The preset list offers only the kind the run will need, and a grey
+line under it says which kind and why -- `Multitrack, because 3 tracks
+lie on one time axis.` -- and what would change it. A preset of the
+wrong kind stops the run before the time axis is measured.
 
 ### What the preflight reads in the preset
 

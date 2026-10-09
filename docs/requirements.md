@@ -232,7 +232,7 @@ another: `Python 3.11.15  (recommended version 3.14.7)`. `--help` and
 
 ```text
 $ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
-    GuestCam_01011858_C003.mov --multitrack --lufs -16 --dry-run
+    GuestCam_01011858_C003.mov --lufs -16 --dry-run
 videopodcast-magic 3.0.0b25   Python 3.14.7
 /tmp/vpm_terminal/videopodcast_magic/__init__.py
 ...

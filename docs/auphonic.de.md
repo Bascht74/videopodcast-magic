@@ -113,20 +113,21 @@ Guthaben. Ohne Preset wird die Zeile nie rot, denn dann gibt es keine
 Produktion, an der sich das Guthaben messen ließe. Der Kasten fragt das Konto zusammen mit den
 Presets und sonst nie.
 
-Das Häkchen **Multitrack (je Sprecher eine Spur)** steht nicht im
-Auphonic-Kasten und braucht keinen Schlüssel. Es entscheidet hier, ob
-jede Person eine eigene Spur behält: nur getrennte Spuren kann
-auphonic.com einzeln aufbereiten und vom Übersprechen der anderen
-befreien. Wo alle in einer Spur stehen, gibt es nichts, was der De-Bleed
-auseinandernehmen könnte.
+Ob jede Person eine eigene Spur behält, entscheiden die Tabellen auf dem
+Reiter **Zuordnung & Zeitfenster**, nicht dieser Kasten, und dafür
+braucht es keinen Schlüssel. Nur getrennte Spuren kann auphonic.com
+einzeln aufbereiten und vom Übersprechen der anderen befreien. Wo alle
+in einer Spur stehen, gibt es nichts, was der De-Bleed auseinandernehmen
+könnte.
 
 Über die Art der Produktion entscheidet die Zahl der Spuren. Eine
-einzelne Spur geht als gewöhnliche Produktion hoch, zwei oder mehr als
-Multitrack-Produktion, und das Preset muss dazu passen: ein gewöhnliches
-für die eine, ein Multitrack-Preset für die anderen. Das Häkchen hat
-dabei nicht mitzureden: Zwei Aufnahmen mit Bild, oder zwei ganz ohne,
-gehen gemeinsam hoch, ob es gesetzt ist oder nicht, und die Liste der
-Presets bietet die Art an, die der Lauf brauchen wird. Ein Preset der
+einzelne Spur geht als gewöhnliche Produktion hoch, zwei oder mehr auf
+einer Zeitachse als Multitrack-Produktion, und das Preset muss dazu
+passen: ein gewöhnliches für die eine, ein Multitrack-Preset für die
+anderen. Angehakt wird dafür nichts. Die Liste der Presets bietet nur
+die Art an, die der Lauf brauchen wird, und eine graue Zeile darunter
+sagt, welche Art und warum -- `Multitrack, weil 3 Spuren auf einer
+Zeitachse liegen.` -- und was daran etwas ändern würde. Ein Preset der
 falschen Art hält den Lauf an, bevor die Zeitachse gemessen wird.
 
 ### Was der Vorflug im Preset liest

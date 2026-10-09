@@ -238,15 +238,14 @@ Skala, sie wird auf −16 LUFS gesetzt, und die Zeile darüber im Protokoll
 sagt, dass das nur der Bezug der Anzeige ist.
 
 **Jeder Lauf wird gemessen und angepasst, und zwar gleich.** Ein Lauf
-ohne Multitrack ([Der einfache Weg](simple-path.de.md)) wendet das Ziel
+mit einer Spur ([Der einfache Weg](simple-path.de.md)) wendet das Ziel
 an wie jeder andere, und ein Lauf ganz ohne Bild auch, bei dem die
 Blöcke einer Aufnahme zu einer Datei zusammengefügt werden. Im Protokoll
 stehen `Ziel:` und `Ergebnis:`; mit **Aus Quelldateien übernehmen** wird
 nichts angepasst.
 
 Ein Weg ist die Ausnahme: mehrere Aufnahmen ganz ohne Bild, wo die
-Spuren gegeneinander gelegt werden, ob das Häkchen Multitrack gesetzt
-ist oder nicht. Dort wird nichts ausgesteuert -- ein Gewinn
+Spuren gegeneinander gelegt werden. Dort wird nichts ausgesteuert -- ein Gewinn
 je Spur brächte die Stimmen um das Gleichgewicht, für das dieser Weg da
 ist --, und der Lauf sagt es in einer Zeile
 ([Multitrack](multitrack.de.md)).

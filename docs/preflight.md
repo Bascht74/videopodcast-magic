@@ -220,15 +220,15 @@ files, `--lufs source`, nothing is adjusted. In the Resolve project the loudness
 still needs a scale, so it is set to -16 LUFS, and the line above it in
 the log says that this is only what the meter measures against.
 
-**Every run is measured and adjusted the same way.** A run without
-Multitrack ([The simple path](simple-path.md)) applies the target just as
+**Every run is measured and adjusted the same way.** A run with
+one track ([The simple path](simple-path.md)) applies the target just as
 any other does, and so does a run with no picture at all, where the
 blocks of a recording are joined into one file. The log gives `Target:`
 and `Result:`; with **Take from source files** nothing is adjusted.
 
 One path is the exception: several recordings with no picture at all,
-where the tracks are laid against each other, with or without the
-Multitrack tick. Nothing is levelled there -- a gain
+where the tracks are laid against each other. Nothing is levelled
+there -- a gain
 per track would pull the voices out of the balance that path exists to
 keep -- and the run says so in one line
 ([Multitrack](multitrack.md)).

@@ -77,9 +77,8 @@ zusammensetzt -- auch dort, wo der Timecode des Rekorders zwischen zwei
 Blöcken eine Lücke lässt.
 
 Die Trennung ist der Weg für **eine gemeinsame Aufnahme**, auf der alle
-zu hören sind. Sie braucht das Häkchen **Multitrack (je Sprecher eine
-Spur)** nicht: die Spalte steht auf beiden Wegen da, auch bei einer
-einzigen Kamera. Wo eine Person ein eigenes Mikrofon hat und die
+zu hören sind. Angehakt werden muss dafür nichts: Die Spalte steht da, wie viele Spuren
+es auch sind, auch bei einer einzigen Kamera. Wo eine Person ein eigenes Mikrofon hat und die
 Mikrofone auseinanderzuhalten sind, ist diese Spur die Wahrheit, und es
 gibt nichts zu trennen; hören sie einander dafür zu gut, legt der Lauf
 sie zusammen und trennt sie gemeinsam, mit auphonic.com genauso wie ohne
