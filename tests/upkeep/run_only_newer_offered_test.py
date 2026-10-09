@@ -16,8 +16,10 @@ owns is told rather than written over, that one version may be passed
 over, that a release text is shown in one language, what the command
 line says, what --update does to such a copy, that a look which could
 not happen says so instead of reading as nothing newer, that an
-installation goes to pip by the same command the window uses, and
-that the command names the release that was offered.
+installation goes to pip by the same command the window uses, that
+the command names the release that was offered and that release's own
+package list, and that the line a person is told -- for a copy nobody
+installed, and for the speaker separation -- is that command.
 
 The way back out of a version is not here: it is one road further
 on, and `run_way_back_offered_test.py` holds it.
@@ -36,10 +38,12 @@ import the_program
 SCRIPT = the_program.SCRIPT
 # The suite sets this, and the module reads it while it is loading.
 os.environ.pop("VPM_NO_UPDATE_CHECK", None)
-import io, ssl, subprocess, sys, sysconfig, tempfile, time
+import io, platform, ssl, subprocess, sys, sysconfig, tempfile, time
 import urllib.request
 began = time.time()
 vpm = the_program.load()
+# The version this program says it is, before the sections below bend it.
+REAL_VERSION = vpm.VERSION
 # The real one, kept before any section puts a stand-in in its place:
 # the sections further down point VPM_CACHE at a folder of their own
 # and want the reading that answers it.
@@ -94,7 +98,24 @@ PURELIB = sysconfig.get_paths()["purelib"]
 INSTALLED = os.path.join(PURELIB, "videopodcast_magic.py")
 LOOSE = os.path.join(tempfile.mkdtemp(prefix="vpm_update_loose_"),
                      "videopodcast_magic.py")
-WAY_IN = "pip3 install -U " + vpm.PIP_SOURCE
+# The package list a release hangs on itself, one per system, written
+# out here rather than asked of the program: the address publish.yml
+# attaches it under, and the system as Python names it.
+SYSTEM = {"Darwin": "macos", "Windows": "windows",
+          "Linux": "linux"}[platform.system()]
+
+
+def listed(tag):
+    """The address of that release's package list for this system."""
+    return ("https://github.com/%s/releases/download/%s/constraints-%s.txt"
+            % (vpm.REPOSITORY, tag, SYSTEM))
+
+
+# The line for v9.9.9, a release with a list; and the address alone,
+# which every older release is still offered under, without one.
+WAY_IN = "pip3 install -U -c %s %s@v9.9.9" % (listed("v9.9.9"),
+                                               vpm.PIP_SOURCE)
+WAY_IN_OLD = "pip3 install -U %s@v2.19.0-beta" % vpm.PIP_SOURCE
 
 
 print("1. Which version is newer")
@@ -598,9 +619,9 @@ check("but nothing of the program itself is fetched",
 # pointed at. What it gets instead is the command that installs it.
 elsewhere, _asked = said_on_the_line("v2.19.0-beta", where=LOOSE)
 check("and a copy nobody installed is pointed at pip instead",
-      WAY_IN in elsewhere and "--update" not in elsewhere,
+      WAY_IN_OLD in elsewhere and "--update" not in elsewhere,
       "a copy in a folder of its own was told %r, wanted %r in it and no"
-      " '--update'" % (elsewhere, WAY_IN))
+      " '--update'" % (elsewhere, WAY_IN_OLD))
 quiet, asked = said_on_the_line("v1.0.0")
 check("and nothing is said where nothing is newer", quiet == "",
       "with github saying v1.0.0 to a running %s it printed %r"
@@ -665,8 +686,9 @@ left = sorted(os.listdir(HOME))
 check("and nothing new is left in the folder beside it",
       left == ["videopodcast_magic.py"],
       "the folder holds %r, wanted only the copy itself" % (left,))
-check("and it says what to do about that copy instead", WAY_IN in spoken,
-      "it said %r, wanted %r in it" % (spoken.strip()[:120], WAY_IN))
+check("and it says what to do about that copy instead",
+      WAY_IN_OLD in spoken,
+      "it said %r, wanted %r in it" % (spoken.strip()[:120], WAY_IN_OLD))
 code, spoken = update_run("v2.19.0-beta", switched_off=True)
 check("and with VPM_NO_UPDATE_CHECK it fetches nothing and says so",
       code == 1 and spoken.strip() != "",
@@ -834,9 +856,15 @@ check("pip is told to upgrade from the repository itself",
 # program says rather than the words it hands to pip.
 AT_RELEASE = vpm.PIP_SOURCE + "@v9.9.9"
 check("pip is asked for the release that was offered, not for a branch",
-      bool(ORDERS) and ORDERS[0][5:] == [AT_RELEASE],
+      bool(ORDERS) and ORDERS[0][7:] == [AT_RELEASE],
       "pip was pointed at %r, wanted the one address %r"
-      % (ORDERS[0][5:] if ORDERS else None, AT_RELEASE))
+      % (ORDERS[0][7:] if ORDERS else None, AT_RELEASE))
+# Without it pip takes whatever is newest on PyPI the day it runs, and
+# the release that was tested is not the one that lands.
+check("pip is given the package list of the release it installs",
+      bool(ORDERS) and ORDERS[0][5:7] == ["-c", listed("v9.9.9")],
+      "pip was given %r before the address, wanted %r"
+      % (ORDERS[0][5:7] if ORDERS else None, ["-c", listed("v9.9.9")]))
 # Written down as each line was read, not counted at the end: what this
 # is about is a run of minutes whose output arrives while it runs.
 STEPS = list(range(1, len(PIP_SAYS) + 1))
@@ -991,6 +1019,22 @@ STRAY = [a for a in ASKED if not a.startswith("https://api.github.com/")]
 check("and --update asks for nothing but the release itself", not STRAY,
       "of the %d addresses asked for, %d go elsewhere: %r"
       % (len(ASKED), len(STRAY), STRAY[:2]))
+
+# The line a person types: for the version running here, with its own
+# list, and the speaker separation's repair names that very line. The
+# sections above left an old version bent on; the real one is put back.
+RUNNING = "pip3 install -U -c %s %s@v%s" % (listed("v" + REAL_VERSION),
+                                            vpm.PIP_SOURCE, REAL_VERSION)
+was_running = vpm.VERSION
+try:
+    vpm.VERSION = REAL_VERSION
+    typed, repair = vpm.pip_command(), vpm.speaker_split_missing()
+finally:
+    vpm.VERSION = was_running
+check("the line for the version running here carries its own list",
+      typed == RUNNING, "it reads %r, wanted %r" % (typed, RUNNING))
+check("and the speaker separation's repair names that line",
+      RUNNING in repair, "it said %r, wanted %r in it" % (repair, RUNNING))
 
 check("no look in this whole run left the machine", not WENT_OUT,
       "%d addresses got past the stand-ins, the first of them %s"

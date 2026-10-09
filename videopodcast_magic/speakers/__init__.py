@@ -413,10 +413,12 @@ def speaker_split_missing():
     """The one sentence for "it cannot run here", with the way back.
 
     One place, so the console, the window and the dry run cannot say
-    three different things about the same fault.
+    three different things about the same fault. The line is the one
+    the update runs, for the version running here: its own package
+    list, so the repair brings what that release was tested with.
     """
     return T('The speaker separation is not installed here. This puts '
-             'it back: %s') % ("pip3 install -U " + PIP_SOURCE)
+             'it back: %s') % PROGRAM.pip_command()
 
 
 def speaker_python():

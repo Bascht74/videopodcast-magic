@@ -8,7 +8,8 @@ back looking like a good one. The way out is nailed shut at the top.
 
 The sections: which earlier versions are put on offer and which are
 kept off it, which one the offer opens on, and what is handed to pip
-when somebody takes it.
+when somebody takes it -- with no package list where the release
+chosen is older than the lists.
 """
 PLATFORM_BOUND = True
 import os
@@ -301,15 +302,25 @@ if JOBS:
 # there climbs forward again instead of going back.
 AT_RELEASE = vpm.PIP_SOURCE + "@" + CHOSEN
 check("pip is asked for the version that was chosen, not for a branch",
-      answered == "" and bool(ORDERS) and ORDERS[0][5:] == [AT_RELEASE],
+      answered == "" and bool(ORDERS) and ORDERS[0][7:] == [AT_RELEASE],
       "update_fetched said %r and pip was pointed at %r, wanted '' and "
       "the one address %r"
-      % (answered, ORDERS[0][5:] if ORDERS else None, AT_RELEASE))
+      % (answered, ORDERS[0][7:] if ORDERS else None, AT_RELEASE))
 IN_PLACE = vpm.T('%s is installed. It runs from the next start.') % CHOSEN
 check("and the version that was chosen is the one reported in place",
       IN_PLACE in "".join(GOT),
       "the window was handed %r, wanted %r in it"
       % ("".join(GOT)[-60:], IN_PLACE))
+
+# v3.0.0b27 hangs no package list on itself, and pip3 -c stops on an
+# address that answers 404: the way back to it goes without a list.
+del GOT[:], ORDERS[:]
+with_pip(lambda: vpm.pip_update("v3.0.0b27", GOT.append))
+BARE = ["-U", vpm.PIP_SOURCE + "@v3.0.0b27"]
+check("a release older than the package lists is asked for without one",
+      bool(ORDERS) and ORDERS[0][4:] == BARE,
+      "pip was given %r after install, wanted %r"
+      % (ORDERS[0][4:] if ORDERS else None, BARE))
 
 STRAY = [a for a in ASKED if a != vpm.RELEASE_LIST]
 check("nothing but the list of releases was ever asked for", not STRAY,
