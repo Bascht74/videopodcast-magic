@@ -1908,6 +1908,13 @@ msgstr "%s dovedeno na predefiniranu postavku"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s kanala -- dijeli se na zapise, vidi retke iznad."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s kanala -- naredbeni redak ne dijeli ih na zapise, nego datoteku sažima u "
+"jedan kanal, dvije osobe u jedan glas."
+
 msgid "%s checked"
 msgstr "%s provjereno"
 
@@ -2027,6 +2034,17 @@ msgstr "<span style='color:%(t)s'><b>kadrova: %(n)s</b>, medijan %(med)s s, najk
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Svaki par kanala prosuđuje se zasebno: jedan stereo zapis, ili dva mikrofona i stoga dva zapisa. Tihi ulazi otpadaju. Retci ispod datoteke govore što je izmjereno, a kvačica to nadjačava."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Spremite njezine kanale kao zasebne datoteke da svaki postane zapis, ili je "
+"otvorite u prozoru, koji je dijeli po recima kanala. Kao Singletrack "
+"produkcija pokretanje se zaustavlja prije prijenosa: auphonic.com prima "
+"najviše dva kanala u jednoj datoteci."
 
 msgid "Add files ..."
 msgstr "Dodaj datoteke ..."

@@ -1937,6 +1937,13 @@ msgstr "%s zimewekwa kulingana na mpangilio awali"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "Chaneli %s -- zinakatwa kuwa treki, tazama safu zilizo juu."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"Chaneli %s -- mstari wa amri hauzikati kuwa treki na huunganisha faili kuwa "
+"chaneli moja, watu wawili kuwa sauti moja."
+
 msgid "%s checked"
 msgstr "Vipengele %s vimekaguliwa"
 
@@ -2056,6 +2063,17 @@ msgstr "<span style='color:%(t)s'><b>Vipande %(n)s</b>, wastani wa kati %(med)s 
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Kila jozi ya chaneli inapimwa peke yake: treki moja ya stereo, au maikrofoni mbili na hivyo treki mbili. Viingizo vilivyo kimya vinaondolewa. Safu zilizo chini ya faili zinaeleza kilichopimwa, na alama ya tiki inashinda hilo."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Hifadhi chaneli zake kama faili tofauti ili kila moja iwe treki, au ifungue "
+"kwenye dirisha, linaloikata kwa safu za chaneli. Kama uzalishaji wa "
+"Singletrack, uendeshaji husimama kabla ya kupakia: auphonic.com hupokea "
+"chaneli mbili tu kwa faili moja."
 
 msgid "A negative value makes the picture lead the sound."
 msgstr "Thamani hasi hufanya picha itangulie sauti."

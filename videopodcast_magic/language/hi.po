@@ -2754,6 +2754,17 @@ msgstr "Resolve, Timeline के रिज़ॉल्यूशन पर स्
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "हर चैनल-जोड़ी को अलग से आँका जाता है: एक स्टीरियो ट्रैक, या दो माइक्रोफ़ोन और इसलिए दो ट्रैक। मौन इनपुट हटा दिए जाते हैं। फ़ाइल के नीचे की पंक्तियाँ बताती हैं कि क्या मापा गया, और टिक का निशान उस पर भारी पड़ता है।"
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"हर एक का अपना ट्रैक पाने के लिए इसके चैनलों को अलग फ़ाइलों के रूप में "
+"सहेजें, या इसे विंडो में खोलें, जो इसे चैनल की पंक्तियों के अनुसार बाँटती "
+"है। Singletrack प्रोडक्शन के रूप में रन अपलोड से पहले रुक जाता है: "
+"auphonic.com एक फ़ाइल में अधिकतम दो चैनल लेता है।"
+
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "यहाँ सैंपल-दर-सैंपल गिना जाता है, उसी सैंपल रेट पर जिस पर फ़ाइल रिकॉर्ड हुई: तीन या अधिक सैंपल की लगातार श्रृंखला उस उच्चतम मान पर जिसे कोई पूर्णांक फ़ॉर्मेट रख सकता है। एक या दो सैंपल राउंडिंग हैं और रिपोर्ट नहीं होते। जो वहाँ कट गया, वह चला गया और कोई प्रोसेसिंग उसे वापस नहीं लाती -- पर रिकॉर्डिंग फिर भी रिकॉर्डिंग है, और इससे कुछ रुकता नहीं। केवल पूर्णांक फ़ॉर्मेट गिने जाते हैं। 32 bit float में फ़ुल स्केल पर कोई सीमा नहीं होती, इसलिए वहाँ गिनने को कुछ नहीं है।"
 
@@ -2816,6 +2827,13 @@ msgstr "%s kHz है, %s kHz नहीं -- प्रोसेसिंग क
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s चैनल -- ट्रैकों में बाँटे जाते हैं, ऊपर की पंक्तियाँ देखें।"
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s चैनल -- कमांड लाइन इन्हें ट्रैकों में नहीं बाँटती और फ़ाइल को एक चैनल "
+"में मिला देती है, दो लोग एक आवाज़ में।"
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "चैनल %d सीमा पर है: %s बार लगातार तीन या अधिक सैंपल, सबसे लंबा %s (%s ms), पहला %s पर।"

@@ -1939,6 +1939,13 @@ msgstr "%s ਪ੍ਰੀਸੈੱਟ ਅਨੁਸਾਰ ਕੀਤੇ"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s ਚੈਨਲ -- ਟਰੈਕਾਂ ਵਿੱਚ ਵੰਡੇ ਜਾਂਦੇ ਹਨ, ਉੱਪਰਲੀਆਂ ਕਤਾਰਾਂ ਵੇਖੋ।"
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s ਚੈਨਲ -- ਕਮਾਂਡ ਲਾਈਨ ਇਨ੍ਹਾਂ ਨੂੰ ਟਰੈਕਾਂ ਵਿੱਚ ਨਹੀਂ ਵੰਡਦੀ ਅਤੇ ਫ਼ਾਈਲ ਨੂੰ ਇੱਕ "
+"ਚੈਨਲ ਵਿੱਚ ਮਿਲਾ ਦਿੰਦੀ ਹੈ, ਦੋ ਲੋਕ ਇੱਕ ਆਵਾਜ਼ ਵਿੱਚ।"
+
 msgid "%s checked"
 msgstr "ਜਾਂਚੇ ਗਏ: %s"
 
@@ -2058,6 +2065,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)s ਸ਼ਾਟ</b>, ਮੱਧਿਕਾ 
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "ਚੈਨਲਾਂ ਦੀ ਹਰ ਜੋੜੀ ਨੂੰ ਵੱਖਰੇ ਤੌਰ 'ਤੇ ਪਰਖਿਆ ਜਾਂਦਾ ਹੈ: ਇੱਕ ਸਟੀਰੀਓ ਟਰੈਕ, ਜਾਂ ਦੋ ਮਾਈਕ੍ਰੋਫ਼ੋਨ ਅਤੇ ਇਸ ਲਈ ਦੋ ਟਰੈਕ। ਚੁੱਪ ਇਨਪੁੱਟ ਹਟ ਜਾਂਦੇ ਹਨ। ਫ਼ਾਈਲ ਹੇਠਲੀਆਂ ਕਤਾਰਾਂ ਦੱਸਦੀਆਂ ਹਨ ਕਿ ਕੀ ਮਾਪਿਆ ਗਿਆ, ਅਤੇ ਟਿੱਕ ਦਾ ਫ਼ੈਸਲਾ ਉਸ ਤੋਂ ਉੱਪਰ ਹੈ।"
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"ਹਰ ਇੱਕ ਦਾ ਆਪਣਾ ਟਰੈਕ ਪਾਉਣ ਲਈ ਇਸਦੇ ਚੈਨਲਾਂ ਨੂੰ ਵੱਖਰੀਆਂ ਫ਼ਾਈਲਾਂ ਵਜੋਂ ਸੰਭਾਲੋ, "
+"ਜਾਂ ਇਸਨੂੰ ਵਿੰਡੋ ਵਿੱਚ ਖੋਲ੍ਹੋ, ਜੋ ਇਸਨੂੰ ਚੈਨਲ ਕਤਾਰਾਂ ਅਨੁਸਾਰ ਵੰਡਦੀ ਹੈ। "
+"Singletrack ਪ੍ਰੋਡਕਸ਼ਨ ਵਜੋਂ ਅੱਪਲੋਡ ਤੋਂ ਪਹਿਲਾਂ ਹੀ ਰਨ ਰੁਕ ਜਾਂਦਾ ਹੈ: "
+"auphonic.com ਇੱਕ ਫ਼ਾਈਲ ਵਿੱਚ ਵੱਧ ਤੋਂ ਵੱਧ ਦੋ ਚੈਨਲ ਲੈਂਦਾ ਹੈ।"
 
 msgid "A negative value makes the picture lead the sound."
 msgstr "ਰਿਣਾਤਮਕ ਮੁੱਲ ਨਾਲ ਤਸਵੀਰ ਧੁਨੀ ਤੋਂ ਅੱਗੇ ਚੱਲਦੀ ਹੈ।"

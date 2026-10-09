@@ -1937,6 +1937,13 @@ msgstr "eelseadistusele viidud: %s"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s kanalit -- jagatakse radadeks, vt ülemisi ridu."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s kanalit -- käsurida ei jaga neid radadeks ja liidab faili üheks "
+"kanaliks, kaks inimest üheks hääleks."
+
 msgid "%s checked"
 msgstr "kontrollitud: %s"
 
@@ -2056,6 +2063,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)s võtet</b>, mediaan %(med)s s, lühim
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Iga kanalipaari hinnatakse eraldi: üks stereorada või kaks mikrofoni ja seega kaks rada. Vaiksed sisendid jäävad välja. Faili all olevad read näitavad, mida mõõdeti, ja linnuke kaalub selle üle."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Salvestage selle kanalid eraldi failidena, et igaüks saaks oma raja, või "
+"avage see aknas, mis jagab selle kanaliridade järgi. "
+"Singletrack-produktsioonina peatub käivitus enne üleslaadimist: "
+"auphonic.com võtab ühes failis vastu kõige rohkem kaks kanalit."
 
 msgid "A negative value makes the picture lead the sound."
 msgstr "Negatiivse väärtuse korral on pilt helist ees."

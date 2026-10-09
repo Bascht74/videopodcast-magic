@@ -361,3 +361,12 @@ The window does not offer these.
 
 `--anyway` runs despite a stop, `--no-preflight` skips the check entirely,
 `--preflight-again` measures everything again instead of only what changed.
+
+The command line has no channel rows, and it cuts no file into tracks.
+A file with more than two channels is folded to one channel there, two
+people into one voice, and the report says so as a note: `4 channels --
+the command line cuts none into tracks and folds the file to one
+channel, two people into one voice.` Sent alone to auphonic.com, such a
+file stops the run before the upload ([Channels](channels.md), "More
+than two channels in one file"). Save its channels as files of their own
+first, or open it in the window.

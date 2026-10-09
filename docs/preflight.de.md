@@ -382,3 +382,13 @@ Im Fenster gibt es diese Optionen nicht.
 
 `--anyway` läuft trotz eines Abbruchs, `--no-preflight` überspringt die
 Prüfung ganz, `--preflight-again` misst alles neu statt nur das Geänderte.
+
+Die Kommandozeile kennt keine Kanalzeilen und zerlegt keine Datei in
+Spuren. Eine Datei mit mehr als zwei Kanälen legt sie auf einen Kanal
+zusammen, aus zwei Menschen wird eine Stimme, und der Bericht sagt das
+als Hinweis: `4 Kanäle -- die Kommandozeile zerlegt keine in Spuren und
+legt die Datei auf einen Kanal zusammen, zwei Menschen zu einer Stimme.`
+Geht eine solche Datei allein zu auphonic.com, hält der Lauf vor dem
+Hochladen an ([Kanäle](channels.de.md), „Mehr als zwei Kanäle in einer
+Datei“). Deshalb ihre Kanäle zuerst als eigene Dateien speichern oder
+die Datei im Fenster öffnen.

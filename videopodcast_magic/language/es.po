@@ -2451,6 +2451,13 @@ msgstr "%s lleva un timecode del otro lado de la medianoche -- contado como una 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s canales -- se dividen en pistas, ver las filas de arriba."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s canales -- la línea de comandos no los divide en pistas y reduce el "
+"archivo a un canal: dos personas en una sola voz."
+
 msgid "%s channels against %s"
 msgstr "%s canales frente a %s"
 
@@ -2853,6 +2860,17 @@ msgstr "Las envolventes y el audio de la cámara se preparan en segundo plano."
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Cada par de canales se juzga por separado: una pista estéreo, o dos micrófonos y por tanto dos pistas. Las entradas en silencio quedan fuera. Las filas bajo el archivo dicen lo que se ha medido, y la casilla lo anula."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Guarde sus canales como archivos propios para tener una pista por cada uno, "
+"o ábralo en la ventana, que lo divide según sus filas de canales. Como "
+"producción Singletrack, la ejecución se detiene antes de la subida: "
+"auphonic.com admite como máximo dos canales en un archivo."
 
 msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
 msgstr "Falta todo lo que viene después de ese paso. En la carpeta hay una parte de una ejecución, no un resultado."

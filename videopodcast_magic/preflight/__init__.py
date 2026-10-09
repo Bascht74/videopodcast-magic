@@ -677,9 +677,7 @@ def check_audio_file(file_path):
                number_text(SR / 1000.0, None))))
     if channels > 2:
         out.append(Finding(
-            "good", "",
-            T('%s channels -- cut into tracks, see the rows above.')
-            % number_text(channels, 0),
+            "good", "", channels_cut_by_rows(channels),
             T('Every pair of channels is judged on its own: one stereo '
               'track, or two microphones and therefore two tracks. Silent '
               'inputs drop out. The rows under the file say what was '
@@ -707,6 +705,46 @@ def check_audio_file(file_path):
     return out, {"name": name, "duration": duration, "rate": rate,
                   "channel_count": channels, "path": os.path.abspath(file_path),
                   "tc": file_timecode(file_path)}
+
+
+def channels_cut_by_rows(channels):
+    """The window's line for a file of more than two channels."""
+    return (T('%s channels -- cut into tracks, see the rows above.')
+            % number_text(channels, 0))
+
+
+def channels_as_a_run_has_them(findings, audio_paths):
+    """A file of more than two channels, said as the run itself treats it.
+
+    The window cuts such a file by its channel rows and hands the run
+    the pieces; a run cuts none, has no rows, and folds what it is given
+    to one channel. So the window's line is swapped for the run's.
+    """
+    wide = {}
+    for p in audio_paths:
+        try:
+            n = PROGRAM.channel_count(p)
+        except Exception:
+            continue
+        if n > 2:
+            wide[channels_cut_by_rows(n)] = n
+    out = []
+    for b in findings:
+        if b.text in wide:
+            said = Finding(
+                "hint", b.field,
+                T('%s channels -- the command line cuts none into tracks '
+                  'and folds the file to one channel, two people into one '
+                  'voice.') % number_text(wide[b.text], 0),
+                T('Save its channels as files of their own for a track '
+                  'each, or open it in the window, which cuts it by its '
+                  'channel rows. As a Singletrack production the run stops '
+                  'before the upload: auphonic.com takes at most two '
+                  'channels in one file.'), b.file)
+            said.set_aside = b.set_aside
+            b = said
+        out.append(b)
+    return out
 
 
 def recording_name(head_name, blocks):
@@ -1709,6 +1747,7 @@ def run_preflight(args, audio_paths, video_paths, project_type=None):
                               together=getattr(args, "together", ()),
                               project_type=project_type or "cut",
                               finished=getattr(args, "finished_mix", ()))
+    findings = channels_as_a_run_has_them(findings, audio_paths)
     # Counted as the run counts them: blocks of one recording are one.
     chains = (group_recording_parts(
         audio_paths, getattr(args, "no_follow_ups", False),

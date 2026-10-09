@@ -1936,6 +1936,13 @@ msgstr "%s முன்னமைவுக்கு ஏற்ப மாற்ற�
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s சேனல்கள் -- தடங்களாகப் பிரிக்கப்படுகின்றன, மேலே உள்ள வரிசைகளைப் பார்க்கவும்."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s சேனல்கள் -- கட்டளை வரி இவற்றைத் தடங்களாகப் பிரிக்காது; கோப்பை ஒரே சேனலாக "
+"இணைக்கிறது, இருவர் ஒரே குரலாக."
+
 msgid "%s checked"
 msgstr "%s சரிபார்க்கப்பட்டன"
 
@@ -2055,6 +2062,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)s ஷாட்கள்</b>, இடை�
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "ஒவ்வொரு சேனல் ஜோடியும் தனித்தனியாக மதிப்பிடப்படுகிறது: ஒரு ஸ்டீரியோ தடம், அல்லது இரண்டு மைக்ரோஃபோன்கள், எனவே இரண்டு தடங்கள். அமைதியான உள்ளீடுகள் விலகுகின்றன. கோப்பின் கீழுள்ள வரிசைகள் என்ன அளவிடப்பட்டது என்று கூறுகின்றன, டிக் அதை மீறுகிறது."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"ஒவ்வொன்றும் தனித் தடமாக இருக்க அதன் சேனல்களைத் தனிக் கோப்புகளாகச் "
+"சேமிக்கவும், அல்லது சேனல் வரிசைகளின்படி பிரிக்கும் சாளரத்தில் திறக்கவும். "
+"Singletrack தயாரிப்பாக, பதிவேற்றத்துக்கு முன்பே ஓட்டம் நிற்கிறது: "
+"auphonic.com ஒரு கோப்பில் அதிகபட்சம் இரண்டு சேனல்களையே ஏற்கிறது."
 
 msgid "A negative value makes the picture lead the sound."
 msgstr "எதிர்மறை மதிப்பு படத்தை ஆடியோவுக்கு முன்னால் செல்லச் செய்கிறது."

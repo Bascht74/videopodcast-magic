@@ -1935,6 +1935,13 @@ msgstr "%s แทร็กปรับตามพรีเซ็ตแล้ว
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s ช่องสัญญาณ -- ถูกแยกเป็นแทร็ก ดูแถวด้านบน"
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s ช่องสัญญาณ -- บรรทัดคำสั่งไม่แยกเป็นแทร็ก และรวมไฟล์เป็นช่องสัญญาณเดียว "
+"สองคนกลายเป็นเสียงเดียว"
+
 msgid "%s checked"
 msgstr "ตรวจสอบแล้ว %s รายการ"
 
@@ -2054,6 +2061,16 @@ msgstr "<span style='color:%(t)s'><b>%(n)s ช็อต</b>, มัธยฐา�
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "แต่ละคู่ช่องสัญญาณจะถูกประเมินแยกกัน: เป็นแทร็กสเตอริโอหนึ่งแทร็ก หรือไมโครโฟนสองตัวจึงเป็นสองแทร็ก อินพุตที่เงียบจะถูกตัดออก แถวใต้ไฟล์บอกสิ่งที่วัดได้ และเครื่องหมายถูกมีผลเหนือกว่าค่าที่วัดได้"
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"บันทึกช่องสัญญาณของไฟล์เป็นไฟล์แยกเพื่อให้แต่ละช่องเป็นแทร็ก "
+"หรือเปิดไฟล์ในหน้าต่าง ซึ่งแยกตามแถวของช่องสัญญาณ ในฐานะงานผลิต Singletrack "
+"การรันจะหยุดก่อนอัปโหลด: auphonic.com รับได้ไม่เกินสองช่องสัญญาณในไฟล์เดียว"
 
 msgid "A negative value makes the picture lead the sound."
 msgstr "ค่าติดลบทำให้ภาพนำหน้าเสียง"

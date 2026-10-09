@@ -1937,6 +1937,13 @@ msgstr "%s પ્રીસેટ મુજબ કર્યા"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s ચૅનલ -- ટ્રૅકમાં વહેંચાય છે, ઉપરની હરોળો જુઓ."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s ચૅનલ -- કમાન્ડ લાઇન તેમને ટ્રૅકમાં વહેંચતી નથી અને ફાઇલને એક ચૅનલમાં "
+"ભેળવી દે છે, બે લોકો એક અવાજમાં."
+
 msgid "%s checked"
 msgstr "ચકાસ્યા: %s"
 
@@ -2056,6 +2063,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)s શૉટ</b>, મધ્યક %(med)
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "ચૅનલની દરેક જોડીને અલગથી પરખાય છે: એક સ્ટીરિયો ટ્રૅક, અથવા બે માઇક્રોફોન અને તેથી બે ટ્રૅક. મૌન ઇનપુટ દૂર થાય છે. ફાઇલ નીચેની હરોળો જણાવે છે કે શું માપ્યું, અને ટિક તેના પર ભારે પડે છે."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"દરેક માટે અલગ ટ્રૅક મેળવવા તેની ચૅનલોને અલગ ફાઇલો તરીકે સાચવો, અથવા તેને "
+"વિન્ડોમાં ખોલો, જે તેને ચૅનલની હરોળો પ્રમાણે વહેંચે છે. Singletrack "
+"પ્રોડક્શન તરીકે અપલોડ પહેલાં જ રન અટકી જાય છે: auphonic.com એક ફાઇલમાં "
+"વધુમાં વધુ બે ચૅનલ સ્વીકારે છે."
 
 msgid "A negative value makes the picture lead the sound."
 msgstr "ઋણ મૂલ્યથી ચિત્ર ધ્વનિથી આગળ ચાલે છે."

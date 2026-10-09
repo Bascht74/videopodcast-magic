@@ -1937,6 +1937,13 @@ msgstr "%s disesuaikan dengan preset"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s kanal -- dipotong menjadi trek, lihat baris di atas."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s kanal -- baris perintah tidak memotongnya menjadi trek dan melipat file "
+"menjadi satu kanal, dua orang menjadi satu suara."
+
 msgid "%s checked"
 msgstr "%s diperiksa"
 
@@ -2056,6 +2063,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)s bidikan</b>, median %(med)s s, terpen
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Setiap pasangan kanal dinilai tersendiri: satu trek stereo, atau dua mikrofon sehingga dua trek. Input yang senyap dibuang. Baris di bawah file menyebutkan apa yang diukur, dan centang mengesampingkannya."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Simpan kanal-kanalnya sebagai file tersendiri agar masing-masing menjadi "
+"trek, atau buka di jendela, yang memotongnya menurut baris kanalnya. "
+"Sebagai produksi Singletrack, proses berhenti sebelum unggahan: "
+"auphonic.com menerima paling banyak dua kanal dalam satu file."
 
 msgid "A negative value makes the picture lead the sound."
 msgstr "Nilai negatif membuat gambar mendahului audio."

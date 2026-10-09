@@ -1937,6 +1937,13 @@ msgstr "%s ప్రీసెట్‌కు అనుగుణంగా మా�
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s ఛానళ్లు -- ట్రాక్‌లుగా విభజించబడతాయి, పై వరుసలు చూడండి."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s ఛానళ్లు -- కమాండ్ లైన్ వీటిని ట్రాక్‌లుగా విభజించదు; ఫైల్‌ను ఒకే "
+"ఛానల్‌గా కలుపుతుంది, ఇద్దరు వ్యక్తులు ఒకే స్వరంగా."
+
 msgid "%s checked"
 msgstr "%s తనిఖీ చేయబడ్డాయి"
 
@@ -2056,6 +2063,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)s షాట్‌లు</b>, మధ్�
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "ప్రతి ఛానల్ జతను విడిగా అంచనా వేస్తారు: ఒక స్టీరియో ట్రాక్, లేదా రెండు మైక్రోఫోన్‌లు, అంటే రెండు ట్రాక్‌లు. నిశ్శబ్ద ఇన్‌పుట్‌లు తొలగిపోతాయి. ఫైల్ కింది వరుసలు ఏమి కొలవబడిందో చెబుతాయి, టిక్ దానిని అధిగమిస్తుంది."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"ప్రతిదానికీ ఒక ట్రాక్ రావడానికి దాని ఛానళ్లను వేర్వేరు ఫైల్‌లుగా సేవ్ "
+"చేయండి, లేదా ఛానల్ వరుసల ప్రకారం విభజించే విండోలో దాన్ని తెరవండి. "
+"Singletrack ప్రొడక్షన్‌గా అప్‌లోడ్‌కు ముందే రన్ ఆగిపోతుంది: auphonic.com ఒక "
+"ఫైల్‌లో గరిష్ఠంగా రెండు ఛానళ్లనే తీసుకుంటుంది."
 
 msgid "A negative value makes the picture lead the sound."
 msgstr "రుణాత్మక విలువ చిత్రాన్ని ఆడియో కంటే ముందుకు నడిపిస్తుంది."

@@ -1938,6 +1938,13 @@ msgstr "pielāgoti priekšiestatījumam: %s"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "Kanāli: %s -- tiek sadalīti celiņos, sk. rindas augstāk."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"Kanāli: %s -- komandrinda tos nesadala celiņos un apvieno failu vienā "
+"kanālā, divi cilvēki vienā balsī."
+
 msgid "%s checked"
 msgstr "pārbaudīti: %s"
 
@@ -2057,6 +2064,17 @@ msgstr "<span style='color:%(t)s'><b>Plāni: %(n)s</b>, mediāna %(med)s s, īs�
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Katrs kanālu pāris tiek vērtēts atsevišķi: viens stereo celiņš vai divi mikrofoni un tātad divi celiņi. Klusās ieejas atkrīt. Rindas zem faila parāda, kas tika izmērīts, un ķeksītis to pārspēj."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Saglabājiet tā kanālus kā atsevišķus failus, lai katrs kļūtu par celiņu, "
+"vai atveriet to logā, kas to sadala pēc kanālu rindām. Kā Singletrack "
+"produkcija palaišana apstājas pirms augšupielādes: auphonic.com vienā failā "
+"pieņem ne vairāk kā divus kanālus."
 
 msgid "A negative value makes the picture lead the sound."
 msgstr "Negatīva vērtība liek attēlam apsteigt skaņu."

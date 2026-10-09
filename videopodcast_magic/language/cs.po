@@ -1907,6 +1907,13 @@ msgstr "%s uvedeno na předvolbu"
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s kanálů -- rozdělí se do stop, viz řádky výše."
 
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s kanálů -- příkazový řádek je nerozděluje do stop a soubor smíchá do "
+"jednoho kanálu, dva lidé v jeden hlas."
+
 msgid "%s checked"
 msgstr "%s zkontrolováno"
 
@@ -2026,6 +2033,17 @@ msgstr "<span style='color:%(t)s'><b>záběrů: %(n)s</b>, medián %(med)s s, ne
 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Každá dvojice kanálů se posuzuje samostatně: jedna stereo stopa, nebo dva mikrofony a tedy dvě stopy. Tiché vstupy odpadají. Řádky pod souborem říkají, co bylo změřeno, a zaškrtnutí to přebíjí."
+
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. As a Singletrack production the "
+"run stops before the upload: auphonic.com takes at most two channels in one "
+"file."
+msgstr ""
+"Uložte jeho kanály jako samostatné soubory, aby každý byl stopou, nebo jej "
+"otevřete v okně, které ho rozdělí podle řádků kanálů. Jako produkce "
+"Singletrack se běh zastaví před nahráním: auphonic.com přijímá v jednom "
+"souboru nejvýše dva kanály."
 
 msgid "Add files ..."
 msgstr "Přidat soubory ..."
