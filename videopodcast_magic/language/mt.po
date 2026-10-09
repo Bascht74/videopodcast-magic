@@ -274,6 +274,9 @@ msgstr "  Ir-rikonoxxitur tad-diskors inbena (%s s)."
 msgid "  The speech recognition reports: %s"
 msgstr "  Ir-rikonoxximent tad-diskors jirrapporta: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS ma jagħrafx %s hawn, Whisper jieħu f'idejh"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Rikonoxxut bil-lingwa %s: lest f'%s s, mismugħ f'%s s"
 

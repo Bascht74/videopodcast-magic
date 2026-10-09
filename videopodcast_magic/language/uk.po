@@ -3967,6 +3967,9 @@ msgstr "  Збирання розпізнавача мовлення ..."
 msgid "  The speech recognition reports: %s"
 msgstr "  Розпізнавання мовлення повідомляє: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS тут не розпізнає цю мову (%s), її бере Whisper"
+
 msgid "  The speech recogniser is built (%s s)."
 msgstr "  Розпізнавач мовлення зібрано (%s с)."
 

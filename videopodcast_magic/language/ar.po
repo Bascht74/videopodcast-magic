@@ -3993,6 +3993,9 @@ msgstr "  جارٍ بناء أداة التعرف على الكلام ..."
 msgid "  The speech recognition reports: %s"
 msgstr "  يفيد التعرف على الكلام: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  لا يتعرّف macOS هنا على هذه اللغة (%s)، ويتولاها Whisper"
+
 msgid "  The speech recogniser is built (%s s)."
 msgstr "  بُنيت أداة التعرف على الكلام (%s ث)."
 

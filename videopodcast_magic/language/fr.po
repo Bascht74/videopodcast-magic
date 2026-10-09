@@ -2238,6 +2238,9 @@ msgstr "  Le moteur de reconnaissance vocale est construit (%s s)."
 msgid "  The speech recognition reports: %s"
 msgstr "  La reconnaissance vocale signale : %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS ne reconnaît pas cette langue (%s) ici, Whisper prend le relais"
+
 msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
 msgstr "  Les pistes sont prises telles qu’enregistrées : alignées, mixées et amenées à la\n  sonie cible. Pas de de-bleed, pas de leveler, pas de suppression de bruit -- pour\n  cela, l’exécution a besoin d’auphonic.com."
 

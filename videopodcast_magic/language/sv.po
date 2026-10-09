@@ -268,6 +268,9 @@ msgstr "  Taligenkänningen är byggd (%s s)."
 msgid "  The speech recognition reports: %s"
 msgstr "  Taligenkänningen meddelar: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS kan inte höra %s här, Whisper tar över"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Igenkänning på %s: redo efter %s s, hört efter %s s"
 

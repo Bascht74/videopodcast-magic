@@ -3951,6 +3951,9 @@ msgstr "  Konuşma tanıyıcı derleniyor ..."
 msgid "  The speech recognition reports: %s"
 msgstr "  Konuşma tanıma bildiriyor: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS burada bu dili (%s) tanımıyor, Whisper devralıyor"
+
 msgid "  The speech recogniser is built (%s s)."
 msgstr "  Konuşma tanıyıcı derlendi (%s sn)."
 

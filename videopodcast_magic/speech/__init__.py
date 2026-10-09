@@ -514,9 +514,9 @@ def read_words(path):
 
 #------------------------------------------------ The recognition of macOS
 
-# Compiled once and kept: audio in, one line per word out. Without
-# -parse-as-library a single file with @main does not build, and the
-# locale must come from supportedLocales -- de-DE, de-AT, de-CH exist.
+# Compiled once and kept: audio in, one line per word out; @main needs
+# -parse-as-library. The locale is chosen in speech_locale_choice out
+# of what --locales lists, and only taken here.
 SPEECH_SWIFT = r'''import Foundation
 import Speech
 import AVFoundation
@@ -524,25 +524,29 @@ import AVFoundation
 @main struct Recogniser {
   static func pick(_ want: String) async -> Locale? {
     if want.isEmpty { return nil }
-    let all = await SpeechTranscriber.supportedLocales
-    let asked = want.replacingOccurrences(of: "_", with: "-")
-    for l in all where l.identifier
+    let asked = want.replacingOccurrences(of: "_", with: "-").lowercased()
+    for l in await SpeechTranscriber.supportedLocales where l.identifier
         .replacingOccurrences(of: "_", with: "-")
-        .lowercased() == asked.lowercased() { return l }
-    let head = asked.split(separator: "-")[0].lowercased()
-    let same = all.filter {
-      ($0.language.languageCode?.identifier ?? "").lowercased()
-        == head }
-    let here = Locale.current.region?.identifier ?? ""
-    for l in same where (l.region?.identifier ?? "") == here {
-      return l
+        .lowercased() == asked { return l }
+    return nil
+  }
+  // Every locale the recognition is used in is reserved for this
+  // program, the reservation outlives the process, and the sixth is
+  // refused: "Too many allocated locales, 5 maximum". So the oldest
+  // name in the alphabet is let go when the list is full.
+  static func makeRoom(for loc: Locale) async {
+    let held = await AssetInventory.reservedLocales
+    if held.contains(where: { $0.identifier == loc.identifier }) { return }
+    if held.count < AssetInventory.maximumReservedLocales { return }
+    if let away = held.sorted(by: { $0.identifier < $1.identifier }).first {
+      _ = await AssetInventory.release(reservedLocale: away)
     }
-    return same.first
   }
   static func main() async {
     let t0 = Date()
     let args = CommandLine.arguments
     if args.count > 1 && args[1] == "--locales" {
+      print("REGION", Locale.current.region?.identifier ?? "")
       for l in await SpeechTranscriber.supportedLocales {
         print(l.identifier)
       }
@@ -554,6 +558,7 @@ import AVFoundation
     let tr = SpeechTranscriber(locale: loc, transcriptionOptions: [],
                                reportingOptions: [],
                                attributeOptions: [.audioTimeRange])
+    await makeRoom(for: loc)
     do {
       let url = URL(fileURLWithPath: args[1])
       let file = try AVAudioFile(forReading: url)
@@ -763,6 +768,74 @@ def speech_locale(language):
     return SPEECH_CODES.get(tag.lower(), tag)
 
 
+# The locale a language is heard in where the machine's own region has
+# none of it: CLDR's likely region. Without it English wandered between en_NZ,
+# en_GB and en_IN from one call to the next on the same file.
+SPEECH_DEFAULT_LOCALES = {
+    "de": "de-DE", "en": "en-US", "fr": "fr-FR", "es": "es-ES",
+    "it": "it-IT", "nl": "nl-NL", "pt": "pt-BR", "pl": "pl-PL",
+    "ru": "ru-RU", "sv": "sv-SE", "da": "da-DK", "no": "nb-NO",
+    "fi": "fi-FI", "cs": "cs-CZ", "tr": "tr-TR", "el": "el-GR",
+    "hu": "hu-HU", "ro": "ro-RO", "uk": "uk-UA", "ca": "ca-ES",
+    "ar": "ar-EG", "he": "he-IL", "ja": "ja-JP", "zh": "zh-CN",
+    "ko": "ko-KR",
+}
+
+
+def speech_locale_choice(code, supported, region):
+    """The locale out of *supported* to hear *code* in, or "" for none.
+
+    In this order: the locale asked for exactly, the language in the
+    machine's *region*, the fixed one for the language, then the first
+    of that language by name -- never by where the list put it, which
+    changes from call to call.
+    """
+    by_plain = {str(l).replace("_", "-").lower(): l
+                for l in supported or ()}
+    asked = str(code or "").replace("_", "-").lower()
+    if not asked:
+        return ""
+    head = asked.split("-")[0]
+    fixed = SPEECH_DEFAULT_LOCALES.get(head, "").lower()
+    heads = {head, fixed.split("-")[0]} - {""}
+    for wanted in (asked,
+                   "%s-%s" % (head, region.lower()) if region else "",
+                   fixed):
+        if wanted and wanted in by_plain:
+            return by_plain[wanted]
+    same = sorted(p for p in by_plain if p.split("-")[0] in heads)
+    return by_plain[same[0]] if same else ""
+
+
+def recogniser_locales(program):
+    """What the recogniser offers on this machine: (region, locales).
+
+    Asked once per program and kept for as long as this process runs:
+    46 ms a time, and the window recognises block after block.
+    ("", []) where it will not say.
+    """
+    kept = recogniser_locales.__dict__.setdefault("kept", {})
+    if program in kept:
+        return kept[program]
+    region, found = "", []
+    try:
+        p = subprocess.run([program, "--locales"],
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.STDOUT)
+        said = (p.stdout or b"").decode("utf-8", "replace") \
+            if p.returncode == 0 else ""
+    except OSError:
+        said = ""
+    for line in said.splitlines():
+        parts = line.split()
+        if len(parts) == 2 and parts[0] == "REGION":
+            region = parts[1]
+        elif len(parts) == 1 and parts[0] != "REGION":
+            found.append(parts[0])
+    kept[program] = (region, found)
+    return kept[program]
+
+
 def macos_words(audio_path, language=""):
     """Let the recognition macOS brings with it write the words.
 
@@ -773,6 +846,19 @@ def macos_words(audio_path, language=""):
     if not program:
         return None
     language = speech_locale(language)
+    if language:
+        region, offered = recogniser_locales(program)
+        chosen = speech_locale_choice(language, offered, region)
+        # A list without the language means this Mac cannot hear it, and
+        # the system's own language would write wrong words; no list at
+        # all says nothing about the language, so the code goes on.
+        if offered and not chosen:
+            print(T('  macOS hears no %s here, Whisper takes it')
+                  % next((T(name) for tag, name in SPOKEN_LANGUAGES
+                          if SPEECH_CODES.get(tag) == language.split("-")[0]),
+                         language))
+            return None
+        language = chosen or language
     handle, out = tempfile.mkstemp(suffix=".tsv", prefix="vpm_words_")
     os.close(handle)
     try:
@@ -917,9 +1003,11 @@ def words_recipe_mark():
     listens through stand outside any function, so they go in by value.
     """
     return recipe_mark("words", macos_words, whisper_words, corrected_words,
-                       read_word_tsv, speech_word) + hashlib.sha1(
-        ("%s|%s|%s|%s|%s" % (MACOS_START_S, MACOS_END_S, WHISPER_START_S,
-                             WHISPER_END_S, SPEECH_SWIFT)
+                       read_word_tsv, speech_word,
+                       speech_locale_choice) + hashlib.sha1(
+        ("%s|%s|%s|%s|%s|%s" % (MACOS_START_S, MACOS_END_S, WHISPER_START_S,
+                                WHISPER_END_S, SPEECH_SWIFT,
+                                sorted(SPEECH_DEFAULT_LOCALES.items()))
          ).encode("utf-8")).hexdigest()[:12]
 
 

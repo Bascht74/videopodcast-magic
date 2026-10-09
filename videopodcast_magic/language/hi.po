@@ -3939,6 +3939,9 @@ msgstr "  वाक् पहचानकर्ता बनाया जा र
 msgid "  The speech recognition reports: %s"
 msgstr "  वाक् पहचान की सूचना: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS यहाँ %s नहीं पहचानता, Whisper इसे संभालता है"
+
 msgid "  The speech recogniser is built (%s s)."
 msgstr "  वाक् पहचानकर्ता बन गया (%s s)।"
 

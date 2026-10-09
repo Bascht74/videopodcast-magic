@@ -268,6 +268,9 @@ msgstr "  Ο αναγνωριστής ομιλίας δημιουργήθηκε 
 msgid "  The speech recognition reports: %s"
 msgstr "  Η αναγνώριση ομιλίας αναφέρει: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  Το macOS δεν αναγνωρίζει εδώ αυτή τη γλώσσα (%s), την αναλαμβάνει το Whisper"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Αναγνώριση σε %s: έτοιμο σε %s δ., ακρόαση σε %s δ."
 

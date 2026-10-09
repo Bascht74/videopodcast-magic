@@ -3925,6 +3925,9 @@ msgstr "  音声認識を構築しています ..."
 msgid "  The speech recognition reports: %s"
 msgstr "  音声認識からの報告: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  この Mac の macOS は%sを認識できないため、Whisper が担当します"
+
 msgid "  The speech recogniser is built (%s s)."
 msgstr "  音声認識を構築しました (%s 秒)。"
 

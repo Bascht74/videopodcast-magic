@@ -443,7 +443,13 @@ measured](../development/measurements.md).
 The program looks for the way it has and says in the log which one it
 took. Recognition takes the language setting of the run. If that is
 empty, macOS works with the system language and Whisper guesses it from
-the audio. The run writes the text down alongside the camera cut, not
+the audio. On the macOS way a language is heard in the same variant
+every time: the one of the Mac's own region where there is one (de-CH
+on a Swiss Mac, en-GB on a British one), else a fixed one -- English in
+en-US, German in de-DE, French in fr-FR -- else the first by name.
+Where the Mac offers no variant of the language at all, macOS does not
+hear it in the system language: the log says so and Whisper takes it,
+in the window only where faster-whisper is already installed. The run writes the text down alongside the camera cut, not
 ahead of it.
 
 On the macOS way the recognition reports on itself afterwards, in the

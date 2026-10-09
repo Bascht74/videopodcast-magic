@@ -270,6 +270,9 @@ msgstr "  A beszédfelismerő elkészült (%s mp)."
 msgid "  The speech recognition reports: %s"
 msgstr "  A beszédfelismerés jelentése: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  A macOS itt nem ismeri fel ezt a nyelvet (%s), a Whisper veszi át"
+
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Felismerés %s nyelven: kész %s mp alatt, meghallgatva %s mp alatt"
 

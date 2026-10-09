@@ -2236,6 +2236,9 @@ msgstr "  Распознаватель речи собран (%s с)."
 msgid "  The speech recognition reports: %s"
 msgstr "  Распознавание речи сообщает: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS здесь не распознаёт этот язык (%s), его берёт Whisper"
+
 msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
 msgstr "  Дорожки берутся как записаны: выровнены, смикшированы и приведены\n  к целевой громкости. Ни de-bleed, ни leveler, ни шумоподавления -- для\n  этого прогону нужен auphonic.com."
 
