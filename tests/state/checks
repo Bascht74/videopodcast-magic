@@ -46,11 +46,12 @@ auphonic_mono_not_stereo	7
 auphonic_names_stay_in	12
 auphonic_none_chosen	11
 auphonic_preset_checked	4
-auphonic_preset_fits	5
-auphonic_run_delivers	73
+auphonic_preset_fits	14
+auphonic_run_delivers	75
 auphonic_single_reused	11
 auphonic_speech_read	14
 auphonic_stays_quiet	30
+auphonic_transcript_ours	10
 auphonic_unsaved_said	14
 auphonic_wide_file_stops	5
 cut_all_shots_land	8
