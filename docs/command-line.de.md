@@ -26,15 +26,11 @@ VORFLUG -- passt das Material zusammen?
     Plattenplatz             frei 109,9 GB, gebraucht etwa 326 MB (/private/tmp/vpm_terminal/interview)
     Lautheit                 -16 LUFS (Podcast-Verzeichnisse, stereo)
     8 geprüft, 1 Hinweis
-MULTITRACK NICHT MÖGLICH
-  Ohne API Key gibt es nichts, was zu auphonic.com ginge.
-  Mit --without-auphonic läuft es stattdessen örtlich: ausgerichtet,
-  gemischt und geschnitten, aber ohne De-Bleed und Leveler.
+...
 ```
 
-*`--multitrack --lufs -16 --dry-run` am Ende des Aufrufs, darunter die
-Version und das Python, dann der Vorflug mit acht Prüfungen und einem
-Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
+*`--lufs -16 --dry-run` am Ende des Aufrufs, darunter die Version und
+das Python, dann der Vorflug mit acht Prüfungen und einem Hinweis.*
 
 ## Grundlagen
 

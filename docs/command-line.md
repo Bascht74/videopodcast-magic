@@ -25,15 +25,11 @@ PREFLIGHT -- does the material fit together?
     Disk space               free 109.9 GB, about 326 MB needed (/private/tmp/vpm_terminal/interview)
     Loudness                 -16 LUFS (Podcast directories, stereo)
     8 checked, 1 hint
-MULTITRACK NOT POSSIBLE
-  Without an API key there is nothing to send to auphonic.com.
-  With --without-auphonic it runs locally instead: aligned,
-  mixed and cut, but without de-bleed and leveler.
+...
 ```
 
-*`--multitrack --lufs -16 --dry-run` at the end of the call, the version
-and the Python underneath, then the preflight with eight checks and one
-hint. Without a key the multitrack run stops there.*
+*`--lufs -16 --dry-run` at the end of the call, the version and the
+Python underneath, then the preflight with eight checks and one hint.*
 
 ## Basics
 
