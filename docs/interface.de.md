@@ -1057,7 +1057,8 @@ Es wurde mit pip3 installiert, und pip führt Buch darüber, welche
 Fassung liegt; die Datei zu überschreiben ließe diesen Nachweis stehen
 und falsch werden. **Aktualisieren** führt deshalb denselben Befehl
 aus, den man auch selbst tippen würde — `pip3 install -U` auf die
-Adresse, aus der das Programm kam —, und zwar in dem Python, in dem
+Adresse, aus der das Programm kam, mit der Paketliste, mit der diese
+Fassung geprüft wurde —, und zwar in dem Python, in dem
 das Programm läuft: die Installation, die die neue Fassung bekommt,
 ist die, die auch starten würde.
 
