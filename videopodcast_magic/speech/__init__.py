@@ -517,6 +517,10 @@ def read_words(path):
 # Compiled once and kept: audio in, one line per word out. Without
 # -parse-as-library a single file with @main does not build, and the
 # locale must come from supportedLocales -- de-DE, de-AT, de-CH exist.
+# Which one is chosen in speech_locale_choice, not here: --locales
+# hands the list and the machine's region over, and the run is given
+# the exact identifier back. The list comes in a different order on
+# every call, so a choice made in here by position wandered.
 SPEECH_SWIFT = r'''import Foundation
 import Speech
 import AVFoundation
@@ -524,25 +528,17 @@ import AVFoundation
 @main struct Recogniser {
   static func pick(_ want: String) async -> Locale? {
     if want.isEmpty { return nil }
-    let all = await SpeechTranscriber.supportedLocales
-    let asked = want.replacingOccurrences(of: "_", with: "-")
-    for l in all where l.identifier
+    let asked = want.replacingOccurrences(of: "_", with: "-").lowercased()
+    for l in await SpeechTranscriber.supportedLocales where l.identifier
         .replacingOccurrences(of: "_", with: "-")
-        .lowercased() == asked.lowercased() { return l }
-    let head = asked.split(separator: "-")[0].lowercased()
-    let same = all.filter {
-      ($0.language.languageCode?.identifier ?? "").lowercased()
-        == head }
-    let here = Locale.current.region?.identifier ?? ""
-    for l in same where (l.region?.identifier ?? "") == here {
-      return l
-    }
-    return same.first
+        .lowercased() == asked { return l }
+    return nil
   }
   static func main() async {
     let t0 = Date()
     let args = CommandLine.arguments
     if args.count > 1 && args[1] == "--locales" {
+      print("REGION", Locale.current.region?.identifier ?? "")
       for l in await SpeechTranscriber.supportedLocales {
         print(l.identifier)
       }
@@ -763,6 +759,79 @@ def speech_locale(language):
     return SPEECH_CODES.get(tag.lower(), tag)
 
 
+# The locale a language is heard in first, where the machine offers it:
+# the region CLDR names as the likely one for each language the field
+# offers. Without it English came out as en_NZ, en_GB or en_IN from one
+# call to the next on the same file.
+SPEECH_DEFAULT_LOCALES = {
+    "de": "de-DE", "en": "en-US", "fr": "fr-FR", "es": "es-ES",
+    "it": "it-IT", "nl": "nl-NL", "pt": "pt-BR", "pl": "pl-PL",
+    "ru": "ru-RU", "sv": "sv-SE", "da": "da-DK", "no": "nb-NO",
+    "fi": "fi-FI", "cs": "cs-CZ", "tr": "tr-TR", "el": "el-GR",
+    "hu": "hu-HU", "ro": "ro-RO", "uk": "uk-UA", "ca": "ca-ES",
+    "ar": "ar-EG", "he": "he-IL", "ja": "ja-JP", "zh": "zh-CN",
+    "ko": "ko-KR",
+}
+
+
+def speech_locale_choice(code, supported, region):
+    """The locale out of *supported* the recognition is to use, or "".
+
+    *code* is what speech_locale gave -- "en", or a whole locale typed
+    on the command line; *supported* the identifiers the recogniser
+    lists, in whatever order it lists them; *region* the machine's.
+    Taken in this order: the locale asked for exactly, the fixed one
+    for the language, the language in the machine's region, and then
+    the first of that language by name -- never by where the list put
+    it. "" where the machine has nothing in that language.
+    """
+    def plain(name):
+        return str(name or "").replace("_", "-").lower()
+
+    by_plain = {plain(l): l for l in supported or ()}
+    asked = plain(code)
+    if not asked:
+        return ""
+    head = asked.split("-")[0]
+    fixed = plain(SPEECH_DEFAULT_LOCALES.get(head, ""))
+    heads = {head, fixed.split("-")[0]} - {""}
+    for wanted in (asked, fixed,
+                   "%s-%s" % (head, plain(region)) if region else ""):
+        if wanted and wanted in by_plain:
+            return by_plain[wanted]
+    same = sorted(p for p in by_plain if p.split("-")[0] in heads)
+    return by_plain[same[0]] if same else ""
+
+
+def recogniser_locales(program):
+    """What the recogniser offers on this machine: (region, locales).
+
+    Asked once per program and kept for as long as this process runs:
+    46 ms a time, and the window recognises block after block.
+    ("", []) where it will not say.
+    """
+    kept = recogniser_locales.__dict__.setdefault("kept", {})
+    if program in kept:
+        return kept[program]
+    region, found = "", []
+    try:
+        p = subprocess.run([program, "--locales"],
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.STDOUT)
+        if p.returncode == 0:
+            for line in (p.stdout or b"").decode(
+                    "utf-8", "replace").splitlines():
+                parts = line.split()
+                if len(parts) == 2 and parts[0] == "REGION":
+                    region = parts[1]
+                elif len(parts) == 1 and parts[0] != "REGION":
+                    found.append(parts[0])
+    except OSError:
+        pass
+    kept[program] = (region, found)
+    return kept[program]
+
+
 def macos_words(audio_path, language=""):
     """Let the recognition macOS brings with it write the words.
 
@@ -773,6 +842,10 @@ def macos_words(audio_path, language=""):
     if not program:
         return None
     language = speech_locale(language)
+    if language:
+        region, offered = recogniser_locales(program)
+        language = speech_locale_choice(language, offered, region) \
+            or language
     handle, out = tempfile.mkstemp(suffix=".tsv", prefix="vpm_words_")
     os.close(handle)
     try:
@@ -917,9 +990,11 @@ def words_recipe_mark():
     listens through stand outside any function, so they go in by value.
     """
     return recipe_mark("words", macos_words, whisper_words, corrected_words,
-                       read_word_tsv, speech_word) + hashlib.sha1(
-        ("%s|%s|%s|%s|%s" % (MACOS_START_S, MACOS_END_S, WHISPER_START_S,
-                             WHISPER_END_S, SPEECH_SWIFT)
+                       read_word_tsv, speech_word,
+                       speech_locale_choice) + hashlib.sha1(
+        ("%s|%s|%s|%s|%s|%s" % (MACOS_START_S, MACOS_END_S, WHISPER_START_S,
+                                WHISPER_END_S, SPEECH_SWIFT,
+                                sorted(SPEECH_DEFAULT_LOCALES.items()))
          ).encode("utf-8")).hexdigest()[:12]
 
 

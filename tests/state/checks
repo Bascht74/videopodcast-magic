@@ -398,6 +398,7 @@ voice_failed_read_named	5
 voice_heard_again_named	12
 voice_heard_again_said	10
 voice_language_arrives	15
+voice_locale_fixed	8
 voice_mhm_is_speech	9
 voice_mic_reaches_cut	14
 voice_model_main_on_404	7
