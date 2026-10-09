@@ -66,9 +66,10 @@ newer, and not one package touched.
 Where `pip3 install` refuses and says the environment is externally
 managed, this Python belongs to a package manager -- Homebrew's, or a
 Linux distribution's -- which keeps pip out of what it maintains, and
-the refusal names the way round it: `pipx install` on the same address
-puts the program in an environment of its own and the command on the
-path.
+the refusal names the way round it: `pipx install` on the same address,
+with the list handed on to pip as `--pip-args="-c <the list's
+address>"`, puts the program in an environment of its own and the
+command on the path.
 
 **The versions that were tested, rather than the newest.** That is
 what the `-c` and the address after it are for. Every release carries,
@@ -387,8 +388,8 @@ well, with two differences:
   that is `/usr/bin/pip3`, which belongs to Python 3.9. Install
   Python 3.10 or newer and give the command to its `pip3`.
 * **pip says the environment is externally managed.** This Python
-  belongs to a package manager. `pipx install` on the same address is
-  the way round it.
+  belongs to a package manager. `pipx install` on the same address,
+  with `--pip-args="-c <the list's address>"`, is the way round it.
 * **The install breaks off part way.** The last lines of pip say why.
   It is almost always one of the two big downloads, the window or the
   machinery under the speaker separation: give the same command again.

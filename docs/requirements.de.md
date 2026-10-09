@@ -69,8 +69,10 @@ Verweigert `pip3 install` den Dienst mit dem Hinweis, diese Umgebung
 werde von außen verwaltet, dann gehört dieses Python einem
 Paketverwalter — dem von Homebrew oder dem der Linux-Distribution —,
 der pip aus dem heraushält, was er selbst pflegt, und die Meldung
-nennt den Weg daran vorbei: `pipx install` auf dieselbe Adresse legt
-das Programm in eine eigene Umgebung und den Befehl in den Suchpfad.
+nennt den Weg daran vorbei: `pipx install` auf dieselbe Adresse, die
+Liste mit `--pip-args="-c <Adresse der Liste>"` an pip weitergereicht,
+legt das Programm in eine eigene Umgebung und den Befehl in den
+Suchpfad.
 
 **Die geprüften Fassungen, nicht die neuesten.** Dafür stehen das
 `-c` und die Adresse dahinter. Jede Veröffentlichung trägt neben dem
@@ -410,8 +412,8 @@ es ebenfalls, mit zwei Unterschieden:
   Python 3.9. Python 3.10 oder neuer installieren und den Befehl
   dessen `pip3` geben.
 * **pip sagt, die Umgebung werde von außen verwaltet.** Dieses Python
-  gehört einem Paketverwalter. `pipx install` auf dieselbe Adresse ist
-  der Weg daran vorbei.
+  gehört einem Paketverwalter. `pipx install` auf dieselbe Adresse,
+  mit `--pip-args="-c <Adresse der Liste>"`, ist der Weg daran vorbei.
 * **Die Installation bricht mittendrin ab.** Die letzten Zeilen von
   pip sagen, woran es liegt. Fast immer ist es einer der beiden großen
   Downloads, das Fenster oder der Unterbau der Sprechertrennung:

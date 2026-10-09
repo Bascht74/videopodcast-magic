@@ -100,9 +100,16 @@ steht.
 Umgebung werde von außen verwaltet, dann gehört dieses Python einem
 Paketverwalter — dem von Homebrew oder dem der Linux-Distribution —,
 der pip aus dem heraushält, was er selbst pflegt, und die Meldung
-nennt den Weg daran vorbei:
-`pipx install git+https://github.com/Bascht74/videopodcast-magic` legt
-das Programm in eine eigene Umgebung und den Befehl in den Suchpfad.
+nennt den Weg daran vorbei, pipx, das dieselbe Liste an pip
+weiterreicht — hier die Zeile für den Mac, unter Linux `linux` statt
+`macos`:
+
+```
+pipx install --pip-args="-c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt" git+https://github.com/Bascht74/videopodcast-magic
+```
+
+Es legt das Programm in eine eigene Umgebung und den Befehl in den
+Suchpfad.
 
 Zweierlei kann pip nicht mitbringen, weil beides kein Python ist:
 **Python selbst**, 3.10 oder neuer, und **`ffmpeg` 9.0.1 oder neuer,
