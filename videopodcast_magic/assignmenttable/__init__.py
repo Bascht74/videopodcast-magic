@@ -124,6 +124,10 @@ class AssignmentTable(object):
         """Write what the tables and the player show into the project."""
         m, state, player = self.model, self.state, self.player
         remembered = m.remembered
+        # A voice's answer is stored a turn of the loop later; a rebuild
+        # landing in that turn (tracks cut in the background, say) would
+        # build the rows again from the store, without it.
+        PROGRAM.queue_flush(state, "voices", state.get("voices_remember"))
         for row, nv, cv in m.assign_lines:
             # The finished mix's row holds no answer of its own; set back,
             # the row finds the one it had.

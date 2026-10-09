@@ -35,7 +35,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 9.10.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **4324** -- who speaks and when: the separation itself,
+* `speakers/` **4326** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -76,7 +76,7 @@ figure of the day is that command, not this paragraph**:
   from it
 * `hearing/` **1392** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1322** -- helpers that shape what the window shows and
+* `fittings/` **1340** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
@@ -84,7 +84,7 @@ figure of the day is that command, not this paragraph**:
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
-* `assignmenttable/` **809** -- the table on the second tab:
+* `assignmenttable/` **813** -- the table on the second tab:
   recordings above, the voices under them, the cameras below, what it
   keeps between builds and the camera names somebody typed; read by
   `assignmentsheet/` and nothing else
