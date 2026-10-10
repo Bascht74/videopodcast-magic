@@ -510,6 +510,7 @@ def primed(out):
     Python whether it is overridden. From Qt's media thread, under Qt's
     lock, that waits for Python while Python waits for the lock in
     stop() or play(). Connecting and letting go here answers it once.
+    Reported as PYSIDE-3478; drop this once PySide has it fixed.
     """
     out.volumeChanged.connect(_nothing)
     out.volumeChanged.disconnect(_nothing)
