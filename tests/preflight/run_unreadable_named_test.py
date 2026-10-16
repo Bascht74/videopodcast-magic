@@ -70,7 +70,7 @@ env = dict(os.environ, QT_QPA_PLATFORM="offscreen",
            VPM_CACHE=tempfile.mkdtemp(prefix="vpm_unreadable_cache_"))
 try:
     kid = subprocess.run(
-        [sys.executable, SCRIPT, "--multitrack", "--dry-run",
+        [sys.executable, SCRIPT, "--dry-run",
          "--without-auphonic", "--out", OUT, "--no-metrics",
          "--no-speech-recognition", "--no-transcript-file",
          guest, host, no_channels, no_media],

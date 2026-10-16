@@ -43,7 +43,7 @@ auphonic_key_out_of_view	24
 auphonic_key_reg_shut	9
 auphonic_key_typed	11
 auphonic_keyring_offered	18
-auphonic_kind_one_rule	11
+auphonic_kind_one_rule	10
 auphonic_may_be_skipped	28
 auphonic_mono_not_stereo	7
 auphonic_names_asked	13
@@ -382,7 +382,7 @@ time_colour_own_camera	4
 time_drift_taken_out	4
 time_drop_label_kept	6
 time_fit_reports	11
-time_guess_refused	61
+time_guess_refused	60
 time_length_is_in_to_out	24
 time_length_names_change	5
 time_lost_end_named	4
@@ -407,7 +407,7 @@ time_sound_stays_put	31
 time_split_keeps_stamp	3
 time_thin_block_refused	8
 time_track_starts_late	8
-time_tracks_alone	37
+time_tracks_alone	32
 time_tracks_sit_together	4
 time_unheard_file_named	8
 time_weak_as_run	7

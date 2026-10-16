@@ -87,7 +87,7 @@ with open(PLAN, "w", encoding="utf-8") as f:
 LINE = (["videopodcast_magic.py"] + found("*.wav") + found("*.mov")
         + ["--out", os.path.join(WORK, "out"), "--dry-run",
            "--without-auphonic", "--no-metrics", "--no-speech-recognition",
-           "--no-transcript-file", "--multitrack", "--assign", PLAN,
+           "--no-transcript-file", "--assign", PLAN,
            "--wide-after", "4", "--wide-length", "1.5",
            "--min-edit-duration", "1.0"])
 FIRST = LINE + ["--wide-latest", "5"]

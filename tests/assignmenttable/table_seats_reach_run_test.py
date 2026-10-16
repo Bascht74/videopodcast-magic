@@ -151,7 +151,7 @@ _sound, PICTURES = ground.material()
 
 print("1. The command line, with an order written by hand")
 code, said, stuck = ground.line_run(
-    [sys.executable, SCRIPT, "--without-auphonic", "--multitrack",
+    [sys.executable, SCRIPT, "--without-auphonic",
      "--assign", order(WORK), "--no-speech-recognition", "--out", OUT_LINE,
      ground.NO_EDGES] + AS_THE_WINDOW + ground.recordings() + PICTURES,
     STORE)

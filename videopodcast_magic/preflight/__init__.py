@@ -1072,7 +1072,7 @@ def space_needed_mb(audio_paths, video_paths, window_s=None,
     Erring upward: every camera is copied and gets audio tracks added,
     plus the processed tracks and the mix. With a window each camera
     shrinks by its own share, not by the longest one's. In megabytes.
-    One reckoning whatever --multitrack says. *recordings*: how many
+    One reckoning whatever the kind of production. *recordings*: how many
     *audio_paths* make, grouped here where not given.
     """
     video_mb, delivered = 0.0, 0.0
@@ -1770,8 +1770,8 @@ def run_preflight(args, audio_paths, video_paths, project_type=None):
     """
     if getattr(args, "no_preflight", False):
         return 0
-    # Bleed and room are asked of the material, never of --multitrack:
-    # the run makes a track per recording whatever the tick says.
+    # Bleed and room are asked of the material, never of the kind of
+    # production: the run makes a track per recording either way.
     findings = collect_findings(audio_paths, video_paths,
                               bool(getattr(args, "preflight_again", False)),
                               apart=getattr(args, "apart", ()),

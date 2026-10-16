@@ -12,8 +12,8 @@ every class, collected out of the program rather than listed here, and
 held against a plain search for their definitions. The last two
 sections: one plan -- names, production, each recording's camera and
 "do not use" in it -- and the window's name for the second of two files
-of one name. --multitrack, taken by the run for one more release and
-doing nothing, is never written onto the line."""
+of one name. --multitrack, which the run no longer takes, is never
+written onto the line."""
 PLATFORM_BOUND = False
 import os
 import sys
@@ -519,12 +519,10 @@ check("the typed camera name travels in the plan with the tick off",
         % ((plan or {}).get("cameras"), pair_switches(a), shown(a)))
 space, rest = vpm.build_argument_parser().parse_known_args(a[1:])
 check("and the run's parser reads the plan's file off the line",
-        getattr(space, "assign", None) == ASSIGN and rest == []
-        and not getattr(space, "multitrack", True),
-        "19. assign read back as %r, multitrack %r, %d words left over "
-        "%s, wanted %r, False and none"
-        % (getattr(space, "assign", None), getattr(space, "multitrack", None),
-           len(rest), rest[:4], ASSIGN))
+        getattr(space, "assign", None) == ASSIGN and rest == [],
+        "19. assign read back as %r, %d words left over %s, wanted %r "
+        "and none"
+        % (getattr(space, "assign", None), len(rest), rest[:4], ASSIGN))
 a, plan, m = vpm.run_argv(values(files=THREE, cameras=NAMED,
                                  project_type="sync"), ASSIGN)
 a = a or []

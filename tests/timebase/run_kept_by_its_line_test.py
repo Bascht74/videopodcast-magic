@@ -59,7 +59,7 @@ PLAN = {"production": "Way", "tracks_of": [
 PLAN_FILE = made("vpm_assign_one.json", json.dumps(PLAN))
 OTHER_PLAN_FILE = made("vpm_assign_two.json", json.dumps(PLAN, indent=1))
 LINE = ["videopodcast_magic.py", AUDIO, CAMERA, "--out", WORK,
-        "--multitrack", "--assign", PLAN_FILE, "--in-point", "+0:00:10",
+        "--assign", PLAN_FILE, "--in-point", "+0:00:10",
         "--min-edit-duration", "3.0", "--on-question", "answer"]
 
 

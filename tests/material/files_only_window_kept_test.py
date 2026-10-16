@@ -157,7 +157,7 @@ with open(D + "/assign.json", "w", encoding="utf-8") as f:
 def run(out, *extra):
     """One Multitrack run on this material, and what it printed."""
     p = subprocess.run(
-        [sys.executable, SCRIPT, "--multitrack", "--without-auphonic",
+        [sys.executable, SCRIPT, "--without-auphonic",
          "--no-speech-recognition", "--no-transcript-file",
          "--assign", D + "/assign.json", "--out", out, "--no-metrics",
          "--no-wide-edges"] + [str(x) for x in extra]

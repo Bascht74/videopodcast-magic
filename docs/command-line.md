@@ -78,7 +78,10 @@ line: through the window, or with `--store-auphonic-key`. A stored key
 turns processing on, and a command line with switches but no files then
 only lists the presets -- every one, with its kind behind it where
 auphonic.com says it, since without files there are no tracks to say
-which kind a run needs.
+which kind a run needs. With files the kind follows from them: two
+tracks or more on one time axis go up as one Multitrack production, a
+single track as a Singletrack one, and the preset has to be of that kind
+([Multitrack](multitrack.md)).
 
 | Switch | Does |
 |---|---|
@@ -87,7 +90,6 @@ which kind a run needs.
 | `--auphonic-wait SECONDS` | how long the run waits for auphonic.com to finish; when the time is up the run stops and names the address of the production, which goes on there; once it is finished, a later run takes its result with `--auphonic-resume result`. Higher waits longer (7200, two hours) |
 | `--auphonic-resume WHAT` | production already there: `result`, `rerun`, `adopt`, `upload`, `abort` (the program asks) |
 | `--auphonic-done FOLDER` | tracks already processed, named after the speakers. The run takes them from there instead of uploading them, and the account keeps its credit |
-| `--multitrack` | no longer needed, and does nothing; still taken in this version, so that older command lines run. Whether the tracks go up as one Multitrack production follows from the material: two tracks or more on one time axis do, a single track does not, and the preset has to be of that kind. Several cameras without an audio recording give their sound as a track each without it |
 | `--assign FILE` | JSON saying which audio belongs to which camera, under which speaker names and which are not used; the interface writes it for every run |
 | `--without-auphonic` | align, mix and write locally, camera cut from our own speech detection |
 

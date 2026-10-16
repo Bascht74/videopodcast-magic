@@ -92,7 +92,7 @@ if len(SOUND) != 3 or len(PICTURES) != 3:
 STILL = 120.0
 OUT = tempfile.mkdtemp(prefix="vpm_mixedcase_")
 NO_RESOLVE = os.path.join(OUT, "no-resolve-here")
-ARGV = [sys.executable, SCRIPT, "--multitrack", "--without-auphonic",
+ARGV = [sys.executable, SCRIPT, "--without-auphonic",
         "--no-speech-recognition", "--out", OUT] + SOUND + PICTURES
 # No --resolve, and the scripting interface pointed at a folder that is
 # not there: the owner's Resolve may be open on the machine this runs on.

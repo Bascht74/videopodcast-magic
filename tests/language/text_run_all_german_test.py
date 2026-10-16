@@ -3,10 +3,10 @@
 
 The strongest check against a line that never went through T(), because
 it needs no list: the program is started twice on the interview
-material -- the simple path and multitrack -- and what it prints is
-read for English function words. Without that material the test says
-SKIPPED and names what would bring it back. The catalogue and the
-documents are read by text_no_german_left.
+material -- as it stands and with --without-auphonic -- and what it
+prints is read for English function words. Without that material the
+test says SKIPPED and names what would bring it back. The catalogue and
+the documents are read by text_no_german_left.
 """
 PLATFORM_BOUND = True
 import os
@@ -52,9 +52,9 @@ if len(job) < 2:
     skipped = ("no material under %s (%d files of the right "
                "kind, two are needed)" % (media, len(job)))
 else:
-    # Two runs, so both paths are read: the simple one and multitrack.
+    # Two runs, so both are read: as it stands and with --without-auphonic.
     out = ""
-    for extra in ([], ["--multitrack", "--without-auphonic"]):
+    for extra in ([], ["--without-auphonic"]):
         out += subprocess.run(
             [sys.executable, SCRIPT] + [os.path.join(media, f) for f in job]
             + ["--lang", "de", "--dry-run", "--no-preflight",

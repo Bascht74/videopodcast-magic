@@ -842,14 +842,6 @@ def build_argument_parser():
                          "locally. The camera cut then comes from a speech "
                          "detection of our own. No de-bleed, no leveler, no "
                          "noise removal.")
-    ap.add_argument("--multitrack", action="store_true",
-                    help="no longer needed, and does nothing; accepted for "
-                         "this release only, so older command lines still "
-                         "run. Whether the tracks go to Auphonic as one "
-                         "Multitrack production follows from the material: "
-                         "two tracks or more on one time axis do, a single "
-                         "track does not. The preset has to be of that "
-                         "kind.")
     ap.add_argument("--speech-language-camera", dest="speech_language_camera",
                     default="", metavar="CODE",
                     type=PROGRAM.spoken_language_offered,

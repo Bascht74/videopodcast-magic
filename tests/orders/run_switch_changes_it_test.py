@@ -187,7 +187,7 @@ BLOCK_TWO = BLOCKS[1]
 # A ground is the command line a case is measured on, twice: once as it
 # stands and once with the switch in front of it. Nothing here reaches
 # the network -- no key, no preset, no update check.
-LOCAL = ["--multitrack", "--without-auphonic", "--no-preflight",
+LOCAL = ["--without-auphonic", "--no-preflight",
          "--no-metrics", "--no-speech-recognition", "--no-transcript-file",
          # The camera's own sound is still read -- the alignment locks
          # onto it -- it is only not copied into the written camera file

@@ -386,7 +386,7 @@ def join_only(args, tracks, tmpdir, title=""):
 
     Joining the blocks of a recording needs no camera, and one file out
     of several is a whole result. One recording: several go onto one
-    axis, align_tracks_only, whatever --multitrack says.
+    axis, align_tracks_only, whatever the kind of production.
     """
     first = tracks[0]["blocks"][0]
     folder = PROGRAM.output_folder(args, first)
