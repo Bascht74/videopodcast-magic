@@ -2209,8 +2209,8 @@ msgstr "Tá an pointe amach %s tar éis an fhráma dheireanaigh"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "De ghnáth úsáidtear an raon teoranta don seachadadh. Níl an raon iomlán mícheart, ach léann roinnt seinnteoirí go mícheart é."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Socraíonn sé conas a phróiseálann auphonic.com an fhuaim.\n\nFágann \"%s\" an eochair ina háit agus fós ní théann sé ann.\nNíl ann ansin ach an fhuaim a chumasc agus a normalú, gan í a dhímheascadh --\nagus gan rianta ar leith níl aon ghearradh ceamara ann."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Socraíonn sé conas a phróiseálann auphonic.com an fhuaim.\n\nFágann \"%s\" an eochair ina háit agus fós ní théann sé ann.\nNíl ann ansin ach an fhuaim a chumasc agus a normalú, gan í a dhímheascadh --\nach tá an gearradh ceamara mar a bheadh le réamhshocrú."
 
 msgid "Distance to mean"
 msgstr "Fad ón meán"

@@ -1248,8 +1248,8 @@ msgstr "archivio del sistema"
 msgid "The key is then in the %s, never in a file."
 msgstr "La chiave sarà poi qui, mai in un file: %s."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Determina come auphonic.com elabora l’audio.\n\n“%s” lascia la chiave al suo posto e comunque non ci va.\nL’audio viene allora solo unito e normalizzato, non separato --\ne senza tracce separate non c’è montaggio delle telecamere."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Determina come auphonic.com elabora l’audio.\n\n“%s” lascia la chiave al suo posto e comunque non ci va.\nL’audio viene allora solo unito e normalizzato, non separato --\nma il montaggio delle telecamere è lo stesso che con un preset."
 
 msgid "Auphonic will not take the settings: %s"
 msgstr "Auphonic non accetta le impostazioni: %s"

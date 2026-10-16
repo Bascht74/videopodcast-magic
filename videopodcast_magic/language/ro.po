@@ -2172,8 +2172,8 @@ msgstr "Punctul Out este cu %s după ultimul cadru"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Livrarea folosește de obicei intervalul limitat. Complet nu este greșit, dar unele playere îl interpretează greșit."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Stabilește cum procesează auphonic.com materialul audio.\n\n„%s” lasă cheia pe loc și totuși nu merge acolo.\nAudio este atunci doar comasat și normalizat, nu separat --\niar fără piste separate nu există montaj pe camere."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Stabilește cum procesează auphonic.com materialul audio.\n\n„%s” lasă cheia pe loc și totuși nu merge acolo.\nAudio este atunci doar comasat și normalizat, nu separat --\ndar montajul pe camere este același ca la o presetare."
 
 msgid "Distance to mean"
 msgstr "Distanța față de medie"

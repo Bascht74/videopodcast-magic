@@ -2172,8 +2172,8 @@ msgstr "Az Out pont ennyivel az utolsó képkocka után van: %s"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "A leadáshoz általában a korlátozott tartományt használják. A teljes nem hibás, de egyes lejátszók félreértik."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Meghatározza, hogyan dolgozza fel az auphonic.com a hangot.\n\n„%s” a kulcsot a helyén hagyja, és mégsem megy oda.\nA hang ekkor csak összevonva és normalizálva lesz, nem szétválasztva --\nkülön sávok nélkül pedig nincs kameravágás."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Meghatározza, hogyan dolgozza fel az auphonic.com a hangot.\n\n„%s” a kulcsot a helyén hagyja, és mégsem megy oda.\nA hang ekkor csak összevonva és normalizálva lesz, nem szétválasztva --\na kameravágás viszont ugyanaz, mint előbeállítással."
 
 msgid "Distance to mean"
 msgstr "Távolság az átlagtól"

@@ -1244,8 +1244,8 @@ msgstr "sistem deposu"
 msgid "The key is then in the %s, never in a file."
 msgstr "Anahtar o zaman bir dosyada değil, şurada durur: %s."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "auphonic.com’un sesi nasıl işleyeceğini belirler.\n\n“%s” anahtarı yerinde bırakır ve yine de oraya gitmez.\nSes o zaman yalnızca birleştirilir ve normalleştirilir, ayrıştırılmaz --\nve ayrı izler olmadan kamera kurgusu olmaz."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "auphonic.com’un sesi nasıl işleyeceğini belirler.\n\n“%s” anahtarı yerinde bırakır ve yine de oraya gitmez.\nSes o zaman yalnızca birleştirilir ve normalleştirilir, ayrıştırılmaz --\nama kamera kurgusu hazır ayarla olanla aynıdır."
 
 msgid "Auphonic will not take the settings: %s"
 msgstr "Auphonic ayarları kabul etmiyor: %s"

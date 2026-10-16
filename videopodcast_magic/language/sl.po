@@ -2207,8 +2207,8 @@ msgstr "Izstopna točka je %s za zadnjo sličico"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Za izvoz se običajno uporablja omejeni razpon. Polni ni napačen, a ga nekateri predvajalniki napačno razberejo."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Določa, kako auphonic.com obdela zvok.\n\n„%s“ pusti ključ na mestu in vseeno ne gre tja.\nZvok se tedaj le združi in normalizira, ne loči --\nbrez ločenih sledi pa ni montaže kamer."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Določa, kako auphonic.com obdela zvok.\n\n„%s“ pusti ključ na mestu in vseeno ne gre tja.\nZvok se tedaj le združi in normalizira, ne loči --\nmontaža kamer pa je enaka kot s prednastavitvijo."
 
 msgid "Distance to mean"
 msgstr "Odmik od povprečja"

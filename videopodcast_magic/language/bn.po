@@ -2172,8 +2172,8 @@ msgstr "আউট পয়েন্ট শেষ ফ্রেমের %s প�
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "ডেলিভারিতে সাধারণত সীমিত পরিসর নেওয়া হয়। পূর্ণ ভুল নয়, তবে কিছু প্লেয়ার এটি ভুল পড়ে।"
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "auphonic.com অডিও কীভাবে প্রক্রিয়া করবে, তা ঠিক করে।\n\n\"%s\" কী-টি রেখে দেয়, তবু সেখানে যায় না।\nঅডিও তখন শুধু একত্র ও নর্মালাইজ করা হয়, পৃথক করা হয় না --\nআর আলাদা ট্র্যাক ছাড়া কোনো ক্যামেরা কাট হয় না।"
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "auphonic.com অডিও কীভাবে প্রক্রিয়া করবে, তা ঠিক করে।\n\n\"%s\" কী-টি রেখে দেয়, তবু সেখানে যায় না।\nঅডিও তখন শুধু একত্র ও নর্মালাইজ করা হয়, পৃথক করা হয় না --\nতবে ক্যামেরা কাট প্রিসেট দিলে যেমন হয়, তেমনই থাকে।"
 
 msgid "Distance to mean"
 msgstr "গড় থেকে দূরত্ব"

@@ -2170,8 +2170,8 @@ msgstr "Το σημείο Out είναι %s μετά το τελευταίο κ�
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Η παράδοση συνήθως χρησιμοποιεί το περιορισμένο εύρος. Το πλήρες δεν είναι λάθος, αλλά ορισμένα προγράμματα αναπαραγωγής το ερμηνεύουν λανθασμένα."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Καθορίζει πώς επεξεργάζεται το auphonic.com τον ήχο.\n\n«%s» αφήνει το κλειδί στη θέση του και παρ' όλα αυτά δεν πηγαίνει εκεί.\nΟ ήχος τότε μόνο συγχωνεύεται και κανονικοποιείται, δεν διαχωρίζεται --\nκαι χωρίς ξεχωριστά κομμάτια δεν υπάρχει μοντάζ καμερών."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Καθορίζει πώς επεξεργάζεται το auphonic.com τον ήχο.\n\n«%s» αφήνει το κλειδί στη θέση του και παρ' όλα αυτά δεν πηγαίνει εκεί.\nΟ ήχος τότε μόνο συγχωνεύεται και κανονικοποιείται, δεν διαχωρίζεται --\nόμως το μοντάζ καμερών είναι το ίδιο όπως και με προρύθμιση."
 
 msgid "Distance to mean"
 msgstr "Απόσταση από τον μέσο όρο"

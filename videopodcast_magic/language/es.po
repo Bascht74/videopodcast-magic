@@ -2813,8 +2813,8 @@ msgstr "Extrayendo la pista %d de %d"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Para la entrega es habitual el rango limitado. Completo no es incorrecto, pero algunos reproductores lo interpretan mal."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Determina cómo prepara auphonic.com el audio.\n\n«%s» deja la clave donde está y aun así no va allí.\nEl audio solo se junta y se normaliza, no se desmezcla --\ny sin pistas separadas no hay corte de cámara."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Determina cómo prepara auphonic.com el audio.\n\n«%s» deja la clave donde está y aun así no va allí.\nEl audio solo se junta y se normaliza, no se desmezcla --\npero el corte de cámara es el mismo que con un preajuste."
 
 msgid "Different track names"
 msgstr "Nombres de pista distintos"

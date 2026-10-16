@@ -2204,8 +2204,8 @@ msgstr "આઉટ પૉઇન્ટ છેલ્લી ફ્રેમથી %s
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "ડિલિવરી માટે સામાન્ય રીતે મર્યાદિત શ્રેણી લેવાય છે. પૂર્ણ શ્રેણી ખોટી નથી, પણ કેટલાક પ્લેયર તેને ખોટી રીતે વાંચે છે."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "auphonic.com ઑડિયો પર કેવી રીતે પ્રક્રિયા કરે તે નક્કી કરે છે.\n\n\"%s\" કીને ત્યાં જ રહેવા દે છે અને છતાં ત્યાં જતું નથી.\nત્યારે ઑડિયો ફક્ત જોડાય છે અને નૉર્મલાઇઝ થાય છે, અલગ થતો નથી --\nઅને અલગ ટ્રૅક વિના કોઈ કૅમેરા કટ નથી."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "auphonic.com ઑડિયો પર કેવી રીતે પ્રક્રિયા કરે તે નક્કી કરે છે.\n\n\"%s\" કીને ત્યાં જ રહેવા દે છે અને છતાં ત્યાં જતું નથી.\nત્યારે ઑડિયો ફક્ત જોડાય છે અને નૉર્મલાઇઝ થાય છે, અલગ થતો નથી --\nપણ કૅમેરા કટ પ્રીસેટ સાથે હોય તેવો જ રહે છે."
 
 msgid "Distance to mean"
 msgstr "સરેરાશથી અંતર"

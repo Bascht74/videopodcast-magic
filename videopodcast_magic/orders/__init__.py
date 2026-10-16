@@ -839,9 +839,9 @@ def build_argument_parser():
     ap.add_argument("--without-auphonic", dest="without_auphonic",
                     action="store_true",
                     help="run without auphonic.com: align, mix and write "
-                         "locally. The camera cut then comes from a speech "
-                         "detection of our own. No de-bleed, no leveler, no "
-                         "noise removal.")
+                         "locally. The camera cut is the same as with a "
+                         "preset: who speaks when is measured here. No "
+                         "de-bleed, no leveler, no noise removal.")
     ap.add_argument("--speech-language-camera", dest="speech_language_camera",
                     default="", metavar="CODE",
                     type=PROGRAM.spoken_language_offered,

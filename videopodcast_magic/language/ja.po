@@ -1224,8 +1224,8 @@ msgstr "システムの保管場所"
 msgid "The key is then in the %s, never in a file."
 msgstr "キーは%sに入り、ファイルには入りません。"
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "auphonic.com が音声をどう処理するかを決めます。\n\n「%s」はキーをそのまま残し、それでも送信しません。\n音声は結合と正規化だけで、分離はされません --\n分かれたトラックがなければカメラ切り替えもありません。"
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "auphonic.com が音声をどう処理するかを決めます。\n\n「%s」はキーをそのまま残し、それでも送信しません。\n音声は結合と正規化だけで、分離はされません --\nただしカメラ切り替えはプリセットを使うときと同じです。"
 
 msgid "Auphonic will not take the settings: %s"
 msgstr "Auphonic が設定を受け付けません：%s"

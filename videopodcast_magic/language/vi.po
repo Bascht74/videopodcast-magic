@@ -2170,8 +2170,8 @@ msgstr "Điểm ra nằm sau khung hình cuối cùng %s"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Khi xuất bản thường dùng dải giới hạn. Dải đầy đủ không sai, nhưng một số trình phát đọc sai."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Quyết định auphonic.com xử lý âm thanh thế nào.\n\n\"%s\" giữ nguyên khóa nhưng vẫn không gửi đến đó.\nKhi đó âm thanh chỉ được gộp và chuẩn hóa, không được tách --\nvà không có các rãnh riêng thì không có dựng chuyển máy quay."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Quyết định auphonic.com xử lý âm thanh thế nào.\n\n\"%s\" giữ nguyên khóa nhưng vẫn không gửi đến đó.\nKhi đó âm thanh chỉ được gộp và chuẩn hóa, không được tách --\nnhưng dựng chuyển máy quay vẫn giống như khi dùng cài đặt sẵn."
 
 msgid "Distance to mean"
 msgstr "Độ lệch so với trung bình"

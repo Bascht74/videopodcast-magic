@@ -2203,8 +2203,8 @@ msgstr "نقطه خروج %s پس از آخرین فریم است"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "برای خروجی رندر معمولاً دامنه محدود انتخاب می‌شود. دامنه کامل اشتباه نیست، اما برخی پخش‌کننده‌ها آن را نادرست می‌خوانند."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "تعیین می‌کند auphonic.com صدا را چگونه پردازش کند.\n\n«%s» کلید را سر جایش نگه می‌دارد و باز هم به آنجا نمی‌رود.\nدر این صورت صدا فقط ادغام و نرمال می‌شود، نه تفکیک --\nو بدون ترک‌های جداگانه برش دوربینی وجود ندارد."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "تعیین می‌کند auphonic.com صدا را چگونه پردازش کند.\n\n«%s» کلید را سر جایش نگه می‌دارد و باز هم به آنجا نمی‌رود.\nدر این صورت صدا فقط ادغام و نرمال می‌شود، نه تفکیک --\nاما برش دوربین همان است که با پیش‌تنظیم می‌شود."
 
 msgid "Distance to mean"
 msgstr "فاصله تا میانگین"

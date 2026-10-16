@@ -2203,8 +2203,8 @@ msgstr "அவுட் புள்ளி கடைசி ஃப்ரேமு
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "டெலிவரிக்கு வழக்கமாகக் குறுகிய வரம்பே பயன்படுத்தப்படுகிறது. முழு வரம்பு தவறல்ல, ஆனால் சில பிளேயர்கள் அதைத் தவறாகப் புரிந்துகொள்கின்றன."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "auphonic.com ஆடியோவை எப்படிச் செயலாக்குகிறது என்பதை இது தீர்மானிக்கிறது.\n\n\"%s\" விசையை அப்படியே வைத்திருக்கும், ஆனாலும் அங்கே செல்லாது.\nஅப்போது ஆடியோ இணைக்கப்பட்டு நார்மலைஸ் மட்டுமே செய்யப்படும், பிரிக்கப்படாது --\nதனித் தடங்கள் இல்லாமல் கேமரா கட் இல்லை."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "auphonic.com ஆடியோவை எப்படிச் செயலாக்குகிறது என்பதை இது தீர்மானிக்கிறது.\n\n\"%s\" விசையை அப்படியே வைத்திருக்கும், ஆனாலும் அங்கே செல்லாது.\nஅப்போது ஆடியோ இணைக்கப்பட்டு நார்மலைஸ் மட்டுமே செய்யப்படும், பிரிக்கப்படாது --\nஆனால் கேமரா கட் முன்னமைவுடன் இருப்பது போலவே இருக்கும்."
 
 msgid "Distance to mean"
 msgstr "சராசரியிலிருந்து தூரம்"

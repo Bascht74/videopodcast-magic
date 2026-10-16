@@ -2170,8 +2170,8 @@ msgstr "Uit-punt ligt %s na het laatste frame"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Voor aflevering is het beperkte bereik gebruikelijk. Volledig is niet fout, maar sommige spelers lezen het verkeerd."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Bepaalt hoe auphonic.com het geluid bewerkt.\n\n\"%s\" laat de sleutel staan en gaat er toch niet heen.\nHet geluid wordt dan alleen samengevoegd en genormaliseerd, niet gescheiden --\nen zonder aparte sporen is er geen cameramontage."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Bepaalt hoe auphonic.com het geluid bewerkt.\n\n\"%s\" laat de sleutel staan en gaat er toch niet heen.\nHet geluid wordt dan alleen samengevoegd en genormaliseerd, niet gescheiden --\nmaar de cameramontage is dezelfde als met een voorinstelling."
 
 msgid "Distance to mean"
 msgstr "Afstand tot gemiddelde"

@@ -2204,8 +2204,8 @@ msgstr "Lõpp-punkt on %s pärast viimast kaadrit"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Väljastusfailis kasutatakse tavaliselt piiratud vahemikku. Täisvahemik pole viga, kuid mõni mängija tõlgendab seda valesti."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Määrab, kuidas auphonic.com heli töötleb.\n\n„%s“ jätab võtme alles, kuid ei pöördu ikkagi sinna.\nHeli ainult liidetakse ja normaliseeritakse, mitte ei eraldata --\nja ilma eraldi radadeta pole kaameramontaaži."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Määrab, kuidas auphonic.com heli töötleb.\n\n„%s“ jätab võtme alles, kuid ei pöördu ikkagi sinna.\nHeli ainult liidetakse ja normaliseeritakse, mitte ei eraldata --\nkaameramontaaž on aga sama mis eelseadistusega."
 
 msgid "Distance to mean"
 msgstr "Kaugus keskmisest"
