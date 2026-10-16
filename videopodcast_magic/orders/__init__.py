@@ -789,7 +789,8 @@ def build_argument_parser():
                          "shows it.")
     ap.add_argument("--production", default="", metavar="NAME",
                     help="the production's name, which the handover, the "
-                         "lists and the transcript are named after. "
+                         "lists and the transcript are named after, and "
+                         "the title it goes up under at auphonic.com. "
                          "Without it the folder the material lies in. "
                          "Not read beside --assign: the assignment file "
                          "carries its own.")
