@@ -4713,8 +4713,8 @@ msgstr "  Resolve דחה את רצועת הווידאו V%d פעמיים -- ל-T
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s היסט %s, סחיפת שעון לא נמדדה%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  זהירות: הפרויקט הזה אינו שלם -- מה ש-Resolve דחה:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  זהירות: הפרויקט הזה אינו שלם -- מה חסר:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  סחיפת שעון:      לא נמדדה -- בשמע שלה נותרו מעט מדי נקודות תקפות לשם כך"

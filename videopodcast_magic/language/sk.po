@@ -4755,8 +4755,8 @@ msgstr "  Resolve dvakrát odmietol videostopu V%d -- na Timeline „%s“ chýb
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s posun %s, drift hodín nezmeraný%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Pozor: tento projekt nie je úplný -- čo Resolve odmietol:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Pozor: tento projekt nie je úplný -- čo chýba:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Drift hodín:      nezmeraný -- jej zvuk dal na meranie príliš málo bodov"

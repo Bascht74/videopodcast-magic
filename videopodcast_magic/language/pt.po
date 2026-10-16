@@ -4713,8 +4713,8 @@ msgstr "  O Resolve recusou duas vezes a faixa de vídeo V%d -- a Timeline \"%s\
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s deslocamento %s, deriva do relógio não medida%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Atenção: este projeto não está completo -- o que o Resolve recusou:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Atenção: este projeto não está completo -- o que falta:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Deriva do relógio:   não medida -- poucos pontos do som dela se mantiveram para uma medição"

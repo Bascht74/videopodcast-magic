@@ -4712,8 +4712,8 @@ msgstr "  Resolve vägrade videospår V%d två gånger -- Timeline \"%s\" saknar
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s förskjutning %s, klockdrift inte mätt%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Varning: det här projektet är inte komplett -- det som Resolve vägrade:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Varning: det här projektet är inte komplett -- det som saknas:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Klockdrift:      inte mätt -- ljudet gav för få punkter för en mätning"

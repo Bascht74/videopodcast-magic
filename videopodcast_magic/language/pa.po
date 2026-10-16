@@ -4718,8 +4718,8 @@ msgstr "  Resolve ਨੇ ਵੀਡੀਓ ਟਰੈਕ V%d ਦੋ ਵਾਰ ਨ�
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s ਆਫ਼ਸੈੱਟ %s, ਘੜੀ ਦਾ ਖਿਸਕਾਅ ਮਾਪਿਆ ਨਹੀਂ ਗਿਆ%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  ਸਾਵਧਾਨ: ਇਹ ਪ੍ਰੋਜੈਕਟ ਪੂਰਾ ਨਹੀਂ ਹੈ -- Resolve ਨੇ ਜੋ ਨਾਮਨਜ਼ੂਰ ਕੀਤਾ:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  ਸਾਵਧਾਨ: ਇਹ ਪ੍ਰੋਜੈਕਟ ਪੂਰਾ ਨਹੀਂ ਹੈ -- ਜੋ ਘੱਟ ਹੈ:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  ਘੜੀ ਦਾ ਖਿਸਕਾਅ:   ਮਾਪਿਆ ਨਹੀਂ ਗਿਆ -- ਉਸ ਦੀ ਧੁਨੀ ਦੇ ਬਹੁਤ ਘੱਟ ਬਿੰਦੂ ਇਸ ਲਈ ਟਿਕੇ"

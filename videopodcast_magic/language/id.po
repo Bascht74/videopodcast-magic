@@ -4674,8 +4674,8 @@ msgstr "  Resolve menolak trek video V%d dua kali -- Timeline \"%s\" tidak memil
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s selisih %s, penyimpangan jam tidak diukur%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Perhatian: proyek ini tidak lengkap -- yang ditolak Resolve:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Perhatian: proyek ini tidak lengkap -- yang kurang:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Penyimpangan jam: tidak diukur -- suaranya memberi terlalu sedikit titik untuk pengukuran"

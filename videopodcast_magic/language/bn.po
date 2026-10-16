@@ -4714,8 +4714,8 @@ msgstr "  Resolve ভিডিও ট্র্যাক V%d দুবার প�
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s অফসেট %s, ঘড়ির বিচ্যুতি মাপা হয়নি%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  সতর্কতা: এই প্রজেক্ট সম্পূর্ণ নয় -- Resolve যা প্রত্যাখ্যান করেছে:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  সতর্কতা: এই প্রজেক্ট সম্পূর্ণ নয় -- যা অনুপস্থিত:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  ঘড়ির বিচ্যুতি:    মাপা হয়নি -- এর শব্দের খুব কম বিন্দু এর জন্য টিকেছে"

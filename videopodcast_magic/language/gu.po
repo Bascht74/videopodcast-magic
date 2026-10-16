@@ -4715,8 +4715,8 @@ msgstr "  Resolve એ વિડિયો ટ્રૅક V%d બે વાર �
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s ઑફસેટ %s, ઘડિયાળનું વિચલન માપ્યું નથી%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  સાવધાન: આ પ્રોજેક્ટ પૂર્ણ નથી -- Resolve એ જે નકાર્યું તે:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  સાવધાન: આ પ્રોજેક્ટ પૂર્ણ નથી -- જે ખૂટે છે તે:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  ઘડિયાળનું વિચલન:   માપ્યું નથી -- તેના ધ્વનિમાંથી તે માટે પૂરતાં બિંદુ મળ્યાં નહીં"

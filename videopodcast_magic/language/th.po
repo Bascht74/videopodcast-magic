@@ -4670,8 +4670,8 @@ msgstr "  Resolve ปฏิเสธแทร็กวิดีโอ V%d สอ
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s ออฟเซ็ต %s, ไม่ได้วัดการคลาดของนาฬิกา%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  ข้อควรระวัง: โปรเจกต์นี้ไม่สมบูรณ์ -- สิ่งที่ Resolve ปฏิเสธ:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  ข้อควรระวัง: โปรเจกต์นี้ไม่สมบูรณ์ -- สิ่งที่ขาดไป:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  การคลาดของนาฬิกา:  ไม่ได้วัด -- เสียงของกล้องนี้มีจุดที่ใช้วัดได้น้อยเกินไป"

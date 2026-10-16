@@ -4715,8 +4715,8 @@ msgstr "  A Resolve kétszer is elutasította a V%d videósávot -- a(z) „%s�
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s eltolás %s, órasodródás nincs mérve%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Figyelem: ez a projekt nem teljes -- amit a Resolve elutasított:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Figyelem: ez a projekt nem teljes -- ami hiányzik:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Órasodródás:   nincs mérve -- a hangja túl kevés mérési pontot adott ehhez"

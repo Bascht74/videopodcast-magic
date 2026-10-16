@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-"""A cut Timeline Resolve leaves without picture or sound ends the run red.
+"""A cut Timeline left without picture or sound ends the run red.
 
 The project build, with build_cut_timeline real, against the Resolve
 stand-in, for one camera cut into three shots and a stored mix. In
 turn: a cut Resolve takes whole ends in 0; then no picture taken, fewer
 shots taken than sent, no mix in the media pool and a mix refused --
 each ends the build in 1 and is named again among the closing lines,
-with the Timeline's name. Then the window: a refused mix leaves it
-saying errors, with what Resolve refused above that line, and a cut
-taken whole leaves it saying done. The limit: a stand-in, not Resolve.
+with the Timeline's name. Then what the handover leaves out: no mix
+named, and no shot inside the camera -- each ends in 1, named again.
+Then the window: a refused mix leaves it saying errors, with what
+Resolve refused above that line, and a cut taken whole leaves it saying
+done. The limit: a stand-in, not Resolve.
 """
 PLATFORM_BOUND = True
 import os
@@ -66,7 +68,9 @@ vpm.set_loudness_target = lambda p, x: None
 vpm.set_remote_grades = lambda p, on=False: None
 vpm.import_media = lambda mp, paths: dict(
     (p, stand.Clip(p, frames=1500)) for p in paths if p not in WITHOUT)
-vpm.mix_file_from_handover = lambda d: (MIX, "stored file")
+MIXES = []
+vpm.mix_file_from_handover = lambda d: (
+    MIXES[0] if MIXES else (MIX, "stored file"))
 vpm.colour_clips_by_camera = lambda *a, **k: None
 vpm.create_colour_groups = lambda *a, **k: None
 vpm.queue_render_job = lambda *a, **k: None
@@ -75,9 +79,10 @@ CURRENT = {}
 vpm.connect_to_resolve = lambda: stand.Resolve(CURRENT["pm"])
 
 
-def build(without=(), **pool):
+def build(without=(), handover=None, **pool):
     """One build into an existing project kept as it is.
 
+    *handover* replaces fields of HANDOVER for this build alone.
     Returns (the build's code or the exception, everything printed).
     """
     pm = stand.ProjectManager(names=[NAME])
@@ -90,7 +95,8 @@ def build(without=(), **pool):
     said = io.StringIO()
     try:
         with contextlib.redirect_stdout(said):
-            code = vpm.build_resolve_project(dict(HANDOVER), "keep", log="")
+            code = vpm.build_resolve_project(
+                dict(HANDOVER, **(handover or {})), "keep", log="")
     except Exception as e:
         code = e
     return code, said.getvalue()
@@ -105,7 +111,7 @@ def clean(line):
 def closing(said):
     """The lines under "this project is not complete", cleaned."""
     head = clean(vpm.T('  Caution: this project is not complete -- what '
-                       'Resolve refused:'))
+                       'is missing:'))
     rows = [clean(x) for x in said.splitlines() if clean(x)]
     return rows[rows.index(head) + 1:] if head in rows else []
 
@@ -140,7 +146,25 @@ check("a mix Resolve refuses ends the build in 1",
       code == 1 and len(named(said, "refused the Full-Mix")) == 1,
       "the build ended in %r, the closing lines %r" % (code, closing(said)))
 
-print("\n3. What the window says")
+print("\n3. What the handover leaves out")
+MIXES[:] = [(None, "")]
+code, said = build()
+MIXES[:] = []
+SILENT = clean(vpm.T('  No Full-Mix found -- the Timeline stays silent.'))
+check("a handover naming no mix ends the build in 1",
+      code == 1 and closing(said) == [SILENT],
+      "the build ended in %r, the closing lines %r against %r"
+      % (code, closing(said), [SILENT]))
+# The camera's file is 5 s long and every shot lies after that.
+SHORT = dict(HANDOVER["cameras"][0], duration=5.0)
+code, said = build(handover={"cameras": [SHORT]})
+EMPTY = clean(vpm.T('  No cut left -- the Timeline stays empty.'))
+check("a cut with no shot inside a camera ends the build in 1",
+      code == 1 and closing(said) == [EMPTY],
+      "the build ended in %r, the closing lines %r against %r"
+      % (code, closing(said), [EMPTY]))
+
+print("\n4. What the window says")
 # The window's own run loop, with main standing in for the command
 # line's switch, which returns the build's code as it is: that switch
 # may not stand in a test (source_resolve_door_shut).

@@ -4725,8 +4725,8 @@ msgstr "  Resolve V%d video izini iki kez reddetti -- “%s” Timeline'ında %s
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s kayma %s, saat sürüklenmesi ölçülmedi%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Dikkat: bu proje tamamlanmamış -- Resolve'un reddettikleri:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Dikkat: bu proje tamamlanmamış -- eksik olanlar:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Saat sürüklenmesi: ölçülmedi -- sesi bunun için çok az nokta verdi"

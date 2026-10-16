@@ -4804,8 +4804,8 @@ msgstr "  Resolve irrifjuta l-binarju tal-vidjo V%d darbtejn -- fit-Timeline \"%
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s spostament %s, drift tal-arloġġ mhux imkejjel%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Attenzjoni: dan il-proġett mhux komplut -- dak li Resolve irrifjuta:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Attenzjoni: dan il-proġett mhux komplut -- dak li jonqos:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Drift tal-arloġġ:    mhux imkejjel -- ftit wisq punti tal-ħoss tagħha żammew għal kejl"

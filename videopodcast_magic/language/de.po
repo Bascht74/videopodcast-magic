@@ -6345,8 +6345,8 @@ msgstr "  Resolve hat die Bildspur V%d zweimal abgelehnt -- der Timeline \"%s\" 
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s Versatz %s, Uhrengang nicht gemessen%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  ACHTUNG: dieses Projekt ist nicht vollständig -- was Resolve abgelehnt hat:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  ACHTUNG: dieses Projekt ist nicht vollständig -- was fehlt:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Uhrengang:       nicht gemessen -- ihr Ton gab zu wenige Punkte dafür her"

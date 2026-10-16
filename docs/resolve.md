@@ -165,8 +165,8 @@ the Full-Mix runs through in one piece, so the sound does not jump at
 the cuts. The mix comes from the separate file, otherwise from the wide
 shot, where it is the first audio track, otherwise from a camera that
 carries it as one of its audio tracks. The log names the source; with
-none of the three it says `No Full-Mix found` and the timeline stays
-silent.
+none of the three it says `No Full-Mix found`, the timeline stays
+silent, and the run ends with errors.
 
 The measured offset decides which part of each camera file the timeline
 uses, not the timecode. If a camera was not running, another steps in,
@@ -669,11 +669,13 @@ backup copy.
   A camera Resolve would not lay on its track at all counts the same:
   the run says `Caution: ... not inserted` and says it again at the end.
   So does the **… Cut** timeline where Resolve took none of its shots or
-  only some of them, has no Full-Mix in its media pool, or refused it:
-  the line names the timeline and what it lacks -- the cut, the rest of
+  only some of them, has no Full-Mix in its media pool, or refused it,
+  and where the handover left it nothing to lay -- no Full-Mix
+  (`No Full-Mix found`) or no shot inside a camera's file (`No cut
+  left`): the line says what the timeline lacks -- the cut, the rest of
   it, or its sound. It built everything else without it and says it
-  once more in its last lines, under `Caution: this project is not complete -- what Resolve
-  refused:`; the list of video tracks in the log and the list of angles
+  once more in its last lines, under `Caution: this project is not
+  complete -- what is missing:`; the list of video tracks in the log and the list of angles
   in the closing note name only the cameras that lie on their video
   track. Where the sound track of the intro or outro was refused, the
   line naming that clip ends in `, its sound track refused` -- the file

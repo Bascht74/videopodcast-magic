@@ -4671,8 +4671,8 @@ msgstr "  Resolve đã từ chối rãnh video V%d hai lần -- Timeline \"%s\" 
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s độ lệch %s, không đo được độ trôi đồng hồ%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Cảnh báo: dự án này chưa hoàn chỉnh -- những gì Resolve đã từ chối:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Cảnh báo: dự án này chưa hoàn chỉnh -- những gì còn thiếu:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Độ trôi đồng hồ:   không đo được -- âm thanh của nó cho quá ít điểm để đo"

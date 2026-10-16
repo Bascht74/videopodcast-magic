@@ -4753,8 +4753,8 @@ msgstr "  Resolve дважды отклонил видеодорожку V%d -- 
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s смещение %s, дрейф часов не измерен%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Внимание: этот проект не завершён -- что Resolve отклонил:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Внимание: этот проект не завершён -- чего не хватает:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Дрейф часов:     не измерен -- её звук дал слишком мало точек для измерения"

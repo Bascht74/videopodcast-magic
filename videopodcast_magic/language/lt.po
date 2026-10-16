@@ -4759,8 +4759,8 @@ msgstr "  Resolve du kartus atmetė vaizdo takelį V%d -- Timeline „%s“ trū
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s poslinkis %s, laikrodžio dreifas neišmatuotas%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Dėmesio: šis projektas neužbaigtas -- ką atmetė Resolve:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Dėmesio: šis projektas neužbaigtas -- ko trūksta:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Laikrodžio dreifas: neišmatuotas -- jos garsas tam davė per mažai taškų"

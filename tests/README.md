@@ -472,7 +472,7 @@ it is green.
 | `cut_preview_no_own_work` | The cut tab's preview measures and builds nothing of its own. |
 | `cut_rebuild_keeps_all` | Rebuilding the cut list keeps every setting the project file holds. |
 | `cut_recut_keeps_dips` | A slider's recut cuts at the same sound dips a full dry run cuts at. |
-| `cut_refusal_ends_red` | A cut Timeline Resolve leaves without picture or sound ends the run red. |
+| `cut_refusal_ends_red` | A cut Timeline left without picture or sound ends the run red. |
 | `cut_resolve_refusal_said` | What Resolve refuses on the cut timeline is said, and nothing laid on it. |
 | `cut_right_camera` | Is the cut true: the right camera, and every time rule kept? |
 | `cut_rules_hold` | The cut rules: when the camera follows, and what it shows instead. |

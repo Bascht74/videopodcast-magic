@@ -4714,8 +4714,8 @@ msgstr "  Resolve weigerde videospoor V%d twee keer -- de Timeline \"%s\" mist h
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s offset %s, klokdrift niet gemeten%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Let op: dit project is niet volledig -- wat Resolve weigerde:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Let op: dit project is niet volledig -- wat ontbreekt:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Klokdrift:      niet gemeten -- het geluid leverde te weinig punten op voor een meting"

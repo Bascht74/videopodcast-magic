@@ -954,11 +954,12 @@ def add_track(tl, kind):
 
 
 def say_refused(refused, line):
-    """Name what Resolve refused now, and keep the line for the end.
+    """Name what the project lacks now, and keep the line for the end.
 
-    The build goes on past it, so the line would otherwise stand in the
-    middle of everything that follows; build_resolve_project says it
-    again among its closing lines.
+    What Resolve refused, or a cut Timeline the handover left without
+    picture or sound. The build goes on past it, so the line would
+    otherwise stand in the middle of everything that follows;
+    build_resolve_project says it again among its closing lines.
     """
     print(as_warn(line))
     if refused is not None:
@@ -966,19 +967,21 @@ def say_refused(refused, line):
 
 
 def refusals_closing(refused):
-    """Repeat what Resolve refused at the very end, and return the code.
+    """Repeat what the project lacks at the very end, and return the code.
 
-    Not 0 where a track was refused twice, a camera not inserted, or the
-    cut's shots or its mix not taken: the window reads 0 as "Done", and
+    Not 0 where a track was refused twice, a camera not inserted, the
+    cut's shots or its mix not taken, or the handover gave the cut
+    Timeline no shot or no mix: the window reads 0 as "Done", and
     a Timeline lacking a camera, the intro, its picture or its sound is
     not done. Everything else was built all the same.
     """
     if not refused:
         return 0
     print("")
-    # Not "tracks": a camera Resolve would not insert stands here too.
+    # Not "what Resolve refused": a cut the handover left silent or
+    # empty stands here too.
     print(as_warn(T('  Caution: this project is not complete -- what '
-                    'Resolve refused:')))
+                    'is missing:')))
     for line in refused:
         print(as_warn(line))
     return 1
@@ -1875,7 +1878,8 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
     Picture from the cameras, audio from the mix. The picture pieces go
     on without their audio, or a different audio track would sit under
     every cut and the sound would jump. The mix runs underneath whole.
-    Shots or a mix Resolve refuses go into d["_refused"], as a track does.
+    Shots or a mix Resolve refuses go into d["_refused"], as a track does,
+    and so does a cut or a mix the handover leaves it without.
     """
     refused = d.get("_refused")
     fps, origin = timeline_origin(d)
@@ -1955,7 +1959,9 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
     for e in sorted(skipped):
         print(T('    Left without picture: %s') % e)
     if not item:
-        print(T('  No cut left -- the Timeline stays empty.'))
+        # Nothing was refused; the handover left nothing to lay, and an
+        # empty cut Timeline is not a finished one either.
+        say_refused(refused, T('  No cut left -- the Timeline stays empty.'))
         return tl
     put = mp.AppendToTimeline(item)
     tl.SetTrackName("video", 1, "Camera cut")
@@ -1978,7 +1984,8 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
           % (number_text(len(landed), 0), number_text(on_it)))
 
     if mix is None:
-        print(T('  No Full-Mix found -- the Timeline stays silent.'))
+        say_refused(refused,
+                    T('  No Full-Mix found -- the Timeline stays silent.'))
         return tl
     file_path, source_text = mix
     c = clips.get(file_path)
@@ -2140,9 +2147,9 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
         print(T('  No cameras in the handover -- nothing to build.'))
         return 1
 
-    # Every track Resolve refused twice, said again at the very end. In the
-    # handover, as _source_path is: the two builders it passes through are
-    # stood in for in tests, and their arguments stay as they were.
+    # What Resolve refused and the handover left out, said again at the end.
+    # Kept in the handover, as _source_path is: the two builders it passes
+    # through are stood in for in tests, their arguments left as they were.
     d["_refused"] = []
     print(as_head("\nRESOLVE"))
     r = connect_to_resolve()

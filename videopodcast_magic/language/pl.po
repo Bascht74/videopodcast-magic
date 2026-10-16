@@ -4756,8 +4756,8 @@ msgstr "  Resolve dwukrotnie odrzucił ścieżkę wideo V%d -- na Timeline \"%s\
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s przesunięcie %s, dryfu zegara nie zmierzono%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Uwaga: ten projekt nie jest kompletny -- co Resolve odrzucił:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Uwaga: ten projekt nie jest kompletny -- czego brakuje:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Dryf zegara:        nie zmierzono -- jej dźwięk dał za mało punktów do pomiaru"
