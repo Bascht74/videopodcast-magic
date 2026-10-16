@@ -5210,3 +5210,9 @@ msgstr ""
 "Faixa única, porque há uma só faixa. Pode-se escolher outra predefinição de "
 "faixa única; para multipista, adicione uma segunda faixa -- uma gravação, ou "
 "uma câmera em \"usar o áudio\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> deste mapeamento não se consegue ler o número de faixas de áudio"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "O Resolve responde, mas não entrega nenhum gestor de projetos."

@@ -31,6 +31,7 @@ as_warn = PROGRAM.as_warn
 ask_choice = PROGRAM.ask_choice
 audio_track_count = PROGRAM.audio_track_count
 colour_per_camera = PROGRAM.colour_per_camera
+fault_into_log = PROGRAM.fault_into_log
 format_complaint = PROGRAM.format_complaint
 frames_of_the_file = PROGRAM.frames_of_the_file
 frames_to_timecode = PROGRAM.frames_to_timecode
@@ -156,15 +157,16 @@ def check_resolve():
     except RuntimeError as e:
         return False, lines + ["", str(e), "", T(RESOLVE_REASONS)]
 
-    def ask(how):
-        try:
-            return str(how()) or ""
-        except Exception:
-            return ""
-
+    try:
+        product = r.GetProductName()
+    except Exception:
+        product = ""
+    try:
+        version = r.GetVersionString()
+    except Exception:
+        version = ""
     # Where it works one bracket is enough; paths matter only where not.
-    what = " ".join(x for x in (ask(r.GetProductName),
-                               ask(r.GetVersionString)) if x)
+    what = " ".join(str(x) for x in (product, version) if x)
     return True, [what]
 
 
@@ -481,11 +483,14 @@ def project_colour_to_material(p, hdr):
                 if not p.SetSetting(name, value):
                     continue
                 back = str(p.GetSetting(name))
-                if hdr_says(back) == hdr:
-                    got = back
-                    break
             except Exception:
                 continue
+            # Outside the trap: a fault in our own reading of the answer
+            # stops the run, instead of passing for a refusal by Resolve
+            # and leaving the project on whichever name came last.
+            if hdr_says(back) == hdr:
+                got = back
+                break
         if got:
             done.append("%s = %s" % (name, got))
         else:
@@ -569,20 +574,23 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
                         'H.264 with eight bits.\n             Too little '
                         'for HDR; gradients will show banding.')))
     try:
-        if not p.SetCurrentRenderFormatAndCodec(format_id, codec_id):
-            print(T('    Format and codec could not be set.'))
-            return False
+        took = p.SetCurrentRenderFormatAndCodec(format_id, codec_id)
     except Exception as e:
         print(T('    Format and codec could not be set: %s') % e)
         return False
+    if not took:
+        print(T('    Format and codec could not be set.'))
+        return False
     try:
-        # Said out loud: refused, the delivery quietly becomes one file
-        # per clip and one episode is a folder full of shots.
-        if p.SetCurrentRenderMode(1) is False:   # 1 = one file, not per clip
-            print(T('    One file per delivery was refused; Resolve will '
-                    'write one file per clip.'))
+        mode = p.SetCurrentRenderMode(1)   # 1 = one file, not per clip
     except Exception as e:
         print(T('    One file per delivery could not be asked for: %s') % e)
+    else:
+        # Said out loud: refused, the delivery quietly becomes one file
+        # per clip and one episode is a folder full of shots.
+        if mode is False:
+            print(T('    One file per delivery was refused; Resolve will '
+                    'write one file per clip.'))
     height = int(d.get("height") or 1080)
     width = int(d.get("width") or 1920)
     fps = float(d["fps"])
@@ -838,12 +846,15 @@ def multicam_timeline_unchanged(p, name, cameras):
     tl = find_timeline(p, name)
     if tl is None:
         return None
+    # Worked out before the trap: a fault in it is ours, and inside it
+    # would pass for "changed" and build another multicam timeline.
+    wanted = [os.path.basename(cam.get("file") or cam.get("source") or "")
+              for cam in cameras]
     try:
-        if tl.GetTrackCount("video") != len(cameras):
+        if tl.GetTrackCount("video") != len(wanted):
             return None
-        for i, cam in enumerate(cameras, 1):
+        for i, want in enumerate(wanted, 1):
             item = tl.GetItemListInTrack("video", i) or []
-            want = os.path.basename(cam.get("file") or cam.get("source") or "")
             if len(item) != 1 or (item[0].GetName() or "") != want:
                 return None
     except Exception:
@@ -1128,9 +1139,10 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
         for track in range(1, tl.GetTrackCount("audio") + 1):
             for item in (tl.GetItemListInTrack("audio", track) or []):
                 try:
-                    heard.add(item.GetName() or "")
+                    called = item.GetName() or ""
                 except Exception:
                     continue
+                heard.add(called)
         mute = [labels[cam["track"]] for cam in cameras
                 if present.get(cam["track"])
                 and os.path.basename(cam["file"] or cam["source"])
@@ -1239,12 +1251,14 @@ def trim_audio_tracks(tl, cameras, video_items, labels=None):
             gone = []
         if gone:
             try:
-                if not tl.DeleteClips(gone):
-                    print(T('    %-24s Deleting failed.') % cam["track"])
-                    gone = []
+                deleted = tl.DeleteClips(gone)
             except Exception as e:
                 print(T('    %-24s Deleting failed: %s') % (cam["track"], e))
                 gone = []
+            else:
+                if not deleted:
+                    print(T('    %-24s Deleting failed.') % cam["track"])
+                    gone = []
         kept[cam["track"]] = (video, every[0], entries[0][0])
         print(T('    %-24s audio from A%d kept, %d more deleted')
               % (cam["track"], entries[0][0], len(gone)))
@@ -1259,13 +1273,14 @@ def trim_audio_tracks(tl, cameras, video_items, labels=None):
             continue
         video, audio_item, _ = entry
         try:
-            if tl.SetClipsLinked([video, audio_item], True):
-                linked += 1
-            else:
-                print(T('    %-24s could not be linked again')
-                      % cam["track"])
+            joined = tl.SetClipsLinked([video, audio_item], True)
         except Exception as e:
             print(T('    %-24s Linking failed: %s') % (cam["track"], e))
+            continue
+        if joined:
+            linked += 1
+        else:
+            print(T('    %-24s could not be linked again') % cam["track"])
     if linked:
         print(TN(linked, '    Picture and audio linked again: %s angle',
                  '    Picture and audio linked again: %s angles')
@@ -1366,7 +1381,8 @@ def print_audio_track_mapping():
     print(as_head(T('\nRESOLVE -- INSPECT ONLY')))
     r = connect_to_resolve()
     print("  %s %s" % (r.GetProductName(), r.GetVersionString()))
-    p = r.GetProjectManager().GetCurrentProject()
+    pm = r.GetProjectManager()
+    p = pm.GetCurrentProject() if pm is not None else None
     if p is None:
         raise RuntimeError(T('No project open.'))
     print(T('  Project %r') % p.GetName())
@@ -1382,10 +1398,10 @@ def print_audio_track_mapping():
         folder += list(f.GetSubFolderList() or [])
         for c in (f.GetClipList() or []):
             try:
-                kind = (c.GetClipProperty("Type") or "").lower()
+                kind = str(c.GetClipProperty("Type") or "")
             except Exception:
                 kind = ""
-            if "timeline" in kind:
+            if "timeline" in kind.lower():
                 continue
             seen += 1
             print("\n    %s" % (c.GetName() or "?"))
@@ -1415,10 +1431,13 @@ def print_audio_track_mapping():
             for line in pretty.splitlines():
                 print("        %s" % line)
             n, channels = source_channel_count(c)
-            print(TN(n if isinstance(n, int) else 0,
-                     '      --> interpreted as %s audio track%s',
+            if n is None:
+                print(T('      --> no count of audio tracks can be read '
+                        'from this mapping'))
+                continue
+            print(TN(n, '      --> interpreted as %s audio track%s',
                      '      --> interpreted as %s audio tracks%s')
-                  % (n if n is not None else T('not readable'),
+                  % (number_text(n, 0),
                      TN(channels, ' of %s embedded channel',
                         ' of %s embedded channels') % number_text(channels, 0)
                      if channels else ""))
@@ -1536,10 +1555,11 @@ def usable_clip_colours(item, wanted):
     good = []
     for name in wanted:
         try:
-            if item.SetClipColor(name):
-                good.append(name)
+            took = item.SetClipColor(name)
         except Exception:
-            pass
+            continue
+        if took:
+            good.append(name)
     try:
         if before_value:
             item.SetClipColor(before_value)
@@ -1570,11 +1590,12 @@ def colour_clips_by_camera(tl, cameras):
             continue
         for x in item:
             try:
-                if x.SetClipColor(colour):
-                    applied[track] = applied.get(track, 0) + 1
-                else:
-                    failed += 1
+                took = x.SetClipColor(colour)
             except Exception:
+                took = False
+            if took:
+                applied[track] = applied.get(track, 0) + 1
+            else:
                 failed += 1
     if not applied:
         print(T('    Clip colours could not be set.'))
@@ -1748,27 +1769,33 @@ def insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in):
                   if (d.get(k) or {}).get("has_audio")]}
     for kind_track, at_least in (("video", 2), ("audio", 2 if needs_audio
                                                 else 0)):
-        try:
-            while at_least and tl.GetTrackCount(kind_track) < at_least:
-                if not add_track(tl, kind_track):
-                    lacking.add(kind_track)
-                    n = tl.GetTrackCount(kind_track) + 1
-                    # A second track nothing would lie on lacks nothing.
-                    if carries[kind_track] and kind_track == "video":
-                        say_refused(refused, T(
-                            '  Resolve refused video track V%d twice -- the '
-                            'Timeline "%s" lacks the picture of %s.')
-                            % (n, tl.GetName() or "?",
-                               ", ".join(carries["video"])))
-                    elif carries[kind_track]:
-                        say_refused(refused, T(
-                            '  Resolve refused audio track A%d twice -- the '
-                            'Timeline "%s" lacks the sound of %s.')
-                            % (n, tl.GetName() or "?",
-                               ", ".join(carries["audio"])))
+        # Only Resolve's answers inside the trap: a fault in what we make
+        # of them is ours, and would otherwise read as a refused track.
+        while at_least:
+            try:
+                if tl.GetTrackCount(kind_track) >= at_least:
                     break
-        except Exception as e:
-            print(T('    %s track could not be created: %s') % (kind_track, e))
+                if add_track(tl, kind_track):
+                    continue
+                n = tl.GetTrackCount(kind_track) + 1
+                called = tl.GetName() or "?"
+            except Exception as e:
+                print(T('    %s track could not be created: %s')
+                      % (kind_track, e))
+                break
+            lacking.add(kind_track)
+            # A second track nothing would lie on lacks nothing.
+            if carries[kind_track] and kind_track == "video":
+                say_refused(refused, T(
+                    '  Resolve refused video track V%d twice -- the '
+                    'Timeline "%s" lacks the picture of %s.')
+                    % (n, called, ", ".join(carries["video"])))
+            elif carries[kind_track]:
+                say_refused(refused, T(
+                    '  Resolve refused audio track A%d twice -- the '
+                    'Timeline "%s" lacks the sound of %s.')
+                    % (n, called, ", ".join(carries["audio"])))
+            break
     for kind, where_to in ((TYPE_INTRO, label_of(TYPE_INTRO)),
                            (TYPE_OUTRO, label_of(TYPE_OUTRO))):
         entry = d.get(kind)
@@ -1814,13 +1841,14 @@ def insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in):
         pass
     # Check rather than trust: success is reported either way.
     try:
-        up_v2 = tl.GetItemListInTrack("video", 2) or []
-        print(TN(len(up_v2), '    V2 now holds %s clip: %s',
-                 '    V2 now holds %s clips: %s')
-              % (number_text(len(up_v2), 0),
-                 ", ".join((x.GetName() or "?") for x in up_v2) or T('none')))
+        up_v2 = [x.GetName() or "?"
+                 for x in (tl.GetItemListInTrack("video", 2) or [])]
     except Exception as e:
         print(T('    V2 could not be read back: %s') % e)
+    else:
+        print(TN(len(up_v2), '    V2 now holds %s clip: %s',
+                 '    V2 now holds %s clips: %s')
+              % (number_text(len(up_v2), 0), ", ".join(up_v2) or T('none')))
     for kind, where_to, spot, L, having_audio, meeting_point, own in applied:
         # A file with sound whose track was refused is not a silent file.
         print(T('    %-10s from %s, %s long%s')
@@ -2120,6 +2148,9 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
     r = connect_to_resolve()
     print("  %s %s" % (r.GetProductName(), r.GetVersionString()))
     pm = r.GetProjectManager()
+    if pm is None:
+        raise RuntimeError(T('Resolve answers, but hands out no project '
+                             'manager.'))
     # Asked before anything is made: creating a project replaces the open
     # one, and afterwards nobody can say any more what that was.
     was = pm.GetCurrentProject()
@@ -2147,8 +2178,14 @@ def take_back_project(pm, made, before):
     # deleted, and loading another writes an unsaved one out, into the
     # list. So load first, delete then, and believe the list, not the answer.
     name = made.GetName()
+    # Only Resolve's answers inside the traps; what is said about them
+    # stands outside, so a fault of ours is not told as Resolve's.
+    stopped = None
     try:
         listed = pm.GetProjectListInCurrentFolder() or []
+    except Exception as e:
+        listed, stopped = None, e
+    if listed is not None:
         # Nothing loadable was open (a fresh Resolve's unsaved project,
         # gone on creating). Closing the last project leaves Resolve with
         # no database, which is worse: the made one stays open, and says so.
@@ -2158,17 +2195,21 @@ def take_back_project(pm, made, before):
                             'opened again. Delete it in Resolve\'s project '
                             'manager.') % name))
             return False
-        if pm.LoadProject(before):
-            pm.DeleteProject(name)
-        now = pm.GetCurrentProject()
-        now = now.GetName() if now else ""
-        gone = name not in (pm.GetProjectListInCurrentFolder() or [])
-        if gone and now == before:
-            print(T('  The half-built project %r is deleted again, %r is '
-                    'open again.') % (name, before))
-            return True
-    except Exception as e:
-        print(as_warn(T('  Resolve stopped the tidying up: %s') % e))
+        try:
+            if pm.LoadProject(before):
+                pm.DeleteProject(name)
+            now = pm.GetCurrentProject()
+            now = now.GetName() if now else ""
+            gone = name not in (pm.GetProjectListInCurrentFolder() or [])
+        except Exception as e:
+            stopped = e
+        else:
+            if gone and now == before:
+                print(T('  The half-built project %r is deleted again, %r '
+                        'is open again.') % (name, before))
+                return True
+    if stopped is not None:
+        print(as_warn(T('  Resolve stopped the tidying up: %s') % stopped))
     print(as_warn(T('  Caution: the half-built project %r could not be '
                     'deleted, or %r not\n  opened again. Please do it in '
                     'Resolve\'s project manager.') % (name, before)))
@@ -2418,7 +2459,11 @@ def make_resolve_check(QtWidgets, bridge, bridge_emit, resolve_position,
         try:
             result = check_resolve()
         except Exception as e:
-            result = (False, [T('Check itself failed: %s') % e])
+            # A fault of ours, not a Resolve that does not answer: the
+            # whole of it into the log, and its kind into the box.
+            fault_into_log()
+            result = (False, [T('Check itself failed: %s')
+                              % ("%s: %s" % (type(e).__name__, e))])
         bridge_emit(bridge.resolve_check, result)
 
     def resolve_check_run_kick_off():

@@ -5351,3 +5351,9 @@ msgstr ""
 "Singletrack, mar níl ach rian amháin ann. Is féidir réamhshocrú Singletrack "
 "eile a roghnú; le haghaidh Multitrack, cuir dara rian leis -- taifeadadh, nó "
 "ceamara socraithe ar \"úsáid fuaim inmheánach\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> ní féidir líon na rianta fuaime a léamh ón mapáil seo"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Freagraíonn Resolve, ach ní thugann sé bainisteoir tionscadal uaidh."

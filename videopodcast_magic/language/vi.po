@@ -5167,3 +5167,9 @@ msgstr ""
 "Singletrack, vì chỉ có một rãnh. Có thể chọn một cài đặt sẵn Singletrack "
 "khác; để thành Multitrack, thêm một rãnh thứ hai -- một bản ghi, hoặc một "
 "máy quay đặt \"dùng âm thanh tích hợp\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> không đọc được số rãnh âm thanh từ ánh xạ này"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve trả lời, nhưng không đưa ra trình quản lý dự án nào."

@@ -5269,3 +5269,9 @@ msgstr ""
 "Одна доріжка, бо доріжка одна. Можна вибрати інший пресет для однієї "
 "доріжки; для Multitrack додайте другу доріжку -- запис або камеру з "
 "\"використовувати звук\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> з цього зіставлення не можна прочитати кількість звукових доріжок"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve відповідає, але не видає менеджера проєктів."

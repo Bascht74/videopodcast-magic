@@ -5257,3 +5257,9 @@ msgstr ""
 "Singletrack, jo ir viens celiņš. Var izvēlēties citu Singletrack "
 "priekšiestatījumu; Multitrack gadījumā pievienojiet otru celiņu -- ierakstu "
 "vai kameru ar iestatījumu „izmantot iekšējo skaņu“."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> no šīs piesaistes nevar nolasīt audio celiņu skaitu"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve atbild, bet neizsniedz projektu pārvaldnieku."

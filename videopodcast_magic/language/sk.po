@@ -5253,3 +5253,9 @@ msgstr ""
 "Singletrack, pretože je len jedna stopa. Dá sa zvoliť iná predvoľba "
 "Singletrack; pre Multitrack pridajte druhú stopu -- nahrávku alebo kameru "
 "nastavenú na \"použiť interný zvuk\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> z tohto priradenia sa nedá vyčítať počet zvukových stôp"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve odpovedá, ale nevydá žiadneho správcu projektov."

@@ -5222,3 +5222,9 @@ msgstr ""
 "Tek izli, çünkü tek bir iz var. Başka bir tek izli hazır ayar seçilebilir; "
 "çok iz için ikinci bir iz ekleyin -- bir kayıt ya da \"sesi kullan\" olarak "
 "ayarlanmış bir kamera."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> bu eşlemeden ses izi sayısı okunamıyor"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve yanıt veriyor, ancak proje yöneticisi vermiyor."

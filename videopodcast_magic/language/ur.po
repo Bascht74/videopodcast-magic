@@ -5213,3 +5213,9 @@ msgstr ""
 "Singletrack، کیونکہ ایک ہی ٹریک ہے۔ کوئی اور Singletrack پری سیٹ چنا جا سکتا "
 "ہے؛ Multitrack کے لیے دوسرا ٹریک شامل کریں -- ایک ریکارڈنگ، یا \"اندرونی "
 "آڈیو استعمال کریں\" پر رکھا کیمرا۔"
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> اس میپنگ سے آڈیو ٹریکس کی تعداد نہیں پڑھی جا سکتی"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve جواب دیتا ہے، لیکن کوئی پروجیکٹ مینیجر نہیں دیتا۔"

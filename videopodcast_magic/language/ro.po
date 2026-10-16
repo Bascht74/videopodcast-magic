@@ -5254,3 +5254,9 @@ msgstr ""
 "Singletrack, pentru că există o singură pistă. Se poate alege altă presetare "
 "Singletrack; pentru Multitrack, adăugați o a doua pistă -- o înregistrare "
 "sau o cameră setată pe „folosiți audio intern”."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> din această asociere nu se poate citi numărul de piste audio"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve răspunde, dar nu oferă niciun manager de proiecte."

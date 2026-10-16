@@ -5210,3 +5210,9 @@ msgstr ""
 "सिंगलट्रैक, क्योंकि एक ही ट्रैक है। कोई दूसरा Singletrack प्रीसेट चुना जा "
 "सकता है; मल्टीट्रैक के लिए दूसरा ट्रैक जोड़ें -- एक रिकॉर्डिंग, या \"ऑडियो "
 "का उपयोग करें\" पर रखा कैमरा।"
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> इस मैपिंग से ऑडियो ट्रैकों की संख्या पढ़ी नहीं जा सकती"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve जवाब देता है, पर कोई प्रोजेक्ट मैनेजर नहीं देता।"

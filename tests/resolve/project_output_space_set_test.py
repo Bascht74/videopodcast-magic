@@ -9,8 +9,9 @@ bringing an SDR project to PQ; a name Resolve takes but reads back as
 the other range not counted; a spelling that raises passed over; HDR10+
 switched off for SDR, left alone for HDR, and one that raises undoing
 nothing; a project that will not list its settings, or lists none, left
-alone; and the render log of a new project naming the space it was
-brought to.
+alone; the render log of a new project naming the space it was brought
+to; and a fault in our own reading of the range, which stops instead of
+passing for Resolve's refusal and leaving the project on HLG.
 """
 PLATFORM_BOUND = False
 import os
@@ -164,6 +165,32 @@ named = [l.strip() for l in out.getvalue().splitlines()
 check("a new project brought along names its colour space in the log",
       p.settings[OUT] == "Rec.709 Gamma 2.4" and len(named) == 1,
       "output now %r, said %r" % (p.settings[OUT], named))
+
+print("\n8. A fault in our own reading of the range")
+# Our reading of what Resolve answered, broken as a fault of ours would
+# break it. Resolve itself takes the PQ name; only we fail on it.
+p = project("Rec.709 Gamma 2.4")
+reading = vpm.project_colour_to_material.__globals__
+real_says = reading["hdr_says"]
+
+
+def says_broken(text):
+    """Our HDR reading with a fault in it."""
+    raise ZeroDivisionError("a fault in our own HDR reading")
+
+
+reading["hdr_says"] = says_broken
+try:
+    got = vpm.project_colour_to_material(p, True)
+except ZeroDivisionError as e:
+    got = e
+finally:
+    reading["hdr_says"] = real_says
+check("a fault in our HDR reading stops, and leaves no HLG behind",
+      isinstance(got, ZeroDivisionError)
+      and p.settings[OUT] == "Rec.2100 ST2084",
+      "returned %r, output now %r after trying %r"
+      % (got, p.settings[OUT], tried(p)))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

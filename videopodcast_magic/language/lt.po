@@ -5257,3 +5257,9 @@ msgstr ""
 "Singletrack, nes yra vienas takelis. Galima pasirinkti kitą Singletrack "
 "išankstinį nustatymą; Multitrack atveju pridėkite antrą takelį -- įrašą arba "
 "kamerą su nustatymu „naudoti vidinį garsą“."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> iš šio priskyrimo neįmanoma nuskaityti garso takelių skaičiaus"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve atsako, bet nepateikia projektų tvarkytuvo."

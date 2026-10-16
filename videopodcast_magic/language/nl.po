@@ -5211,3 +5211,9 @@ msgstr ""
 "Singletrack, omdat er één spoor is. Een andere Singletrack-voorinstelling is "
 "te kiezen; voor Multitrack voegt u een tweede spoor toe -- een opname, of "
 "een camera op \"intern geluid gebruiken\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> uit deze toewijzing is geen aantal audiosporen te lezen"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve antwoordt, maar geeft geen projectbeheer vrij."

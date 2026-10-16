@@ -5208,3 +5208,9 @@ msgid ""
 msgstr ""
 "Singletrack, כי יש רצועה אחת. אפשר לבחור פריסט Singletrack אחר; ל-Multitrack "
 "יש להוסיף רצועה שנייה -- הקלטה, או מצלמה שמוגדרת \"שימוש בשמע הפנימי\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> לא ניתן לקרוא מהמיפוי הזה את מספר רצועות השמע"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve עונה, אך אינו מוסר מנהל פרויקטים."

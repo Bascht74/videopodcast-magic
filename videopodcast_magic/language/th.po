@@ -5165,3 +5165,9 @@ msgstr ""
 "Singletrack เพราะมีเพียงหนึ่งแทร็ก เลือกพรีเซ็ต Singletrack อื่นได้ "
 "หากต้องการ Multitrack ให้เพิ่มแทร็กที่สอง -- การบันทึก หรือกล้องที่ตั้งเป็น "
 "\"ใช้เสียงในตัว\""
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> อ่านจำนวนแทร็กเสียงจากการแมปนี้ไม่ได้"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve ตอบกลับ แต่ไม่ให้ตัวจัดการโปรเจกต์"

@@ -5151,3 +5151,9 @@ msgid ""
 "picked; for Multitrack, add a second track -- a recording, or a camera set "
 "to \"use internal audio\"."
 msgstr "单轨，因为只有一条音轨。可以选择另一个单轨预设；若要多轨，请加入第二条音轨——一段录音，或设为“使用其音频”的摄像机。"
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> 无法从此映射中读出音轨数量"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve 有回应，但不提供项目管理器。"

@@ -5254,3 +5254,9 @@ msgstr ""
 "Singletrack, ponieważ jest jedna ścieżka. Można wybrać inny preset "
 "Singletrack; dla Multitrack dodaj drugą ścieżkę -- nagranie albo kamerę "
 "ustawioną na \"użyj dźwięku\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> z tego przypisania nie da się odczytać liczby ścieżek audio"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve odpowiada, ale nie udostępnia menedżera projektów."

@@ -5214,3 +5214,9 @@ msgstr ""
 "Singletrack, ఎందుకంటే ఒకే ట్రాక్ ఉంది. వేరే Singletrack ప్రీసెట్ "
 "ఎంచుకోవచ్చు; Multitrack కోసం రెండో ట్రాక్ జోడించండి -- ఒక రికార్డింగ్, లేదా "
 "\"అంతర్గత ఆడియో వాడు\"కు పెట్టిన కెమెరా."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> ఈ మ్యాపింగ్ నుండి ఆడియో ట్రాక్‌ల సంఖ్యను చదవలేము"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve స్పందిస్తుంది, కానీ ప్రాజెక్ట్ మేనేజర్‌ను ఇవ్వదు."

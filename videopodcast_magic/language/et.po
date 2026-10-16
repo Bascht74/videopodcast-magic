@@ -5212,3 +5212,9 @@ msgstr ""
 "Singletrack, sest rada on üks. Valida saab teise Singletrack-eelseadistuse; "
 "Multitracki jaoks lisage teine rada -- salvestis või kaamera olekus „kasuta "
 "sisemist heli“."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> sellest vastendusest ei saa helirajade arvu välja lugeda"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve vastab, kuid ei anna projektihaldurit."

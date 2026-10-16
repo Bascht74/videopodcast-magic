@@ -5251,3 +5251,9 @@ msgstr ""
 "Одна дорожка, потому что дорожка одна. Можно выбрать другой пресет для одной "
 "дорожки; для Multitrack добавьте вторую дорожку -- запись или камеру с "
 "«использовать звук»."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> из этого сопоставления нельзя прочитать число звуковых дорожек"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve отвечает, но не выдаёт менеджер проектов."

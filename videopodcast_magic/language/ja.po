@@ -5157,3 +5157,9 @@ msgid ""
 msgstr ""
 "シングルトラック：トラックが1本だけのためです。別の Singletrack プリセットを選べます。マルチトラックにするには、2本目のトラックを加えます "
 "-- 録音、または「音声を使う」にしたカメラ。"
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> このマッピングからはオーディオトラック数を読み取れません"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve は応答しますが、プロジェクトマネージャーを渡しません。"

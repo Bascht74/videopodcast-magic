@@ -5211,3 +5211,9 @@ msgstr ""
 "Singletrack, επειδή υπάρχει ένα κανάλι. Μπορεί να επιλεγεί άλλη προρύθμιση "
 "Singletrack· για Multitrack προσθέστε δεύτερο κανάλι -- μια ηχογράφηση ή μια "
 "κάμερα ρυθμισμένη σε «χρήση εσωτερικού ήχου»."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> από αυτή την αντιστοίχιση δεν διαβάζεται αριθμός κομματιών ήχου"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Το Resolve απαντά, αλλά δεν δίνει διαχειριστή έργων."
