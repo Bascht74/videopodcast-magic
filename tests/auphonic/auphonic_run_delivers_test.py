@@ -9,12 +9,13 @@ what is not. What is sent is read whole -- the arguments and the files
 an @ points at -- because a key travels in a body as easily as in an
 argument. Every claim has its counter-check with a wrong input, and a
 refusal at any step -- the preset read, the creation, the upload --
-stops the run before the start. A single file's production is made
-from its preset as a Multitrack one is: the settings and outputs
-adopted, the preset's intro and outro not.
+stops the run before the start; a refused start stops it before any
+waiting, for either kind and for a production found again. A single
+file's production is made from its preset as a Multitrack one is: the
+settings and outputs adopted, the preset's intro and outro not.
 Last, a Multitrack run's lookup by title takes the Multitrack
 production of that title and passes over a Singletrack one with an
-intro.
+intro, and finds one further back than the list's first page.
 """
 PLATFORM_BOUND = True
 import os
@@ -211,6 +212,7 @@ class Auphonic(object):
         self.zip_entries = GOOD_ZIP
         self.create_answer = None
         self.upload_answer = None
+        self.start_answer = None
         self.broken_urls = set()
         self.uuid = "PRODUUID"
         self.pending = 0         # how often it answers "still running"
@@ -286,7 +288,13 @@ class Auphonic(object):
         if path.startswith("/api/info/output_files"):
             return FORMATS
         if path.startswith("/api/productions.json?"):
-            return {"status_code": 200, "data": self.listed}
+            # Ten from the offset the call names, as auphonic.com
+            # answers its list whatever limit is asked for.
+            query = dict(part.split("=", 1) for part in
+                         path.split("?", 1)[1].split("&") if "=" in part)
+            start = int(query.get("offset") or 0)
+            return {"status_code": 200,
+                    "data": self.listed[start:start + 10]}
         if path == "/api/productions.json" and method == "POST":
             if self.create_answer is not None:
                 return self.create_answer
@@ -302,6 +310,8 @@ class Auphonic(object):
                 return self.upload_answer
             return {"status_code": 200, "data": self.production()}
         if path.endswith("/start.json"):
+            if self.start_answer is not None:
+                return self.start_answer
             return {"status_code": 200, "data": self.production()}
         if method == "GET" and self.pending:
             self.pending -= 1
@@ -336,6 +346,19 @@ def without_waiting(what):
         return what(), slept
     finally:
         vpm.time.sleep = old
+
+
+# A start auphonic.com turns down, in the shape of its other refusals.
+REFUSED_START = {"status_code": 402,
+                 "error_message": "not enough credits to start"}
+
+
+def polled_after_start(server):
+    """How often the production was asked after once its start went out."""
+    paths = [(m, p) for m, p in server.calls]
+    sent = [i for i, (_m, p) in enumerate(paths) if p.endswith("/start.json")]
+    return sum(1 for m, p in paths[sent[0] + 1:] if m == "GET"
+               and p == "/api/production/PRODUUID.json") if sent else 0
 
 
 def fresh(tag):
@@ -546,6 +569,20 @@ check("a refusal that names a track names that one alone",
       "Guest" in said and "Host" not in said and "Third" not in said,
       "raised %r, wanted Guest and neither Host nor Third" % said[:90])
 
+# Left alone, the production is asked after while it waits, and it
+# answers "running" once and then done: a refused start that is not
+# noticed goes on into that waiting and comes back with tracks.
+server, folder = fresh("startrefused")
+server.start_answer = REFUSED_START
+server.pending = 2
+said, _slept = without_waiting(lambda: raises(lambda: multitrack(server,
+                                                                  folder)))
+check("a refused start stops the run, waiting for nothing",
+      "402" in said and REFUSED_START["error_message"] in said
+      and not polled_after_start(server),
+      "raised %r, the production asked after %d times past the start"
+      % (said[:90], polled_after_start(server)))
+
 server, folder = fresh("rejected")
 server.create_answer = {"status_code": 400,
                         "error_message": "preset does not exist"}
@@ -734,6 +771,18 @@ check("a refused upload stops the run, starting nothing",
       bool(said) and not starts,
       "raised %r, %d start calls" % (said[:60], len(starts)))
 
+server, folder = fresh("simplestart")
+server.start_answer = REFUSED_START
+server.pending = 2
+said, _slept = without_waiting(lambda: raises(lambda: single(server, folder,
+                                                              mono)))
+check("a refused start stops the single file's run, waiting for nothing",
+      "402" in said and REFUSED_START["error_message"] in said
+      and not polled_after_start(server) and not server.downloads,
+      "raised %r, the production asked after %d times past the start, "
+      "%d downloads" % (said[:90], polled_after_start(server),
+                        len(server.downloads)))
+
 server, folder = fresh("simplepresetempty")
 server.single_preset = {}
 said = raises(lambda: single(server, folder, mono), "not readable")
@@ -840,6 +889,37 @@ found = with_server(server, lambda: vpm.find_production_by_title(KEY, TITLE))
 check("the Multitrack one of its title is found, the Singletrack one not",
       (found or {}).get("uuid") == "MULTIUUID",
       "found %r" % (found or {}).get("uuid"))
+# Ten newer productions of other titles before it: only a second page
+# of the list reaches it.
+server, folder = fresh("lookupfar")
+server.listed = [{"uuid": "NEWER%d" % n, "metadata": {"title": "Episode %d"
+                                                       % n},
+                  "multi_input_files": [{"id": "Host"}]}
+                 for n in range(20, 30)] + [
+    {"uuid": "MULTIUUID", "metadata": {"title": TITLE},
+     "multi_input_files": [{"id": n} for n in NAMES]}]
+found = with_server(server, lambda: vpm.find_production_by_title(KEY, TITLE))
+listed = [p for _m, p in server.calls if p.startswith("/api/productions.json?")]
+check("a Multitrack production eleventh back in the list is found",
+      (found or {}).get("uuid") == "MULTIUUID",
+      "found %r after %d list calls: %s"
+      % ((found or {}).get("uuid"), len(listed), listed))
+
+print("\n16. A production found again starts only where auphonic.com agrees")
+# It holds every track and its result; recomputing it uploads nothing
+# and goes straight on to the start.
+server, folder = fresh("reusestart")
+server.listed = [server.production()]
+server.start_answer = REFUSED_START
+server.pending = 2
+said, _slept = without_waiting(lambda: raises(lambda: multitrack(
+    server, folder, carry_on="rerun")))
+reached = any(p.endswith("/start.json") for _m, p in server.calls)
+check("a refused start of a production found again stops the run",
+      reached and "402" in said and REFUSED_START["error_message"] in said
+      and not polled_after_start(server),
+      "start sent: %s, raised %r, the production asked after %d times "
+      "past the start" % (reached, said[:90], polled_after_start(server)))
 
 shutil.rmtree(D, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

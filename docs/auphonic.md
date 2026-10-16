@@ -352,7 +352,10 @@ track alike, and asks what should happen to it. The name is the
 production's, in the window and on the command line alike: **Production
 name**, `--production`, or else the folder the material lies in. An
 episode whose folder has a name of its own therefore does not find last
-week's. For several tracks the answers are these:
+week's. The program looks among the newest 50 productions at
+auphonic.com; one further back is not found, and the run makes a new
+production, which costs credit. For several tracks the answers are
+these:
 
 1. take the existing result: nothing computed, nothing uploaded
 2. recompute with the chosen preset, the files stay where they are:

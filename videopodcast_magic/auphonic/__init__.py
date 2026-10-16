@@ -1423,8 +1423,7 @@ def run_single_production(audio, preset, presetname, key, target_folder,
         raise RuntimeError(T('Auphonic reports %s: %s')
                            % (d.get("status_code"), d.get("error_message")
                               or d.get("form_errors")))
-    _curl_call(key, ["-X", "POST",
-                     AUPHONIC + "/api/production/%s/start.json" % uuid])
+    production_started(key, uuid)
     if stereo:
         print(T('  Two channels requested -- the recording is stereo'))
     print(T('  Production running (%s)') % uuid)
@@ -1479,13 +1478,8 @@ def single_production_found(key, title):
     Multitrack production of that title is passed over: its result is
     tracks, not this recording. A list that is not one finds nothing.
     """
-    d = _parse_json(_curl_call(
-        key, [AUPHONIC + "/api/productions.json?limit=50"]))
-    rows = d.get("data") if isinstance(d, dict) else None
     wanted = (title or "").strip().lower()
-    for p in (rows if isinstance(rows, list) else ()):
-        if not isinstance(p, dict):
-            continue
+    for p in productions_listed(key):
         if ((p.get("metadata") or {}).get("title") or "").strip().lower() \
                 != wanted:
             continue
@@ -1493,6 +1487,38 @@ def single_production_found(key, title):
             continue
         return p
     return None
+
+
+# auphonic.com lists its productions ten at a time, whatever limit is
+# asked for: measured 16.10.2026, no parameter, limit=50, limit=100 and
+# page=2 gave ten of twelve, offset=10 the other two.
+PRODUCTIONS_PAGE = 10
+# How far back a production is looked for by its title.
+PRODUCTIONS_LOOKED_BACK = 50
+
+
+def productions_listed(key):
+    """The productions auphonic.com holds, newest first, as far as looked.
+
+    PRODUCTIONS_LOOKED_BACK of them at most, read a page at a time, each
+    from where the one before ended, so a lookup that finds its
+    production on the first page asks no more. A page that comes back
+    short is the last; an answer that is no list ends the reading, and
+    a row that is no production is passed over.
+    """
+    read = 0
+    while read < PRODUCTIONS_LOOKED_BACK:
+        d = _parse_json(_curl_call(key, [
+            AUPHONIC + "/api/productions.json?offset=%d" % read]))
+        page = d.get("data") if isinstance(d, dict) else None
+        if not isinstance(page, list):
+            return
+        for p in page:
+            if isinstance(p, dict):
+                yield p
+        read += len(page)
+        if len(page) < PRODUCTIONS_PAGE:
+            return
 
 
 def made_as_multitrack(p):
@@ -1816,9 +1842,8 @@ def find_production_by_title(key, title):
     A Singletrack production of that title is passed over: it holds one
     recording, not these tracks.
     """
-    d = _parse_json(_curl_call(key, [AUPHONIC + "/api/productions.json?limit=50"]))
     wanted_name = (title or "").strip().lower()
-    for p in (d.get("data") or []):
+    for p in productions_listed(key):
         if ((p.get("metadata") or {}).get("title") or "").strip().lower()\
                 == wanted_name and made_as_multitrack(p):
             return p
@@ -1975,8 +2000,7 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
 
     _upload_tracks(key, uuid, tracks)
 
-    _curl_call(key, ["-X", "POST",
-                AUPHONIC + "/api/production/%s/start.json" % uuid])
+    production_started(key, uuid)
     print(T('  Production running (%s)') % uuid)
     p = wait_for_production(key, uuid, wait_s)
 
@@ -2014,6 +2038,21 @@ def _upload_tracks(key, uuid, tracks):
     if absent:
         raise RuntimeError(T('These tracks got no file: %s')
                            % ", ".join(absent))
+
+
+def production_started(key, uuid):
+    """Start the production; a refused start stops the run here.
+
+    Refused, it never runs, and the waiting after it would sit out its
+    whole time limit and then blame the time. So the run ends on
+    auphonic.com's own answer, as it ends on a refused upload.
+    """
+    d = _parse_json(_curl_call(key, [
+        "-X", "POST", AUPHONIC + "/api/production/%s/start.json" % uuid]))
+    if d.get("status_code") not in (200, 201, None):
+        raise RuntimeError(T('Auphonic reports %s: %s')
+                           % (d.get("status_code"), d.get("error_message")
+                              or d.get("form_errors")))
 
 
 def cut_what_was_added(tracks, done):
@@ -2227,8 +2266,7 @@ def reuse_production(key, existing, request, preset, tracks,
         _upload_tracks(key, uuid, tracks)
     else:
         print(T('  The existing files are reused -- recomputing costs nothing.'))
-    _curl_call(key, ["-X", "POST",
-                AUPHONIC + "/api/production/%s/start.json" % uuid])
+    production_started(key, uuid)
     print(T('  Production running (%s)') % uuid)
     p = wait_for_production(key, uuid, wait_s)
     done = download_results(key, p, names, target_folder, base)

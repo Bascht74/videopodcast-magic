@@ -65,7 +65,7 @@ figure of the day is that command, not this paragraph**:
   camera's drift goes out is `camera_drift`'s alone, by the rule every
   recording answers to (`drift_clear`: three times its uncertainty)
   and one bound of its own, 500 ppm
-* `auphonic/` **2332** -- the sending to auphonic.com and the fetching
+* `auphonic/` **2370** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
 * `preflight/` **2062** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
@@ -974,8 +974,11 @@ production's id, stops the run there. The files follow through
 `/api/production/<id>/upload.json` -- a single file as `input_file`,
 every track of a multitrack production in one call under its own name.
 A refused upload, or a track that got no file, stops the run before the
-start, naming the tracks. `/api/production/<id>/start.json` starts it,
-and `/api/production/<id>.json` is asked until it is done.
+start, naming the tracks. `/api/production/<id>/start.json` starts it;
+a refused start stops the run there on auphonic.com's answer, as a
+refused upload does, rather than wait out the time limit for a
+production that never runs. Then `/api/production/<id>.json` is asked
+until it is done.
 
 A single file asks for the preset's output files as they stand, less the
 text speech recognition writes. Where the recording is stereo, the mono
@@ -998,8 +1001,16 @@ with every further output it carries. auphonic.com's transcript,
 subtitles and speech data stay there either way.
 
 A production found again by its title is asked about before anything is
-paid for. On a multitrack recompute the settings are brought to the
-preset, the track settings each through its own address
+paid for. Both kinds look it up in `/api/productions.json`, which
+answers ten productions at a time whatever limit is asked for --
+measured 16.10.2026 with twelve: no parameter, `limit=50`, `limit=100`
+and `page=2` gave ten, `offset=10` the other two. So
+`productions_listed` reads it a page at a time with `offset`, newest
+first, until a page comes back short or `PRODUCTIONS_LOOKED_BACK` are
+read, and a lookup stops reading at its first match. One further back
+is not found, and the run makes a new production. On a multitrack
+recompute the settings are brought to the preset, the track settings
+each through its own address
 (`.../multi_input_files/<Name>.json`), and nothing goes up unless a new
 upload is asked for.
 
