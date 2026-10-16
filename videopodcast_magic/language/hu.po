@@ -5180,9 +5180,6 @@ msgstr "Beszédfelismerés"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "bekapcsolva az előbeállításban -- nincs kérve, és a szövegéből semmi sem töltődik le: az átirat itt készül."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "bekapcsolva az előbeállításban, így az auphonic.com is átír -- a szövege nem töltődik le: az átirat itt készül."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- ahogy az előbeállításban vannak; a program egyiket sem változtatja meg."
 

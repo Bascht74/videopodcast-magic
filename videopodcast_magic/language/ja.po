@@ -5127,9 +5127,6 @@ msgstr "音声認識"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "プリセットでオン -- 要求せず、そのテキストは何も取得しません: 文字起こしはここで作ります。"
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "プリセットでオンなので、auphonic.com も文字起こしします -- そのテキストは取得しません: 文字起こしはここで作ります。"
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- プリセットのとおり。プログラムはどれも変えません。"
 

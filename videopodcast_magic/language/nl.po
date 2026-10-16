@@ -5179,9 +5179,6 @@ msgstr "Spraakherkenning"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "aan in de preset -- niet gevraagd, en niets van de tekst wordt opgehaald: het transcript wordt hier gemaakt."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "aan in de preset, dus auphonic.com transcribeert ook -- de tekst wordt niet opgehaald: het transcript wordt hier gemaakt."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- zoals de preset ze heeft; het programma verandert er geen."
 

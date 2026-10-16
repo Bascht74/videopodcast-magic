@@ -5218,9 +5218,6 @@ msgstr "Prepoznavanje govora"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "uključeno u predlošku -- nije zatraženo, i ništa od njegovog teksta se ne preuzima: transkript nastaje ovdje."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "uključeno u predlošku, pa auphonic.com također transkribuje -- njegov tekst se ne preuzima: transkript nastaje ovdje."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- kako ih predložak ima; program ne mijenja nijedan."
 

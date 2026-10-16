@@ -5181,9 +5181,6 @@ msgstr "Разпознаване на реч"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "включено в предварителната настройка -- не се заявява и нищо от текста му не се изтегля: транскрипцията се прави тук."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "включено в предварителната настройка, така че auphonic.com също транскрибира -- текстът му не се изтегля: транскрипцията се прави тук."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- както ги има предварителната настройка; програмата не променя нито един."
 

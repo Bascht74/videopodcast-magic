@@ -143,9 +143,8 @@ switches nothing on and nothing off in it.
   **Export Uncut Audio** keeps the length, and the run goes on.
 * `Speech recognition` says in one line when the preset has
   auphonic.com's speech recognition switched on. It stops nothing. The
-  transcript is made here either way (see below), so a multitrack
-  production does not ask for it, and neither kind of production fetches
-  its text.
+  transcript is made here either way (see below), so neither kind of
+  production asks for it or fetches its text.
 * `Intro / outro` says in one line when the preset holds an intro or an
   outro, for a single track as for several. Neither is used: the
   production takes the preset's settings without them, and intro and
@@ -185,12 +184,10 @@ was said: a json with times, an srt for subtitles and a txt to read, in
 the shape auphonic.com delivers its own.
 
 A preset with auphonic.com's speech recognition switched on changes
-nothing about that. A multitrack production is created without it. A
-single track takes the preset's settings as they stand, so auphonic.com
-transcribes it as well -- switch it off in the preset where that is not
-wanted. Either way its subtitles, speech data and transcript stay at
-auphonic.com and are not fetched: there is one transcript, and it is
-the one made here.
+nothing about that. The production is created without it, for a single
+track as for several, so auphonic.com transcribes nothing. Subtitles,
+speech data and transcript are neither asked for nor fetched: there is
+one transcript, and it is the one made here.
 
 This costs the processor, not credit. It needs no key, no preset and no
 upload, and a run without Auphonic writes the same three files.
@@ -327,7 +324,10 @@ Several tracks go through these:
    program's own mix should end up. Where one track is stereo, `Two
    channels, because one track is stereo` follows.
 2. `Production created (…)`, then `Uploading 2 tracks`: all tracks in
-   one upload. A track auphonic.com took no file for stops the run.
+   one upload. Where auphonic.com refuses the upload, or takes no file
+   for a track, the run stops before the production is started.
+   `These tracks got no file:` names the tracks concerned, and every
+   track that went up where auphonic.com names none.
 3. `Production running (…)` once the tracks are up and the production
    is started, then `Time limit:` and the same bar.
 4. `Downloading <title>.wav.zip`, the single tracks in one archive, then

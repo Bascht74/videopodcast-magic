@@ -5222,9 +5222,6 @@ msgstr "Recunoaștere vocală"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "activată în presetare -- nu este cerută, și nimic din textul ei nu este descărcat: transcrierea se face aici."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "activată în presetare, deci auphonic.com transcrie și el -- textul ei nu este descărcat: transcrierea se face aici."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- așa cum le are presetarea; programul nu schimbă niciunul."
 

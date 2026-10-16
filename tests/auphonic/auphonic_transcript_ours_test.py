@@ -2,13 +2,15 @@
 """The transcript is ours: auphonic.com's is neither asked for nor fetched.
 
 Nothing here talks to auphonic.com. In order: a Multitrack request
-built from a preset with speech recognition on leaves it out and keeps
-the rest of the preset; a single production's text outputs are fetched
-without auphonic.com's three transcript formats, held against a
-stand-in that notes the address instead of opening it; and the
-preflight says in one line that speech recognition is on, for both
-kinds of production, and says nothing where it is off. The shape of an
-"off" preset is the API description's, not one seen in an answer.
+and a Singletrack one built from a preset with speech recognition on
+both leave it out and keep the rest of the preset, the Singletrack one
+asking for none of the text it would write either; a single
+production's text outputs are fetched without auphonic.com's three
+transcript formats, held against a stand-in that notes the address
+instead of opening it; and the preflight says in one line that speech
+recognition is on, the same line for both kinds of production, and
+says nothing where it is off. The shape of an "off" preset is the API
+description's, not one seen in an answer.
 """
 PLATFORM_BOUND = False
 import os
@@ -49,7 +51,7 @@ LISTENS = {"speech_recognition": {"language": "en", "keywords": []},
                                   "algorithms": {"denoise": True}}],
            "is_multitrack": True, "preset_name": "Podcast_Multitrack"}
 
-print("1. The Multitrack request leaves speech recognition out")
+print("1. Neither kind of request asks for speech recognition")
 request = vpm.build_multitrack_request(LISTENS, "Episode",
                                        ["Guest", "Presenter"], "Episode")
 check("speech recognition is not in the request",
@@ -62,6 +64,20 @@ check("the preset's switches go along as they stand",
 check("and the preset itself is left as it was read",
       "speech_recognition" in LISTENS,
       "preset keys %s" % sorted(LISTENS))
+# A Singletrack preset that listens carries the text outputs of its
+# recognition beside the audio, by the three formats the API names.
+SINGLE = dict(LISTENS, is_multitrack=False, multi_input_files=[],
+              output_files=[{"format": "wav", "ending": "wav"},
+                            {"format": "subtitle", "ending": "srt"},
+                            {"format": "transcript", "ending": "txt"},
+                            {"format": "chaps", "ending": "chapters.txt"}])
+single_request = vpm.build_single_request(SINGLE, "Episode")
+check("the Singletrack request leaves speech recognition out too",
+      "speech_recognition" not in single_request,
+      "request keys %s" % sorted(single_request))
+asked = [f.get("format") for f in single_request.get("output_files") or []]
+check("and asks for none of the text the recognition would write",
+      asked == ["wav", "chaps"], "asked for %s, wanted wav and chaps" % asked)
 
 print("\n2. A single production's text comes without the transcript")
 folder = tempfile.mkdtemp(prefix="vpm_text_")
@@ -115,6 +131,11 @@ check("a single preset with an outside service is said once",
       "%d lines: %s" % (len(single), [b.text for b in single]))
 check("and that holds nothing up either",
       all(b.kind != "abort" for b in single), [b.kind for b in single])
+check("both kinds are told the same line",
+      [(b.kind, b.text) for b in single] == [(b.kind, b.text) for b in multi],
+      "single %s against multitrack %s"
+      % ([(b.kind, b.text) for b in single],
+         [(b.kind, b.text) for b in multi]))
 quiet = (said_for(dict(LISTENS, speech_recognition=None), True)
          + said_for(dict(LISTENS, speech_recognition={}), True)
          + said_for({k: v for k, v in LISTENS.items()

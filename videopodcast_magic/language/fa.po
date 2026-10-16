@@ -5180,9 +5180,6 @@ msgstr "تشخیص گفتار"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "در پیش‌تنظیم روشن است -- درخواست نمی‌شود و چیزی از متن آن دریافت نمی‌شود: رونوشت همین‌جا ساخته می‌شود."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "در پیش‌تنظیم روشن است، پس auphonic.com هم رونویسی می‌کند -- متن آن دریافت نمی‌شود: رونوشت همین‌جا ساخته می‌شود."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- همان‌طور که در پیش‌تنظیم هستند؛ برنامه هیچ‌کدام را تغییر نمی‌دهد."
 

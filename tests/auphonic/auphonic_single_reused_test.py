@@ -133,6 +133,12 @@ class Auphonic(object):
         elif path.startswith("/api/production/"):
             uuid = path.split("/")[3].split(".")[0]
             answer = production(uuid=uuid)
+        elif path.startswith("/api/preset/"):
+            # A preset read is answered with one, as auphonic.com
+            # answers it: the run makes its production from it.
+            answer = {"uuid": "PRESETUUID", "preset_name": "Podcast",
+                      "is_multitrack": False,
+                      "output_files": [{"format": "wav", "ending": "wav"}]}
         else:
             answer = {}
         return json.dumps({"status_code": 200, "data": answer})

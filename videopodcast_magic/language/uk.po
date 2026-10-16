@@ -5237,9 +5237,6 @@ msgstr "Розпізнавання мовлення"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "увімкнено в пресеті -- не запитується, і нічого з його тексту не завантажується: транскрипт створюється тут."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "увімкнено в пресеті, тож auphonic.com теж транскрибує -- його текст не завантажується: транскрипт створюється тут."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- як вони задані в пресеті; програма не змінює жодного."
 

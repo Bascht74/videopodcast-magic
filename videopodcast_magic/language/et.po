@@ -5180,9 +5180,6 @@ msgstr "Kõnetuvastus"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "eelseadistuses sisse lülitatud -- seda ei küsita ja selle teksti ei laadita alla: transkriptsioon tehakse siin."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "eelseadistuses sisse lülitatud, nii et auphonic.com transkribeerib samuti -- selle teksti ei laadita alla: transkriptsioon tehakse siin."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- nii nagu eelseadistuses; programm ei muuda ühtegi."
 

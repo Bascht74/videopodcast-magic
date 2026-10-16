@@ -5182,9 +5182,6 @@ msgstr "ప్రసంగ గుర్తింపు"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "ప్రీసెట్‌లో ఆన్ -- అడగబడదు, దాని పాఠం ఏదీ తీసుకురాబడదు: ట్రాన్స్‌క్రిప్ట్ ఇక్కడే తయారవుతుంది."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "ప్రీసెట్‌లో ఆన్, కాబట్టి auphonic.com కూడా ట్రాన్స్‌క్రైబ్ చేస్తుంది -- దాని పాఠం తీసుకురాబడదు: ట్రాన్స్‌క్రిప్ట్ ఇక్కడే తయారవుతుంది."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- ప్రీసెట్‌లో ఉన్నట్లే; ప్రోగ్రామ్ దేనినీ మార్చదు."
 

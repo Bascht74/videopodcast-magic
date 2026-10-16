@@ -5178,9 +5178,6 @@ msgstr "Puheentunnistus"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "päällä esiasetuksessa -- sitä ei pyydetä, eikä sen tekstiä haeta: litterointi tehdään täällä."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "päällä esiasetuksessa, joten auphonic.com litteroi myös -- sen tekstiä ei haeta: litterointi tehdään täällä."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- sellaisina kuin esiasetuksessa; ohjelma ei muuta yhtäkään."
 

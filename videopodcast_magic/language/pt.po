@@ -5178,9 +5178,6 @@ msgstr "Reconhecimento de fala"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "ativado no preset -- não é pedido, e nada do seu texto é baixado: a transcrição é feita aqui."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "ativado no preset, então o auphonic.com também transcreve -- o seu texto não é baixado: a transcrição é feita aqui."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- como o preset os tem; o programa não altera nenhum."
 

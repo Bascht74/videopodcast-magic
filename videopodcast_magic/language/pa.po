@@ -5183,9 +5183,6 @@ msgstr "ਬੋਲੀ ਪਛਾਣ"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "ਪ੍ਰੀਸੈੱਟ ਵਿੱਚ ਚਾਲੂ -- ਮੰਗੀ ਨਹੀਂ ਜਾਂਦੀ, ਅਤੇ ਇਸਦਾ ਕੋਈ ਪਾਠ ਨਹੀਂ ਲਿਆਇਆ ਜਾਂਦਾ: ਟ੍ਰਾਂਸਕ੍ਰਿਪਟ ਇੱਥੇ ਹੀ ਬਣਦੀ ਹੈ।"
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "ਪ੍ਰੀਸੈੱਟ ਵਿੱਚ ਚਾਲੂ, ਇਸ ਲਈ auphonic.com ਵੀ ਟ੍ਰਾਂਸਕ੍ਰਾਈਬ ਕਰਦਾ ਹੈ -- ਇਸਦਾ ਪਾਠ ਨਹੀਂ ਲਿਆਇਆ ਜਾਂਦਾ: ਟ੍ਰਾਂਸਕ੍ਰਿਪਟ ਇੱਥੇ ਹੀ ਬਣਦੀ ਹੈ।"
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- ਜਿਵੇਂ ਪ੍ਰੀਸੈੱਟ ਵਿੱਚ ਹਨ; ਪ੍ਰੋਗਰਾਮ ਕਿਸੇ ਨੂੰ ਨਹੀਂ ਬਦਲਦਾ।"
 

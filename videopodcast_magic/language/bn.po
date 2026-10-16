@@ -5179,9 +5179,6 @@ msgstr "বাক্য শনাক্তকরণ"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "প্রিসেটে চালু -- চাওয়া হয় না, আর এর কোনো লেখা আনা হয় না: ট্রান্সক্রিপ্ট এখানেই তৈরি হয়।"
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "প্রিসেটে চালু, তাই auphonic.com-ও ট্রান্সক্রাইব করে -- এর লেখা আনা হয় না: ট্রান্সক্রিপ্ট এখানেই তৈরি হয়।"
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- প্রিসেটে যেমন আছে; প্রোগ্রাম কোনোটিই বদলায় না।"
 
