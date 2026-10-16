@@ -25,6 +25,216 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b29] - 2026-10-16
+
+### Added
+
+- **The check before a run now reads the Auphonic preset**: it lists
+  every processing switch that is on, with its setting, and says the
+  program changes none of them.
+- **A second run of a single recording now finds its Auphonic production
+  again**, as Multitrack already did, and asks: take the result, upload
+  anew, or stop. `--auphonic-resume` answers for a script. Before, every
+  run uploaded anew and was charged again.
+- **The Auphonic box now says before the run whether the credit is
+  enough** for what auphonic.com will charge, each production counted at
+  three minutes or more, as the price list says.
+- **The Python floor and the tested package versions are now one
+  command away**: the README gives one install line per system that
+  installs with the versions the release's tests ran green on, and the
+  `pipx` line does the same.
+
+### Changed
+
+- **The program now needs Python 3.12 or newer**; 3.10 and 3.11 are
+  refused at start and by pip. The package versions a release is tested
+  with no longer install below 3.12.
+- **The "Multitrack" tick is gone.** The production kind now follows
+  from the material, and a grey line under the preset list says which
+  kind and why, for example "Multitrack, because 3 tracks lie on one
+  time axis". `--multitrack` is still accepted for this release and does
+  nothing.
+- **A preset that lets auphonic.com cut silence, fillers, coughs or
+  music now stops the run before the upload**, because the sound would
+  come back shorter than the pictures. The advice names the place in the
+  preset; "Set Cuts To Silent" keeps the length and goes on.
+- **Transcripts, subtitles and speech data are no longer fetched from
+  auphonic.com**, and a Multitrack request no longer asks for speech
+  recognition. The manual's promise "no text from auphonic.com" now
+  holds.
+- **A file of more than two channels now stops the run before anything
+  is sent**, naming the file and its channel count, and points to the
+  channel rows on "Files & production". It used to go up with a warning
+  and mostly arrived folded to one channel.
+- **`--update` now installs a release with that release's own list of
+  package versions**, so going back to an earlier version brings that
+  version's packages too. Releases before 3.0.0b28 carry no list and are
+  installed without one.
+- **ffmpeg is now fetched from one named build and checked against a
+  checksum kept in the program**, no longer from whatever the build host
+  calls "latest". A newer ffmpeg comes only with a newer program.
+- **On a Mac, recognition now hears a language in one fixed variant**:
+  the one asked for, the Mac's own region (de-CH on a Swiss Mac), then a
+  fixed one per language such as en-US. English on a German Mac used to
+  land on a different variant run after run.
+- **A language the Mac has no recogniser for now goes to Whisper**, and
+  the log says so, for example "macOS hears no Dutch here, Whisper takes
+  it". Before, the file was heard in the system language.
+- **A recording in blocks is now heard once for the window's
+  transcript**: the window takes the words of the voice separation
+  instead of listening a second time.
+- **The project file now keeps the reference camera**, so a reopened
+  project reads a typed timecode mark at the rate of the camera the run
+  used.
+- **German now says "Transkript" everywhere**, in the window and the
+  manual, no longer also "Niederschrift".
+
+### Fixed
+
+- **A voice name typed just before the assignment sheet is rebuilt now
+  stays.** When a file's tracks finished cutting in the background at
+  that moment, the name silently went back to "Speaker N".
+- **Quitting the window no longer hangs.** Stopping the players at quit
+  could deadlock inside Qt's media backend, about one quit in 75 under
+  load; the players are now left to the system as the program ends.
+- **The window no longer hangs while playing**: a deadlock between
+  PySide 6.12 and Qt's media thread is now avoided when each sound output
+  is made. It is reported to Qt as PYSIDE-3478.
+- **The window now opens on a Qt without its multimedia modules**, and no
+  longer opens ffplay by itself there; a file handed to the player still
+  goes to ffplay.
+- **The window now lays a recording's later blocks where the run puts
+  them.** After a gap in the timecode the preview played a block 1.5 s
+  too early; it now matches the run to the millisecond.
+- **A Multitrack preset that starts with an intro now sends the speaker
+  tracks with the preset's track settings**, no longer with the intro's.
+- **Each Auphonic production lookup now takes only its own kind**: a
+  Multitrack run no longer finds a Singletrack production of its title,
+  and a Singletrack run with an intro is found again.
+- **On the command line, the check before a run now says that a file of
+  more than two channels is folded to one channel**, instead of pointing
+  to channel rows only the window has.
+- **A QuickTime file whose last box is only eight bytes long is now read
+  to its end**, so the check after a timecode edit no longer mistakes
+  where the movie data ends.
+- **`--help` no longer marks `--auphonic-resume` as "[multitrack
+  only]"**; it works for a single recording too.
+
+### Documentation
+
+- **The requirements chapter now explains the Python 3.12 floor** and
+  which systems and Python versions the builder tests on.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Die Prüfung vor einem Lauf liest jetzt das Auphonic-Preset**: Sie
+  nennt jeden eingeschalteten Bearbeitungsschalter mit seiner
+  Einstellung und sagt, dass das Programm keinen davon ändert.
+- **Ein zweiter Lauf einer einzelnen Aufnahme findet seine
+  Auphonic-Produktion jetzt wieder**, wie schon bei Multitrack, und
+  fragt: Ergebnis übernehmen, neu hochladen oder anhalten.
+  `--auphonic-resume` antwortet für ein Skript. Bisher lud jeder Lauf
+  neu hoch und wurde erneut abgerechnet.
+- **Der Auphonic-Kasten sagt jetzt vor dem Lauf, ob das Guthaben
+  reicht** für das, was auphonic.com berechnet; jede Produktion zählt
+  mit mindestens drei Minuten, wie in der Preisliste.
+- **Python-Untergrenze und getestete Paketversionen sind jetzt einen
+  Befehl entfernt**: Die README nennt je System eine Installationszeile,
+  die genau die Versionen holt, mit denen die Tests der Version grün
+  liefen; die `pipx`-Zeile ebenso.
+
+### Geändert
+
+- **Das Programm braucht jetzt Python 3.12 oder neuer**; 3.10 und 3.11
+  weisen Programmstart und pip ab. Die Paketversionen, mit denen eine
+  Version getestet wird, lassen sich unter 3.12 nicht mehr installieren.
+- **Das Häkchen „Multitrack“ ist weg.** Die Art der Produktion ergibt
+  sich jetzt aus dem Material, und eine graue Zeile unter der
+  Preset-Liste sagt, welche und warum, etwa „Multitrack, weil 3 Spuren
+  auf einer Zeitachse liegen“. `--multitrack` wird in dieser Version
+  noch angenommen und bewirkt nichts.
+- **Ein Preset, mit dem auphonic.com Stille, Füllwörter, Husten oder
+  Musik herausschneidet, hält den Lauf jetzt vor dem Hochladen an**,
+  denn der Ton käme kürzer zurück als die Bilder. Der Hinweis nennt die
+  Stelle im Preset; „Set Cuts To Silent“ behält die Länge und läuft
+  weiter.
+- **Transkript, Untertitel und Sprachdaten holt das Programm nicht mehr
+  von auphonic.com**, und eine Multitrack-Anfrage verlangt keine
+  Spracherkennung mehr. Das Versprechen des Handbuchs „kein Text von
+  auphonic.com“ stimmt jetzt.
+- **Eine Datei mit mehr als zwei Kanälen hält den Lauf jetzt an, bevor
+  etwas gesendet wird**: Er nennt Datei und Kanalzahl und verweist auf
+  die Kanalzeilen unter „Dateien & Produktion“. Bisher ging sie mit
+  einer Warnung hoch und kam meist auf einen Kanal gefaltet an.
+- **`--update` installiert eine Version jetzt mit ihrer eigenen Liste
+  von Paketversionen**; wer zu einer früheren Version zurückgeht,
+  bekommt deren Pakete. Versionen vor 3.0.0b28 haben keine Liste und
+  werden ohne installiert.
+- **ffmpeg kommt jetzt aus einem benannten Build und wird gegen eine
+  Prüfsumme im Programm geprüft**, nicht mehr aus dem, was der Anbieter
+  gerade „latest“ nennt. Ein neueres ffmpeg kommt nur mit einem neueren
+  Programm.
+- **Auf dem Mac hört die Erkennung eine Sprache jetzt in einer festen
+  Variante**: der verlangten, dann der Region des Mac (de-CH auf einem
+  Schweizer Mac), dann einer festen je Sprache wie en-US. Englisch
+  landete auf einem deutschen Mac bisher bei jedem Lauf in einer anderen
+  Variante.
+- **Eine Sprache, für die der Mac keine Erkennung hat, geht jetzt an
+  Whisper**, und das Protokoll sagt es, etwa „macOS hört hier kein
+  Niederländisch, Whisper übernimmt“. Bisher wurde die Datei in der
+  Systemsprache gehört.
+- **Eine Aufnahme in Blöcken wird für das Transkript des Fensters jetzt
+  einmal gehört**: Das Fenster übernimmt die Wörter der Stimmtrennung,
+  statt ein zweites Mal hinzuhören.
+- **Die Projektdatei behält jetzt die Bezugskamera**: Ein wieder
+  geöffnetes Projekt liest eine getippte Timecode-Marke in der Bildrate
+  der Kamera, die der Lauf benutzt hat.
+- **Auf Deutsch heißt es jetzt überall „Transkript“**, im Fenster und
+  im Handbuch, nicht mehr daneben auch „Niederschrift“.
+
+### Behoben
+
+- **Ein Stimmenname, der kurz vor dem Neuaufbau der Zuordnung getippt
+  wird, bleibt jetzt stehen.** War gerade im Hintergrund das Zerlegen
+  einer Datei fertig, fiel der Name still auf „Sprecher N“ zurück.
+- **Das Beenden des Fensters hängt nicht mehr.** Das Anhalten der Player
+  beim Beenden konnte sich in Qts Medien-Unterbau verklemmen, unter Last
+  etwa einmal in 75 Fällen; jetzt räumt das System die Player beim
+  Programmende ab.
+- **Das Fenster hängt beim Abspielen nicht mehr**: Eine Verklemmung
+  zwischen PySide 6.12 und Qts Medien-Thread wird jetzt schon beim
+  Anlegen jeder Tonausgabe umgangen. Bei Qt ist sie als PYSIDE-3478
+  gemeldet.
+- **Das Fenster öffnet jetzt auch mit einem Qt ohne Multimedia-Module**
+  und startet dort kein ffplay mehr von selbst; eine Datei, die man dem
+  Player gibt, geht weiter an ffplay.
+- **Das Fenster legt die späteren Blöcke einer Aufnahme jetzt dorthin,
+  wo der Lauf sie hinlegt.** Nach einer Lücke im Timecode spielte die
+  Vorschau einen Block 1,5 s zu früh; jetzt stimmt sie mit dem Lauf auf
+  die Millisekunde überein.
+- **Beginnt ein Multitrack-Preset mit einem Intro, gehen die
+  Sprecherspuren jetzt mit den Spureinstellungen des Presets hoch**,
+  nicht mehr mit denen des Intros.
+- **Jede Suche nach einer Auphonic-Produktion nimmt jetzt nur ihre eigene
+  Art**: Ein Multitrack-Lauf findet keine Einspur-Produktion gleichen
+  Titels mehr, und ein Einspur-Lauf mit Intro wird wieder gefunden.
+- **Auf der Kommandozeile sagt die Prüfung vor dem Lauf jetzt, dass eine
+  Datei mit mehr als zwei Kanälen auf einen Kanal gefaltet wird**, statt
+  auf Kanalzeilen zu verweisen, die nur das Fenster hat.
+- **Eine QuickTime-Datei, deren letzter Block nur acht Byte lang ist,
+  wird jetzt bis zum Ende gelesen**; die Prüfung nach einer
+  Timecode-Änderung verkennt nicht mehr, wo die Filmdaten enden.
+- **`--help` kennzeichnet `--auphonic-resume` nicht mehr als
+  „[multitrack only]“**; der Schalter gilt auch für eine einzelne Aufnahme.
+
+### Dokumentation
+
+- **Das Kapitel zu den Voraussetzungen erklärt jetzt die Untergrenze
+  Python 3.12** und auf welchen Systemen und Python-Versionen getestet
+  wird.
+
 ## [3.0.0b28] - 2026-09-27
 
 ### Added
