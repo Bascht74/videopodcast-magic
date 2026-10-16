@@ -1986,6 +1986,9 @@ msgstr "  -->  संरेखित, घड़ी का विचलन %s ppm
 msgid "   Caution: measurement unusable"
 msgstr "   सावधान: माप अनुपयोगी"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   सावधान: अपलोड किए गए में से %s s इसमें नहीं है"
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  auphonic.com से मिक्सडाउन: %s LUFS, शिखर %s dBTP (%s)"
 

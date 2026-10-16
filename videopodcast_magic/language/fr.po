@@ -1542,6 +1542,9 @@ msgstr "   -- c’est tout le monde, donc chaque plan va sur la même caméra."
 msgid "   Caution: measurement unusable"
 msgstr "   Attention : mesure inutilisable"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Attention : il y manque %s s de ce qui est parti"
+
 msgid "   Caution: more than one frame"
 msgstr "   Attention : plus d’une image"
 

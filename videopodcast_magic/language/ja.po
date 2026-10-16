@@ -1976,6 +1976,9 @@ msgstr "  -->  位置合わせ済み、クロックのずれ %s ppm を除去"
 msgid "   Caution: measurement unusable"
 msgstr "   注意: 測定値は使えません"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   注意: 送った音声のうち %s s が含まれていません"
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  auphonic.com のミックスダウン: %s LUFS、ピーク %s dBTP (%s)"
 

@@ -2041,6 +2041,9 @@ msgstr "  -->  تمت المحاذاة، أُزيل انحراف الساعة %s
 msgid "   Caution: measurement unusable"
 msgstr "   تنبيه: القياس غير صالح"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   تنبيه: ينقصه %s s مما أُرسل"
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  المزيج النهائي من auphonic.com: %s LUFS، الذروة %s dBTP (%s)"
 

@@ -3362,6 +3362,9 @@ msgstr "naamloos"
 msgid "   Caution: measurement unusable"
 msgstr "   Let op: meting onbruikbaar"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Let op: er ontbreekt %s s van wat omhoogging"
+
 msgid "   NOT INSERTED"
 msgstr "   NIET INGEVOEGD"
 

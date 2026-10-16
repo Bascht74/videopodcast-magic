@@ -3411,6 +3411,9 @@ msgstr "अनामिक"
 msgid "   Caution: measurement unusable"
 msgstr "   सावधान: मोजमाप निरुपयोगी"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   सावधान: पाठवलेल्यापैकी %s s त्यात नाही"
+
 msgid "   NOT INSERTED"
 msgstr "   घातले नाही"
 

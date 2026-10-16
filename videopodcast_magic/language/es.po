@@ -1530,6 +1530,9 @@ msgstr "   -- son todos, así que cada plano va a la misma cámara."
 msgid "   Caution: measurement unusable"
 msgstr "   Atención: medición inservible"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Atención: le faltan %s s de lo que se subió"
+
 msgid "   Caution: more than one frame"
 msgstr "   Atención: más de un fotograma"
 

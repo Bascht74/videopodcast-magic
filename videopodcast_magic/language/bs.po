@@ -3405,6 +3405,9 @@ msgstr "bez naziva"
 msgid "   Caution: measurement unusable"
 msgstr "   Oprez: mjerenje neupotrebljivo"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Oprez: u njemu nedostaje %s s od poslanog"
+
 msgid "   NOT INSERTED"
 msgstr "   NIJE UMETNUTO"
 

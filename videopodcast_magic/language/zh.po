@@ -1976,6 +1976,9 @@ msgstr "  -->  已对齐，已消除 %s ppm 时钟漂移"
 msgid "   Caution: measurement unusable"
 msgstr "   注意：测量结果不可用"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   注意：上传的内容中有 %s 秒不在其中"
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  来自 auphonic.com 的缩混：%s LUFS，峰值 %s dBTP (%s)"
 

@@ -3363,6 +3363,9 @@ msgstr "без имена"
 msgid "   Caution: measurement unusable"
 msgstr "   Пажња: мерење неупотребљиво"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Пажња: у њему недостаје %s с од послатог"
+
 msgid "   NOT INSERTED"
 msgstr "   НИЈЕ УБАЧЕНО"
 

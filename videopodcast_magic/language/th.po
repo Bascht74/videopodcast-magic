@@ -3408,6 +3408,9 @@ msgstr "ไม่มีชื่อ"
 msgid "   Caution: measurement unusable"
 msgstr "   ข้อควรระวัง: การวัดใช้ไม่ได้"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   ข้อควรระวัง: ขาดเสียงที่อัปโหลดไป %s s"
+
 msgid "   NOT INSERTED"
 msgstr "   ไม่ได้แทรก"
 

@@ -3361,6 +3361,9 @@ msgstr "nimetön"
 msgid "   Caution: measurement unusable"
 msgstr "   Varoitus: mittaus käyttökelvoton"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Varoitus: siitä puuttuu %s s lähetetystä"
+
 msgid "   NOT INSERTED"
 msgstr "   EI LISÄTTY"
 

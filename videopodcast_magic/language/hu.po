@@ -3363,6 +3363,9 @@ msgstr "névtelen"
 msgid "   Caution: measurement unusable"
 msgstr "   Figyelem: a mérés használhatatlan"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Figyelem: a felküldöttből %s s hiányzik belőle"
+
 msgid "   NOT INSERTED"
 msgstr "   NINCS BEILLESZTVE"
 

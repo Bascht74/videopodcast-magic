@@ -1540,6 +1540,9 @@ msgstr "   -- это все, так что каждый план идёт на �
 msgid "   Caution: measurement unusable"
 msgstr "   Внимание: измерение непригодно"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Внимание: в нём нет %s с из отправленного"
+
 msgid "   Caution: more than one frame"
 msgstr "   Внимание: больше одного кадра"
 

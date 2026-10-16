@@ -3410,6 +3410,9 @@ msgstr "بی‌نام"
 msgid "   Caution: measurement unusable"
 msgstr "   احتیاط: اندازه‌گیری قابل استفاده نیست"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   احتیاط: %s s از آنچه بالا رفت در آن نیست"
+
 msgid "   NOT INSERTED"
 msgstr "   درج نشد"
 

@@ -2002,6 +2002,9 @@ msgstr "  -->  allineato, deriva del clock di %s ppm tolta"
 msgid "   Caution: measurement unusable"
 msgstr "   Attenzione: misura inutilizzabile"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Attenzione: vi mancano %s s di ciò che è stato caricato"
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  Mixdown da auphonic.com: %s LUFS, picco %s dBTP (%s)"
 

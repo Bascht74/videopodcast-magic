@@ -2014,6 +2014,9 @@ msgstr "  -->  вирівняно, дрейф годинника %s ppm приб
 msgid "   Caution: measurement unusable"
 msgstr "   Увага: вимірювання непридатне"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Увага: у ньому бракує %s с надісланого"
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  Mixdown з auphonic.com: %s LUFS, пік %s dBTP (%s)"
 

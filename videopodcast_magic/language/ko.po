@@ -3350,6 +3350,9 @@ msgstr "이름 없음"
 msgid "   Caution: measurement unusable"
 msgstr "   주의: 측정값 사용 불가"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   주의: 올라간 것 중 %s s가 들어 있지 않습니다"
+
 msgid "   NOT INSERTED"
 msgstr "   삽입 안 됨"
 

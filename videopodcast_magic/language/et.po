@@ -3410,6 +3410,9 @@ msgstr "nimeta"
 msgid "   Caution: measurement unusable"
 msgstr "   Tähelepanu: mõõtmine pole kasutatav"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Tähelepanu: sellest puudub %s s üles läinust"
+
 msgid "   NOT INSERTED"
 msgstr "   LISAMATA"
 

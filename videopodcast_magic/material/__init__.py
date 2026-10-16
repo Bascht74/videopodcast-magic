@@ -679,6 +679,28 @@ def cut_to_what_was_sent(sent, back):
     return front, behind
 
 
+# What a return may lack of the sound sent: a lossy file cut to its frames,
+# 0.1 s in the live test, and the measuring error. Built speech, 16.10.2026:
+# right returns lacked 0.015 s at most; 85 of 88 of other sound over 1 s.
+RETURN_MISSING_MOST_S = 0.25
+
+
+def return_not_sent(found, sent_s, back_s):
+    """Why a return cannot be the sound that went up, or None.
+
+    Placed where where_sent_sits put it, the sound sent has to lie whole
+    inside the return; longer is allowed (a jingle, a wider window
+    recomputed), so other sound placed inside passes. Points and spread
+    look alike for both, and a quiet de-bled speaker matches as a stranger.
+    """
+    a, b = found["a"], found["drift"]
+    missing = sent_s - (min(back_s, a + b * sent_s) - max(0.0, a)) / b
+    if missing > RETURN_MISSING_MOST_S:
+        return (T('   Caution: %s s of what went up is not in it')
+                % number_text(missing, 1))
+    return None
+
+
 def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
     """Check what Auphonic returns against what was uploaded.
 
@@ -744,6 +766,9 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
         else:
             track["ready"] = done
         uncertain = st.get("points", 0) < 5 or spread > 150.0
+        caution = (T('   Caution: measurement unusable') if uncertain
+                   else return_not_sent(found, sample_count(track["axis"])
+                                        / float(SR), n_fresh))
         line = (T('  %-20s offset %s ms%s, length %s s, spread %s '
                   'ms, %s of %s points%s%s')
                 % (track["name"], number_text(ms, plus=True),
@@ -753,9 +778,9 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
                    number_text(spread, 0),
                    number_text(st.get("points", 0), 0),
                    number_text(st.get("candidates", 0), 0), remark,
-                   T('   Caution: measurement unusable') if uncertain else ""))
-        print(as_warn(line) if uncertain else line)
-        if uncertain:
+                   caution or ""))
+        print(as_warn(line) if caution else line)
+        if caution:
             shaky.append(track["name"])
     if shaky:
         print(T('\n  For %s it could not be established whether the return '

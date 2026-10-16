@@ -3360,6 +3360,9 @@ msgstr "namnlös"
 msgid "   Caution: measurement unusable"
 msgstr "   Varning: mätningen oanvändbar"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Varning: %s s av det som gick upp saknas i den"
+
 msgid "   NOT INSERTED"
 msgstr "   INTE INFOGAD"
 

@@ -1998,6 +1998,9 @@ msgstr "  -->  hizalandı, %s ppm saat sürüklenmesi giderildi"
 msgid "   Caution: measurement unusable"
 msgstr "   Dikkat: ölçüm kullanılamaz"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Dikkat: yüklenenin %s s'si içinde yok"
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  auphonic.com mixdown'ı: %s LUFS, tepe %s dBTP (%s)"
 

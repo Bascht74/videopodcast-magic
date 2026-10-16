@@ -3362,6 +3362,9 @@ msgstr "χωρίς όνομα"
 msgid "   Caution: measurement unusable"
 msgstr "   Προσοχή: μέτρηση άχρηστη"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Προσοχή: λείπουν %s s από ό,τι ανέβηκε"
+
 msgid "   NOT INSERTED"
 msgstr "   ΔΕΝ ΕΙΣΗΧΘΗ"
 
