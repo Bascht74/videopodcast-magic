@@ -148,12 +148,14 @@ gehören zusammen: eine weiche Grenze und eine harte.
   ihn das Bild 77 Mal, alle 39 Sekunden; bei 70 noch 37 Mal, alle 104.
   Beide setzen den Schnitt auf eine Satzgrenze — es geht also um
   Rhythmus, nicht um Richtigkeit.
-* **Weitwinkel spätestens**: 120 s, die harte Grenze. Ist seit
-  **Weitwinkel nach** keine Satzgrenze gekommen, tritt die längste
-  Sprechpause in der Nähe an ihre Stelle, und dort wird geschnitten,
-  gleich was gerade gesagt wird; ist auch keine brauchbare Pause da,
-  entscheidet die Uhr. Kleiner unterbricht eine stehende Kamera früher
-  (auf der Kommandozeile `--wide-latest`)
+* **Weitwinkel spätestens**: 120 s, die harte Grenze. Die zwei Minuten
+  sind gesetzt, nicht gemessen: anders als bei der weichen Grenze hat
+  keine Aufnahme gezeigt, wo sie liegen sollten. Ist seit **Weitwinkel
+  nach** keine Satzgrenze gekommen, tritt die längste Sprechpause in der
+  Nähe an ihre Stelle, und dort wird geschnitten, gleich was gerade
+  gesagt wird; ist auch keine brauchbare Pause da, entscheidet die Uhr.
+  Kleiner unterbricht eine stehende Kamera früher (auf der Kommandozeile
+  `--wide-latest`)
 * **Weitwinkel mindestens**: 5 s, so lange steht der eingeschobene
   Weitwinkel mindestens, danach läuft er bis zum Ende des Satzes; höher
   macht jeden Blick weg länger (auf der Kommandozeile `--wide-length`)
@@ -731,8 +733,10 @@ auflösen: die Pegel bleiben, wie gemessen, und das Protokoll sagt warum
 und nennt das schlechteste Paar.
 
 Bis 5 dB Trennung hinunter arbeitet die Erkennung exakt, deutlich unter
-den 9,5 dB, die die 3:1-Regel verlangt; die Messreihe dahinter steht in
-[What was measured](../development/measurements.md) (englisch).
+den 9,5 dB, die die 3:1-Regel verlangt. Die 5 dB sind gemessen, die
+Messreihe steht in [What was measured](../development/measurements.md)
+(englisch); die 9,5 dB sind gesetzt, nicht gemessen -- sie sind die
+Rechnung der Regel selbst, und keine Aufnahme hier hat sie geprüft.
 
 Das Protokoll sagt, wie stark das Übersprechen war, und darunter je
 Sprecher Redezeit und Zahl der Abschnitte. Wenn nichts zu hören war,

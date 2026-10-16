@@ -137,12 +137,13 @@ a soft limit and a hard one.
   seconds the picture leaves that guest 77 times, every 39 seconds; at
   70 it leaves them 37 times, every 104. Both place the shot on a
   sentence boundary, so this is rhythm and not correctness.
-* **Wide shot at the latest**: 120 s, the hard limit. Where no sentence
-  boundary has turned up since **Wide shot after**, the longest speech
-  pause nearby stands in for one, and there the cut happens whatever is
-  being said; where not even a usable pause is there, it falls by the
-  clock. Smaller breaks a standing camera up sooner (on the command
-  line `--wide-latest`)
+* **Wide shot at the latest**: 120 s, the hard limit. The two minutes
+  are set, not measured: unlike the soft limit, no recording has shown
+  where they ought to lie. Where no sentence boundary has turned up
+  since **Wide shot after**, the longest speech pause nearby stands in
+  for one, and there the cut happens whatever is being said; where not
+  even a usable pause is there, it falls by the clock. Smaller breaks a
+  standing camera up sooner (on the command line `--wide-latest`)
 * **Wide shot at least**: 5 s, the inserted wide shot stands at least
   this long and then runs on to the end of the sentence; higher makes
   every look away longer (on the command line `--wide-length`)
@@ -686,8 +687,10 @@ undone: the levels stay as measured, and the log says why and names the
 worst pair.
 
 Down to 5 dB of separation the detection is exact, well below the 9.5 dB
-the 3:1 rule asks for; the measurements behind that number are in
-[What was measured](../development/measurements.md).
+the 3:1 rule asks for. The 5 dB are measured, and the measurements are
+in [What was measured](../development/measurements.md); the 9.5 dB are
+set, not measured: the rule's own arithmetic, which no recording here
+has tested.
 
 The log says how strong the bleed was, and under it the speech time and
 the number of passages per speaker. If nothing was audible, there is

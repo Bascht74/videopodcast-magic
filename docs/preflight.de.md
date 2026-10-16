@@ -155,12 +155,15 @@ statt dass die Messung aufgegeben wird.
 
 Der Maßstab ist die 3:1-Regel. Steht das fremde Mikrofon dreimal so weit
 vom Sprecher weg wie sein eigenes, ist die Nachbarstimme rund 9,5 dB
-leiser. Auch diese Marke steht fest, kein Schalter verschiebt sie: je
-weiter ein Paar darunter liegt, desto mehr vom Nachbarn bleibt in der
-Spur. Das sagt etwas über den Aufbau im Raum. Es setzt zugleich eine
-Grenze für das, was danach kommt: je weniger die Mikrofone getrennt
-sind, desto vorsichtiger kann De-Bleed auf auphonic.com arbeiten. Ändern
-lässt es sich nur beim nächsten Mal, deshalb hält es den Lauf nicht an.
+leiser. Diese Zahl ist gesetzt, nicht gemessen: Sie ist die Rechnung der
+Regel -- dreifacher Abstand, ein Drittel des Schalldrucks --, und keine
+Aufnahme hier hat gezeigt, dass ein Paar darunter schlechter klingt.
+Auch sie steht fest, kein Schalter verschiebt sie: je weiter ein Paar
+darunter liegt, desto mehr vom Nachbarn bleibt in der Spur. Das sagt
+etwas über den Aufbau im Raum. Es setzt zugleich eine Grenze für das,
+was danach kommt: je weniger die Mikrofone getrennt sind, desto
+vorsichtiger kann De-Bleed auf auphonic.com arbeiten. Ändern lässt es
+sich nur beim nächsten Mal, deshalb hält es den Lauf nicht an.
 
 Bei einer einzigen Spur gibt es nichts zu messen. Dasselbe gilt für
 Aufnahmen, die zu wenig überlappen, und für eine Aufnahme ohne Stelle, an

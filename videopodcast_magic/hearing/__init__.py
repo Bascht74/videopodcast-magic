@@ -845,9 +845,9 @@ def join_audio_parts(paths, target, keep_parts=False):
     return target, {"blocks": len(paths), "tc": False, "parts": []}
 
 
-# What the phase way has to beat before it is believed instead of the
-# plain one. A floor, not a measured threshold: the one case measured
-# came out at 28.7, and the log prints the number every time.
+# What the phase way must beat before it is believed over the plain one.
+# Set, not measured: a floor -- the one recording measured came out at
+# 28.7, and none has shown where right turns wrong. The log prints it.
 PHASE_SHARP_ENOUGH = 8.0
 
 
