@@ -1053,7 +1053,11 @@ As soon as two files are in the list, the interface measures in the
 background where each of them sits, with the method of the run itself --
 whether they carry a timecode or not. The player then jumps between files
 to the same point in what is happening, and In point and Out point hold
-for all alike.
+for all alike. Without any picture it is the same: the recordings are
+laid against the longest of them, a recording in blocks joined first,
+and each takes the place and clock speed the run gives it -- a recorder
+running fast keeps that speed here too, and does not drift away from
+the run over an hour.
 
 **Where something was measured, the measurement decides, and the file's
 own clock only answers where nothing was.** A clock is set by hand and

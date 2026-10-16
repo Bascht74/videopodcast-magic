@@ -187,9 +187,10 @@ axis_held = {"on": False}
 patience = [PATIENCE]
 
 
-def axis_stand_in(paths, tc_of=None, HOP=5.0, phase_of=None, raw=None):
+def axis_stand_in(paths, tc_of=None, HOP=5.0, phase_of=None, raw=None,
+                  rows=None):
     if not axis_held["on"]:
-        return _real_axis(paths, tc_of, HOP, phase_of, raw)
+        return _real_axis(paths, tc_of, HOP, phase_of, raw, rows)
     call = {"names": sorted(os.path.basename(p) for p in paths),
             "go": threading.Event(), "back": threading.Event()}
     axis_calls.append(call)

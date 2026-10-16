@@ -132,9 +132,10 @@ check("beside a single file with sound it is still named",
 #----------------------------------------- 4. A measurement that fails
 
 print("\n4. A measurement that fails outright")
-# A stand-in: the one way this is reached with real material is a
-# failure inside the arithmetic, which no file here can be made to cause.
-real = vpm.bearings.align_envelopes
+# A stand-in in the run's own alignment, the one the axis asks: the one
+# way this is reached with real material is a failure inside the
+# arithmetic, which no file here can be made to cause.
+real = vpm.hearing.align_envelopes
 
 
 def refusing(env_a, env_b, *args, **named):
@@ -144,11 +145,11 @@ def refusing(env_a, env_b, *args, **named):
     return real(env_a, env_b, *args, **named)
 
 
-vpm.bearings.align_envelopes = refusing
+vpm.hearing.align_envelopes = refusing
 try:
     data, text = vpm.measure_time_axis([ROOM, CAM])
 finally:
-    vpm.bearings.align_envelopes = real
+    vpm.hearing.align_envelopes = real
 print("   %s" % text)
 check("a file whose measurement fails is named, not left out",
       short((data or {}).get("weak")) == ["room.wav"],

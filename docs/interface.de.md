@@ -1136,7 +1136,12 @@ Sobald zwei Dateien in der Liste stehen, misst die Oberfläche im
 Hintergrund, wo jede von ihnen liegt, mit dem Verfahren des Laufs selbst
 -- ob sie einen Timecode tragen oder nicht. Danach springt der Player
 zwischen den Dateien auf dieselbe Stelle im Geschehen, und In-Punkt und
-Out-Punkt gelten für alle gleich.
+Out-Punkt gelten für alle gleich. Ganz ohne Bild ist es nicht anders:
+die Aufnahmen werden gegen die längste von ihnen gelegt, eine Aufnahme
+in Blöcken zuerst zusammengesetzt, und jede bekommt den Platz und die
+Uhrgeschwindigkeit, die der Lauf ihr gibt -- ein Recorder, der zu schnell
+läuft, behält das auch hier und läuft dem Lauf über eine Stunde nicht
+davon.
 
 **Wo gemessen wurde, gilt die Messung; die Uhr einer Datei antwortet nur
 dort, wo nichts zu messen war.** Eine Uhr wird von Hand gestellt und wird
