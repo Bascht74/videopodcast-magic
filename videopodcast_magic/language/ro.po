@@ -2040,13 +2040,13 @@ msgstr "Fiecare pereche de canale este judecată separat: o pistă stereo, sau d
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "Salvați canalele lui ca fișiere separate, ca fiecare să devină o pistă, sau "
-"deschideți-l în fereastră, care îl împarte după rândurile de canale. Ca "
-"producție Singletrack, rularea se oprește înainte de încărcare: "
+"deschideți-l în fereastră, care îl împarte după rândurile de canale. O "
+"rulare care îl trimite la auphonic.com se oprește înainte de încărcare: "
 "auphonic.com acceptă cel mult două canale într-un fișier."
 
 msgid "Add files ..."

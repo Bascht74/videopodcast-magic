@@ -2070,13 +2070,13 @@ msgstr "Kiekviena kanalų pora vertinama atskirai: vienas stereo takelis arba du
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "Išsaugokite jo kanalus kaip atskirus failus, kad kiekvienas taptų takeliu, "
-"arba atidarykite jį lange, kuris jį skaido pagal kanalų eilutes. Kaip "
-"Singletrack produkcija vykdymas sustoja prieš įkėlimą: auphonic.com viename "
+"arba atidarykite jį lange, kuris jį skaido pagal kanalų eilutes. Vykdymas, "
+"siunčiantis jį į auphonic.com, sustoja prieš įkėlimą: auphonic.com viename "
 "faile priima daugiausia du kanalus."
 
 msgid "A negative value makes the picture lead the sound."

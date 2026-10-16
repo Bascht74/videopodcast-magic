@@ -369,7 +369,7 @@ The command line has no channel rows, and it cuts no file into tracks.
 A file with more than two channels is folded to one channel there, two
 people into one voice, and the report says so as a note: `4 channels --
 the command line cuts none into tracks and folds the file to one
-channel, two people into one voice.` Sent alone to auphonic.com, such a
-file stops the run before the upload ([Channels](channels.md), "More
-than two channels in one file"). Save its channels as files of their own
-first, or open it in the window.
+channel, two people into one voice.` Sent to auphonic.com, alone or
+beside other recordings, such a file stops the run before the upload
+([Channels](channels.md), "More than two channels in one file"). Save
+its channels as files of their own first, or open it in the window.

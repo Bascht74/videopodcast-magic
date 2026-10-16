@@ -391,7 +391,7 @@ Spuren. Eine Datei mit mehr als zwei Kanälen legt sie auf einen Kanal
 zusammen, aus zwei Menschen wird eine Stimme, und der Bericht sagt das
 als Hinweis: `4 Kanäle -- die Kommandozeile zerlegt keine in Spuren und
 legt die Datei auf einen Kanal zusammen, zwei Menschen zu einer Stimme.`
-Geht eine solche Datei allein zu auphonic.com, hält der Lauf vor dem
-Hochladen an ([Kanäle](channels.de.md), „Mehr als zwei Kanäle in einer
-Datei“). Deshalb ihre Kanäle zuerst als eigene Dateien speichern oder
-die Datei im Fenster öffnen.
+Geht eine solche Datei zu auphonic.com, allein oder neben anderen
+Aufnahmen, hält der Lauf vor dem Hochladen an ([Kanäle](channels.de.md),
+„Mehr als zwei Kanäle in einer Datei“). Deshalb ihre Kanäle zuerst als
+eigene Dateien speichern oder die Datei im Fenster öffnen.

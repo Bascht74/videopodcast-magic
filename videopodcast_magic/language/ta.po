@@ -2068,13 +2068,13 @@ msgstr "ஒவ்வொரு சேனல் ஜோடியும் தனி
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "ஒவ்வொன்றும் தனித் தடமாக இருக்க அதன் சேனல்களைத் தனிக் கோப்புகளாகச் "
 "சேமிக்கவும், அல்லது சேனல் வரிசைகளின்படி பிரிக்கும் சாளரத்தில் திறக்கவும். "
-"Singletrack தயாரிப்பாக, பதிவேற்றத்துக்கு முன்பே ஓட்டம் நிற்கிறது: "
+"அதை auphonic.com-க்கு அனுப்பும் ஓட்டம் பதிவேற்றத்துக்கு முன்பே நிற்கிறது: "
 "auphonic.com ஒரு கோப்பில் அதிகபட்சம் இரண்டு சேனல்களையே ஏற்கிறது."
 
 msgid "A negative value makes the picture lead the sound."

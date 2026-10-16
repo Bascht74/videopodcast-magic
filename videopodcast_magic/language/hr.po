@@ -2040,13 +2040,13 @@ msgstr "Svaki par kanala prosuđuje se zasebno: jedan stereo zapis, ili dva mikr
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "Spremite njezine kanale kao zasebne datoteke da svaki postane zapis, ili je "
-"otvorite u prozoru, koji je dijeli po recima kanala. Kao Singletrack "
-"produkcija pokretanje se zaustavlja prije prijenosa: auphonic.com prima "
+"otvorite u prozoru, koji je dijeli po recima kanala. Pokretanje koje je "
+"šalje na auphonic.com zaustavlja se prije prijenosa: auphonic.com prima "
 "najviše dva kanala u jednoj datoteci."
 
 msgid "Add files ..."

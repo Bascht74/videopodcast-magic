@@ -6,8 +6,8 @@ none and cuts nothing. One file of four channels goes through the
 command line's preflight and through the window's check. In order:
 what the command line says and what it no longer says; that the
 window keeps its line; and that what the command line says is what
-the run does -- it folds the file to one channel, and a Singletrack
-run stops on it before the upload, as the advice says.
+the run does -- it folds the file to one channel, and a run sending it
+to auphonic.com stops before the upload, as the advice says.
 """
 PLATFORM_BOUND = True
 import os
@@ -98,7 +98,7 @@ check("the run takes the file as one channel",
                                   vpm.channel_count(WIDE)))
 with contextlib.redirect_stdout(io.StringIO()) as printed:
     stops = vpm.too_wide_for_one_file([{"audio": WIDE}])
-check("a Singletrack run stops on it before the upload",
+check("a run sending it to auphonic.com stops before the upload",
       stops is True, "answered %r, printed %r"
       % (stops, " ".join(printed.getvalue().split())[:120]))
 

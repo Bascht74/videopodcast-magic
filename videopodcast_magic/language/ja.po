@@ -2746,12 +2746,12 @@ msgstr "チャンネルのペアはそれぞれ個別に判定されます：1 �
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
-"チャンネルを個別のファイルとして保存すれば、それぞれがトラックになります。または、チャンネルの行で分割するウィンドウで開いてください。Singletrack "
-"プロダクションでは、アップロード前に実行が止まります。auphonic.com が1つのファイルで受け付けるのは2チャンネルまでです。"
+"チャンネルを個別のファイルとして保存すれば、それぞれがトラックになります。または、チャンネルの行で分割するウィンドウで開いてください。auphonic.com "
+"に送る実行は、アップロード前に止まります。auphonic.com が1つのファイルで受け付けるのは2チャンネルまでです。"
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "ここではファイルの録音時のサンプルレートで、1 サンプルずつ数えます：整数形式が保持できる最大値に 3 サンプル以上連続して張り付いた箇所です。1〜2 サンプルは丸めによるもので報告しません。そこで切り取られたものは失われ、どんな処理でも戻りません -- ただし録音は録音のままで、これで何かが止まることはありません。数えるのは整数形式だけです。32 bit float にはフルスケールでの上限がないため、数えるものがありません。"

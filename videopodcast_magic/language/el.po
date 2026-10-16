@@ -2038,13 +2038,13 @@ msgstr "Κάθε ζεύγος καναλιών κρίνεται χωριστά: 
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "Αποθηκεύστε τα κανάλια του ως ξεχωριστά αρχεία, ώστε το καθένα να γίνει "
 "κομμάτι, ή ανοίξτε το στο παράθυρο, που το χωρίζει με βάση τις γραμμές "
-"καναλιών. Ως παραγωγή Singletrack η εκτέλεση σταματά πριν από τη "
+"καναλιών. Μια εκτέλεση που το στέλνει στο auphonic.com σταματά πριν από τη "
 "μεταφόρτωση: το auphonic.com δέχεται το πολύ δύο κανάλια σε ένα αρχείο."
 
 msgid "Add files ..."

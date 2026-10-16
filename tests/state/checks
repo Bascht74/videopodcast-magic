@@ -58,9 +58,10 @@ auphonic_run_delivers	76
 auphonic_single_reused	12
 auphonic_speech_read	14
 auphonic_stays_quiet	30
+auphonic_titles_apart	5
 auphonic_transcript_ours	10
 auphonic_unsaved_said	14
-auphonic_wide_file_stops	5
+auphonic_wide_file_stops	7
 cut_all_shots_land	8
 cut_amounts_grouped	5
 cut_answer_brought_early	10
