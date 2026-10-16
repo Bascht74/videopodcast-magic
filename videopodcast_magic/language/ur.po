@@ -730,9 +730,6 @@ msgstr "    %s بار مطلوبہ کیمرا نہیں چل رہا تھا -- و�
 msgid "    %s could not be imported."
 msgstr "    %s کو امپورٹ نہیں کیا جا سکا۔"
 
-msgid "    %s could not be inserted."
-msgstr "    %s کو شامل نہیں کیا جا سکا۔"
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s قسم کا ٹریک نہیں بنایا جا سکا: %s"
 
@@ -1255,6 +1252,12 @@ msgstr "  Resolve کے Media Pool میں کوئی Full-Mix نہیں -- Timeline 
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve نے Full-Mix مسترد کیا -- Timeline \"%s\" میں آڈیو موجود نہیں۔"
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve نے انٹرو مسترد کیا -- Timeline \"%s\" میں انٹرو موجود نہیں۔"
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve نے آؤٹرو مسترد کیا -- Timeline \"%s\" میں آؤٹرو موجود نہیں۔"
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  کیمروں میں وقتی دائرہ اور ہر سرے پر ایک سیکنڈ ہے: %s لکھا گیا، %s کے لیے (کل ریکارڈ شدہ: %s)۔"

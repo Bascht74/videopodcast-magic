@@ -970,10 +970,10 @@ def refusals_closing(refused):
     """Repeat what the project lacks at the very end, and return the code.
 
     Not 0 where a track was refused twice, a camera not inserted, the
-    cut's shots or its mix not taken, or the handover gave the cut
-    Timeline no shot or no mix: the window reads 0 as "Done", and
-    a Timeline lacking a camera, the intro, its picture or its sound is
-    not done. Everything else was built all the same.
+    cut's shots, its mix, its intro or its outro not taken, or the
+    handover gave the cut Timeline no shot or no mix: the window reads 0
+    as "Done", and a Timeline lacking a camera, the intro, its picture
+    or its sound is not done. Everything else was built all the same.
     """
     if not refused:
         return 0
@@ -1757,7 +1757,8 @@ def insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in):
 
     The content first, or the second track they belong on does not exist.
     A track Resolve refuses twice is named, kept in d["_refused"], and
-    what can still be placed is placed.
+    what can still be placed is placed. So is a clip Resolve will not
+    lay: the Timeline lacks it, as it lacks a refused Full-Mix.
     """
     refused = d.get("_refused")
     applied = []
@@ -1831,7 +1832,11 @@ def insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in):
         if not item:
             continue
         if not mp.AppendToTimeline(item):
-            print(T('    %s could not be inserted.') % where_to)
+            say_refused(refused, (
+                T('  Resolve refused the Intro -- the Timeline "%s" has no '
+                  'Intro.') if kind == TYPE_INTRO else
+                T('  Resolve refused the Outro -- the Timeline "%s" has no '
+                  'Outro.')) % (tl.GetName() or "?"))
             continue
         applied.append((kind, where_to, spot, L, sound, meeting_point,
                         bool(entry.get("has_audio"))))

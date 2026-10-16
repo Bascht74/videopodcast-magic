@@ -48,7 +48,7 @@ figure of the day is that command, not this paragraph**:
 * `cut/` **3321** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
-* `resolve/` **2490** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2495** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
 * `material/` **2053** -- channels, chains, continuation files, and what
   a track is made of
@@ -67,7 +67,7 @@ figure of the day is that command, not this paragraph**:
   and one bound of its own, 500 ppm
 * `auphonic/` **2382** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **2099** -- whether the material fits together before the
+* `preflight/` **2139** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `setup/` **1377** -- finding ffmpeg, installing a missing module,

@@ -732,9 +732,6 @@ msgstr "    %s× numatytoji kamera nefilmavo -- ten yra kita."
 msgid "    %s could not be imported."
 msgstr "    %s nepavyko importuoti."
 
-msgid "    %s could not be inserted."
-msgstr "    %s nepavyko įterpti."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Takelio nepavyko sukurti (%s): %s"
 
@@ -1259,6 +1256,12 @@ msgstr "  Resolve Media Pool nėra Full-Mix -- Timeline „%s“ trūksta garso.
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve atmetė Full-Mix -- Timeline „%s“ trūksta garso."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve atmetė Intro -- Timeline „%s“ trūksta Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve atmetė Outro -- Timeline „%s“ trūksta Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamerose lieka laiko langas ir po sekundę kiekviename gale: įrašyta %s, tai %s iš %s įrašytos trukmės."

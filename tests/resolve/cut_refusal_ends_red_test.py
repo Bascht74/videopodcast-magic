@@ -6,7 +6,8 @@ stand-in, for one camera cut into three shots and a stored mix. In
 turn: a cut Resolve takes whole ends in 0; then no picture taken, fewer
 shots taken than sent, no mix in the media pool and a mix refused --
 each ends the build in 1 and is named again among the closing lines,
-with the Timeline's name. Then what the handover leaves out: no mix
+with the Timeline's name -- and an intro and an outro, taken in 0 and
+refused in 1, each named. Then what the handover leaves out: no mix
 named, and no shot inside the camera -- each ends in 1, named again.
 Then the window: a refused mix leaves it saying errors, with what
 Resolve refused above that line, and a cut taken whole leaves it saying
@@ -79,16 +80,23 @@ CURRENT = {}
 vpm.connect_to_resolve = lambda: stand.Resolve(CURRENT["pm"])
 
 
-def build(without=(), handover=None, **pool):
+def build(without=(), handover=None, refuse_track=None, **pool):
     """One build into an existing project kept as it is.
 
-    *handover* replaces fields of HANDOVER for this build alone.
-    Returns (the build's code or the exception, everything printed).
+    *handover* replaces fields of HANDOVER for this build alone, and
+    Resolve lays nothing that is sent to *refuse_track*, answering an
+    empty list as it does then. Returns (the build's code or the
+    exception, everything printed).
     """
     pm = stand.ProjectManager(names=[NAME])
+    lay = pm.projects[NAME].pool
     for k, v in pool.items():
-        setattr(pm.projects[NAME].pool, k,
-                set(v) if k == "refuse_media" else v)
+        setattr(lay, k, set(v) if k == "refuse_media" else v)
+    if refuse_track is not None:
+        laid = lay.AppendToTimeline
+        lay.AppendToTimeline = lambda entries: (
+            [] if any(e.get("trackIndex") == refuse_track for e in entries)
+            else laid(entries))
     CURRENT["pm"] = pm
     WITHOUT.clear()
     WITHOUT.update(without)
@@ -145,6 +153,25 @@ code, said = build(refuse_media=[2])
 check("a mix Resolve refuses ends the build in 1",
       code == 1 and len(named(said, "refused the Full-Mix")) == 1,
       "the build ended in %r, the closing lines %r" % (code, closing(said)))
+# An intro and an outro with sound, laid on the second tracks after
+# the cut, where the stand-in makes the tracks it is asked for.
+EDGES = {"intro": {"source": "/tmp/Intro.mov", "duration": 5.0,
+                   "has_audio": True},
+         "outro": {"source": "/tmp/Outro.mov", "duration": 5.0,
+                   "has_audio": True}}
+code, said = build(handover=EDGES)
+check("an intro and an outro Resolve takes leave the build in 0",
+      code == 0 and not closing(said),
+      "the build ended in %r, the closing lines %r" % (code, closing(said)))
+code, said = build(handover=EDGES, refuse_track=2)
+NO_EDGES = [clean(vpm.T('  Resolve refused the Intro -- the Timeline "%s" '
+                        'has no Intro.') % CUT_TIMELINE),
+            clean(vpm.T('  Resolve refused the Outro -- the Timeline "%s" '
+                        'has no Outro.') % CUT_TIMELINE)]
+check("an intro and an outro Resolve refuses end the build in 1",
+      code == 1 and closing(said) == NO_EDGES,
+      "the build ended in %r, the closing lines %r against %r"
+      % (code, closing(said), NO_EDGES))
 
 print("\n3. What the handover leaves out")
 MIXES[:] = [(None, "")]

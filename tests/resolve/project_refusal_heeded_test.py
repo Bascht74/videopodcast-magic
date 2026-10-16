@@ -630,9 +630,11 @@ check("an intro with no sound of its own is called soundless",
       "%r against one line ending in %r, the build %s"
       % (intro_rows, NO_SOUND, ended(code)))
 # The same intro and V2 refused: nothing is left to lay, so nothing is
-# handed to Resolve and nothing is called not inserted.
+# handed to Resolve and nothing is called refused by it -- the line up
+# to the Timeline's name, which is all that line holds for the intro.
 code, said, refused, tls = build(SILENT, {"video": (1, ALWAYS)})
-NOT_LAID = clean(vpm.T('    %s could not be inserted.').split("%s")[1])
+NOT_LAID = clean(vpm.T('  Resolve refused the Intro -- the Timeline "%s" '
+                       'has no Intro.').split('"%s"')[0])
 not_laid = [x for x in lines(said) if NOT_LAID in x]
 check("a silent intro refused its track is not called not inserted",
       not not_laid and code == 1,

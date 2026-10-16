@@ -9,7 +9,7 @@ where the stop for a cut says to switch it off; that what the preset
 has switched on is said, switch by switch, with its setting; that an
 intro standing before the track in the preset's list is no template; and
 that an intro or outro in a preset of either kind is said to be unused,
-and where intro and outro come from instead.
+as a note, and where intro and outro come from instead.
 """
 PLATFORM_BOUND = False
 import os
@@ -205,6 +205,13 @@ check("a Singletrack preset's intro and outro are said unused too",
           'the preset has an intro and an outro -- neither is used: intro '
           'and outro come from the video files.')],
       "Intro / outro said %r" % [b.text for b in single])
+# A note is shown and stops nothing; "good" would only be counted, and
+# a warning would wear the marker of a fault.
+kinds = [b.kind for b in about("intro and outro", "Intro / outro") + single]
+check("the Intro / outro line is a note, for either kind of preset",
+      kinds == ["hint", "hint"],
+      "kinds %r against ['hint', 'hint'], Multitrack then Singletrack"
+      % kinds)
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

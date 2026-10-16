@@ -730,9 +730,6 @@ msgstr "    %s بار دوربین موردنظر در حال ضبط نبود --
 msgid "    %s could not be imported."
 msgstr "    %s وارد نشد."
 
-msgid "    %s could not be inserted."
-msgstr "    %s درج نشد."
-
 msgid "    %s track could not be created: %s"
 msgstr "    ترک نوع %s ساخته نشد: %s"
 
@@ -1255,6 +1252,12 @@ msgstr "  Resolve هیچ Full-Mix در Media Pool خود ندارد -- Timeline 
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve آن Full-Mix را رد کرد -- Timeline «%s» فاقد صدا است."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve مقدمه را رد کرد -- Timeline «%s» مقدمه ندارد."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve پایان‌بندی را رد کرد -- Timeline «%s» پایان‌بندی ندارد."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  دوربین‌ها بازه زمانی و یک ثانیه در هر سر را دارند: %s نوشته شد برای %s از %s ضبط‌شده."

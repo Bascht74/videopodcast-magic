@@ -703,9 +703,6 @@ msgstr "    %sx aiottu kamera ei ollut käynnissä -- tilalla on toinen."
 msgid "    %s could not be imported."
 msgstr "    Leikettä %s ei voitu tuoda."
 
-msgid "    %s could not be inserted."
-msgstr "    Leikettä %s ei voitu lisätä."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s-raitaa ei voitu luoda: %s"
 
@@ -1228,6 +1225,12 @@ msgstr "  Resolven Media Poolissa ei ole Full-Mixiä -- Timelinesta \"%s\" puutt
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve hylkäsi Full-Mixin -- Timelinesta \"%s\" puuttuu ääni."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve hylkäsi Intron -- Timelinesta \"%s\" puuttuu Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve hylkäsi Outron -- Timelinesta \"%s\" puuttuu Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamerat sisältävät aikaikkunan ja sekunnin kummassakin päässä: kirjoitettu %s, joka kattaa %s tallennetusta %s."

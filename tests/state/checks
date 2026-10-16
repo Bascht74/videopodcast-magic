@@ -35,7 +35,7 @@ auphonic_credit_said	54
 auphonic_curl_end_said	6
 auphonic_done_file_found	7
 auphonic_foreign_refused	8
-auphonic_free_long_stops	22
+auphonic_free_long_stops	25
 auphonic_jingle_cut_away	11
 auphonic_key_answer_fits	18
 auphonic_key_by_pipe	68
@@ -52,7 +52,7 @@ auphonic_names_stay_in	12
 auphonic_no_result_ends	5
 auphonic_none_chosen	11
 auphonic_preset_checked	4
-auphonic_preset_fits	23
+auphonic_preset_fits	24
 auphonic_preset_typed	6
 auphonic_reuse_no_resend	7
 auphonic_run_delivers	88
@@ -96,7 +96,7 @@ cut_preview_is_the_run	17
 cut_preview_no_own_work	4
 cut_rebuild_keeps_all	27
 cut_recut_keeps_dips	5
-cut_refusal_ends_red	9
+cut_refusal_ends_red	11
 cut_resolve_refusal_said	12
 cut_right_camera	67
 cut_rules_hold	84
@@ -152,7 +152,7 @@ files_set_aside_skipped	14
 files_split_found_again	10
 files_stage_kept_by_key	29
 files_stamp_by_place	4
-files_sync_one_recording	19
+files_sync_one_recording	20
 files_twin_cameras_named	4
 project_amounts_grouped	3
 project_audio_counted	3
@@ -197,6 +197,7 @@ project_ticks_come_back	3
 project_top_rate_wins	20
 project_two_stay_two	6
 project_two_timelines_go	16
+run_anyway_not_in_window	1
 run_assign_file_gone	4
 run_bar_never_falls	20
 run_bar_tracks_work	35

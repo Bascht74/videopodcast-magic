@@ -704,9 +704,6 @@ msgstr "    %sx neběžela zamýšlená kamera -- místo ní je tam jiná."
 msgid "    %s could not be imported."
 msgstr "    %s se nepodařilo importovat."
 
-msgid "    %s could not be inserted."
-msgstr "    %s se nepodařilo vložit."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s stopu se nepodařilo vytvořit: %s"
 
@@ -1231,6 +1228,12 @@ msgstr "  Resolve nemá v Media Poolu žádný Full-Mix -- na Timeline „%s“ 
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve odmítl Full-Mix -- na Timeline „%s“ chybí zvuk."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve odmítl Intro -- na Timeline „%s“ chybí Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve odmítl Outro -- na Timeline „%s“ chybí Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamery nesou časové okno a po jedné sekundě na každém konci: %s zapsáno pro %s z nahraných %s."

@@ -733,9 +733,6 @@ msgstr "    %s ਵਾਰ ਮਿੱਥਿਆ ਕੈਮਰਾ ਨਹੀਂ ਚੱ�
 msgid "    %s could not be imported."
 msgstr "    %s: ਇੰਪੋਰਟ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ।"
 
-msgid "    %s could not be inserted."
-msgstr "    %s: ਪਾਉਣਾ ਅਸਫਲ ਰਿਹਾ।"
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s ਕਿਸਮ ਦਾ ਟਰੈਕ ਬਣਾਇਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s"
 
@@ -1258,6 +1255,12 @@ msgstr "  Resolve ਦੇ Media Pool ਵਿੱਚ ਕੋਈ Full-Mix ਨਹੀਂ
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve ਨੇ Full-Mix ਨਾਮਨਜ਼ੂਰ ਕੀਤਾ -- Timeline \"%s\" ਵਿੱਚ ਧੁਨੀ ਨਹੀਂ ਹੈ।"
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve ਨੇ ਇੰਟਰੋ ਨਾਮਨਜ਼ੂਰ ਕੀਤਾ -- Timeline \"%s\" ਵਿੱਚ ਇੰਟਰੋ ਨਹੀਂ ਹੈ।"
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve ਨੇ ਆਊਟਰੋ ਨਾਮਨਜ਼ੂਰ ਕੀਤਾ -- Timeline \"%s\" ਵਿੱਚ ਆਊਟਰੋ ਨਹੀਂ ਹੈ।"
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  ਕੈਮਰਿਆਂ ਵਿੱਚ ਸਮਾਂ-ਦਾਇਰਾ ਅਤੇ ਹਰ ਸਿਰੇ 'ਤੇ ਇੱਕ ਸਕਿੰਟ ਹੈ: %s ਲਿਖਿਆ ਗਿਆ, %s ਲਈ, ਰਿਕਾਰਡ ਕੀਤੇ ਕੁੱਲ %s ਵਿੱਚੋਂ।"

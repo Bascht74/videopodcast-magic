@@ -731,9 +731,6 @@ msgstr "    %sx kamera yang dimaksud tidak berjalan -- ada kamera lain di sana."
 msgid "    %s could not be imported."
 msgstr "    %s tidak dapat diimpor."
 
-msgid "    %s could not be inserted."
-msgstr "    %s tidak dapat disisipkan."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Trek %s tidak dapat dibuat: %s"
 
@@ -1254,6 +1251,12 @@ msgstr "  Resolve tidak memiliki Full-Mix di Media Pool -- Timeline \"%s\" tidak
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve menolak Full-Mix -- Timeline \"%s\" tidak memiliki audio."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve menolak Intro -- Timeline \"%s\" tidak memiliki Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve menolak Outro -- Timeline \"%s\" tidak memiliki Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamera memuat rentang waktu ditambah satu detik di tiap ujung: %s ditulis untuk %s dari %s yang direkam."

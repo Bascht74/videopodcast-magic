@@ -654,10 +654,16 @@ backup copy.
   left it out of the handover file; it names it as it writes.
   Give the file a timecode that fits the other recordings and run
   again, or bring it into Resolve by hand.
-- **The run stopped while building, and the project is gone.** Resolve
-  would not take a file, so the run stopped. It deleted the project it
-  had just made and opened the one you had open before; it says both by
-  name. A project that existed before the run is never deleted. Where
+- **The run stopped while building, and the project is gone.** Three
+  things stop the build, and the line beginning `Resolve part stopped:`
+  says which: Resolve would not take a file; Resolve answers, but hands
+  out no project manager; or the program itself went wrong at one of
+  its steps in Resolve -- then Resolve refused nothing, and the line
+  carries only the fault's own few words, such as `list index out of
+  range`. Where the project was already made, the run deleted it again
+  and opened the one you had open before; it says both by name.
+  Without a project manager it never got as far as making one. A
+  project that existed before the run is never deleted. Where
   nothing that can be opened again was open before -- a freshly started
   Resolve -- the made project stays open and the run says so: delete it
   in Resolve's project manager.
@@ -670,11 +676,12 @@ backup copy.
   the run says `Caution: ... not inserted` and says it again at the end.
   So does the **… Cut** timeline where Resolve took none of its shots or
   only some of them, has no Full-Mix in its media pool, or refused it,
-  and where the handover left it nothing to lay -- no Full-Mix
-  (`No Full-Mix found`) or no shot inside a camera's file (`No cut
-  left`): the line says what the timeline lacks -- the cut, the rest of
-  it, or its sound. It built everything else without it and says it
-  once more in its last lines, under `Caution: this project is not
+  the intro or the outro, and where the handover left it nothing to
+  lay -- no Full-Mix (`No Full-Mix found`) or no shot inside a camera's
+  file (`No cut left`): the line says what the timeline lacks -- the
+  cut, the rest of it, its sound, its intro or its outro. It built
+  everything else without it and says it once more in its last lines,
+  under `Caution: this project is not
   complete -- what is missing:`; the list of video tracks in the log and the list of angles
   in the closing note name only the cameras that lie on their video
   track. Where the sound track of the intro or outro was refused, the

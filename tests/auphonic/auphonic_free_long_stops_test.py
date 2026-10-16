@@ -12,7 +12,9 @@ warns a dry run, lets --anyway through and says the upload stops it
 then, offers no --anyway without it, lets one recording through, and
 counts the tracks of the window's plan as the run sends them -- a
 recording set to "do not use" none, two rows of one name one, a
-camera's own sound one. File lengths are stood in for.
+camera's own sound one -- and with no plan as the run names them: two
+recordings of one guessed name or of one typed name one track, one
+guess in two folders two. File lengths are stood in for.
 """
 PLATFORM_BOUND = True
 import os
@@ -294,6 +296,29 @@ check("a camera's own sound is a track to the preflight",
       hit is not None and hit.kind == "abort",
       "one recording on the line, the camera's sound beside it in the "
       "plan; said: %r" % ([(b.kind, b.text) for b in found],))
+# No plan: the run names each recording itself -- a name typed with
+# --speaker-name, else the file name's guess, alike only within one
+# folder -- and joins those of one name into one track.
+first = os.path.join(room, "Presenter A.wav")
+second = os.path.join(room, "Presenter B.wav")
+apart = os.path.join(room, "elsewhere", "Presenter A.wav")
+os.makedirs(os.path.dirname(apart))
+for path in (first, second, apart):
+    shutil.copyfile(audio, path)
+LONG.update({"Presenter A.wav": 25 * 60, "Presenter B.wav": 15 * 60})
+hit, found = border_found(on_line=[first, second])
+check("two recordings of one guessed name are one track to it",
+      not stopped(found), "Presenter A.wav and Presenter B.wav in one "
+      "folder, no plan; stops on: %r" % (stopped(found),))
+hit, found = border_found(speaker_name=[(guest, "Guest"), (audio, "Guest")])
+check("two recordings given one name on the line are one track",
+      not stopped(found), "both named Guest by --speaker-name, no plan; "
+      "stops on: %r" % (stopped(found),))
+hit, found = border_found(on_line=[first, apart])
+check("one guessed name in two folders is two tracks to it",
+      hit is not None and hit.kind == "abort",
+      "Presenter A.wav in two folders, no plan; said: %r"
+      % ([(b.kind, b.text) for b in found],))
 
 
 def preflight_returns(**changed):

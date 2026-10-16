@@ -1341,9 +1341,6 @@ msgstr "    %-26s la cámara de una pieza, la mezcla debajo"
 msgid "    %s could not be imported."
 msgstr "    %s no se pudo importar."
 
-msgid "    %s could not be inserted."
-msgstr "    %s no se pudo insertar."
-
 msgid "    %s track could not be created: %s"
 msgstr "    No se pudo crear la pista de %s: %s"
 
@@ -2174,6 +2171,12 @@ msgstr "  Resolve no tiene ningún Full-Mix en su Media Pool -- la Timeline «%s
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve rechazó el Full-Mix -- la Timeline «%s» queda sin sonido."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve rechazó la Intro -- la Timeline «%s» queda sin Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve rechazó el Cierre -- la Timeline «%s» queda sin Cierre."
 
 msgid "  The Swift compiler reports: %s"
 msgstr "  El compilador de Swift informa: %s"

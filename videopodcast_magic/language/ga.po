@@ -736,9 +736,6 @@ msgstr "    %sx ní raibh an ceamara beartaithe ag rith -- tá ceann eile ann."
 msgid "    %s could not be imported."
 msgstr "    Níorbh fhéidir %s a iompórtáil."
 
-msgid "    %s could not be inserted."
-msgstr "    Níorbh fhéidir %s a chur isteach."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Níorbh fhéidir rian den chineál %s a chruthú: %s"
 
@@ -1267,6 +1264,12 @@ msgstr "  Níl aon Full-Mix i Media Pool Resolve -- in easnamh ar an Timeline \"
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Dhiúltaigh Resolve don Full-Mix -- in easnamh ar an Timeline \"%s\": a fuaim."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Dhiúltaigh Resolve don Réamhrá -- in easnamh ar an Timeline \"%s\": an Réamhrá."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Dhiúltaigh Resolve don Chlabhsúr -- in easnamh ar an Timeline \"%s\": an Clabhsúr."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Tá an raon ama ar na ceamaraí, agus soicind amháin roimhe agus ina dhiaidh: scríobhadh %s do %s den %s a taifeadadh."

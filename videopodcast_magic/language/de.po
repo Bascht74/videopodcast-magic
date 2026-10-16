@@ -952,9 +952,6 @@ msgstr "    %sx lief die vorgesehene Kamera nicht -- dort steht eine andere."
 msgid "    %s could not be imported."
 msgstr "    %s ließ sich nicht importieren."
 
-msgid "    %s could not be inserted."
-msgstr "    %s ließ sich nicht einfügen."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s-Spur ließ sich nicht anlegen: %s"
 
@@ -1734,6 +1731,12 @@ msgstr "  Resolve hat keinen Full-Mix im Media Pool -- der Timeline \"%s\" fehlt
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve hat den Full-Mix abgelehnt -- der Timeline \"%s\" fehlt ihr Ton."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve hat den Vorspann abgelehnt -- der Timeline \"%s\" fehlt der Vorspann."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve hat den Abspann abgelehnt -- der Timeline \"%s\" fehlt der Abspann."
 
 msgid ""
 "  The cameras carry the time window and a second at each end: %s written "

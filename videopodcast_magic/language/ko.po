@@ -703,9 +703,6 @@ msgstr "    %s회 예정된 카메라가 녹화 중이 아니었습니다 -- 그
 msgid "    %s could not be imported."
 msgstr "    %s을(를) 가져올 수 없습니다."
 
-msgid "    %s could not be inserted."
-msgstr "    %s을(를) 삽입할 수 없습니다."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s 유형 트랙을 만들 수 없습니다: %s"
 
@@ -1226,6 +1223,12 @@ msgstr "  Resolve의 Media Pool에 Full-Mix가 없습니다 -- Timeline \"%s\"�
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve가 Full-Mix를 거부했습니다 -- Timeline \"%s\"에 소리가 빠져 있습니다."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve가 인트로를 거부했습니다 -- Timeline \"%s\"에 인트로가 없습니다."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve가 아웃트로를 거부했습니다 -- Timeline \"%s\"에 아웃트로가 없습니다."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  카메라에는 시간 구간과 양 끝에 1초씩이 담깁니다: %s 기록, %s 분량 (녹화된 전체 %s 중)."

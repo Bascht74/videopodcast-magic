@@ -705,9 +705,6 @@ msgstr "    %sx nem futott az előirányzott kamera -- ott egy másik áll."
 msgid "    %s could not be imported."
 msgstr "    %s nem importálható."
 
-msgid "    %s could not be inserted."
-msgstr "    %s nem illeszthető be."
-
 msgid "    %s track could not be created: %s"
 msgstr "    A(z) %s sáv nem hozható létre: %s"
 
@@ -1230,6 +1227,12 @@ msgstr "  A Resolve Media Pooljában nincs Full-Mix -- a(z) „%s” Timeline-b�
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  A Resolve elutasította a Full-Mixet -- a(z) „%s” Timeline-ból hiányzik a hang."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  A Resolve elutasította az Intrót -- a(z) „%s” Timeline-ból hiányzik az Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  A Resolve elutasította az Outrót -- a(z) „%s” Timeline-ból hiányzik az Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  A kamerák az időablakot hordozzák, plusz egy-egy másodpercet mindkét végén: %s írva, ebből %s a felvett %s hosszból."

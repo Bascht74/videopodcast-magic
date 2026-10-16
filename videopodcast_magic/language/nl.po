@@ -703,9 +703,6 @@ msgstr "    %sx liep de bedoelde camera niet -- daar staat een andere."
 msgid "    %s could not be imported."
 msgstr "    %s kon niet worden geïmporteerd."
 
-msgid "    %s could not be inserted."
-msgstr "    %s kon niet worden ingevoegd."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Spoor van het type %s kon niet worden aangemaakt: %s"
 
@@ -1228,6 +1225,12 @@ msgstr "  Resolve heeft geen Full-Mix in zijn Media Pool -- de Timeline \"%s\" m
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve weigerde de Full-Mix -- de Timeline \"%s\" mist het geluid."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve weigerde de Intro -- de Timeline \"%s\" heeft geen Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve weigerde de Outro -- de Timeline \"%s\" heeft geen Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  De camera's bevatten het tijdvenster en aan elk eind een seconde: %s geschreven voor %s van de %s opgenomen."

@@ -731,9 +731,6 @@ msgstr "    %sx kamera iliyokusudiwa haikuwa ikirekodi -- kuna nyingine hapo."
 msgid "    %s could not be imported."
 msgstr "    %s: haikuweza kuingizwa."
 
-msgid "    %s could not be inserted."
-msgstr "    %s: haikuweza kupachikwa."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Treki ya aina %s haikuweza kuundwa: %s"
 
@@ -1256,6 +1253,12 @@ msgstr "  Resolve haina Full-Mix kwenye Media Pool yake -- Timeline \"%s\" inako
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve ilikataa Full-Mix -- Timeline \"%s\" inakosa sauti yake."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve ilikataa Utangulizi -- Timeline \"%s\" inakosa Utangulizi."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve ilikataa Hitimisho -- Timeline \"%s\" inakosa Hitimisho."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamera zinabeba masafa ya muda na sekunde moja kila mwisho: %s imeandikwa kwa %s kati ya muda uliorekodiwa wa %s."

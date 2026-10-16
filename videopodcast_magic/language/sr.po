@@ -705,9 +705,6 @@ msgstr "    %s пута предвиђена камера није радила 
 msgid "    %s could not be imported."
 msgstr "    Увоз није успео за %s."
 
-msgid "    %s could not be inserted."
-msgstr "    Убацивање није успело за %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Трака %s није могла бити направљена: %s"
 
@@ -1232,6 +1229,12 @@ msgstr "  Resolve нема Full-Mix у свом Media Pool-у -- у Timeline-у 
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve је одбио Full-Mix -- у Timeline-у „%s“ недостаје звук."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve је одбио интро -- у Timeline-у „%s“ недостаје интро."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve је одбио аутро -- у Timeline-у „%s“ недостаје аутро."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Камере носе временски прозор и по једну секунду на сваком крају: %s записано за %s од укупно снимљених %s."

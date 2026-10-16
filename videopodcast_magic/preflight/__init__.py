@@ -131,6 +131,9 @@ class Finding(object):
         # A file that does not take part is checked anyway -- a row with
         # no mark looks forgotten -- but its finding holds nothing up.
         self.set_aside = False
+        # A stop the one before the upload holds again (check_account):
+        # --anyway would only move it there, so it is not offered.
+        self.stops_at_upload = False
 
     def line(self, width=None):
         # A warning's own words say so; it only wears the marker.
@@ -1371,14 +1374,35 @@ def production_length(chains, multitrack, window_s=None):
     return max(lengths) if multitrack else sum(lengths)
 
 
+def plan_rows(args):
+    """The rows of the --assign plan, or None where the run has none.
+
+    The window writes one for every run: a recording set to "do not
+    use" is in no row of it, a camera whose own sound is used is one.
+    An empty plan is none, as the run reads it: it then names the
+    recordings itself.
+    """
+    try:
+        with open(getattr(args, "assign", None) or "",
+                  encoding="utf-8") as f:
+            plan = json.load(f)
+    except (OSError, ValueError):
+        return None
+    if isinstance(plan, dict):
+        plan = plan.get("tracks_of")
+    rows = ([e for e in plan if isinstance(e, dict)]
+            if isinstance(plan, list) else [])
+    return rows or None
+
+
 def check_account(args, chains, videos_n):
     """What the account at auphonic.com says to this run, said first.
 
     Asked once, of a run that sends; short credit stops nothing. A free
     Multitrack production past the border stops the run -- a dry run is
     only warned, and --anyway only moves the stop to before the upload.
-    Tracks count as the run sends them: the --assign plan's, joined by
-    name as merge_plan_entries joins them, else one per chain.
+    Tracks count as the run sends them: rows of one name are one -- the
+    plan's rows, else the chains, named as the run names them.
     """
     if not PROGRAM.run_uploads(args):
         return []
@@ -1388,33 +1412,38 @@ def check_account(args, chains, videos_n):
         return [Finding("good", "auphonic.com",
                         T('Account at auphonic.com: not known -- it could '
                           'not be asked. The run goes on.'))]
-    # A recording set to "do not use" is in no row of the plan, a camera
-    # whose own sound is used is one. Cameras alone on the line are not
-    # counted: their tracks are measured only as the sound is taken out.
-    try:
-        with open(getattr(args, "assign", None) or "",
-                  encoding="utf-8") as f:
-            plan = json.load(f)
-    except (OSError, ValueError):
-        plan = None
-    if isinstance(plan, dict):
-        plan = plan.get("tracks_of")
-    if isinstance(plan, list):
-        chains, of_name = [], {}
-        for e in plan:
-            if not isinstance(e, dict):
-                continue
-            name = (e.get("speakers") or "").strip()
-            blocks = [b for b in e.get("blocks") or [e.get("audio")]
-                      if isinstance(b, str) and os.path.isfile(b)]
-            if not blocks:
-                continue
-            if name in of_name and not e.get("apart"):
-                of_name[name].extend(blocks)
-                continue
-            chains.append((blocks, []))
-            if name and not e.get("apart"):
-                of_name[name] = blocks
+    # Cameras alone on the line are not counted: their tracks are
+    # measured only as the sound is taken out.
+    plan = plan_rows(args)
+    if plan is None:
+        # As the run names a chain where no plan does: the name typed
+        # for any of its blocks, else the guess, which joins only
+        # within one folder.
+        typed = ByFile()
+        for file_path, name in getattr(args, "speaker_name", None) or ():
+            typed.setdefault(file_path, (name or "").strip())
+        guessed = PROGRAM.speaker_guesses(
+            [b for row, _rest in chains for b in row])
+        kept_apart = {path_key(x) for x in getattr(args, "apart", ()) or ()}
+        plan = [{"speakers": next((typed[b] for b in row if b in typed),
+                                  "") or guessed.get(row[0])
+                 or PROGRAM.guess_speaker_name(row[0]),
+                 "blocks": list(row),
+                 "apart": any(path_key(b) in kept_apart for b in row)}
+                for row, _rest in chains]
+    chains, of_name = [], {}
+    for e in plan:
+        name = (e.get("speakers") or "").strip()
+        blocks = [b for b in e.get("blocks") or [e.get("audio")]
+                  if isinstance(b, str) and os.path.isfile(b)]
+        if not blocks:
+            continue
+        if name in of_name and not e.get("apart"):
+            of_name[name].extend(blocks)
+            continue
+        chains.append((blocks, []))
+        if name and not e.get("apart"):
+            of_name[name] = blocks
     count = len(chains)
     multitrack = PROGRAM.production_is_multitrack(
         count, bool(videos_n) or count >= 2)
@@ -1626,10 +1655,12 @@ def report_findings(findings, heading, anyway=False):
                         '%s reasons to stop') % number_text(len(abort), 0))
     print("    %s" % ", ".join(parts))
     # --anyway is offered only where it gets the run through, so not
-    # past a point the stop before the upload holds again.
-    held = [b for b in abort if getattr(b, "stops_at_upload", False)]
+    # past a point the stop before the upload holds again -- and not in
+    # the window, which never passes it.
+    held = [b for b in abort if b.stops_at_upload]
     if abort and not anyway:
-        print(as_bad(T('\nStopped before the first long step.') if held else
+        print(as_bad(T('\nStopped before the first long step.')
+                     if held or PROGRAM.GUI_RUNNING else
                      T('\nStopped before the first long step. With --anyway '
                        'it runs regardless.')))
         return True
@@ -1804,10 +1835,19 @@ def run_preflight(args, audio_paths, video_paths, project_type=None):
     """
     if getattr(args, "no_preflight", False):
         return 0
+    # What the plan names in no row -- set to "do not use" in the
+    # window -- takes no part here either, as in the window's check.
+    plan = plan_rows(args)
+    named = {path_key(b) for e in plan or ()
+             for b in e.get("blocks") or [e.get("audio")]
+             if isinstance(b, str)}
+    set_aside = [p for p in audio_paths
+                 if plan is not None and path_key(p) not in named]
     # Bleed and room are asked of the material, never of the kind of
     # production: the run makes a track per recording either way.
     findings = collect_findings(audio_paths, video_paths,
                               bool(getattr(args, "preflight_again", False)),
+                              set_aside=set_aside,
                               apart=getattr(args, "apart", ()),
                               together=getattr(args, "together", ()),
                               project_type=project_type or "cut",

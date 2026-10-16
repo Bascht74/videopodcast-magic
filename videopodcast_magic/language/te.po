@@ -731,9 +731,6 @@ msgstr "    %s సార్లు ఉద్దేశించిన కెమె
 msgid "    %s could not be imported."
 msgstr "    %s ఇంపోర్ట్ చేయడం సాధ్యం కాలేదు."
 
-msgid "    %s could not be inserted."
-msgstr "    %s చేర్చడం సాధ్యం కాలేదు."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s రకం ట్రాక్ సృష్టించడం సాధ్యం కాలేదు: %s"
 
@@ -1256,6 +1253,12 @@ msgstr "  Resolve యొక్క Media Pool లో Full-Mix లేదు -- Tim
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve Full-Mix ను తిరస్కరించింది -- Timeline \"%s\" లో ఆడియో లేదు."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve ఇంట్రో ను తిరస్కరించింది -- Timeline \"%s\" లో ఇంట్రో లేదు."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve అవుట్రో ను తిరస్కరించింది -- Timeline \"%s\" లో అవుట్రో లేదు."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  కెమెరాలలో సమయ పరిధి, ప్రతి చివర ఒక సెకను ఉంటాయి: %s రాయబడింది, %s నిడివికి (రికార్డ్ అయినది %s)."

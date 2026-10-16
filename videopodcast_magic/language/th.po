@@ -729,9 +729,6 @@ msgstr "    %s ครั้งที่กล้องที่กำหนด�
 msgid "    %s could not be imported."
 msgstr "    นำเข้า %s ไม่ได้"
 
-msgid "    %s could not be inserted."
-msgstr "    แทรก %s ไม่ได้"
-
 msgid "    %s track could not be created: %s"
 msgstr "    สร้างแทร็กประเภท %s ไม่ได้: %s"
 
@@ -1252,6 +1249,12 @@ msgstr "  ไม่มี Full-Mix ใน Media Pool ของ Resolve -- Timeli
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve ปฏิเสธ Full-Mix -- Timeline \"%s\" ขาดเสียง"
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve ปฏิเสธอินโทร -- Timeline \"%s\" ไม่มีอินโทร"
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve ปฏิเสธเอาต์โทร -- Timeline \"%s\" ไม่มีเอาต์โทร"
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  กล้องเก็บช่วงเวลาและเผื่อหัวท้ายอีกด้านละหนึ่งวินาที: เขียน %s สำหรับ %s จาก %s ที่บันทึกไว้"

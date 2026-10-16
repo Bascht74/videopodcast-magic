@@ -705,9 +705,6 @@ msgstr "    %sবার নির্ধারিত ক্যামেরাট�
 msgid "    %s could not be imported."
 msgstr "    %s ইমপোর্ট করা যায়নি।"
 
-msgid "    %s could not be inserted."
-msgstr "    %s বসানো যায়নি।"
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s ধরনের ট্র্যাক তৈরি করা যায়নি: %s"
 
@@ -1230,6 +1227,12 @@ msgstr "  Resolve-এর Media Pool-এ কোনো Full-Mix নেই -- Timel
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve Full-Mix প্রত্যাখ্যান করেছে -- Timeline \"%s\"-এ শব্দ নেই।"
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve ইন্ট্রো প্রত্যাখ্যান করেছে -- Timeline \"%s\"-এ কোনো ইন্ট্রো নেই।"
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve আউট্রো প্রত্যাখ্যান করেছে -- Timeline \"%s\"-এ কোনো আউট্রো নেই।"
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  ক্যামেরাগুলোতে সময়-পরিসর এবং দুই প্রান্তে এক সেকেন্ড করে থাকে: %s লেখা হয়েছে -- %s-এর জন্য, রেকর্ড করা মোট %s-এর মধ্যে।"

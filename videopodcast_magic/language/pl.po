@@ -705,9 +705,6 @@ msgstr "    %s× przewidziana kamera nie nagrywała -- w tym miejscu jest inna."
 msgid "    %s could not be imported."
 msgstr "    Nie można zaimportować: %s."
 
-msgid "    %s could not be inserted."
-msgstr "    Nie można wstawić: %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Nie można utworzyć ścieżki typu %s: %s"
 
@@ -1232,6 +1229,12 @@ msgstr "  Resolve nie ma w Media Pool żadnego Full-Mix -- na Timeline \"%s\" br
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve odrzucił Full-Mix -- na Timeline \"%s\" brakuje dźwięku."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve odrzucił Intro -- na Timeline \"%s\" brakuje Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve odrzucił Outro -- na Timeline \"%s\" brakuje Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamery obejmują okno czasowe i po sekundzie z każdej strony: zapisano %s dla %s z %s nagranych."

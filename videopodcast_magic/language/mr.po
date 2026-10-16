@@ -731,9 +731,6 @@ msgstr "    %s वेळा नियोजित कॅमेरा चाल�
 msgid "    %s could not be imported."
 msgstr "    %s इम्पोर्ट करता आले नाही."
 
-msgid "    %s could not be inserted."
-msgstr "    %s घालता आले नाही."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s प्रकारचा ट्रॅक तयार करता आला नाही: %s"
 
@@ -1256,6 +1253,12 @@ msgstr "  Resolve च्या Media Pool मध्ये Full-Mix नाही 
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve ने Full-Mix नाकारला -- Timeline \"%s\" मध्ये ध्वनी नाही."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve ने इंट्रो नाकारला -- Timeline \"%s\" मध्ये इंट्रो नाही."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve ने आउट्रो नाकारला -- Timeline \"%s\" मध्ये आउट्रो नाही."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  कॅमेऱ्यांमध्ये वेळ-चौकट आणि प्रत्येक टोकाला एक सेकंद आहे: %s लिहिले, %s साठी, रेकॉर्ड केलेल्या एकूण %s पैकी."
