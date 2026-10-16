@@ -616,6 +616,9 @@ msgstr "\nChưa chọn cài đặt sẵn: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nĐã dừng trước bước dài đầu tiên. Với --anyway, nó vẫn chạy."
 
+msgid "\nStopped before the first long step."
+msgstr "\nĐã dừng trước bước dài đầu tiên."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Khi đó Resolve có thể không nhận ra không gian màu đầu vào."
 
@@ -711,6 +714,9 @@ msgstr "    %s: hình và tiếng được chèn riêng (tiếng từ A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    Đã đặt --anyway: vẫn chạy bất chấp các điểm ở trên."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    Đã đặt --anyway: vẫn chạy bất chấp các điểm ở trên, nhưng dừng trước khi tải lên -- auphonic.com sẽ từ chối bản sản xuất này."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Mọi rãnh đều đúng chỗ -- không cần dời gì."

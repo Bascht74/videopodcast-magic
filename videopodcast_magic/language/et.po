@@ -644,6 +644,9 @@ msgstr "\nEelseadistust pole valitud: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nPeatatud enne esimest pikka sammu. --anyway abil jätkub see igal juhul."
 
+msgid "\nStopped before the first long step."
+msgstr "\nPeatatud enne esimest pikka sammu."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Siis ei pruugi Resolve sisendi värviruumi ära tunda."
 
@@ -739,6 +742,9 @@ msgstr "    %s: pilt ja heli lisati eraldi (heli rajalt A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway on seatud: käitus jätkub vaatamata ülalolevatele punktidele."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway on seatud: käitus jätkub vaatamata ülalolevatele punktidele, kuid peatub enne üleslaadimist -- auphonic.com lükkaks selle produktsiooni tagasi."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Kõik rajad on paigas -- pole midagi nihutada."

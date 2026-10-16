@@ -646,6 +646,9 @@ msgstr "\nL-ebda preset ma ntgħażel: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nWaqaf qabel l-ewwel pass twil. B'--anyway jaħdem xorta waħda."
 
+msgid "\nStopped before the first long step."
+msgstr "\nWaqaf qabel l-ewwel pass twil."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve imbagħad jista' ma jagħrafx l-ispazju tal-kulur tad-dħul."
 
@@ -741,6 +744,9 @@ msgstr "    %s: l-istampa u l-awdjo ddaħħlu separatament (awdjo minn A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway huwa ssettjat: jaħdem minkejja l-punti ta' fuq."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway huwa ssettjat: jaħdem minkejja l-punti ta' fuq, iżda jieqaf qabel it-tlugħ -- auphonic.com kien jirrifjuta din il-produzzjoni."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Il-binarji kollha f'posthom -- m'hemm xejn x'jiċċaqlaq."

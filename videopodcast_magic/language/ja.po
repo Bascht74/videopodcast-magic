@@ -2697,6 +2697,9 @@ msgstr "%s 件を確認"
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway が指定されています: 上の項目にかかわらず実行します。"
 
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway が指定されています: 上の項目にかかわらず実行しますが、アップロード前に止まります -- auphonic.com がこのプロダクションを拒否するためです。"
+
 msgid "does the material fit together?"
 msgstr "素材は互いに合っていますか？"
 
@@ -2795,6 +2798,9 @@ msgstr "\n事前チェック -- %s"
 
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\n最初の長い処理の前で停止しました。--anyway を付ければそのまま実行します。"
+
+msgid "\nStopped before the first long step."
+msgstr "\n最初の長い処理の前で停止しました。"
 
 msgid "no video track"
 msgstr "映像トラックなし"

@@ -642,6 +642,9 @@ msgstr "\nไม่ได้เลือกพรีเซ็ต: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nหยุดก่อนขั้นตอนยาวขั้นแรก ใช้ --anyway เพื่อให้ทำงานต่อไม่ว่าอย่างไร"
 
+msgid "\nStopped before the first long step."
+msgstr "\nหยุดก่อนขั้นตอนยาวขั้นแรก"
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve อาจไม่รู้จักปริภูมิสีขาเข้า"
 
@@ -737,6 +740,9 @@ msgstr "    %s: แทรกภาพและเสียงแยกกัน 
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    ตั้ง --anyway ไว้: จะทำงานแม้มีประเด็นด้านบน"
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    ตั้ง --anyway ไว้: จะทำงานแม้มีประเด็นด้านบน แต่จะหยุดก่อนอัปโหลด -- auphonic.com จะปฏิเสธงานนี้"
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    แทร็กทั้งหมดอยู่ในตำแหน่งแล้ว -- ไม่ต้องเลื่อนอะไร"

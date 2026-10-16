@@ -643,6 +643,9 @@ msgstr "\nமுன்னமைவு தேர்ந்தெடுக்கப
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nமுதல் நீண்ட படிக்கு முன்பே நிறுத்தப்பட்டது. --anyway உடன் எப்படியும் இயங்கும்."
 
+msgid "\nStopped before the first long step."
+msgstr "\nமுதல் நீண்ட படிக்கு முன்பே நிறுத்தப்பட்டது."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   அப்போது Resolve உள்ளீட்டு வண்ண வெளியை அடையாளம் காணாமல் போகலாம்."
 
@@ -738,6 +741,9 @@ msgstr "    %s: படமும் ஆடியோவும் தனித்�
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway அமைக்கப்பட்டுள்ளது: மேலே உள்ள விஷயங்கள் இருந்தும் இது இயங்கும்."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway அமைக்கப்பட்டுள்ளது: மேலே உள்ள விஷயங்கள் இருந்தும் இது இயங்கும், ஆனால் பதிவேற்றத்துக்கு முன்பே நிற்கும் -- auphonic.com இந்தத் தயாரிப்பை நிராகரிக்கும்."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    அனைத்துத் தடங்களும் சரியான இடத்தில் உள்ளன -- நகர்த்த எதுவும் இல்லை."

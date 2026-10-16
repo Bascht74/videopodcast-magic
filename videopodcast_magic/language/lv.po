@@ -645,6 +645,9 @@ msgstr "\nNav izvēlēts priekšiestatījums: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nApturēts pirms pirmā garā soļa. Ar --anyway tas darbojas tik un tā."
 
+msgid "\nStopped before the first long step."
+msgstr "\nApturēts pirms pirmā garā soļa."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Tad Resolve var neatpazīt ievades krāsu telpu."
 
@@ -740,6 +743,9 @@ msgstr "    %s: attēls un skaņa ievietoti atsevišķi (skaņa no A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    Iestatīts --anyway: darbojas, neskatoties uz iepriekš minētajiem punktiem."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    Iestatīts --anyway: darbojas, neskatoties uz iepriekš minētajiem punktiem, taču apstājas pirms augšupielādes -- auphonic.com noraidītu šo producējumu."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Visi celiņi ir savās vietās -- nav ko pārvietot."

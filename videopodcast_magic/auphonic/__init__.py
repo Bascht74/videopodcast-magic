@@ -2274,7 +2274,14 @@ def reuse_production(key, existing, request, preset, tracks,
 
 
 def wait_for_production(key, uuid, wait_s):
-    """Wait for the production to finish, with a progress bar and a timeout."""
+    """Wait for the production to finish, with a progress bar and a timeout.
+
+    One auphonic.com holds as incomplete ends the waiting at once, on
+    auphonic.com's own status, as a refused start does: it waits for
+    something only auphonic.com can be given, and the time limit would
+    only blame the time. Waiting in the queue, processing, encoding are
+    slow, not stuck, and are waited for.
+    """
     started = time.time()
     end = started + wait_s
     horizon = 150.0
@@ -2290,6 +2297,11 @@ def wait_for_production(key, uuid, wait_s):
         if status == 2:
             raise RuntimeError(T('Auphonic reports an error: %s')
                                % (p.get("error_message") or text))
+        # 9 is "Incomplete" in auphonic.com's API list of production
+        # states, not measured here; 1, 4 and 5 -- waiting, processing,
+        # encoding -- are the slow ones and go on below.
+        if status == 9:
+            raise RuntimeError(T('Auphonic reports %s: %s') % (status, text))
         for _ in range(5):
             elapsed = time.time() - started
             while elapsed >= horizon:

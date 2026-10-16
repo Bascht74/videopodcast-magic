@@ -1197,6 +1197,9 @@ msgstr "\nSonido e imagen solo tienen %s en común, y la alineación encontró %
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nInterrumpido antes del primer paso largo. Con --anyway se ejecuta igualmente."
 
+msgid "\nStopped before the first long step."
+msgstr "\nInterrumpido antes del primer paso largo."
+
 msgid "\nStopped during: %s"
 msgstr "\nInterrumpido en: %s"
 
@@ -1358,6 +1361,9 @@ msgstr "    %sx la cámara prevista no estaba grabando -- hay otra en su lugar."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway está puesto: se ejecuta a pesar de los puntos de arriba."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway está puesto: se ejecuta a pesar de los puntos de arriba, pero se detiene antes de la subida -- auphonic.com rechazaría esta producción."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Todas las pistas están en su sitio -- nada que mover."

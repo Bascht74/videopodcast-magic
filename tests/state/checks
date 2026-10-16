@@ -35,7 +35,7 @@ auphonic_credit_said	54
 auphonic_curl_end_said	6
 auphonic_done_file_found	7
 auphonic_foreign_refused	8
-auphonic_free_long_stops	15
+auphonic_free_long_stops	22
 auphonic_jingle_cut_away	11
 auphonic_key_answer_fits	18
 auphonic_key_by_pipe	68
@@ -55,7 +55,7 @@ auphonic_preset_checked	4
 auphonic_preset_fits	23
 auphonic_preset_typed	6
 auphonic_reuse_no_resend	7
-auphonic_run_delivers	86
+auphonic_run_delivers	88
 auphonic_single_reused	13
 auphonic_speech_read	14
 auphonic_stays_quiet	30

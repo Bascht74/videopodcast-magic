@@ -618,6 +618,9 @@ msgstr "\nNicio presetare aleasă: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nOprit înainte de primul pas lung. Cu --anyway rulează oricum."
 
+msgid "\nStopped before the first long step."
+msgstr "\nOprit înainte de primul pas lung."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve s-ar putea să nu recunoască atunci spațiul de culoare de intrare."
 
@@ -713,6 +716,9 @@ msgstr "    %s: imaginea și audio inserate separat (audio de pe A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway este setat: rulează în ciuda punctelor de mai sus."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway este setat: rulează în ciuda punctelor de mai sus, dar se oprește înainte de încărcare -- auphonic.com ar refuza această producție."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Toate pistele sunt la locul lor -- nimic de mutat."

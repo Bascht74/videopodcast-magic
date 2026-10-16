@@ -645,6 +645,9 @@ msgstr "\nNepasirinktas išankstinis nustatymas: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nSustabdyta prieš pirmąjį ilgą žingsnį. Su --anyway vykdoma vis tiek."
 
+msgid "\nStopped before the first long step."
+msgstr "\nSustabdyta prieš pirmąjį ilgą žingsnį."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Tada Resolve gali neatpažinti įvesties spalvų erdvės."
 
@@ -740,6 +743,9 @@ msgstr "    %s: vaizdas ir garsas įterpti atskirai (garsas iš A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    Nustatytas --anyway: vykdoma nepaisant aukščiau nurodytų punktų."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    Nustatytas --anyway: vykdoma nepaisant aukščiau nurodytų punktų, bet sustojama prieš įkėlimą -- auphonic.com atmestų šią produkciją."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Visi takeliai savo vietose -- nėra ką perkelti."

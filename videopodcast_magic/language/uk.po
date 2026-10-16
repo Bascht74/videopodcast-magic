@@ -2743,6 +2743,9 @@ msgstr "перевірено: %s"
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway задано: запуск іде попри пункти вище."
 
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway задано: запуск іде попри пункти вище, але зупиняється перед завантаженням -- auphonic.com відхилив би цю продукцію."
+
 msgid "does the material fit together?"
 msgstr "чи пасує матеріал між собою?"
 
@@ -2843,6 +2846,9 @@ msgstr "\nПОПЕРЕДНЯ ПЕРЕВІРКА -- %s"
 
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nЗупинено перед першим довгим кроком. З --anyway працює попри все."
+
+msgid "\nStopped before the first long step."
+msgstr "\nЗупинено перед першим довгим кроком."
 
 msgid "no video track"
 msgstr "немає відеодоріжки"

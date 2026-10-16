@@ -2782,6 +2782,9 @@ msgstr "فُحص %s"
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway مضبوط: يعمل رغم النقاط أعلاه."
 
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway مضبوط: يعمل رغم النقاط أعلاه، لكنه يتوقف قبل الرفع -- كان auphonic.com سيرفض هذا الإنتاج."
+
 msgid "does the material fit together?"
 msgstr "هل تتلاءم المواد معًا؟"
 
@@ -2881,6 +2884,9 @@ msgstr "\nالفحص المسبق -- %s"
 
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nتوقف قبل الخطوة الطويلة الأولى. مع --anyway يعمل رغم ذلك."
+
+msgid "\nStopped before the first long step."
+msgstr "\nتوقف قبل الخطوة الطويلة الأولى."
 
 msgid "no video track"
 msgstr "لا يوجد مسار فيديو"

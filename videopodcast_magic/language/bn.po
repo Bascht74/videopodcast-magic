@@ -618,6 +618,9 @@ msgstr "\nকোনো প্রিসেট বেছে নেওয়া হ
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nপ্রথম দীর্ঘ ধাপের আগে থামানো হয়েছে। --anyway দিলে তবুও চলবে।"
 
+msgid "\nStopped before the first long step."
+msgstr "\nপ্রথম দীর্ঘ ধাপের আগে থামানো হয়েছে।"
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve তখন হয়তো ইনপুট কালার স্পেস চিনতে পারবে না।"
 
@@ -713,6 +716,9 @@ msgstr "    %s: ছবি ও অডিও আলাদাভাবে বসা
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway সেট করা আছে: ওপরের বিষয়গুলো সত্ত্বেও চলবে।"
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway সেট করা আছে: ওপরের বিষয়গুলো সত্ত্বেও চলবে, কিন্তু আপলোডের আগে থেমে যাবে -- auphonic.com এই প্রোডাকশন প্রত্যাখ্যান করত।"
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    সব ট্র্যাক জায়গামতো আছে -- সরানোর কিছু নেই।"

@@ -10,7 +10,10 @@ an @ points at -- because a key travels in a body as easily as in an
 argument. Every claim has its counter-check with a wrong input, and a
 refusal at any step -- the preset read, the creation, the upload --
 stops the run before the start; a refused start stops it before any
-waiting, for either kind and for a production found again. A single
+waiting, for either kind and for a production found again. While it
+runs the production is waited for, through waiting, processing and
+encoding; one auphonic.com holds as incomplete ends the waiting at
+once, on its own status, and not at the time limit. A single
 file's production is made from its preset as a Multitrack one is: the
 settings and outputs adopted, the preset's intro and outro not.
 Last, a Multitrack run's lookup by title takes the Multitrack
@@ -216,6 +219,7 @@ class Auphonic(object):
         self.broken_urls = set()
         self.uuid = "PRODUUID"
         self.pending = 0         # how often it answers "still running"
+        self.states = []         # (status, text) answered first, in turn
         # The account before an upload: paid for, and plenty left, so
         # nothing here turns on it.
         self.account = {"credits": 100.0, "is_paying_user": True}
@@ -313,6 +317,11 @@ class Auphonic(object):
             if self.start_answer is not None:
                 return self.start_answer
             return {"status_code": 200, "data": self.production()}
+        if method == "GET" and self.states:
+            status, text = self.states.pop(0)
+            return {"status_code": 200,
+                    "data": dict(self.production(), status=status,
+                                 status_string=text)}
         if method == "GET" and self.pending:
             self.pending -= 1
             return {"status_code": 200,
@@ -839,6 +848,21 @@ check("it paused between the tries", len(slept) >= 5,
 check("and the tracks came back all the same",
       sorted(result) == sorted(NAMES), repr(sorted(result)))
 
+# The states auphonic.com passes on its way to done are slow, not
+# stuck: each is waited through.
+server, folder = fresh("slowstates")
+server.states = [(1, "Waiting"), (4, "Audio Processing"),
+                 (5, "Audio Encoding")]
+said = ""
+try:
+    (result, slept) = without_waiting(lambda: multitrack(server, folder))
+except Exception as e:
+    result, said = {}, str(e)
+check("waiting, processing and encoding are waited through",
+      sorted(result) == sorted(NAMES) and not server.states,
+      "came back %r, raised %r, states never answered %r"
+      % (sorted(result), said[:90], server.states))
+
 server, folder = fresh("waitingsingle")
 server.pending = 1
 (got, slept) = without_waiting(lambda: single(server, folder, mono))
@@ -920,6 +944,20 @@ check("a refused start of a production found again stops the run",
       and not polled_after_start(server),
       "start sent: %s, raised %r, the production asked after %d times "
       "past the start" % (reached, said[:90], polled_after_start(server)))
+
+print("\n17. A production that stands incomplete is not waited for")
+# Nothing comes of waiting for it: the run ends on the first look, on
+# auphonic.com's own status, as a refused start does. The clock runs
+# here, so a wait that went on would sit out the twelve seconds.
+server, folder = fresh("incomplete")
+server.status, server.status_string = 9, "Incomplete"
+began_waiting = time.time()
+said = raises(lambda: multitrack(server, folder, wait_s=12))
+check("a production held as incomplete stops the waiting at once",
+      vpm.T('Auphonic reports %s: %s') % (9, "Incomplete") in said
+      and polled_after_start(server) == 1,
+      "raised %r after %.1f s and %d looks past the start"
+      % (said[:90], time.time() - began_waiting, polled_after_start(server)))
 
 shutil.rmtree(D, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

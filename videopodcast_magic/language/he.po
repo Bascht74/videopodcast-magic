@@ -643,6 +643,9 @@ msgstr "\nלא נבחר פריסט: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nנעצר לפני השלב הארוך הראשון. עם --anyway זה רץ בכל זאת."
 
+msgid "\nStopped before the first long step."
+msgstr "\nנעצר לפני השלב הארוך הראשון."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   ייתכן ש-Resolve לא יזהה אז את מרחב הצבע של הקלט."
 
@@ -738,6 +741,9 @@ msgstr "    %s: התמונה והשמע הוכנסו בנפרד (השמע מ-A%d
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway הוגדר: זה רץ למרות הנקודות שלמעלה."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway הוגדר: זה רץ למרות הנקודות שלמעלה, אבל נעצר לפני ההעלאה -- auphonic.com היה דוחה את ההפקה הזאת."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    כל הרצועות במקומן -- אין מה להזיז."

@@ -812,6 +812,13 @@ msgstr ""
 "\n"
 "Abbruch vor dem ersten langen Schritt. Mit --anyway läuft es dennoch."
 
+msgid ""
+"\n"
+"Stopped before the first long step."
+msgstr ""
+"\n"
+"Abbruch vor dem ersten langen Schritt."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr ""
 "                   Resolve erkennt den Eingabefarbraum dann vielleicht "
@@ -956,6 +963,9 @@ msgstr "    %s: Bild und Ton getrennt eingefügt (Ton ab A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway steht dabei: es läuft trotz der Punkte oben."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway steht dabei: es läuft trotz der Punkte oben, hält aber vor dem Hochladen an -- auphonic.com würde diese Produktion ablehnen."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Alle Spuren liegen richtig -- nichts zu rücken."
@@ -6701,7 +6711,7 @@ msgid "  Credit at auphonic.com: not known."
 msgstr "  Guthaben bei auphonic.com: unbekannt."
 
 msgid "  Credit at auphonic.com: %s left."
-msgstr "  Guthaben bei auphonic.com: noch %s."
+msgstr "  Guthaben bei auphonic.com: %s übrig."
 
 msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
 msgstr "  Guthaben bei auphonic.com: noch %s, diese Produktion braucht %s -- das reicht nicht."
@@ -6725,7 +6735,7 @@ msgid "  Note: the run tries anyway. auphonic.com decides whether the production
 msgstr "  Hinweis: Der Lauf versucht es trotzdem. Ob die Produktion startet, entscheidet auphonic.com, und wenn nicht, sagt es das selbst."
 
 msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
-msgstr "Diese Multitrack-Produktion dauert %s. Im kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa %s an; eine längere braucht einen bezahlten Tarif."
+msgstr "Diese Multitrack-Produktion dauert %s -- im kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa %s an; eine längere braucht einen bezahlten Tarif."
 
 msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
 msgstr "Für Singletrack, das der kostenlose Tarif in jeder Länge annimmt, alle Spuren bis auf eine auf „%s“ stellen -- wo eine Spur alle Stimmen trägt. Oder unter Preset „%s“ wählen (--without-auphonic): Die Spuren werden dann hier gemischt."

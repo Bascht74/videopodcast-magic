@@ -643,6 +643,9 @@ msgstr "\nپیش‌تنظیمی انتخاب نشده است: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nپیش از نخستین مرحله طولانی متوقف شد. با --anyway در هر حال اجرا می‌شود."
 
+msgid "\nStopped before the first long step."
+msgstr "\nپیش از نخستین مرحله طولانی متوقف شد."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   در این صورت ممکن است Resolve فضای رنگ ورودی را تشخیص ندهد."
 
@@ -738,6 +741,9 @@ msgstr "    %s: تصویر و صدا جداگانه درج شدند (صدا از
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway تعیین شده است: با وجود موارد بالا اجرا می‌شود."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway تعیین شده است: با وجود موارد بالا اجرا می‌شود، اما پیش از بارگذاری متوقف می‌شود -- auphonic.com این تولید را رد می‌کرد."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    همه ترک‌ها سر جایشان هستند -- چیزی برای جابه‌جایی نیست."
