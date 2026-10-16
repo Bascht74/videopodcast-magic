@@ -1632,8 +1632,18 @@ msgstr "  %s va a %s fotogramas/s, una frecuencia para la que Resolve no tiene T
 msgid "  %s shots, %s s in total, without their audio."
 msgstr "  %s planos, %s s en total, sin su audio."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s hablantes, %s planos, el más corto %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, el más corto %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s hablante"
+msgstr[1] "%s hablantes"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s plano"
+msgstr[1] "%s planos"
 
 msgid "  %s video tracks, %s audio tracks created (%s)"
 msgstr "  %s pistas de vídeo, %s pistas de audio creadas (%s)"
@@ -2013,8 +2023,10 @@ msgstr "  Desfase:           %s   (de la comparación de cámaras)"
 msgid "  On this machine: %s"
 msgstr "  En esta máquina: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Una cámara para todos: cortada en %s planos en el cambio de hablante, para que Resolve pueda agruparlos."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Una cámara para todos: cortada en %s plano en el cambio de hablante, para que Resolve pueda agruparlo."
+msgstr[1] "  Una cámara para todos: cortada en %s planos en el cambio de hablante, para que Resolve pueda agruparlos."
 
 msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
 msgstr "  Resolve solo tomó %s de %s planos -- la Timeline «%s» queda sin el resto del corte."
@@ -2184,8 +2196,10 @@ msgstr "  Las cámaras llevan la ventana de tiempo y un segundo a cada lado: %s 
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Las cámaras están cerca unas de otras (como máximo %s pasos de brillo)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  El corte ha cambiado: %s planos en vez de %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  El corte ha cambiado: %s plano en vez de %s."
+msgstr[1] "  El corte ha cambiado: %s planos en vez de %s."
 
 msgid "  The cut stays as it was."
 msgstr "  El corte se queda como estaba."
@@ -3937,8 +3951,8 @@ msgstr "a partir de %s"
 msgid "from ffmpeg.org, and the folder into PATH"
 msgstr "desde ffmpeg.org, y la carpeta al PATH"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "de la ejecución terminada -- %s hablantes, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "de la ejecución terminada -- %s, %s"
 
 msgid "full range"
 msgstr "rango completo"
@@ -3979,8 +3993,8 @@ msgstr "limitado (Video/TV)"
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "marcada como plano general -- no admite hablantes"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "medido a partir de las grabaciones -- %s hablantes, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "medido a partir de las grabaciones -- %s, %s"
 
 msgid "missing -- the container carries no colour tagging"
 msgstr "falta -- el contenedor no lleva ninguna marca de color"

@@ -1566,11 +1566,11 @@ msgstr "回答未能持续"
 msgid "nobody was speaking at the question"
 msgstr "提问时没有人在说话"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "来自已完成的运行 -- %s 位说话人，%s"
+msgid "from the finished run -- %s, %s"
+msgstr "来自已完成的运行 -- %s，%s"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "从录音测得 -- %s 位说话人，%s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "从录音测得 -- %s，%s"
 
 msgid "In point or Out point cannot be read here."
 msgstr "此处无法读取入点或出点。"
@@ -1602,8 +1602,16 @@ msgstr "  无法写入交接文件。"
 msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
 msgstr "  每台摄像机都对应一位说话人，因此没有全景：四项全景设置和首尾勾选在此都不起作用。"
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s 位说话人，%s 个镜头，最短 %s 秒"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s，%s，最短 %s 秒"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s 位说话人"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s 个镜头"
 
 msgid "  The cut stays as it was."
 msgstr "  剪辑保持不变。"
@@ -1632,11 +1640,13 @@ msgstr "\n说话人\n  没有听到任何人 -- 无法由此生成镜头切换�
 msgid "  %sx away from the speaker because a shot ran longer than %s s"
 msgstr "  %s 次离开说话人，因为某个镜头超过了 %s 秒"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  所有人共用一台摄像机：在说话人切换处切成 %s 个镜头，以便 Resolve 将其编组。"
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  所有人共用一台摄像机：在说话人切换处切成 %s 个镜头，以便 Resolve 将其编组。"
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  剪辑已改变：%s 个镜头，而不是 %s 个。"
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  剪辑已改变：%s 个镜头，而不是 %s 个。"
 
 msgid "the cut uses %s"
 msgstr "剪辑使用 %s"

@@ -45,14 +45,14 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3343** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3311** -- who is on camera when, and what carries it out
+* `cut/` **3321** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2490** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
-* `material/` **2050** -- channels, chains, continuation files, and what
+* `material/` **2053** -- channels, chains, continuation files, and what
   a track is made of
-* `loudness/` **482** -- loudness and mixing: EBU R128 measured, the
+* `loudness/` **483** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
 * `bearings/` **2414** -- where each file and each voice sits, and how
@@ -74,7 +74,7 @@ figure of the day is that command, not this paragraph**:
   keeping the key, and storing it from the terminal
 * `speech/` **1600** -- what is said and when, and what is written down
   from it
-* `hearing/` **1392** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1399** -- decoding, envelopes, bands, phase, aligning
   audio to video
 * `fittings/` **1340** -- helpers that shape what the window shows and
   hold none of its state

@@ -1854,7 +1854,10 @@ def place_track_on_axis(source, target, a, b, t0, t1, drift=True):
     """
     n_window = int(round((t1 - t0) * SR))
     keep = kept_channels(source)
-    af = []
+    # Every count below is a sample at the working rate, so the track is
+    # brought to it first: a 16 kHz recording counted at 48 kHz came out
+    # three times the window, its sound 1.8 s early (E-666).
+    af = ["aresample=%d" % SR]
     if drift and abs(b - 1.0) > 1e-7:
         af.append(rate_filter_chain(b))
         start = a / b + t0

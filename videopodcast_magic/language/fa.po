@@ -886,8 +886,18 @@ msgstr "  %s بلوک با تایم‌کد به هم پیوستند، شروع %
 msgid "  %s of %s files imported."
 msgstr "  %s از %s فایل وارد شد."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s گوینده، %s نما، کوتاه‌ترین %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s، %s، کوتاه‌ترین %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s گوینده"
+msgstr[1] "%s گوینده"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s نما"
+msgstr[1] "%s نما"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s ترک ویدیویی، به نام گویندگان:"
@@ -1246,8 +1256,10 @@ msgstr "  دوربین‌ها بازه زمانی و یک ثانیه در هر �
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  دوربین‌ها به هم نزدیک‌اند (حداکثر %s پله روشنایی)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  برش تغییر کرده است: %s نما به جای %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  برش تغییر کرده است: %s نما به جای %s."
+msgstr[1] "  برش تغییر کرده است: %s نما به جای %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  سابقه اجراهای قبلی اینجا خوانده نمی‌شود (%s)، پس هر آنچه از قبل هست گزارش می‌شود."
@@ -3395,11 +3407,11 @@ msgstr "نمای باز پس از این مدت"
 msgid "the voices below carry the cameras"
 msgstr "صداهای زیرین دوربین‌ها را در اختیار دارند"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "اندازه‌گیری‌شده از ضبط‌ها -- %s گوینده، %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "اندازه‌گیری‌شده از ضبط‌ها -- %s، %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "از اجرای تمام‌شده -- %s گوینده، %s"
+msgid "from the finished run -- %s, %s"
+msgstr "از اجرای تمام‌شده -- %s، %s"
 
 msgid "no text"
 msgstr "بدون متن"
@@ -4142,8 +4154,10 @@ msgstr "برش ترک %d از %d"
 msgid "cutting failed: %s"
 msgstr "برش ناموفق بود: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  یک دوربین برای همه: در تغییر گوینده به %s نما برش خورد، تا Resolve بتواند آن‌ها را گروه کند."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  یک دوربین برای همه: در تغییر گوینده به %s نما برش خورد، تا Resolve بتواند آن را گروه کند."
+msgstr[1] "  یک دوربین برای همه: در تغییر گوینده به %s نما برش خورد، تا Resolve بتواند آن‌ها را گروه کند."
 
 msgid "Shorter shots fall into the following one."
 msgstr "نماهای کوتاه‌تر در نمای بعدی ادغام می‌شوند."

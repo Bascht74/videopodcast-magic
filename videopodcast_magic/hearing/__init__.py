@@ -761,6 +761,10 @@ def join_audio_parts(paths, target, keep_parts=False):
         own = dict((p, float(wav_rate(p) or SR)) for p in paths)
         stamp = dict(zip(paths, trs))
         t0, first = entries[0][0], stamp[entries[0][1]]
+        # Written at the rate the stamp counts in, the first block's: two
+        # rates in one graph leave at whichever ffmpeg picks, and 01:00:00
+        # stamped at 44.1 kHz read 00:55:07 in a 48 kHz join.
+        rate = ["-ar", "%d" % own[entries[0][1]]]
         total = max(t + n for t, _, n in entries) - t0
         gaps = []
         for (ta, _, na), (tb, _, _) in zip(entries, entries[1:]):
@@ -794,15 +798,15 @@ def join_audio_parts(paths, target, keep_parts=False):
             chains.append("[%d:a]%s%s" % (i, ",".join(f), tail))
             markers.append("[t%d]" % i)
             if alone:
-                writes += (["-map", "[s%d]" % i, "-c:a", "pcm_s24le",
-                            "-write_bext", "1", "-metadata",
+                writes += (["-map", "[s%d]" % i, "-c:a", "pcm_s24le"] + rate
+                           + ["-write_bext", "1", "-metadata",
                             "time_reference=%d" % first]
                            + PROGRAM.wav_safe(alone[i][1])
                            + ["-y", alone[i][1]])
         fc = ";".join(chains) + ";" + "".join(markers) +\
              "amix=inputs=%d:normalize=0[out]" % len(markers)
         shell_quote(["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
-            "-map", "[out]", "-c:a", "pcm_s24le", "-write_bext", "1",
+            "-map", "[out]", "-c:a", "pcm_s24le"] + rate + ["-write_bext", "1",
             "-metadata", "time_reference=%d" % first]
             + PROGRAM.wav_safe(target) + ["-y", target] + writes)
         # The stamp is counted at the first block's own rate, the way its
@@ -817,7 +821,10 @@ def join_audio_parts(paths, target, keep_parts=False):
     # only one there is, and it may come from a hand rather than from a
     # name. Sorting by name again would throw that away.
     row = list(zip(paths, lengths))
-    if len(set(same)) == 1 and same[0] == "anull":
+    # Alike in rate too: the demuxer reads every block at the first one's,
+    # and a 48 kHz block behind a 44.1 kHz one came out 1.5 s too long.
+    rates = set(PROGRAM.audio_shape(p)[1] for p in paths)
+    if len(set(same)) == 1 and same[0] == "anull" and len(rates) == 1:
         # All alike: the concat demuxer is cheapest and needs no graph.
         lst = tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False)
         for p, _ in row:

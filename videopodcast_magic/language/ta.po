@@ -886,8 +886,18 @@ msgstr "  %s தொகுதிகள் டைம்கோடு மூலம�
 msgid "  %s of %s files imported."
 msgstr "  %s / %s கோப்புகள் இறக்குமதி செய்யப்பட்டன."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s பேச்சாளர்கள், %s ஷாட்கள், மிகக் குறுகியது %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, மிகக் குறுகியது %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s பேச்சாளர்"
+msgstr[1] "%s பேச்சாளர்கள்"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s ஷாட்"
+msgstr[1] "%s ஷாட்கள்"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s வீடியோ தடங்கள், பேச்சாளர்களின் பெயர்களில்:"
@@ -1246,8 +1256,10 @@ msgstr "  கேமராக்களில் நேர வரம்பும�
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  கேமராக்கள் நெருக்கமாக உள்ளன (அதிகபட்சம் %s படிகள் ஒளிர்வு வேறுபாடு)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  கட் மாறியுள்ளது: %s ஷாட்கள், %s க்குப் பதிலாக."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  கட் மாறியுள்ளது: %s ஷாட், %s க்குப் பதிலாக."
+msgstr[1] "  கட் மாறியுள்ளது: %s ஷாட்கள், %s க்குப் பதிலாக."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  இங்குள்ள முந்தைய இயக்கங்களின் குறிப்பைப் படிக்க முடியாது (%s), எனவே ஏற்கனவே உள்ள அனைத்தும் தெரிவிக்கப்படுகின்றன."
@@ -3397,11 +3409,11 @@ msgstr "வைட் ஷாட் இவ்வளவுக்குப் பி
 msgid "the voices below carry the cameras"
 msgstr "கேமராக்கள் கீழுள்ள குரல்களுடன் உள்ளன"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "பதிவுகளிலிருந்து அளவிடப்பட்டது -- %s பேச்சாளர்கள், %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "பதிவுகளிலிருந்து அளவிடப்பட்டது -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "முடிந்த இயக்கத்திலிருந்து -- %s பேச்சாளர்கள், %s"
+msgid "from the finished run -- %s, %s"
+msgstr "முடிந்த இயக்கத்திலிருந்து -- %s, %s"
 
 msgid "no text"
 msgstr "உரை இல்லை"
@@ -4144,8 +4156,10 @@ msgstr "தடம் %d பிரித்தெடுக்கப்படு�
 msgid "cutting failed: %s"
 msgstr "பிரித்தெடுத்தல் தோல்வியடைந்தது: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  அனைவருக்கும் ஒரே கேமரா: பேச்சாளர் மாறும் இடங்களில் %s ஷாட்களாக கட் செய்யப்பட்டது, அதனால் Resolve அவற்றைக் குழுவாக்க முடியும்."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  அனைவருக்கும் ஒரே கேமரா: பேச்சாளர் மாறும் இடங்களில் %s ஷாட்டாக கட் செய்யப்பட்டது, அதனால் Resolve அதைக் குழுவாக்க முடியும்."
+msgstr[1] "  அனைவருக்கும் ஒரே கேமரா: பேச்சாளர் மாறும் இடங்களில் %s ஷாட்களாக கட் செய்யப்பட்டது, அதனால் Resolve அவற்றைக் குழுவாக்க முடியும்."
 
 msgid "Shorter shots fall into the following one."
 msgstr "இதைவிடக் குறுகிய ஷாட்கள் அடுத்த ஷாட்டில் சேர்ந்துவிடும்."

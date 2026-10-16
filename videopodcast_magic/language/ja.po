@@ -1566,11 +1566,11 @@ msgstr "回答が続かなかった"
 msgid "nobody was speaking at the question"
 msgstr "質問の時点では誰も話していませんでした"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "完了した実行から -- 話者 %s 人、%s"
+msgid "from the finished run -- %s, %s"
+msgstr "完了した実行から -- %s、%s"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "録音から測定 -- 話者 %s 人、%s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "録音から測定 -- %s、%s"
 
 msgid "In point or Out point cannot be read here."
 msgstr "ここではイン点またはアウト点を読み取れません。"
@@ -1602,8 +1602,16 @@ msgstr "  受け渡しファイルを書き込めませんでした。"
 msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
 msgstr "  どのカメラにも話者がいるため、引き画はありません。引き画の 4 つの設定と両端のチェックはここでは効きません。"
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  話者 %s 人、ショット %s 個、最短 %s 秒"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s、%s、最短 %s 秒"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "話者 %s 人"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "ショット %s 個"
 
 msgid "  The cut stays as it was."
 msgstr "  カットは元のままです。"
@@ -1632,11 +1640,13 @@ msgstr "\n話者\n  誰の声も聞こえませんでした -- ここからカ�
 msgid "  %sx away from the speaker because a shot ran longer than %s s"
 msgstr "  %s 回、ショットが %s 秒を超えたため話者から離れました"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  全員に 1 台のカメラ: 話者の交代で %s 個のショットに切り分けました。Resolve でグループ化できます。"
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  全員に 1 台のカメラ: 話者の交代で %s 個のショットに切り分けました。Resolve でグループ化できます。"
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  カットが変わりました: ショット %s 個（以前は %s 個）。"
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  カットが変わりました: ショット %s 個（以前は %s 個）。"
 
 msgid "the cut uses %s"
 msgstr "カットは %s を使います"

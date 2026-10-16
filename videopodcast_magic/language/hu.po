@@ -861,8 +861,18 @@ msgstr "  %s blokk timecode szerint összeillesztve, kezdet %s"
 msgid "  %s of %s files imported."
 msgstr "  %s / %s fájl importálva."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s beszélő, %s snitt, legrövidebb %s mp"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, legrövidebb %s mp"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s beszélő"
+msgstr[1] "%s beszélő"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s snitt"
+msgstr[1] "%s snitt"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s videósáv, a beszélők nevével:"
@@ -1221,8 +1231,10 @@ msgstr "  A kamerák az időablakot hordozzák, plusz egy-egy másodpercet mindk
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  A kamerák közel vannak egymáshoz (legfeljebb %s fokozat fényerő)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  A vágás megváltozott: %s snitt %s helyett."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  A vágás megváltozott: %s snitt %s helyett."
+msgstr[1] "  A vágás megváltozott: %s snitt %s helyett."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  A korábbi futtatások itteni feljegyzése nem olvasható (%s), ezért minden jelentésre kerül, ami már megvan."
@@ -3348,11 +3360,11 @@ msgstr "%(name)s (%(prefix)s*.json);;JSON-fájlok (*.json);;Minden fájl (*)"
 msgid "the voices below carry the cameras"
 msgstr "az alábbi hangok viszik a kamerákat"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "a felvételekből mérve -- %s beszélő, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "a felvételekből mérve -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "a befejezett futásból -- %s beszélő, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "a befejezett futásból -- %s, %s"
 
 msgid "no text"
 msgstr "nincs szöveg"
@@ -3978,8 +3990,10 @@ msgstr "Sáv kivágása: %d / %d"
 msgid "cutting failed: %s"
 msgstr "a kivágás nem sikerült: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Egy kamera mindenkinek: %s snittre vágva a beszélőváltásnál, hogy a Resolve csoportosíthassa őket."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Egy kamera mindenkinek: %s snittre vágva a beszélőváltásnál, hogy a Resolve csoportosíthassa."
+msgstr[1] "  Egy kamera mindenkinek: %s snittre vágva a beszélőváltásnál, hogy a Resolve csoportosíthassa őket."
 
 msgid "Wide shot %d"
 msgstr "Totál %d"

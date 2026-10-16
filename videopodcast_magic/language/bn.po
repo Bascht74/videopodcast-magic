@@ -861,8 +861,18 @@ msgstr "  টাইমকোড দিয়ে %sটি ব্লক জোড�
 msgid "  %s of %s files imported."
 msgstr "  %s/%sটি ফাইল ইমপোর্ট হয়েছে।"
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s জন বক্তা, %sটি শট, সবচেয়ে ছোট %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, সবচেয়ে ছোট %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s জন বক্তা"
+msgstr[1] "%s জন বক্তা"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%sটি শট"
+msgstr[1] "%sটি শট"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %sটি ভিডিও ট্র্যাক, বক্তাদের নামে:"
@@ -1221,8 +1231,10 @@ msgstr "  ক্যামেরাগুলোতে সময়-পরিস�
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  ক্যামেরাগুলো কাছাকাছি (উজ্জ্বলতায় সর্বোচ্চ %s ধাপ)।"
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  কাট বদলেছে: %sটি শট, আগের %sটির বদলে।"
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  কাট বদলেছে: %sটি শট, আগের %sটির বদলে।"
+msgstr[1] "  কাট বদলেছে: %sটি শট, আগের %sটির বদলে।"
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  এখানে আগের চালনাগুলোর রেকর্ড পড়া যাচ্ছে না (%s), তাই যা আগে থেকেই আছে তার সবই জানানো হচ্ছে।"
@@ -3347,11 +3359,11 @@ msgstr "%(name)s (%(prefix)s*.json);;JSON ফাইল (*.json);;সব ফা�
 msgid "the voices below carry the cameras"
 msgstr "ক্যামেরা নিচের কণ্ঠস্বরগুলোর সঙ্গে যুক্ত"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "রেকর্ডিং থেকে মাপা -- %s জন বক্তা, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "রেকর্ডিং থেকে মাপা -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "সম্পন্ন চালনা থেকে -- %s জন বক্তা, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "সম্পন্ন চালনা থেকে -- %s, %s"
 
 msgid "no text"
 msgstr "কোনো লেখা নেই"
@@ -3977,8 +3989,10 @@ msgstr "ট্র্যাক %d (মোট %d) কেটে বের করা
 msgid "cutting failed: %s"
 msgstr "কেটে বের করা ব্যর্থ: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  সবার জন্য একটি ক্যামেরা: বক্তা বদলের জায়গায় %sটি শটে কাটা হয়েছে, যাতে Resolve সেগুলো গ্রুপ করতে পারে।"
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  সবার জন্য একটি ক্যামেরা: বক্তা বদলের জায়গায় %sটি শটে কাটা হয়েছে, যাতে Resolve সেটি গ্রুপ করতে পারে।"
+msgstr[1] "  সবার জন্য একটি ক্যামেরা: বক্তা বদলের জায়গায় %sটি শটে কাটা হয়েছে, যাতে Resolve সেগুলো গ্রুপ করতে পারে।"
 
 msgid "Wide shot %d"
 msgstr "ওয়াইড শট %d"

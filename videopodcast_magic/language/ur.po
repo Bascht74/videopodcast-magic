@@ -886,8 +886,18 @@ msgstr "  %s بلاک ٹائم کوڈ کے ذریعے جوڑے گئے، آغاز
 msgid "  %s of %s files imported."
 msgstr "  %s فائلیں امپورٹ کی گئیں، کل %s میں سے۔"
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s مقررین، %s شاٹ، سب سے مختصر %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s، %s، سب سے مختصر %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s مقرر"
+msgstr[1] "%s مقررین"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s شاٹ"
+msgstr[1] "%s شاٹ"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s ویڈیو ٹریک، مقررین کے نام پر:"
@@ -1246,8 +1256,10 @@ msgstr "  کیمروں میں وقتی دائرہ اور ہر سرے پر ایک
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  کیمرے ایک دوسرے کے قریب ہیں (چمک میں زیادہ سے زیادہ %s درجے)۔"
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  کٹ بدل گیا ہے: %s شاٹ، %s کے بجائے۔"
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  کٹ بدل گیا ہے: %s شاٹ، %s کے بجائے۔"
+msgstr[1] "  کٹ بدل گیا ہے: %s شاٹ، %s کے بجائے۔"
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  یہاں پچھلے رن کا ریکارڈ پڑھا نہیں جا سکتا (%s)، اس لیے جو کچھ پہلے سے موجود ہے سب بتایا جاتا ہے۔"
@@ -3396,11 +3408,11 @@ msgstr "وائیڈ شاٹ اتنی دیر بعد"
 msgid "the voices below carry the cameras"
 msgstr "کیمرے نیچے والی آوازوں کے پاس ہیں"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "ریکارڈنگز سے ناپا گیا -- %s مقرر، %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "ریکارڈنگز سے ناپا گیا -- %s، %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "مکمل رن سے -- %s مقرر، %s"
+msgid "from the finished run -- %s, %s"
+msgstr "مکمل رن سے -- %s، %s"
 
 msgid "no text"
 msgstr "کوئی متن نہیں"
@@ -4143,8 +4155,10 @@ msgstr "ٹریک %d (کل %d میں سے) کاٹا جا رہا ہے"
 msgid "cutting failed: %s"
 msgstr "کاٹنا ناکام: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  سب کے لیے ایک کیمرا: مقرر بدلنے پر %s شاٹ میں کاٹا گیا، تاکہ Resolve انہیں گروپ کر سکے۔"
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  سب کے لیے ایک کیمرا: مقرر بدلنے پر %s شاٹ میں کاٹا گیا، تاکہ Resolve اسے گروپ کر سکے۔"
+msgstr[1] "  سب کے لیے ایک کیمرا: مقرر بدلنے پر %s شاٹ میں کاٹا گیا، تاکہ Resolve انہیں گروپ کر سکے۔"
 
 msgid "Shorter shots fall into the following one."
 msgstr "اس سے چھوٹے شاٹ اگلے شاٹ میں شامل ہو جاتے ہیں۔"

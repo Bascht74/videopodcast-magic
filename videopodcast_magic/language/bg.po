@@ -888,8 +888,18 @@ msgstr "  Съединени блокове: %s, по таймкод, начал
 msgid "  %s of %s files imported."
 msgstr "  Импортирани файлове: %s от %s."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  Говорещи: %s, планове: %s, най-краткият %s с"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, най-краткият %s с"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s говорещ"
+msgstr[1] "%s говорещи"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s план"
+msgstr[1] "%s плана"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  Видеописти: %s, наименувани на говорещите:"
@@ -1248,8 +1258,10 @@ msgstr "  Камерите носят времевия прозорец и по 
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Камерите са близо една до друга (най-много %s степени яркост)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Монтажът се е променил: %s плана вместо %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Монтажът се е променил: %s план вместо %s."
+msgstr[1] "  Монтажът се е променил: %s плана вместо %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Записът за по-ранни изпълнения тук не може да се прочете (%s), затова се съобщава всичко, което вече е налице."
@@ -3396,11 +3408,11 @@ msgstr "Общ план след"
 msgid "the voices below carry the cameras"
 msgstr "гласовете по-долу носят камерите"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "измерено от записите -- говорещи: %s, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "измерено от записите -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "от завършеното изпълнение -- говорещи: %s, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "от завършеното изпълнение -- %s, %s"
 
 msgid "no text"
 msgstr "няма текст"
@@ -4143,8 +4155,10 @@ msgstr "Изрязване на писта %d от %d"
 msgid "cutting failed: %s"
 msgstr "изрязването не успя: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Една камера за всички: разрязана на %s плана при смяната на говорещия, за да може Resolve да ги групира."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Една камера за всички: разрязана на %s план при смяната на говорещия, за да може Resolve да го групира."
+msgstr[1] "  Една камера за всички: разрязана на %s плана при смяната на говорещия, за да може Resolve да ги групира."
 
 msgid "Shorter shots fall into the following one."
 msgstr "По-кратките планове се сливат със следващия."

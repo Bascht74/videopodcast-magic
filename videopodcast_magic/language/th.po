@@ -885,8 +885,16 @@ msgstr "  ต่อ %s บล็อกด้วยไทม์โค้ด เ�
 msgid "  %s of %s files imported."
 msgstr "  นำเข้าแล้ว %s จาก %s ไฟล์"
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  ผู้พูด %s คน, %s ช็อต, สั้นสุด %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, สั้นสุด %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "ผู้พูด %s คน"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s ช็อต"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  แทร็กวิดีโอ %s แทร็ก ตั้งชื่อตามผู้พูด:"
@@ -1245,8 +1253,9 @@ msgstr "  กล้องเก็บช่วงเวลาและเผื�
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  กล้องต่าง ๆ ใกล้เคียงกัน (ความสว่างต่างกันไม่เกิน %s ขั้น)"
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  การตัดต่อเปลี่ยนไป: %s ช็อต แทนที่จะเป็น %s"
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  การตัดต่อเปลี่ยนไป: %s ช็อต แทนที่จะเป็น %s"
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  อ่านบันทึกของรอบการทำงานก่อนหน้าที่นี่ไม่ได้ (%s) จึงรายงานทุกอย่างที่มีอยู่แล้ว"
@@ -3393,11 +3402,11 @@ msgstr "ภาพมุมกว้างหลังจาก"
 msgid "the voices below carry the cameras"
 msgstr "กล้องอยู่กับเสียงพูดด้านล่าง"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "วัดจากการบันทึก -- ผู้พูด %s คน ความยาว %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "วัดจากการบันทึก -- %s ความยาว %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "จากรอบการทำงานที่เสร็จแล้ว -- ผู้พูด %s คน ความยาว %s"
+msgid "from the finished run -- %s, %s"
+msgstr "จากรอบการทำงานที่เสร็จแล้ว -- %s ความยาว %s"
 
 msgid "no text"
 msgstr "ไม่มีข้อความ"
@@ -4140,8 +4149,9 @@ msgstr "กำลังตัดแทร็ก %d จาก %d ออกมา"
 msgid "cutting failed: %s"
 msgstr "ตัดออกไม่สำเร็จ: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  กล้องเดียวสำหรับทุกคน: ตัดเป็น %s ช็อตตรงจุดที่ผู้พูดเปลี่ยน เพื่อให้ Resolve จัดกลุ่มได้"
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  กล้องเดียวสำหรับทุกคน: ตัดเป็น %s ช็อตตรงจุดที่ผู้พูดเปลี่ยน เพื่อให้ Resolve จัดกลุ่มได้"
 
 msgid "Shorter shots fall into the following one."
 msgstr "ช็อตที่สั้นกว่านี้จะรวมเข้ากับช็อตถัดไป"

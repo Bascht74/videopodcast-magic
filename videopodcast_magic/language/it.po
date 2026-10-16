@@ -1590,11 +1590,11 @@ msgstr "la risposta non ha tenuto la parola"
 msgid "nobody was speaking at the question"
 msgstr "nessuno parlava al momento della domanda"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "dall'esecuzione conclusa -- %s parlanti, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "dall'esecuzione conclusa -- %s, %s"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "misurato dalle registrazioni -- %s parlanti, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "misurato dalle registrazioni -- %s, %s"
 
 msgid "In point or Out point cannot be read here."
 msgstr "Il punto di ingresso o il punto di uscita non si può leggere qui."
@@ -1626,8 +1626,18 @@ msgstr "  Non è stato possibile scrivere il file di consegna."
 msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
 msgstr "  Ogni telecamera porta un parlante, quindi non c'è campo totale: le quattro impostazioni del campo totale e la spunta per i bordi qui non hanno effetto."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s parlanti, %s inquadrature, la più breve %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, la più breve %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s parlante"
+msgstr[1] "%s parlanti"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s inquadratura"
+msgstr[1] "%s inquadrature"
 
 msgid "  The cut stays as it was."
 msgstr "  Il montaggio resta com'era."
@@ -1656,11 +1666,15 @@ msgstr "\nPARLANTI\n  Non si è sentito nessuno -- da qui non nasce un montaggio
 msgid "  %sx away from the speaker because a shot ran longer than %s s"
 msgstr "  %sx lontano dal parlante perché un'inquadratura è durata più di %s s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Una telecamera per tutti: tagliata in %s inquadrature al cambio di parlante, così Resolve può raggrupparle."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Una telecamera per tutti: tagliata in %s inquadratura al cambio di parlante, così Resolve può raggrupparla."
+msgstr[1] "  Una telecamera per tutti: tagliata in %s inquadrature al cambio di parlante, così Resolve può raggrupparle."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Il montaggio è cambiato: %s inquadrature invece di %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Il montaggio è cambiato: %s inquadratura invece di %s."
+msgstr[1] "  Il montaggio è cambiato: %s inquadrature invece di %s."
 
 msgid "the cut uses %s"
 msgstr "il montaggio usa %s"

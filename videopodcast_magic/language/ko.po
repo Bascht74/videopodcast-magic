@@ -859,8 +859,16 @@ msgstr "  블록 %s개를 타임코드로 이어 붙임, 시작 %s"
 msgid "  %s of %s files imported."
 msgstr "  파일 %s/%s개를 가져왔습니다."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  화자 %s명, 샷 %s개, 최단 %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, 최단 %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "화자 %s명"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "샷 %s개"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  비디오 트랙 %s개, 화자 이름으로:"
@@ -1219,8 +1227,9 @@ msgstr "  카메라에는 시간 구간과 양 끝에 1초씩이 담깁니다: %
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  카메라들이 서로 비슷합니다 (밝기 차이 최대 %s단계)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  편집이 바뀌었습니다: 샷 %s개 (이전 %s개)."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  편집이 바뀌었습니다: 샷 %s개 (이전 %s개)."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  이곳의 이전 실행 기록을 읽을 수 없어(%s) 이미 있는 것을 모두 보고합니다."
@@ -3335,11 +3344,11 @@ msgstr "%(name)s (%(prefix)s*.json);;JSON 파일 (*.json);;모든 파일 (*)"
 msgid "the voices below carry the cameras"
 msgstr "카메라는 아래 목소리별로 지정"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "녹음에서 측정 -- 화자 %s명, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "녹음에서 측정 -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "완료된 실행에서 -- 화자 %s명, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "완료된 실행에서 -- %s, %s"
 
 msgid "no text"
 msgstr "텍스트 없음"
@@ -3965,8 +3974,9 @@ msgstr "트랙 %d/%d 잘라내는 중"
 msgid "cutting failed: %s"
 msgstr "잘라내기 실패: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  모두에게 카메라 하나: 화자가 바뀌는 곳에서 샷 %s개로 잘라 Resolve가 묶을 수 있게 했습니다."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  모두에게 카메라 하나: 화자가 바뀌는 곳에서 샷 %s개로 잘라 Resolve가 묶을 수 있게 했습니다."
 
 msgid "Wide shot %d"
 msgstr "와이드 샷 %d"

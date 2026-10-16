@@ -398,6 +398,7 @@ time_one_rate_per_file	5
 time_one_track_aligned	43
 time_order_same_axis	8
 time_over_midnight	9
+time_own_rate_placed	8
 time_phase_late_placed	2
 time_phase_only_mixed	19
 time_point_pulled_back	5

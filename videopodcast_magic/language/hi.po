@@ -1574,11 +1574,11 @@ msgstr "उत्तर देने वाला बोलता नहीं �
 msgid "nobody was speaking at the question"
 msgstr "प्रश्न के समय कोई नहीं बोल रहा था"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "पूरे हुए रन से -- %s वक्ता, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "पूरे हुए रन से -- %s, %s"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "रिकॉर्डिंग से मापा गया -- %s वक्ता, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "रिकॉर्डिंग से मापा गया -- %s, %s"
 
 msgid "In point or Out point cannot be read here."
 msgstr "इन पॉइंट या आउट पॉइंट यहाँ पढ़ा नहीं जा सकता।"
@@ -1610,8 +1610,18 @@ msgstr "  सौंपने की फ़ाइल लिखी नहीं �
 msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
 msgstr "  हर कैमरे पर एक वक्ता है, इसलिए कोई वाइड शॉट नहीं है: वाइड शॉट की चारों सेटिंग और किनारों वाला निशान यहाँ कुछ नहीं करते।"
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s वक्ता, %s शॉट, सबसे छोटा %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, सबसे छोटा %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s वक्ता"
+msgstr[1] "%s वक्ता"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s शॉट"
+msgstr[1] "%s शॉट"
 
 msgid "  The cut stays as it was."
 msgstr "  कट जैसा था वैसा ही रहता है।"
@@ -1640,11 +1650,15 @@ msgstr "\nवक्ता\n  कोई सुनाई नहीं दिया
 msgid "  %sx away from the speaker because a shot ran longer than %s s"
 msgstr "  %s बार वक्ता से हटकर, क्योंकि एक शॉट %s s से लंबा चला"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  सभी के लिए एक कैमरा: वक्ता बदलने पर %s शॉट में काटा गया, ताकि Resolve उन्हें समूह में रख सके।"
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  सभी के लिए एक कैमरा: वक्ता बदलने पर %s शॉट में काटा गया, ताकि Resolve उसे समूह में रख सके।"
+msgstr[1] "  सभी के लिए एक कैमरा: वक्ता बदलने पर %s शॉट में काटा गया, ताकि Resolve उन्हें समूह में रख सके।"
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  कट बदल गया है: %s शॉट, %s के बजाय।"
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  कट बदल गया है: %s शॉट, %s के बजाय।"
+msgstr[1] "  कट बदल गया है: %s शॉट, %s के बजाय।"
 
 msgid "the cut uses %s"
 msgstr "कट %s का उपयोग करता है"

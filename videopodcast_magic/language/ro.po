@@ -861,8 +861,20 @@ msgstr "  Blocuri unite prin timecode: %s, început %s"
 msgid "  %s of %s files imported."
 msgstr "  Fișiere importate: %s din %s."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  vorbitori: %s, planuri: %s, cel mai scurt %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, cel mai scurt %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s vorbitor"
+msgstr[1] "%s vorbitori"
+msgstr[2] "%s de vorbitori"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s plan"
+msgstr[1] "%s planuri"
+msgstr[2] "%s de planuri"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  Piste video (%s), denumite după vorbitori:"
@@ -1221,8 +1233,11 @@ msgstr "  Camerele poartă fereastra de timp și câte o secundă la fiecare cap
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Camerele sunt apropiate între ele (trepte de luminozitate: cel mult %s)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Montajul s-a schimbat: planuri: %s în loc de %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Montajul s-a schimbat: %s plan în loc de %s."
+msgstr[1] "  Montajul s-a schimbat: %s planuri în loc de %s."
+msgstr[2] "  Montajul s-a schimbat: %s de planuri în loc de %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Evidența rulărilor anterioare de aici nu poate fi citită (%s), așa că se raportează tot ce există deja."
@@ -3349,11 +3364,11 @@ msgstr "%(name)s (%(prefix)s*.json);;Fișiere JSON (*.json);;Toate fișierele (*
 msgid "the voices below carry the cameras"
 msgstr "vocile de mai jos poartă camerele"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "măsurat din înregistrări -- vorbitori: %s, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "măsurat din înregistrări -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "din rularea încheiată -- vorbitori: %s, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "din rularea încheiată -- %s, %s"
 
 msgid "no text"
 msgstr "fără text"
@@ -3979,8 +3994,11 @@ msgstr "Se extrage pista %d din %d"
 msgid "cutting failed: %s"
 msgstr "decuparea a eșuat: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  O singură cameră pentru toți: montat la schimbarea vorbitorului (planuri: %s), ca Resolve să le poată grupa."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  O singură cameră pentru toți: montat la schimbarea vorbitorului (planuri: %s), ca Resolve să le poată grupa."
+msgstr[1] "  O singură cameră pentru toți: montat la schimbarea vorbitorului (planuri: %s), ca Resolve să le poată grupa."
+msgstr[2] "  O singură cameră pentru toți: montat la schimbarea vorbitorului (planuri: %s), ca Resolve să le poată grupa."
 
 msgid "Wide shot %d"
 msgstr "Plan larg %d"
