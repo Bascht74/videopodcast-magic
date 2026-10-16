@@ -5318,3 +5318,9 @@ msgstr ""
 "Singletrack, għax hemm binarju wieħed. Jista' jintgħażel preset Singletrack "
 "ieħor; għal Multitrack, żid binarju ieħor -- reġistrazzjoni, jew kamera "
 "ssettjata fuq \"uża l-awdjo intern\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> minn dan il-mapping ma jistax jinqara n-numru ta' traċċi tal-awdjo"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve iwieġeb, iżda ma jagħti l-ebda maniġer tal-proġetti."

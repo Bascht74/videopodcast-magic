@@ -5237,3 +5237,9 @@ msgstr ""
 "Piste unique, car il y a une seule piste. Un autre préréglage à piste unique "
 "peut être choisi ; pour le multipiste, ajoutez une deuxième piste -- un "
 "enregistrement, ou une caméra réglée sur « utiliser l’audio »."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> aucun nombre de pistes audio ne peut être lu dans ce mappage"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve répond, mais ne fournit aucun gestionnaire de projets."

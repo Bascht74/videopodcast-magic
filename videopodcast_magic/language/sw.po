@@ -5230,3 +5230,9 @@ msgstr ""
 "Singletrack, kwa sababu kuna wimbo mmoja. Mpangilio awali mwingine wa "
 "Singletrack unaweza kuchaguliwa; kwa Multitrack, ongeza wimbo wa pili -- "
 "rekodi, au kamera iliyowekwa kwenye \"tumia sauti ya ndani\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> idadi ya nyimbo za sauti haiwezi kusomwa kutoka kwa upangaji huu"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve inajibu, lakini haitoi msimamizi wa miradi."

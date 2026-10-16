@@ -5224,3 +5224,9 @@ msgstr ""
 "Singletrack, fordi det er ett spor. En annen Singletrack-forhåndsinnstilling "
 "kan velges; for Multitrack legger du til et spor til -- et opptak, eller et "
 "kamera satt til \"bruk intern lyd\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> antallet lydspor kan ikke leses ut av denne tilordningen"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve svarer, men gir ikke fra seg noen prosjektbehandler."

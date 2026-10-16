@@ -5225,3 +5225,9 @@ msgstr ""
 "Pista única, porque hay una sola pista. Se puede elegir otro preajuste de "
 "pista única; para multipista, añada una segunda pista: una grabación, o una "
 "cámara en «usar el audio»."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> de esta asignación no se puede leer el número de pistas de audio"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve responde, pero no entrega ningún gestor de proyectos."

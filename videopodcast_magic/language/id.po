@@ -5185,3 +5185,9 @@ msgstr ""
 "Singletrack, karena hanya ada satu trek. Preset Singletrack lain dapat "
 "dipilih; untuk Multitrack, tambahkan trek kedua -- sebuah rekaman, atau "
 "kamera yang diatur ke \"gunakan audio internal\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> jumlah trek audio tidak dapat dibaca dari pemetaan ini"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve menjawab, tetapi tidak memberikan pengelola proyek."

@@ -5268,3 +5268,9 @@ msgstr ""
 "Singletrack, jer postoji jedna traka. Može se odabrati druga predefinirana "
 "postavka Singletrack; za Multitrack dodajte drugu traku -- snimku ili kameru "
 "postavljenu na \"koristi interni zvuk\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> iz ovog mapiranja ne može se pročitati broj audiozapisa"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve odgovara, ali ne daje upravitelja projekata."

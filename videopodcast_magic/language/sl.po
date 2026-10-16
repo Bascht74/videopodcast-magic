@@ -5316,3 +5316,9 @@ msgstr ""
 "Singletrack, ker je ena sled. Izbrati je mogoče drugo prednastavitev "
 "Singletrack; za Multitrack dodajte drugo sled -- posnetek ali kamero, "
 "nastavljeno na „z notranjim zvokom“."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> iz te preslikave ni mogoče prebrati števila zvočnih sledi"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve odgovarja, vendar ne izda upravitelja projektov."

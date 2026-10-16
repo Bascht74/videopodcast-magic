@@ -5227,3 +5227,9 @@ msgstr ""
 "Singletrack, mert egy sáv van. Másik Singletrack előbeállítás is "
 "választható; Multitrackhez adjon hozzá egy második sávot -- egy felvételt "
 "vagy egy „belső hang használata” beállítású kamerát."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> ebből a hozzárendelésből nem olvasható ki a hangsávok száma"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "A Resolve válaszol, de nem ad projektkezelőt."

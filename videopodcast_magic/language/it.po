@@ -5243,3 +5243,9 @@ msgstr ""
 "Traccia singola, perché c’è una sola traccia. Si può scegliere un altro "
 "preset a traccia singola; per la multitraccia, aggiungere una seconda "
 "traccia -- una registrazione, o una telecamera impostata su \"usa l’audio\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> da questa mappatura non si può leggere il numero di tracce audio"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve risponde, ma non fornisce alcun gestore dei progetti."

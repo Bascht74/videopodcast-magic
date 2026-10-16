@@ -5227,3 +5227,9 @@ msgstr ""
 "Singletrack، چون یک ترک وجود دارد. می‌توان پیش‌تنظیم Singletrack دیگری "
 "برگزید؛ برای Multitrack ترک دومی بیفزایید -- یک ضبط، یا دوربینی که روی "
 "«استفاده از صدای داخلی» است."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> از این نگاشت نمی‌توان تعداد ترک‌های صوتی را خواند"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve پاسخ می‌دهد، اما مدیر پروژه‌ای در اختیار نمی‌گذارد."

@@ -5268,3 +5268,9 @@ msgstr ""
 "Singletrack, јер постоји једна трака. Може се изабрати други Singletrack "
 "пресет; за Multitrack додајте другу траку -- снимак или камеру постављену на "
 "„користи интерни аудио“."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> из овог мапирања не може се прочитати број аудио трака"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve одговара, али не даје управљача пројектима."

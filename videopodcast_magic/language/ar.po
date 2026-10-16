@@ -5406,3 +5406,9 @@ msgstr ""
 "Singletrack، لأن هناك مسارًا واحدًا. يمكن اختيار إعداد مسبق Singletrack آخر؛ "
 "وللحصول على Multitrack أضف مسارًا ثانيًا -- تسجيلًا، أو كاميرا مضبوطة على "
 "\"استخدام الصوت\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> لا يمكن قراءة عدد المسارات الصوتية من هذا التعيين"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "يجيب Resolve، لكنه لا يقدّم مدير مشاريع."

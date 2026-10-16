@@ -5225,3 +5225,9 @@ msgstr ""
 "Singletrack, koska raitoja on yksi. Toisen Singletrack-esiasetuksen voi "
 "valita; Multitrackia varten lisää toinen raita -- tallenne tai kamera "
 "tilassa \"käytä sisäistä ääntä\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> tästä määrityksestä ei voi lukea ääniraitojen määrää"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve vastaa, mutta ei anna projektinhallintaa."

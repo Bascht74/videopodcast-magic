@@ -5228,3 +5228,9 @@ msgstr ""
 "Singletrack, защото има една писта. Може да се избере друг пресет "
 "Singletrack; за Multitrack добавете втора писта -- запис или камера, "
 "настроена „с вътрешния звук“."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> от това съпоставяне не може да се прочете броят аудиописти"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve отговаря, но не предоставя мениджър на проекти."

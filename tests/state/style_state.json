@@ -99,7 +99,7 @@
   "step_begin": [1, 171],
   "step_report": [1, 180],
   "system_locale": [2, 240],
-  "usable_clip_colours": [2, 1969],
+  "usable_clip_colours": [1, 1568],
   "video_envelope": [2, 296],
   "write_handover": [1, 2549]
  },
@@ -196,7 +196,6 @@
   "channel_rows_build.when_settled": [1, 2519],
   "channel_rows_fit.fit": [1, 2539],
   "channel_rows_fit.walk": [1, 2556],
-  "check_resolve.ask": [1, 154],
   "checkbox_bind": [1, 786],
   "choice_bind.follow_up": [1, 703],
   "choose_preset.done": [1, 334],
