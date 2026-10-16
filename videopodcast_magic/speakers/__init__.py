@@ -3779,6 +3779,20 @@ def speakers_for_the_cut(args, tracks, window=None):
               % (where_from, number_text(len(voices), 0)))
         for line in named:
             print(line)
+        # One the run made warned as it was made; one handed over was
+        # warned of in the window, and the run's log says it again. A
+        # mix stands in for the one handed over, so that one is not used.
+        given = ({} if getattr(args, "_speakers_mixed", False)
+                 else handed_over(args)[0])
+        for one in ([given] + list(given.get("more") or ())
+                    if given else ()):
+            if one.get("source"):
+                for line in voices_alike_said(
+                        os.path.basename(one["source"]),
+                        speaker_voices_stored(
+                            one["source"], one.get("num_speakers") or 0,
+                            one.get("blocks") or ()), one.get("names")):
+                    print(as_warn(line))
     if left:
         print(as_head(T('\nSPEAKERS -- MEASURED HERE')))
         print(T('  From the tracks themselves, one voice per track: %s.')

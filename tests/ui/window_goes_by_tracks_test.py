@@ -5,9 +5,10 @@ The mixer fixture's eight channels, its measuring and then its cutting
 held by stand-ins until the window has been looked at: both times Start
 and Dry run grey and the footer naming the file, and no press handing a
 run the file whole. Let go: a press hands the four tracks, and the
-preset list, asked before the file came, offers Multitrack alone. Last a
-file whose channels a stand-in cannot read holds Start only while it is
-measured, as the run takes such a file whole. The run is stood in.
+preset list, asked before the file came, offers Multitrack alone. A tick
+then cut anew, held the same: both wait again, no press hands it whole,
+and let go a press hands the ticked tracks. Last a file whose channels a
+stand-in cannot read holds Start only while measured. The run stood in.
 """
 PLATFORM_BOUND = True
 import os
@@ -120,6 +121,7 @@ def facts_held(path):
 vpm.split_channels = split_held
 vpm.channel_facts_cached = facts_held
 TRACKS = ["Channel1.wav", "Channel2.wav", "Channel3+4.wav", "Channel8.wav"]
+TICKED = ["Channel1+2.wav", "Channel3+4.wav", "Channel8.wav"]
 WAITING = vpm.T('The channels of %s are not cut into tracks yet.') \
     % os.path.basename(mixer)
 
@@ -134,6 +136,13 @@ def button(word):
     """A button by its wording, in the window or the settings."""
     for w in QtWidgets.QApplication.allWidgets():
         if isinstance(w, QtWidgets.QPushButton) and w.text().strip() == word:
+            return w
+
+
+def tick_box(word):
+    """A channel's tick in the file list, by its wording."""
+    for w in win().findChildren(QtWidgets.QCheckBox):
+        if w.text().strip() == word:
             return w
 
 
@@ -254,6 +263,51 @@ def step():
                   preset_values() == MULTI_ONLY,
                   "offers %r %.1f s after the tracks were handed"
                   % (preset_values(), now))
+            phase[0], waited[0] = "tick", time.time()
+        elif phase[0] == "tick":
+            # The new cut held as the first was; the tracks it replaces
+            # are in, so nothing but the tick can hold Start now.
+            held["cutting"], free["cutting"] = (threading.Event(),
+                                                threading.Event())
+            seen["handed before the tick"] = len(handed)
+            box = tick_box(vpm.T('join with Channel %d') % 2)
+            seen["tick found"] = box is not None
+            if box is not None:
+                box.click()
+            phase[0], waited[0] = "ticked", time.time()
+        elif phase[0] == "ticked":
+            if seen["tick found"] and not held["cutting"].is_set() \
+                    and now < LIMIT:
+                return QtCore.QTimer.singleShot(20, step)
+            live, dry_live, said = looked(start, dry)
+            print("\n5. A channel ticked once the tracks are in")
+            check("after a tick, Start and Dry run wait for the new tracks",
+                  held["cutting"].is_set() and not live and not dry_live
+                  and WAITING in said,
+                  "tick found %r, new cut begun %r, Start enabled %r, Dry "
+                  "run enabled %r, footer %r"
+                  % (seen["tick found"], held["cutting"].is_set(), live,
+                     dry_live, said))
+            phase[0], waited[0] = "recut", time.time()
+            free["cutting"].set()
+        elif phase[0] == "recut":
+            if start.isEnabled():
+                start.click()
+            # Every press since the tick, the one while held included.
+            after = handed[seen["handed before the tick"]:]
+            if (not after or "Mixer.wav" in after[-1]) and now < LIMIT:
+                return QtCore.QTimer.singleShot(20, step)
+            print("   handed since the tick: %r" % after)
+            check("and no press after the tick hands the run the file whole",
+                  not any("Mixer.wav" in h for h in after),
+                  "%d presses handed it whole, of %d"
+                  % (sum("Mixer.wav" in h for h in after), len(after)))
+            last = after[-1] if after else []
+            check("once cut anew, a press hands the run the ticked tracks",
+                  sorted(n.split("_")[-1] for n in last) == TICKED,
+                  "handed %r after %.1f s, wanted %r, Start enabled %r, "
+                  "footer %r" % (last, now, TICKED, start.isEnabled(),
+                                 footer_note()))
             phase[0], waited[0] = "refusing", time.time()
             adding[:] = [unreadable]
             button(vpm.T('Add files ...')).click()
@@ -266,7 +320,7 @@ def step():
         elif phase[0] == "refused":
             if not start.isEnabled() and now < LIMIT:
                 return QtCore.QTimer.singleShot(50, step)
-            print("\n5. A file whose channels cannot be read")
+            print("\n6. A file whose channels cannot be read")
             check("a file whose channels cannot be read holds Start no "
                   "longer",
                   seen["grey while measured"] and start.isEnabled(),

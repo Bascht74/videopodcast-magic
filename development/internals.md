@@ -35,7 +35,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 9.10.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **4379** -- who speaks and when: the separation itself,
+* `speakers/` **4393** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -121,7 +121,7 @@ figure of the day is that command, not this paragraph**:
 * `timecode/` **586** -- timecode strings, frame rates, the clock a file
   carries; the rate a Timeline gets, and seconds, frames and timecode
   turned into one another
-* `filesheet/` **458** -- the first tab: the drop area or the file
+* `filesheet/` **462** -- the first tab: the drop area or the file
   list with its channel rows and findings, the video choices, and the
   production strip with the output folder
 * `assignmentsheet/` **268** -- the second tab: the assignment boxes,
