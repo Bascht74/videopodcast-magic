@@ -52,7 +52,8 @@ by the model's labels -- and how alike they are, and advises checking
 their assignment: click each of the two rows and listen. The window says
 the same where it shows the separation: **Separated: 2 speakers** turns
 amber in the row, and the line under the table carries the log's
-sentence until the table is next built anew. Nothing is merged or
+sentence until the table is next built anew. A run the window hands
+the separation to says it again in its own log. Nothing is merged or
 renamed. Measured on 16.10.2026 on conversations of voices made with
 say(1): the warning appeared on all seven separations whose two voices
 lay at 0.92 to 0.99 -- five of them had put about half the speech on the

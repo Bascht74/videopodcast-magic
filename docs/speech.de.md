@@ -57,8 +57,9 @@ Zuordnung zu prüfen: beide Zeilen nacheinander anklicken und hinhören.
 Das Fenster sagt dasselbe dort, wo es die Trennung zeigt:
 **Getrennt: 2 Sprecher** wird in der Zeile bernsteinfarben, und die
 Zeile unter der Tabelle trägt den Satz aus dem Protokoll, bis die
-Tabelle das nächste Mal neu aufgebaut wird. Nichts wird zusammengelegt
-oder umbenannt. Gemessen am 16.10.2026 an Gesprächen aus Stimmen, die
+Tabelle das nächste Mal neu aufgebaut wird. Ein Lauf, dem das Fenster
+die Trennung übergibt, sagt es in seinem Protokoll noch einmal. Nichts
+wird zusammengelegt oder umbenannt. Gemessen am 16.10.2026 an Gesprächen aus Stimmen, die
 say(1) gesprochen hat: Die Warnung kam bei allen sieben Trennungen,
 deren zwei Stimmen bei 0,92 bis 0,99 lagen -- fünf davon hatten etwa die
 Hälfte des Gesprochenen der falschen Person gegeben, die anderen beiden
