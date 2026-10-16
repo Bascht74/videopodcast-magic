@@ -58,6 +58,7 @@ auphonic_run_delivers	78
 auphonic_single_reused	12
 auphonic_speech_read	14
 auphonic_stays_quiet	30
+auphonic_title_as_window	5
 auphonic_titles_apart	5
 auphonic_transcript_ours	10
 auphonic_unsaved_said	14

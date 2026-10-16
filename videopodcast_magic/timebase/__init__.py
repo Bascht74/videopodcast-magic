@@ -1328,7 +1328,8 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     """Put all audio tracks on one common time axis.
 
     Equally long files with the same start point -- what Auphonic
-    requires, and what makes crosstalk removal worth anything.
+    requires, and what makes crosstalk removal worth anything. *title*
+    is the production's at auphonic.com; without one, its name.
     """
     step_begin("time base")
     videos = []
@@ -1357,11 +1358,17 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     if not any(i["audio"] for _v, i in videos):
         # Clocks alone are no axis: the tracks are laid against sound.
         videos = []
-    if videos and not getattr(args, "production", ""):
-        # The same name the ordinary path gives a production: the folder
-        # the material sits in. Without it two jobs from two shoots
-        # wrote the same handover and the second took the first's place.
-        args.production = guess_production_name(videos[0][0])
+    first = videos[0][0] if videos else (plan[0].get("audio") if plan
+                                         else "")
+    if first and not getattr(args, "production", ""):
+        # The same name the window gives a production: the folder the
+        # material sits in. Without it two jobs from two shoots wrote
+        # the same handover and the second took the first's place.
+        args.production = guess_production_name(first)
+    # And the title at auphonic.com, as the window's: a run finds a
+    # production again by its title, and one every run shared found
+    # last week's production for this week's recordings.
+    title = title or getattr(args, "production", "")
     # The preset before the axis, so a wrong kind stops the run here. Two
     # recordings or more share one axis even without a picture or tick.
     stop = preset_before_the_axis(args, plan,

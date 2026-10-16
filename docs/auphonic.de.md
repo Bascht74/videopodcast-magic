@@ -382,7 +382,11 @@ sobald auphonic.com fertig meldet.
 ### Wenn es die Produktion schon gibt
 
 Das Programm erkennt die Produktion am Namen, eine Multitrack-Produktion
-ebenso wie eine einzelne Spur, und fragt, was mit ihr geschehen soll. Bei
+ebenso wie eine einzelne Spur, und fragt, was mit ihr geschehen soll.
+Gemeint ist der Name der Produktion, im Fenster wie auf der
+Kommandozeile: **Name der Produktion**, `--production` oder sonst der
+Ordner, in dem das Material liegt. Eine Folge, deren Ordner einen
+eigenen Namen trägt, stößt deshalb nicht auf die der Vorwoche. Bei
 mehreren Spuren sind das die Antworten:
 
 1. vorhandenes Ergebnis übernehmen: nichts rechnen, nichts hochladen

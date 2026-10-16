@@ -39,7 +39,7 @@ Python underneath, then the preflight with eight checks and one hint.*
 | `--out FOLDER` | where the results go (next to each video) |
 | `--project-type WHAT` | what the run is for: `cut` puts the cameras on one time axis and cuts by speaker, in the window "Cut by speaker"; `sync` only puts the audio onto each camera and builds the multicam timeline, "Sync only" -- no speakers, no speech recognition, no transcript, no cut lists (`cut`) |
 | `--suffix TEXT` | added to the file name (`_audio`) |
-| `--production NAME` | the production's name, which the handover, the lists and the transcript are named after; not read beside `--assign`, whose file carries its own (the folder the material lies in) |
+| `--production NAME` | the production's name, which the handover, the lists and the transcript are named after, and the title it goes up under at auphonic.com; not read beside `--assign`, whose file carries its own (the folder the material lies in) |
 | `--name-camera TEXT` | name of the camera track (`Camera Original`) |
 | `--parallel COUNT` | this many video files at once; 0 decides for you, 1 one after another (0) |
 | `--dry-run` | work everything out up to the finished cut and report it, write nothing |
