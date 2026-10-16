@@ -5221,3 +5221,10 @@ msgstr "      --> ebből a hozzárendelésből nem olvasható ki a hangsávok sz
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "A Resolve válaszol, de nem ad projektkezelőt."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s és %s a(z) %s felvételben hasonlóan hangzik (hasonlóság %s): a "
+"szétválasztás talán összekeverte őket -- ellenőrizze a hozzárendelésüket."

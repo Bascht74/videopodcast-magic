@@ -5224,3 +5224,10 @@ msgstr "      --> ਇਸ ਮੈਪਿੰਗ ਤੋਂ ਆਡੀਓ ਟ੍ਰੈ�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve ਜਵਾਬ ਦਿੰਦਾ ਹੈ, ਪਰ ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਮੈਨੇਜਰ ਨਹੀਂ ਦਿੰਦਾ।"
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s ਅਤੇ %s (%s ਵਿੱਚ) ਇੱਕੋ ਜਿਹੇ ਸੁਣਦੇ ਹਨ (ਸਮਾਨਤਾ %s): ਹੋ ਸਕਦਾ ਹੈ ਵੱਖਰੇਵੇਂ "
+"ਨੇ ਦੋਵਾਂ ਨੂੰ ਰਲਾ ਦਿੱਤਾ ਹੋਵੇ -- ਉਹਨਾਂ ਦਾ ਨਿਰਧਾਰਨ ਜਾਂਚੋ।"

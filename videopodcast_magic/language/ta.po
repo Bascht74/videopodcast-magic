@@ -5223,3 +5223,10 @@ msgstr "      --> இந்த மேப்பிங்கிலிருந்�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve பதிலளிக்கிறது, ஆனால் திட்டப்பணி மேலாளரைத் தருவதில்லை."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s மற்றும் %s (%s இல்) ஒன்றுபோல் ஒலிக்கின்றன (ஒற்றுமை %s): பிரிப்பு "
+"இருவரையும் குழப்பியிருக்கலாம் -- அவற்றின் ஒதுக்கீட்டைச் சரிபார்க்கவும்."

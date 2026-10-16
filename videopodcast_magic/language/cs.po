@@ -5262,3 +5262,10 @@ msgstr "      --> z tohoto přiřazení nelze vyčíst počet zvukových stop"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve odpovídá, ale nevydá žádného správce projektů."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s a %s v %s zní podobně (podobnost %s): oddělení je možná zaměnilo -- "
+"zkontrolujte jejich přiřazení."

@@ -5312,3 +5312,10 @@ msgstr "      --> minn dan il-mapping ma jistax jinqara n-numru ta' traċċi tal
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve iwieġeb, iżda ma jagħti l-ebda maniġer tal-proġetti."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s u %s f'%s jinstemgħu simili (xebh %s): is-separazzjoni setgħet "
+"ħalltithom -- iċċekkja l-assenjazzjoni tagħhom."

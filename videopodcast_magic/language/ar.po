@@ -5400,3 +5400,10 @@ msgstr "      --> لا يمكن قراءة عدد المسارات الصوتي�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "يجيب Resolve، لكنه لا يقدّم مدير مشاريع."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  يتشابه صوتا %s و%s في %s (التشابه %s): ربما خلط الفصل بينهما -- تحقّق "
+"من إسنادهما."

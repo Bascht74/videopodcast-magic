@@ -1840,9 +1840,7 @@ def split_cells_write(cells, busy, running, by_source, note):
                 mark.setText(T('Separating ...'))
                 mark.setStyleSheet("color: %s" % COLOURS["quiet"])
             elif done:
-                mark.setText(TN(len(found), 'Separated: %s speaker',
-                                'Separated: %s speakers')
-                             % number_text(len(found), 0))
+                mark.setText(separated_said(len(found)))
                 mark.setStyleSheet("color: %s" % COLOURS["good"])
             else:
                 mark.setText("")
@@ -3083,6 +3081,53 @@ def speaker_voices_alike(mine, theirs, least=SPEAKER_SAME_VOICE):
     return out
 
 
+def voices_alike_inside(prints):
+    """Which two voices of one separation lie at the line or above.
+
+    [(label, label, similarity)], each pair once, speaker_voices_alike
+    on the two alone. Measured 16.10.2026 on 15 say(1) talks: pairs at
+    0.92-0.99 had 15-58 % of the speech on the wrong person, pairs at
+    0.16-0.57 at most 17 %; nothing was measured in between.
+    """
+    labels = sorted(prints or {})
+    out = []
+    for i, one in enumerate(labels):
+        for other in labels[i + 1:]:
+            out += speaker_voices_alike({one: prints[one]},
+                                        {other: prints[other]})
+    return out
+
+
+def voices_alike_said(where, prints, names=None):
+    """The log's lines on two voices of one separation that sound alike.
+
+    *where* names the recording, *names* the voices by label where they
+    have one. A warning and no more: nothing is merged or renamed. The
+    caller prints them -- a run marks a warning, the window's own output
+    carries no marks -- and the window shows them too.
+    """
+    named = dict(names or {})
+    return [T('  %s and %s in %s sound alike (similarity %s): the '
+              'separation may have confused the two -- check their '
+              'assignment.')
+            % (named.get(one) or one, named.get(other) or other, where,
+               number_text(alike, 2))
+            for one, other, alike in voices_alike_inside(prints)]
+
+
+def separated_said(count, lines=()):
+    """What the row says of a separation: how many, and what to check.
+
+    The count is the first line, the one the cell has room for; *lines*
+    out of voices_alike_said stand under the table, as every note's
+    second line does.
+    """
+    return "\n".join([TN(count, 'Separated: %s speaker',
+                         'Separated: %s speakers')
+                      % number_text(count, 0)]
+                     + [line.strip() for line in lines or ()])
+
+
 def voice_prints_of(state, source):
     """The prints stored beside the window's separation of *source*."""
     return speaker_voices_stored(
@@ -3613,6 +3658,10 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         if trouble:
             print("  %s" % trouble)
             return [], ""
+        for line in voices_alike_said(
+                os.path.basename(source),
+                speaker_voices_stored(source, count, blocks)):
+            print(as_warn(line))
         given = {"source": source,
                  "segments": [[label, a, b] for label, parts in segments
                               for a, b in parts]}
@@ -3891,15 +3940,19 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
         # lent to its other voice, the one recording holds it twice.
         kept = [called[label] for label, _p in segments
                 if (called.get(label) or "").strip()]
-        known = voice_names_known(
-            source, speaker_voices_stored(source, count, blocks), others,
-            taken + kept)
-        speakers_keep(state, source, segments, count, dict(
-            speaker_label_names(segments, called, taken, known)), blocks)
+        prints = speaker_voices_stored(source, count, blocks)
+        known = voice_names_known(source, prints, others, taken + kept)
+        names = dict(speaker_label_names(segments, called, taken, known))
+        speakers_keep(state, source, segments, count, names, blocks)
         speaker_voices_said(state, source, count)
+        alike = voices_alike_said(os.path.basename(source), prints, names)
+        for line in alike:
+            print(line)
         axis_store(state.get("axis") or {})
         state["assignment_fresh"]()
-        speaker_split_show()
+        # After the table is built again, which clears every note.
+        speaker_split_show(separated_said(len(segments), alike)
+                           if alike else "", COLOURS["warning"], source)
         state["preview_soon"]()
 
     bridge.speakers_split.connect(speaker_split_done)

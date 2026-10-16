@@ -5179,3 +5179,10 @@ msgstr "      --> jumlah trek audio tidak dapat dibaca dari pemetaan ini"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve menjawab, tetapi tidak memberikan pengelola proyek."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s dan %s di %s terdengar mirip (kemiripan %s): pemisahan mungkin "
+"tertukar antara keduanya -- periksa pemetaannya."

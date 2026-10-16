@@ -5266,3 +5266,10 @@ msgstr "      --> no šīs piesaistes nevar nolasīt audio celiņu skaitu"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve atbild, bet neizsniedz projektu pārvaldnieku."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s un %s ierakstā %s izklausās līdzīgi (līdzība %s): atdalīšana, "
+"iespējams, abus sajaukusi -- pārbaudiet to piešķiršanu."

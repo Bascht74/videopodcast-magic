@@ -5266,3 +5266,10 @@ msgstr "      --> iš šio priskyrimo neįmanoma nuskaityti garso takelių skai�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve atsako, bet nepateikia projektų tvarkytuvo."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s ir %s įraše %s skamba panašiai (panašumas %s): atskyrimas galėjo "
+"juos sumaišyti -- patikrinkite jų priskyrimą."

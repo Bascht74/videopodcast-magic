@@ -5231,3 +5231,10 @@ msgstr "      --> aucun nombre de pistes audio ne peut être lu dans ce mappage"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve répond, mais ne fournit aucun gestionnaire de projets."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s et %s dans %s se ressemblent (similarité %s) : la séparation a pu "
+"les confondre -- vérifiez leur affectation."

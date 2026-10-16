@@ -5263,3 +5263,10 @@ msgstr "      --> z tego przypisania nie da się odczytać liczby ścieżek audi
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve odpowiada, ale nie udostępnia menedżera projektów."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s i %s w %s brzmią podobnie (podobieństwo %s): rozdzielenie mogło ich "
+"pomylić -- sprawdź ich przypisanie."

@@ -5165,3 +5165,9 @@ msgstr "      --> 이 매핑에서는 오디오 트랙 수를 읽을 수 없습�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve가 응답하지만 프로젝트 관리자를 내주지 않습니다."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s와 %s(%s)의 목소리가 비슷합니다 (유사도 %s): 분리 과정에서 둘이 뒤섞였을 수 있습니다 -- 할당을 확인하세요."

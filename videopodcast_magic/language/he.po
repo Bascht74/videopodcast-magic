@@ -5217,3 +5217,10 @@ msgstr "      --> לא ניתן לקרוא מהמיפוי הזה את מספר �
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve עונה, אך אינו מוסר מנהל פרויקטים."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s ו-%s ב-%s נשמעים דומים (דמיון %s): ייתכן שההפרדה החליפה ביניהם -- "
+"בדקו את השיוך שלהם."
