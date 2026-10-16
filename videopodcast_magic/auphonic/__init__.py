@@ -1146,8 +1146,8 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     second_line.addWidget(hint(preset_box,
         T('Determines how auphonic.com processes the audio.\n\n"%s" leaves '
           'the key in place and still does not go there.\nThe audio is then '
-          'only merged and normalised, not unmixed --\nand without separate '
-          'tracks there is no camera cut.') % label_of(PRESET_NONE)))
+          'only merged and normalised, not unmixed --\nbut the camera cut is '
+          'the same as with a preset.') % label_of(PRESET_NONE)))
     second_line.addSpacing(16)
     # Where the processed tracks are already there, nothing is uploaded. The
     # script finds that out itself; this only says so.

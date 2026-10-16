@@ -2205,8 +2205,8 @@ msgstr "Изходната точка е %s след последния кадъ
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "За рендера обикновено се използва ограниченият диапазон. Пълният не е грешен, но някои плейъри го тълкуват погрешно."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Определя как auphonic.com обработва звука.\n\n„%s“ оставя ключа на място и въпреки това не отива там.\nТогава звукът само се обединява и нормализира, не се разделя --\nа без отделни писти няма монтаж на камерите."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Определя как auphonic.com обработва звука.\n\n„%s“ оставя ключа на място и въпреки това не отива там.\nТогава звукът само се обединява и нормализира, не се разделя --\nно монтажът на камерите е същият като с пресет."
 
 msgid "Distance to mean"
 msgstr "Отклонение от средното"

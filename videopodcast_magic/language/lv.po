@@ -2205,8 +2205,8 @@ msgstr "Beigu punkts ir %s pēc pēdējā kadra"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Gala failam parasti izmanto ierobežoto diapazonu. Pilns diapazons nav kļūda, taču daži atskaņotāji to nolasa nepareizi."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Nosaka, kā auphonic.com apstrādā skaņu.\n\n„%s“ atstāj atslēgu vietā un tomēr tur nevēršas.\nSkaņa tad tiek tikai apvienota un normalizēta, nevis atdalīta --\nun bez atsevišķiem celiņiem nav kameru montāžas."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Nosaka, kā auphonic.com apstrādā skaņu.\n\n„%s“ atstāj atslēgu vietā un tomēr tur nevēršas.\nSkaņa tad tiek tikai apvienota un normalizēta, nevis atdalīta --\ntaču kameru montāža ir tāda pati kā ar priekšiestatījumu."
 
 msgid "Distance to mean"
 msgstr "Attālums līdz vidējam"

@@ -2204,8 +2204,8 @@ msgstr "आउट पॉइंट शेवटच्या फ्रेमच्
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "डिलिव्हरीसाठी सहसा मर्यादित श्रेणी घेतली जाते. पूर्ण श्रेणी चुकीची नाही, पण काही प्लेअर ती चुकीची वाचतात."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "auphonic.com ऑडिओवर कशी प्रक्रिया करेल ते ठरवते.\n\n\"%s\" किल्ली जागेवर ठेवते आणि तरीही तिथे जात नाही.\nतेव्हा ऑडिओ फक्त एकत्र आणि नॉर्मलाइझ केला जातो, वेगळा केला जात नाही --\nआणि स्वतंत्र ट्रॅकशिवाय कॅमेरा कट होत नाही."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "auphonic.com ऑडिओवर कशी प्रक्रिया करेल ते ठरवते.\n\n\"%s\" किल्ली जागेवर ठेवते आणि तरीही तिथे जात नाही.\nतेव्हा ऑडिओ फक्त एकत्र आणि नॉर्मलाइझ केला जातो, वेगळा केला जात नाही --\nपण कॅमेरा कट प्रीसेटसोबत असतो तसाच राहतो."
 
 msgid "Distance to mean"
 msgstr "सरासरीपासून अंतर"

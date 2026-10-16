@@ -2166,8 +2166,8 @@ msgstr "아웃 포인트가 마지막 프레임보다 %s 뒤"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "납품에는 보통 제한 범위를 씁니다. 전체 범위가 틀린 것은 아니지만 일부 플레이어가 잘못 읽습니다."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "auphonic.com이 오디오를 어떻게 처리할지 정합니다.\n\n\"%s\"은(는) 키를 그대로 두지만 그곳으로 보내지 않습니다.\n그러면 오디오는 합치고 정규화할 뿐 분리하지 않습니다 --\n트랙이 분리되지 않으면 카메라 전환 편집도 없습니다."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "auphonic.com이 오디오를 어떻게 처리할지 정합니다.\n\n\"%s\"은(는) 키를 그대로 두지만 그곳으로 보내지 않습니다.\n그러면 오디오는 합치고 정규화할 뿐 분리하지 않습니다 --\n하지만 카메라 전환 편집은 프리셋을 쓸 때와 같습니다."
 
 msgid "Distance to mean"
 msgstr "평균과의 차이"

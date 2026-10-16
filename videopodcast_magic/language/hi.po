@@ -1232,8 +1232,8 @@ msgstr "सिस्टम स्टोर"
 msgid "The key is then in the %s, never in a file."
 msgstr "तब कुंजी %s में रहती है, कभी किसी फ़ाइल में नहीं।"
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "तय करता है कि auphonic.com ऑडियो को कैसे प्रोसेस करे।\n\n“%s” कुंजी को वहीं रहने देता है और फिर भी वहाँ नहीं जाता।\nतब ऑडियो केवल जोड़ा और नॉर्मलाइज़ किया जाता है, अलग नहीं किया जाता --\nऔर अलग ट्रैकों के बिना कोई कैमरा कट नहीं होता।"
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "तय करता है कि auphonic.com ऑडियो को कैसे प्रोसेस करे।\n\n“%s” कुंजी को वहीं रहने देता है और फिर भी वहाँ नहीं जाता।\nतब ऑडियो केवल जोड़ा और नॉर्मलाइज़ किया जाता है, अलग नहीं किया जाता --\nपर कैमरा कट वही रहता है जो प्रीसेट के साथ होता है।"
 
 msgid "Uploading %s"
 msgstr "%s अपलोड हो रहा है"

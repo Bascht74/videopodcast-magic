@@ -2202,8 +2202,8 @@ msgstr "จุดออกอยู่หลังเฟรมสุดท้า
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "ไฟล์ส่งออกมักใช้ช่วงสัญญาณแบบจำกัด ช่วงแบบเต็มไม่ผิด แต่เครื่องเล่นบางตัวตีความผิด"
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "กำหนดว่า auphonic.com จะประมวลผลเสียงอย่างไร\n\n\"%s\" จะเก็บคีย์ไว้ตามเดิมแต่ไม่ส่งไปที่นั่น\nเสียงจะถูกรวมและนอร์มัลไลซ์เท่านั้น ไม่ถูกแยก --\nและหากไม่มีแทร็กแยกก็ไม่มีการตัดสลับกล้อง"
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "กำหนดว่า auphonic.com จะประมวลผลเสียงอย่างไร\n\n\"%s\" จะเก็บคีย์ไว้ตามเดิมแต่ไม่ส่งไปที่นั่น\nเสียงจะถูกรวมและนอร์มัลไลซ์เท่านั้น ไม่ถูกแยก --\nแต่การตัดสลับกล้องยังเหมือนกับเมื่อใช้พรีเซ็ต"
 
 msgid "Distance to mean"
 msgstr "ระยะห่างจากค่าเฉลี่ย"

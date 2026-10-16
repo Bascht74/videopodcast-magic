@@ -2206,8 +2206,8 @@ msgstr "Il-punt tal-ħruġ huwa %s wara l-aħħar qafas"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Għat-twassil normalment tintuża l-firxa limitata. Dik sħiħa mhix ħażina, iżda xi plejers jaqrawha ħażin."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Jiddetermina kif auphonic.com jipproċessa l-awdjo.\n\n\"%s\" iħalli ċ-ċavetta f'postha u xorta ma jmurx hemm.\nL-awdjo mbagħad jingħaqad u jiġi normalizzat biss, mhux separat --\nu mingħajr binarji separati m'hemmx muntaġġ tal-kameras."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Jiddetermina kif auphonic.com jipproċessa l-awdjo.\n\n\"%s\" iħalli ċ-ċavetta f'postha u xorta ma jmurx hemm.\nL-awdjo mbagħad jingħaqad u jiġi normalizzat biss, mhux separat --\niżda l-muntaġġ tal-kameras huwa l-istess bħal meta jkun hemm preset."
 
 msgid "Distance to mean"
 msgstr "Distanza mill-medja"

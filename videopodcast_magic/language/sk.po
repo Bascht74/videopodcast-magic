@@ -2171,8 +2171,8 @@ msgstr "Bod Out je %s za poslednou snímkou"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Na distribúciu sa obvykle používa obmedzený rozsah. Plný nie je nesprávny, ale niektoré prehrávače ho čítajú chybne."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Určuje, ako auphonic.com spracuje zvuk.\n\n„%s“ nechá kľúč na mieste, a napriek tomu tam nejde.\nZvuk sa potom len zlúči a normalizuje, nerozdelí --\na bez oddelených stôp nie je žiadny strih kamier."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Určuje, ako auphonic.com spracuje zvuk.\n\n„%s“ nechá kľúč na mieste, a napriek tomu tam nejde.\nZvuk sa potom len zlúči a normalizuje, nerozdelí --\nstrih kamier je však rovnaký ako s predvoľbou."
 
 msgid "Distance to mean"
 msgstr "Odchýlka od priemeru"

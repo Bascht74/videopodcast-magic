@@ -74,6 +74,7 @@ cut_edl_says_drop_frame	9
 cut_fresh_preview_is_run	10
 cut_jingle_over_start	19
 cut_list_rebuilt	11
+cut_local_as_with_preset	4
 cut_no_wide_silences	21
 cut_note_moves_no_shot	11
 cut_note_says_who_speaks	19

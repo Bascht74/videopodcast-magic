@@ -2170,8 +2170,8 @@ msgstr "Ut-punkten ligger %s efter den sista bildrutan"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Vid leverans används vanligen det begränsade omfånget. Fullt är inte fel, men vissa spelare tolkar det fel."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Bestämmer hur auphonic.com bearbetar ljudet.\n\n”%s” låter nyckeln vara kvar och går ändå inte dit.\nLjudet slås då bara ihop och normaliseras, inte separeras --\noch utan separata spår blir det ingen kameraklippning."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Bestämmer hur auphonic.com bearbetar ljudet.\n\n”%s” låter nyckeln vara kvar och går ändå inte dit.\nLjudet slås då bara ihop och normaliseras, inte separeras --\nmen kameraklippningen blir densamma som med en förinställning."
 
 msgid "Distance to mean"
 msgstr "Avstånd till medel"

@@ -2205,8 +2205,8 @@ msgstr "Pabaigos taškas yra %s po paskutinio kadro"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Galutiniam failui paprastai naudojamas ribotas diapazonas. Pilnas diapazonas nėra klaida, tačiau kai kurie grotuvai jį interpretuoja neteisingai."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Nustato, kaip auphonic.com apdoroja garsą.\n\n„%s“ palieka raktą vietoje, bet ten vis tiek nesikreipia.\nTada garsas tik sujungiamas ir normalizuojamas, bet neatskiriamas --\no be atskirų takelių nėra kamerų montažo."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Nustato, kaip auphonic.com apdoroja garsą.\n\n„%s“ palieka raktą vietoje, bet ten vis tiek nesikreipia.\nTada garsas tik sujungiamas ir normalizuojamas, bet neatskiriamas --\nbet kamerų montažas toks pat kaip su išankstiniu nustatymu."
 
 msgid "Distance to mean"
 msgstr "Atstumas iki vidurkio"

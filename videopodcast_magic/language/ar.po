@@ -1279,8 +1279,8 @@ msgstr "مخزن النظام"
 msgid "The key is then in the %s, never in a file."
 msgstr "يكون المفتاح عندها في %s، ولا يكون في ملف أبدًا."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "يحدّد كيف يعالج auphonic.com الصوت.\n\n«%s» يُبقي المفتاح في مكانه ومع ذلك لا يذهب إلى هناك.\nعندها يُدمج الصوت ويُطبَّع فقط، ولا يُفصل --\nوبدون مسارات منفصلة لا يوجد قطع كاميرا."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "يحدّد كيف يعالج auphonic.com الصوت.\n\n«%s» يُبقي المفتاح في مكانه ومع ذلك لا يذهب إلى هناك.\nعندها يُدمج الصوت ويُطبَّع فقط، ولا يُفصل --\nلكن قطع الكاميرا هو نفسه كما مع الإعداد المسبق."
 
 msgid "Uploading %s"
 msgstr "رفع %s"
