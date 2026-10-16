@@ -132,9 +132,11 @@ difference between the two microphones of that one track.
 ### More than two channels in one file
 
 auphonic.com takes at most two channels in one file. A file with more
-than two that would go up on its own -- a production of a single track
--- never goes: the run stops before the time axis is measured, sends
-nothing and says why, one line per file:
+than two never goes there -- not on its own, as a production of a
+single track, and not beside other recordings, as one track of a
+multitrack production, where it would arrive folded to one channel,
+every voice on it in one. The run stops before the time axis is
+measured, sends nothing and says why, one line per file:
 
 ```
 Rec.wav has 4 channels, and auphonic.com takes at most two in one file. Nothing was sent.

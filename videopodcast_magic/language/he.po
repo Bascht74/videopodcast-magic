@@ -2068,13 +2068,13 @@ msgstr "כל זוג ערוצים נשפט בנפרד: רצועת סטריאו א
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "שמרו את הערוצים שלו כקבצים נפרדים כדי שכל אחד יהיה רצועה, או פתחו אותו "
-"בחלון, שמפצל אותו לפי שורות הערוצים. כהפקת Singletrack ההרצה נעצרת לפני "
-"ההעלאה: auphonic.com מקבל לכל היותר שני ערוצים בקובץ אחד."
+"בחלון, שמפצל אותו לפי שורות הערוצים. הרצה ששולחת אותו ל-auphonic.com נעצרת "
+"לפני ההעלאה: auphonic.com מקבל לכל היותר שני ערוצים בקובץ אחד."
 
 msgid "A negative value makes the picture lead the sound."
 msgstr "ערך שלילי מקדים את התמונה לשמע."

@@ -2069,13 +2069,13 @@ msgstr "ప్రతి ఛానల్ జతను విడిగా అం�
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "ప్రతిదానికీ ఒక ట్రాక్ రావడానికి దాని ఛానళ్లను వేర్వేరు ఫైల్‌లుగా సేవ్ "
-"చేయండి, లేదా ఛానల్ వరుసల ప్రకారం విభజించే విండోలో దాన్ని తెరవండి. "
-"Singletrack ప్రొడక్షన్‌గా అప్‌లోడ్‌కు ముందే రన్ ఆగిపోతుంది: auphonic.com ఒక "
+"చేయండి, లేదా ఛానల్ వరుసల ప్రకారం విభజించే విండోలో దాన్ని తెరవండి. దాన్ని "
+"auphonic.comకు పంపే రన్ అప్‌లోడ్‌కు ముందే ఆగిపోతుంది: auphonic.com ఒక "
 "ఫైల్‌లో గరిష్ఠంగా రెండు ఛానళ్లనే తీసుకుంటుంది."
 
 msgid "A negative value makes the picture lead the sound."

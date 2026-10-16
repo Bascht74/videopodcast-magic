@@ -766,7 +766,7 @@ def preset_before_the_axis(args, plan, together):
     if not (args.auphonic_key and run_uploads(args)):
         return None
     multitrack = PROGRAM.production_is_multitrack(len(plan), together)
-    if not multitrack and too_wide_for_one_file(plan):
+    if too_wide_for_one_file(plan):
         return 1
     try:
         preset_for_run(args, api_key_from_anywhere(args), multitrack)
@@ -782,11 +782,11 @@ def preset_before_the_axis(args, plan, together):
 def too_wide_for_one_file(plan):
     """Whether a recording of *plan* has more than two channels, and say so.
 
-    auphonic.com takes at most two channels in one file, and a
-    Singletrack production is one file. On the axis such a file folds to
-    one channel, two people into one voice; left at its loudness it went
-    up with all four. Which channels belong together is the channel
-    rows' question: the run stops before the axis. True where it stops.
+    auphonic.com takes at most two channels in one file. Alone, such a
+    file went up with all of them; beside others, as a Multitrack
+    track, it folds to one channel on the axis, every voice on it into
+    one. Which channels belong together is the channel rows' question:
+    the run stops before the axis, whichever kind it sends. True if so.
     """
     wide = []
     for e in plan:
@@ -804,6 +804,19 @@ def too_wide_for_one_file(plan):
                      % (PROGRAM.recording_shown(first),
                         number_text(channel_count(first), 0))))
     return bool(wide)
+
+
+def single_title(title, name, tracks):
+    """The title one track's Singletrack production goes up under.
+
+    A second run finds it by that title alone, so tracks of one run do
+    not share one: with several, the track's name follows the run's
+    *title*. A lone track keeps the title it always had -- the run's,
+    or its own name -- so what an earlier run sent is found again.
+    """
+    if title and tracks > 1:
+        return "%s - %s" % (title, name)
+    return title or name
 
 
 def send_to_auphonic(args, tracks, folder, tmpdir, window, title="",
@@ -833,7 +846,8 @@ def send_to_auphonic(args, tracks, folder, tmpdir, window, title="",
         else:
             done = dict((track["name"], run_single_production(
                 track["axis"], preset, presetname, key, folder,
-                args.auphonic_wait, args.dry_run, title or track["name"],
+                args.auphonic_wait, args.dry_run,
+                single_title(title, track["name"], len(tracks)),
                 args.auphonic_resume))
                 for track in tracks)
     except PROGRAM.Stopped:

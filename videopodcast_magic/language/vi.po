@@ -2038,13 +2038,13 @@ msgstr "Mỗi cặp kênh được đánh giá riêng: một rãnh stereo, hoặ
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "Hãy lưu các kênh của tệp thành các tệp riêng để mỗi kênh thành một rãnh, "
-"hoặc mở tệp trong cửa sổ, nơi cắt nó theo các dòng kênh. Với bản sản xuất "
-"Singletrack, lần chạy dừng trước khi tải lên: auphonic.com chỉ nhận tối đa "
+"hoặc mở tệp trong cửa sổ, nơi cắt nó theo các dòng kênh. Lần chạy gửi tệp "
+"này tới auphonic.com sẽ dừng trước khi tải lên: auphonic.com chỉ nhận tối đa "
 "hai kênh trong một tệp."
 
 msgid "Add files ..."

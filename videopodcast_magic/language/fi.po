@@ -2038,13 +2038,13 @@ msgstr "Jokainen kanavapari arvioidaan erikseen: yksi stereoraita tai kaksi mikr
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "Tallenna sen kanavat omiksi tiedostoikseen, jolloin kustakin tulee raita, "
-"tai avaa se ikkunassa, joka jakaa sen kanavarivien mukaan. "
-"Singletrack-tuotantona ajo pysähtyy ennen latausta: auphonic.com ottaa "
+"tai avaa se ikkunassa, joka jakaa sen kanavarivien mukaan. Ajo, joka "
+"lähettää sen auphonic.comiin, pysähtyy ennen latausta: auphonic.com ottaa "
 "yhdessä tiedostossa enintään kaksi kanavaa."
 
 msgid "Add files ..."

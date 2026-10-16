@@ -2746,12 +2746,12 @@ msgstr "每一对声道都单独判断：一条立体声音轨，或两支麦克
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
-"把它的声道另存为各自的文件，每个就成为一条音轨；或者在窗口中打开它，窗口会按声道行拆分。作为 Singletrack "
-"制作，运行会在上传前停止：auphonic.com 一个文件最多接受两个声道。"
+"把它的声道另存为各自的文件，每个就成为一条音轨；或者在窗口中打开它，窗口会按声道行拆分。把它发送到 auphonic.com "
+"的运行会在上传前停止：auphonic.com 一个文件最多接受两个声道。"
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "这里按文件录制时的采样率逐个采样计数：在整数格式所能容纳的最大值上连续出现三个或更多采样。一两个属于舍入，不予报告。在那里被削掉的部分已经丢失，任何处理都无法恢复 -- 但录音仍然是录音，这不会阻挡任何事情。只统计整数格式。32 bit float 在满刻度处没有上限，因此那里无可计数。"

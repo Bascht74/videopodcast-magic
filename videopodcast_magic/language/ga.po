@@ -2074,13 +2074,13 @@ msgstr "Meastar gach péire cainéal ar leith: rian steiréó amháin, nó dhá 
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "Sábháil a chainéil mar chomhaid ar leith chun rian an ceann a fháil, nó "
-"oscail san fhuinneog é, a ghearrann é de réir a rónna cainéal. Mar "
-"léiriúchán Singletrack stopann an rith roimh an uaslódáil: ní ghlacann "
+"oscail san fhuinneog é, a ghearrann é de réir a rónna cainéal. Stopann rith "
+"a chuireann chuig auphonic.com é roimh an uaslódáil: ní ghlacann "
 "auphonic.com le níos mó ná dhá chainéal i gcomhad amháin."
 
 msgid "A negative value makes the picture lead the sound."

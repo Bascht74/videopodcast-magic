@@ -138,9 +138,11 @@ Unterschied zwischen den beiden Mikrofonen dieser einen Spur.
 ### Mehr als zwei Kanäle in einer Datei
 
 auphonic.com nimmt in einer Datei höchstens zwei Kanäle. Eine Datei mit
-mehr Kanälen, die allein hochginge -- als Produktion aus einer einzigen
-Spur --, geht nie hoch: Der Lauf hält an, bevor die Zeitachse gemessen
-wird, schickt nichts und sagt warum, je Datei eine Zeile:
+mehr Kanälen geht nie dorthin -- weder allein, als Produktion aus einer
+einzigen Spur, noch neben anderen Aufnahmen als eine Spur einer
+Multitrack-Produktion: Dort käme sie auf einen Kanal zusammengelegt an,
+alle Stimmen darauf in einer. Der Lauf hält an, bevor die Zeitachse
+gemessen wird, schickt nichts und sagt warum, je Datei eine Zeile:
 
 ```
 Rec.wav hat 4 Kanäle, und auphonic.com nimmt höchstens zwei in einer Datei. Es wurde nichts gesendet.

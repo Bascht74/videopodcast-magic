@@ -2070,13 +2070,13 @@ msgstr "Всяка двойка канали се преценява поотд�
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "Запазете каналите му като отделни файлове, за да стане всеки писта, или го "
-"отворете в прозореца, който го разрязва по редовете на каналите. Като "
-"Singletrack продукция изпълнението спира преди качването: auphonic.com "
+"отворете в прозореца, който го разрязва по редовете на каналите. Изпълнение, "
+"което го изпраща към auphonic.com, спира преди качването: auphonic.com "
 "приема най-много два канала в един файл."
 
 msgid "A negative value makes the picture lead the sound."

@@ -738,7 +738,7 @@ def channels_as_a_run_has_them(findings, audio_paths):
                   'voice.') % number_text(wide[b.text], 0),
                 T('Save its channels as files of their own for a track '
                   'each, or open it in the window, which cuts it by its '
-                  'channel rows. As a Singletrack production the run stops '
+                  'channel rows. A run that sends it to auphonic.com stops '
                   'before the upload: auphonic.com takes at most two '
                   'channels in one file.'), b.file)
             said.set_aside = b.set_aside

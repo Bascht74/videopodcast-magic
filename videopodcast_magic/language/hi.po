@@ -2756,13 +2756,13 @@ msgstr "हर चैनल-जोड़ी को अलग से आँका
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "हर एक का अपना ट्रैक पाने के लिए इसके चैनलों को अलग फ़ाइलों के रूप में "
 "सहेजें, या इसे विंडो में खोलें, जो इसे चैनल की पंक्तियों के अनुसार बाँटती "
-"है। Singletrack प्रोडक्शन के रूप में रन अपलोड से पहले रुक जाता है: "
+"है। जो रन इसे auphonic.com पर भेजता है, वह अपलोड से पहले रुक जाता है: "
 "auphonic.com एक फ़ाइल में अधिकतम दो चैनल लेता है।"
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."

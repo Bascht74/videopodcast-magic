@@ -2866,13 +2866,13 @@ msgstr "Cada par de canales se juzga por separado: una pista estéreo, o dos mic
 
 msgid ""
 "Save its channels as files of their own for a track each, or open it in the "
-"window, which cuts it by its channel rows. As a Singletrack production the "
-"run stops before the upload: auphonic.com takes at most two channels in one "
-"file."
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
 msgstr ""
 "Guarde sus canales como archivos propios para tener una pista por cada uno, "
-"o ábralo en la ventana, que lo divide según sus filas de canales. Como "
-"producción Singletrack, la ejecución se detiene antes de la subida: "
+"o ábralo en la ventana, que lo divide según sus filas de canales. Una "
+"ejecución que lo envía a auphonic.com se detiene antes de la subida: "
 "auphonic.com admite como máximo dos canales en un archivo."
 
 msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
