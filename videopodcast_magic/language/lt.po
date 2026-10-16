@@ -3412,6 +3412,9 @@ msgstr "be pavadinimo"
 msgid "   Caution: measurement unusable"
 msgstr "   Dėmesio: matavimas netinkamas"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Dėmesio: jame trūksta %s s įkelto garso"
+
 msgid "   NOT INSERTED"
 msgstr "   NEĮTERPTA"
 

@@ -3363,6 +3363,9 @@ msgstr "bez názvu"
 msgid "   Caution: measurement unusable"
 msgstr "   Pozor: měření nepoužitelné"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Pozor: chybí v něm %s s z odeslaného"
+
 msgid "   NOT INSERTED"
 msgstr "   NEVLOŽENO"
 

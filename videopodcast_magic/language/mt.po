@@ -3415,6 +3415,9 @@ msgstr "bla isem"
 msgid "   Caution: measurement unusable"
 msgstr "   Attenzjoni: kejl li ma jistax jintuża"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Attenzjoni: fih jonqsu %s s minn dak li tela'"
+
 msgid "   NOT INSERTED"
 msgstr "   MHIX IMDAĦĦLA"
 

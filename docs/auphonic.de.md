@@ -440,6 +440,16 @@ Sekunden vorne und hinten weggefallen sind. Lässt sich der
 hochgeschickte Ton in der Rückgabe nicht finden, bleibt die Datei, wie
 sie kam, und auch das steht im Protokoll.
 
+Danach wird jede zurückgekommene Spur gegen das gehalten, was
+hochging. Legt man sie dorthin, wo ihr Ton gemessen wird, muss alles
+Hochgeschickte in ihr stecken. Fehlt einer Spur mehr als eine
+Viertelsekunde davon, hält der Lauf an -- etwa weil die Produktion der
+Vorwoche unter dem Namen dieser Woche zurückkam, oder weil die Datei
+gekürzt ist --, und ihre Zeile im Protokoll sagt, wie viel fehlt:
+`ACHTUNG: Von dem, was hochging, fehlen darin 12,0 s`. Eine längere
+Spur wird genommen: ein Jingle, oder eine Neuberechnung über Dateien,
+die für ein weiteres Fenster hochgegangen sind.
+
 Einen nachträglich gesetzten In- oder Out-Punkt verrechnet das Programm
 hier, nicht bei Auphonic. Es beschneidet die zurückgekommenen Spuren auf
 das neue Fenster. Wenn die Länge weder zum Fenster noch zum ganzen
@@ -467,6 +477,12 @@ die Meldung sagt das.
   ganzen gemessenen Bereich.** Sie gehören zu einem anderen Lauf. Den
   Ordner dieses Laufs nehmen, oder den Ton noch einmal über
   auphonic.com schicken.
+* **Einer zurückgekommenen Spur fehlt ein Teil dessen, was hochging.**
+  Das Protokoll sagt `ACHTUNG: Von dem, was hochging, fehlen darin
+  12,0 s`, und der Lauf hält an. Die Produktion bei auphonic.com enthält
+  anderen Ton, meist eine frühere gleichen Namens. Der Folge unter
+  **Name der Produktion** einen eigenen Namen geben, oder alles neu
+  hochladen.
 * **Der Lauf soll Guthaben kosten, das nicht gemeint war.** Nur die
   Antwort, die alles neu hochlädt, lädt hoch, und nur das Hochladen
   kostet. Die anderen Antworten lassen die Dateien stehen, wo sie sind.

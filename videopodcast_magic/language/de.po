@@ -4960,6 +4960,9 @@ msgstr "ohne Namen"
 msgid "   Caution: measurement unusable"
 msgstr "   ACHTUNG: Messung unbrauchbar"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   ACHTUNG: Von dem, was hochging, fehlen darin %s s"
+
 msgid "   NOT INSERTED"
 msgstr "   NICHT EINGEFÜGT"
 

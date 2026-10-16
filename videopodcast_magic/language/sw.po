@@ -3413,6 +3413,9 @@ msgstr "bila jina"
 msgid "   Caution: measurement unusable"
 msgstr "   Tahadhari: kipimo hakitumiki"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Tahadhari: %s s za kilichopakiwa hazimo ndani yake"
+
 msgid "   NOT INSERTED"
 msgstr "   HAIJAPACHIKWA"
 

@@ -3412,6 +3412,9 @@ msgstr "பெயரில்லை"
 msgid "   Caution: measurement unusable"
 msgstr "   கவனம்: அளவீடு பயன்படாது"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   கவனம்: பதிவேற்றியதில் %s s இதில் இல்லை"
+
 msgid "   NOT INSERTED"
 msgstr "   சேர்க்கப்படவில்லை"
 

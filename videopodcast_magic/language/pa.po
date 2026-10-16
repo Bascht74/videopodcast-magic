@@ -3413,6 +3413,9 @@ msgstr "ਬਿਨਾਂ ਨਾਂ"
 msgid "   Caution: measurement unusable"
 msgstr "   ਸਾਵਧਾਨ: ਮਾਪ ਵਰਤਣਯੋਗ ਨਹੀਂ"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   ਸਾਵਧਾਨ: ਭੇਜੇ ਗਏ ਵਿੱਚੋਂ %s s ਇਸ ਵਿੱਚ ਨਹੀਂ ਹੈ"
+
 msgid "   NOT INSERTED"
 msgstr "   ਪਾਇਆ ਨਹੀਂ ਗਿਆ"
 

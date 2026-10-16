@@ -3360,6 +3360,9 @@ msgstr "uten navn"
 msgid "   Caution: measurement unusable"
 msgstr "   Advarsel: målingen ubrukelig"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Advarsel: %s s av det som gikk opp, mangler i den"
+
 msgid "   NOT INSERTED"
 msgstr "   IKKE SATT INN"
 

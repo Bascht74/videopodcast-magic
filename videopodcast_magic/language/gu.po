@@ -3410,6 +3410,9 @@ msgstr "નામ વિના"
 msgid "   Caution: measurement unusable"
 msgstr "   સાવધાન: માપ બિનઉપયોગી"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   સાવધાન: અપલોડ થયેલામાંથી %s s તેમાં નથી"
+
 msgid "   NOT INSERTED"
 msgstr "   દાખલ કર્યું નથી"
 

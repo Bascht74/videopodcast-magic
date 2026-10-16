@@ -3411,6 +3411,9 @@ msgstr "без име"
 msgid "   Caution: measurement unusable"
 msgstr "   Внимание: измерването е неизползваемо"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Внимание: в него липсват %s s от каченото"
+
 msgid "   NOT INSERTED"
 msgstr "   НЕ Е ВМЪКНАТО"
 

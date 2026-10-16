@@ -1986,6 +1986,9 @@ msgstr "  -->  alinhado, deriva do relógio de %s ppm removida"
 msgid "   Caution: measurement unusable"
 msgstr "   Atenção: medição inutilizável"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Atenção: faltam-lhe %s s do que foi enviado"
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  Mixdown do auphonic.com: %s LUFS, pico %s dBTP (%s)"
 

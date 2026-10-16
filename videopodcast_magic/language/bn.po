@@ -3362,6 +3362,9 @@ msgstr "নামহীন"
 msgid "   Caution: measurement unusable"
 msgstr "   সতর্কতা: মাপ ব্যবহারযোগ্য নয়"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   সতর্কতা: যা পাঠানো হয়েছিল তার %s s এতে নেই"
+
 msgid "   NOT INSERTED"
 msgstr "   বসানো হয়নি"
 

@@ -50,7 +50,7 @@ figure of the day is that command, not this paragraph**:
   reach it named, out of `speakers/`
 * `resolve/` **2490** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
-* `material/` **2025** -- channels, chains, continuation files, and what
+* `material/` **2050** -- channels, chains, continuation files, and what
   a track is made of
 * `loudness/` **482** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under

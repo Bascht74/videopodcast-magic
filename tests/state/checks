@@ -34,6 +34,7 @@
 auphonic_credit_said	54
 auphonic_curl_end_said	6
 auphonic_done_file_found	7
+auphonic_foreign_refused	8
 auphonic_free_long_stops	15
 auphonic_jingle_cut_away	11
 auphonic_key_answer_fits	18

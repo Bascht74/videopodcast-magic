@@ -3420,6 +3420,9 @@ msgstr "gan ainm"
 msgid "   Caution: measurement unusable"
 msgstr "   Aire: níl an tomhas inúsáidte"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Aire: tá %s s den mhéid a chuaigh suas in easnamh air"
+
 msgid "   NOT INSERTED"
 msgstr "   NÍOR CUIREADH ISTEACH"
 

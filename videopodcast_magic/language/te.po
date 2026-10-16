@@ -3412,6 +3412,9 @@ msgstr "పేరు లేదు"
 msgid "   Caution: measurement unusable"
 msgstr "   జాగ్రత్త: కొలత ఉపయోగపడదు"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   జాగ్రత్త: అప్‌లోడ్ చేసినదానిలో %s s ఇందులో లేదు"
+
 msgid "   NOT INSERTED"
 msgstr "   చేర్చలేదు"
 

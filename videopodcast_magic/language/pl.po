@@ -3364,6 +3364,9 @@ msgstr "bez nazwy"
 msgid "   Caution: measurement unusable"
 msgstr "   Uwaga: pomiar bezużyteczny"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Uwaga: brakuje w nim %s s z tego, co wysłano"
+
 msgid "   NOT INSERTED"
 msgstr "   NIE WSTAWIONO"
 

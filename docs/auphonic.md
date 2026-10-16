@@ -399,6 +399,14 @@ up, and the log says how many seconds went at the start and at the end.
 Where the sent sound cannot be found in the return, the file is left as
 it came, and the log says that too.
 
+Then every returned track is held against what went up. Laid where its
+sound is measured, all of what went up has to be in it. A track that
+lacks more than a quarter of a second of it stops the run -- last week's
+production under this week's name, say, or a file cut short -- and its
+line in the log says how much is missing: `Caution: 12.0 s of what went
+up is not in it`. A track that is longer is taken: a jingle, or a
+recompute over files that went up for a wider window.
+
 The program handles a later In point or Out point here, not at Auphonic.
 It trims the returned tracks to the new window. If the length matches
 neither the window nor the whole measured range, the files belong to
@@ -423,6 +431,11 @@ another run, and the message says so.
 * **The returned tracks fit neither the time window nor the whole
   measured range.** They belong to another run. Use the folder that
   belongs to this run, or let the audio go through auphonic.com again.
+* **A returned track lacks part of what went up.** The log says
+  `Caution: 12.0 s of what went up is not in it`, and the run stops.
+  The production at auphonic.com holds other sound, most often an
+  earlier one of the same name. Give the episode a name of its own
+  under **Production name**, or upload everything again.
 * **A run is about to cost credit that was not meant.** Only the answer
   that uploads everything again uploads, and only the upload costs. The
   other answers leave the files where they are.

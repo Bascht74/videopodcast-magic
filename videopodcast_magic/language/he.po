@@ -3408,6 +3408,9 @@ msgstr "ללא שם"
 msgid "   Caution: measurement unusable"
 msgstr "   זהירות: המדידה אינה שמישה"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   זהירות: חסרות בו %s s ממה שעלה"
+
 msgid "   NOT INSERTED"
 msgstr "   לא הוכנס"
 

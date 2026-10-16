@@ -3412,6 +3412,9 @@ msgstr "bez nosaukuma"
 msgid "   Caution: measurement unusable"
 msgstr "   Uzmanību: mērījums nav izmantojams"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Uzmanību: tajā trūkst %s s no augšupielādētā"
+
 msgid "   NOT INSERTED"
 msgstr "   NAV IEVIETOTS"
 

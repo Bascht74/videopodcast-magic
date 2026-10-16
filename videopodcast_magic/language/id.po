@@ -3411,6 +3411,9 @@ msgstr "tanpa nama"
 msgid "   Caution: measurement unusable"
 msgstr "   Perhatian: pengukuran tidak dapat dipakai"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Perhatian: %s s dari yang diunggah tidak ada di dalamnya"
+
 msgid "   NOT INSERTED"
 msgstr "   TIDAK DISISIPKAN"
 

@@ -3359,6 +3359,9 @@ msgstr "không tên"
 msgid "   Caution: measurement unusable"
 msgstr "   Cảnh báo: số đo không dùng được"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Cảnh báo: thiếu %s s so với phần đã tải lên"
+
 msgid "   NOT INSERTED"
 msgstr "   CHƯA CHÈN"
 

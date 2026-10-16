@@ -3364,6 +3364,9 @@ msgstr "fără nume"
 msgid "   Caution: measurement unusable"
 msgstr "   Atenție: măsurare inutilizabilă"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Atenție: îi lipsesc %s s din ce a plecat"
+
 msgid "   NOT INSERTED"
 msgstr "   NEINSERAT"
 
