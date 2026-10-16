@@ -393,6 +393,56 @@ case "${VPM_CUT_OFF:-}" in
      exit 2 ;;
 esac
 export VPM_CUT_OFF
+# Tested lines, measured: VPM_COVERAGE=1 has coverage.py measure every
+# process the suite starts, and source_lines_stay_tested judges the lot
+# once the rest has finished -- per function, a floor that may only rise
+# (tests/tested_lines.py says how). A release turns it on, on one job;
+# tests.yml says which. Off, it costs one name taken out of the list:
+# no process, no package, nothing measured. The guard is set aside then,
+# as a *_langsN test is without its switch, and never counted as
+# skipped: this run was not asked for it.
+LINES_GUARD=source_lines_stay_tested
+GUARD_ASIDE=""
+GUARD_RUNS=""
+if printf '%s\n' $TESTS | grep -qx "$LINES_GUARD"; then
+  GUARD_ASIDE=1
+  TESTS=$(printf '%s\n' $TESTS | grep -vx "$LINES_GUARD")
+fi
+case "${VPM_COVERAGE:-}" in
+  "")
+    unset COVERAGE_PROCESS_START COVERAGE_PROCESS_CONFIG ;;
+  1)
+    # The .pth coverage.py has put beside itself since 7.10 is what
+    # starts it in every process; a coverage.py without it measures the
+    # tests and none of the programs they start, and says nothing.
+    if ! "$PY" -c 'import coverage, os, site, sys
+dirs = site.getsitepackages() + [site.getusersitepackages()]
+sys.exit(0 if any(os.path.exists(os.path.join(d, "a1_coverage.pth"))
+                  for d in dirs) else 1)' 2> /dev/null; then
+      echo "VPM_COVERAGE=1 wants coverage.py 7.10 or later installed for" \
+           "$PY, whose .pth starts it in every process:" \
+           "$PY -m pip install coverage" >&2
+      exit 2
+    fi
+    COVERAGE_DATA="$RUN_TEMP/coverage"
+    MEASURED=$(cd "$(dirname "${VPM_SCRIPT:-$(dirname "$HERE")/videopodcast_magic/__init__.py}")" && pwd)
+    mkdir -p "$COVERAGE_DATA"
+    "$PY" "$HERE/tested_lines.py" "$COVERAGE_DATA" "$MEASURED" \
+      > "$RUN_TEMP/coverage.rc"
+    export COVERAGE_PROCESS_START="$RUN_TEMP/coverage.rc"
+    # Judged only over the whole folder: a floor per function measured
+    # over three tests would call most of the program untested.
+    [ -n "$GUARD_ASIDE" ] && [ "$WHOLE" = 1 ] && GUARD_RUNS=1
+    echo "tested lines: measured with coverage.py" \
+         "$("$PY" -c 'import coverage; print(coverage.__version__)')" ;;
+  *) echo "VPM_COVERAGE is '$VPM_COVERAGE'; it takes 1 or nothing" >&2
+     exit 2 ;;
+esac
+if [ -z "$TESTS" ] && [ -n "$GUARD_ASIDE" ]; then
+  echo "only $LINES_GUARD was named, and it judges what the whole suite" \
+       "ran: VPM_COVERAGE=1 bash run.sh" >&2
+  exit 2
+fi
 # One file per test holding its NOTED lines, for the summary's block.
 NOTED="$RUN_TEMP/noted"
 mkdir -p "$NOTED"
@@ -840,6 +890,7 @@ if [ -n "$LANGS_CHAIN" ]; then
           | grep -v -E '_langs[0-9]' || true)
 fi
 TOTAL=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -cv '^$')
+[ -n "$GUARD_RUNS" ] && TOTAL=$((TOTAL + 1))
 # Each line is a list of tests run one after another; most hold one.
 # -L and not -I: macOS's xargs builds an -I line of at most 255 bytes,
 # and on the chain of sixteen *_langsN names it ran nothing (26.9.2026).
@@ -882,6 +933,19 @@ if [ "$ALONE" = 1 ] && [ "$WORKERS" -gt 1 ]; then
       echo " red again"
     fi
   done
+fi
+
+# The tested lines, judged once everything else has run -- the second
+# goes included -- and not measured themselves. The data goes as soon
+# as the numbers are written: it runs to hundreds of megabytes.
+if [ -n "$GUARD_RUNS" ]; then
+  unset COVERAGE_PROCESS_START
+  export VPM_COVERAGE_DATA="$COVERAGE_DATA" VPM_COVERAGE_SOURCE="$MEASURED"
+  run_one "$LINES_GUARD"
+  [ -n "$KEEP_TEMP" ] || rm -rf "$COVERAGE_DATA"
+  TESTS="$TESTS
+$LINES_GUARD"
+  GUARD_ASIDE=""
 fi
 
 good=0; bad=0; past=0; shaky=0; names=""; left_out=""; unsteady=""
@@ -970,6 +1034,14 @@ fi
 # The release run's texts cut off, one line each, said even when there
 # are none; tests.yml lifts the block into the job's summary by these
 # first words, and the owner's next release gets a card for each line.
+# Said only where the guard lay in the folder and did not run.
+if [ -n "$GUARD_ASIDE" ] && [ -n "${COVERAGE_PROCESS_START:-}" ]; then
+  echo "tested lines: measured, not judged -- $LINES_GUARD judges a run" \
+       "of the whole folder"
+elif [ -n "$GUARD_ASIDE" ]; then
+  echo "tested lines: not measured; $LINES_GUARD set aside -- it runs" \
+       "with VPM_COVERAGE=1, as a release does"
+fi
 if [ "${VPM_CUT_OFF:-}" = noted ]; then
   many=$(cat "$NOTED"/* 2> /dev/null | grep -c '^  NOTED cut off: ')
   echo "cut off, to fix next release: ${many:-0}"

@@ -462,6 +462,32 @@ recognisable.
 reached, and the suite is no better for it. The number serves as a way
 of searching for unchecked paths and for nothing else.
 
+**A coverage floor is something else, and it is kept.** Every release
+measures, on its macOS py3.14 job, which lines of the program the whole
+suite runs -- coverage.py across every process, the program the tests
+start included -- and `source_lines_stay_tested` holds it **per
+function**: red when a function has more untested lines than its floor,
+or when a function the state does not know runs not one line; a floor
+that falls is written down by itself. No share is asked for and none is
+held, so nothing invites a test written to move a number -- what it
+catches is a test that went away, and new code nobody ran. How it
+measures is in `tests/tested_lines.py`; the floors stand in
+`tests/state/tested_lines_state.json`; `VPM_COVERAGE=1 bash run.sh` is
+the same measurement here (coverage.py 7.10 or later installed for the
+suite's Python), and an ordinary run sets the guard aside at no cost.
+A new function that cannot be run here is entered into the state by
+hand, with its count, so the diff shows that it was decided.
+
+**The count is not steady, and that was measured before the first
+floor was written** (16.10.2026): three runs of one tree on this Mac
+differed in ten functions by one to three lines -- a cache one test
+fills before another asks, a player quicker one time than the next --
+and a run without the two tests the macOS builder sets aside lost nine
+more. Those nineteen stand under `unsteady` in the state with the
+highest count seen: their allowance is that count and no lucky run
+lowers it. A function that rises without having been touched belongs
+there too, entered by hand.
+
 **A mutation-testing tool.** The idea yes, the tool no: one mutant costs
 a suite run, and for every site in this program that is days. By hand
 and restricted to the check that changed, it is affordable, which is

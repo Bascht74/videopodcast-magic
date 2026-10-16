@@ -365,11 +365,27 @@ jobs:
       # Never on the neutral job: the one test that runs the separation
       # is bound, so there it would be two minutes of torch for nothing.
       SPEAKER_SPLIT: ${{ matrix.tests != 'neutral' && (inputs.speaker_split == true || inputs.speaker_split == 'true') }}
-      # Which half of the suite this job runs; run.sh reads it.
-      VPM_TESTS: ${{ matrix.tests }}
+      # Which half of the suite this job runs; run.sh reads it. Both on
+      # the one job that measures the tested lines (VPM_COVERAGE below):
+      # a floor per function is a claim about the whole suite.
+      VPM_TESTS: ${{ (matrix.label == 'macOS' && matrix.python == '3.14' && !inputs.tests && (inputs.all_languages == true || inputs.all_languages == 'true')) && 'all' || matrix.tests }}
       # The second switch, read the same way. A push has no input, so a
       # push tests English and German, whatever its branch changes.
       ALL_LANGUAGES: ${{ inputs.all_languages == true || inputs.all_languages == 'true' }}
+      # The third switch, on the second's input: the release run
+      # measures which lines of the program the suite runs, and
+      # source_lines_stay_tested holds every function to its floor
+      # (tests/tested_lines.py). On one job, macOS py3.14 -- the system
+      # and the Python the suite runs on at home, where the floor in
+      # tests/state/tested_lines_state.json was measured; a floor per
+      # function moves with the system and the Python, so a second job
+      # would need a second state. Never with tests named by hand: a
+      # part of the suite measures a part of the program.
+      VPM_COVERAGE: ${{ (matrix.label == 'macOS' && matrix.python == '3.14' && !inputs.tests && (inputs.all_languages == true || inputs.all_languages == 'true')) && '1' || '' }}
+      # Where the guard leaves the table it measured, kept as a file of
+      # the run whatever its verdict: the builder's floor can differ
+      # from the one measured at home, and a red run has to show it.
+      VPM_COVERAGE_TABLE: /tmp/vpm-tested-lines.json
       # The tests named by hand, if any, and whether this job runs them.
       # A job's if: cannot see its matrix entry, so every step below
       # asks CHOSEN instead. Without names every job is chosen: a push,
@@ -988,6 +1004,19 @@ jobs:
                        torch.__version__, where, time.time() - began))
           PY
 
+      # coverage.py for the tested lines, on the job that measures them
+      # and on no other. Not in requirements-dev.txt: every job would
+      # install it and none but this one reads it. Pinned, because a
+      # new coverage.py may count a line differently, and the floor
+      # would move under a release that changed nothing. Its .pth file
+      # starts it in every process once run.sh names the configuration.
+      - name: "Install: coverage.py, for the tested lines (release, macOS py3.14)"
+        if: env.CHOSEN == 'true' && env.VPM_COVERAGE == '1'
+        shell: bash
+        run: |
+          python -m pip install coverage==7.16.2
+          python -c "import coverage; print('coverage.py', coverage.__version__)"
+
       # Only the input turns every language on; a push never does, by
       # the owner's rule of 26.9.2026 -- why, beside the input at the top.
       - name: "Record: which languages this run tests"
@@ -1223,6 +1252,14 @@ jobs:
           echo "the suite took $(( SECONDS - start )) s"
           exit $rc
 
+      # coverage.py out again before anything writes down what this run
+      # stood on: constraints-macos.txt is read off this very job, and a
+      # test tool has no business in what users install against.
+      - name: "Measure: coverage.py taken out again"
+        if: always() && env.CHOSEN == 'true' && env.VPM_COVERAGE == '1'
+        shell: bash
+        run: python -m pip uninstall -y coverage
+
       # What a reader wants at a glance: which ffmpeg, how many ran, how
       # many were taken out and which, how many checked nothing, and what
       # is red.
@@ -1421,3 +1458,14 @@ jobs:
           path: ${{ runner.temp }}/freeze/freeze.txt
           if-no-files-found: error
           retention-days: 7
+
+      # The table the tested-lines guard measured, as a file of the run
+      # whatever its verdict. Last, and after the freeze's upload, which
+      # source_freeze_attached reads as this job's first.
+      - uses: actions/upload-artifact@v7
+        if: always() && env.CHOSEN == 'true' && env.VPM_COVERAGE == '1'
+        with:
+          name: tested-lines-${{ matrix.label }}-py${{ matrix.python }}
+          path: /tmp/vpm-tested-lines.json
+          if-no-files-found: warn
+          retention-days: 30

@@ -1,6 +1,6 @@
 # The test suite
 
-519 tests against the program in `../videopodcast_magic/`. Every one of them stands
+520 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -160,6 +160,14 @@ turns the suite red the same day. **Do not delete `state/`**: a missing
 count is treated as "no baseline yet" and seeded from the current
 source, which would quietly disarm the ratchet.
 
+One more runs only where the program's lines are measured:
+`source_lines_stay_tested_test.py` keeps `state/tested_lines_state.json`,
+the lines no test runs, per function, and a release's macOS py3.14 job
+holds them -- `VPM_COVERAGE=1 bash run.sh` does the same here, with
+coverage.py installed; an ordinary run sets it aside. Its floors fall by
+themselves except under `unsteady`, the functions whose count was seen
+to differ between two runs. `tested_lines.py` says how it measures.
+
 The bigger counters are held on places rather than on plain numbers --
 `ratchet.py` says why. A count alone lets one fault be swapped for
 another: shorten a long line here, write a new one there, and the number
@@ -249,7 +257,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-519 tests. The name is the one a red line carries, and beside it the
+520 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -812,6 +820,7 @@ it is green.
 | `source_imported_is_whole` | Importing the program gives the whole of it, whatever argv said. |
 | `source_limits_hold` | Style check for comments and docstrings. |
 | `source_line_loads_no_qt` | The command line runs without Qt: no PySide6 module is ever loaded. |
+| `source_lines_stay_tested` | No function loses tested lines, and no new one goes untested. |
 | `source_live_asks_first` | The live tests reach nothing outside until the word that starts them. |
 | `source_material_stays` | A run of fixtures.sh leaves the checked-in material as it found it. |
 | `source_names_said_once` | The repository and the name a person reads are each written out once. |
@@ -872,7 +881,7 @@ the source, the texts and the documents as a whole.
 | `running/` | `run_assign_file_gone`, `run_camera_audio_planned`, `run_dry_leaves_no_trace`, `run_dry_leaves_out`, `run_preview_says_nothing`, `run_stop_heard_midway`, `run_stop_passes_through`, `run_window_run_agrees`, `window_overwrite_asked`, `window_start_runs`, `window_stop_always` |
 | `setup/` | `auphonic_key_by_pipe`, `auphonic_key_in_keyring`, `auphonic_key_kept`, `auphonic_key_reg_shut`, `auphonic_key_typed`, `auphonic_keyring_offered`, `run_ffmpeg_new_enough`, `run_ffmpeg_not_fetched`, `run_ffmpeg_offered`, `run_ffmpeg_sum_checked`, `run_install_is_watched` |
 | `soundings/` | `files_probed_once` |
-| `source/` | `source_checks_proved`, `source_crashes_named`, `source_floor_needs_main`, `source_freeze_attached`, `source_frozen_name_holds`, `source_imported_is_whole`, `source_limits_hold`, `source_line_loads_no_qt`, `source_live_asks_first`, `source_material_stays`, `source_names_said_once`, `source_names_stay_fresh`, `source_needs_lists_agree`, `source_no_loose_ends`, `source_no_real_names`, `source_no_stale_places`, `source_numpy_comes_last`, `source_pictures_seen`, `source_piece_list_holds`, `source_platform_declared`, `source_reds_carry_value`, `source_resolve_door_shut`, `source_resolve_recalled`, `source_sections_named`, `source_skills_resolve`, `source_suite_reads_red`, `source_test_names_swept`, `text_index_targets_exist`, `text_lists_match`, `text_one_picture_each`, `text_release_has_program`, `text_release_ready`, `text_skills_listed`, `text_tests_listed`, `text_third_party_true` |
+| `source/` | `source_checks_proved`, `source_crashes_named`, `source_floor_needs_main`, `source_freeze_attached`, `source_frozen_name_holds`, `source_imported_is_whole`, `source_limits_hold`, `source_line_loads_no_qt`, `source_lines_stay_tested`, `source_live_asks_first`, `source_material_stays`, `source_names_said_once`, `source_names_stay_fresh`, `source_needs_lists_agree`, `source_no_loose_ends`, `source_no_real_names`, `source_no_stale_places`, `source_numpy_comes_last`, `source_pictures_seen`, `source_piece_list_holds`, `source_platform_declared`, `source_reds_carry_value`, `source_resolve_door_shut`, `source_resolve_recalled`, `source_sections_named`, `source_skills_resolve`, `source_suite_reads_red`, `source_test_names_swept`, `text_index_targets_exist`, `text_lists_match`, `text_one_picture_each`, `text_release_has_program`, `text_release_ready`, `text_skills_listed`, `text_tests_listed`, `text_third_party_true` |
 | `speakers/` | `cut_amounts_grouped`, `cut_own_mic_own_camera`, `run_dry_reports_voices`, `table_back_to_one_name`, `table_heard_name_offered`, `table_row_per_voice`, `voice_answer_kept`, `voice_bleed_gone_first`, `voice_both_splits_stand`, `voice_both_ways_agree`, `voice_close_mics_mixed`, `voice_counts_grouped`, `voice_empty_marks_as_run`, `voice_every_block_heard`, `voice_failed_read_named`, `voice_heard_again_named`, `voice_heard_again_said`, `voice_mhm_is_speech`, `voice_mic_reaches_cut`, `voice_model_main_on_404`, `voice_model_names_inside`, `voice_name_is_one_person`, `voice_names_when_sure`, `voice_originals_as_axis`, `voice_questions_rank`, `voice_raw_times_kept`, `voice_reason_reaches_log`, `voice_source_travels`, `voice_split_hears_blocks`, `voice_split_hears_two`, `voice_split_mends_itself`, `voice_split_names_fault`, `voice_tracks_read_once`, `voice_turns_found`, `voice_zero_all_cameras`, `window_amounts_grouped`, `window_block_misfit_kept`, `window_first_kind_holds`, `window_hears_while_split`, `window_note_names_kind`, `window_note_names_way`, `window_note_reason_true`, `window_speakers_as_run` |
 | `speech/` | `voice_amounts_grouped`, `voice_cue_fits_two_lines`, `voice_every_word_placed`, `voice_language_arrives`, `voice_locale_fixed`, `voice_note_translated`, `voice_onnx_stays_quiet`, `voice_unheard_to_whisper`, `voice_words_intact`, `window_silent_hears_none`, `window_words_all_blocks`, `window_words_caught_up`, `window_writing_said` |
 | `stowage/` | `files_old_file_refused`, `files_stage_kept_by_key`, `run_choice_kept` |
