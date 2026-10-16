@@ -3163,6 +3163,21 @@ msgstr "dosarul sursă"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "șablonul de pistă nu are nimic activat -- pistele s-ar întoarce exact așa cum au fost încărcate."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "presetarea are un intro -- nu este folosit: introul și outroul vin din fișierele video."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "presetarea are un outro -- nu este folosit: introul și outroul vin din fișierele video."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "presetarea are un intro și un outro -- niciunul nu este folosit: introul și outroul vin din fișierele video."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Vin din fișierele video cu Tipul pus pe Intro sau Outro în lista de fișiere, sau din --intro și --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "fișierele video sunt etichetate diferit: %s"
 

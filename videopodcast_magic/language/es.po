@@ -4225,6 +4225,21 @@ msgstr "la carpeta de origen"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "la plantilla de pistas no tiene nada activado -- las pistas volverían exactamente tal como se subieron."
 
+msgid "Intro / outro"
+msgstr "Intro / Cierre"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "el preset tiene una intro -- no se usa: la intro y el cierre vienen de los archivos de vídeo."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "el preset tiene un cierre -- no se usa: la intro y el cierre vienen de los archivos de vídeo."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "el preset tiene una intro y un cierre -- no se usa ninguno: la intro y el cierre vienen de los archivos de vídeo."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Vienen de archivos de vídeo con el Tipo en Intro o Cierre en la lista de archivos, o de --intro y --outro."
+
 msgid "the tracks are too much alike to separate"
 msgstr "las pistas se parecen demasiado para separarlas"
 

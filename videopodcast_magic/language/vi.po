@@ -3158,6 +3158,21 @@ msgstr "thư mục nguồn"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "mẫu rãnh không bật gì cả -- các rãnh sẽ trả về y như lúc tải lên."
 
+msgid "Intro / outro"
+msgstr "Phần mở đầu / Phần kết"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "preset có phần mở đầu -- không được dùng: phần mở đầu và phần kết lấy từ các tệp video."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "preset có phần kết -- không được dùng: phần mở đầu và phần kết lấy từ các tệp video."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "preset có phần mở đầu và phần kết -- không phần nào được dùng: phần mở đầu và phần kết lấy từ các tệp video."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Chúng lấy từ các tệp video có Loại là Phần mở đầu hoặc Phần kết trong danh sách tệp, hoặc từ --intro và --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "các tệp video được gắn nhãn khác nhau: %s"
 

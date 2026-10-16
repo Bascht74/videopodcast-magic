@@ -3162,6 +3162,21 @@ msgstr "изворна фасцикла"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "шаблон траке нема ништа укључено -- траке би се вратиле тачно онакве какве су отпремљене."
 
+msgid "Intro / outro"
+msgstr "Интро / Аутро"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "предложак има интро -- не користи се: интро и аутро долазе из видео датотека."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "предложак има аутро -- не користи се: интро и аутро долазе из видео датотека."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "предложак има интро и аутро -- не користи се ниједан: интро и аутро долазе из видео датотека."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Долазе из видео датотека којима је на списку датотека Тип постављен на Интро или Аутро, или из --intro и --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "видео датотеке су различито означене: %s"
 

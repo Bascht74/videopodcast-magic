@@ -4734,6 +4734,21 @@ msgstr ""
 "die Spurvorlage hat nichts eingeschaltet -- die Spuren kämen zurück, wie "
 "sie hochgehen."
 
+msgid "Intro / outro"
+msgstr "Vorspann / Abspann"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "das Preset hat ein Intro -- es wird nicht verwendet: Vorspann und Abspann kommen aus den Videodateien."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "das Preset hat ein Outro -- es wird nicht verwendet: Vorspann und Abspann kommen aus den Videodateien."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "das Preset hat ein Intro und ein Outro -- keins von beiden wird verwendet: Vorspann und Abspann kommen aus den Videodateien."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Sie kommen aus Videodateien, die in der Dateiliste unter „Typ“ auf „Vorspann“ oder „Abspann“ stehen, oder aus --intro und --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "die Videodateien sind verschieden gekennzeichnet: %s"
 

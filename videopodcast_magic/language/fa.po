@@ -3200,6 +3200,21 @@ msgstr "پوشه منبع"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "در الگوی ترک هیچ چیزی روشن نیست -- ترک‌ها دقیقاً همان‌طور که بارگذاری شدند برمی‌گردند."
 
+msgid "Intro / outro"
+msgstr "مقدمه / پایان‌بندی"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "پیش‌تنظیم یک مقدمه دارد -- استفاده نمی‌شود: مقدمه و پایان‌بندی از فایل‌های ویدیو می‌آیند."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "پیش‌تنظیم یک پایان‌بندی دارد -- استفاده نمی‌شود: مقدمه و پایان‌بندی از فایل‌های ویدیو می‌آیند."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "پیش‌تنظیم یک مقدمه و یک پایان‌بندی دارد -- هیچ‌کدام استفاده نمی‌شود: مقدمه و پایان‌بندی از فایل‌های ویدیو می‌آیند."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "از فایل‌های ویدیویی می‌آیند که نوعشان در فهرست فایل‌ها مقدمه یا پایان‌بندی است، یا از --intro و --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "فایل‌های ویدیویی برچسب‌های متفاوتی دارند: %s"
 

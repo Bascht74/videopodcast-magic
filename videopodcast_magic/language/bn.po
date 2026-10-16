@@ -3161,6 +3161,21 @@ msgstr "উৎস ফোল্ডার"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "ট্র্যাক টেমপ্লেটে কিছুই চালু নেই -- ট্র্যাকগুলো ঠিক যেমন আপলোড হয়েছিল তেমনই ফিরে আসবে।"
 
+msgid "Intro / outro"
+msgstr "ইন্ট্রো / আউট্রো"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "প্রিসেটে একটি ইন্ট্রো আছে -- এটি ব্যবহার হয় না: ইন্ট্রো ও আউট্রো আসে ভিডিও ফাইল থেকে।"
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "প্রিসেটে একটি আউট্রো আছে -- এটি ব্যবহার হয় না: ইন্ট্রো ও আউট্রো আসে ভিডিও ফাইল থেকে।"
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "প্রিসেটে একটি ইন্ট্রো ও একটি আউট্রো আছে -- কোনোটিই ব্যবহার হয় না: ইন্ট্রো ও আউট্রো আসে ভিডিও ফাইল থেকে।"
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "এগুলো আসে ফাইল তালিকায় ধরন ইন্ট্রো বা আউট্রো দেওয়া ভিডিও ফাইল থেকে, অথবা --intro ও --outro থেকে।"
+
 msgid "the video files are tagged differently: %s"
 msgstr "ভিডিও ফাইলগুলো ভিন্নভাবে চিহ্নিত: %s"
 

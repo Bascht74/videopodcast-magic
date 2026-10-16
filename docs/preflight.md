@@ -340,7 +340,10 @@ for it.
 - **The multitrack preset holds no track.** Create one track in the
   preset at auphonic.com; an intro or outro stored there does not count
   as one. The first preset track sets the processing for
-  all tracks; without it they come back as they were uploaded.
+  all tracks; without it they come back as they were uploaded. Such an
+  intro or outro is not sent either, and the note `Intro / outro` says
+  so: intro and outro come from the video files ([Resolve](resolve.md),
+  "Setting intro and outro").
 - **A channel stands against the stop.** If the same voice was recorded
   a second time, on a camera for instance, use that recording instead.
   There is nothing to repair here, so record the next session at a lower

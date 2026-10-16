@@ -3203,6 +3203,21 @@ msgstr "folda chanzo"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "kiolezo cha treki hakina kilichowashwa -- treki zingerudi sawasawa na zilivyopakiwa."
 
+msgid "Intro / outro"
+msgstr "Utangulizi / Hitimisho"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "preset ina utangulizi -- hautumiki: utangulizi na hitimisho vinatoka kwenye faili za video."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "preset ina hitimisho -- halitumiki: utangulizi na hitimisho vinatoka kwenye faili za video."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "preset ina utangulizi na hitimisho -- hakuna kinachotumika: utangulizi na hitimisho vinatoka kwenye faili za video."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Vinatoka kwenye faili za video ambazo Aina yake kwenye orodha ya faili ni Utangulizi au Hitimisho, au kutoka --intro na --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "faili za video zimewekewa lebo tofauti: %s"
 

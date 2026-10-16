@@ -3162,6 +3162,21 @@ msgstr "zdrojová složka"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "šablona stopy nemá nic zapnuto -- stopy by se vrátily přesně tak, jak byly nahrány."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "předvolba má intro -- nepoužije se: intro a outro pocházejí z videosouborů."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "předvolba má outro -- nepoužije se: intro a outro pocházejí z videosouborů."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "předvolba má intro i outro -- nepoužije se ani jedno: intro a outro pocházejí z videosouborů."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Pocházejí z videosouborů, které mají v seznamu souborů Typ nastaven na Intro nebo Outro, nebo z --intro a --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "videosoubory jsou označeny různě: %s"
 

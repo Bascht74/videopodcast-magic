@@ -3202,6 +3202,21 @@ msgstr "avota mape"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "celiņu veidnē nekas nav ieslēgts -- celiņi atgrieztos tieši tādi, kādi tika augšupielādēti."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "sākotnējā iestatījumā ir intro -- tas netiek izmantots: intro un outro nāk no video failiem."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "sākotnējā iestatījumā ir outro -- tas netiek izmantots: intro un outro nāk no video failiem."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "sākotnējā iestatījumā ir intro un outro -- neviens netiek izmantots: intro un outro nāk no video failiem."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Tie nāk no video failiem, kuru Veids failu sarakstā ir Intro vai Outro, vai no --intro un --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "video faili ir marķēti atšķirīgi: %s"
 

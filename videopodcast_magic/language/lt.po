@@ -3202,6 +3202,21 @@ msgstr "šaltinio aplankas"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "takelių šablone niekas neįjungta -- takeliai grįžtų tiksliai tokie, kokie buvo įkelti."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "išankstiniame nustatyme yra intro -- jis nenaudojamas: intro ir outro ateina iš vaizdo failų."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "išankstiniame nustatyme yra outro -- jis nenaudojamas: intro ir outro ateina iš vaizdo failų."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "išankstiniame nustatyme yra intro ir outro -- nė vienas nenaudojamas: intro ir outro ateina iš vaizdo failų."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Jie ateina iš vaizdo failų, kurių Tipas failų sąraše yra Intro arba Outro, arba iš --intro ir --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "vaizdo įrašai pažymėti skirtingai: %s"
 

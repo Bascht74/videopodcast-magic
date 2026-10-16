@@ -6,8 +6,10 @@ presets written with the field names auphonic.com answers. In order:
 which presets stop the run before the upload -- the wrong loudness, no
 track template, a cut that would shorten the sound -- and which go on;
 where the stop for a cut says to switch it off; that what the preset
-has switched on is said, switch by switch, with its setting; and that
-an intro standing before the track in the preset's list is no template.
+has switched on is said, switch by switch, with its setting; that an
+intro standing before the track in the preset's list is no template; and
+that an intro or outro in a Multitrack preset is said to be unused, and
+where intro and outro come from instead.
 """
 PLATFORM_BOUND = False
 import os
@@ -48,6 +50,8 @@ TRACK = {"id": "Speaker", "algorithms": {"denoise": True,
                                          "filtermethod": "autoeq"}}
 INTRO = {"type": "intro", "id": "", "input_file": "intro.mp3",
          "algorithms": {"backforeground": "foreground", "leveler": True}}
+OUTRO = {"type": "outro", "id": "", "input_file": "outro.mp3",
+         "algorithms": {"backforeground": "foreground"}}
 CASES = {
  "fits": {"algorithms": {"loudnesstarget": -16, "normloudness": True,
                          "leveler": True, "crossgate": False,
@@ -83,6 +87,10 @@ CASES = {
                                 TRACK, type="multitrack")]},
  "only an intro": {"algorithms": {"loudnesstarget": -16},
                    "multi_input_files": [INTRO]},
+ "outro after the track": {"algorithms": {"loudnesstarget": -16},
+                           "multi_input_files": [TRACK, OUTRO]},
+ "intro and outro": {"algorithms": {"loudnesstarget": -16},
+                     "multi_input_files": [INTRO, TRACK, OUTRO]},
 }
 said = {}
 stop = {}
@@ -158,6 +166,39 @@ track = " ".join(b.text for b in about("intro before the track",
 check("the track's switches are said, not the intro's",
       "denoise (speech_isolation)" in track and "leveler" not in track,
       "per track said %r" % track[:200])
+
+print("\n5. An intro or outro in a Multitrack preset is said to be unused")
+ends = about("intro before the track", "Intro / outro")
+check("an intro in the preset is said to be unused, by name",
+      [b.text for b in ends] == [vpm.T(
+          'the preset has an intro -- it is not used: intro and outro come '
+          'from the video files.')],
+      "Intro / outro said %r" % [b.text for b in ends])
+ends = about("outro after the track", "Intro / outro")
+check("an outro in the preset is said to be unused, by name",
+      [b.text for b in ends] == [vpm.T(
+          'the preset has an outro -- it is not used: intro and outro come '
+          'from the video files.')],
+      "Intro / outro said %r" % [b.text for b in ends])
+ends = about("intro and outro", "Intro / outro")
+check("an intro and an outro together are named in one line",
+      [b.text for b in ends] == [vpm.T(
+          'the preset has an intro and an outro -- neither is used: intro '
+          'and outro come from the video files.')],
+      "Intro / outro said %r" % [b.text for b in ends])
+advice = ends[0].advice if ends else ""
+check("the line says where intro and outro come from instead",
+      "--intro" in advice and "Kind" in advice, "advice %r" % advice[:200])
+check("a preset with neither says nothing of them",
+      about("fits", "Intro / outro") == [], why("fits"))
+check("an intro and an outro in the preset stop nothing",
+      stop["intro and outro"] is False, why("intro and outro"))
+vpm.read_preset = lambda key, uuid: CASES["intro and outro"]
+single = [b for b in vpm.check_preset("key", "uuid", "Podcast_Single",
+                                      -16.0, False)
+          if b.field == vpm.T('Intro / outro')]
+check("a Singletrack preset's intro is not called unused",
+      single == [], "Intro / outro said %r" % [b.text for b in single])
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

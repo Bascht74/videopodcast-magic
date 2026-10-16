@@ -3201,6 +3201,21 @@ msgstr "папката източник"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "шаблонът за писти няма нищо включено -- пистите биха се върнали точно както са качени."
 
+msgid "Intro / outro"
+msgstr "Интро / Аутро"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "предварителната настройка има интро -- не се използва: интрото и аутрото идват от видеофайловете."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "предварителната настройка има аутро -- не се използва: интрото и аутрото идват от видеофайловете."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "предварителната настройка има интро и аутро -- нито едното не се използва: интрото и аутрото идват от видеофайловете."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Те идват от видеофайлове с вид Интро или Аутро в списъка с файлове, или от --intro и --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "видеофайловете са маркирани различно: %s"
 

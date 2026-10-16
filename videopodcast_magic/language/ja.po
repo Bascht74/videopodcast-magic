@@ -2899,6 +2899,21 @@ msgstr "両方同時にはできません：戻ってくるトラックは一方
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "トラックテンプレートで何もオンになっていません -- トラックはアップロードしたとおりのまま戻ってきます。"
 
+msgid "Intro / outro"
+msgstr "イントロ / アウトロ"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "プリセットにイントロがあります -- 使われません: イントロとアウトロは動画ファイルから来ます。"
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "プリセットにアウトロがあります -- 使われません: イントロとアウトロは動画ファイルから来ます。"
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "プリセットにイントロとアウトロがあります -- どちらも使われません: イントロとアウトロは動画ファイルから来ます。"
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "ファイル一覧で種類をイントロまたはアウトロにした動画ファイル、または --intro と --outro から来ます。"
+
 msgid "Check"
 msgstr "チェック"
 

@@ -3160,6 +3160,21 @@ msgstr "lähdekansio"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "raitamallissa ei ole mitään päällä -- raidat palaisivat täsmälleen sellaisina kuin ne lähetettiin."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "esiasetuksessa on intro -- sitä ei käytetä: intro ja outro tulevat videotiedostoista."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "esiasetuksessa on outro -- sitä ei käytetä: intro ja outro tulevat videotiedostoista."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "esiasetuksessa on intro ja outro -- kumpaakaan ei käytetä: intro ja outro tulevat videotiedostoista."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Ne tulevat videotiedostoista, joiden Tyyppi on tiedostoluettelossa Intro tai Outro, tai valinnoista --intro ja --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "videotiedostot on merkitty eri tavoin: %s"
 

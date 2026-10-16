@@ -3200,6 +3200,21 @@ msgstr "સ્રોત ફોલ્ડર"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "ટ્રૅક ટેમ્પ્લેટમાં કંઈ ચાલુ નથી -- ટ્રૅક બરાબર જેમ અપલોડ થયા તેમ જ પાછા આવશે."
 
+msgid "Intro / outro"
+msgstr "ઇન્ટ્રો / આઉટ્રો"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "પ્રીસેટમાં ઇન્ટ્રો છે -- તે વપરાતો નથી: ઇન્ટ્રો અને આઉટ્રો વિડિયો ફાઇલોમાંથી આવે છે."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "પ્રીસેટમાં આઉટ્રો છે -- તે વપરાતો નથી: ઇન્ટ્રો અને આઉટ્રો વિડિયો ફાઇલોમાંથી આવે છે."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "પ્રીસેટમાં ઇન્ટ્રો અને આઉટ્રો છે -- બેમાંથી કોઈ વપરાતો નથી: ઇન્ટ્રો અને આઉટ્રો વિડિયો ફાઇલોમાંથી આવે છે."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "તે ફાઇલ સૂચિમાં પ્રકાર ઇન્ટ્રો કે આઉટ્રો રાખેલી વિડિયો ફાઇલોમાંથી આવે છે, અથવા --intro અને --outro માંથી."
+
 msgid "the video files are tagged differently: %s"
 msgstr "વિડિયો ફાઇલો અલગ-અલગ રીતે ટૅગ કરેલી છે: %s"
 
