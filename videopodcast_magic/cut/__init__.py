@@ -1697,7 +1697,7 @@ def seated_in_handover(cameras):
 
 def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3,
                    after=WIDE_AFTER_S,
-                       holds=5.0, at_latest=120.0, edge=True,
+                       holds=5.0, at_latest=WIDE_LATEST_S, edge=True,
                        rules=None, cut=None):
     """Compute the camera cut without writing anything.
 

@@ -144,13 +144,16 @@ fixed; no switch sets them. On short material the windows get shorter
 rather than the measurement being given up.
 
 The yardstick is the 3:1 rule. With the other microphone three times as
-far from the speaker as their own, the neighbouring voice is about 9.5 dB
-quieter. That mark is fixed too, and no switch moves it: the further a
-pair falls below it, the more of the neighbour is left in the track.
-That says something about the setup in the room. It also sets a
-limit on what comes after: the less the microphones are separated, the
-more cautiously De-Bleed at auphonic.com can work. It can only be changed
-next time, so it does not halt the run.
+far from the speaker as their own, the neighbouring voice is about
+9.5 dB quieter. That figure is set, not measured: it is the rule's
+arithmetic -- three times the distance, a third of the sound pressure --
+and no recording here has shown that a pair below it sounds worse. It is
+fixed too, and no switch moves it: the further a pair falls below it,
+the more of the neighbour is left in the track. That says something
+about the setup in the room. It also sets a limit on what comes after:
+the less the microphones are separated, the more cautiously De-Bleed at
+auphonic.com can work. It can only be changed next time, so it does not
+halt the run.
 
 One track alone leaves nothing to measure. The same holds for recordings
 that overlap too little, and for a recording with no passage in which

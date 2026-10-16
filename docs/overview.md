@@ -57,7 +57,10 @@ neither finds anything in a recording set to **Mixed** in the field **In
 the sound**, the program looks at the phase, which survives a room and a
 second microphone. The phase answers where the audio sits. How fast the
 clocks run stays unknown, so the program takes no drift out on this
-path. The log marks that line too: `placed by phase`. A recording on
+path. The log marks that line too: `placed by phase`, with the sharpness
+of the answer against a floor of 8. That floor is set, not measured: the
+one recording the phase was tried on came out at 28.7, and no recording
+has yet shown where a right answer turns wrong. A recording on
 **Speech**, where every recording starts, never goes to the phase: on
 speech it lays a recording from somewhere else far off the mark, so such
 a recording stands at its timecode or stays out.
