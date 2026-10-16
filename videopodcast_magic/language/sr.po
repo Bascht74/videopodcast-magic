@@ -1128,8 +1128,8 @@ msgstr "  Без значаја за звук."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Померај:           %s   (из поређења камера)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Кадрова на Timeline-у: само %s од %s."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve је преузео само %s од %s кадрова -- у Timeline-у „%s“ недостаје остатак монтаже."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Врхови:            %s dB изнад %s dBTP -- лимитер их хвата"
@@ -1176,8 +1176,8 @@ msgstr "  Референца: %s (%s, најдуже трајање)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Остаје:            %s dB на свакој траци, то јест %s LUFS уместо %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve није преузео ниједну слику -- Timeline је празан. Ништа\n  друго се на њему не гради."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve није преузео ниједну слику -- у Timeline-у „%s“ недостају монтажа и њен звук."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Резултат: %s (%s) -- остаје поред видео датотеке\n"
@@ -1209,11 +1209,11 @@ msgstr "  Циљ:               %s LUFS  ->  %s dB на свакој траци"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline добија %s: највећи од њих, или следећу брзину коју Resolve\n  има изнад ње. Претварајући навише Resolve понавља кадрове, наниже\n  их одбацује. Свака камера задржава своју брзину, а монтажа рачуна\n  у њој."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix није могао да се увезе."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve нема Full-Mix у свом Media Pool-у -- у Timeline-у „%s“ недостаје звук."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix није могао да се уметне."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve је одбио Full-Mix -- у Timeline-у „%s“ недостаје звук."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Камере носе временски прозор и по једну секунду на сваком крају: %s записано за %s од укупно снимљених %s."

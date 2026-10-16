@@ -723,7 +723,11 @@ keine Sicherungskopie an.
   fehlt: jede Kamera ab dieser Bildspur, der Ton einer Kamera, oder Bild
   oder Ton von Vorspann oder Abspann. Eine Kamera, die Resolve gar
   nicht auf ihre Spur legen wollte, zählt ebenso: Der Lauf sagt
-  `ACHTUNG: ... nicht eingefügt` und am Ende noch einmal. Alles andere
+  `ACHTUNG: ... nicht eingefügt` und am Ende noch einmal. Ebenso die
+  Timeline **… Cut**, wenn Resolve keine oder nur einen Teil ihrer
+  Einstellungen übernommen hat, keinen Full-Mix im Media Pool hat oder
+  ihn abgelehnt hat: Die Zeile nennt die Timeline und was ihr fehlt --
+  der Schnitt, sein Rest oder ihr Ton. Alles andere
   hat er ohne sie gebaut, und in seinen letzten Zeilen, unter `ACHTUNG:
   dieses Projekt ist nicht vollständig -- was Resolve abgelehnt hat:`,
   sagt er es noch einmal; die Liste der Bildspuren im Protokoll und die

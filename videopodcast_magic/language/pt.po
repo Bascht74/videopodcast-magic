@@ -3156,11 +3156,11 @@ msgstr "  %s planos, %s s no total, sem o áudio deles."
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  Nenhum Full-Mix encontrado -- a Timeline fica muda."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Não foi possível importar o Full-Mix."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  O Resolve não tem nenhum Full-Mix no Media Pool -- a Timeline \"%s\" fica sem som."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Não foi possível inserir o Full-Mix."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  O Resolve recusou o Full-Mix -- a Timeline \"%s\" fica sem som."
 
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  Áudio: Full-Mix em uma só peça em A1 (%s)."
@@ -3312,8 +3312,8 @@ msgstr "    %sx a câmera prevista não estava gravando -- há outra no lugar."
 msgid "    Left without picture: %s"
 msgstr "    Ficou sem imagem: %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  O Resolve não aceitou imagem nenhuma -- a Timeline está vazia. Nada\n  mais é montado sobre ela."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  O Resolve não aceitou nenhuma imagem -- a Timeline \"%s\" fica sem a montagem e sem o seu som."
 
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Ainda não existia nenhuma dessas Timelines -- ela é apenas montada."
@@ -3456,8 +3456,8 @@ msgstr "               O áudio %s em %s -- ali encontra a %s palavra."
 msgid "%s (%s to %s)"
 msgstr "%s (de %s a %s)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Apenas %s de %s planos estão na Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  O Resolve aceitou apenas %s de %s planos -- a Timeline \"%s\" fica sem o resto da montagem."
 
 msgid "  Transcript: %s"
 msgstr "  Transcrição: %s"

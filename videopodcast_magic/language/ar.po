@@ -3210,11 +3210,11 @@ msgstr "  اللقطات: %s، المدة الإجمالية %s ث، دون صو
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  لم يُعثر على Full-Mix -- تبقى الـTimeline صامتة."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  تعذّر استيراد الـFull-Mix."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  لا يوجد Full-Mix في الـ Media Pool لدى Resolve -- تفتقر الـ Timeline «%s» إلى صوتها."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  تعذّر إدراج الـFull-Mix."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  رفض Resolve الـ Full-Mix -- تفتقر الـ Timeline «%s» إلى صوتها."
 
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  الصوت: Full-Mix قطعة واحدة على A1 (%s)."
@@ -3366,8 +3366,8 @@ msgstr "    %s مرة لم تكن الكاميرا المقصودة تعمل -- 
 msgid "    Left without picture: %s"
 msgstr "    بقي دون صورة: %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  لم يأخذ Resolve أي صورة -- الـTimeline فارغة. لا يُبنى عليها\n  أي شيء آخر."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  لم يأخذ Resolve أي صورة -- تفتقر الـ Timeline «%s» إلى المونتاج وصوته."
 
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  لم تكن هناك Timeline كهذه بعد -- تُبنى فقط."
@@ -3510,8 +3510,8 @@ msgstr "               الصوت %s عند %s -- وهناك يلتقي بالك
 msgid "%s (%s to %s)"
 msgstr "%s (%s إلى %s)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  %s فقط من %s لقطة على الـ Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  أخذ Resolve %s فقط من %s لقطة -- تفتقر الـ Timeline «%s» إلى بقية المونتاج."
 
 msgid "  Transcript: %s"
 msgstr "  النص المفرّغ: %s"

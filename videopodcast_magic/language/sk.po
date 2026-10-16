@@ -1127,8 +1127,8 @@ msgstr "  Pre zvuk bez významu."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Posun:            %s   (z porovnania kamier)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Na Timeline je len %s z %s záberov."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve prevzal len %s z %s záberov -- na Timeline „%s“ chýba zvyšok strihu."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Špičky:        %s dB nad %s dBTP -- limiter ich zachytí"
@@ -1175,8 +1175,8 @@ msgstr "  Referencia: %s (%s, najdlhší čas behu)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Zostáva:       %s dB na každej stope, to je %s LUFS namiesto %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve neprevzal žiadny obraz -- Timeline je prázdna. Nič\n  ďalšie sa na nej nestavia."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve neprevzal žiadny obraz -- na Timeline „%s“ chýba strih aj jeho zvuk."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Výsledok: %s (%s) -- zostáva vedľa videosúboru\n"
@@ -1208,11 +1208,11 @@ msgstr "  Cieľ:          %s LUFS  ->  %s dB na každej stope"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline dostane %s: najvyššiu z nich, alebo najbližšiu frekvenciu,\n  ktorú Resolve má nad ňou. Pri prevode nahor Resolve snímky opakuje,\n  nadol ich zahadzuje. Každá kamera si necháva vlastnú frekvenciu a strih\n  počíta v nej."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix sa nepodarilo importovať."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve nemá v Media Pool žiadny Full-Mix -- na Timeline „%s“ chýba zvuk."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix sa nepodarilo vložiť."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve odmietol Full-Mix -- na Timeline „%s“ chýba zvuk."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamery nesú časové okno a po jednej sekunde na každom konci: %s zapísané pre %s z nahraných %s."

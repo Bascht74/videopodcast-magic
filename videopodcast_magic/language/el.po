@@ -1126,8 +1126,8 @@ msgstr "  Χωρίς σημασία για τον ήχο."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Μετατόπιση:         %s   (από τη σύγκριση των καμερών)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Μόνο %s από %s πλάνα βρίσκονται στο Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Το Resolve πήρε μόνο %s από %s πλάνα -- από το Timeline «%s» λείπει το υπόλοιπο μοντάζ."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Κορυφές:           %s dB πάνω από %s dBTP -- ο περιοριστής τις πιάνει"
@@ -1174,8 +1174,8 @@ msgstr "  Αναφορά: %s (%s, μεγαλύτερη διάρκεια)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Απομένει:          %s dB σε κάθε κομμάτι, δηλαδή %s LUFS αντί για %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Το Resolve δεν πήρε καμία εικόνα -- το Timeline είναι κενό. Τίποτα\n  άλλο δεν χτίζεται πάνω του."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Το Resolve δεν πήρε καμία εικόνα -- από το Timeline «%s» λείπουν το μοντάζ και ο ήχος του."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Αποτέλεσμα: %s (%s) -- μένει δίπλα στο αρχείο βίντεο\n"
@@ -1207,11 +1207,11 @@ msgstr "  Στόχος:            %s LUFS  ->  %s dB σε κάθε κομμάτ
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Η Timeline παίρνει %s: τον υψηλότερο από αυτούς, ή τον επόμενο ρυθμό που\n  έχει το Resolve πάνω από αυτόν. Προς τα πάνω το Resolve επαναλαμβάνει καρέ,\n  προς τα κάτω τα πετάει. Κάθε κάμερα κρατά τον δικό της ρυθμό, και το μοντάζ\n  μετρά σε εκείνον."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Το Full-Mix δεν ήταν δυνατό να εισαχθεί."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Το Resolve δεν έχει Full-Mix στο Media Pool -- από το Timeline «%s» λείπει ο ήχος του."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Το Full-Mix δεν ήταν δυνατό να εισαχθεί στο Timeline."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Το Resolve αρνήθηκε το Full-Mix -- από το Timeline «%s» λείπει ο ήχος του."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Οι κάμερες φέρουν το χρονικό παράθυρο και ένα δευτερόλεπτο σε κάθε άκρο: %s γράφτηκαν για %s από τα %s που καταγράφηκαν."

@@ -1128,8 +1128,8 @@ msgstr "  Fără importanță pentru sunet."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Decalaj:            %s   (din compararea camerelor)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Planuri pe Timeline: doar %s din %s."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve a preluat doar %s din %s planuri -- în Timeline „%s” lipsește restul montajului."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Vârfuri:           %s dB peste %s dBTP -- limitatorul le prinde"
@@ -1176,8 +1176,8 @@ msgstr "  Referință: %s (%s, cea mai lungă durată)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Rămâne:            %s dB pe fiecare pistă, adică %s LUFS în loc de %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve nu a preluat nicio imagine -- Timeline-ul este gol. Nu se\n  mai construiește nimic pe el."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve nu a preluat nicio imagine -- în Timeline „%s” lipsesc montajul și sunetul lui."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Rezultat: %s (%s) -- rămâne lângă fișierul video\n"
@@ -1209,11 +1209,11 @@ msgstr "  Țintă:             %s LUFS  ->  %s dB pe fiecare pistă"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline-ul primește %s: cea mai mare dintre ele, sau următoarea rată pe care\n  Resolve o are deasupra. Convertind în sus Resolve repetă cadre, în jos\n  le aruncă. Fiecare cameră își păstrează rata proprie, iar montajul numără\n  în aceea."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix nu a putut fi importat."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve nu are niciun Full-Mix în Media Pool -- în Timeline „%s” lipsește sunetul."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix nu a putut fi inserat."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve a refuzat Full-Mix -- în Timeline „%s” lipsește sunetul."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Camerele poartă fereastra de timp și câte o secundă la fiecare capăt: %s scris pentru %s din cele %s înregistrate."

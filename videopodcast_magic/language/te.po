@@ -1154,8 +1154,8 @@ msgstr "  ఆడియోపై దీని ప్రభావం లేదు.
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  ఆఫ్‌సెట్:            %s   (కెమెరా పోలిక నుండి)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Timeline పై %s / %s షాట్‌లు మాత్రమే ఉన్నాయి."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve %s / %s షాట్‌లను మాత్రమే తీసుకుంది -- Timeline \"%s\" లో మిగిలిన కట్ లేదు."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  పీక్‌లు:              %s dB, %s dBTP పైన -- లిమిటర్ వాటిని పట్టుకుంటుంది"
@@ -1202,8 +1202,8 @@ msgstr "  ఆధారం: %s (%s, అత్యధిక నిడివి)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  మిగిలేది:              ప్రతి ట్రాక్‌పై %s dB, అంటే %s LUFS, %s కు బదులుగా"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve ఏ చిత్రాన్నీ తీసుకోలేదు -- Timeline ఖాళీగా ఉంది. దానిపై\n  ఇంకేమీ నిర్మించబడదు."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve ఒక్క చిత్రాన్నీ తీసుకోలేదు -- Timeline \"%s\" లో కట్ మరియు దాని ఆడియో లేవు."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  ఫలితం: %s (%s) -- వీడియో ఫైల్ పక్కనే ఉంటుంది\n"
@@ -1235,11 +1235,11 @@ msgstr "  లక్ష్యం:             %s LUFS  ->  ప్రతి ట్
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline కు %s వస్తుంది: వాటిలో అత్యధికం, లేదా దానికంటే పైన Resolve\n  వద్ద ఉన్న తదుపరి రేట్. పైకి మార్చేటప్పుడు Resolve ఫ్రేమ్‌లను పునరావృతం చేస్తుంది, కిందకు\n  మార్చేటప్పుడు వాటిని వదిలేస్తుంది. ప్రతి కెమెరా తన సొంత రేట్‌ను ఉంచుకుంటుంది, కట్\n  ఆ రేట్‌లోనే లెక్కిస్తుంది."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix ను ఇంపోర్ట్ చేయడం సాధ్యం కాలేదు."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve యొక్క Media Pool లో Full-Mix లేదు -- Timeline \"%s\" లో ఆడియో లేదు."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix ను చేర్చడం సాధ్యం కాలేదు."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve Full-Mix ను తిరస్కరించింది -- Timeline \"%s\" లో ఆడియో లేదు."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  కెమెరాలలో సమయ పరిధి, ప్రతి చివర ఒక సెకను ఉంటాయి: %s రాయబడింది, %s నిడివికి (రికార్డ్ అయినది %s)."

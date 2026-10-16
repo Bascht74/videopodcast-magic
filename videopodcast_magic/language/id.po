@@ -1154,8 +1154,8 @@ msgstr "  Tidak berpengaruh pada audio."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Selisih:          %s   (dari perbandingan kamera)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Hanya %s dari %s bidikan yang ada di Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve hanya mengambil %s dari %s bidikan -- Timeline \"%s\" tidak memiliki sisa potongan."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Puncak:            %s dB di atas %s dBTP -- limiter menangkapnya"
@@ -1202,8 +1202,8 @@ msgstr "  Referensi: %s (%s, durasi terpanjang)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Sisa:              %s dB di setiap trek, yaitu %s LUFS alih-alih %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve sama sekali tidak menerima gambar -- Timeline kosong. Tidak ada\n  lagi yang dibangun di atasnya."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve tidak mengambil gambar sama sekali -- Timeline \"%s\" tidak memiliki potongan dan audionya."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Hasil: %s (%s) -- tetap di samping file video\n"
@@ -1235,11 +1235,11 @@ msgstr "  Target:            %s LUFS  ->  %s dB di setiap trek"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline mendapat %s: yang tertinggi di antaranya, atau laju berikutnya yang dimiliki Resolve\n  di atasnya. Saat dikonversi ke atas Resolve mengulang frame, ke bawah\n  membuangnya. Setiap kamera mempertahankan lajunya sendiri, dan potongan menghitung\n  dalam laju itu."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix tidak dapat diimpor."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve tidak memiliki Full-Mix di Media Pool -- Timeline \"%s\" tidak memiliki audio."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix tidak dapat disisipkan."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve menolak Full-Mix -- Timeline \"%s\" tidak memiliki audio."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamera memuat rentang waktu ditambah satu detik di tiap ujung: %s ditulis untuk %s dari %s yang direkam."

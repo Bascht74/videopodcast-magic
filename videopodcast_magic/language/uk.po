@@ -3184,11 +3184,11 @@ msgstr "  Планів: %s, разом %s с, без їхнього звуку."
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  Full-Mix не знайдено -- Timeline лишається без звуку."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Не вдалося імпортувати Full-Mix."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  У Media Pool Resolve немає Full-Mix -- у Timeline «%s» бракує звуку."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Не вдалося вставити Full-Mix."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve відхилив Full-Mix -- у Timeline «%s» бракує звуку."
 
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  Звук: Full-Mix одним шматком на A1 (%s)."
@@ -3340,8 +3340,8 @@ msgstr "    %sx запланована камера не працювала -- �
 msgid "    Left without picture: %s"
 msgstr "    Лишилося без зображення: %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve не взяв жодного зображення -- Timeline порожня. Нічого\n  більше на ній не будується."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve не прийняв жодного кадру -- у Timeline «%s» бракує монтажу та його звуку."
 
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Такої Timeline ще не було -- її лише будують."
@@ -3484,8 +3484,8 @@ msgstr "               Звук %s на %s -- там він зустрічає %
 msgid "%s (%s to %s)"
 msgstr "%s (від %s до %s)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Лише %s з %s планів є на Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve прийняв лише %s з %s планів -- у Timeline «%s» бракує решти монтажу."
 
 msgid "  Transcript: %s"
 msgstr "  Протокол: %s"

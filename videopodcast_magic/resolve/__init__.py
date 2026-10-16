@@ -957,9 +957,10 @@ def say_refused(refused, line):
 def refusals_closing(refused):
     """Repeat what Resolve refused at the very end, and return the code.
 
-    Not 0 where a track was refused twice or a camera not inserted: the
-    window reads 0 as "Done", and a Timeline lacking a camera or the
-    intro is not done. Everything else was built all the same.
+    Not 0 where a track was refused twice, a camera not inserted, or the
+    cut's shots or its mix not taken: the window reads 0 as "Done", and
+    a Timeline lacking a camera, the intro, its picture or its sound is
+    not done. Everything else was built all the same.
     """
     if not refused:
         return 0
@@ -1846,7 +1847,9 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
     Picture from the cameras, audio from the mix. The picture pieces go
     on without their audio, or a different audio track would sit under
     every cut and the sound would jump. The mix runs underneath whole.
+    Shots or a mix Resolve refuses go into d["_refused"], as a track does.
     """
+    refused = d.get("_refused")
     fps, origin = timeline_origin(d)
     set_timeline_start(tl, d.get("start_tc"))
     print(T('  Start %s -- every shot is placed against it.')
@@ -1932,13 +1935,15 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
     # timeline Resolve took nothing into is not a finished one.
     landed = tl.GetItemListInTrack("video", 1) or []
     if not landed:
-        print(as_warn(T('  Resolve took no picture at all -- the Timeline '
-                        'is empty. Nothing\n  else is built on it.')))
+        say_refused(refused, T('  Resolve took no picture at all -- the '
+                               'Timeline "%s" lacks the cut and its sound.')
+                    % (tl.GetName() or "?"))
         return tl
     if len(landed) < len(item):
-        print(as_warn(T('  Only %s of %s shots are on the Timeline.')
-                      % (number_text(len(landed), 0),
-                         number_text(len(item), 0))))
+        say_refused(refused, T('  Resolve took only %s of %s shots -- the '
+                               'Timeline "%s" lacks the rest of the cut.')
+                    % (number_text(len(landed), 0),
+                       number_text(len(item), 0), tl.GetName() or "?"))
     on_it = sum(float(x.GetDuration() or 0) for x in landed) / max(
         1.0, float(resolve_timeline_rate(d["fps"])))
     print(T('  %s shots, %s s in total, without their audio.')
@@ -1950,7 +1955,9 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
     file_path, source_text = mix
     c = clips.get(file_path)
     if c is None:
-        print(T('  The Full-Mix could not be imported.'))
+        say_refused(refused, T('  Resolve has no Full-Mix in its media pool '
+                               '-- the Timeline "%s" lacks its sound.')
+                    % (tl.GetName() or "?"))
         return tl
     # Only the stored mix begins at the In point. The fallbacks are camera
     # files, and one already rolling carries that much extra sound at its
@@ -1972,7 +1979,9 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
             place["endFrame"] = last
     applied = mp.AppendToTimeline([place])
     if not applied:
-        print(T('  The Full-Mix could not be inserted.'))
+        say_refused(refused, T('  Resolve refused the Full-Mix -- the '
+                               'Timeline "%s" lacks its sound.')
+                    % (tl.GetName() or "?"))
         return tl
     tl.SetTrackName("audio", 1, "Audio-Full-Mix")
     print(T('  Audio: Full-Mix in one piece on A1 (%s).') % source_text)
@@ -2054,7 +2063,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
     """Build a Resolve project from the handover file.
 
     *source* is the path to the ..._resolve.json or its parsed contents.
-    Returns 1 where a track was refused twice, after building the rest.
+    Returns 1 where Resolve refused something, after building the rest.
     """
     d = source
     source_path = None

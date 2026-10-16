@@ -1156,8 +1156,8 @@ msgstr "  Bla effett fuq il-ħoss."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Spostament:          %s   (mit-tqabbil tal-kameras)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Qatgħat fit-Timeline: %s biss minn %s."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve ħa biss %s minn %s qatgħat -- fit-Timeline \"%s\" jonqos il-bqija tal-editjar."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Quċċati:           %s dB 'il fuq minn %s dBTP -- il-limiter jaqbadhom"
@@ -1204,8 +1204,8 @@ msgstr "  Referenza: %s (%s, l-itwal tul)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Jibqa':            %s dB fuq kull binarju, jiġifieri %s LUFS minflok %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve ma ħa l-ebda stampa -- it-Timeline hija vojta. Xejn\n  aktar ma jinbena fuqha."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve ma ħa l-ebda stampa -- fit-Timeline \"%s\" jonqsu l-editjar u l-ħoss tiegħu."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Riżultat: %s (%s) -- jibqa' ħdejn il-fajl tal-vidjo\n"
@@ -1237,11 +1237,11 @@ msgstr "  Mira:              %s LUFS  ->  %s dB fuq kull binarju"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  It-Timeline tieħu %s: l-ogħla fosthom, jew ir-rata li jmiss li għandu Resolve\n  'il fuq minnha. Meta jikkonverti 'l fuq Resolve jirrepeti l-oqfsa, 'l isfel\n  jarmihom. Kull kamera żżomm ir-rata tagħha, u l-muntaġġ jgħodd\n  fiha."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Il-Full-Mix ma setax jiġi importat."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve m'għandux Full-Mix fil-Media Pool -- fit-Timeline \"%s\" jonqos il-ħoss."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Il-Full-Mix ma setax jiddaħħal."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve irrifjuta l-Full-Mix -- fit-Timeline \"%s\" jonqos il-ħoss."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Il-kameras iġorru t-tieqa tal-ħin u sekonda f'kull tarf: inkitbu %s għal %s minn %s irreġistrati."

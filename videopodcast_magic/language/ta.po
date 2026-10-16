@@ -1153,8 +1153,8 @@ msgstr "  ஆடியோவில் இதனால் பாதிப்ப�
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  ஆஃப்செட்:              %s   (கேமரா ஒப்பீட்டிலிருந்து)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Timeline-இல் %s / %s ஷாட்கள் மட்டுமே உள்ளன."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve %s / %s ஷாட்களை மட்டுமே ஏற்றது -- Timeline \"%s\"-இல் வெட்டின் மீதி இல்லை."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  உச்சங்கள்:            %s dB, %s dBTP-க்கு மேல் -- லிமிட்டர் அவற்றைப் பிடிக்கும்"
@@ -1201,8 +1201,8 @@ msgstr "  அடிப்படை: %s (%s, மிக நீளமானது)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  எஞ்சுவது:           ஒவ்வொரு தடத்திலும் %s dB, அதாவது %s LUFS, %s க்குப் பதிலாக"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve எந்தப் படத்தையும் ஏற்கவில்லை -- Timeline காலியாக உள்ளது. அதில்\n  வேறு எதுவும் உருவாக்கப்படாது."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve எந்தப் படத்தையும் ஏற்கவில்லை -- Timeline \"%s\"-இல் வெட்டும் அதன் ஆடியோவும் இல்லை."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  முடிவு: %s (%s) -- வீடியோ கோப்பின் அருகிலேயே இருக்கும்\n"
@@ -1234,11 +1234,11 @@ msgstr "  இலக்கு:             %s LUFS  ->  ஒவ்வொரு த
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline-க்கு %s கிடைக்கும்: அவற்றில் மிக உயர்ந்தது, அல்லது அதற்கு மேல் Resolve-இல்\n  உள்ள அடுத்த வீதம். மேலே மாற்றும்போது Resolve ஃப்ரேம்களை மீண்டும் இடுகிறது, கீழே\n  மாற்றும்போது அவற்றை நீக்குகிறது. ஒவ்வொரு கேமராவும் தன் வீதத்தை வைத்திருக்கும், கட்\n  அந்த வீதத்திலேயே கணக்கிடுகிறது."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix-ஐ இறக்குமதி செய்ய முடியவில்லை."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve-இன் Media Pool-இல் Full-Mix இல்லை -- Timeline \"%s\"-இல் ஆடியோ இல்லை."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix-ஐச் செருக முடியவில்லை."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve Full-Mix-ஐ மறுத்தது -- Timeline \"%s\"-இல் ஆடியோ இல்லை."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  கேமராக்களில் நேர வரம்பும் ஒவ்வொரு முனையிலும் ஒரு வினாடியும் உள்ளன: %s எழுதப்பட்டது, %s நீளத்திற்கு (பதிவானது %s)."

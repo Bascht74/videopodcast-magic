@@ -1154,8 +1154,8 @@ msgstr "  ધ્વનિ પર તેની કોઈ અસર નથી."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  ઑફસેટ:            %s   (કૅમેરા સરખામણી પરથી)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Timeline પર ફક્ત %s શૉટ છે (કુલ %s માંથી)."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve એ ફક્ત %s શૉટ લીધા (કુલ %s માંથી) -- Timeline \"%s\" માં બાકીનો કટ ખૂટે છે."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  શિખરો:             %s dB, %s dBTP થી ઉપર -- લિમિટર તેમને પકડે છે"
@@ -1202,8 +1202,8 @@ msgstr "  સંદર્ભ: %s (%s, સૌથી લાંબો ચાલવ�
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  બાકી:              દરેક ટ્રૅક પર %s dB, એટલે કે %s LUFS, %s ને બદલે"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve એ કોઈ ચિત્ર લીધું જ નહીં -- Timeline ખાલી છે. તેના પર\n  બીજું કંઈ બનાવાતું નથી."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve એ એક પણ ચિત્ર લીધું નહીં -- Timeline \"%s\" માં કટ અને તેનો ધ્વનિ ખૂટે છે."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  પરિણામ: %s (%s) -- વિડિયો ફાઇલની બાજુમાં જ રહે છે\n"
@@ -1235,11 +1235,11 @@ msgstr "  લક્ષ્ય:              %s LUFS  ->  દરેક ટ્ર�
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline ને %s મળે છે: તેમાંનો સૌથી ઊંચો, અથવા તેનાથી ઉપરનો Resolve પાસેનો\n  આગલો દર. ઉપર રૂપાંતર કરતાં Resolve ફ્રેમ પુનરાવર્તિત કરે છે, નીચે\n  તેમને ફેંકી દે છે. દરેક કૅમેરા પોતાનો દર રાખે છે, અને કટ એ જ દરમાં\n  ગણે છે."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix ઇમ્પોર્ટ થઈ શક્યો નહીં."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve ના Media Pool માં કોઈ Full-Mix નથી -- Timeline \"%s\" માં ધ્વનિ ખૂટે છે."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix દાખલ કરી શકાયો નહીં."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve એ Full-Mix નકાર્યો -- Timeline \"%s\" માં ધ્વનિ ખૂટે છે."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  કૅમેરામાં સમયખંડ અને દરેક છેડે એક સેકન્ડ છે: %s લખાયું, %s માટે, રેકોર્ડ કરેલા કુલ %s માંથી."
