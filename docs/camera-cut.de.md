@@ -259,7 +259,7 @@ die Zeitachse steht: der Balken der Vorarbeit unter den Tabellen auf
 genau das, und ist es fertig, werden die vier von selbst frei; von da
 an rechnet die Vorschau mit ihnen. Hat die Trennung die Wörter einer
 einzelnen Aufnahme schon aufgeschrieben, werden diese so übernommen,
-wie sie sind. Steht das Transkript, schneiden **Trockenlauf** und
+wie sie sind. Steht das Transkript, schneiden **Probelauf** und
 **Start** nach denselben Wörtern: Wird aus einer Frage in der Vorschau
 ein Reaktionsschnitt, dann auch im Lauf. Ein Lauf ohne das Transkript -- von der
 Kommandozeile, oder bevor das Fenster fertig war -- schreibt sein

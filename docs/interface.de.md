@@ -1292,7 +1292,10 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
   in dieser Version wird nicht noch einmal gefragt.
 - **Start** bleibt gesperrt: die Zeile unter den Knöpfen nennt, was
   fehlt, und das gemeinte Feld oder die gemeinte Zeile wird rot. Ist
-  das nachgetragen, gibt der Knopf sich frei.
+  das nachgetragen, gibt der Knopf sich frei. Ein Warten braucht nichts
+  von Dir: Solange eine Datei mit mehreren Kanälen in ihre Spuren
+  zerlegt wird, sagt die Zeile das, und der Knopf gibt sich frei, sobald
+  die Spuren da sind.
 - **Der Player zeigt kein Bild**: an seine Stelle tritt ein Knopf, der
   die Datei an `ffplay` übergibt; das öffnet ein eigenes Fenster.
 - **In-Punkt und Out-Punkt sind gesperrt**: das Programm misst die

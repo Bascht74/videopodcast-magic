@@ -500,7 +500,7 @@ gekostet hat. Was aufgehoben wird und was neu gerechnet wird, steht
 weiter oben unter „Was aufgehoben wird und was neu gerechnet wird“.
 Startet das Fenster einen Lauf, wenn sein eigenes Transkript schon
 steht, hört dieser nichts mehr ab: Er übernimmt die Wörter des
-Fensters, genau wie sein Trockenlauf, und so stehen der Schnitt und die
+Fensters, genau wie sein Probelauf, und so stehen der Schnitt und die
 drei Dateien unten auf denselben Wörtern, die schon die Vorschau
 gezeigt hat. Nur ein Lauf ohne sie -- von der Kommandozeile, oder
 gestartet, bevor das Fenster fertig war -- hört den Mix ab, den er

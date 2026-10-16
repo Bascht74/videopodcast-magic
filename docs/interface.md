@@ -1195,7 +1195,9 @@ nothing are told apart.
   the question is not asked again in this version.
 - **Start** stays locked: the line under the buttons names what is
   missing, and the field or the row it means turns red. Fill that in
-  and the button frees itself.
+  and the button frees itself. One wait needs nothing from you: while
+  a file of several channels is being cut into its tracks, the line
+  says so, and the button frees itself when the tracks are in.
 - **The player shows no picture**: a button takes its place and hands the
   file to `ffplay`, which opens a window of its own.
 - **In point and Out point are locked**: the program is still measuring
