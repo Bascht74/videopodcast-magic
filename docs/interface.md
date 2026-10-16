@@ -1122,6 +1122,13 @@ stands on lines of its own, under what the row otherwise says rather
 than behind it: written on one line it was pushed out of the column by
 the folder in front of it, and the reader lost the half that mattered.
 
+**What the run places by its sound fits, whichever way placed it.** A
+recording laid by its loudness curve, by the frequency bands that move,
+or by the phase on a recording set to **Mixed** gets no note and is not
+counted, however weak its match: the run lays it at that very place,
+and where the bands or the phase placed it, the run's log says so. A
+note appears only where the run's sound found no place.
+
 A file whose sound was not recognised but whose timecode puts it among
 the others says **sound not recognised; placed by its timecode**. It
 lies on the axis to the frame, at the place its timecode gives and not

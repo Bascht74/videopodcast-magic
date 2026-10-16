@@ -1210,6 +1210,14 @@ steht in eigenen Zeilen unter dem, was die Zeile sonst sagt, und nicht
 mehr dahinter: in einer Zeile geschrieben schob ihn der Ordnername
 davor aus der Spalte, und gerade die Hälfte, auf die es ankam, war fort.
 
+**Was der Lauf über den Ton einordnet, passt, gleich auf welchem Weg.**
+Eine Aufnahme, die ihre Lautheitskurve gesetzt hat, die Frequenzbänder,
+die sich bewegen, oder bei einer Aufnahme auf **Gemischt** die Phase,
+bekommt keinen Vermerk und wird nicht gezählt, wie schwach ihr Abgleich
+auch ist: Der Lauf legt sie an genau diese Stelle, und wo die Bänder
+oder die Phase sie gesetzt haben, sagt es sein Protokoll. Ein Vermerk
+steht nur dort, wo der Ton des Laufs keinen Platz gefunden hat.
+
 Eine Datei, deren Ton nicht erkannt wurde, die ihr Timecode aber zwischen
 die anderen setzt, trägt den Vermerk **Ton nicht erkannt; über den
 Timecode platziert**. Sie liegt framegenau auf der Achse, an der Stelle,
