@@ -5097,14 +5097,11 @@ msgstr "Compte sur auphonic.com : inconnu -- il n'a pas pu être interrogé. L'e
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Note : l'exécution essaie quand même. auphonic.com décide si la production démarre, et le dit si elle ne démarre pas."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Avertissement : cette production Multitrack dure %s, et avec l'offre gratuite auphonic.com n'en accepte une que jusqu'à environ %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Cette production Multitrack dure %s. Avec l'offre gratuite, auphonic.com n'en accepte une que jusqu'à environ %s ; une plus longue nécessite une offre payante."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Note : auphonic.com refuse une production plus longue dès le départ et ne facture rien. L'exécution essaie quand même ; si auphonic.com refuse, son propre message suit."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Avec l'offre gratuite, auphonic.com n'accepte une production Multitrack que jusqu'à environ %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Pour une piste unique, que l'offre gratuite accepte quelle que soit sa durée, mettez toutes les pistes sauf une sur « %s » -- là où une piste porte toutes les voix. Ou choisissez « %s » sous Préréglage (--without-auphonic) : les pistes sont alors mixées ici."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Le projet %r créé par cette exécution reste ouvert -- rien n’était ouvert avant\n  qui puisse être rouvert. Supprimez-le dans le gestionnaire de projets de Resolve."

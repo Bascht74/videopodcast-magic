@@ -5042,14 +5042,11 @@ msgstr "Tài khoản tại auphonic.com: không rõ -- không thể hỏi đư�
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Lưu ý: lượt chạy vẫn thử. auphonic.com quyết định bản sản xuất có bắt đầu hay không, và sẽ báo nếu không."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Cảnh báo: bản sản xuất Multitrack này dài %s, và với gói miễn phí auphonic.com chỉ nhận bản như vậy dài tối đa khoảng %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Bản sản xuất Multitrack này dài %s. Với gói miễn phí, auphonic.com chỉ nhận bản như vậy dài tối đa khoảng %s; bản dài hơn cần gói trả phí."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Lưu ý: auphonic.com từ chối bản dài hơn ngay từ lúc bắt đầu và không tính phí gì cho nó. Lượt chạy vẫn thử; nếu auphonic.com từ chối, thông báo riêng của nó sẽ theo sau."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Với gói miễn phí, auphonic.com chỉ nhận bản sản xuất Multitrack dài tối đa khoảng %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Để thành Singletrack, loại mà gói miễn phí nhận với mọi độ dài, đặt mọi rãnh trừ một rãnh thành \"%s\" -- khi một rãnh chứa mọi giọng nói. Hoặc chọn \"%s\" ở mục Cài đặt sẵn (--without-auphonic): khi đó các rãnh được trộn tại đây."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Dự án %r do lần chạy này tạo vẫn mở -- trước đó không có gì đang mở\n  có thể mở lại. Hãy xóa nó trong trình quản lý dự án của Resolve."

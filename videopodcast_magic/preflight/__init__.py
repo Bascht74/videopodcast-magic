@@ -1374,10 +1374,11 @@ def production_length(chains, multitrack, window_s=None):
 def check_account(args, chains, videos_n):
     """What the account at auphonic.com says to this run, said first.
 
-    In the lines the Auphonic step prints later, a warning there one
-    here. Asked once, and only of a run that sends; an account that
-    cannot be asked is one line. Nothing here stops the run: auphonic.com
-    decides at the start, and says so itself.
+    In the lines the Auphonic step prints later. Asked once, and only of
+    a run that sends; an account that cannot be asked is one line. Short
+    credit stops nothing: auphonic.com decides at the start. A free
+    Multitrack production past the border stops the run, as auphonic.com
+    would refuse it -- a dry run sends nothing, so there it only warns.
     """
     if not PROGRAM.run_uploads(args):
         return []
@@ -1396,6 +1397,10 @@ def check_account(args, chains, videos_n):
         kind, text = PROGRAM.split_kind(line)
         found.append(Finding("warning" if kind == "warning" else "good",
                              "" if found else "auphonic.com", text.strip()))
+    border = PROGRAM.free_border_said(account, seconds, multitrack)
+    if border:
+        found.append(Finding("warning" if getattr(args, "dry_run", False)
+                             else "abort", "", border[0], border[1]))
     return found
 
 

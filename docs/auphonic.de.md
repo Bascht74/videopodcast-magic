@@ -105,9 +105,15 @@ ihre längste Spur, einzelne Spuren als je eigene Produktion, jede in
 ganzen Minuten und mit mindestens drei, zusammengezählt -- und das alles,
 bevor der Lauf die Spuren auf eine Zeitachse legt, was sie nur länger
 machen kann. Ist das Konto im kostenlosen Tarif und die
-Multitrack-Produktion länger als 21 Minuten, kommt eine weitere, ebenfalls
-rote Zeile dazu: **Im kostenlosen Tarif nimmt auphonic.com eine
-Multitrack-Produktion nur bis etwa 21 Min. an.** Für eine einzelne Spur
+Multitrack-Produktion länger als 21 Minuten, kommen zwei weitere, ebenfalls
+rote Zeilen dazu: **Diese Multitrack-Produktion dauert 25 Min. Im
+kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa 21 Min. an;
+eine längere braucht einen bezahlten Tarif.** Darunter steht, was ohne
+bezahlten Tarif bleibt: Singletrack, das der kostenlose Tarif in jeder
+Länge annimmt -- dafür alle Spuren bis auf eine auf **nicht verwenden**,
+wo eine Spur alle Stimmen trägt --, oder **ohne Auphonic arbeiten** unter
+**Preset:**. Ein so gestarteter Lauf hält vor dem Hochladen an, siehe
+unten. Für eine einzelne Spur
 gibt es im kostenlosen Tarif keine solche Grenze; dort zählt allein das
 Guthaben. Ohne Preset wird die Zeile nie rot, denn dann gibt es keine
 Produktion, an der sich das Guthaben messen ließe. Der Kasten fragt das Konto zusammen mit den
@@ -283,19 +289,24 @@ in ganzen Minuten gezählt, aufgerundet und nie unter `3 Min.`, weil
 auphonic.com für eine Produktion nicht weniger abrechnet: Eine Probe von
 20 Sekunden braucht `3 Min.`
 
-Zwei Dinge sagt der Lauf, und in beiden Fällen geht er weiter:
+Zwei Dinge sagt der Lauf. Beim ersten geht er weiter, beim zweiten hält
+er an:
 
 * **Das Guthaben reicht nicht.** Die Zeile zum Guthaben endet auf `-- das
   reicht nicht.`, und ein Hinweis, der mit `Hinweis:` beginnt, sagt, dass
   der Lauf es trotzdem versucht: Ob die Produktion startet, entscheidet
   auphonic.com.
 * **Ein kostenloses Konto und eine Multitrack-Produktion, die länger
-  als 21 Minuten ist.** Das ist eine Warnung, in der Warnfarbe:
-  `Warnung: Diese Multitrack-Produktion dauert 25 Min., und im
-  kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa 21 Min.
-  an.` Ein Hinweis darunter sagt, warum: Eine längere lehnt auphonic.com
-  gleich am Anfang ab und berechnet nichts dafür, und der Lauf versucht
-  es trotzdem. In der Ablehnung von auphonic.com selbst ist von 20
+  als 21 Minuten ist.** Eine solche Produktion lehnt auphonic.com gleich
+  beim Start ab, deshalb hält der Lauf an, bevor etwas hochgeladen wird:
+  `Aufbereitung fehlgeschlagen: Diese Multitrack-Produktion dauert 25
+  Min. Im kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa
+  21 Min. an; eine längere braucht einen bezahlten Tarif.` Dahinter steht
+  der Ausweg: Singletrack oder ohne Auphonic arbeiten
+  (`--without-auphonic`). Das Konto wird an dieser Stelle noch einmal
+  gefragt; wer den Tarif seit dem Vorflug gewechselt hat, kommt also
+  durch. `--anyway` hebt diesen Halt nicht auf, denn die Ablehnung wäre
+  sicher. In der Ablehnung von auphonic.com selbst ist von 20
   Minuten die Rede; in einem Versuch mit einem kostenlosen Konto gingen
   21 Minuten noch durch, 22, 25, 30 Minuten und eine Stunde wurden
   abgelehnt. Bis 21 Minuten sagt der Lauf dazu nichts.
@@ -306,9 +317,12 @@ Konto, und ebenso der **Probelauf**, der nichts hochlädt. Lässt sich das
 Konto nicht fragen -- kein Schlüssel gespeichert, kein Netz --, sagt der
 Vorflug das in einer Zeile, `Das Konto bei auphonic.com ist nicht
 bekannt, denn es ließ sich nicht fragen. Der Lauf geht weiter.`, und der
-Lauf geht weiter. Nichts, was das Konto sagt, hält einen Lauf an.
+Lauf geht weiter. Das Guthaben hält keinen Lauf an; die Grenze für
+Multitrack im kostenlosen Tarif hält ihn schon hier an, vor dem ersten
+langen Schritt. Mit `--anyway` läuft er bis zum Halt vor dem Hochladen
+weiter, und der **Probelauf**, der nichts schickt, wird nur gewarnt.
 
-Lehnt auphonic.com ab, dann beim Start, nach dem Hochladen, und es
+Lehnt auphonic.com trotzdem ab, dann beim Start, nach dem Hochladen, und es
 berechnet nichts. Der Lauf endet dann mit `Aufbereitung fehlgeschlagen:`
 und der Meldung von auphonic.com selbst, etwa `Non-paying users can try
 our multitrack algorithms only for productions shorter than 20min!` --

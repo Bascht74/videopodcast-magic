@@ -5266,14 +5266,11 @@ msgstr "الحساب في auphonic.com: غير معروف -- تعذّر السؤ
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  ملاحظة: التشغيل يحاول رغم ذلك. auphonic.com هو من يقرر إن كان الإنتاج سيبدأ، ويقول ذلك إن لم يبدأ."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  تحذير: مدة إنتاج Multitrack هذا %s، وفي الخطة المجانية يقبل auphonic.com إنتاجًا كهذا حتى نحو %s فقط."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "يبلغ طول إنتاج Multitrack هذا %s. في الخطة المجانية يقبل auphonic.com مثله حتى نحو %s فقط؛ والأطول يحتاج إلى خطة مدفوعة."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  ملاحظة: يرفض auphonic.com الإنتاج الأطول عند البدء ولا يحتسب عليه شيئًا. التشغيل يحاول رغم ذلك؛ وإن رفض auphonic.com تتبعه رسالته الخاصة."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "في الخطة المجانية يقبل auphonic.com إنتاج Multitrack حتى نحو %s فقط."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "للحصول على Singletrack، الذي تقبله الخطة المجانية بأي طول، اضبط كل المسارات إلا واحدًا على \"%s\" -- حيث يحمل مسار واحد كل الأصوات. أو اختر \"%s\" تحت الإعداد المسبق (--without-auphonic): عندها تُمزج المسارات هنا."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  يبقى المشروع %r الذي أنشأه هذا التشغيل مفتوحًا -- لم يكن مفتوحًا من قبل\n  ما يمكن فتحه مجددًا. احذفه من مدير المشاريع في Resolve."

@@ -94,10 +94,15 @@ charges for it: a Multitrack production as long as its longest track,
 and lone tracks one production each, every one in whole minutes and at
 least three, added up -- all of it before the run lays the tracks on
 one axis, which can only make them longer. On the free plan a
-Multitrack production longer than 21 minutes adds a further line, red
-as well: **On the free plan auphonic.com takes a Multitrack production
-only up to about 21 min.** A single track has no such border on the
-free plan; only the credit counts there. Without a preset the line is
+Multitrack production longer than 21 minutes adds two further lines, red
+as well: **This Multitrack production is 25 min long. On the free plan
+auphonic.com takes one only up to about 21 min; a longer one needs a
+paid plan.**, and under it the way out without one: Singletrack, which
+the free plan takes at any length -- every track but one set to **do not
+use**, where one track holds every voice -- or **work without Auphonic**
+under **Preset:**. A run started like that stops before the upload, see
+below. A single track has no such border on the free plan; only the
+credit counts there. Without a preset the line is
 never red: there is no production to hold the credit against. The box asks the account together with the
 presets and at no other time.
 
@@ -258,31 +263,38 @@ production needs.` What a production needs is counted in whole minutes,
 rounded up and never below `3 min`, since auphonic.com charges no less
 for a production: a 20-second sample needs `3 min`.
 
-Two things are said, and the run goes on either way:
+Two things are said. The first lets the run go on, the second stops it:
 
 * **Too little credit.** The credit line ends in `-- not enough.`, and a
   note beginning `Note:` says that the run tries anyway: auphonic.com
   decides whether the production starts.
 * **A free account and a Multitrack production longer than 21
-  minutes.** This one is a warning, in the warning colour: `Warning: this
-  Multitrack production is 25 min long, and on the free plan auphonic.com
-  takes one only up to about 21 min.` A note under it says why: a longer
-  one is refused at the start and nothing is charged, and the run tries
-  anyway. auphonic.com's own refusal speaks of 20 minutes; in a test on
-  a free account 21 minutes still went through, and 22, 25, 30 and an
-  hour were refused. Up to 21 minutes nothing is said.
+  minutes.** auphonic.com refuses such a production at its start, so
+  the run stops before anything goes up: `Processing failed: This
+  Multitrack production is 25 min long. On the free plan auphonic.com
+  takes one only up to about 21 min; a longer one needs a paid plan.`,
+  followed by the way out -- Singletrack, or work without Auphonic
+  (`--without-auphonic`). The account is asked again at this point, so
+  a plan upgraded since the preflight goes through. `--anyway` does not
+  take this stop away: the refusal would be certain. auphonic.com's own
+  refusal speaks of 20 minutes; in a test on a free account 21 minutes
+  still went through, and 22, 25, 30 and an hour were refused. Up to 21
+  minutes nothing is said.
 
 The same lines stand first in the preflight, before anything is measured
 at length: a run that sends to auphonic.com asks the account there, and
 so does **Dry run**, which uploads nothing. Where the account cannot be
 asked -- no key stored, no network -- the preflight says so in one line,
 `Account at auphonic.com: not known -- it could not be asked. The run
-goes on.`, and the run goes on. Nothing the account says stops a run.
+goes on.`, and the run goes on. The credit stops no run; the free
+Multitrack border stops it here already, before the first long step --
+with `--anyway` the run goes on to the stop before the upload, and a
+**Dry run**, which sends nothing, is only warned.
 
-Where auphonic.com refuses, it does so at the start, after the upload,
-and charges nothing; the run ends with `Processing failed:` and
-auphonic.com's own message, for instance `Non-paying users can try our
-multitrack algorithms only for productions shorter than 20min!`
+Where auphonic.com refuses all the same, it does so at the start, after
+the upload, and charges nothing; the run ends with `Processing failed:`
+and auphonic.com's own message, for instance `Non-paying users can try
+our multitrack algorithms only for productions shorter than 20min!`
 
 A single track then goes through these steps:
 

@@ -5087,14 +5087,11 @@ msgstr "auphonic.com પર એકાઉન્ટ: અજ્ઞાત -- તે�
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  નોંધ: રન તો પણ પ્રયાસ કરે છે. પ્રોડક્શન શરૂ થાય કે નહીં તે auphonic.com નક્કી કરે છે, અને ન થાય તો કહે છે."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  ચેતવણી: આ Multitrack પ્રોડક્શન %s લાંબું છે, અને મફત પ્લાન પર auphonic.com આવું પ્રોડક્શન ફક્ત આશરે %s સુધી જ સ્વીકારે છે."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "આ Multitrack પ્રોડક્શન %s લાંબું છે. મફત પ્લાન પર auphonic.com આવું પ્રોડક્શન ફક્ત આશરે %s સુધી જ સ્વીકારે છે; વધુ લાંબા માટે પેઇડ પ્લાન જોઈએ."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  નોંધ: auphonic.com તેનાથી લાંબું પ્રોડક્શન શરૂઆતમાં જ નકારે છે અને તેના માટે કંઈ લેતું નથી. રન તો પણ પ્રયાસ કરે છે; auphonic.com નકારે તો તેનો પોતાનો સંદેશ આવે છે."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "મફત પ્લાન પર auphonic.com Multitrack પ્રોડક્શન ફક્ત આશરે %s સુધી જ સ્વીકારે છે."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Singletrack માટે, જેને મફત પ્લાન કોઈપણ લંબાઈમાં સ્વીકારે છે, એક સિવાયના બધા ટ્રૅકને \"%s\" પર મૂકો -- જ્યાં એક ટ્રૅકમાં બધા અવાજ હોય. અથવા પ્રીસેટ હેઠળ \"%s\" પસંદ કરો (--without-auphonic): ત્યારે ટ્રૅક અહીં જ મિક્સ થાય છે."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  આ રને બનાવેલો પ્રોજેક્ટ %r ખુલ્લો રહે છે -- પહેલાં એવું કંઈ ખુલ્લું નહોતું\n  જે ફરી ખોલી શકાય. તેને Resolve ના પ્રોજેક્ટ મેનેજરમાં કાઢી નાખો."

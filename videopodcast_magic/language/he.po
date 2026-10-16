@@ -5085,14 +5085,11 @@ msgstr "חשבון ב-auphonic.com: לא ידוע -- לא ניתן היה לשא
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  הערה: ההרצה מנסה בכל זאת. auphonic.com מחליט אם ההפקה מתחילה, ואומר זאת אם לא."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  אזהרה: הפקת ה-Multitrack הזו נמשכת %s, ובתוכנית החינמית auphonic.com מקבל הפקה כזו רק עד כ-%s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "הפקת Multitrack זו נמשכת %s. בתוכנית החינמית auphonic.com מקבל הפקה כזו רק עד כ-%s; הפקה ארוכה יותר דורשת תוכנית בתשלום."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  הערה: auphonic.com דוחה הפקה ארוכה יותר כבר בהתחלה ואינו גובה עליה דבר. ההרצה מנסה בכל זאת; אם auphonic.com מסרב, תבוא ההודעה שלו."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "בתוכנית החינמית auphonic.com מקבל הפקת Multitrack רק עד כ-%s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "ל-Singletrack, שהתוכנית החינמית מקבלת בכל אורך, יש להעביר את כל הרצועות מלבד אחת ל\"%s\" -- כשרצועה אחת נושאת את כל הקולות. או לבחור \"%s\" תחת פריסט (--without-auphonic): הרצועות ימוקסו אז כאן."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  הפרויקט %r שהריצה הזאת יצרה נשאר פתוח -- לפני כן לא היה פתוח דבר\n  שאפשר לפתוח שוב. מחקו אותו במנהל הפרויקטים של Resolve."

@@ -5085,14 +5085,11 @@ msgstr "Conta no auphonic.com: desconhecida -- não foi possível consultá-la. 
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Nota: a execução tenta mesmo assim. O auphonic.com decide se a produção começa, e diz se não começar."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Aviso: esta produção Multitrack dura %s, e no plano gratuito o auphonic.com só aceita uma assim até cerca de %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Esta produção Multitrack dura %s. No plano gratuito, o auphonic.com só aceita uma assim até cerca de %s; uma mais longa precisa de um plano pago."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Nota: o auphonic.com recusa uma mais longa logo no início e não cobra nada por ela. A execução tenta mesmo assim; se o auphonic.com recusar, segue a sua própria mensagem."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "No plano gratuito, o auphonic.com só aceita uma produção Multitrack até cerca de %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Para faixa única, que o plano gratuito aceita em qualquer duração, coloque todas as faixas menos uma em \"%s\" -- onde uma faixa leva todas as vozes. Ou escolha \"%s\" em Predefinição (--without-auphonic): as faixas são então mixadas aqui."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  O projeto %r criado por esta execução continua aberto -- antes não havia nada aberto\n  que pudesse ser reaberto. Exclua-o no gerenciador de projetos do Resolve."

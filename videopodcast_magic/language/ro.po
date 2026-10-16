@@ -5129,14 +5129,11 @@ msgstr "Cont la auphonic.com: necunoscut -- nu a putut fi întrebat. Rularea con
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Notă: rularea încearcă oricum. auphonic.com decide dacă producția pornește și spune dacă nu pornește."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Avertisment: această producție Multitrack durează %s, iar pe planul gratuit auphonic.com acceptă una astfel doar până la aproximativ %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Această producție Multitrack durează %s. Pe planul gratuit, auphonic.com acceptă una ca ea doar până la aproximativ %s; una mai lungă are nevoie de un plan plătit."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Notă: auphonic.com refuză una mai lungă încă de la început și nu taxează nimic pentru ea. Rularea încearcă oricum; dacă auphonic.com refuză, urmează propriul său mesaj."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Pe planul gratuit, auphonic.com acceptă o producție Multitrack doar până la aproximativ %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Pentru Singletrack, pe care planul gratuit îl acceptă la orice durată, setați toate pistele în afară de una pe „%s” -- acolo unde o pistă poartă toate vocile. Sau alegeți „%s” la Presetare (--without-auphonic): pistele sunt atunci mixate aici."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Proiectul %r creat de această rulare rămâne deschis -- înainte nu era deschis nimic\n  ce ar putea fi redeschis. Ștergeți-l în managerul de proiecte din Resolve."

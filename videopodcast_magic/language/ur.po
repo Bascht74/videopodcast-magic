@@ -5088,14 +5088,11 @@ msgstr "auphonic.com پر اکاؤنٹ: نامعلوم -- اس سے پوچھا �
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  نوٹ: رن پھر بھی کوشش کرتا ہے۔ پروڈکشن شروع ہو گی یا نہیں، یہ auphonic.com طے کرتا ہے، اور نہ ہو تو بتا دیتا ہے۔"
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  انتباہ: یہ Multitrack پروڈکشن %s لمبی ہے، اور مفت پلان پر auphonic.com ایسی پروڈکشن صرف تقریباً %s تک ہی لیتا ہے۔"
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "یہ Multitrack پروڈکشن %s لمبی ہے۔ مفت پلان پر auphonic.com ایسی پروڈکشن صرف تقریباً %s تک ہی لیتا ہے؛ اس سے لمبی کے لیے ادائیگی والا پلان چاہیے۔"
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  نوٹ: auphonic.com اس سے لمبی کو شروع ہی میں رد کر دیتا ہے اور اس کے لیے کچھ نہیں کاٹتا۔ رن پھر بھی کوشش کرتا ہے؛ اگر auphonic.com رد کرے تو اس کا اپنا پیغام آتا ہے۔"
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "مفت پلان پر auphonic.com Multitrack پروڈکشن صرف تقریباً %s تک ہی لیتا ہے۔"
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Singletrack کے لیے، جسے مفت پلان کسی بھی لمبائی میں لیتا ہے، ایک کے سوا سب ٹریک \"%s\" پر رکھیں -- جہاں ایک ہی ٹریک میں سب آوازیں ہوں۔ یا پری سیٹ کے تحت \"%s\" چنیں (--without-auphonic): تب ٹریک یہیں مکس ہوتے ہیں۔"
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  اس رن کا بنایا ہوا پروجیکٹ %r کھلا رہتا ہے -- پہلے ایسا کچھ کھلا نہیں تھا\n  جسے دوبارہ کھولا جا سکے۔ اسے Resolve کے پروجیکٹ مینیجر میں حذف کریں۔"

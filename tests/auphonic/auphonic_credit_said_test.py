@@ -4,17 +4,16 @@
 auphonic.com is never spoken to: `_curl_call` is replaced by a stand-in
 answering /api/user.json the way its API page shows it. Sections: the
 account read; the lines before an upload -- the plan, the credit in
-whole minutes, what a production needs rounded up to at least three, a
-hint where the credit is short, and a warning with a note beside it
-where a free account's Multitrack production is longer than the 21
-minutes auphonic.com took, none on the border itself; a run that
-says it before anything goes up and goes on; the line in the Auphonic
-box, saying enough or not enough, red where the production needs more,
-plain without a preset; the box in the window, fed what the rows are
-charged -- Singletrack productions each at least three minutes --
-shown once the account answered, preset or not; and the check before
-the run, which says the same lines first, asks once, and stops
-nothing. File lengths are stood in for from the window on.
+whole minutes, what a production needs rounded up to at least three,
+and a hint where the credit is short; a run that says it before
+anything goes up and goes on; the line in the Auphonic box, saying
+enough or not enough, red where the production needs more, plain
+without a preset; the box in the window, fed what the rows are charged
+-- Singletrack productions each at least three minutes -- shown once
+the account answered, preset or not; and the check before the run,
+which says the same lines first and asks once. The free Multitrack
+border is auphonic_free_long_stops'. File lengths are stood in for
+from the window on.
 """
 PLATFORM_BOUND = True
 import os
@@ -161,11 +160,6 @@ SHORT = T('  Credit at auphonic.com: %s left, and this '
           'production needs %s -- not enough.')
 TRIES = T('  Note: the run tries anyway. auphonic.com decides whether the '
           'production starts, and says so if it does not.')
-WARN = T('  Warning: this Multitrack production is %s long, and on the '
-         'free plan auphonic.com takes one only up to about %s.')
-WHY = T('  Note: auphonic.com refuses a longer one at the start and charges '
-        'nothing for it. The run tries anyway; if auphonic.com refuses, its '
-        'own message follows.')
 
 HOUR = {"hours": 1.0, "paying": True}
 lines = verdict(HOUR, 30 * 60, False)
@@ -205,23 +199,6 @@ FREE = {"hours": 2.0, "paying": False}
 lines = verdict(FREE, 21 * 60 + 1, True)
 check("a free account is said as free, first",
       lines[:1] == [FREE_SAID], "lines: %r" % (lines,))
-check("a free Multitrack production past 21 min gets the border warning",
-      lines[-2:] == [vpm.as_warn(WARN % (minutes(22), minutes(21))), WHY],
-      "21 min 1 s on the free plan: %r" % (lines,))
-check("the border line is marked a warning, and only that line",
-      warned(lines) == [vpm.as_warn(WARN % (minutes(22), minutes(21)))],
-      "%d of %d lines marked a warning: %r"
-      % (len(warned(lines)), len(lines), warned(lines)))
-lines = verdict(FREE, 21 * 60, True)
-check("a free Multitrack production of exactly 21 min gets none",
-      len(lines) == 2 and not warned(lines),
-      "21 min on the free plan: %r" % (lines,))
-lines = verdict(FREE, 22 * 60, False)
-check("the border holds for Multitrack only, not Singletrack",
-      len(lines) == 2, "22 min Singletrack, free: %r" % (lines,))
-lines = verdict(dict(FREE, paying=True), 22 * 60, True)
-check("a paying account's Multitrack production may be longer",
-      len(lines) == 2, "22 min Multitrack, paid: %r" % (lines,))
 lines = verdict(None, 30 * 60, True)
 check("an account that did not answer is said as not known",
       lines == [UNKNOWN, T('  Credit at auphonic.com: not known -- the '
@@ -301,22 +278,6 @@ check("nothing a run says about the account is a warning",
       not warned(text[:mark].splitlines()), "%r"
       % (warned(text[:mark].splitlines()),))
 
-# A free account, two tracks of 25 minutes by the measure the run asks:
-# the files are short, their length is stood in for.
-tracks = [{"name": "Guest", "axis": audio},
-          {"name": "Presenter", "axis": audio}]
-measure, vpm.media_seconds = vpm.media_seconds, lambda path: 25 * 60.0
-text, calls = said_by(lambda: vpm.run_multitrack_production(
-    KEY, "PRESETUUID", "Podcast", tracks, os.path.join(room, "back")),
-    dict(PAID, credits=2.0, is_paying_user=False))
-vpm.media_seconds = measure
-border = text.find(vpm.as_warn(WARN % (minutes(25), minutes(21))))
-check("a free Multitrack run of 25 min gives the border warning",
-      border >= 0 and text.find(WHY) > border, "%r" % text[:500])
-check("and goes on to auphonic.com after it",
-      len(calls) >= 2 and "/api/preset/PRESETUUID" in calls[1][-1],
-      "calls in order: %r" % ([c[-1] for c in calls],))
-
 # ------------------------------------------------------- 4. The box
 print("\n4. The line in the Auphonic box")
 
@@ -354,16 +315,6 @@ check("the box says the credit is not enough for what the production needs",
 show({"hours": 0.0, "paying": True}, False)
 check("the box is red when no credit is left",
       RED in line.styleSheet(), "style %r" % line.styleSheet())
-FREE_LINE = T('On the free plan auphonic.com takes a Multitrack production '
-              'only up to about %s.') % minutes(21)
-show({"hours": 2.0, "paying": False}, True, 22 * 60)
-check("the box names the free Multitrack border past 21 min, in red",
-      RED in line.styleSheet() and FREE_LINE in line.text(),
-      "22 min: style %r, text %r" % (line.styleSheet(), line.text()))
-show({"hours": 2.0, "paying": False}, True, 21 * 60)
-check("a free Multitrack production of 21 min shows no border",
-      RED not in line.styleSheet() and FREE_LINE not in line.text(),
-      "21 min: style %r, text %r" % (line.styleSheet(), line.text()))
 show({"hours": 2.0, "paying": False}, False, 40 * 60)
 check("a free plan in Singletrack mode is said, and not red",
       RED not in line.styleSheet() and not line.isHidden()
@@ -506,13 +457,6 @@ check("the check says a free account first",
 check("the check says the credit against the 25 min of the rows",
       texts[1:2] == [ENOUGH.strip() % (minutes(120), minutes(25))],
       "said: %r" % (texts,))
-check("a free Multitrack run of 25 min gets the border warning in the check",
-      texts[-2:] == [WARN.strip() % (minutes(25), minutes(21)), WHY.strip()]
-      and [b.kind for b in found][-2:] == ["warning", "good"],
-      "said: %r" % ([(b.kind, b.text) for b in found],))
-check("nothing the check says about the account stops the run",
-      not [b for b in found if b.kind == "abort"],
-      "kinds: %r" % ([b.kind for b in found],))
 found, _ = account_said(dict(PAID, credits=2.0))
 check("the check says a paying account as paying",
       [b.text for b in found][:1] == [PAYING.strip()],
@@ -538,17 +482,6 @@ found, calls = account_said(FREE_ACCOUNT, without_auphonic=True)
 check("a run without auphonic.com says nothing about the account",
       not found and not calls,
       "said %r, calls %r" % ([b.text for b in found], calls))
-
-text, calls = said_by(lambda: said_by.__setattr__(
-    "returned", vpm.run_preflight(run_args(), recordings, [])),
-    FREE_ACCOUNT)
-marked = [one for one in text.splitlines()
-          if WARN.strip() % (minutes(25), minutes(21)) in one]
-check("the check before a run marks the border warning, and does not stop",
-      [vpm.split_kind(one)[0] for one in marked] == ["warning"]
-      and getattr(said_by, "returned", None) == 0,
-      "returned %r; %r" % (getattr(said_by, "returned", None),
-                            text[-600:]))
 
 shutil.rmtree(room, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

@@ -5087,14 +5087,11 @@ msgstr "Konto auphonic.com-is: teadmata -- seda ei saanud küsida. Käivitus jä
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Märkus: käivitus proovib ikkagi. auphonic.com otsustab, kas produktsioon algab, ja ütleb, kui ei alga."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Hoiatus: see Multitrack-produktsioon kestab %s ning tasuta paketis võtab auphonic.com sellise vastu ainult umbes %s pikkuseni."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "See Multitrack-produktsioon kestab %s. Tasuta paketis võtab auphonic.com sellise vastu ainult umbes %s pikkuseni; pikem vajab tasulist paketti."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Märkus: pikema lükkab auphonic.com tagasi juba alguses ega võta selle eest midagi. Käivitus proovib ikkagi; kui auphonic.com keeldub, järgneb tema enda teade."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Tasuta paketis võtab auphonic.com Multitrack-produktsiooni vastu ainult umbes %s pikkuseni."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Singletracki jaoks, mille tasuta pakett võtab vastu mis tahes pikkusega, seadke kõik rajad peale ühe olekusse „%s“ -- kui üks rada kannab kõiki hääli. Või valige eelseadistuse alt „%s“ (--without-auphonic): rajad miksitakse siis siin."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Selle käivituse projekt %r jääb avatuks -- varem ei olnud avatud midagi,\n  mida saaks uuesti avada. Kustutage see Resolve'i projektihalduris."

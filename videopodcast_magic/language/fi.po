@@ -5085,14 +5085,11 @@ msgstr "Tili auphonic.com-palvelussa: tuntematon -- sitä ei voitu kysyä. Ajo j
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Huomautus: ajo yrittää silti. auphonic.com päättää, käynnistyykö tuotanto, ja kertoo, jos ei."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Varoitus: tämä Multitrack-tuotanto kestää %s, ja ilmaispaketissa auphonic.com ottaa sellaisen vastaan vain noin %s asti."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Tämä Multitrack-tuotanto kestää %s. Ilmaispaketissa auphonic.com ottaa sellaisen vastaan vain noin %s asti; pidempi vaatii maksullisen paketin."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Huomautus: pidemmän auphonic.com hylkää heti alussa eikä veloita siitä mitään. Ajo yrittää silti; jos auphonic.com kieltäytyy, sen oma viesti seuraa."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Ilmaispaketissa auphonic.com ottaa Multitrack-tuotannon vastaan vain noin %s asti."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Singletrackia varten, jonka ilmaispaketti ottaa vastaan minkä pituisena tahansa, aseta kaikki raidat yhtä lukuun ottamatta tilaan \"%s\" -- kun yksi raita sisältää kaikki äänet. Tai valitse Esiasetus-kohdasta \"%s\" (--without-auphonic): raidat miksataan silloin täällä."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Tämän ajon tekemä projekti %r jää auki -- aiemmin auki ei ollut mitään,\n  minkä voisi avata uudelleen. Poista se Resolven projektinhallinnassa."
