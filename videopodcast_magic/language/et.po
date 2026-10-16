@@ -1154,8 +1154,8 @@ msgstr "  Helile pole sellel tähtsust."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Nihe:            %s   (kaamerate võrdlusest)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Timeline'il on ainult %s/%s võttest."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve võttis ainult %s/%s võtet -- Timeline'il \"%s\" puudub ülejäänud montaaž."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Tipud:             %s dB üle %s dBTP -- limiiter püüab need kinni"
@@ -1202,8 +1202,8 @@ msgstr "  Võrdlus: %s (%s, pikim kestus)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Jääb:              %s dB igal rajal, see on %s LUFS %s asemel"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve ei võtnud ühtegi pilti vastu -- Timeline on tühi. Selle peale\n  ei ehitata midagi rohkem."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve ei võtnud ühtki pilti -- Timeline'il \"%s\" puuduvad montaaž ja selle heli."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Tulemus: %s (%s) -- jääb videofaili kõrvale\n"
@@ -1235,11 +1235,11 @@ msgstr "  Siht:              %s LUFS  ->  %s dB igal rajal"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline saab %s: neist suurima või järgmise sageduse, mis Resolve'il\n  on sellest kõrgem. Üles teisendades kordab Resolve kaadreid, alla\n  teisendades viskab neid ära. Iga kaamera säilitab oma sageduse ja montaaž\n  arvestab selles."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mixi ei õnnestunud importida."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve'i Media Poolis pole Full-Mixi -- Timeline'il \"%s\" puudub heli."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mixi ei õnnestunud lisada."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve keeldus Full-Mixist -- Timeline'il \"%s\" puudub heli."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kaamerates on ajaaken ja sekund kummaski otsas: kirjutatud %s, see katab %s kokku salvestatud %s-st."

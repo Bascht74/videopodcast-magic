@@ -668,8 +668,11 @@ backup copy.
   on, a camera's sound, or the picture or sound of the intro or outro.
   A camera Resolve would not lay on its track at all counts the same:
   the run says `Caution: ... not inserted` and says it again at the end.
-  It built everything else without it and says it once more in its last
-  lines, under `Caution: this project is not complete -- what Resolve
+  So does the **… Cut** timeline where Resolve took none of its shots or
+  only some of them, has no Full-Mix in its media pool, or refused it:
+  the line names the timeline and what it lacks -- the cut, the rest of
+  it, or its sound. It built everything else without it and says it
+  once more in its last lines, under `Caution: this project is not complete -- what Resolve
   refused:`; the list of video tracks in the log and the list of angles
   in the closing note name only the cameras that lie on their video
   track. Where the sound track of the intro or outro was refused, the

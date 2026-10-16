@@ -1159,8 +1159,8 @@ msgstr "  Gan iarmhairt ar an bhfuaim."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Fritháireamh:    %s   (ó chomparáid na gceamaraí)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Seatanna ar an Timeline: níl ach %s as %s."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Níor ghlac Resolve ach le %s as %s seat -- in easnamh ar an Timeline \"%s\": an chuid eile den ghearradh."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Buaicí:            %s dB os cionn %s dBTP -- beireann an teorannóir orthu"
@@ -1207,8 +1207,8 @@ msgstr "  Tagairt: %s (%s, an fad is faide)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Fuílleach:         %s dB ar gach rian, is é sin %s LUFS in ionad %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Níor ghlac Resolve le pictiúr ar bith -- tá an Timeline folamh. Ní thógtar\n  aon rud eile air."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Níor ghlac Resolve le pictiúr ar bith -- in easnamh ar an Timeline \"%s\": an gearradh agus a fhuaim."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Toradh: %s (%s) -- fanann sé in aice leis an gcomhad físe\n"
@@ -1240,11 +1240,11 @@ msgstr "  Sprioc:            %s LUFS  ->  %s dB ar gach rian"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Faigheann an Timeline %s: an ceann is airde díobh, nó an chéad ráta eile atá ag Resolve\n  os a chionn. Nuair a thiontaítear suas, athdhéanann Resolve frámaí; nuair a thiontaítear síos,\n  caitheann sé uaidh iad. Coinníonn gach ceamara a ráta féin, agus comhaireann an gearradh\n  sa ráta sin."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Níorbh fhéidir an Full-Mix a iompórtáil."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Níl aon Full-Mix i Media Pool Resolve -- in easnamh ar an Timeline \"%s\": a fuaim."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Níorbh fhéidir an Full-Mix a chur isteach."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Dhiúltaigh Resolve don Full-Mix -- in easnamh ar an Timeline \"%s\": a fuaim."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Tá an raon ama ar na ceamaraí, agus soicind amháin roimhe agus ina dhiaidh: scríobhadh %s do %s den %s a taifeadadh."

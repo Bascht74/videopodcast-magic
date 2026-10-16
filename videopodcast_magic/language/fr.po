@@ -2025,8 +2025,8 @@ msgstr "  Sur cette machine : %s"
 msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
 msgstr "  Une caméra pour tous : découpée en %s plans au changement de locuteur, pour que Resolve puisse les grouper."
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Seuls %s plans sur %s sont sur la Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve n’a repris que %s plans sur %s -- la Timeline « %s » reste sans le reste du montage."
 
 msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
 msgstr "  Seulement pour les voix qui portent encore le nom donné par le programme ; un nom tapé à la main n’est jamais touché. Les rôles se lisent à qui pose les questions et qui y répond, ce qui vaut pour un entretien avec un invité et reste une proposition, pas un réglage."
@@ -2112,8 +2112,8 @@ msgstr "  Référence : %s (%s, durée la plus longue)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Reste :            %s dB sur chaque piste, soit %s LUFS au lieu de %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve n’a repris aucune image -- la Timeline est vide. Rien\n  d’autre n’est construit dessus."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve n’a repris aucune image -- la Timeline « %s » reste sans le montage ni son son."
 
 msgid "  Result:            about %s LUFS, peak %s dBTP"
 msgstr "  Résultat :         environ %s LUFS, crête %s dBTP"
@@ -2160,11 +2160,11 @@ msgstr "  Cible :            %s LUFS  ->  %s dB sur chaque piste"
 msgid "  That did not work: %s"
 msgstr "  Cela n’a pas marché : %s"
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Le Full-Mix n’a pas pu être importé."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve n’a aucun Full-Mix dans son Media Pool -- la Timeline « %s » reste sans son."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Le Full-Mix n’a pas pu être inséré."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve a refusé le Full-Mix -- la Timeline « %s » reste sans son."
 
 msgid "  The Swift compiler reports: %s"
 msgstr "  Le compilateur Swift signale : %s"

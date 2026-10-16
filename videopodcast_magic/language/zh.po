@@ -3142,11 +3142,11 @@ msgstr "  %s 个镜头，共 %s 秒，不含其声音。"
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  未找到 Full-Mix -- Timeline 保持无声。"
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  无法导入 Full-Mix。"
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve 的 Media Pool 中没有 Full-Mix -- Timeline \"%s\" 缺少声音。"
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  无法插入 Full-Mix。"
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve 拒绝了 Full-Mix -- Timeline \"%s\" 缺少声音。"
 
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  音频：Full-Mix 整段放在 A1 上（%s）。"
@@ -3298,8 +3298,8 @@ msgstr "    有 %s 次预定的摄像机没有在录 -- 该处换成了另一台
 msgid "    Left without picture: %s"
 msgstr "    仍无画面：%s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve 没有接收任何画面 -- Timeline 为空。不会在其上\n  继续构建。"
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve 没有接收任何画面 -- Timeline \"%s\" 缺少剪辑及其声音。"
 
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  尚无此类 Timeline -- 仅新建。"
@@ -3442,8 +3442,8 @@ msgstr "               音频%s于 %s -- 此处与%s词相接。"
 msgid "%s (%s to %s)"
 msgstr "%s（%s 至 %s）"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  仅有 %s / %s 个镜头在 Timeline 上。"
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve 只接收了 %s / %s 个镜头 -- Timeline \"%s\" 缺少其余的剪辑。"
 
 msgid "  Transcript: %s"
 msgstr "  转录：%s"

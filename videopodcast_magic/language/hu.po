@@ -1128,8 +1128,8 @@ msgstr "  A hangra nézve nincs következménye."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Eltolás:       %s   (a kamerák összehasonlításából)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Csak %s beállítás van a Timeline-on a(z) %s közül."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  A Resolve csak %s beállítást vett át a(z) %s közül -- a(z) „%s” Timeline-ból hiányzik a vágás többi része."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Csúcsok:           %s dB-lel %s dBTP fölött -- a limiter elkapja őket"
@@ -1176,8 +1176,8 @@ msgstr "  Referencia: %s (%s, a leghosszabb futásidő)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Marad:             %s dB minden sávon, azaz %s LUFS %s helyett"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  A Resolve egyetlen képet sem vett át -- a Timeline üres. Semmi\n  más nem épül rá."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  A Resolve egyetlen képet sem vett át -- a(z) „%s” Timeline-ból hiányzik a vágás és a hangja."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Eredmény: %s (%s) -- a videófájl mellett marad\n"
@@ -1209,11 +1209,11 @@ msgstr "  Cél:               %s LUFS  ->  %s dB minden sávon"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  A Timeline ezt kapja: %s -- a legmagasabbat közülük, vagy a következő\n  sebességet, amely a Resolve-ban fölötte van. Felfelé átszámítva a Resolve\n  képkockákat ismétel, lefelé eldobja őket. Minden kamera megtartja a saját\n  sebességét, és a vágás abban számol."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  A Full-Mix nem importálható."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  A Resolve Media Pooljában nincs Full-Mix -- a(z) „%s” Timeline-ból hiányzik a hang."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  A Full-Mix nem illeszthető be."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  A Resolve elutasította a Full-Mixet -- a(z) „%s” Timeline-ból hiányzik a hang."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  A kamerák az időablakot hordozzák, plusz egy-egy másodpercet mindkét végén: %s írva, ebből %s a felvett %s hosszból."

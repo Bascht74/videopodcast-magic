@@ -1153,8 +1153,8 @@ msgstr "  تأثیری بر صدا ندارد."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  آفست:            %s   (از مقایسه دوربین‌ها)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  فقط %s از %s نما روی Timeline هستند."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve فقط %s از %s نما را پذیرفت -- Timeline «%s» فاقد بقیهٔ تدوین است."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  قله‌ها:             %s dB بالای %s dBTP -- محدودکننده آن‌ها را مهار می‌کند"
@@ -1201,8 +1201,8 @@ msgstr "  مرجع: %s (%s، طولانی‌ترین مدت)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  باقی‌مانده:         %s dB روی هر ترک، یعنی %s LUFS به جای %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve هیچ تصویری نپذیرفت -- Timeline خالی است. چیز دیگری\n  روی آن ساخته نمی‌شود."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve هیچ تصویری نپذیرفت -- Timeline «%s» فاقد تدوین و صدای آن است."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  نتیجه: %s (%s) -- کنار فایل ویدیویی می‌ماند\n"
@@ -1234,11 +1234,11 @@ msgstr "  هدف:               %s LUFS  ->  %s dB روی هر ترک"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline نرخ %s را می‌گیرد: بالاترینِ آن‌ها، یا نرخ بعدی‌ای که Resolve\n  بالاتر از آن دارد. در تبدیل رو به بالا Resolve فریم‌ها را تکرار می‌کند و رو به پایین\n  آن‌ها را دور می‌ریزد. هر دوربین نرخ خودش را نگه می‌دارد و برش\n  با همان نرخ می‌شمارد."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix وارد نشد."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve هیچ Full-Mix در Media Pool خود ندارد -- Timeline «%s» فاقد صدا است."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix درج نشد."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve آن Full-Mix را رد کرد -- Timeline «%s» فاقد صدا است."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  دوربین‌ها بازه زمانی و یک ثانیه در هر سر را دارند: %s نوشته شد برای %s از %s ضبط‌شده."

@@ -3168,11 +3168,11 @@ msgstr "  %s çekim, toplam %s s, kendi sesleri olmadan."
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  Full-Mix bulunamadı -- Timeline sessiz kalıyor."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix içe aktarılamadı."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve'un Media Pool'unda Full-Mix yok -- “%s” Timeline'ında ses eksik."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix eklenemedi."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve Full-Mix'i reddetti -- “%s” Timeline'ında ses eksik."
 
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  Ses: Full-Mix tek parça halinde A1'de (%s)."
@@ -3324,8 +3324,8 @@ msgstr "    %sx öngörülen kamera çalışmıyordu -- yerinde başka biri var.
 msgid "    Left without picture: %s"
 msgstr "    Görüntüsüz kaldı: %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve hiç görüntü almadı -- Timeline boş. Üzerine\n  başka bir şey kurulmuyor."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve hiç görüntü almadı -- “%s” Timeline'ında kurgu ve sesi eksik."
 
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Bu Timeline'lardan henüz hiç yoktu -- yalnızca oluşturuluyor."
@@ -3468,8 +3468,8 @@ msgstr "               Sesin %s %s konumunda -- orada %s sözcükle buluşur."
 msgid "%s (%s to %s)"
 msgstr "%s (%s ile %s arası)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Yalnızca %s / %s çekim Timeline üzerinde."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve yalnızca %s / %s çekimi aldı -- “%s” Timeline'ında kurgunun geri kalanı eksik."
 
 msgid "  Transcript: %s"
 msgstr "  Döküm: %s"

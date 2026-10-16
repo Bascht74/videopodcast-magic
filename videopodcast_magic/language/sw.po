@@ -1154,8 +1154,8 @@ msgstr "  Haina athari kwa sauti."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Msogeo:           %s   (kutoka ulinganisho wa kamera)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Vipande %s tu kati ya %s viko kwenye Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve ilichukua vipande %s tu kati ya %s -- Timeline \"%s\" inakosa sehemu iliyobaki ya uhariri."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Vilele:            %s dB juu ya %s dBTP -- kizuizi kinavidhibiti"
@@ -1202,8 +1202,8 @@ msgstr "  Marejeo: %s (%s, muda mrefu zaidi)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Kinachobaki:       %s dB kwenye kila treki, yaani %s LUFS badala ya %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve haikupokea picha yoyote -- Timeline iko tupu. Hakuna\n  kingine kinachojengwa juu yake."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve haikuchukua picha yoyote -- Timeline \"%s\" inakosa uhariri na sauti yake."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Matokeo: %s (%s) -- yanabaki kando ya faili ya video\n"
@@ -1235,11 +1235,11 @@ msgstr "  Lengo:             %s LUFS  ->  %s dB kwenye kila treki"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline inapata %s: iliyo juu zaidi kati ya hizo, au kasi inayofuata ambayo Resolve\n  inayo juu yake. Ikibadilishwa kwenda juu Resolve inarudia fremu, kwenda chini\n  inazitupa. Kila kamera inabaki na kasi yake, na mkato unahesabu\n  kwa kasi hiyo."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix haikuweza kuingizwa."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve haina Full-Mix kwenye Media Pool yake -- Timeline \"%s\" inakosa sauti yake."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix haikuweza kupachikwa."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve ilikataa Full-Mix -- Timeline \"%s\" inakosa sauti yake."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamera zinabeba masafa ya muda na sekunde moja kila mwisho: %s imeandikwa kwa %s kati ya muda uliorekodiwa wa %s."

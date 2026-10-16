@@ -1126,8 +1126,8 @@ msgstr "  소리에는 영향이 없습니다."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  오프셋:         %s   (카메라 비교에서)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  샷 %s개만 Timeline에 있습니다 (전체 %s개 중)."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve가 샷 %s개만 받았습니다 (전체 %s개 중) -- Timeline \"%s\"에 컷의 나머지가 빠져 있습니다."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  피크:              %s dB (%s dBTP 초과) -- 리미터가 잡아냅니다"
@@ -1174,8 +1174,8 @@ msgstr "  기준: %s (%s, 가장 긴 재생 시간)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  남는 값:           모든 트랙에 %s dB, 즉 %s LUFS (원래 %s)"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve가 화면을 전혀 가져오지 못했습니다 -- Timeline이 비어 있습니다.\n  그 위에 더 이상 아무것도 만들지 않습니다."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve가 화면을 하나도 받지 않았습니다 -- Timeline \"%s\"에 컷과 그 소리가 빠져 있습니다."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  결과: %s (%s) -- 비디오 파일 옆에 둡니다\n"
@@ -1207,11 +1207,11 @@ msgstr "  목표:              %s LUFS  ->  모든 트랙에 %s dB"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline은 %s(으)로 설정됩니다: 그중 가장 높은 값이거나, 그 위로\n  Resolve에 있는 다음 레이트입니다. 올려 변환하면 Resolve가 프레임을 반복하고,\n  내려 변환하면 프레임을 버립니다. 모든 카메라는 자체 레이트를 유지하며, 편집은\n  그 레이트로 계산합니다."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix를 가져올 수 없었습니다."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve의 Media Pool에 Full-Mix가 없습니다 -- Timeline \"%s\"에 소리가 빠져 있습니다."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix를 삽입할 수 없었습니다."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve가 Full-Mix를 거부했습니다 -- Timeline \"%s\"에 소리가 빠져 있습니다."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  카메라에는 시간 구간과 양 끝에 1초씩이 담깁니다: %s 기록, %s 분량 (녹화된 전체 %s 중)."

@@ -1153,8 +1153,8 @@ msgstr "  אין לכך השפעה על השמע."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  היסט:            %s   (מהשוואת המצלמות)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  רק %s מתוך %s שוטים נמצאים ב-Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve קיבל רק %s מתוך %s שוטים -- ל-Timeline \"%s\" חסרה שארית העריכה."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  שיאים:             %s dB מעל %s dBTP -- המגביל תופס אותם"
@@ -1201,8 +1201,8 @@ msgstr "  ייחוס: %s (%s, זמן הריצה הארוך ביותר)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  נותר:              %s dB בכל רצועה, כלומר %s LUFS במקום %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve לא קיבל שום תמונה -- ה-Timeline ריק. שום דבר\n  נוסף לא נבנה עליו."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve לא קיבל אף תמונה -- ל-Timeline \"%s\" חסרים העריכה והשמע שלה."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  תוצאה: %s (%s) -- נשארת ליד קובץ הווידאו\n"
@@ -1234,11 +1234,11 @@ msgstr "  יעד:               %s LUFS  ->  %s dB בכל רצועה"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  ה-Timeline מקבל %s: הגבוה מביניהם, או הקצב הבא ש-Resolve\n  מכיר מעליו. בהמרה כלפי מעלה Resolve חוזר על פריימים, כלפי מטה הוא\n  משליך אותם. כל מצלמה שומרת על הקצב שלה, והחיתוך סופר\n  בקצב הזה."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  לא ניתן היה לייבא את ה-Full-Mix."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  אין ל-Resolve Full-Mix ב-Media Pool -- ל-Timeline \"%s\" חסר השמע."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  לא ניתן היה להכניס את ה-Full-Mix."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve דחה את ה-Full-Mix -- ל-Timeline \"%s\" חסר השמע."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  המצלמות נושאות את חלון הזמן ושנייה בכל קצה: נכתבו %s עבור %s מתוך %s שהוקלטו."

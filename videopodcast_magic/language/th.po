@@ -1152,8 +1152,8 @@ msgstr "  ไม่มีผลต่อเสียง"
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  ออฟเซ็ต:           %s   (จากการเทียบกล้อง)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  มีเพียง %s จาก %s ช็อตอยู่บน Timeline"
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve รับเพียง %s จาก %s ช็อต -- Timeline \"%s\" ขาดส่วนที่เหลือของการตัดต่อ"
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  พีก:                %s dB เหนือ %s dBTP -- ลิมิตเตอร์จะจัดการ"
@@ -1200,8 +1200,8 @@ msgstr "  ตัวอ้างอิง: %s (%s ยาวที่สุด)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  คงเหลือ:            %s dB ทุกแทร็ก คือ %s LUFS แทนที่จะเป็น %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve ไม่รับภาพเลย -- Timeline ว่างเปล่า จะไม่สร้าง\n  สิ่งอื่นบนนั้นอีก"
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve ไม่รับภาพเลย -- Timeline \"%s\" ขาดการตัดต่อและเสียงของมัน"
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  ผลลัพธ์: %s (%s) -- เก็บไว้ข้างไฟล์วิดีโอ\n"
@@ -1233,11 +1233,11 @@ msgstr "  เป้าหมาย:           %s LUFS  ->  %s dB ทุกแท
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline ได้ %s: ค่าสูงสุดในนั้น หรืออัตราถัดไปที่ Resolve\n  มีสูงกว่านั้น เมื่อแปลงขึ้น Resolve จะซ้ำเฟรม เมื่อแปลงลง\n  จะทิ้งเฟรม ทุกกล้องคงอัตราของตัวเอง และการตัดต่อนับ\n  ตามอัตรานั้น"
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  นำเข้า Full-Mix ไม่ได้"
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  ไม่มี Full-Mix ใน Media Pool ของ Resolve -- Timeline \"%s\" ขาดเสียง"
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  แทรก Full-Mix ไม่ได้"
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve ปฏิเสธ Full-Mix -- Timeline \"%s\" ขาดเสียง"
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  กล้องเก็บช่วงเวลาและเผื่อหัวท้ายอีกด้านละหนึ่งวินาที: เขียน %s สำหรับ %s จาก %s ที่บันทึกไว้"

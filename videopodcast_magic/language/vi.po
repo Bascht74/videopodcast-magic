@@ -1126,8 +1126,8 @@ msgstr "  Không ảnh hưởng đến âm thanh."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Độ lệch:           %s   (từ phép so sánh máy quay)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Chỉ %s trong %s cảnh quay nằm trên Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve chỉ nhận %s trong %s cảnh quay -- Timeline \"%s\" thiếu phần còn lại của bản dựng."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Đỉnh:              %s dB trên %s dBTP -- bộ giới hạn sẽ chặn chúng"
@@ -1174,8 +1174,8 @@ msgstr "  Tham chiếu: %s (%s, thời lượng dài nhất)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Còn lại:           %s dB trên mọi rãnh, tức là %s LUFS thay vì %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve không nhận hình nào cả -- Timeline trống. Không có gì\n  khác được dựng trên đó."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve không nhận hình ảnh nào -- Timeline \"%s\" thiếu bản dựng và âm thanh của nó."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Kết quả: %s (%s) -- nằm cạnh tệp video\n"
@@ -1207,11 +1207,11 @@ msgstr "  Mục tiêu:          %s LUFS  ->  %s dB trên mọi rãnh"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline nhận %s: mức cao nhất trong số đó, hoặc tốc độ kế tiếp\n  mà Resolve có ở trên mức đó. Chuyển lên thì Resolve lặp khung hình, chuyển xuống\n  thì bỏ bớt khung hình. Mỗi máy quay giữ tốc độ riêng, và bản dựng tính\n  theo tốc độ đó."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Không thể nhập Full-Mix."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve không có Full-Mix trong Media Pool -- Timeline \"%s\" thiếu âm thanh."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Không thể chèn Full-Mix."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve đã từ chối Full-Mix -- Timeline \"%s\" thiếu âm thanh."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Các máy quay mang khoảng thời gian cùng một giây ở mỗi đầu: đã ghi %s cho %s trên tổng %s đã ghi hình."

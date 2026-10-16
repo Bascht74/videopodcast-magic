@@ -1128,8 +1128,8 @@ msgstr "  Bez znaczenia dla dźwięku."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Przesunięcie:       %s   (z porównania kamer)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Tylko %s z %s ujęć jest na Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve przyjął tylko %s z %s ujęć -- na Timeline \"%s\" brakuje reszty montażu."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Szczyty:           %s dB powyżej %s dBTP -- limiter je wyłapuje"
@@ -1176,8 +1176,8 @@ msgstr "  Odniesienie: %s (%s, najdłuższy czas trwania)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Zostaje:           %s dB na każdej ścieżce, czyli %s LUFS zamiast %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve nie przyjął żadnego obrazu -- Timeline jest pusta. Nic więcej\n  nie jest na niej budowane."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve nie przyjął żadnego obrazu -- na Timeline \"%s\" brakuje montażu i jego dźwięku."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Wynik: %s (%s) -- zostaje obok pliku wideo\n"
@@ -1209,11 +1209,11 @@ msgstr "  Cel:               %s LUFS  ->  %s dB na każdej ścieżce"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline dostaje %s: najwyższą z nich albo następną wartość,\n  jaką Resolve ma powyżej. Przy przeliczaniu w górę Resolve powtarza klatki, w dół\n  je odrzuca. Każda kamera zachowuje własną liczbę klatek, a montaż liczy\n  w niej."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Nie udało się zaimportować Full-Mix."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve nie ma w Media Pool żadnego Full-Mix -- na Timeline \"%s\" brakuje dźwięku."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Nie udało się wstawić Full-Mix."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve odrzucił Full-Mix -- na Timeline \"%s\" brakuje dźwięku."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamery obejmują okno czasowe i po sekundzie z każdej strony: zapisano %s dla %s z %s nagranych."

@@ -2023,8 +2023,8 @@ msgstr "  На этой машине: %s"
 msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
 msgstr "  Одна камера на всех: разрезана на %s планов на смене говорящего, чтобы Resolve мог их сгруппировать."
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  На Timeline лежат только %s планов из %s."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve принял только %s планов из %s -- в Timeline «%s» не хватает остального монтажа."
 
 msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
 msgstr "  Только для голосов, которые ещё носят имя, данное программой; набранное вручную не трогается никогда. Роли считываются с того, кто спрашивает и кто отвечает; это верно для разговора с одним гостем и является предложением, а не настройкой."
@@ -2110,8 +2110,8 @@ msgstr "  Эталон: %s (%s, самая большая длительност
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Остаётся:          %s дБ на каждую дорожку, это %s LUFS вместо %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve не принял ни одной картинки -- Timeline пуста. Больше\n  на ней ничего не строится."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve не принял ни одного кадра -- в Timeline «%s» нет монтажа и его звука."
 
 msgid "  Result:            about %s LUFS, peak %s dBTP"
 msgstr "  Результат:         примерно %s LUFS, пик %s dBTP"
@@ -2158,11 +2158,11 @@ msgstr "  Цель:              %s LUFS  ->  %s дБ на каждую доро
 msgid "  That did not work: %s"
 msgstr "  Это не получилось: %s"
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix не удалось импортировать."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  В Media Pool Resolve нет Full-Mix -- в Timeline «%s» не хватает звука."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix не удалось вставить."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve отклонил Full-Mix -- в Timeline «%s» не хватает звука."
 
 msgid "  The Swift compiler reports: %s"
 msgstr "  Компилятор Swift сообщает: %s"

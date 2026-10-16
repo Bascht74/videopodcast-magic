@@ -3156,11 +3156,11 @@ msgstr "  %s शॉट, कुल %s s, उनके ऑडियो के ब�
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  कोई Full-Mix नहीं मिला -- Timeline मौन रहती है।"
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix आयात नहीं हो सका।"
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve के Media Pool में कोई Full-Mix नहीं है -- Timeline \"%s\" में ध्वनि नहीं है।"
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix डाला नहीं जा सका।"
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve ने Full-Mix अस्वीकार किया -- Timeline \"%s\" में ध्वनि नहीं है।"
 
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  ऑडियो: Full-Mix एक टुकड़े में A1 पर (%s)।"
@@ -3312,8 +3312,8 @@ msgstr "    %sx नियत कैमरा नहीं चल रहा थ�
 msgid "    Left without picture: %s"
 msgstr "    बिना चित्र रह गया: %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve ने कोई चित्र नहीं लिया -- Timeline खाली है। उस पर\n  आगे कुछ नहीं बनाया जाता।"
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve ने कोई भी चित्र नहीं लिया -- Timeline \"%s\" में कट और उसकी ध्वनि नहीं है।"
 
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  ऐसी कोई Timeline अभी नहीं थी -- बस बनाई जा रही है।"
@@ -3456,8 +3456,8 @@ msgstr "               ऑडियो %s: %s -- वहाँ यह %s शब�
 msgid "%s (%s to %s)"
 msgstr "%s (%s से %s)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  केवल %s शॉट (%s में से) Timeline पर हैं।"
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve ने केवल %s शॉट लिए (%s में से) -- Timeline \"%s\" में कट का बाकी हिस्सा नहीं है।"
 
 msgid "  Transcript: %s"
 msgstr "  ट्रांसक्रिप्ट: %s"

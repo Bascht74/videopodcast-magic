@@ -3172,11 +3172,11 @@ msgstr "  %s inquadrature, %s s in totale, senza il loro audio."
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  Nessun Full-Mix trovato -- la Timeline resta muta."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Non è stato possibile importare il Full-Mix."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve non ha alcun Full-Mix nel Media Pool -- la Timeline \"%s\" resta senza suono."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Non è stato possibile inserire il Full-Mix."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve ha rifiutato il Full-Mix -- la Timeline \"%s\" resta senza suono."
 
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  Audio: Full-Mix in un unico pezzo su A1 (%s)."
@@ -3328,8 +3328,8 @@ msgstr "    %sx la telecamera prevista non era in funzione -- al suo posto ce n�
 msgid "    Left without picture: %s"
 msgstr "    Rimasto senza immagine: %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve non ha preso alcuna immagine -- la Timeline è vuota. Non si\n  costruisce nient’altro su di essa."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve non ha preso nessuna immagine -- la Timeline \"%s\" resta senza il montaggio e il suo suono."
 
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Nessuna Timeline di questo tipo esisteva ancora -- viene solo costruita."
@@ -3472,8 +3472,8 @@ msgstr "               L’audio %s a %s -- lì incontra la %s parola."
 msgid "%s (%s to %s)"
 msgstr "%s (da %s a %s)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Solo %s di %s inquadrature sono sulla Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve ha preso solo %s di %s inquadrature -- la Timeline \"%s\" resta senza il resto del montaggio."
 
 msgid "  Transcript: %s"
 msgstr "  Trascrizione: %s"

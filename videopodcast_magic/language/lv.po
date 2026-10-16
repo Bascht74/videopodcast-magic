@@ -1155,8 +1155,8 @@ msgstr "  Skaņai tam nav nozīmes."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Nobīde:           %s   (no kameru salīdzinājuma)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Uz Timeline ir tikai %s no %s plāniem."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve pieņēma tikai %s no %s plāniem -- Timeline „%s“ trūkst pārējās montāžas."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Maksimumi:         %s dB virs %s dBTP -- limiters tos notver"
@@ -1203,8 +1203,8 @@ msgstr "  Atsauce: %s (%s, garākais ilgums)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Paliek:            %s dB katrā celiņā, tas ir %s LUFS, nevis %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve nepieņēma nevienu attēlu -- Timeline ir tukšs. Nekas\n  cits uz tā netiek veidots."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve nepieņēma nevienu attēlu -- Timeline „%s“ trūkst montāžas un tās skaņas."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Rezultāts: %s (%s) -- paliek blakus video failam\n"
@@ -1236,11 +1236,11 @@ msgstr "  Mērķis:            %s LUFS  ->  %s dB katrā celiņā"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline saņem %s: augstāko no tiem vai nākamo ātrumu, kas Resolve\n  ir virs tā. Konvertējot uz augšu, Resolve atkārto kadrus, uz leju --\n  tos izmet. Katra kamera saglabā savu ātrumu, un montāža skaita\n  tajā."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix neizdevās importēt."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve Media Pool nav Full-Mix -- Timeline „%s“ trūkst skaņas."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix neizdevās ievietot."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve atteica Full-Mix -- Timeline „%s“ trūkst skaņas."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamerās ir laika logs un pa sekundei katrā galā: ierakstīti %s, kas aptver %s no %s ierakstītā materiāla."

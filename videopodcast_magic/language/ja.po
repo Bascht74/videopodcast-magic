@@ -3142,11 +3142,11 @@ msgstr "  ショット %s 個、合計 %s 秒、音声なし。"
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  Full-Mix が見つかりません -- Timeline は無音のままです。"
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix を読み込めませんでした。"
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve の Media Pool に Full-Mix がありません -- Timeline \"%s\" には音声が欠けています。"
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix を挿入できませんでした。"
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve が Full-Mix を拒否しました -- Timeline \"%s\" には音声が欠けています。"
 
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  音声: Full-Mix を一続きで A1 に（%s）。"
@@ -3298,8 +3298,8 @@ msgstr "    %s 回、予定のカメラが回っていませんでした -- 別�
 msgid "    Left without picture: %s"
 msgstr "    映像なしのまま: %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve は映像を 1 つも取り込みませんでした -- Timeline は空です。\n  この上には何も作りません。"
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve は映像を一つも受け取りませんでした -- Timeline \"%s\" にはカットとその音声が欠けています。"
 
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  このような Timeline はまだありません -- 新たに作るだけです。"
@@ -3442,8 +3442,8 @@ msgstr "               音声の%s: %s -- そこで%sの言葉に重なります
 msgid "%s (%s to %s)"
 msgstr "%s（%s～%s）"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Timeline 上にあるのは %s / %s ショットだけです。"
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve が受け取ったのは %s / %s ショットだけです -- Timeline \"%s\" にはカットの残りが欠けています。"
 
 msgid "  Transcript: %s"
 msgstr "  書き起こし: %s"
