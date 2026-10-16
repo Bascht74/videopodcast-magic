@@ -65,9 +65,9 @@ figure of the day is that command, not this paragraph**:
   camera's drift goes out is `camera_drift`'s alone, by the rule every
   recording answers to (`drift_clear`: three times its uncertainty)
   and one bound of its own, 500 ppm
-* `auphonic/` **2311** -- the sending to auphonic.com and the fetching
+* `auphonic/` **2332** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **2066** -- whether the material fits together before the
+* `preflight/` **2062** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `setup/` **1377** -- finding ffmpeg, installing a missing module,
@@ -958,35 +958,50 @@ to do.
 
 ## How a production at auphonic.com is created and started
 
-The simple interface Auphonic offers for a single file has no field for
-speech recognition. A production with a transcript is created first and
-started second. For a single track the file goes to
-`/api/simple/productions.json` together with preset and title, and
-`action=start` is left out, so the production waits. The program then
-reads the production back from `/api/production/<id>.json` and adds the
-recognition to its own output files. It posts all of it in one call to
-the same address, and that call starts the production.
+Both kinds go the same three steps: create, upload, start. The preset
+is read in full from `/api/preset/<id>.json` and never named in the
+request: named, Auphonic merges the preset's list into the production's
+-- its tracks beside ours, its intro and outro with them -- and intro
+and outro come from the video files here. `production_from_preset`
+adopts everything else the preset holds, leaves out what only an answer
+carries (`PRESET_READ_ONLY`), its list and its speech recognition, and
+puts the episode's title in. An answer that holds no preset stops the
+run before anything is created.
 
-For multitrack the recognition is already part of the create request to
-`/api/productions.json`. The tracks follow through
-`/api/production/<id>/upload.json`, and
-`/api/production/<id>/start.json` starts the run.
+The request goes as JSON to `/api/productions.json`, which creates the
+production without starting it; a refusal, or an answer without the
+production's id, stops the run there. The files follow through
+`/api/production/<id>/upload.json` -- a single file as `input_file`,
+every track of a multitrack production in one call under its own name.
+A refused upload, or a track that got no file, stops the run before the
+start, naming the tracks. `/api/production/<id>/start.json` starts it,
+and `/api/production/<id>.json` is asked until it is done.
 
-Speech recognition is switched on with an empty service id, so
-Auphonic's own Whisper does the work. Shownotes stay off, and the
-language stays empty if none is set. Three output files are asked for
-beside the audio: `speech` as json, `subtitle` as srt, `transcript` as
-txt.
+A single file asks for the preset's output files as they stand, less the
+text speech recognition writes. Where the recording is stereo, the mono
+fold (`mono_mixdown`) is cleared in the create request: what a preset
+folds cannot be unfolded afterwards. A multitrack production asks
+instead for the single tracks as a ZIP and the finished mixdown as a
+24-bit WAV -- folded to one channel unless a track is stereo -- as the
+yardstick for the loudness of the program's own mix. Every track takes
+the settings of the preset's first track.
 
-When the production is done, everything is downloaded into
-`auphonic-tracks/`: the ZIP with the single tracks and every further
-output file the production carries.
+Auphonic's speech recognition is asked for by neither kind, whatever the
+preset says, and none of its text is fetched: the transcript is made
+here, and the preflight says so in one line, the same for both kinds.
 
-On the simple path every output the preset would fold to mono is
-switched off: what a preset folds cannot be unfolded afterwards.
+When the production is done, a single file's audio -- the lossless one
+where the preset writes several -- lands in the output folder itself
+with the text the production wrote beside it, chapter marks and
+statistics. A multitrack production's ZIP lands in `auphonic-tracks/`
+with every further output it carries. auphonic.com's transcript,
+subtitles and speech data stay there either way.
 
-On a recompute the track settings are brought to the preset as well,
-each through its own address (`.../multi_input_files/<Name>.json`).
+A production found again by its title is asked about before anything is
+paid for. On a multitrack recompute the settings are brought to the
+preset, the track settings each through its own address
+(`.../multi_input_files/<Name>.json`), and nothing goes up unless a new
+upload is asked for.
 
 ## How the key reaches curl
 

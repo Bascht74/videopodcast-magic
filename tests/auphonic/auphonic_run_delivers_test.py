@@ -7,9 +7,11 @@ never spoken to: `_curl_call` is replaced by a stand-in that answers
 from a table, which makes checkable what is sent, in what order, and
 what is not. What is sent is read whole -- the arguments and the files
 an @ points at -- because a key travels in a body as easily as in an
-argument. Every claim has its counter-check with a wrong input. A
-single file's production is made from its preset as a Multitrack one
-is: the settings and outputs adopted, the preset's intro and outro not.
+argument. Every claim has its counter-check with a wrong input, and a
+refusal at any step -- the preset read, the creation, the upload --
+stops the run before the start. A single file's production is made
+from its preset as a Multitrack one is: the settings and outputs
+adopted, the preset's intro and outro not.
 Last, a Multitrack run's lookup by title takes the Multitrack
 production of that title and passes over a Singletrack one with an
 intro.
@@ -521,6 +523,29 @@ check("and nothing was started for it",
       not any("start" in p for _m, p in server.calls),
       str(server.calls))
 
+server, folder = fresh("uploadrefused")
+server.upload_answer = {"status_code": 413,
+                        "error_message": "file too large"}
+said = raises(lambda: multitrack(server, folder), "413")
+starts = [p for _m, p in server.calls if p.endswith("/start.json")]
+check("a refused track upload stops the run, starting nothing",
+      bool(said) and not starts,
+      "raised %r, %d start calls" % (said[:70], len(starts)))
+check("a refusal that names no track names every one sent",
+      all(n in said for n in NAMES),
+      "raised %r, wanted %s in it" % (said[:90], NAMES))
+# The form errors keyed by the upload's field, which is the track's
+# name: the shape the API gives a refused form, not one seen in an
+# answer to an upload.
+server, folder = fresh("uploadguest")
+server.upload_answer = {"status_code": 400, "error_message": "",
+                        "form_errors": {"Guest": ["not an audio file"]},
+                        "data": {}}
+said = raises(lambda: multitrack(server, folder), "400")
+check("a refusal that names a track names that one alone",
+      "Guest" in said and "Host" not in said and "Third" not in said,
+      "raised %r, wanted Guest and neither Host nor Third" % said[:90])
+
 server, folder = fresh("rejected")
 server.create_answer = {"status_code": 400,
                         "error_message": "preset does not exist"}
@@ -708,6 +733,16 @@ starts = [p for _m, p in server.calls if p.endswith("/start.json")]
 check("a refused upload stops the run, starting nothing",
       bool(said) and not starts,
       "raised %r, %d start calls" % (said[:60], len(starts)))
+
+server, folder = fresh("simplepresetempty")
+server.single_preset = {}
+said = raises(lambda: single(server, folder, mono), "not readable")
+made = [p for m, p in server.calls
+        if m == "POST" and p == "/api/productions.json"]
+check("a preset answer that holds no preset stops the run first",
+      bool(said) and not made and not server.downloads,
+      "raised %r, %d productions made, %d downloads"
+      % (said[:60], len(made), len(server.downloads)))
 
 server, folder = fresh("simplenouuid")
 server.create_answer = {"status_code": 201, "data": {}}

@@ -5221,9 +5221,6 @@ msgstr "Rozpoznávanie reči"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "zapnuté v predvoľbe -- nevyžiadané a nič z jeho textu sa nesťahuje: prepis vzniká tu."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "zapnuté v predvoľbe, takže auphonic.com tiež prepisuje -- jeho text sa nesťahuje: prepis vzniká tu."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- tak, ako ich má predvoľba; program nemení žiadny."
 

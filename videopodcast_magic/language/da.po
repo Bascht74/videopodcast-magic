@@ -5177,9 +5177,6 @@ msgstr "Talegenkendelse"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "slået til i presettet -- ikke bestilt, og intet af dens tekst hentes: transskriptionen laves her."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "slået til i presettet, så auphonic.com transskriberer også -- dens tekst hentes ikke: transskriptionen laves her."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- som presettet har dem; programmet ændrer ingen af dem."
 

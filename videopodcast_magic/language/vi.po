@@ -5135,9 +5135,6 @@ msgstr "Nhận dạng giọng nói"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "đang bật trong preset -- không được yêu cầu, và không tải về gì từ văn bản của nó: bản chép lời được làm ở đây."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "đang bật trong preset, nên auphonic.com cũng chép lời -- văn bản của nó không được tải về: bản chép lời được làm ở đây."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- như trong preset; chương trình không thay đổi cái nào."
 

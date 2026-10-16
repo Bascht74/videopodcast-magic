@@ -6810,9 +6810,6 @@ msgstr "Spracherkennung"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "im Preset eingeschaltet -- nicht angefordert, und von ihrem Text wird nichts geholt: das Transkript entsteht hier."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "im Preset eingeschaltet, also transkribiert auphonic.com mit -- ihr Text wird nicht geholt: das Transkript entsteht hier."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- so, wie das Preset sie hat; das Programm ändert keinen."
 

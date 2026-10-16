@@ -5181,9 +5181,6 @@ msgstr "تقریر کی شناخت"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "پری سیٹ میں آن ہے -- مانگی نہیں جاتی، اور اس کا کوئی متن نہیں لایا جاتا: ٹرانسکرپٹ یہیں بنتا ہے۔"
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "پری سیٹ میں آن ہے، اس لیے auphonic.com بھی ٹرانسکرائب کرتا ہے -- اس کا متن نہیں لایا جاتا: ٹرانسکرپٹ یہیں بنتا ہے۔"
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- جیسے پری سیٹ میں ہیں؛ پروگرام کسی کو نہیں بدلتا۔"
 

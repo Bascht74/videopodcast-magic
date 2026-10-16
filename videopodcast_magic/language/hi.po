@@ -5178,9 +5178,6 @@ msgstr "वाक् पहचान"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "प्रीसेट में चालू -- माँगी नहीं जाती, और उसका कोई पाठ नहीं लाया जाता: ट्रांसक्रिप्ट यहीं बनता है।"
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "प्रीसेट में चालू, इसलिए auphonic.com भी ट्रांसक्राइब करता है -- उसका पाठ नहीं लाया जाता: ट्रांसक्रिप्ट यहीं बनता है।"
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- जैसे प्रीसेट में हैं; प्रोग्राम किसी को नहीं बदलता।"
 

@@ -5225,9 +5225,6 @@ msgstr "Kalbos atpažinimas"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "įjungtas išankstiniame nustatyme -- neprašomas, ir nieko iš jo teksto neatsisiunčiama: transkripcija daroma čia."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "įjungtas išankstiniame nustatyme, todėl auphonic.com taip pat transkribuoja -- jo tekstas neatsisiunčiamas: transkripcija daroma čia."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- taip, kaip juos turi išankstinis nustatymas; programa nekeičia nė vieno."
 

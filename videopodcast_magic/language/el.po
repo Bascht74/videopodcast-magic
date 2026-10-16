@@ -5179,9 +5179,6 @@ msgstr "Αναγνώριση ομιλίας"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "ενεργή στην προρύθμιση -- δεν ζητείται, και τίποτα από το κείμενό της δεν λαμβάνεται: η απομαγνητοφώνηση γίνεται εδώ."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "ενεργή στην προρύθμιση, οπότε το auphonic.com απομαγνητοφωνεί επίσης -- το κείμενό της δεν λαμβάνεται: η απομαγνητοφώνηση γίνεται εδώ."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- όπως τα έχει η προρύθμιση· το πρόγραμμα δεν αλλάζει κανένα."
 

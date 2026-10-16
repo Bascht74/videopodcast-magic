@@ -1362,13 +1362,15 @@ def build_single_request(preset, title, stereo=False):
     """Build a Singletrack production request from the preset that was read.
 
     Made as the Multitrack request is, so the preset's intro and outro
-    stay behind. Its outputs are asked for as it has them, except that
-    with a stereo recording none folds to one channel: what a preset
-    folds cannot be unfolded afterwards.
+    and its speech recognition stay behind. Its outputs are asked for as
+    it has them, less the text speech recognition writes, and with a
+    stereo recording none folds to one channel: what a preset folds
+    cannot be unfolded afterwards.
     """
     request = production_from_preset(preset, title)
     request["output_files"] = [output_file_wish(f) for f in
-                               (preset.get("output_files") or [])]
+                               (preset.get("output_files") or [])
+                               if not auphonic_transcript(f)]
     if stereo:
         for f in request["output_files"]:
             if f.get("mono_mixdown"):
@@ -1628,11 +1630,20 @@ PRESET_READ_ONLY = (
 
 
 def read_preset(key, uuid):
-    """Fetch one preset in full."""
+    """Fetch one preset in full.
+
+    An answer that holds no preset stops here: taken for one, it would
+    make a production of none of the preset's settings, paid for all
+    the same.
+    """
     d = _parse_json(_curl_call(key, [AUPHONIC + "/api/preset/%s.json" % uuid]))
     if d.get("status_code") not in (200, None):
         raise RuntimeError(T('Preset not readable: %s') % d.get("error_message"))
-    return d.get("data") or d
+    preset = d.get("data")
+    if not isinstance(preset, dict) or not preset:
+        raise RuntimeError(T('Preset not readable: %s') % (
+            d.get("error_message") or T('no answer')))
+    return preset
 
 
 def find_output_format(key, find, avoid=()):
@@ -1741,10 +1752,12 @@ def production_from_preset(preset, title):
     The preset cannot be sent along: Auphonic then merges its list with
     the production's -- its tracks beside ours, and its intro and outro
     with them, where intro and outro come from the video files here. So
-    it is read and adopted, its list left out, for either kind.
+    it is read and adopted, less its list and its speech recognition --
+    the transcript is made here -- for either kind.
     """
     request = {k: v for k, v in preset.items() if k not in PRESET_READ_ONLY}
     request.pop("multi_input_files", None)
+    request.pop("speech_recognition", None)
     request["metadata"] = dict(preset.get("metadata") or {})
     request["metadata"]["title"] = title
     return request
@@ -1775,9 +1788,6 @@ def build_multitrack_request(preset, title, names, base_name, key=None,
     Adopted except what we set; its first track's settings apply to all.
     """
     request = production_from_preset(preset, title)
-    # The transcript is made here: auphonic.com's speech recognition is
-    # not asked for, whatever the preset says, and the preflight says so.
-    request.pop("speech_recognition", None)
     template = dict((preset_track_template(preset) or {}).get("algorithms")
                     or {})
     request["is_multitrack"] = True
@@ -1977,8 +1987,10 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
 def _upload_tracks(key, uuid, tracks):
     """Upload every track into the production, each under its name.
 
-    A track auphonic.com took no file for stops the run here: the mix
-    would go on without that voice.
+    A refused upload, or a track auphonic.com took no file for, stops
+    the run here, before the start: the mix would go on without that
+    voice. A refusal names the tracks its answer names, or else every
+    track of the upload, which went up in one.
     """
     upload_args = ["-X", "POST",
                    AUPHONIC + "/api/production/%s/upload.json" % uuid]
@@ -1988,6 +2000,15 @@ def _upload_tracks(key, uuid, tracks):
         key, upload_args,
         progress=T('Uploading %s tracks')
         % number_text(len(tracks), 0)))
+    if d.get("status_code") not in (200, 201, None):
+        errors = d.get("form_errors")
+        named = [track["name"] for track in tracks
+                 if isinstance(errors, dict) and track["name"] in errors]
+        raise RuntimeError("%s\n  %s" % (
+            T('These tracks got no file: %s')
+            % ", ".join(named or [track["name"] for track in tracks]),
+            T('Auphonic reports %s: %s')
+            % (d.get("status_code"), d.get("error_message") or errors)))
     absent = [x.get("id") for x in ((d.get("data") or {}).get(
         "multi_input_files") or []) if not x.get("input_file")]
     if absent:

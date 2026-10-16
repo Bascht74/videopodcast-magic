@@ -5183,9 +5183,6 @@ msgstr "Utambuzi wa usemi"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "imewashwa kwenye preset -- haiombwi, na hakuna chochote cha maandishi yake kinachopakuliwa: nakala ya maandishi inafanywa hapa."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "imewashwa kwenye preset, kwa hiyo auphonic.com pia inanakili -- maandishi yake hayapakuliwi: nakala ya maandishi inafanywa hapa."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- kama zilivyo kwenye preset; programu haibadilishi hata moja."
 

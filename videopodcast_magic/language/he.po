@@ -5178,9 +5178,6 @@ msgstr "זיהוי דיבור"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "מופעל בפריסט -- לא מבוקש, ושום דבר מהטקסט שלו לא מורד: התמלול נעשה כאן."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "מופעל בפריסט, ולכן auphonic.com מתמלל גם -- הטקסט שלו לא מורד: התמלול נעשה כאן."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- כפי שהם בפריסט; התוכנה לא משנה אף אחד."
 

@@ -1438,13 +1438,9 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
             % ", ".join(cuts)))
     if preset_listens(p):
         out.append(Finding(
-            "good" if multitrack else "hint", T('Speech recognition'),
+            "good", T('Speech recognition'),
             T('switched on in the preset -- not asked for, and nothing of '
-              'its text is fetched: the transcript is made here.')
-            if multitrack else
-            T('switched on in the preset, so auphonic.com transcribes as '
-              'well -- its text is not fetched: the transcript is made '
-              'here.')))
+              'its text is fetched: the transcript is made here.')))
     target = alg.get("loudnesstarget")
     try:
         target = float(target) if target is not None else None

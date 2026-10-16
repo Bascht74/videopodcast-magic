@@ -160,9 +160,9 @@ Preset; das Programm schaltet darin nichts ein und nichts aus.
   und der Lauf geht weiter.
 * `Spracherkennung` sagt in einer Zeile, wenn im Preset die
   Spracherkennung von auphonic.com eingeschaltet ist. Sie hält nichts
-  an. Das Transkript entsteht ohnehin hier (siehe unten); eine
-  Multitrack-Produktion fordert sie deshalb nicht an, und keine der
-  beiden Arten holt ihren Text.
+  an. Das Transkript entsteht ohnehin hier (siehe unten); deshalb
+  fordert keine der beiden Arten von Produktion sie an, und keine holt
+  ihren Text.
 * `Vorspann / Abspann` sagt in einer Zeile, wenn das Preset ein Intro
   oder ein Outro enthält -- bei einer einzelnen Spur wie bei mehreren.
   Keins von beiden wird verwendet: Die Produktion übernimmt die
@@ -206,12 +206,10 @@ Untertitel und eine txt-Datei zum Lesen, in der Form, in der
 auphonic.com seine eigenen liefert.
 
 Ein Preset, in dem die Spracherkennung von auphonic.com eingeschaltet
-ist, ändert daran nichts. Eine Multitrack-Produktion wird ohne sie
-angelegt. Eine einzelne Spur übernimmt die Einstellungen des Presets,
-wie sie sind, und auphonic.com transkribiert dann mit -- wer das nicht will, schaltet es
-im Preset aus. So oder so bleiben Untertitel, Sprachdaten und
-Transkript von dort auf auphonic.com und werden nicht geholt: Es gibt
-ein Transkript, und es ist das, das hier entsteht.
+ist, ändert daran nichts. Die Produktion wird ohne sie angelegt, bei
+einer einzelnen Spur wie bei mehreren, und auphonic.com transkribiert
+nichts. Untertitel, Sprachdaten und Transkript werden weder angefordert
+noch geholt: Es gibt ein Transkript, und es ist das, das hier entsteht.
 
 Das kostet Rechenzeit, kein Guthaben. Es braucht weder Schlüssel noch
 Preset noch Upload, und ein Lauf ohne Auphonic schreibt dieselben drei
@@ -360,8 +358,10 @@ Mehrere Spuren gehen diese:
    eigene Mix des Programms werden soll. Ist eine Spur Stereo, folgt
    `Zwei Kanäle, weil eine Spur Stereo ist`.
 2. `Produktion angelegt (…)`, dann `Lade 2 Spuren hoch`: alle Spuren in
-   einem Zug. Eine Spur, für die auphonic.com keine Datei angenommen
-   hat, hält den Lauf an.
+   einem Zug. Lehnt auphonic.com das Hochladen ab oder nimmt es für eine
+   Spur keine Datei an, hält der Lauf an, bevor die Produktion startet.
+   `Diese Spuren bekamen keine Datei:` nennt die betroffenen Spuren;
+   nennt auphonic.com selbst keine, stehen dort alle, die hochgingen.
 3. `Produktion läuft (…)`, sobald die Spuren oben sind und die
    Produktion gestartet ist, dann `Zeitgrenze:` und derselbe Balken.
 4. `Lade <Titel>.wav.zip herunter`, die Einzelspuren in einem Archiv,

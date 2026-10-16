@@ -5125,9 +5125,6 @@ msgstr "语音识别"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "预设中已开启 -- 不会请求，其文本也不会下载: 转录在这里完成。"
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "预设中已开启，因此 auphonic.com 也会转录 -- 其文本不会下载: 转录在这里完成。"
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- 按预设原样，程序一个都不改。"
 

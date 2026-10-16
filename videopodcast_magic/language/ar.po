@@ -5359,9 +5359,6 @@ msgstr "التعرف على الكلام"
 msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
 msgstr "مفعّل في الإعداد المسبق -- لا يُطلب، ولا يُجلب شيء من نصه: النص المكتوب يُصنع هنا."
 
-msgid "switched on in the preset, so auphonic.com transcribes as well -- its text is not fetched: the transcript is made here."
-msgstr "مفعّل في الإعداد المسبق، لذا يكتب auphonic.com النص أيضًا -- لا يُجلب نصه: النص المكتوب يُصنع هنا."
-
 msgid "%s -- as the preset has them, the program changes none."
 msgstr "%s -- كما هي في الإعداد المسبق؛ البرنامج لا يغيّر أيًا منها."
 
