@@ -5240,3 +5240,10 @@ msgstr "Resolve antwoordt, maar geeft geen projectbeheer vrij."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "De kanalen van %s zijn nog niet in sporen uitgesneden."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s en %s in %s klinken gelijk (gelijkenis %s): de scheiding heeft de "
+"twee misschien verwisseld -- controleer hun toewijzing."

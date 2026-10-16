@@ -5242,3 +5242,10 @@ msgstr "Resolve отговаря, но не предоставя мениджъ�
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Каналите на %s още не са изрязани на писти."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s и %s в %s звучат еднакво (сходство %s): разделянето може да ги е "
+"объркало -- проверете разпределението им."

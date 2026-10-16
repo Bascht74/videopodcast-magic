@@ -5241,3 +5241,10 @@ msgstr "A Resolve válaszol, de nem ad projektkezelőt."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "%s csatornái még nincsenek sávokra vágva."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s és %s a(z) %s felvételben hasonlóan hangzik (hasonlóság %s): a "
+"szétválasztás talán összekeverte őket -- ellenőrizze a hozzárendelésüket."

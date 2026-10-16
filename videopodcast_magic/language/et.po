@@ -5241,3 +5241,10 @@ msgstr "Resolve vastab, kuid ei anna projektihaldurit."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Faili %s kanaleid pole veel radadeks lõigatud."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s ja %s failis %s kõlavad sarnaselt (sarnasus %s): eristamine võis "
+"need kaks segi ajada -- kontrollige nende määramist."

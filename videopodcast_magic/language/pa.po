@@ -5244,3 +5244,10 @@ msgstr "Resolve ਜਵਾਬ ਦਿੰਦਾ ਹੈ, ਪਰ ਕੋਈ ਪ੍ਰ�
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "%s ਦੇ ਚੈਨਲ ਹਾਲੇ ਟਰੈਕਾਂ ਵਿੱਚ ਨਹੀਂ ਕੱਟੇ ਗਏ।"
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s ਅਤੇ %s (%s ਵਿੱਚ) ਇੱਕੋ ਜਿਹੇ ਸੁਣਦੇ ਹਨ (ਸਮਾਨਤਾ %s): ਹੋ ਸਕਦਾ ਹੈ ਵੱਖਰੇਵੇਂ "
+"ਨੇ ਦੋਵਾਂ ਨੂੰ ਰਲਾ ਦਿੱਤਾ ਹੋਵੇ -- ਉਹਨਾਂ ਦਾ ਨਿਰਧਾਰਨ ਜਾਂਚੋ।"

@@ -43,6 +43,33 @@ second one takes nothing from the first, both cells say their own
 number, and both sets of voices stay in their rows. The project file
 keeps them all.
 
+Where two voices of one separation sound alike, the separation may have
+confused the two people, and the program says so. Alike means at or over
+the line at which it takes a voice heard in two recordings for the same
+person ("Naming the voices" below): a similarity of 0.70. The log says
+it in one line that names both voices -- by the names they carry, else
+by the model's labels -- and how alike they are, and advises checking
+their assignment: click each of the two rows and listen. The window says
+the same where it shows the separation: **Separated: 2 speakers** turns
+amber in the row, and the line under the table carries the log's
+sentence until the table is next built anew. Nothing is merged or
+renamed. Measured on 16.10.2026 on conversations of voices made with
+say(1): the warning appeared on all seven separations whose two voices
+lay at 0.92 to 0.99 -- five of them had put about half the speech on the
+wrong person, the other two a quarter and a sixth of it -- and on none
+of the sixteen whose voices lay at 0.16 to 0.57, which had 83 to 98 % of
+the speech on the right person. Real interviews are not measured yet.
+
+The warning cannot see two things. Two people the separation has already
+put into one voice leave nothing to compare: with the count left to the
+program, that is what became of seven of the eight pairs of similar
+voices measured, nearly all of the speech on one voice and beside it at
+most a scrap of a tenth of a second that carries no print.
+**One more speaker** goes through the recording again with the count
+given, and then the warning can judge the two. And voices from separate
+microphones carry no voice print at all: where each person has a track
+of their own, the tracks say who speaks, and no warning comes from them.
+
 Under the recordings one line offers the separation, and only where
 it is needed. A Mac works it out by itself and gets no line at all.
 Anywhere else the line stands there the first time, with **Not on this

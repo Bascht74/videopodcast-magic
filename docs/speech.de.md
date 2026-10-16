@@ -46,6 +46,38 @@ trennen nimmt der ersten nichts weg, beide Zellen sagen ihre eigene
 Zahl, und die Stimmen beider bleiben in ihren Zeilen stehen. Die
 Projektdatei behält sie alle.
 
+Klingen zwei Stimmen einer Trennung ähnlich, hat die Trennung die beiden
+Menschen vielleicht verwechselt, und das Programm sagt es. Ähnlich heißt
+hier: ab der Linie, ab der es eine in zwei Aufnahmen gehörte Stimme für
+dieselbe Person hält („Die Stimmen benennen“ weiter unten), also ab
+einer Ähnlichkeit von 0,70. Das Protokoll sagt es in einer Zeile, die
+beide Stimmen nennt -- mit den Namen, die sie tragen, sonst mit den
+Bezeichnungen des Modells -- und wie ähnlich sie sind, und rät, ihre
+Zuordnung zu prüfen: beide Zeilen nacheinander anklicken und hinhören.
+Das Fenster sagt dasselbe dort, wo es die Trennung zeigt:
+**Getrennt: 2 Sprecher** wird in der Zeile bernsteinfarben, und die
+Zeile unter der Tabelle trägt den Satz aus dem Protokoll, bis die
+Tabelle das nächste Mal neu aufgebaut wird. Nichts wird zusammengelegt
+oder umbenannt. Gemessen am 16.10.2026 an Gesprächen aus Stimmen, die
+say(1) gesprochen hat: Die Warnung kam bei allen sieben Trennungen,
+deren zwei Stimmen bei 0,92 bis 0,99 lagen -- fünf davon hatten etwa die
+Hälfte des Gesprochenen der falschen Person gegeben, die anderen beiden
+ein Viertel und ein Sechstel --, und sie blieb bei allen sechzehn aus,
+deren Stimmen bei 0,16 bis 0,57 lagen und die 83 bis 98 % des
+Gesprochenen der richtigen Person gaben. Echte Interviews sind noch
+nicht gemessen.
+
+Zwei Dinge sieht die Warnung nicht. Zwei Menschen, die die Trennung
+schon zu einer Stimme gemacht hat, lassen nichts zum Vergleichen übrig:
+Wo das Programm die Zahl selbst ermittelt, wurde das aus sieben der acht
+gemessenen Paare ähnlicher Stimmen -- fast alles Gesprochene auf einer
+Stimme und daneben höchstens ein Rest von einer Zehntelsekunde ohne
+Abdruck. **Ein Sprecher mehr** geht die Aufnahme mit vorgegebener Zahl
+noch einmal durch, und dann kann die Warnung die beiden beurteilen. Und
+Stimmen von getrennten Mikrofonen tragen gar keinen Stimmabdruck: Wo
+jede Person eine eigene Spur hat, sagen die Spuren, wer spricht, und von
+ihnen kommt keine Warnung.
+
 Unter den Aufnahmen bietet eine Zeile die Trennung an, und nur dort,
 wo sie gebraucht wird. Ein Mac rechnet sie von selbst und bekommt gar
 keine Zeile. Überall sonst steht sie beim ersten Mal da, mit **Auf

@@ -5286,3 +5286,10 @@ msgstr "Resolve odpovídá, ale nevydá žádného správce projektů."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Kanály souboru %s ještě nejsou rozřezány na stopy."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s a %s v %s zní podobně (podobnost %s): oddělení je možná zaměnilo -- "
+"zkontrolujte jejich přiřazení."

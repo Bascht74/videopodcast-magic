@@ -6867,3 +6867,10 @@ msgstr "Resolve antwortet, gibt aber keine Projektverwaltung heraus."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Die Kanäle von %s sind noch nicht in Spuren zerlegt."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s und %s in %s klingen ähnlich (Ähnlichkeit %s): die Trennung hat die "
+"beiden vielleicht verwechselt -- ihre Zuordnung prüfen."

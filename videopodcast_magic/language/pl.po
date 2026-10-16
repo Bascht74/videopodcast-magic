@@ -5287,3 +5287,10 @@ msgstr "Resolve odpowiada, ale nie udostępnia menedżera projektów."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Kanały pliku %s nie są jeszcze pocięte na ścieżki."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s i %s w %s brzmią podobnie (podobieństwo %s): rozdzielenie mogło ich "
+"pomylić -- sprawdź ich przypisanie."

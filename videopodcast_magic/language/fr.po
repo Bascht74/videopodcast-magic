@@ -5251,3 +5251,10 @@ msgstr "Resolve répond, mais ne fournit aucun gestionnaire de projets."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Les canaux de %s ne sont pas encore découpés en pistes."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s et %s dans %s se ressemblent (similarité %s) : la séparation a pu "
+"les confondre -- vérifiez leur affectation."

@@ -5240,3 +5240,10 @@ msgstr "Το Resolve απαντά, αλλά δεν δίνει διαχειρισ
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Τα κανάλια του %s δεν έχουν ακόμη κοπεί σε κομμάτια."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  Οι %s και %s στο %s ακούγονται όμοια (ομοιότητα %s): ο διαχωρισμός ίσως "
+"τους μπέρδεψε -- ελέγξτε την αντιστοίχισή τους."

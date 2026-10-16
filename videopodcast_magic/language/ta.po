@@ -5243,3 +5243,10 @@ msgstr "Resolve பதிலளிக்கிறது, ஆனால் தி�
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "%s இன் சேனல்கள் இன்னும் தடங்களாகப் பிரிக்கப்படவில்லை."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s மற்றும் %s (%s இல்) ஒன்றுபோல் ஒலிக்கின்றன (ஒற்றுமை %s): பிரிப்பு "
+"இருவரையும் குழப்பியிருக்கலாம் -- அவற்றின் ஒதுக்கீட்டைச் சரிபார்க்கவும்."

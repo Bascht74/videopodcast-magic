@@ -5242,3 +5242,10 @@ msgstr "Resolve جواب دیتا ہے، لیکن کوئی پروجیکٹ مین
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "%s کے چینل ابھی ٹریکوں میں نہیں کاٹے گئے۔"
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s اور %s، %s میں، ایک جیسے لگتے ہیں (مشابہت %s): ممکن ہے علیحدگی نے "
+"دونوں کو گڈمڈ کر دیا ہو -- ان کی تفویض جانچیں۔"

@@ -5195,3 +5195,10 @@ msgstr "Resolve menjawab, tetapi tidak memberikan pengelola proyek."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Kanal %s belum dipotong menjadi trek."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s dan %s di %s terdengar mirip (kemiripan %s): pemisahan mungkin "
+"tertukar antara keduanya -- periksa pemetaannya."

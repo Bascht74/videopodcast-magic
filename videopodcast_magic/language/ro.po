@@ -5287,3 +5287,10 @@ msgstr "Resolve răspunde, dar nu oferă niciun manager de proiecte."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Canalele din %s nu sunt încă tăiate în piste."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s și %s din %s sună la fel (similaritate %s): separarea i-a putut "
+"încurca -- verificați atribuirea lor."

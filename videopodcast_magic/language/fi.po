@@ -5239,3 +5239,10 @@ msgstr "Resolve vastaa, mutta ei anna projektinhallintaa."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Tiedoston %s kanavia ei ole vielä leikattu raidoiksi."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s ja %s tiedostossa %s kuulostavat samalta (samankaltaisuus %s): "
+"erottelu on ehkä sekoittanut ne -- tarkista niiden määritys."

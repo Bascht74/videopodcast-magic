@@ -5290,3 +5290,10 @@ msgstr "Resolve atbild, bet neizsniedz projektu pārvaldnieku."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Faila %s kanāli vēl nav sagriezti celiņos."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s un %s ierakstā %s izklausās līdzīgi (līdzība %s): atdalīšana, "
+"iespējams, abus sajaukusi -- pārbaudiet to piešķiršanu."

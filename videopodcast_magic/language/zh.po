@@ -5176,3 +5176,8 @@ msgstr "Resolve 有回应，但不提供项目管理器。"
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "%s 的声道尚未切分成音轨。"
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr "  %s 和 %s（%s 中）听起来很像（相似度 %s）：分离可能把两人弄混了 -- 请检查他们的分配。"

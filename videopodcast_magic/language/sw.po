@@ -5244,3 +5244,10 @@ msgstr "Resolve inajibu, lakini haitoi msimamizi wa miradi."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Chaneli za %s bado hazijakatwa kuwa treki."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s na %s katika %s wanasikika sawa (ufanano %s): utenganishaji huenda "
+"umewachanganya -- kagua ugawaji wao."

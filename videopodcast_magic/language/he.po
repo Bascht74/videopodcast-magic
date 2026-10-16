@@ -5237,3 +5237,10 @@ msgstr "Resolve עונה, אך אינו מוסר מנהל פרויקטים."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "הערוצים של %s עדיין לא נחתכו לרצועות."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s ו-%s ב-%s נשמעים דומים (דמיון %s): ייתכן שההפרדה החליפה ביניהם -- "
+"בדקו את השיוך שלהם."

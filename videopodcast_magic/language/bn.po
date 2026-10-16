@@ -5240,3 +5240,10 @@ msgstr "Resolve সাড়া দেয়, কিন্তু কোনো �
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "%s-এর চ্যানেলগুলো এখনও ট্র্যাকে কেটে আলাদা করা হয়নি।"
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s ও %s (%s-এ) শুনতে একই রকম (মিল %s): পৃথকীকরণ দুজনকে গুলিয়ে ফেলে "
+"থাকতে পারে -- তাদের বরাদ্দ যাচাই করুন।"

@@ -5239,3 +5239,10 @@ msgstr "Resolve svarar, men lämnar inte ut någon projekthanterare."
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Kanalerna i %s är ännu inte utskurna till spår."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s och %s i %s låter lika (likhet %s): separeringen kan ha blandat ihop "
+"dem -- kontrollera deras tilldelning."

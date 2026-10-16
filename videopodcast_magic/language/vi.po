@@ -5192,3 +5192,10 @@ msgstr "Resolve trả lời, nhưng không đưa ra trình quản lý dự án n
 
 msgid "The channels of %s are not cut into tracks yet."
 msgstr "Các kênh của %s chưa được tách thành rãnh."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s và %s trong %s nghe giống nhau (độ tương đồng %s): việc tách có thể "
+"đã nhầm hai người -- hãy kiểm tra phần gán của họ."
