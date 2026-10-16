@@ -406,6 +406,10 @@ def channel_rows_build(node, path, Qt, QtCore, QtWidgets, blocks_of,
                 split_files.pop(block, None)
             QtCore.QTimer.singleShot(
                 0, lambda: channels_arrived(file_path))
+            # Until the new cut is in the file has no tracks, so the table
+            # and the buttons follow now, as after a join: otherwise a
+            # press in between hands the run the file whole.
+            QtCore.QTimer.singleShot(0, items.window().assignment_due.emit)
 
         box.toggled.connect(chosen)
         items.setItemWidget(kid, 2, beside)
