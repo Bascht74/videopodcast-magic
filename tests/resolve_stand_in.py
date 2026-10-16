@@ -384,11 +384,17 @@ class Timeline(Refusing):
 
 
 class Folder(object):
+    """A media pool bin: its clips, and the bins inside it."""
+
     def __init__(self):
         self.clips = []
+        self.folders = []
 
     def GetClipList(self):
         return list(self.clips)
+
+    def GetSubFolderList(self):
+        return list(self.folders)
 
 
 class MediaPool(Refusing):
