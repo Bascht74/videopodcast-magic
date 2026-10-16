@@ -302,6 +302,7 @@ source_frozen_name_holds	9
 source_imported_is_whole	5
 source_limits_hold	19
 source_line_loads_no_qt	6
+source_lines_stay_tested	3
 source_live_asks_first	19
 source_material_stays	3
 source_names_said_once	4
