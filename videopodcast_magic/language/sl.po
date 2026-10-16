@@ -3203,6 +3203,21 @@ msgstr "izvorna mapa"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "predloga sledi nima nič vklopljenega -- sledi bi se vrnile točno takšne, kot so bile naložene."
 
+msgid "Intro / outro"
+msgstr "Uvodna špica / Odjavna špica"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "prednastavitev ima uvodno špico -- ta se ne uporabi: uvodna in odjavna špica prideta iz video datotek."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "prednastavitev ima odjavno špico -- ta se ne uporabi: uvodna in odjavna špica prideta iz video datotek."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "prednastavitev ima uvodno in odjavno špico -- nobena se ne uporabi: uvodna in odjavna špica prideta iz video datotek."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Prideta iz video datotek, ki imajo na seznamu datotek Vrsto nastavljeno na Uvodna špica ali Odjavna špica, ali iz --intro in --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "video datoteke so različno označene: %s"
 

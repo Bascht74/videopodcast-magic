@@ -2941,6 +2941,21 @@ msgstr "Обидва одночасно не вийде: доріжки, що п
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "у шаблоні доріжки нічого не ввімкнено -- доріжки повернулися б точно такими, як їх вивантажено."
 
+msgid "Intro / outro"
+msgstr "Заставка / Кінцівка"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "у пресеті є заставка -- вона не використовується: заставка і кінцівка беруться з відеофайлів."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "у пресеті є кінцівка -- вона не використовується: заставка і кінцівка беруться з відеофайлів."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "у пресеті є заставка і кінцівка -- жодна не використовується: заставка і кінцівка беруться з відеофайлів."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Вони беруться з відеофайлів, у яких у списку файлів Вид стоїть на Заставка або Кінцівка, або з --intro і --outro."
+
 msgid "Check"
 msgstr "Перевірка"
 

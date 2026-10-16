@@ -2913,6 +2913,21 @@ msgstr "As duas coisas ao mesmo tempo não funcionam: as faixas que voltam iriam
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "o modelo de faixa não tem nada ativado -- as faixas voltariam exatamente como foram enviadas."
 
+msgid "Intro / outro"
+msgstr "Abertura / Encerramento"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "o preset tem uma abertura -- não é usada: a abertura e o encerramento vêm dos arquivos de vídeo."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "o preset tem um encerramento -- não é usado: a abertura e o encerramento vêm dos arquivos de vídeo."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "o preset tem uma abertura e um encerramento -- nenhum é usado: a abertura e o encerramento vêm dos arquivos de vídeo."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Vêm dos arquivos de vídeo com o Tipo em Abertura ou Encerramento na lista de arquivos, ou de --intro e --outro."
+
 msgid "Check"
 msgstr "Verificação"
 

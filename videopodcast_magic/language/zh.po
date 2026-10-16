@@ -2899,6 +2899,21 @@ msgstr "两者不能同时成立：返回的音轨会达到一个值，我们自
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "轨道模板中没有开启任何功能 -- 音轨会按上传时的原样返回。"
 
+msgid "Intro / outro"
+msgstr "片头 / 片尾"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "预设中有片头 -- 不会使用: 片头和片尾来自视频文件。"
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "预设中有片尾 -- 不会使用: 片头和片尾来自视频文件。"
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "预设中有片头和片尾 -- 都不会使用: 片头和片尾来自视频文件。"
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "它们来自在文件列表中类型设为片头或片尾的视频文件，或来自 --intro 和 --outro。"
+
 msgid "Check"
 msgstr "检查"
 

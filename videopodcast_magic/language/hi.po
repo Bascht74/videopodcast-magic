@@ -2913,6 +2913,21 @@ msgstr "दोनों एक साथ नहीं चलते: लौटन
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "ट्रैक टेम्पलेट में कुछ भी चालू नहीं है -- ट्रैक ठीक वैसे ही लौटेंगे जैसे अपलोड हुए।"
 
+msgid "Intro / outro"
+msgstr "इंट्रो / आउट्रो"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "प्रीसेट में एक इंट्रो है -- वह इस्तेमाल नहीं होता: इंट्रो और आउट्रो वीडियो फ़ाइलों से आते हैं।"
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "प्रीसेट में एक आउट्रो है -- वह इस्तेमाल नहीं होता: इंट्रो और आउट्रो वीडियो फ़ाइलों से आते हैं।"
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "प्रीसेट में एक इंट्रो और एक आउट्रो है -- दोनों में से कोई इस्तेमाल नहीं होता: इंट्रो और आउट्रो वीडियो फ़ाइलों से आते हैं।"
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "वे फ़ाइल सूची में प्रकार इंट्रो या आउट्रो वाली वीडियो फ़ाइलों से आते हैं, या --intro और --outro से।"
+
 msgid "Check"
 msgstr "जाँच"
 

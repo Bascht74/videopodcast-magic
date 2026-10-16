@@ -2925,6 +2925,21 @@ msgstr "İkisi birden olmaz: geri gelen izler bir değere, kendi miksimiz diğer
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "iz şablonunda hiçbir şey açık değil -- izler tam yüklendikleri gibi geri gelirdi."
 
+msgid "Intro / outro"
+msgstr "Giriş / Kapanış"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "ön ayarda bir giriş var -- kullanılmaz: giriş ve kapanış video dosyalarından gelir."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "ön ayarda bir kapanış var -- kullanılmaz: giriş ve kapanış video dosyalarından gelir."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "ön ayarda bir giriş ve bir kapanış var -- hiçbiri kullanılmaz: giriş ve kapanış video dosyalarından gelir."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Dosya listesinde Türü Giriş ya da Kapanış olan video dosyalarından veya --intro ve --outro seçeneklerinden gelirler."
+
 msgid "Check"
 msgstr "Denetim"
 

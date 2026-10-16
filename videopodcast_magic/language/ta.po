@@ -3202,6 +3202,21 @@ msgstr "மூலக் கோப்புறை"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "தட வார்ப்புருவில் எதுவும் இயக்கப்படவில்லை -- தடங்கள் பதிவேற்றியபடியே அப்படியே திரும்பி வரும்."
 
+msgid "Intro / outro"
+msgstr "அறிமுகம் / நிறைவு"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "முன்னமைவில் ஒரு அறிமுகம் உள்ளது -- அது பயன்படுத்தப்படாது: அறிமுகமும் நிறைவும் வீடியோ கோப்புகளிலிருந்து வருகின்றன."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "முன்னமைவில் ஒரு நிறைவு உள்ளது -- அது பயன்படுத்தப்படாது: அறிமுகமும் நிறைவும் வீடியோ கோப்புகளிலிருந்து வருகின்றன."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "முன்னமைவில் ஒரு அறிமுகமும் ஒரு நிறைவும் உள்ளன -- இரண்டுமே பயன்படுத்தப்படாது: அறிமுகமும் நிறைவும் வீடியோ கோப்புகளிலிருந்து வருகின்றன."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "கோப்புப் பட்டியலில் வகை அறிமுகம் அல்லது நிறைவு என அமைக்கப்பட்ட வீடியோ கோப்புகளிலிருந்து, அல்லது --intro மற்றும் --outro இலிருந்து அவை வருகின்றன."
+
 msgid "the video files are tagged differently: %s"
 msgstr "வீடியோ கோப்புகளுக்கு வெவ்வேறு நிறக் குறிகள் உள்ளன: %s"
 

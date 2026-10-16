@@ -3159,6 +3159,21 @@ msgstr "källmappen"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "spårmallen har inget påslaget -- spåren skulle komma tillbaka precis som de laddades upp."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "förinställningen har ett intro -- det används inte: intro och outro kommer från videofilerna."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "förinställningen har ett outro -- det används inte: intro och outro kommer från videofilerna."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "förinställningen har ett intro och ett outro -- inget av dem används: intro och outro kommer från videofilerna."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "De kommer från videofiler vars Typ står på Intro eller Outro i fillistan, eller från --intro och --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "videofilerna är olika märkta: %s"
 

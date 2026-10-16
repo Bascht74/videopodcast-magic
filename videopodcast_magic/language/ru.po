@@ -4234,6 +4234,21 @@ msgstr "исходная папка"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "в шаблоне дорожек ничего не включено -- дорожки вернулись бы точно такими, какими были отправлены."
 
+msgid "Intro / outro"
+msgstr "Заставка / Концовка"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "в пресете есть заставка -- она не используется: заставка и концовка берутся из видеофайлов."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "в пресете есть концовка -- она не используется: заставка и концовка берутся из видеофайлов."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "в пресете есть заставка и концовка -- ни одна не используется: заставка и концовка берутся из видеофайлов."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Они берутся из видеофайлов, у которых в списке файлов Вид стоит на Заставка или Концовка, или из --intro и --outro."
+
 msgid "the tracks are too much alike to separate"
 msgstr "дорожки слишком похожи, чтобы их разделить"
 

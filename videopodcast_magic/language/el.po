@@ -3161,6 +3161,21 @@ msgstr "ο φάκελος προέλευσης"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "το πρότυπο κομματιού δεν έχει τίποτα ενεργό -- τα κομμάτια θα επέστρεφαν ακριβώς όπως μεταφορτώθηκαν."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "η προρύθμιση έχει intro -- δεν χρησιμοποιείται: το intro και το outro προέρχονται από τα αρχεία βίντεο."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "η προρύθμιση έχει outro -- δεν χρησιμοποιείται: το intro και το outro προέρχονται από τα αρχεία βίντεο."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "η προρύθμιση έχει intro και outro -- κανένα δεν χρησιμοποιείται: το intro και το outro προέρχονται από τα αρχεία βίντεο."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Προέρχονται από αρχεία βίντεο με Τύπο Intro ή Outro στη λίστα αρχείων, ή από τα --intro και --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "τα αρχεία βίντεο έχουν διαφορετικές ετικέτες: %s"
 

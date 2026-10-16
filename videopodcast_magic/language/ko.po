@@ -3149,6 +3149,21 @@ msgstr "원본 폴더"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "트랙 템플릿에 켜진 것이 없습니다 -- 트랙이 업로드한 그대로 돌아옵니다."
 
+msgid "Intro / outro"
+msgstr "인트로 / 아웃트로"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "프리셋에 인트로가 있습니다 -- 사용되지 않습니다: 인트로와 아웃트로는 비디오 파일에서 옵니다."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "프리셋에 아웃트로가 있습니다 -- 사용되지 않습니다: 인트로와 아웃트로는 비디오 파일에서 옵니다."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "프리셋에 인트로와 아웃트로가 있습니다 -- 둘 다 사용되지 않습니다: 인트로와 아웃트로는 비디오 파일에서 옵니다."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "파일 목록에서 종류를 인트로 또는 아웃트로로 정한 비디오 파일이나, --intro와 --outro에서 옵니다."
+
 msgid "the video files are tagged differently: %s"
 msgstr "비디오 파일의 태그가 서로 다릅니다: %s"
 

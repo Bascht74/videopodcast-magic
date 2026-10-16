@@ -4240,6 +4240,21 @@ msgstr "le dossier source"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "le modèle de pistes n’a rien d’activé -- les pistes reviendraient exactement telles qu’elles ont été envoyées."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "le preset a une intro -- elle n’est pas utilisée : l’intro et l’outro viennent des fichiers vidéo."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "le preset a une outro -- elle n’est pas utilisée : l’intro et l’outro viennent des fichiers vidéo."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "le preset a une intro et une outro -- aucune n’est utilisée : l’intro et l’outro viennent des fichiers vidéo."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Elles viennent des fichiers vidéo dont le Type est Intro ou Outro dans la liste des fichiers, ou de --intro et --outro."
+
 msgid "the tracks are too much alike to separate"
 msgstr "les pistes se ressemblent trop pour être séparées"
 

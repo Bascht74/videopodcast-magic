@@ -3210,6 +3210,21 @@ msgstr "an fillteán foinse"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "níl aon rud ar siúl sa teimpléad rianta -- thiocfadh na rianta ar ais díreach mar a uaslódáladh iad."
 
+msgid "Intro / outro"
+msgstr "Réamhrá / Clabhsúr"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "tá réamhrá sa réamhshocrú -- ní úsáidtear é: tagann an réamhrá agus an clabhsúr ó na comhaid físe."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "tá clabhsúr sa réamhshocrú -- ní úsáidtear é: tagann an réamhrá agus an clabhsúr ó na comhaid físe."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "tá réamhrá agus clabhsúr sa réamhshocrú -- ní úsáidtear ceachtar acu: tagann an réamhrá agus an clabhsúr ó na comhaid físe."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Tagann siad ó chomhaid físe a bhfuil a gCineál socraithe ar Réamhrá nó Clabhsúr i liosta na gcomhad, nó ó --intro agus --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "tá clibeanna éagsúla ar na comhaid físe: %s"
 

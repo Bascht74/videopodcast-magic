@@ -3201,6 +3201,21 @@ msgstr "folder sumber"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "templat trek tidak mengaktifkan apa pun -- trek akan kembali persis seperti saat diunggah."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "preset ini punya intro -- tidak dipakai: intro dan outro berasal dari file video."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "preset ini punya outro -- tidak dipakai: intro dan outro berasal dari file video."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "preset ini punya intro dan outro -- keduanya tidak dipakai: intro dan outro berasal dari file video."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Keduanya berasal dari file video yang Jenisnya diatur ke Intro atau Outro di daftar file, atau dari --intro dan --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "file video diberi tanda yang berbeda: %s"
 

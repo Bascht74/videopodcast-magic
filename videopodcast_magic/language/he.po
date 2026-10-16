@@ -3198,6 +3198,21 @@ msgstr "תיקיית המקור"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "בתבנית הרצועות לא מופעל דבר -- הרצועות יחזרו בדיוק כפי שהועלו."
 
+msgid "Intro / outro"
+msgstr "פתיח / סיום"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "בפריסט יש פתיח -- הוא לא נמצא בשימוש: הפתיח והסיום באים מקובצי הווידאו."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "בפריסט יש סיום -- הוא לא נמצא בשימוש: הפתיח והסיום באים מקובצי הווידאו."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "בפריסט יש פתיח וסיום -- אף אחד מהם לא נמצא בשימוש: הפתיח והסיום באים מקובצי הווידאו."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "הם באים מקובצי וידאו שהסוג שלהם ברשימת הקבצים הוא פתיח או סיום, או מ--intro ו--outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "קובצי הווידאו מתויגים באופן שונה: %s"
 

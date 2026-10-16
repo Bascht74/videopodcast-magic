@@ -3161,6 +3161,21 @@ msgstr "de bronmap"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "het spoorsjabloon heeft niets ingeschakeld -- de sporen zouden precies zo terugkomen als ze zijn geüpload."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "de preset heeft een intro -- die wordt niet gebruikt: intro en outro komen uit de videobestanden."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "de preset heeft een outro -- die wordt niet gebruikt: intro en outro komen uit de videobestanden."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "de preset heeft een intro en een outro -- geen van beide wordt gebruikt: intro en outro komen uit de videobestanden."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Ze komen uit videobestanden waarvan de Soort in de bestandenlijst op Intro of Outro staat, of uit --intro en --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "de videobestanden zijn verschillend gelabeld: %s"
 

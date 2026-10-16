@@ -3163,6 +3163,21 @@ msgstr "folder źródłowy"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "szablon ścieżki nie ma nic włączonego -- ścieżki wróciłyby dokładnie takie, jak zostały przesłane."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "preset ma intro -- nie jest używane: intro i outro pochodzą z plików wideo."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "preset ma outro -- nie jest używane: intro i outro pochodzą z plików wideo."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "preset ma intro i outro -- żadne nie jest używane: intro i outro pochodzą z plików wideo."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Pochodzą z plików wideo, które mają na liście plików Typ ustawiony na Intro lub Outro, albo z --intro i --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "pliki wideo są różnie oznaczone: %s"
 

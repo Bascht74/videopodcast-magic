@@ -3200,6 +3200,21 @@ msgstr "lähtekaust"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "radade mallis pole midagi sisse lülitatud -- rajad tuleksid tagasi täpselt sellisena, nagu need üles laaditi."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "eelseadistusel on intro -- seda ei kasutata: intro ja outro tulevad videofailidest."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "eelseadistusel on outro -- seda ei kasutata: intro ja outro tulevad videofailidest."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "eelseadistusel on intro ja outro -- kumbagi ei kasutata: intro ja outro tulevad videofailidest."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Need tulevad videofailidest, mille Liik on failide loendis Intro või Outro, või võtmetest --intro ja --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "videofailid on erinevalt märgistatud: %s"
 

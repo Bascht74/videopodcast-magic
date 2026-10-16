@@ -2929,6 +2929,21 @@ msgstr "Entrambe le cose insieme non funzionano: le tracce che tornano andrebber
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "il modello di traccia non ha nulla di attivato -- le tracce tornerebbero esattamente come caricate."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "il preset ha un’intro -- non viene usata: intro e outro vengono dai file video."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "il preset ha un’outro -- non viene usata: intro e outro vengono dai file video."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "il preset ha un’intro e un’outro -- nessuna delle due viene usata: intro e outro vengono dai file video."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Vengono dai file video con il Tipo impostato su Intro o Outro nell’elenco dei file, oppure da --intro e --outro."
+
 msgid "Check"
 msgstr "Controllo"
 

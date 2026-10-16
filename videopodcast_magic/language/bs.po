@@ -3195,6 +3195,21 @@ msgstr "izvorni folder"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "šablon trake nema ništa uključeno -- trake bi se vratile tačno onakve kakve su prenesene."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "predložak ima intro -- ne koristi se: intro i outro dolaze iz video datoteka."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "predložak ima outro -- ne koristi se: intro i outro dolaze iz video datoteka."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "predložak ima intro i outro -- ne koristi se nijedan: intro i outro dolaze iz video datoteka."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Dolaze iz video datoteka kojima je u listi datoteka Vrsta postavljena na Intro ili Outro, ili iz --intro i --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "video datoteke označene su različito: %s"
 

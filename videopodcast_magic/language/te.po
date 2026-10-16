@@ -3202,6 +3202,21 @@ msgstr "మూల ఫోల్డర్"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "ట్రాక్ టెంప్లేట్‌లో ఏదీ ఆన్ చేయలేదు -- ట్రాక్‌లు అప్‌లోడ్ చేసినట్లే యథాతథంగా తిరిగి వస్తాయి."
 
+msgid "Intro / outro"
+msgstr "ఇంట్రో / అవుట్రో"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "ప్రీసెట్‌లో ఒక ఇంట్రో ఉంది -- అది వాడబడదు: ఇంట్రో, అవుట్రో వీడియో ఫైళ్ల నుండి వస్తాయి."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "ప్రీసెట్‌లో ఒక అవుట్రో ఉంది -- అది వాడబడదు: ఇంట్రో, అవుట్రో వీడియో ఫైళ్ల నుండి వస్తాయి."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "ప్రీసెట్‌లో ఒక ఇంట్రో, ఒక అవుట్రో ఉన్నాయి -- ఏదీ వాడబడదు: ఇంట్రో, అవుట్రో వీడియో ఫైళ్ల నుండి వస్తాయి."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "అవి ఫైళ్ల జాబితాలో రకం ఇంట్రో లేదా అవుట్రోగా ఉన్న వీడియో ఫైళ్ల నుండి, లేదా --intro, --outro నుండి వస్తాయి."
+
 msgid "the video files are tagged differently: %s"
 msgstr "వీడియో ఫైళ్లకు వేర్వేరు రంగు ట్యాగ్‌లు ఉన్నాయి: %s"
 

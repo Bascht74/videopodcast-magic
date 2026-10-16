@@ -3203,6 +3203,21 @@ msgstr "ਸਰੋਤ ਫੋਲਡਰ"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "ਟਰੈਕ ਟੈਂਪਲੇਟ ਵਿੱਚ ਕੁਝ ਵੀ ਚਾਲੂ ਨਹੀਂ -- ਟਰੈਕ ਠੀਕ ਉਵੇਂ ਹੀ ਵਾਪਸ ਆਉਣਗੇ ਜਿਵੇਂ ਅੱਪਲੋਡ ਹੋਏ ਸਨ।"
 
+msgid "Intro / outro"
+msgstr "ਇੰਟਰੋ / ਆਊਟਰੋ"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "ਪ੍ਰੀਸੈੱਟ ਵਿੱਚ ਇੱਕ ਇੰਟਰੋ ਹੈ -- ਇਹ ਵਰਤਿਆ ਨਹੀਂ ਜਾਂਦਾ: ਇੰਟਰੋ ਅਤੇ ਆਊਟਰੋ ਵੀਡੀਓ ਫ਼ਾਈਲਾਂ ਤੋਂ ਆਉਂਦੇ ਹਨ।"
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "ਪ੍ਰੀਸੈੱਟ ਵਿੱਚ ਇੱਕ ਆਊਟਰੋ ਹੈ -- ਇਹ ਵਰਤਿਆ ਨਹੀਂ ਜਾਂਦਾ: ਇੰਟਰੋ ਅਤੇ ਆਊਟਰੋ ਵੀਡੀਓ ਫ਼ਾਈਲਾਂ ਤੋਂ ਆਉਂਦੇ ਹਨ।"
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "ਪ੍ਰੀਸੈੱਟ ਵਿੱਚ ਇੱਕ ਇੰਟਰੋ ਅਤੇ ਇੱਕ ਆਊਟਰੋ ਹੈ -- ਕੋਈ ਵੀ ਵਰਤਿਆ ਨਹੀਂ ਜਾਂਦਾ: ਇੰਟਰੋ ਅਤੇ ਆਊਟਰੋ ਵੀਡੀਓ ਫ਼ਾਈਲਾਂ ਤੋਂ ਆਉਂਦੇ ਹਨ।"
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "ਇਹ ਫ਼ਾਈਲ ਸੂਚੀ ਵਿੱਚ ਕਿਸਮ ਇੰਟਰੋ ਜਾਂ ਆਊਟਰੋ ਵਾਲੀਆਂ ਵੀਡੀਓ ਫ਼ਾਈਲਾਂ ਤੋਂ ਆਉਂਦੇ ਹਨ, ਜਾਂ --intro ਅਤੇ --outro ਤੋਂ।"
+
 msgid "the video files are tagged differently: %s"
 msgstr "ਵੀਡੀਓ ਫ਼ਾਈਲਾਂ ਵੱਖ-ਵੱਖ ਟੈਗ ਕੀਤੀਆਂ ਹੋਈਆਂ ਹਨ: %s"
 

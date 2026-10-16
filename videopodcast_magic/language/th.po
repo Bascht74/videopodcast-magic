@@ -3197,6 +3197,21 @@ msgstr "โฟลเดอร์ต้นทาง"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "เทมเพลตแทร็กไม่ได้เปิดใช้อะไรเลย -- แทร็กจะกลับมาเหมือนตอนอัปโหลดทุกประการ"
 
+msgid "Intro / outro"
+msgstr "อินโทร / เอาต์โทร"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "พรีเซ็ตมีอินโทร -- ไม่ได้ใช้: อินโทรและเอาต์โทรมาจากไฟล์วิดีโอ"
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "พรีเซ็ตมีเอาต์โทร -- ไม่ได้ใช้: อินโทรและเอาต์โทรมาจากไฟล์วิดีโอ"
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "พรีเซ็ตมีอินโทรและเอาต์โทร -- ไม่ได้ใช้ทั้งคู่: อินโทรและเอาต์โทรมาจากไฟล์วิดีโอ"
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "มาจากไฟล์วิดีโอที่ตั้งประเภทเป็นอินโทรหรือเอาต์โทรในรายการไฟล์ หรือจาก --intro และ --outro"
+
 msgid "the video files are tagged differently: %s"
 msgstr "ไฟล์วิดีโอมีแท็กสีต่างกัน: %s"
 

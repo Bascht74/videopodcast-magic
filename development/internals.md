@@ -67,7 +67,7 @@ figure of the day is that command, not this paragraph**:
   and one bound of its own, 500 ppm
 * `auphonic/` **2291** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **2034** -- whether the material fits together before the
+* `preflight/` **2060** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `setup/` **1377** -- finding ffmpeg, installing a missing module,

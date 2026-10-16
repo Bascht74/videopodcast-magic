@@ -2967,6 +2967,21 @@ msgstr "الأمران معًا لا يصلحان: المسارات العائد
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "قالب المسار لا يحوي شيئًا مُفعَّلًا -- ستعود المسارات تمامًا كما رُفعت."
 
+msgid "Intro / outro"
+msgstr "المقدمة / الخاتمة"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "في الإعداد المسبق مقدمة -- لا تُستخدم: المقدمة والخاتمة تأتيان من ملفات الفيديو."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "في الإعداد المسبق خاتمة -- لا تُستخدم: المقدمة والخاتمة تأتيان من ملفات الفيديو."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "في الإعداد المسبق مقدمة وخاتمة -- لا تُستخدم أيٌّ منهما: المقدمة والخاتمة تأتيان من ملفات الفيديو."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "تأتيان من ملفات فيديو نوعها المقدمة أو الخاتمة في قائمة الملفات، أو من --intro و--outro."
+
 msgid "Check"
 msgstr "الفحص"
 

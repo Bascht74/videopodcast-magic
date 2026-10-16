@@ -3159,6 +3159,21 @@ msgstr "kildemappen"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "spormalen har ingenting slått på -- sporene ville komme tilbake nøyaktig som de ble lastet opp."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "forhåndsinnstillingen har en intro -- den brukes ikke: intro og outro kommer fra videofilene."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "forhåndsinnstillingen har en outro -- den brukes ikke: intro og outro kommer fra videofilene."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "forhåndsinnstillingen har en intro og en outro -- ingen av dem brukes: intro og outro kommer fra videofilene."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "De kommer fra videofiler med Type satt til Intro eller Outro i fillisten, eller fra --intro og --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "videofilene er merket ulikt: %s"
 

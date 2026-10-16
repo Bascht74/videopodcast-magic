@@ -3162,6 +3162,21 @@ msgstr "a forrásmappa"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "a sávsablonban semmi sincs bekapcsolva -- a sávok pontosan úgy jönnének vissza, ahogy fel lettek töltve."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "az előbeállításban van intro -- nem kerül felhasználásra: az intro és az outro a videofájlokból jön."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "az előbeállításban van outro -- nem kerül felhasználásra: az intro és az outro a videofájlokból jön."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "az előbeállításban van intro és outro -- egyik sem kerül felhasználásra: az intro és az outro a videofájlokból jön."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Azokból a videofájlokból jönnek, amelyek Típusa a fájllistában Intro vagy Outro, vagy a --intro és --outro kapcsolóból."
+
 msgid "the video files are tagged differently: %s"
 msgstr "a videófájlok különbözően vannak címkézve: %s"
 
