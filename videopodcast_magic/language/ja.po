@@ -5166,3 +5166,6 @@ msgstr "      --> このマッピングからはオーディオトラック数�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve は応答しますが、プロジェクトマネージャーを渡しません。"
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "%s のチャンネルはまだトラックに切り分けられていません。"

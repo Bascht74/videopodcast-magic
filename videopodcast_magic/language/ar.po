@@ -5400,3 +5400,6 @@ msgstr "      --> لا يمكن قراءة عدد المسارات الصوتي�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "يجيب Resolve، لكنه لا يقدّم مدير مشاريع."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "لم تُقصّ قنوات %s إلى مسارات بعد."

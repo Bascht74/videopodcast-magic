@@ -5160,3 +5160,6 @@ msgstr "      --> 无法从此映射中读出音轨数量"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve 有回应，但不提供项目管理器。"
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "%s 的声道尚未切分成音轨。"

@@ -5220,3 +5220,6 @@ msgstr "      --> από αυτή την αντιστοίχιση δεν δια�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Το Resolve απαντά, αλλά δεν δίνει διαχειριστή έργων."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Τα κανάλια του %s δεν έχουν ακόμη κοπεί σε κομμάτια."

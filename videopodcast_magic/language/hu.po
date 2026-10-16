@@ -5221,3 +5221,6 @@ msgstr "      --> ebből a hozzárendelésből nem olvasható ki a hangsávok sz
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "A Resolve válaszol, de nem ad projektkezelőt."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "%s csatornái még nincsenek sávokra vágva."

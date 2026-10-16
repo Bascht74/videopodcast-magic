@@ -5223,3 +5223,6 @@ msgstr "      --> ఈ మ్యాపింగ్ నుండి ఆడియ�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve స్పందిస్తుంది, కానీ ప్రాజెక్ట్ మేనేజర్‌ను ఇవ్వదు."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "%s ఛానళ్లు ఇంకా ట్రాక్‌లుగా వేరుచేయబడలేదు."

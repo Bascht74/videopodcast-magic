@@ -39,6 +39,11 @@ measurement proposes, the tick corrects:
 * Only a row that says something other than the measurement reads **set
   by hand -- overrides the measurement**.
 * Until the measurement is in, the row says so instead of guessing.
+* Until the file is cut into its tracks, **Start** and **Dry run** wait,
+  and the line under the buttons says **The channels of Rec.wav are not
+  cut into tracks yet.** They free themselves once the tracks are in --
+  a run started earlier would get the file whole. A file whose channels
+  cannot be read holds them only while it is being measured.
 * For a file whose channel count cannot be read at all, the run says
   that rather than leaving the row waiting.
 

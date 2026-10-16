@@ -5221,3 +5221,6 @@ msgstr "      --> sellest vastendusest ei saa helirajade arvu välja lugeda"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve vastab, kuid ei anna projektihaldurit."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Faili %s kanaleid pole veel radadeks lõigatud."

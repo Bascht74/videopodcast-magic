@@ -5220,3 +5220,6 @@ msgstr "      --> uit deze toewijzing is geen aantal audiosporen te lezen"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve antwoordt, maar geeft geen projectbeheer vrij."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "De kanalen van %s zijn nog niet in sporen uitgesneden."

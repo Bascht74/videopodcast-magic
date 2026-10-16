@@ -5221,3 +5221,6 @@ msgstr "      --> या मॅपिंगमधून ऑडिओ ट्र�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve उत्तर देतो, पण कोणताही प्रोजेक्ट मॅनेजर देत नाही."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "%s चे चॅनेल अजून ट्रॅकमध्ये कापलेले नाहीत."

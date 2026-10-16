@@ -5260,3 +5260,6 @@ msgstr "      --> из этого сопоставления нельзя про
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve отвечает, но не выдаёт менеджер проектов."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Каналы файла %s ещё не разрезаны на дорожки."

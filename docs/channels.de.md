@@ -39,6 +39,12 @@ auseinander. Die Messung schlägt vor, das Häkchen berichtigt:
 * Nur eine Zeile, die etwas anderes sagt als die Messung, steht als
   **manuell gesetzt -- übersteuert die Messung** da.
 * Bis die Messung da ist, sagt die Zeile das, statt zu raten.
+* Solange die Datei nicht in ihre Spuren zerlegt ist, warten **Start**
+  und **Probelauf**, und unter den Knöpfen steht **Die Kanäle von
+  Rec.wav sind noch nicht in Spuren zerlegt.** Sind die Spuren da, werden
+  beide von selbst frei -- ein früher gestarteter Lauf bekäme die Datei
+  im Ganzen. Eine Datei, deren Kanäle sich nicht lesen lassen, hält sie
+  nur auf, solange sie gemessen wird.
 * Bei einer Datei, deren Kanalzahl sich gar nicht lesen lässt, sagt der
   Lauf das, statt die Zeile warten zu lassen.
 

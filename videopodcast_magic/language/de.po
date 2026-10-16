@@ -6851,3 +6851,6 @@ msgstr "      --> aus dieser Zuordnung lässt sich keine Zahl von Tonspuren lese
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve antwortet, gibt aber keine Projektverwaltung heraus."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Die Kanäle von %s sind noch nicht in Spuren zerlegt."

@@ -487,6 +487,7 @@ window_drop_takes_files	7
 window_exit_keeps_all	7
 window_first_kind_holds	6
 window_foot_on_one_line	8
+window_goes_by_tracks	8
 window_grey_opens_again	25
 window_grey_says_why	37
 window_groups_make_room	5

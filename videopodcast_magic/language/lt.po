@@ -5266,3 +5266,6 @@ msgstr "      --> iš šio priskyrimo neįmanoma nuskaityti garso takelių skai�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve atsako, bet nepateikia projektų tvarkytuvo."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Failo %s kanalai dar nesukarpyti į takelius."

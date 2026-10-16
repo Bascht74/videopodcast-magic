@@ -5263,3 +5263,6 @@ msgstr "      --> z tego przypisania nie da się odczytać liczby ścieżek audi
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve odpowiada, ale nie udostępnia menedżera projektów."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Kanały pliku %s nie są jeszcze pocięte na ścieżki."

@@ -5224,3 +5224,6 @@ msgstr "      --> idadi ya nyimbo za sauti haiwezi kusomwa kutoka kwa upangaji h
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve inajibu, lakini haitoi msimamizi wa miradi."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Chaneli za %s bado hazijakatwa kuwa treki."

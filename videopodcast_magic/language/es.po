@@ -5219,3 +5219,6 @@ msgstr "      --> de esta asignación no se puede leer el número de pistas de a
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve responde, pero no entrega ningún gestor de proyectos."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Los canales de %s aún no se han separado en pistas."

@@ -5219,3 +5219,6 @@ msgstr "      --> tästä määrityksestä ei voi lukea ääniraitojen määrä�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve vastaa, mutta ei anna projektinhallintaa."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Tiedoston %s kanavia ei ole vielä leikattu raidoiksi."

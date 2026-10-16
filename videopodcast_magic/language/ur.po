@@ -5222,3 +5222,6 @@ msgstr "      --> اس میپنگ سے آڈیو ٹریکس کی تعداد نہ�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve جواب دیتا ہے، لیکن کوئی پروجیکٹ مینیجر نہیں دیتا۔"
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "%s کے چینل ابھی ٹریکوں میں نہیں کاٹے گئے۔"

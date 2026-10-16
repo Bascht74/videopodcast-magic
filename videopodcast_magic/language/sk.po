@@ -5262,3 +5262,6 @@ msgstr "      --> z tohto priradenia sa nedá vyčítať počet zvukových stôp
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve odpovedá, ale nevydá žiadneho správcu projektov."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Kanály súboru %s ešte nie sú rozrezané na stopy."

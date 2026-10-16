@@ -5176,3 +5176,6 @@ msgstr "      --> không đọc được số rãnh âm thanh từ ánh xạ nà
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve trả lời, nhưng không đưa ra trình quản lý dự án nào."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Các kênh của %s chưa được tách thành rãnh."

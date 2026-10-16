@@ -5312,3 +5312,6 @@ msgstr "      --> minn dan il-mapping ma jistax jinqara n-numru ta' traċċi tal
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve iwieġeb, iżda ma jagħti l-ebda maniġer tal-proġetti."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Il-kanali ta' %s għadhom ma nqatgħux f'binarji."

@@ -5219,3 +5219,6 @@ msgstr "      --> deste mapeamento não se consegue ler o número de faixas de �
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "O Resolve responde, mas não entrega nenhum gestor de projetos."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Os canais de %s ainda não foram recortados em faixas."

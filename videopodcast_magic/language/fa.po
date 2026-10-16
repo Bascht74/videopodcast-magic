@@ -5221,3 +5221,6 @@ msgstr "      --> از این نگاشت نمی‌توان تعداد ترک‌�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve پاسخ می‌دهد، اما مدیر پروژه‌ای در اختیار نمی‌گذارد."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "کانال‌های %s هنوز به ترک‌ها بریده نشده‌اند."

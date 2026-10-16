@@ -565,6 +565,54 @@ def missing_conditions(files, production, assign_lines, camera_lines,
     return pending
 
 
+def tracks_awaited(pending, files, split_files, owed, again):
+    """*pending* with the recordings whose tracks have not arrived yet.
+
+    Until they are cut, files_for_run hands such a file over whole; a
+    camera's sound the run cuts itself. Held while *owed*, the prework's
+    open tasks by file, has work for it or its channels are measured: a
+    file whose channels cannot be measured goes into the run as one
+    track. Under the file tab's key; *again* is (owner, buttons look).
+    """
+    waiting, working = [], False
+    for p, kind in files:
+        if kind != "audio" or p in split_files:
+            continue
+        try:
+            wide = PROGRAM.channel_count(p) > 1
+        except Exception:
+            continue    # not countable: the run says so, nothing waits
+        busy = owed.get(p, 0) > 0
+        if wide and (busy or PROGRAM.probe_has(
+                PROGRAM.channel_facts_name(), p)):
+            waiting.append(os.path.basename(p))
+            working = working or busy
+    if working:
+        ask_again_soon(*again)
+    if waiting:
+        pending.setdefault(11, T('The channels of %s are not cut into '
+                                 'tracks yet.') % ", ".join(waiting))
+    return pending
+
+
+def ask_again_soon(owner, look, ms=500):
+    """Have *look* called once, *ms* from now, however often this is asked.
+
+    No report follows a measurement the prework gives up on, so the
+    buttons are asked again while it works rather than never. One timer,
+    kept on *owner* by its name: a timer per look would pile up.
+    """
+    timer = owner.findChild(QtCore.QTimer, "ask_again",
+                            QtCore.Qt.FindDirectChildrenOnly)
+    if timer is None:
+        timer = QtCore.QTimer(owner)
+        timer.setObjectName("ask_again")
+        timer.setSingleShot(True)
+        timer.timeout.connect(look)
+    if not timer.isActive():
+        timer.start(ms)
+
+
 def edge_kind_barred(path, kinds, labels=None):
     """Which of intro and outro this file cannot be, and why.
 
@@ -2245,7 +2293,7 @@ def gui():
 
     def split_arrived(path):
         """One file has been cut into its tracks: rebuild the tables."""
-        assignment_fresh()
+        window.assignment_due.emit()        # the presets follow the kind
         buttons_check()
 
     bridge.split_done.connect(split_arrived)
@@ -2257,10 +2305,10 @@ def gui():
 
     def what_missing():
         """What is still missing, in plain words, keyed by tab."""
-        return missing_conditions(files, production_var.get(),
-                                  assign_lines, camera_lines, voice_lines,
-                                  state.get("voiced") or set(),
-                                  project_type.get())
+        return tracks_awaited(missing_conditions(
+            files, production_var.get(), assign_lines, camera_lines,
+            voice_lines, state.get("voiced") or set(), project_type.get()),
+            files, split_files, prework_pending, (window, buttons_check))
 
     def buttons_check():
         """Enable start and dry run only once nothing is missing.

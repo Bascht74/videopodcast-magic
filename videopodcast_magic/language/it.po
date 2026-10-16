@@ -5237,3 +5237,6 @@ msgstr "      --> da questa mappatura non si può leggere il numero di tracce au
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve risponde, ma non fornisce alcun gestore dei progetti."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "I canali di %s non sono ancora stati divisi in tracce."
