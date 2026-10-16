@@ -5319,3 +5319,6 @@ msgstr "      --> iz te preslikave ni mogoče prebrati števila zvočnih sledi"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve odgovarja, vendar ne izda upravitelja projektov."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Kanali datoteke %s še niso razrezani v sledi."

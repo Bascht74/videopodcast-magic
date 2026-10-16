@@ -5228,3 +5228,6 @@ msgstr "      --> antalet ljudspår kan inte läsas ut ur den här mappningen"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve svarar, men lämnar inte ut någon projekthanterare."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Kanalerna i %s är ännu inte utskurna till spår."

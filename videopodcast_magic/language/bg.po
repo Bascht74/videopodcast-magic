@@ -5231,3 +5231,6 @@ msgstr "      --> от това съпоставяне не може да се �
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve отговаря, но не предоставя мениджър на проекти."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Каналите на %s още не са изрязани на писти."

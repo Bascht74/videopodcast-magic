@@ -5275,3 +5275,6 @@ msgstr "      --> no šīs piesaistes nevar nolasīt audio celiņu skaitu"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve atbild, bet neizsniedz projektu pārvaldnieku."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Faila %s kanāli vēl nav sagriezti celiņos."

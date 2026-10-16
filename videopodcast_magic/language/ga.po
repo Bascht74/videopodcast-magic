@@ -5369,3 +5369,6 @@ msgstr "      --> ní féidir líon na rianta fuaime a léamh ón mapáil seo"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Freagraíonn Resolve, ach ní thugann sé bainisteoir tionscadal uaidh."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Níl cainéil %s gearrtha ina rianta fós."

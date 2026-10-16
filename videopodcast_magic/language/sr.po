@@ -5271,3 +5271,6 @@ msgstr "      --> из овог мапирања не може се прочит
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve одговара, али не даје управљача пројектима."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Канали датотеке %s још нису исечени у траке."

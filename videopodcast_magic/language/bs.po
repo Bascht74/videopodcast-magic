@@ -5268,3 +5268,6 @@ msgstr "      --> iz ovog mapiranja ne može se pročitati broj audio traka"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve odgovara, ali ne daje upravitelja projekata."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Kanali datoteke %s još nisu izrezani u trake."

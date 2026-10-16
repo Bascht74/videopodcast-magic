@@ -5227,3 +5227,6 @@ msgstr "      --> antallet af lydspor kan ikke læses ud af denne tildeling"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve svarer, men udleverer ingen projektmanager."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Kanalerne i %s er endnu ikke skåret ud i spor."

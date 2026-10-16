@@ -5240,3 +5240,6 @@ msgstr "      --> aucun nombre de pistes audio ne peut être lu dans ce mappage"
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve répond, mais ne fournit aucun gestionnaire de projets."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Les canaux de %s ne sont pas encore découpés en pistes."

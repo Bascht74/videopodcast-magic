@@ -5184,3 +5184,6 @@ msgstr "      --> อ่านจำนวนแทร็กเสียงจ�
 
 msgid "Resolve answers, but hands out no project manager."
 msgstr "Resolve ตอบกลับ แต่ไม่ให้ตัวจัดการโปรเจกต์"
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "ช่องสัญญาณของ %s ยังไม่ได้ถูกตัดออกเป็นแทร็ก"
