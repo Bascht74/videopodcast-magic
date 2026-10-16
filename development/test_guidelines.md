@@ -463,30 +463,52 @@ reached, and the suite is no better for it. The number serves as a way
 of searching for unchecked paths and for nothing else.
 
 **A coverage floor is something else, and it is kept.** Every release
-measures, on its macOS py3.14 job, which lines of the program the whole
-suite runs -- coverage.py across every process, the program the tests
-start included -- and `source_lines_stay_tested` holds it **per
-function**: red when a function has more untested lines than its floor,
-or when a function the state does not know runs not one line; a floor
-that falls is written down by itself. No share is asked for and none is
+measures, on its macOS py3.14 job and on both of `publish.yml`'s ways,
+which lines of the program the whole suite runs -- coverage.py across
+every process, the program the tests start included -- and
+`source_lines_stay_tested` holds it **per function**: red when a
+function has more untested lines than its floor, or when a function the
+state does not know runs not one line; a floor that falls is written
+down by itself. No share is asked for and none is
 held, so nothing invites a test written to move a number -- what it
 catches is a test that went away, and new code nobody ran. How it
 measures is in `tests/tested_lines.py`; the floors stand in
-`tests/state/tested_lines_state.json`; `VPM_COVERAGE=1 bash run.sh` is
-the same measurement here (coverage.py 7.10 or later installed for the
-suite's Python), and an ordinary run sets the guard aside at no cost.
+`tests/state/tested_lines_state.json`; `VPM_COVERAGE=1
+VPM_ALL_LANGUAGES=1 bash run.sh` is the same measurement here (coverage.py
+7.10 or later installed for the suite's Python; without every language
+`run.sh` refuses, because three functions read as rising that only the
+language slices run), and an ordinary run sets the guard aside at no
+cost.
 A new function that cannot be run here is entered into the state by
 hand, with its count, so the diff shows that it was decided.
+
+**For 3.0.0b29 it measures and does not stop the release** (the owner,
+16.10.2026): what it would fail on is said as a `NOTED tested lines:`
+line under the summary, and the run stays green. From the version the
+test names in `JUDGED_FROM`, 3.0.0b30, it fails: the program's
+`VERSION` is ordered against it, so nobody has to switch it, and a
+release that skips that number is judged all the same.
+
+**A merge moves the floors, and they are written again, not argued.**
+New code nobody runs yet raises a count, and a floor only falls by
+itself. So after such merges, and before the version it judges from,
+the floors are measured afresh on the merged tree: `VPM_COVERAGE=1
+VPM_ALL_LANGUAGES=1 bash run.sh` three times, each with a
+`VPM_COVERAGE_TABLE` of its own, the third on a clone with the two tests
+the macOS builder sets aside taken out, and then `python3
+tests/tested_lines.py --floors <table> <table> <table>` writes each
+function's highest count and puts every function whose count differed
+under `unsteady`. Raised that way, a floor is a decision the diff shows.
 
 **The count is not steady, and that was measured before the first
 floor was written** (16.10.2026): three runs of one tree on this Mac
 differed in ten functions by one to three lines -- a cache one test
 fills before another asks, a player quicker one time than the next --
 and a run without the two tests the macOS builder sets aside lost nine
-more. Those nineteen stand under `unsteady` in the state with the
-highest count seen: their allowance is that count and no lucky run
-lowers it. A function that rises without having been touched belongs
-there too, entered by hand.
+more. Those stand under `unsteady` in the state with the highest
+count seen: their allowance is that count and no lucky run lowers it.
+A function that rises without having been touched belongs there too,
+entered by hand.
 
 **A mutation-testing tool.** The idea yes, the tool no: one mutant costs
 a suite run, and for every site in this program that is days. By hand
