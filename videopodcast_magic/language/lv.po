@@ -3046,9 +3046,6 @@ msgstr "nav atrasta vieta, kur runā tieši viens cilvēks -- atdalīšanu nevar
 msgid "no production id in the response"
 msgstr "atbildē nav produkcijas ID"
 
-msgid "no production id in the response: %s"
-msgstr "atbildē nav produkcijas ID: %s"
-
 msgid "no timecode"
 msgstr "nav laika koda"
 
@@ -4014,9 +4011,6 @@ msgstr "Atkal viss garums (taustiņš 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Lejupielādēts arī: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic nepieņem iestatījumus: %s"
 
 msgid "      %s channels"
 msgstr "      Kanāli: %s"

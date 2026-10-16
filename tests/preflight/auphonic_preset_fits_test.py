@@ -8,8 +8,8 @@ track template, a cut that would shorten the sound -- and which go on;
 where the stop for a cut says to switch it off; that what the preset
 has switched on is said, switch by switch, with its setting; that an
 intro standing before the track in the preset's list is no template; and
-that an intro or outro in a Multitrack preset is said to be unused, and
-where intro and outro come from instead.
+that an intro or outro in a preset of either kind is said to be unused,
+and where intro and outro come from instead.
 """
 PLATFORM_BOUND = False
 import os
@@ -167,7 +167,7 @@ check("the track's switches are said, not the intro's",
       "denoise (speech_isolation)" in track and "leveler" not in track,
       "per track said %r" % track[:200])
 
-print("\n5. An intro or outro in a Multitrack preset is said to be unused")
+print("\n5. An intro or outro in a preset of either kind is said unused")
 ends = about("intro before the track", "Intro / outro")
 check("an intro in the preset is said to be unused, by name",
       [b.text for b in ends] == [vpm.T(
@@ -193,12 +193,18 @@ check("a preset with neither says nothing of them",
       about("fits", "Intro / outro") == [], why("fits"))
 check("an intro and an outro in the preset stop nothing",
       stop["intro and outro"] is False, why("intro and outro"))
-vpm.read_preset = lambda key, uuid: CASES["intro and outro"]
+# A Singletrack preset's list holds its intro and outro alone, by type,
+# as a Singletrack production lists them.
+vpm.read_preset = lambda key, uuid: {"algorithms": {"loudnesstarget": -16},
+                                     "multi_input_files": [INTRO, OUTRO]}
 single = [b for b in vpm.check_preset("key", "uuid", "Podcast_Single",
                                       -16.0, False)
           if b.field == vpm.T('Intro / outro')]
-check("a Singletrack preset's intro is not called unused",
-      single == [], "Intro / outro said %r" % [b.text for b in single])
+check("a Singletrack preset's intro and outro are said unused too",
+      [b.text for b in single] == [vpm.T(
+          'the preset has an intro and an outro -- neither is used: intro '
+          'and outro come from the video files.')],
+      "Intro / outro said %r" % [b.text for b in single])
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

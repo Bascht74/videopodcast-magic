@@ -1227,14 +1227,8 @@ msgstr "キーは%sに入り、ファイルには入りません。"
 msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
 msgstr "auphonic.com が音声をどう処理するかを決めます。\n\n「%s」はキーをそのまま残し、それでも送信しません。\n音声は結合と正規化だけで、分離はされません --\n分かれたトラックがなければカメラ切り替えもありません。"
 
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic が設定を受け付けません：%s"
-
 msgid "Uploading %s"
 msgstr "%s をアップロード中"
-
-msgid "no production id in the response: %s"
-msgstr "応答に制作 ID がありません：%s"
 
 msgid "no download address for %s"
 msgstr "%s のダウンロード先がありません"

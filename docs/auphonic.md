@@ -146,6 +146,10 @@ switches nothing on and nothing off in it.
   transcript is made here either way (see below), so a multitrack
   production does not ask for it, and neither kind of production fetches
   its text.
+* `Intro / outro` says in one line when the preset holds an intro or an
+  outro, for a single track as for several. Neither is used: the
+  production takes the preset's settings without them, and intro and
+  outro come from the video files. It stops nothing.
 
 Two more stop the run: a preset that masters to another loudness than
 the run's, and a multitrack preset with no track stored in it. What to
@@ -182,7 +186,7 @@ the shape auphonic.com delivers its own.
 
 A preset with auphonic.com's speech recognition switched on changes
 nothing about that. A multitrack production is created without it. A
-single track goes up with the preset as it stands, so auphonic.com
+single track takes the preset's settings as they stand, so auphonic.com
 transcribes it as well -- switch it off in the preset where that is not
 wanted. Either way its subtitles, speech data and transcript stay at
 auphonic.com and are not fetched: there is one transcript, and it is
@@ -298,8 +302,8 @@ our multitrack algorithms only for productions shorter than 20min!`
 
 A single track then goes through these steps:
 
-1. `Uploading <file>` with a bar. The file goes up together with the
-   preset.
+1. `Uploading <file>` with a bar. Before it, the production is made
+   from the preset's settings, without its intro and outro.
 2. With a stereo recording, `Two channels requested -- the recording is
    stereo`. The preset would fold the mix to one channel; this way two
    channels come back.

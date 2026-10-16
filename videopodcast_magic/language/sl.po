@@ -3047,9 +3047,6 @@ msgstr "ni mesta, kjer govori natanko ena oseba -- ločevanja ni mogoče izmerit
 msgid "no production id in the response"
 msgstr "v odgovoru ni ID-ja produkcije"
 
-msgid "no production id in the response: %s"
-msgstr "v odgovoru ni ID-ja produkcije: %s"
-
 msgid "no timecode"
 msgstr "brez časovne kode"
 
@@ -4015,9 +4012,6 @@ msgstr "Spet celotna dolžina (tipka 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Preneseno tudi: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic ne sprejme nastavitev: %s"
 
 msgid "      %s channels"
 msgstr "      Kanali: %s"

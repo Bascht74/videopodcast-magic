@@ -3,8 +3,9 @@
 
 Against auphonic.com itself, and it spends credit: twenty seconds of
 syllables through the account's first single-track preset, or the one
-VPM_LIVE_PRESET names. In order -- the program uploads and starts in one
-call, waits, and fetches the result; the file the program leaves is as
+VPM_LIVE_PRESET names. In order -- the program makes the production
+from the preset it read, uploads, starts, waits, and fetches the
+result; the file the program leaves is as
 long as the one sent, whatever auphonic.com put around it; and the
 production, found again by its title, is deleted. The title has the
 tests' own shape, so a run killed half way is cleared by the sweep

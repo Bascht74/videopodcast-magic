@@ -3012,9 +3012,6 @@ msgstr "није нађено место где говори тачно једн
 msgid "no production id in the response"
 msgstr "нема идентификатора продукције у одговору"
 
-msgid "no production id in the response: %s"
-msgstr "нема идентификатора продукције у одговору: %s"
-
 msgid "no timecode"
 msgstr "нема тајмкода"
 
@@ -3923,9 +3920,6 @@ msgstr "Поново цела дужина (тастер 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Такође преузето: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic не прихвата подешавања: %s"
 
 msgid "      %s channels"
 msgstr "      %s канала"

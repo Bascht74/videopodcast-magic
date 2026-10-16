@@ -2706,9 +2706,6 @@ msgstr "Auphonic сообщает %s: %s"
 msgid "Auphonic reports an error: %s"
 msgstr "Auphonic сообщает об ошибке: %s"
 
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic не принимает настройки: %s"
-
 msgid "Before: %s"
 msgstr "До: %s"
 
@@ -4038,9 +4035,6 @@ msgstr "не найдено места, где говорит ровно оди�
 
 msgid "no production id in the response"
 msgstr "в ответе нет идентификатора продукции"
-
-msgid "no production id in the response: %s"
-msgstr "в ответе нет идентификатора продукции: %s"
 
 msgid "no recording named"
 msgstr "запись не названа"

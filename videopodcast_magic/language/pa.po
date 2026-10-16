@@ -3047,9 +3047,6 @@ msgstr "ਕੋਈ ਥਾਂ ਨਹੀਂ ਮਿਲੀ ਜਿੱਥੇ ਠੀਕ 
 msgid "no production id in the response"
 msgstr "ਜਵਾਬ ਵਿੱਚ ਕੋਈ ਪ੍ਰੋਡਕਸ਼ਨ ID ਨਹੀਂ"
 
-msgid "no production id in the response: %s"
-msgstr "ਜਵਾਬ ਵਿੱਚ ਕੋਈ ਪ੍ਰੋਡਕਸ਼ਨ ID ਨਹੀਂ: %s"
-
 msgid "no timecode"
 msgstr "ਕੋਈ ਟਾਈਮਕੋਡ ਨਹੀਂ"
 
@@ -4015,9 +4012,6 @@ msgstr "ਫਿਰ ਪੂਰੀ ਲੰਬਾਈ (0 ਕੁੰਜੀ)"
 
 msgid "  Also fetched: %s"
 msgstr "  ਇਹ ਵੀ ਡਾਊਨਲੋਡ ਕੀਤਾ: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic ਸੈਟਿੰਗਾਂ ਸਵੀਕਾਰ ਨਹੀਂ ਕਰਦਾ: %s"
 
 msgid "      %s channels"
 msgstr "      %s ਚੈਨਲ"

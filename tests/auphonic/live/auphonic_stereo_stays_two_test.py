@@ -4,8 +4,8 @@
 Against auphonic.com itself, and it spends credit: twenty seconds of a
 different tone left and right through the account's first single-track
 preset, or the one VPM_LIVE_PRESET names. A preset folds to one channel,
-so the program creates the production, switches the fold off in a second
-call and starts it there -- the path no stand-in has shown to work. In
+so the program makes the production with the preset's outputs unfolded
+-- the path no stand-in has shown to work. In
 order -- the result arrives, it has two channels, and the production,
 found again by its title, is deleted.
 The title has the tests' own shape, so a run killed half way is cleared

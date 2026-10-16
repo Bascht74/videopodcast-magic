@@ -3045,9 +3045,6 @@ msgstr "नेमकी एकच व्यक्ती बोलते अश�
 msgid "no production id in the response"
 msgstr "प्रतिसादात प्रॉडक्शन ID नाही"
 
-msgid "no production id in the response: %s"
-msgstr "प्रतिसादात प्रॉडक्शन ID नाही: %s"
-
 msgid "no timecode"
 msgstr "टाइमकोड नाही"
 
@@ -4013,9 +4010,6 @@ msgstr "पुन्हा संपूर्ण लांबी (0 कळ)"
 
 msgid "  Also fetched: %s"
 msgstr "  हेही आणले: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic सेटिंग्ज स्वीकारत नाही: %s"
 
 msgid "      %s channels"
 msgstr "      %s चॅनेल"

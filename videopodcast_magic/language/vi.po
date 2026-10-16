@@ -3008,9 +3008,6 @@ msgstr "không tìm thấy chỗ nào chỉ có đúng một người nói -- kh
 msgid "no production id in the response"
 msgstr "phản hồi không có mã bản sản xuất"
 
-msgid "no production id in the response: %s"
-msgstr "phản hồi không có mã bản sản xuất: %s"
-
 msgid "no timecode"
 msgstr "không có mã thời gian"
 
@@ -3919,9 +3916,6 @@ msgstr "Lại toàn bộ độ dài (phím 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Cũng đã tải: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic không nhận cài đặt: %s"
 
 msgid "      %s channels"
 msgstr "      %s kênh"

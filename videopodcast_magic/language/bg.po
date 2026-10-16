@@ -3045,9 +3045,6 @@ msgstr "не е намерено място, където говори точн�
 msgid "no production id in the response"
 msgstr "няма идентификатор на продукцията в отговора"
 
-msgid "no production id in the response: %s"
-msgstr "няма идентификатор на продукцията в отговора: %s"
-
 msgid "no timecode"
 msgstr "няма таймкод"
 
@@ -4013,9 +4010,6 @@ msgstr "Отново цялата дължина (клавиш 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Изтеглено също: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic не приема настройките: %s"
 
 msgid "      %s channels"
 msgstr "      Канали: %s"

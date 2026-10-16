@@ -3011,9 +3011,6 @@ msgstr "δεν βρέθηκε σημείο όπου μιλάει ακριβώς 
 msgid "no production id in the response"
 msgstr "κανένα αναγνωριστικό παραγωγής στην απάντηση"
 
-msgid "no production id in the response: %s"
-msgstr "κανένα αναγνωριστικό παραγωγής στην απάντηση: %s"
-
 msgid "no timecode"
 msgstr "χωρίς timecode"
 
@@ -3922,9 +3919,6 @@ msgstr "Ξανά ολόκληρη η διάρκεια (πλήκτρο 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Λήφθηκε επίσης: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Το Auphonic δεν δέχεται τις ρυθμίσεις: %s"
 
 msgid "      %s channels"
 msgstr "      %s κανάλια"

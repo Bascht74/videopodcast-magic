@@ -3011,9 +3011,6 @@ msgstr "এমন কোনো জায়গা পাওয়া যায�
 msgid "no production id in the response"
 msgstr "উত্তরে কোনো প্রোডাকশন আইডি নেই"
 
-msgid "no production id in the response: %s"
-msgstr "উত্তরে কোনো প্রোডাকশন আইডি নেই: %s"
-
 msgid "no timecode"
 msgstr "কোনো টাইমকোড নেই"
 
@@ -3922,9 +3919,6 @@ msgstr "আবার পুরো দৈর্ঘ্য (0 কী)"
 
 msgid "  Also fetched: %s"
 msgstr "  এটিও আনা হয়েছে: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic সেটিংস গ্রহণ করছে না: %s"
 
 msgid "      %s channels"
 msgstr "      %sটি চ্যানেল"

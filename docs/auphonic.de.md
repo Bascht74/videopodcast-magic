@@ -163,6 +163,11 @@ Preset; das Programm schaltet darin nichts ein und nichts aus.
   an. Das Transkript entsteht ohnehin hier (siehe unten); eine
   Multitrack-Produktion fordert sie deshalb nicht an, und keine der
   beiden Arten holt ihren Text.
+* `Vorspann / Abspann` sagt in einer Zeile, wenn das Preset ein Intro
+  oder ein Outro enthält -- bei einer einzelnen Spur wie bei mehreren.
+  Keins von beiden wird verwendet: Die Produktion übernimmt die
+  Einstellungen des Presets ohne sie, und Vorspann und Abspann kommen
+  aus den Videodateien. Es hält nichts an.
 
 Zwei weitere halten den Lauf an: ein Preset, das auf eine andere
 Lautheit mastert als der Lauf, und ein Multitrack-Preset, in dem keine
@@ -202,8 +207,8 @@ auphonic.com seine eigenen liefert.
 
 Ein Preset, in dem die Spracherkennung von auphonic.com eingeschaltet
 ist, ändert daran nichts. Eine Multitrack-Produktion wird ohne sie
-angelegt. Eine einzelne Spur geht mit dem Preset hoch, wie es ist, und
-auphonic.com transkribiert dann mit -- wer das nicht will, schaltet es
+angelegt. Eine einzelne Spur übernimmt die Einstellungen des Presets,
+wie sie sind, und auphonic.com transkribiert dann mit -- wer das nicht will, schaltet es
 im Preset aus. So oder so bleiben Untertitel, Sprachdaten und
 Transkript von dort auf auphonic.com und werden nicht geholt: Es gibt
 ein Transkript, und es ist das, das hier entsteht.
@@ -330,8 +335,8 @@ sie kommt auf Englisch, so wie auphonic.com sie schickt.
 
 Eine einzelne Spur geht dann diese Schritte:
 
-1. `Lade <Datei> hoch` mit einem Balken. Die Datei geht zusammen mit dem
-   Preset hoch.
+1. `Lade <Datei> hoch` mit einem Balken. Vorher wird die Produktion aus
+   den Einstellungen des Presets angelegt, ohne sein Intro und Outro.
 2. Bei einer Stereoaufnahme `Zwei Kanäle angefordert -- die Aufnahme ist
    Stereo`. Das Preset würde den Mix auf einen Kanal falten; so kommen
    zwei Kanäle zurück.

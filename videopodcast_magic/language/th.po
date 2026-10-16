@@ -3042,9 +3042,6 @@ msgstr "ไม่พบช่วงที่มีคนพูดเพียง
 msgid "no production id in the response"
 msgstr "ไม่มี ID โปรดักชันในการตอบกลับ"
 
-msgid "no production id in the response: %s"
-msgstr "ไม่มี ID โปรดักชันในการตอบกลับ: %s"
-
 msgid "no timecode"
 msgstr "ไม่มีไทม์โค้ด"
 
@@ -4010,9 +4007,6 @@ msgstr "กลับไปแสดงทั้งความยาว (ปุ�
 
 msgid "  Also fetched: %s"
 msgstr "  ดึงมาด้วย: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic ไม่รับการตั้งค่า: %s"
 
 msgid "      %s channels"
 msgstr "      %s ช่องสัญญาณ"

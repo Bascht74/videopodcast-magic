@@ -1235,14 +1235,8 @@ msgstr "तब कुंजी %s में रहती है, कभी क�
 msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
 msgstr "तय करता है कि auphonic.com ऑडियो को कैसे प्रोसेस करे।\n\n“%s” कुंजी को वहीं रहने देता है और फिर भी वहाँ नहीं जाता।\nतब ऑडियो केवल जोड़ा और नॉर्मलाइज़ किया जाता है, अलग नहीं किया जाता --\nऔर अलग ट्रैकों के बिना कोई कैमरा कट नहीं होता।"
 
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic सेटिंग्स स्वीकार नहीं करता: %s"
-
 msgid "Uploading %s"
 msgstr "%s अपलोड हो रहा है"
-
-msgid "no production id in the response: %s"
-msgstr "उत्तर में कोई प्रोडक्शन ID नहीं: %s"
 
 msgid "no download address for %s"
 msgstr "%s के लिए कोई डाउनलोड पता नहीं"

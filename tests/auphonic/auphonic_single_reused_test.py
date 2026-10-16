@@ -128,7 +128,7 @@ class Auphonic(object):
             answer = {"credits": 10.0, "is_paying_user": True}
         elif path.startswith("/api/productions.json?"):
             answer = self.listed
-        elif path.startswith("/api/simple/productions.json"):
+        elif path == "/api/productions.json":
             answer = production(uuid="NEWUUID")
         elif path.startswith("/api/production/"):
             uuid = path.split("/")[3].split(".")[0]

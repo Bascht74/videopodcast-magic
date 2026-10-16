@@ -3013,9 +3013,6 @@ msgstr "nu s-a găsit niciun loc în care vorbește exact o persoană -- separar
 msgid "no production id in the response"
 msgstr "niciun identificator de producție în răspuns"
 
-msgid "no production id in the response: %s"
-msgstr "niciun identificator de producție în răspuns: %s"
-
 msgid "no timecode"
 msgstr "fără timecode"
 
@@ -3924,9 +3921,6 @@ msgstr "Din nou întreaga durată (tasta 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  De asemenea preluat: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic nu acceptă setările: %s"
 
 msgid "      %s channels"
 msgstr "      %s canale"
