@@ -5032,14 +5032,11 @@ msgstr "auphonic.com 账户：未知——无法查询。运行继续。"
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  提示：运行仍会尝试。制作是否开始由 auphonic.com 决定，若不开始它会说明。"
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  警告：此 Multitrack 制作长 %s，而免费方案下 auphonic.com 只接受约 %s 以内的此类制作。"
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "这个 Multitrack 制作时长 %s。免费方案下，auphonic.com 只接受约 %s 以内的这类制作；更长的需要付费方案。"
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  提示：更长的制作会在开始时被 auphonic.com 拒绝，且不收取任何费用。运行仍会尝试；若 auphonic.com 拒绝，随后会显示它自己的消息。"
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "免费方案下，auphonic.com 只接受约 %s 以内的 Multitrack 制作。"
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "若要单轨（免费方案接受任意长度），请把除一条以外的所有音轨设为“%s”——前提是有一条音轨包含所有人的声音。或者在预设中选择“%s”（--without-auphonic）：音轨随后在这里混音。"
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  本次运行创建的项目 %r 保持打开 -- 之前没有可以重新打开的项目\n  处于打开状态。请在 Resolve 的项目管理器中删除它。"

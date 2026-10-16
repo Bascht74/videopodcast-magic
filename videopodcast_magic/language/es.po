@@ -5085,14 +5085,11 @@ msgstr "Cuenta en auphonic.com: desconocida -- no se pudo consultar. La ejecuci�
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Nota: la ejecución lo intenta de todos modos. auphonic.com decide si la producción arranca, y lo dice si no arranca."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Advertencia: esta producción Multitrack dura %s, y con el plan gratuito auphonic.com solo acepta una así de hasta unos %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Esta producción Multitrack dura %s. Con el plan gratuito, auphonic.com solo acepta una así de hasta unos %s; una más larga necesita un plan de pago."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Nota: auphonic.com rechaza una más larga ya al inicio y no cobra nada por ella. La ejecución lo intenta de todos modos; si auphonic.com la rechaza, sigue su propio mensaje."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Con el plan gratuito, auphonic.com solo acepta una producción Multitrack de hasta unos %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Para pista única, que el plan gratuito acepta de cualquier duración, ponga todas las pistas menos una en «%s» -- donde una pista lleve todas las voces. O elija «%s» en Preajuste (--without-auphonic): las pistas se mezclan entonces aquí."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  El proyecto %r de esta ejecución queda abierto -- antes no había nada abierto\n  que se pudiera volver a abrir. Bórrelo en el gestor de proyectos de Resolve."

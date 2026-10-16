@@ -15,6 +15,7 @@ PROGRAM = PROGRAM
 # missing, and the two blocks under the list say which and why.
 
 COLOURS = PROGRAM.COLOURS
+IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 PRESET_NONE = PROGRAM.PRESET_NONE
 T = PROGRAM.T
 Value = PROGRAM.Value
@@ -404,8 +405,8 @@ def list_presets(key):
 
 
 # auphonic.com's free Multitrack border as measured 27.9.2026: 21 min
-# went through, 22 were refused ("shorter than 20min", it says). Warned
-# of past it, never enforced.
+# went through, 22 were refused ("shorter than 20min", it says). Past
+# it a run stops before the upload: auphonic.com would refuse it.
 FREE_MULTITRACK_S = 21 * 60
 # The least auphonic.com charges a production, as its pricing pages say
 # (read 9.10.2026, not measured): three minutes, however short it is.
@@ -496,14 +497,36 @@ def free_too_long(account, seconds, multitrack):
             and multitrack and seconds > FREE_MULTITRACK_S)
 
 
+def free_border_said(account, seconds, multitrack):
+    """Why a free account cannot take this production, and the way out.
+
+    (text, advice) where free_too_long, else None: one wording for the
+    box, the preflight and the stop before the upload. auphonic.com
+    refuses such a production at its start, so it needs a paid plan;
+    the advice names what the free plan does take.
+    """
+    if not free_too_long(account, seconds, multitrack):
+        return None
+    return (T('This Multitrack production is %s long. On the free plan '
+              'auphonic.com takes one only up to about %s; a longer one '
+              'needs a paid plan.')
+            % (credit_time(seconds, needed=True),
+               credit_time(FREE_MULTITRACK_S)),
+            T('For Singletrack, which the free plan takes at any length, '
+              'set every track but one to "%s" -- where one track holds '
+              'every voice. Or choose "%s" under Preset '
+              '(--without-auphonic): the tracks are then mixed here.')
+            % (label_of(IGNORE_AUDIO), label_of(PRESET_NONE)))
+
+
 def credit_note(account, multitrack, seconds=0):
     """The line the Auphonic box shows about the account: (text, short).
 
     *seconds*: the production's length as the window knows it, 0, or
     None without a preset, which only says the plan and what is left.
     *short*, the line red: the credit is fewer than the production needs,
-    or a free Multitrack production longer than auphonic.com takes. A
-    length adds a line saying whether it is enough; no answer, no line.
+    or a free Multitrack production is too long, said with the way out.
+    A length adds a line saying whether it is enough; no answer, no line.
     """
     if not account:
         return "", False
@@ -522,10 +545,9 @@ def credit_note(account, multitrack, seconds=0):
                          if short else
                          T('Enough for the %s this production needs.'))
                         % credit_time(seconds, needed=True))
-    if free_too_long(account, seconds, multitrack):
-        left += "\n" + (T('On the free plan auphonic.com takes a Multitrack '
-                          'production only up to about %s.')
-                        % credit_time(FREE_MULTITRACK_S))
+    border = free_border_said(account, seconds, multitrack)
+    if border:
+        left += "\n" + "\n".join(border)
         short = True
     return left, short
 
@@ -534,9 +556,9 @@ def credit_verdict(account, seconds, multitrack):
     """What the account says to this production: the lines, as said.
 
     auphonic.com charges the length sent: *seconds*, the longest track,
-    0 where not known. A free Multitrack production longer than it takes
-    is a warning, marked so, with a note saying why. Nothing here stops:
-    auphonic.com decides at the start, and its refusal ends the run.
+    0 where not known. Nothing here stops: short credit is auphonic.com's
+    to judge at the start. A free Multitrack production past the border
+    is not said here but by free_border_said, where the run stops.
     """
     paying = (account or {}).get("paying")
     lines = [{True: T('  Account at auphonic.com: paying.'),
@@ -565,25 +587,17 @@ def credit_verdict(account, seconds, multitrack):
                        '%s this production needs.')
                      % (credit_time(hours * 3600),
                         credit_time(seconds, needed=True)))
-    if free_too_long(account, seconds, multitrack):
-        lines.append(as_warn(
-            T('  Warning: this Multitrack production is %s long, and on the '
-              'free plan auphonic.com takes one only up to about %s.')
-            % (credit_time(seconds, needed=True),
-               credit_time(FREE_MULTITRACK_S))))
-        lines.append(T('  Note: auphonic.com refuses a longer one at the '
-                       'start and charges nothing for it. The run tries '
-                       'anyway; if auphonic.com refuses, its own message '
-                       'follows.'))
     return lines
 
 
 def production_said(key, head, rows, dry_run, seconds, multitrack):
     """The head both productions print, and what the account says to it.
 
-    Returns True on a dry run, which ends there: it says nothing to
-    auphonic.com at all, so the account is only asked before an upload,
-    and *seconds*, which measures the files, is called only then.
+    True on a dry run, which ends there: the account is only asked, and
+    *seconds* only measured, before an upload. A free Multitrack
+    production past the border raises before anything goes up -- the
+    net under --anyway and --no-preflight, asked anew in case of a plan
+    changed since the preflight.
     """
     print(as_head(head))
     for row in rows:
@@ -591,8 +605,12 @@ def production_said(key, head, rows, dry_run, seconds, multitrack):
     if dry_run:
         print(T('  (dry run: nothing uploaded)\n'))
         return True
-    for line in credit_verdict(account_credit(key), seconds(), multitrack):
+    account, length = account_credit(key), seconds()
+    for line in credit_verdict(account, length, multitrack):
         print(line)
+    border = free_border_said(account, length, multitrack)
+    if border:
+        raise RuntimeError(" ".join(border))
     return False
 
 

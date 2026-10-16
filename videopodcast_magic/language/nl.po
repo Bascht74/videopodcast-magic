@@ -5086,14 +5086,11 @@ msgstr "Account bij auphonic.com: onbekend -- het kon niet worden bevraagd. De r
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Opmerking: de run probeert het toch. auphonic.com beslist of de productie start, en zegt het als dat niet zo is."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Waarschuwing: deze Multitrack-productie duurt %s, en met het gratis abonnement neemt auphonic.com er een alleen aan tot ongeveer %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Deze Multitrack-productie duurt %s. Met het gratis abonnement neemt auphonic.com zo'n productie alleen aan tot ongeveer %s; een langere vraagt een betaald abonnement."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Opmerking: een langere weigert auphonic.com meteen bij de start en rekent er niets voor. De run probeert het toch; weigert auphonic.com, dan volgt zijn eigen melding."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Met het gratis abonnement neemt auphonic.com een Multitrack-productie alleen aan tot ongeveer %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Voor Singletrack, dat het gratis abonnement in elke lengte aanneemt, zet u alle sporen op één na op \"%s\" -- waar één spoor alle stemmen draagt. Of kies \"%s\" onder Voorinstelling (--without-auphonic): de sporen worden dan hier gemengd."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Het project %r van deze run blijft open -- er stond vooraf niets open\n  dat weer geopend kon worden. Verwijder het in de projectmanager van Resolve."

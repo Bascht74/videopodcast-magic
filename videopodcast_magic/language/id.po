@@ -5045,14 +5045,11 @@ msgstr "Akun di auphonic.com: tidak diketahui -- tidak dapat ditanyakan. Proses 
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Catatan: proses tetap mencoba. auphonic.com yang memutuskan apakah produksi dimulai, dan mengatakannya jika tidak."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Peringatan: produksi Multitrack ini berdurasi %s, dan pada paket gratis auphonic.com hanya menerima yang seperti itu hingga sekitar %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Produksi Multitrack ini berdurasi %s. Pada paket gratis, auphonic.com hanya menerima produksi seperti itu hingga sekitar %s; yang lebih panjang memerlukan paket berbayar."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Catatan: auphonic.com menolak yang lebih panjang sejak awal dan tidak menagih apa pun untuknya. Proses tetap mencoba; jika auphonic.com menolak, pesannya sendiri menyusul."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Pada paket gratis, auphonic.com hanya menerima produksi Multitrack hingga sekitar %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Untuk Singletrack, yang diterima paket gratis dengan durasi berapa pun, atur semua trek kecuali satu ke \"%s\" -- bila satu trek memuat semua suara. Atau pilih \"%s\" di bawah Preset (--without-auphonic): trek lalu dicampur di sini."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Proyek %r dari proses ini tetap terbuka -- sebelumnya tidak ada yang terbuka\n  yang bisa dibuka lagi. Hapus di pengelola proyek Resolve."

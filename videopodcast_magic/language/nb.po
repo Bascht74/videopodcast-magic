@@ -5084,14 +5084,11 @@ msgstr "Konto hos auphonic.com: ukjent -- den kunne ikke spørres. Kjøringen fo
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Merknad: kjøringen prøver likevel. auphonic.com avgjør om produksjonen starter, og sier fra hvis den ikke gjør det."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Advarsel: denne Multitrack-produksjonen varer %s, og på gratisabonnementet tar auphonic.com bare imot en slik opp til omtrent %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Denne Multitrack-produksjonen varer %s. På gratisabonnementet tar auphonic.com bare imot en slik opp til omtrent %s; en lengre krever et betalt abonnement."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Merknad: auphonic.com avviser en lengre allerede ved starten og tar ikke betalt for den. Kjøringen prøver likevel; avviser auphonic.com, følger dens egen melding."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "På gratisabonnementet tar auphonic.com bare imot en Multitrack-produksjon opp til omtrent %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "For Singletrack, som gratisabonnementet tar imot i alle lengder, setter du alle spor unntatt ett til \"%s\" -- der ett spor rommer alle stemmene. Eller velg \"%s\" under Forhåndsinnstilling (--without-auphonic): sporene mikses da her."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Prosjektet %r fra denne kjøringen forblir åpent -- ingenting som kunne åpnes\n  igjen, var åpent før. Slett det i prosjektbehandleren i Resolve."

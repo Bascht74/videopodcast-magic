@@ -5128,14 +5128,11 @@ msgstr "Račun na auphonic.com: nepoznat -- nije ga bilo moguće upitati. Pokret
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Napomena: pokretanje ipak pokušava. auphonic.com odlučuje hoće li produkcija krenuti, i kaže ako neće."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Upozorenje: ova Multitrack produkcija traje %s, a na besplatnom planu auphonic.com prima takvu samo do otprilike %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Ova Multitrack produkcija traje %s. Na besplatnom planu auphonic.com prima takvu samo do otprilike %s; za dužu je potreban plaćeni plan."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Napomena: auphonic.com dužu odbija već na početku i za nju ništa ne naplaćuje. Pokretanje ipak pokušava; ako auphonic.com odbije, slijedi njegova vlastita poruka."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Na besplatnom planu auphonic.com prima Multitrack produkciju samo do otprilike %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Za Singletrack, koji besplatni plan prima u bilo kojoj duljini, postavite sve trake osim jedne na \"%s\" -- ondje gdje jedna traka nosi sve glasove. Ili odaberite \"%s\" pod Predefinirana postavka (--without-auphonic): trake se tada miješaju ovdje."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Projekt %r iz ovog pokretanja ostaje otvoren -- prije nije bilo otvoreno ništa\n  što bi se moglo ponovno otvoriti. Izbrišite ga u Resolveovom upravitelju projekata."

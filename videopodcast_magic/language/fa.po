@@ -5087,14 +5087,11 @@ msgstr "حساب در auphonic.com: نامعلوم -- نمی‌شد از آن پ
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  یادداشت: اجرا با این حال تلاش می‌کند. auphonic.com تصمیم می‌گیرد که تولید آغاز شود یا نه، و اگر نشود آن را می‌گوید."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  هشدار: این تولید Multitrack %s طول می‌کشد، و در طرح رایگان auphonic.com چنین تولیدی را فقط تا حدود %s می‌پذیرد."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "این تولید Multitrack %s طول دارد. در طرح رایگان، auphonic.com چنین تولیدی را فقط تا حدود %s می‌پذیرد؛ تولید طولانی‌تر به طرح پولی نیاز دارد."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  یادداشت: auphonic.com تولید طولانی‌تر را همان ابتدا رد می‌کند و بابت آن چیزی کسر نمی‌کند. اجرا با این حال تلاش می‌کند؛ اگر auphonic.com رد کند، پیام خودش می‌آید."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "در طرح رایگان، auphonic.com تولید Multitrack را فقط تا حدود %s می‌پذیرد."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "برای Singletrack، که طرح رایگان آن را با هر طولی می‌پذیرد، همه ترک‌ها جز یکی را روی «%s» بگذارید -- جایی که یک ترک همه صداها را دارد. یا زیر پیش‌تنظیم «%s» را برگزینید (--without-auphonic): آن‌گاه ترک‌ها همین‌جا میکس می‌شوند."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  پروژهٔ %r که این اجرا ساخت باز می‌ماند -- پیش‌تر چیزی باز نبود\n  که بتوان دوباره بازش کرد. آن را در مدیر پروژه‌های Resolve حذف کنید."

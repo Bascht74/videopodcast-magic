@@ -5,10 +5,11 @@ Against auphonic.com itself, and it may spend credit: two tracks of an
 hour each, made by ffmpeg -- VPM_LIVE_MINUTES sets another length --
 through the account's first multitrack preset. auphonic.com lets a free
 account try Multitrack only for productions shorter than twenty
-minutes; the program says so as a hint, tries anyway, and leaves the
-answer to auphonic.com. The test prints what the program said, reads
-the production back by its title -- status, error_code, error_message
--- and deletes it.
+minutes. The program stops such a run before its upload; that stop is
+set aside here, so that auphonic.com itself answers whether the border
+still stands where FREE_MULTITRACK_S says. The test prints what the
+program said, reads the production back by its title -- status,
+error_code, error_message -- and deletes it.
 
 Leaves itself out on a paying account, where the limit does not hold
 and the run would spend two hours of credit. The checks: the account is
@@ -68,6 +69,9 @@ def a_track(path, pitch, seed):
 
 
 vpm = ground.program()
+# The program's own stop before the upload, set aside: what is measured
+# here is auphonic.com's border, which that stop relies on.
+vpm.free_border_said = lambda account, seconds, multitrack: None
 key, origin = ground.the_key(vpm)
 account = vpm.account_credit(key) or {}
 print("0. The account: paying = %r, credit %.4f h"

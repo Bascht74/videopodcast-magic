@@ -5097,14 +5097,11 @@ msgstr "auphonic.com hesabı: bilinmiyor -- sorgulanamadı. Çalıştırma devam
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Not: çalıştırma yine de dener. Prodüksiyonun başlayıp başlamayacağına auphonic.com karar verir ve başlamazsa bunu söyler."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Uyarı: bu Multitrack prodüksiyonu %s sürüyor ve ücretsiz planda auphonic.com böyle bir prodüksiyonu yalnızca yaklaşık %s süresine kadar kabul eder."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Bu Multitrack prodüksiyonu %s sürüyor. Ücretsiz planda auphonic.com böyle bir prodüksiyonu yalnızca yaklaşık %s süresine kadar kabul eder; daha uzunu ücretli plan gerektirir."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Not: auphonic.com daha uzun olanı daha başlangıçta reddeder ve bunun için hiçbir ücret almaz. Çalıştırma yine de dener; auphonic.com reddederse kendi mesajı gelir."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Ücretsiz planda auphonic.com bir Multitrack prodüksiyonunu yalnızca yaklaşık %s süresine kadar kabul eder."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Ücretsiz planın her uzunlukta kabul ettiği tek iz için, biri dışındaki tüm izleri \"%s\" olarak ayarlayın -- tek bir izin tüm sesleri taşıdığı yerde. Ya da Hazır ayar altında \"%s\" seçin (--without-auphonic): izler o zaman burada karıştırılır."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Bu çalıştırmanın oluşturduğu %r projesi açık kalıyor -- önceden yeniden açılabilecek\n  hiçbir şey açık değildi. Onu Resolve'un proje yöneticisinde silin."

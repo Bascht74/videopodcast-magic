@@ -5089,14 +5089,11 @@ msgstr "auphonic.com లో ఖాతా: తెలియదు -- దాన్�
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  గమనిక: రన్ అయినా ప్రయత్నిస్తుంది. ప్రొడక్షన్ మొదలవుతుందో లేదో auphonic.com నిర్ణయిస్తుంది, మొదలుకాకపోతే చెబుతుంది."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  హెచ్చరిక: ఈ Multitrack ప్రొడక్షన్ %s నిడివి ఉంది, ఉచిత ప్లాన్‌లో auphonic.com అలాంటిదాన్ని సుమారు %s వరకే తీసుకుంటుంది."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "ఈ Multitrack ప్రొడక్షన్ నిడివి %s. ఉచిత ప్లాన్‌లో auphonic.com ఇలాంటి ప్రొడక్షన్‌ను సుమారు %s వరకే తీసుకుంటుంది; ఇంతకంటే పొడవైనదానికి చెల్లింపు ప్లాన్ అవసరం."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  గమనిక: దీనికంటే పొడవైనదాన్ని auphonic.com మొదట్లోనే తిరస్కరిస్తుంది, దానికి ఏమీ వసూలు చేయదు. రన్ అయినా ప్రయత్నిస్తుంది; auphonic.com తిరస్కరిస్తే దాని సొంత సందేశం వస్తుంది."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "ఉచిత ప్లాన్‌లో auphonic.com Multitrack ప్రొడక్షన్‌ను సుమారు %s వరకే తీసుకుంటుంది."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "ఉచిత ప్లాన్ ఏ నిడివిలోనైనా తీసుకునే Singletrack కోసం, ఒకటి తప్ప అన్ని ట్రాక్‌లను \"%s\"కు మార్చండి -- ఒకే ట్రాక్‌లో అన్ని గొంతులూ ఉన్నచోట. లేదా ప్రీసెట్ కింద \"%s\" ఎంచుకోండి (--without-auphonic): అప్పుడు ట్రాక్‌లు ఇక్కడే మిక్స్ అవుతాయి."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  ఈ రన్ సృష్టించిన ప్రాజెక్ట్ %r తెరిచే ఉంటుంది -- ఇంతకు ముందు మళ్లీ తెరవగలిగేది\n  ఏదీ తెరిచి లేదు. దాన్ని Resolve ప్రాజెక్ట్ మేనేజర్‌లో తొలగించండి."

@@ -5088,14 +5088,11 @@ msgstr "auphonic.com वरील खाते: अज्ञात -- त्य�
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  टीप: रन तरीही प्रयत्न करतो. प्रॉडक्शन सुरू होईल की नाही हे auphonic.com ठरवते, आणि न झाल्यास तसे सांगते."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  इशारा: हे Multitrack प्रॉडक्शन %s लांब आहे, आणि मोफत प्लॅनवर auphonic.com असे प्रॉडक्शन फक्त सुमारे %s पर्यंतच घेते."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "हे Multitrack प्रॉडक्शन %s लांब आहे. मोफत प्लॅनवर auphonic.com असे प्रॉडक्शन फक्त सुमारे %s पर्यंतच घेते; त्याहून लांबसाठी सशुल्क प्लॅन लागतो."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  टीप: auphonic.com यापेक्षा लांब प्रॉडक्शन सुरुवातीलाच नाकारते आणि त्यासाठी काहीही आकारत नाही. रन तरीही प्रयत्न करतो; auphonic.com ने नाकारल्यास त्याचा स्वतःचा संदेश येतो."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "मोफत प्लॅनवर auphonic.com Multitrack प्रॉडक्शन फक्त सुमारे %s पर्यंतच घेते."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Singletrack साठी, जे मोफत प्लॅन कोणत्याही लांबीचे घेते, एक सोडून सर्व ट्रॅक \"%s\" वर ठेवा -- जिथे एकाच ट्रॅकमध्ये सर्व आवाज आहेत. किंवा प्रीसेटखाली \"%s\" निवडा (--without-auphonic): मग ट्रॅक इथेच मिक्स होतात."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  या रनने बनवलेला प्रकल्प %r उघडाच राहतो -- आधी असे काही उघडे नव्हते\n  जे पुन्हा उघडता येईल. तो Resolve च्या प्रोजेक्ट मॅनेजरमध्ये हटवा."

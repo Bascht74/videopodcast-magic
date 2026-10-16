@@ -44,7 +44,7 @@ The report holds for both modes.
 | Project type | with **Sync only**, a second audio recording | **stop** |
 | Finished mix | a finished mix and no video file; one shorter than every camera | **stop**; note -- where it ends, the Full-Mix is silent |
 | Loudness | which target holds and where it comes from | -- |
-| Auphonic account | the plan, the minutes left, whether they carry the production | said, a warning where a free Multitrack production is longer than 21 minutes; never a stop |
+| Auphonic account | the plan, the minutes left, whether they carry the production | said; **stop** where a free Multitrack production is longer than 21 minutes -- it needs a paid plan; a dry run only warns |
 
 A stop halts the run before anything is written or uploaded.
 

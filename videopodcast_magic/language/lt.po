@@ -5132,14 +5132,11 @@ msgstr "Paskyra auphonic.com: nežinoma -- jos nepavyko paklausti. Paleidimas t�
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Pastaba: paleidimas vis tiek bando. auphonic.com sprendžia, ar produkcija prasidės, ir praneša, jei ne."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Įspėjimas: ši Multitrack produkcija trunka %s, o nemokamame plane auphonic.com tokią priima tik iki maždaug %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Ši Multitrack produkcija trunka %s. Nemokamame plane auphonic.com tokią priima tik iki maždaug %s; ilgesnei reikia mokamo plano."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Pastaba: ilgesnę auphonic.com atmeta jau pradžioje ir už ją nieko neima. Paleidimas vis tiek bando; jei auphonic.com atsisako, seka jo paties pranešimas."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Nemokamame plane auphonic.com priima Multitrack produkciją tik iki maždaug %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Singletrack atveju, kurį nemokamas planas priima bet kokios trukmės, visus takelius, išskyrus vieną, nustatykite į „%s“ -- kai viename takelyje yra visi balsai. Arba ties Išankstinis nustatymas pasirinkite „%s“ (--without-auphonic): tada takeliai sumaišomi čia."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Šio paleidimo projektas %r lieka atidarytas -- anksčiau nebuvo atidaryta nieko,\n  ką būtų galima vėl atidaryti. Ištrinkite jį Resolve projektų tvarkyklėje."
