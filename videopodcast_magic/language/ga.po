@@ -3054,9 +3054,6 @@ msgstr "níor aimsíodh áit ina labhraíonn duine amháin go díreach -- ní f�
 msgid "no production id in the response"
 msgstr "níl aitheantas léiriúcháin sa fhreagra"
 
-msgid "no production id in the response: %s"
-msgstr "níl aitheantas léiriúcháin sa fhreagra: %s"
-
 msgid "no timecode"
 msgstr "gan cód ama"
 
@@ -4022,9 +4019,6 @@ msgstr "An fad iomlán arís (eochair 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Faighte freisin: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Ní ghlacann Auphonic leis na socruithe: %s"
 
 msgid "      %s channels"
 msgstr "      Cainéil: %s"

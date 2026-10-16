@@ -3044,9 +3044,6 @@ msgstr "ei leitud kohta, kus räägib täpselt üks inimene -- eristamist ei saa
 msgid "no production id in the response"
 msgstr "vastuses puudub produktsiooni ID"
 
-msgid "no production id in the response: %s"
-msgstr "vastuses puudub produktsiooni ID: %s"
-
 msgid "no timecode"
 msgstr "ajakood puudub"
 
@@ -4012,9 +4009,6 @@ msgstr "Jälle kogu pikkus (klahv 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Alla laaditud ka: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic ei võta seadeid vastu: %s"
 
 msgid "      %s channels"
 msgstr "      Kanaleid: %s"

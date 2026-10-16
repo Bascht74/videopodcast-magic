@@ -67,7 +67,8 @@ PAID = {"username": "testuser", "credits": 2.87309201310154,
 class Account(object):
     """Stands in for auphonic.com: answers the account, notes each call.
 
-    An upload -- any call with a progress bar -- ends the run with
+    A production made is answered with its id, so the run goes on. An
+    upload -- any call with a progress bar -- ends the run with
     Uploaded, having first written a mark into what the run prints, so
     the order of the two can be read off the text.
     """
@@ -81,6 +82,8 @@ class Account(object):
         if progress:
             print("<<the upload begins here>>")
             raise Uploaded()
+        if any(str(a).endswith("/api/productions.json") for a in arguments):
+            return json.dumps({"status_code": 200, "data": {"uuid": "U1"}})
         if isinstance(self.answer, Exception):
             raise self.answer
         return self.answer

@@ -3045,9 +3045,6 @@ msgstr "ایسی کوئی جگہ نہیں ملی جہاں ٹھیک ایک شخص
 msgid "no production id in the response"
 msgstr "جواب میں کوئی پروڈکشن ID نہیں"
 
-msgid "no production id in the response: %s"
-msgstr "جواب میں کوئی پروڈکشن ID نہیں: %s"
-
 msgid "no timecode"
 msgstr "کوئی ٹائم کوڈ نہیں"
 
@@ -4013,9 +4010,6 @@ msgstr "دوبارہ پوری لمبائی (0 کلید)"
 
 msgid "  Also fetched: %s"
 msgstr "  یہ بھی حاصل کیا گیا: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic ترتیبات قبول نہیں کرتا: %s"
 
 msgid "      %s channels"
 msgstr "      %s چینل"

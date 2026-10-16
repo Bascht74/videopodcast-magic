@@ -3047,9 +3047,6 @@ msgstr "hakuna mahali palipopatikana ambapo mtu mmoja tu anazungumza -- utengani
 msgid "no production id in the response"
 msgstr "hakuna kitambulisho cha utayarishaji katika jibu"
 
-msgid "no production id in the response: %s"
-msgstr "hakuna kitambulisho cha utayarishaji katika jibu: %s"
-
 msgid "no timecode"
 msgstr "hakuna timecode"
 
@@ -4015,9 +4012,6 @@ msgstr "Urefu wote tena (kitufe 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Pia imeletwa: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic haikubali mipangilio: %s"
 
 msgid "      %s channels"
 msgstr "      chaneli %s"

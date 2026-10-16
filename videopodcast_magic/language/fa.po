@@ -3044,9 +3044,6 @@ msgstr "جایی پیدا نشد که دقیقاً یک نفر صحبت کند -
 msgid "no production id in the response"
 msgstr "شناسه تولید در پاسخ نیست"
 
-msgid "no production id in the response: %s"
-msgstr "شناسه تولید در پاسخ نیست: %s"
-
 msgid "no timecode"
 msgstr "بدون تایم‌کد"
 
@@ -4012,9 +4009,6 @@ msgstr "دوباره کل طول (کلید 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  این هم دریافت شد: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic تنظیمات را نمی‌پذیرد: %s"
 
 msgid "      %s channels"
 msgstr "      %s کانال"

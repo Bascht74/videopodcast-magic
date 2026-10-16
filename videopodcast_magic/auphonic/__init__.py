@@ -1345,9 +1345,9 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
 TRANSCRIPT_SUFFIXES = (".json", ".srt", ".vtt", ".txt", ".html", ".xml")
 
 
-# What may be sent back when a production is updated. A query answers
-# with more -- size, checksum, download address -- and sending those
-# back describes a file that does not exist yet.
+# What of an output file may be asked for. An answer carries more --
+# size, checksum, download address -- and asking for those describes a
+# file that does not exist yet.
 OUTPUT_FILE_KEYS = ("format", "ending", "bitrate", "mono_mixdown",
                     "split_on_chapters", "suffix", "filename",
                     "outgoing_services")
@@ -1358,40 +1358,27 @@ def output_file_wish(f):
     return {k: f[k] for k in OUTPUT_FILE_KEYS if f.get(k) is not None}
 
 
-def wishes_then_start(key, uuid, stereo=False):
-    """Set what the simple API cannot, then start the production.
+def build_single_request(preset, title, stereo=False):
+    """Build a Singletrack production request from the preset that was read.
 
-    The simple API takes a file and a preset and nothing else, so keeping
-    two channels is settled in one further call -- the one that starts
-    the production, which without "action=start" waits for exactly this.
+    Made as the Multitrack request is, so the preset's intro and outro
+    stay behind. Its outputs are asked for as it has them, except that
+    with a stereo recording none folds to one channel: what a preset
+    folds cannot be unfolded afterwards.
     """
-    if not stereo:
-        return
-    d = _parse_json(_curl_call(
-        key, [AUPHONIC + "/api/production/%s.json" % uuid]))
-    already = ((d.get("data") or {}).get("output_files") or [])
-    wish = [output_file_wish(f) for f in already]
-    request = {}
+    request = production_from_preset(preset, title)
+    request["output_files"] = [output_file_wish(f) for f in
+                               (preset.get("output_files") or [])]
     if stereo:
-        # The preset folds the mixdown to one channel, and with a
-        # stereo recording that cannot be undone afterwards.
-        for f in wish:
+        for f in request["output_files"]:
             if f.get("mono_mixdown"):
                 f["mono_mixdown"] = False
-    request["output_files"] = wish
-    request["action"] = "start"
-    answer = _post_json(key, "/api/production/%s.json" % uuid, request)
-    if answer.get("status_code") not in (200, 201, None):
-        raise RuntimeError(T('Auphonic will not take the settings: '
-                             '%s') % (answer.get("error_message")
-                                      or answer.get("form_errors")))
-    if stereo:
-        print(T('  Two channels requested -- the recording is stereo'))
+    return request
 
 
 def run_single_production(audio, preset, presetname, key, target_folder,
                   wait_s=7200, dry_run=False, title=None, carry_on=None):
-    """Upload a file, start the production, wait, download the result.
+    """Make the production, upload the file, start, wait, fetch the result.
 
     A production of the same title found at auphonic.com is asked about
     first, as a Multitrack one is; *carry_on* answers that in advance.
@@ -1422,28 +1409,22 @@ def run_single_production(audio, preset, presetname, key, target_folder,
                                         target_folder, carry_on)
         if taken:
             return taken
-    # With a stereo recording the production is created but not started:
-    # switching the mono fold off is a second call.
-    later = stereo
-    make = ["-X", "POST", AUPHONIC + "/api/simple/productions.json",
-            "-F", "preset=%s" % preset,
-            "-F", "title=%s" % title,
-            "-F", "input_file=@%s" % audio]
-    if not later:
-        make.insert(-2, "-F")
-        make.insert(-2, "action=start")
-    answer = _curl_call(key, make,
-                   progress=T('Uploading %s') % os.path.basename(audio))
-    d = _parse_json(answer)
+    # Created, not yet running: the file goes up first, then the start.
+    uuid = production_created(key, build_single_request(
+        read_preset(key, preset), title, stereo))["uuid"]
+    d = _parse_json(_curl_call(
+        key, ["-X", "POST",
+              AUPHONIC + "/api/production/%s/upload.json" % uuid,
+              "-F", "input_file=@%s" % audio],
+        progress=T('Uploading %s') % os.path.basename(audio)))
     if d.get("status_code") not in (200, 201, None):
         raise RuntimeError(T('Auphonic reports %s: %s')
-                           % (d.get("status_code"), d.get("error_message") or
-                              d.get("form_errors") or answer[:300]))
-    data = d.get("data") or d
-    uuid = data.get("uuid")
-    if not uuid:
-        raise RuntimeError(T('no production id in the response: %s') % answer[:300])
-    wishes_then_start(key, uuid, stereo)
+                           % (d.get("status_code"), d.get("error_message")
+                              or d.get("form_errors")))
+    _curl_call(key, ["-X", "POST",
+                     AUPHONIC + "/api/production/%s/start.json" % uuid])
+    if stereo:
+        print(T('  Two channels requested -- the recording is stereo'))
     print(T('  Production running (%s)') % uuid)
 
     # The same waiting the multitrack production does, in one function.
@@ -1754,15 +1735,46 @@ def preset_track_template(preset):
     return None
 
 
-def build_multitrack_request(preset, title, names, base_name, key=None,
-                             stereo=False):
-    """Build the production request from the preset that was read.
+def production_from_preset(preset, title):
+    """A production request holding what the preset holds, under *title*.
 
-    The preset cannot be sent along: Auphonic then merges its tracks
-    with ours and the production stays incomplete. So it is read and
-    adopted except what we set; its first track's settings apply to all.
+    The preset cannot be sent along: Auphonic then merges its list with
+    the production's -- its tracks beside ours, and its intro and outro
+    with them, where intro and outro come from the video files here. So
+    it is read and adopted, its list left out, for either kind.
     """
     request = {k: v for k, v in preset.items() if k not in PRESET_READ_ONLY}
+    request.pop("multi_input_files", None)
+    request["metadata"] = dict(preset.get("metadata") or {})
+    request["metadata"]["title"] = title
+    return request
+
+
+def production_created(key, request):
+    """The production auphonic.com created from *request*, not started.
+
+    A refusal, or an answer without the production's id, stops the run
+    before anything goes up.
+    """
+    answer = _post_json(key, "/api/productions.json", request)
+    if answer.get("status_code") not in (200, 201, None):
+        raise RuntimeError(T('Auphonic reports %s: %s')
+                           % (answer.get("status_code"),
+                              answer.get("error_message")
+                              or answer.get("form_errors")))
+    p = answer.get("data") or {}
+    if not p.get("uuid"):
+        raise RuntimeError(T('no production id in the response'))
+    return p
+
+
+def build_multitrack_request(preset, title, names, base_name, key=None,
+                             stereo=False):
+    """Build the Multitrack production request from the preset that was read.
+
+    Adopted except what we set; its first track's settings apply to all.
+    """
+    request = production_from_preset(preset, title)
     # The transcript is made here: auphonic.com's speech recognition is
     # not asked for, whatever the preset says, and the preflight says so.
     request.pop("speech_recognition", None)
@@ -1784,8 +1796,6 @@ def build_multitrack_request(preset, title, names, base_name, key=None,
                           % mst["format"]))
             if stereo:
                 print(T('  Two channels, because one track is stereo'))
-    request["metadata"] = dict(preset.get("metadata") or {})
-    request["metadata"]["title"] = title
     request["output_basename"] = base_name
     return request
 
@@ -1944,16 +1954,8 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
         return reuse_production(key, existing, request, preset,
                                           tracks, names, target_folder, base,
                                           wait_s, carry_on)
-    answer = _post_json(key, "/api/productions.json", request)
-    if answer.get("status_code") not in (200, 201, None):
-        raise RuntimeError(T('Auphonic reports %s: %s')
-                           % (answer.get("status_code"),
-                              answer.get("error_message")
-                              or answer.get("form_errors")))
-    p = answer.get("data") or {}
-    uuid = p.get("uuid")
-    if not uuid:
-        raise RuntimeError(T('no production id in the response'))
+    p = production_created(key, request)
+    uuid = p["uuid"]
     created = [x.get("id") for x in (p.get("multi_input_files") or [])]
     if sorted(created) != sorted(names):
         raise RuntimeError(T('Auphonic created different tracks than '

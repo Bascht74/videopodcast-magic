@@ -3013,9 +3013,6 @@ msgstr "nie znaleziono miejsca, gdzie mówi dokładnie jedna osoba -- rozdzielen
 msgid "no production id in the response"
 msgstr "brak identyfikatora produkcji w odpowiedzi"
 
-msgid "no production id in the response: %s"
-msgstr "brak identyfikatora produkcji w odpowiedzi: %s"
-
 msgid "no timecode"
 msgstr "brak timecode"
 
@@ -3924,9 +3921,6 @@ msgstr "Znów cała długość (klawisz 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Pobrano też: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic nie przyjmuje ustawień: %s"
 
 msgid "      %s channels"
 msgstr "      Kanały: %s"

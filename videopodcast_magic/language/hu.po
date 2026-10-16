@@ -3012,9 +3012,6 @@ msgstr "nem található olyan hely, ahol pontosan egy személy beszél -- a szé
 msgid "no production id in the response"
 msgstr "nincs produkcióazonosító a válaszban"
 
-msgid "no production id in the response: %s"
-msgstr "nincs produkcióazonosító a válaszban: %s"
-
 msgid "no timecode"
 msgstr "nincs timecode"
 
@@ -3923,9 +3920,6 @@ msgstr "Újra a teljes hossz (0 billentyű)"
 
 msgid "  Also fetched: %s"
 msgstr "  Szintén lekérve: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Az Auphonic nem fogadja el a beállításokat: %s"
 
 msgid "      %s channels"
 msgstr "      %s csatorna"

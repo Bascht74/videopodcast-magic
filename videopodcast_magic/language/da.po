@@ -3008,9 +3008,6 @@ msgstr "intet sted fundet, hvor præcis én person taler -- adskillelsen kan ikk
 msgid "no production id in the response"
 msgstr "intet produktions-id i svaret"
 
-msgid "no production id in the response: %s"
-msgstr "intet produktions-id i svaret: %s"
-
 msgid "no timecode"
 msgstr "ingen tidskode"
 
@@ -3919,9 +3916,6 @@ msgstr "Hele længden igen (tasten 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Også hentet: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic accepterer ikke indstillingerne: %s"
 
 msgid "      %s channels"
 msgstr "      %s kanaler"

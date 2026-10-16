@@ -4562,9 +4562,6 @@ msgstr ""
 msgid "no production id in the response"
 msgstr "keine Produktionskennung in der Antwort"
 
-msgid "no production id in the response: %s"
-msgstr "keine Produktions-Kennung in der Antwort: %s"
-
 msgid "no timecode"
 msgstr "kein Timecode"
 
@@ -5760,9 +5757,6 @@ msgstr "Wieder die ganze Länge (Taste 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Ebenfalls geholt: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic nimmt die Einstellungen nicht an: %s"
 
 msgid "      %s channels"
 msgstr "      %s Kanäle"

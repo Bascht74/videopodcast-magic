@@ -1235,14 +1235,8 @@ msgstr "A chave fica então aqui, nunca num arquivo: %s."
 msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
 msgstr "Determina como o auphonic.com processa o áudio.\n\n“%s” mantém a chave e mesmo assim não vai até lá.\nO áudio é então apenas juntado e normalizado, não separado --\ne sem faixas separadas não há corte de câmera."
 
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic não aceita as configurações: %s"
-
 msgid "Uploading %s"
 msgstr "Enviando %s"
-
-msgid "no production id in the response: %s"
-msgstr "nenhum id de produção na resposta: %s"
 
 msgid "no download address for %s"
 msgstr "nenhum endereço de download para %s"

@@ -3045,9 +3045,6 @@ msgstr "tidak ditemukan bagian tempat tepat satu orang berbicara -- pemisahan ti
 msgid "no production id in the response"
 msgstr "tidak ada ID produksi dalam respons"
 
-msgid "no production id in the response: %s"
-msgstr "tidak ada ID produksi dalam respons: %s"
-
 msgid "no timecode"
 msgstr "tidak ada timecode"
 
@@ -4013,9 +4010,6 @@ msgstr "Seluruh durasi lagi (tombol 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Juga diambil: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic tidak menerima pengaturan: %s"
 
 msgid "      %s channels"
 msgstr "      %s kanal"

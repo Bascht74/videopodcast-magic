@@ -3012,9 +3012,6 @@ msgstr "nije pronađeno mjesto gdje govori točno jedna osoba -- razdvajanje se 
 msgid "no production id in the response"
 msgstr "u odgovoru nema id-a produkcije"
 
-msgid "no production id in the response: %s"
-msgstr "u odgovoru nema id-a produkcije: %s"
-
 msgid "no timecode"
 msgstr "bez vremenskog koda"
 
@@ -3923,9 +3920,6 @@ msgstr "Ponovno cijela duljina (tipka 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Također dohvaćeno: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic ne prihvaća postavke: %s"
 
 msgid "      %s channels"
 msgstr "      kanala: %s"

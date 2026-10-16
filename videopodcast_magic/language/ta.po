@@ -3046,9 +3046,6 @@ msgstr "சரியாக ஒருவர் மட்டும் பேசு
 msgid "no production id in the response"
 msgstr "பதிலில் தயாரிப்பு ID இல்லை"
 
-msgid "no production id in the response: %s"
-msgstr "பதிலில் தயாரிப்பு ID இல்லை: %s"
-
 msgid "no timecode"
 msgstr "டைம்கோடு இல்லை"
 
@@ -4014,9 +4011,6 @@ msgstr "மீண்டும் முழு நீளம் (0 விசை)"
 
 msgid "  Also fetched: %s"
 msgstr "  இதுவும் பெறப்பட்டது: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic அமைப்புகளை ஏற்கவில்லை: %s"
 
 msgid "      %s channels"
 msgstr "      %s சேனல்கள்"

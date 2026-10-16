@@ -3046,9 +3046,6 @@ msgstr "సరిగ్గా ఒక్కరే మాట్లాడే చో
 msgid "no production id in the response"
 msgstr "స్పందనలో ప్రొడక్షన్ ID లేదు"
 
-msgid "no production id in the response: %s"
-msgstr "స్పందనలో ప్రొడక్షన్ ID లేదు: %s"
-
 msgid "no timecode"
 msgstr "టైమ్‌కోడ్ లేదు"
 
@@ -4014,9 +4011,6 @@ msgstr "మళ్లీ మొత్తం నిడివి (0 కీ)"
 
 msgid "  Also fetched: %s"
 msgstr "  ఇది కూడా తీసుకురాబడింది: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic సెట్టింగ్‌లను స్వీకరించదు: %s"
 
 msgid "      %s channels"
 msgstr "      %s ఛానళ్లు"

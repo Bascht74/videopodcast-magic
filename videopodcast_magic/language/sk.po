@@ -3012,9 +3012,6 @@ msgstr "nenájdené miesto, kde hovorí presne jeden človek -- oddelenie nemož
 msgid "no production id in the response"
 msgstr "v odpovedi nie je id produkcie"
 
-msgid "no production id in the response: %s"
-msgstr "v odpovedi nie je id produkcie: %s"
-
 msgid "no timecode"
 msgstr "bez časového kódu"
 
@@ -3923,9 +3920,6 @@ msgstr "Znovu celá dĺžka (kláves 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Načítané tiež: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic neprijíma nastavenia: %s"
 
 msgid "      %s channels"
 msgstr "      kanálov: %s"

@@ -1261,14 +1261,8 @@ msgstr "Тоді ключ зберігається не у файлі, а тут
 msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
 msgstr "Визначає, як auphonic.com обробляє звук.\n\n«%s» лишає ключ на місці й усе одно туди не звертається.\nЗвук тоді лише зводиться й нормалізується, а не розділяється --\nі без окремих доріжок монтажу камер немає."
 
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic не приймає налаштування: %s"
-
 msgid "Uploading %s"
 msgstr "Вивантаження %s"
-
-msgid "no production id in the response: %s"
-msgstr "у відповіді немає ідентифікатора випуску: %s"
 
 msgid "no download address for %s"
 msgstr "немає адреси завантаження для %s"

@@ -361,10 +361,15 @@ die Datei einen Platz, und es wird nichts vorgeschlagen.
   Spur im Preset anlegen; ein dort hinterlegtes Intro oder Outro zählt
   nicht als Spur. Die erste Spur des Presets bestimmt die
   Bearbeitung aller Spuren; ohne sie kommen sie so zurück, wie sie
-  hochgeladen wurden. Ein solches Intro oder Outro wird auch nicht
-  mitgeschickt, und der Hinweis `Vorspann / Abspann` sagt es: Vorspann
-  und Abspann kommen aus den Videodateien ([Resolve](resolve.de.md),
-  „Vorspann und Abspann setzen“).
+  hochgeladen wurden.
+- **Das Preset enthält ein Intro oder ein Outro.** Nichts zu tun: Der
+  Hinweis `Vorspann / Abspann` sagt nur, dass keins von beiden verwendet
+  wird -- bei einer einzelnen Spur wie bei mehreren. Die Produktion wird
+  ohne sie angelegt, und Vorspann und Abspann kommen aus den
+  Videodateien ([Resolve](resolve.de.md), „Vorspann und Abspann
+  setzen“). Gehört einer zur Folge, die Videodatei dafür in der
+  Dateiliste unter **Typ** auf **Vorspann** oder **Abspann** stellen
+  oder mit `--intro` und `--outro` angeben.
 - **Ein Kanal liegt am Anschlag.** Wenn dieselbe Stimme ein zweites Mal
   aufgenommen wurde, etwa von einer Kamera, diese Aufnahme nehmen. Hier
   lässt sich nichts reparieren, also bei der nächsten Aufnahme niedriger

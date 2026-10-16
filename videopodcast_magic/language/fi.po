@@ -3010,9 +3010,6 @@ msgstr "ei löytynyt kohtaa, jossa puhuu täsmälleen yksi henkilö -- erottumis
 msgid "no production id in the response"
 msgstr "vastauksessa ei ole tuotannon tunnusta"
 
-msgid "no production id in the response: %s"
-msgstr "vastauksessa ei ole tuotannon tunnusta: %s"
-
 msgid "no timecode"
 msgstr "ei aikakoodia"
 
@@ -3921,9 +3918,6 @@ msgstr "Koko pituus uudelleen (0-näppäin)"
 
 msgid "  Also fetched: %s"
 msgstr "  Haettiin myös: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic ei hyväksy asetuksia: %s"
 
 msgid "      %s channels"
 msgstr "      %s kanavaa"

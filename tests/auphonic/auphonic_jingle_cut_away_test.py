@@ -138,8 +138,6 @@ class Server:
             shutil.copyfile(self.replies[url.rsplit("/", 1)[1]],
                             arguments[arguments.index("-o") + 1])
             return ""
-        if any("simple/productions" in a for a in arguments):
-            return json.dumps({"status_code": 200, "data": {"uuid": "U1"}})
         return json.dumps({"status_code": 200, "data": {
             "uuid": "U1", "status": 3, "status_string": "Done",
             "output_files": [

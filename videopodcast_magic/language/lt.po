@@ -3046,9 +3046,6 @@ msgstr "nerasta vietos, kur kalbėtų lygiai vienas žmogus -- atskyrimo išmatu
 msgid "no production id in the response"
 msgstr "atsakyme nėra produkcijos ID"
 
-msgid "no production id in the response: %s"
-msgstr "atsakyme nėra produkcijos ID: %s"
-
 msgid "no timecode"
 msgstr "nėra laiko kodo"
 
@@ -4014,9 +4011,6 @@ msgstr "Vėl visa trukmė (klavišas 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Taip pat atsisiųsta: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic nepriima nustatymų: %s"
 
 msgid "      %s channels"
 msgstr "      Kanalų: %s"

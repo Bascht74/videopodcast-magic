@@ -1484,21 +1484,22 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
                     "hint", "",
                     T('the track template has nothing switched on -- the '
                       'tracks would come back exactly as uploaded.')))
-        ends = preset_intro_outro(p)
-        if ends:
-            out.append(Finding(
-                "hint", T('Intro / outro'), ends,
-                T('They come from video files set to Intro or Outro under '
-                  'Kind in the file list, or from --intro and --outro.')))
+    ends = preset_intro_outro(p)
+    if ends:
+        out.append(Finding(
+            "hint", T('Intro / outro'), ends,
+            T('They come from video files set to Intro or Outro under '
+              'Kind in the file list, or from --intro and --outro.')))
     return out
 
 
 def preset_intro_outro(p):
-    """What the preflight says of an intro or outro a Multitrack preset has.
+    """What the preflight says of an intro or outro a preset has.
 
-    auphonic.com keeps them in the list beside the tracks, told apart by
-    "type"; the request sends our tracks only, so neither is used. None
-    where the preset has neither.
+    auphonic.com keeps them in the preset's list, a Multitrack one's
+    beside the tracks, told apart by "type". The production is made
+    without that list, of either kind, so neither is used. None where
+    the preset has neither.
     """
     kinds = [e.get("type") for e in (p.get("multi_input_files") or [])]
     if "intro" in kinds and "outro" in kinds:

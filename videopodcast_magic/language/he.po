@@ -3042,9 +3042,6 @@ msgstr "לא נמצא מקום שבו מדבר בדיוק אדם אחד -- לא 
 msgid "no production id in the response"
 msgstr "אין מזהה הפקה בתשובה"
 
-msgid "no production id in the response: %s"
-msgstr "אין מזהה הפקה בתשובה: %s"
-
 msgid "no timecode"
 msgstr "ללא קוד זמן"
 
@@ -4010,9 +4007,6 @@ msgstr "שוב כל האורך (מקש 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  הורד גם: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic אינו מקבל את ההגדרות: %s"
 
 msgid "      %s channels"
 msgstr "      %s ערוצים"

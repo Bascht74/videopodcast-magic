@@ -3049,9 +3049,6 @@ msgstr "ma nstab l-ebda post fejn titkellem eżattament persuna waħda -- is-sep
 msgid "no production id in the response"
 msgstr "l-ebda id tal-produzzjoni fit-tweġiba"
 
-msgid "no production id in the response: %s"
-msgstr "l-ebda id tal-produzzjoni fit-tweġiba: %s"
-
 msgid "no timecode"
 msgstr "l-ebda timecode"
 
@@ -4017,9 +4014,6 @@ msgstr "It-tul kollu mill-ġdid (it-tast 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Tniżżel ukoll: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic ma jaċċettax l-issettjar: %s"
 
 msgid "      %s channels"
 msgstr "      Kanali: %s"

@@ -74,9 +74,10 @@ class Server(object):
     def __call__(self, key, arguments, output_binary=False, progress=False):
         arguments = list(arguments)
         if "-o" not in arguments:
-            # Only the single production creates something, and it is
-            # asked for the id alone.
-            return json.dumps({"status_code": 201, "data": {"uuid": "U"}})
+            # Every other call is the single production's -- its preset
+            # read, the production made, the upload, the start -- and is
+            # answered with an id alone.
+            return json.dumps({"status_code": 200, "data": {"uuid": "U"}})
         target = arguments[arguments.index("-o") + 1]
         url = arguments[-1]
         self.fetched.append(os.path.abspath(target))
@@ -178,7 +179,6 @@ print("\n2. The single result")
 
 vpm.kept_channels = lambda audio: 1
 vpm.channel_count = lambda audio: 1
-vpm.wishes_then_start = lambda key, uuid, stereo=False: None
 OUTPUTS = []
 vpm.wait_for_production = lambda key, uuid, wait_s: {
     "output_files": list(OUTPUTS)}

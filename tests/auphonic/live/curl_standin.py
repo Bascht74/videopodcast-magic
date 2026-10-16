@@ -10,11 +10,12 @@ itself is never written. A key containing VPM_STANDIN_REFUSED is turned
 away with a 401, the way auphonic.com turns away one it does not know.
 
 What it knows is the few calls the live tests make: the account, the
-presets, one preset by its uuid, a simple production with its settings changed and
-started, its state, one download, the list of productions and a delete.
-A production is finished the first time it is asked after, and the file
-it hands back is twenty seconds long, with two channels only where the
-mono fold was switched off. Anything else is a 404.
+presets, one preset by its uuid with an output that folds to one
+channel, a production made, its file uploaded and its start, its state,
+one download, the list of productions and a delete. A production is
+finished the first time it is asked after, and the file it hands back is
+twenty seconds long, with two channels only where it was made with the
+mono fold switched off. Anything else is a 404.
 """
 import json
 import os
@@ -77,12 +78,23 @@ elif url.endswith("/api/presets.json?minimal_data=1&limit=100"):
          "is_multitrack": False}]}
 elif "/api/preset/" in url:
     answer = {"status_code": 200,
-              "data": {"uuid": between(url, "/api/preset/", ".json")}}
-elif url.endswith("/api/simple/productions.json") and method == "POST":
+              "data": {"uuid": between(url, "/api/preset/", ".json"),
+                       "output_files": [{"format": "wav", "ending": "wav",
+                                         "mono_mixdown": True}]}}
+elif url.endswith("/api/productions.json") and method == "POST":
+    body = json.load(open(args[args.index("-d") + 1][1:],
+                          encoding="utf-8"))
     uuid = "standinprod%d" % len(state["made"])
-    title = [f[6:] for f in forms if f.startswith("title=")]
-    state["made"][uuid] = title[0] if title else ""
+    state["made"][uuid] = (body.get("metadata") or {}).get("title") or ""
+    if any(f.get("mono_mixdown") is False
+           for f in body.get("output_files") or []):
+        state["two"].append(uuid)
     answer = {"status_code": 200, "data": {"uuid": uuid}}
+elif url.endswith(("/upload.json", "/start.json")) and method == "POST":
+    uuid = between(url, "/api/production/", "/")
+    if uuid in state["made"] and (url.endswith("/start.json") or any(
+            f.startswith("input_file=@") for f in forms)):
+        answer = {"status_code": 200, "data": {"uuid": uuid}}
 elif "/api/productions.json" in url:
     answer = {"status_code": 200, "data": [
         {"uuid": u, "metadata": {"title": t}}
@@ -94,13 +106,6 @@ elif "/api/production/" in url:
     elif method == "DELETE":
         del state["made"][uuid]
         answer = None
-    elif method == "POST":
-        body = json.load(open(args[args.index("-d") + 1][1:],
-                              encoding="utf-8"))
-        if any(f.get("mono_mixdown") is False
-               for f in body.get("output_files") or []):
-            state["two"].append(uuid)
-        answer = {"status_code": 200, "data": {"uuid": uuid}}
     elif method == "GET":
         answer = {"status_code": 200, "data": {
             "uuid": uuid, "status": 3, "status_string": "Done",

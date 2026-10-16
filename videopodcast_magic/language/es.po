@@ -2696,9 +2696,6 @@ msgstr "Auphonic comunica %s: %s"
 msgid "Auphonic reports an error: %s"
 msgstr "Auphonic comunica un error: %s"
 
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic no acepta los ajustes: %s"
-
 msgid "Before: %s"
 msgstr "Antes: %s"
 
@@ -4029,9 +4026,6 @@ msgstr "no se ha encontrado ningún punto en el que hable exactamente una person
 
 msgid "no production id in the response"
 msgstr "sin identificador de producción en la respuesta"
-
-msgid "no production id in the response: %s"
-msgstr "sin identificador de producción en la respuesta: %s"
 
 msgid "no recording named"
 msgstr "ninguna grabación indicada"

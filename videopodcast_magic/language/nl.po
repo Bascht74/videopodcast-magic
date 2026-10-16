@@ -3011,9 +3011,6 @@ msgstr "geen plek gevonden waar precies één persoon spreekt -- de scheiding is
 msgid "no production id in the response"
 msgstr "geen productie-ID in het antwoord"
 
-msgid "no production id in the response: %s"
-msgstr "geen productie-ID in het antwoord: %s"
-
 msgid "no timecode"
 msgstr "geen timecode"
 
@@ -3922,9 +3919,6 @@ msgstr "Weer de hele lengte (0-toets)"
 
 msgid "  Also fetched: %s"
 msgstr "  Ook opgehaald: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic accepteert de instellingen niet: %s"
 
 msgid "      %s channels"
 msgstr "      %s kanalen"
