@@ -49,11 +49,9 @@ nicht.
 - **The program now needs Python 3.12 or newer**; 3.10 and 3.11 are
   refused at start and by pip. The package versions a release is tested
   with no longer install below 3.12.
-- **The "Multitrack" tick is gone.** The production kind now follows
-  from the material, and a grey line under the preset list says which
-  kind and why, for example "Multitrack, because 3 tracks lie on one
-  time axis". `--multitrack` is still accepted for this release and does
-  nothing.
+- **The "Multitrack" tick and `--multitrack` are gone.** The production
+  kind follows from the material, and a grey line under the preset list
+  says which kind and why. A command line with `--multitrack` is refused.
 - **A preset that lets auphonic.com cut silence, fillers, coughs or
   music now stops the run before the upload**, because the sound would
   come back shorter than the pictures. The advice names the place in the
@@ -150,11 +148,10 @@ nicht.
 - **Das Programm braucht jetzt Python 3.12 oder neuer**; 3.10 und 3.11
   weisen Programmstart und pip ab. Die Paketversionen, mit denen eine
   Version getestet wird, lassen sich unter 3.12 nicht mehr installieren.
-- **Das Häkchen „Multitrack“ ist weg.** Die Art der Produktion ergibt
-  sich jetzt aus dem Material, und eine graue Zeile unter der
-  Preset-Liste sagt, welche und warum, etwa „Multitrack, weil 3 Spuren
-  auf einer Zeitachse liegen“. `--multitrack` wird in dieser Version
-  noch angenommen und bewirkt nichts.
+- **Das Häkchen „Multitrack“ und `--multitrack` sind weg.** Die Art der
+  Produktion ergibt sich aus dem Material, und eine graue Zeile unter der
+  Preset-Liste sagt, welche und warum. Eine Kommandozeile mit
+  `--multitrack` wird abgewiesen.
 - **Ein Preset, mit dem auphonic.com Stille, Füllwörter, Husten oder
   Musik herausschneidet, hält den Lauf jetzt vor dem Hochladen an**,
   denn der Ton käme kürzer zurück als die Bilder. Der Hinweis nennt die
