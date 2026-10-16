@@ -192,12 +192,31 @@ def measured(path):
             int(streams[0].get("channels") or 0))
 
 
+# auphonic.com lists ten productions a time, whatever limit is asked
+# for, and an offset names where a page begins. The most pages read, so
+# a list that never comes back short cannot hold the sweep.
+PAGES_AT_MOST = 100
+
+
 def productions(vpm, key):
-    """Every production the account lists: (title, uuid)."""
-    d = vpm._parse_json(vpm._curl_call(
-        key, [vpm.AUPHONIC + "/api/productions.json?limit=100"]))
-    return [(((p.get("metadata") or {}).get("title") or ""), p.get("uuid"))
-            for p in (d.get("data") or [])]
+    """Every production the account lists: (title, uuid), newest first.
+
+    A page at a time from where the last one ended, until one comes
+    back short or PAGES_AT_MOST are read -- by a loop of its own and
+    not the program's lookup, so the sweep does not miss what a broken
+    lookup would.
+    """
+    found = []
+    for _ in range(PAGES_AT_MOST):
+        d = vpm._parse_json(vpm._curl_call(
+            key, [vpm.AUPHONIC + "/api/productions.json?offset=%d"
+                  % len(found)]))
+        page = d.get("data") or []
+        found += [(((p.get("metadata") or {}).get("title") or ""),
+                   p.get("uuid")) for p in page]
+        if len(page) < 10:
+            break
+    return found
 
 
 def delete(vpm, key, uuid):

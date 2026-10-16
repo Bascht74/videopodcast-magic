@@ -386,7 +386,10 @@ ebenso wie eine einzelne Spur, und fragt, was mit ihr geschehen soll.
 Gemeint ist der Name der Produktion, im Fenster wie auf der
 Kommandozeile: **Name der Produktion**, `--production` oder sonst der
 Ordner, in dem das Material liegt. Eine Folge, deren Ordner einen
-eigenen Namen trägt, stößt deshalb nicht auf die der Vorwoche. Bei
+eigenen Namen trägt, stößt deshalb nicht auf die der Vorwoche. Gesucht
+wird unter den neuesten 50 Produktionen bei auphonic.com; eine, die
+weiter zurückliegt, findet das Programm nicht, und der Lauf legt eine
+neue an, die Guthaben kostet. Bei
 mehreren Spuren sind das die Antworten:
 
 1. vorhandenes Ergebnis übernehmen: nichts rechnen, nichts hochladen

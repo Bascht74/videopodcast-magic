@@ -69,9 +69,11 @@ def wav_bytes(seconds):
 class Auphonic(object):
     """Stands in for auphonic.com: keeps each production it was sent.
 
-    Listed newest first, as auphonic.com lists them, each finished at
-    once, its result a file named after its uuid -- so the file a track
-    hands back says which production it came from.
+    A production is made from the request a run sends, under the title
+    in it. Listed newest first and ten a time from the offset asked
+    for, as auphonic.com lists them, each finished at once, its result
+    a file named after its uuid -- so the file a track hands back says
+    which production it came from.
     """
 
     def __init__(self):
@@ -93,20 +95,33 @@ class Auphonic(object):
         if path == "/api/user.json":
             answer = {"credits": 10.0, "is_paying_user": True}
         elif path.startswith("/api/productions.json?"):
-            answer = self.made
-        elif path.startswith("/api/simple/productions.json"):
+            query = dict(part.split("=", 1) for part in
+                         path.split("?", 1)[1].split("&") if "=" in part)
+            start = int(query.get("offset") or 0)
+            answer = self.made[start:start + 10]
+        elif path == "/api/productions.json":
+            # The request is read while the call is made: the program
+            # deletes the file behind -d @ as soon as curl has returned.
+            with open(arguments[arguments.index("-d") + 1][1:],
+                      encoding="utf-8") as f:
+                request = json.load(f)
             uuid = "U%d" % (len(self.made) + 1)
             answer = {"uuid": uuid, "status": 3, "status_string": "Done",
                       "creation_time": "2026-01-02T03:04:05",
                       "is_multitrack": False,
-                      "metadata": {"title": next(
-                          a[len("title="):] for a in arguments
-                          if a.startswith("title="))},
+                      "metadata": {"title": (request.get("metadata")
+                                             or {}).get("title")},
                       "output_files": [{
                           "filename": uuid + ".wav", "format": "wav",
                           "download_url": "https://auphonic.com/dl/%s.wav"
                           % uuid}]}
             self.made.insert(0, answer)
+        elif path.startswith("/api/preset/"):
+            # A preset read is answered with one: the run makes its
+            # production from it.
+            answer = {"uuid": "PRESETUUID", "preset_name": "Podcast",
+                      "is_multitrack": False,
+                      "output_files": [{"format": "wav", "ending": "wav"}]}
         elif path.startswith("/api/production/"):
             uuid = path.split("/")[3].split(".")[0]
             answer = next((p for p in self.made if p["uuid"] == uuid), {})

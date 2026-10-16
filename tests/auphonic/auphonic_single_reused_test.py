@@ -5,14 +5,16 @@ auphonic.com is never spoken to: `_curl_call` is replaced by a stand-in
 that answers from a table and notes every call, an upload being any
 call that sends a file. Sections: a finished production of the same
 title is asked about, and taking its result uploads nothing and fetches
-it; the answers offered are the result, a new upload and stop, and an
+it, found too where it stands further back than the list's first page;
+the answers offered are the result, a new upload and stop, and an
 unfinished one offers no result; a new upload goes up, stop ends the
 run before anything does; a production that is no match -- a Multitrack
 one of that title, or another title -- is passed over unasked, while a
 Singletrack one with an intro in its list is asked about; and the
 run hands the --auphonic-resume answer on to a Singletrack run. The
 limit: auphonic.com's list is stood in for as a list of the fields the
-program reads, never measured against the real one here.
+program reads, ten a time from the offset asked for as the real one was
+measured to answer, never measured against the real one here.
 """
 PLATFORM_BOUND = True
 import os
@@ -112,6 +114,20 @@ class Auphonic(object):
         """The calls that sent a file: those that cost credit."""
         return [c for c in self.calls if any("=@" in a for a in c)]
 
+    def page(self, path):
+        """Ten of the list from the offset the call names, or from its top.
+
+        So auphonic.com answers its list, whatever limit is asked for.
+        """
+        query = dict(part.split("=", 1) for part in
+                     path.split("?", 1)[1].split("&") if "=" in part)
+        start = int(query.get("offset") or 0)
+        return self.listed[start:start + 10]
+
+    def listings(self):
+        """How often the list was asked for."""
+        return sum(1 for c in self.calls if "/api/productions.json?" in c[-1])
+
     def __call__(self, key, arguments, output_binary=False, progress=False):
         arguments = [str(a) for a in arguments]
         self.calls.append(arguments)
@@ -127,7 +143,7 @@ class Auphonic(object):
         if path == "/api/user.json":
             answer = {"credits": 10.0, "is_paying_user": True}
         elif path.startswith("/api/productions.json?"):
-            answer = self.listed
+            answer = self.page(path)
         elif path == "/api/productions.json":
             answer = production(uuid="NEWUUID")
         elif path.startswith("/api/production/"):
@@ -199,6 +215,18 @@ check("taking its result fetches the production's own audio",
       and os.path.isfile(got),
       "fetched %r, handed back %r; %s"
       % (server.downloads, got and os.path.basename(got), error))
+
+# Ten newer productions before it, so it stands where only a second
+# page reaches.
+newer = [production(title="Episode %d" % n, uuid="NEW%d" % n)
+         for n in range(20, 30)]
+got, server, error = run(newer + [production()])
+check("a production eleventh back in the list is found and taken",
+      asked == [["result", "upload", "abort"]] and not server.uploads()
+      and server.downloads == ["/dl/OLDUUID.wav"],
+      "asked %r, %d uploads, fetched %r, list asked %d times; %s"
+      % (asked, len(server.uploads()), server.downloads,
+         server.listings(), error))
 
 got, server, error = run([production()], carry_on="result", answer="abort")
 check("--auphonic-resume result takes it without asking",

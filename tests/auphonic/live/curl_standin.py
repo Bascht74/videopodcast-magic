@@ -12,7 +12,9 @@ away with a 401, the way auphonic.com turns away one it does not know.
 What it knows is the few calls the live tests make: the account, the
 presets, one preset by its uuid with an output that folds to one
 channel, a production made, its file uploaded and its start, its state,
-one download, the list of productions and a delete. A production is
+one download, the list of productions -- ten a time from the offset
+asked for, as auphonic.com lists them whatever limit is named -- and a
+delete. A production is
 finished the first time it is asked after, and the file it hands back is
 twenty seconds long, with two channels only where it was made with the
 mono fold switched off. Anything else is a 404.
@@ -96,9 +98,10 @@ elif url.endswith(("/upload.json", "/start.json")) and method == "POST":
             f.startswith("input_file=@") for f in forms)):
         answer = {"status_code": 200, "data": {"uuid": uuid}}
 elif "/api/productions.json" in url:
+    start = int(between(url + "&", "offset=", "&") or 0)
     answer = {"status_code": 200, "data": [
         {"uuid": u, "metadata": {"title": t}}
-        for u, t in state["made"].items()]}
+        for u, t in state["made"].items()][start:start + 10]}
 elif "/api/production/" in url:
     uuid = between(url, "/api/production/", ".json")
     if uuid not in state["made"]:
