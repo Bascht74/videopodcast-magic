@@ -407,6 +407,7 @@ time_scatter_not_placed	6
 time_second_try_places	18
 time_short_cam_as_run	5
 time_short_cam_found	6
+time_sound_placed_fits	7
 time_sound_stays_put	31
 time_split_keeps_stamp	3
 time_thin_block_refused	8

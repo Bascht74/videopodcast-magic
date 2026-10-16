@@ -947,16 +947,15 @@ def cameras_keep(raw, reference, on_axis, left, paths, cameras):
                        and path_key(p) not in heard))
 
 
-def placed_doubtfully(st):
+def sound_left_it(found):
     """Whether the run's measurement of a recording leaves it not fitting.
 
-    Its plain loudness curve did not place it -- the moving bands, the
-    phase or its clock did, or nothing -- or matched under the floor a
-    recording is believed at. Asked of the run's own numbers only.
+    The run's own verdict, read where sound_or_clock reads it: no
+    measurement, or one align_audio_to_video marked unplaceable. What
+    any of the run's three ways placed -- the loudness curve, the bands
+    that move, the phase -- fits, however weak its match.
     """
-    return bool(st.get("unplaceable") or st.get("from_bands")
-                or st.get("from_phase")
-                or st.get("quality", 0.0) < SOUND_MATCH_ENOUGH)
+    return not found or bool(found[2].get("unplaceable"))
 
 
 def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
@@ -1124,13 +1123,12 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
         if folder:
             shutil.rmtree(folder, True)
     for p, found in zip(recordings, heard):
-        if found is None or placed_doubtfully(found[2]):
+        if sound_left_it(found):
+            # What the run cannot hear does not fit, and stands nowhere
+            # unless its clock places it.
             weak += [] if p in weak else [p]
             if (found or (0, 0, {}))[2].get("quality", 0.0) < WEAK_MATCH:
                 under.add(p)
-        if found is None or found[2].get("unplaceable"):
-            # What the run cannot hear stands nowhere unless its clock
-            # places it.
             axis.pop(p, None)
             clock_speed.pop(p, None)
         # As the run: a failed measurement a clock places stands at that
@@ -1270,7 +1268,7 @@ def recordings_axis(paths, tc_of=lambda p: None, rows=None,
     axis, speed, weak, nowhere, lost = {ref: 0.0}, {ref: 1.0}, [], [], []
     for p in others:
         got = measured.get(p)
-        if not got or placed_doubtfully(got[2]):
+        if sound_left_it(got):
             weak.append(p)
         if got and got[2].get("unplaceable") and not cannot_be_placed(
                 got[2], clocks[p], [c for q, c in clocks.items() if q != p]):

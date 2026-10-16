@@ -3,7 +3,8 @@
 
 Two files do not fit: a recording whose sound has nothing in common
 with the rest, and a camera that fits the sound recording and not the
-other cameras. Both carry a clock. The camera stands at it; the
+other cameras. Both carry a clock, and the sound is speech, where
+the phase way stays off. The camera stands at its clock; the
 recording goes where the run lays it, which time_weak_as_run judges.
 Sections: both named as not fitting; the camera at its clock where the
 axis hangs off one; the failed measurement casts no vote on where the
@@ -102,6 +103,15 @@ def short(row):
     return sorted(os.path.basename(p) for p in (row or []))
 
 
+def speech(path):
+    """The phase way off, as on every recording nobody marked Mixed.
+
+    On mixed sound the phase lays the tone somewhere, and the run with
+    it: then its sound placed it and it fits.
+    """
+    return False
+
+
 def places(d):
     return dict((k.rsplit("/", 1)[-1], round(float(v), 3))
                 for k, v in ((d or {}).get("axis") or {}).items())
@@ -111,7 +121,8 @@ def places(d):
 
 print("1. Two files that do not fit, each with a clock")
 CLOCKS = {ROOM: 61200.0, CAM_A: 61200.0, CAM_B: 61300.0, FOREIGN: 61230.0}
-data, text = vpm.measure_time_axis(FILES, tc_of=lambda p: CLOCKS.get(p))
+data, text = vpm.measure_time_axis(FILES, tc_of=lambda p: CLOCKS.get(p),
+                                   phase_of=speech)
 print("   %s" % text)
 print("   %s" % places(data))
 check("both files are named as not fitting",
@@ -141,7 +152,8 @@ print("\n3. The failed measurement casts no vote on where the axis hangs")
 # that clock a second time, and the middle of three moved the whole
 # axis a hundred seconds to it.
 ONE = {ROOM: 61200.0, CAM_A: 61100.0, CAM_B: 61300.0}
-data, _text = vpm.measure_time_axis(FILES, tc_of=lambda p: ONE.get(p))
+data, _text = vpm.measure_time_axis(FILES, tc_of=lambda p: ONE.get(p),
+                                    phase_of=speech)
 print("   %s" % places(data))
 axis = (data or {}).get("axis") or {}
 check("the failed measurement casts no vote on where the axis hangs",
@@ -154,7 +166,8 @@ print("\n4. Clocks on weak files alone leave the axis relative")
 # Clocks on the two weak files alone: nothing placed hangs off one, so
 # the axis is relative and a reading of 61230 means nothing in it.
 WEAK_ONLY = {CAM_B: 61300.0, FOREIGN: 61230.0}
-data, _text = vpm.measure_time_axis(FILES, tc_of=lambda p: WEAK_ONLY.get(p))
+data, _text = vpm.measure_time_axis(
+    FILES, tc_of=lambda p: WEAK_ONLY.get(p), phase_of=speech)
 print("   %s" % places(data))
 check("and the axis does not claim to be tied to a clock",
       (data or {}).get("absolute") is False,
