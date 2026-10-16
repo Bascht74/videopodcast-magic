@@ -101,9 +101,9 @@ np = LateNumpy()
 # hour run that fails at the end over a detail costs more than a minute
 # of checking, and a wrong upload to auphonic.com costs credit on top.
 
-# How much separation the 3:1 rule asks for: with the other microphone
-# three times as far away as the speaker's own, the neighbouring voice
-# is about 9.5 dB quieter -- 20*log10(3). Below that it combs the mix.
+# The 3:1 rule: the other microphone three times as far off as the
+# speaker's own leaves the neighbour 9.5 dB quieter, 20*log10(3). Set,
+# not measured: the rule's own arithmetic, never held against a recording.
 THREE_TO_ONE_DB = 9.5
 
 # How many columns a file's name gets in the report, and so how wide its
