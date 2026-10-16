@@ -4713,8 +4713,8 @@ msgstr "  Resolve hylkäsi videoraidan V%d kahdesti -- Timelinesta \"%s\" puuttu
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s siirtymä %s, kellon ajautumaa ei mitattu%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Varoitus: tämä projekti ei ole kokonainen -- mitä Resolve hylkäsi:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Varoitus: tämä projekti ei ole kokonainen -- mitä puuttuu:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Kellon ajautuma:  ei mitattu -- sen äänestä saatiin liian vähän pisteitä mittaukseen"

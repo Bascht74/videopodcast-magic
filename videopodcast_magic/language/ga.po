@@ -4851,8 +4851,8 @@ msgstr "  Dhiúltaigh Resolve faoi dhó do rian físe V%d -- in easnamh ar an Ti
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s fritháireamh %s, sruth cloig gan tomhas%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Aire: níl an tionscadal seo iomlán -- an méid ar dhiúltaigh Resolve dó:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Aire: níl an tionscadal seo iomlán -- an méid atá in easnamh:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Sruth cloig:     níor tomhaiseadh é -- ró-bheagán pointí dá fhuaim a sheas le haghaidh tomhais"

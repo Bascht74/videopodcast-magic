@@ -4711,8 +4711,8 @@ msgstr "  Resolve afviste videospor V%d to gange -- Timeline \"%s\" mangler bill
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s forskydning %s, klokkedrift ikke målt%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Advarsel: dette projekt er ikke komplet -- det, Resolve afviste:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Advarsel: dette projekt er ikke komplet -- det, der mangler:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Klokkedrift:     ikke målt -- lyden gav for få punkter til en måling"

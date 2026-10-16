@@ -4715,8 +4715,8 @@ msgstr "  Resolve ترک ویدیویی V%d را دو بار رد کرد -- Time
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s آفست %s، رانش ساعت اندازه‌گیری نشد%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  احتیاط: این پروژه کامل نیست -- آنچه Resolve رد کرد:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  احتیاط: این پروژه کامل نیست -- آنچه کم است:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  رانش ساعت:       اندازه‌گیری نشد -- نقاط معتبر صدایش برای آن بسیار کم بود"

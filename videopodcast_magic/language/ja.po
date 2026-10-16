@@ -4663,8 +4663,8 @@ msgstr "  Resolve が映像トラック V%d を二度拒否しました -- Timel
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s オフセット %s、クロックのずれは未測定%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  注意: このプロジェクトは完全ではありません -- Resolve が拒否したもの:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  注意: このプロジェクトは完全ではありません -- 欠けているもの:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  クロックのずれ：  未測定 -- 音声から得られた点が少なすぎます"

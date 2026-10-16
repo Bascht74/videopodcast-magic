@@ -181,7 +181,7 @@ springt. Der Mix kommt aus der abgelegten Einzeldatei, sonst aus dem
 Weitwinkel, wo er die erste Tonspur ist, und fehlt auch der, aus einer
 Kamera, die ihn unter ihren Tonspuren trägt. Woher er stammt, steht im
 Protokoll; findet sich keine der drei Quellen, meldet es `Kein Full-Mix
-gefunden`, und die Timeline bleibt stumm.
+gefunden`, die Timeline bleibt stumm, und der Lauf endet mit Fehlern.
 
 Aus dem gemessenen Versatz ergibt sich, welches Stück aus welcher
 Kameradatei in die Timeline kommt, nicht aus dem Timecode. Wenn eine
@@ -726,10 +726,12 @@ keine Sicherungskopie an.
   `ACHTUNG: ... nicht eingefügt` und am Ende noch einmal. Ebenso die
   Timeline **… Cut**, wenn Resolve keine oder nur einen Teil ihrer
   Einstellungen übernommen hat, keinen Full-Mix im Media Pool hat oder
-  ihn abgelehnt hat: Die Zeile nennt die Timeline und was ihr fehlt --
-  der Schnitt, sein Rest oder ihr Ton. Alles andere
+  ihn abgelehnt hat, und wenn die Übergabe ihr nichts zu legen ließ --
+  keinen Full-Mix (`Kein Full-Mix gefunden`) oder keine Einstellung, die
+  in der Datei einer Kamera liegt (`Kein Schnitt übrig`): Die Zeile sagt,
+  was der Timeline fehlt -- der Schnitt, sein Rest oder ihr Ton. Alles andere
   hat er ohne sie gebaut, und in seinen letzten Zeilen, unter `ACHTUNG:
-  dieses Projekt ist nicht vollständig -- was Resolve abgelehnt hat:`,
+  dieses Projekt ist nicht vollständig -- was fehlt:`,
   sagt er es noch einmal; die Liste der Bildspuren im Protokoll und die
   Perspektiven im Schlusshinweis nennen nur die Kameras, die auf ihrer
   Bildspur liegen. Hat Resolve die Tonspur von Vorspann oder Abspann

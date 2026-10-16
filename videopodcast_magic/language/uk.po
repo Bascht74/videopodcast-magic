@@ -4771,8 +4771,8 @@ msgstr "  Resolve двічі відхилив відеодоріжку V%d -- у
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s зсув %s, дрейф годинника не виміряно%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Увага: цей проєкт не завершений -- що Resolve відхилив:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Увага: цей проєкт не завершений -- чого бракує:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Дрейф годинника:     не виміряно -- її звук дав замало точок для вимірювання"

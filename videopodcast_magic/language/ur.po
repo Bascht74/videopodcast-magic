@@ -4716,8 +4716,8 @@ msgstr "  Resolve نے ویڈیو ٹریک V%d دو بار مسترد کیا -- 
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s آفسیٹ %s، گھڑی کا انحراف ناپا نہیں گیا%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  احتیاط: یہ پروجیکٹ مکمل نہیں -- Resolve نے جو مسترد کیا:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  احتیاط: یہ پروجیکٹ مکمل نہیں -- جو کمی ہے:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  گھڑی کا انحراف:  ناپا نہیں گیا -- اس کے آڈیو کے کارآمد نقاط اس کے لیے بہت کم تھے"

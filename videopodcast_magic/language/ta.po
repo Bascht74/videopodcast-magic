@@ -4717,8 +4717,8 @@ msgstr "  Resolve வீடியோ தடம் V%d-ஐ இருமுறை 
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s ஆஃப்செட் %s, கடிகார விலகல் அளவிடப்படவில்லை%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  கவனம்: இந்தத் திட்டப்பணி முழுமையடையவில்லை -- Resolve மறுத்தவை:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  கவனம்: இந்தத் திட்டப்பணி முழுமையடையவில்லை -- இல்லாதவை:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  கடிகார விலகல்:        அளவிடப்படவில்லை -- அதன் ஆடியோவில் அதற்குப் போதுமான புள்ளிகள் கிடைக்கவில்லை"

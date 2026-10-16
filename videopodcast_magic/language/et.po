@@ -4715,8 +4715,8 @@ msgstr "  Resolve keeldus videorajast V%d kaks korda -- Timeline'il \"%s\" puudu
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s nihe %s, kella triiv mõõtmata%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Tähelepanu: see projekt pole täielik -- millest Resolve keeldus:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Tähelepanu: see projekt pole täielik -- mis puudub:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Kella triiv:     mõõtmata -- selle helist saadi mõõtmiseks liiga vähe punkte"

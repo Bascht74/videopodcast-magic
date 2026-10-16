@@ -4662,8 +4662,8 @@ msgstr "  Resolve가 비디오 트랙 V%d을(를) 두 번 거부했습니다 -- 
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s 오프셋 %s, 클럭 드리프트 측정 안 됨%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  주의: 이 프로젝트는 완전하지 않습니다 -- Resolve가 거부한 항목:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  주의: 이 프로젝트는 완전하지 않습니다 -- 빠진 항목:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  클럭 드리프트:  측정 안 됨 -- 소리에서 측정에 쓸 지점이 너무 적었습니다"

@@ -4890,8 +4890,8 @@ msgstr "  رفض Resolve مسار الفيديو V%d مرتين -- تفتقر ا
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s الإزاحة %s، انحراف الساعة لم يُقَس%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  تنبيه: هذا المشروع غير مكتمل -- ما رفضه Resolve:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  تنبيه: هذا المشروع غير مكتمل -- ما ينقصه:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  انحراف الساعة:    لم يُقَس -- ما ثبت من نقاط صوتها أقل من أن يكفي لقياسه"

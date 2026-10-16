@@ -4661,8 +4661,8 @@ msgstr "  Resolve 两次拒绝了视频轨道 V%d -- Timeline \"%s\" 缺少 %s �
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s 偏移 %s，时钟漂移未测量%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  注意：此项目不完整 -- Resolve 拒绝了以下内容："
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  注意：此项目不完整 -- 缺少以下内容："
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  时钟漂移：     未测量 —— 其声音中可用的点太少"

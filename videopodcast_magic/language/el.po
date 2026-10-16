@@ -4714,8 +4714,8 @@ msgstr "  Το Resolve αρνήθηκε δύο φορές το κομμάτι β
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s μετατόπιση %s, ολίσθηση ρολογιού δεν μετρήθηκε%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Προσοχή: αυτό το έργο δεν είναι πλήρες -- τι αρνήθηκε το Resolve:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Προσοχή: αυτό το έργο δεν είναι πλήρες -- τι λείπει:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Ολίσθηση ρολογιού:  δεν μετρήθηκε -- ο ήχος της έδωσε πολύ λίγα σημεία για μέτρηση"
