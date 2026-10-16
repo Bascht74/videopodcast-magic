@@ -404,6 +404,7 @@ export VPM_CUT_OFF
 LINES_GUARD=source_lines_stay_tested
 GUARD_ASIDE=""
 GUARD_RUNS=""
+GUARD_NOTED=""
 if printf '%s\n' $TESTS | grep -qx "$LINES_GUARD"; then
   GUARD_ASIDE=1
   TESTS=$(printf '%s\n' $TESTS | grep -vx "$LINES_GUARD")
@@ -412,6 +413,14 @@ case "${VPM_COVERAGE:-}" in
   "")
     unset COVERAGE_PROCESS_START COVERAGE_PROCESS_CONFIG ;;
   1)
+    # The floors are a claim about the release's suite, and a release
+    # runs every language: measured without the slices, three functions
+    # read as rising that no fault touched (16.10.2026).
+    if [ "${VPM_ALL_LANGUAGES:-}" != 1 ]; then
+      echo "VPM_COVERAGE=1 measures what a release runs, and a release" \
+           "runs every language: set VPM_ALL_LANGUAGES=1 beside it" >&2
+      exit 2
+    fi
     # The .pth coverage.py has put beside itself since 7.10 is what
     # starts it in every process; a coverage.py without it measures the
     # tests and none of the programs they start, and says nothing.
@@ -440,7 +449,7 @@ sys.exit(0 if any(os.path.exists(os.path.join(d, "a1_coverage.pth"))
 esac
 if [ -z "$TESTS" ] && [ -n "$GUARD_ASIDE" ]; then
   echo "only $LINES_GUARD was named, and it judges what the whole suite" \
-       "ran: VPM_COVERAGE=1 bash run.sh" >&2
+       "ran: VPM_COVERAGE=1 VPM_ALL_LANGUAGES=1 bash run.sh" >&2
   exit 2
 fi
 # One file per test holding its NOTED lines, for the summary's block.
@@ -942,6 +951,10 @@ if [ -n "$GUARD_RUNS" ]; then
   unset COVERAGE_PROCESS_START
   export VPM_COVERAGE_DATA="$COVERAGE_DATA" VPM_COVERAGE_SOURCE="$MEASURED"
   run_one "$LINES_GUARD"
+  # What it noted rather than failed, before the version it judges from
+  # (the owner's decision for 3.0.0b29): said in the summary, where a
+  # green test's own lines never stand.
+  GUARD_NOTED=$(grep '^NOTED tested lines: ' "$SAID/$LINES_GUARD" 2> /dev/null)
   [ -n "$KEEP_TEMP" ] || rm -rf "$COVERAGE_DATA"
   TESTS="$TESTS
 $LINES_GUARD"
@@ -1031,17 +1044,22 @@ else
   echo "languages: English and German; every catalogue with" \
        "VPM_ALL_LANGUAGES=1, as a release does"
 fi
-# The release run's texts cut off, one line each, said even when there
-# are none; tests.yml lifts the block into the job's summary by these
-# first words, and the owner's next release gets a card for each line.
-# Said only where the guard lay in the folder and did not run.
+# The tested lines: said where the guard lay in the folder and did not
+# run, and where it ran and noted what it does not fail on yet.
 if [ -n "$GUARD_ASIDE" ] && [ -n "${COVERAGE_PROCESS_START:-}" ]; then
   echo "tested lines: measured, not judged -- $LINES_GUARD judges a run" \
        "of the whole folder"
 elif [ -n "$GUARD_ASIDE" ]; then
   echo "tested lines: not measured; $LINES_GUARD set aside -- it runs" \
-       "with VPM_COVERAGE=1, as a release does"
+       "with VPM_COVERAGE=1 VPM_ALL_LANGUAGES=1, as a release does"
+elif [ -n "$GUARD_NOTED" ]; then
+  echo "tested lines: noted, not failed -- $LINES_GUARD fails from the" \
+       "version it names on:"
+  printf '%s\n' "$GUARD_NOTED" | sed 's/^/  /'
 fi
+# The release run's texts cut off, one line each, said even when there
+# are none; tests.yml lifts the block into the job's summary by these
+# first words, and the owner's next release gets a card for each line.
 if [ "${VPM_CUT_OFF:-}" = noted ]; then
   many=$(cat "$NOTED"/* 2> /dev/null | grep -c '^  NOTED cut off: ')
   echo "cut off, to fix next release: ${many:-0}"

@@ -68,7 +68,9 @@ run-name: "publish #${{ github.run_number }} from ${{ github.ref_name }}, separa
 # 4.9.2026, and the run says in one line which way it took and why.
 # A push tests English and German only (the owner, 26.9.2026), so the short way
 # still runs the language slices here, in every language: job
-# "languages".
+# "languages". And a push measures no tested lines, so that job's macOS
+# py3.14 runs the whole suite once more, measured, and every release
+# leaves the table of tested lines on both ways (the owner, 16.10.2026).
 #
 # "What is tagged is what was tested" stays true on both ways: on the
 # long way by construction, on the short way by identity of the tree.
@@ -321,8 +323,10 @@ jobs:
   # a push runs the suite with the speaker separation off, and this
   # file turns it on (speaker_split: true, below). The two tests that
   # really run the separation, voice_split_hears_two and
-  # voice_split_hears_blocks, therefore run for a release only on the
-  # long way. Nothing in a check run's name
+  # voice_split_hears_blocks, therefore run for a release on all six
+  # only on the long way; on the short way only on the macOS py3.14
+  # job of "languages", which runs the whole suite to measure the
+  # tested lines (tested_lines, below). Nothing in a check run's name
   # says which of the two suites it was, so this job cannot tell and
   # does not pretend to.
   #
@@ -491,32 +495,44 @@ jobs:
     # And every language, not only English and German. Why, beside
     # all_languages in tests.yml; the short way gets it from the job
     # "languages" below.
+    #
+    # And the tested lines, measured on the macOS py3.14 job and held
+    # by source_lines_stay_tested; tested_lines in tests.yml says how.
     with:
       speaker_split: true
       all_languages: true
+      tested_lines: true
 
   # The short way reuses the pull request's checks, and a push tests
   # English and German only (the owner, 26.9.2026). So what those
   # checks never ran -- the *_langsN slices, every language but those
   # two -- runs here, and only that. On the long way the suite above
   # runs them itself, and this job is skipped.
+  #
+  # One job of the six does more. A push measures no tested lines, and
+  # every release is to leave their table (the owner, 16.10.2026), so
+  # with tested_lines on, macOS py3.14 drops the names and runs the
+  # whole suite in every language, measured -- the same job the long
+  # way runs, at the same price; tested_lines in tests.yml says why it
+  # has to be the whole suite.
   languages:
     name: "Languages"
     needs: evidence
     if: needs.evidence.outputs.tested == 'true'
     uses: ./.github/workflows/tests.yml
     #
-    # With the separation installed, although no test here runs it:
-    # every job of this call writes down the packages it stood on, and
-    # the publish job hangs those lists on the release (step 5b). A
-    # list without torch and pyannote.audio is not what somebody who
-    # installs the program gets, and on this way this call is the only
-    # suite in the run. About two minutes of installing per job; the
-    # long way pays the same in the suite above.
+    # With the separation installed, although only the whole suite on
+    # macOS py3.14 runs it: every job of this call writes down the
+    # packages it stood on, and the publish job hangs those lists on
+    # the release (step 5b). A list without torch and pyannote.audio is
+    # not what somebody who installs the program gets, and on this way
+    # this call is the only suite in the run. About two minutes of
+    # installing per job; the long way pays the same in the suite above.
     with:
       speaker_split: true
       all_languages: true
       tests: '*_langs*'
+      tested_lines: true
 
   # After the suite, or after the suite was skipped -- and the
   # condition is the whole of the difference, so it is spelled out.

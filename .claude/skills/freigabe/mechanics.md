@@ -135,7 +135,9 @@ four patterns, written once in the step itself. The version is not
 asked: the short way starts a languages job of its own
 (`all_languages` in `tests.yml`), so every language runs either way --
 and since 27.9.2026 with the separation installed, so that the package
-lists below carry it on that way too.
+lists below carry it on that way too. Since 16.10.2026 that job's
+macOS py3.14 runs the whole suite, measured (`tested_lines`, below), so
+the short way leaves the table of tested lines as the long way does.
 
 **What the short way gives up, and it is written here rather than
 found later.** A push runs the everyday suite, separation off;
@@ -143,7 +145,9 @@ found later.** A push runs the everyday suite, separation off;
 separation, `voice_split_hears_two` and `voice_split_hears_blocks`,
 therefore run for a release only on the long way. A check run's name does not say which of the two
 suites made it, so the evidence job cannot tell and does not pretend
-to. **The owner settled it on 24.9.2026:** the short way is given up
+to. (Since 16.10.2026 they also run on the short way, but on one job of
+six: the macOS py3.14 job that measures the tested lines runs the
+whole suite.) **The owner settled it on 24.9.2026:** the short way is given up
 where the merge touches anything of the separation, and the line
 names the file that sent it the long way. On 24.9.2026 that was
 `videopodcast_magic/speakers/`; **on 25.9.2026 he widened it to four
@@ -307,6 +311,23 @@ release create`.
 each hangs, is named in the manifest with the sum of what came down,
 and is `name==version` lines only. `tests/source/source_freeze_attached_test.py`
 holds the text of all three workflows and both manuals to this.
+
+## The tested lines
+
+**Every release run measures which lines of the program the whole suite
+runs, on both ways** -- the owner, 16.10.2026. Both calls of `tests.yml`
+pass `tested_lines: true`; on the macOS py3.14 job that drops the names
+the short way hands in and runs the whole suite in every language under
+coverage.py, and `source_lines_stay_tested` judges it per function
+against `tests/state/tested_lines_state.json`. Whatever its verdict, the
+job keeps the table as the artifact `tested-lines-macOS-py3.14`.
+
+**For 3.0.0b29 it measures and does not stop the release**: what it would
+fail on is said as `NOTED tested lines:` lines under the suite's
+summary. From 3.0.0b30 on it fails like any test, and a red guard is no
+tag. Nobody switches that: the test names the version it judges from
+and orders the program's `VERSION` against it, so a release that skips
+that number is judged as well.
 
 ## What it does not ask, on purpose
 

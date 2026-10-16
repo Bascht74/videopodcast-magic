@@ -31,7 +31,8 @@ nothing about whether the function was ever called. What stands outside
 every function is `<module>`, and a class body is its class.
 
 **Nothing in this file prints**, as `the_program.py` asks of a helper,
-except when it is started on its own to write the configuration.
+except when it is started on its own: to write the configuration, or to
+write the floors out of several measured runs (`floors()`).
 """
 import ast
 import io
@@ -41,6 +42,12 @@ import sys
 # The name the data files are written under, inside the folder run.sh
 # names. coverage.py appends the machine, the process and a random part.
 DATA_NAME = ".coverage"
+# The state the judging half holds the floors in, and the two tables in
+# it: the floors, and the functions whose count was seen to differ.
+STATE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "state",
+                     "tested_lines_state.json")
+KEY = "untested_lines"
+UNSTEADY = "unsteady"
 
 
 def config(data_folder, program_folder):
@@ -161,7 +168,57 @@ def tally(analysed_folder, ran):
     return found, untested, lines
 
 
+def floors(tables, old):
+    """The state several measured runs of one tree give, as a dict.
+
+    `tables` are what each run left under VPM_COVERAGE_TABLE, `old` the
+    state as it stands. A function's floor is its highest count in any
+    run; one whose count differs between the runs goes under UNSTEADY
+    with that count, beside those already there, which keep the higher
+    of their old count and this one. A function no run has goes. An
+    entry whose count did not move keeps its old line, as the judging
+    half keeps it, so a diff of the state shows what moved.
+    """
+    seen = {}
+    for table in tables:
+        for mark, (count, line) in table[KEY].items():
+            seen.setdefault(mark, []).append((count, line))
+    was = old.get(KEY) or {}
+    was_unsteady = old.get(UNSTEADY) or {}
+    new = dict(old)
+    new[KEY], new[UNSTEADY] = {}, {}
+    for mark, counts in seen.items():
+        high = max(count for count, _line in counts)
+        line = counts[0][1]
+        kept = was.get(mark)
+        new[KEY][mark] = kept if kept and kept[0] == high else [high, line]
+        if mark in was_unsteady or len(set(c for c, _l in counts)) > 1:
+            most = max(high, was_unsteady.get(mark, [0])[0])
+            kept = was_unsteady.get(mark)
+            new[UNSTEADY][mark] = (kept if kept and kept[0] == most
+                                   else [most, line])
+    return new
+
+
 if __name__ == "__main__":
-    # bash run.sh writes the configuration through this, so it is said
-    # in one place: python3 tested_lines.py <data folder> <program folder>
-    sys.stdout.write(config(sys.argv[1], sys.argv[2]))
+    if sys.argv[1:2] == ["--floors"]:
+        # The floors out of several runs of one tree, written over the
+        # state: python3 tested_lines.py --floors <table> <table> ...,
+        # each table what a VPM_COVERAGE=1 run left under
+        # VPM_COVERAGE_TABLE -- the builder's artifact among them where
+        # it is to be held there as well.
+        import json
+        import ratchet
+        old = json.load(io.open(STATE, encoding="utf-8"))
+        new = floors([json.load(io.open(path, encoding="utf-8"))
+                      for path in sys.argv[2:]], old)
+        io.open(STATE, "w", encoding="utf-8").write(ratchet.dumps(new))
+        print("%s: %d functions, %d untested lines, %d unsteady, out of"
+              " %d runs" % (os.path.basename(STATE), len(new[KEY]),
+                            sum(e[0] for e in new[KEY].values()),
+                            len(new[UNSTEADY]), len(sys.argv) - 2))
+    else:
+        # bash run.sh writes the configuration through this, so it is
+        # said in one place:
+        # python3 tested_lines.py <data folder> <program folder>
+        sys.stdout.write(config(sys.argv[1], sys.argv[2]))
