@@ -3264,6 +3264,12 @@ msgstr "  لا يوجد Full-Mix في الـ Media Pool لدى Resolve -- تفت
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  رفض Resolve الـ Full-Mix -- تفتقر الـ Timeline «%s» إلى صوتها."
 
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  رفض Resolve المقدمة -- لا مقدمة في الـ Timeline «%s»."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  رفض Resolve الخاتمة -- لا خاتمة في الـ Timeline «%s»."
+
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  الصوت: Full-Mix قطعة واحدة على A1 (%s)."
 
@@ -3545,9 +3551,6 @@ msgstr "%s، المسار الصوتي %d"
 
 msgid "    %s could not be imported."
 msgstr "    تعذّر استيراد %s."
-
-msgid "    %s could not be inserted."
-msgstr "    تعذّر إدراج %s."
 
 msgid "    V2 could not be read back: %s"
 msgstr "    تعذّرت قراءة V2 مجددًا: %s"

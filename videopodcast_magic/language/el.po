@@ -703,9 +703,6 @@ msgstr "    %s φορές η προβλεπόμενη κάμερα δεν λει
 msgid "    %s could not be imported."
 msgstr "    %s δεν μπόρεσε να εισαχθεί."
 
-msgid "    %s could not be inserted."
-msgstr "    %s δεν μπόρεσε να τοποθετηθεί."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Το κομμάτι %s δεν μπόρεσε να δημιουργηθεί: %s"
 
@@ -1228,6 +1225,12 @@ msgstr "  Το Resolve δεν έχει Full-Mix στο Media Pool -- από το
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Το Resolve αρνήθηκε το Full-Mix -- από το Timeline «%s» λείπει ο ήχος του."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Το Resolve αρνήθηκε το Intro -- από το Timeline «%s» λείπει το Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Το Resolve αρνήθηκε το Outro -- από το Timeline «%s» λείπει το Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Οι κάμερες φέρουν το χρονικό παράθυρο και ένα δευτερόλεπτο σε κάθε άκρο: %s γράφτηκαν για %s από τα %s που καταγράφηκαν."

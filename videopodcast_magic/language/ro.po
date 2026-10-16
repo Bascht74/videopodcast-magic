@@ -705,9 +705,6 @@ msgstr "    de %s ori camera prevăzută nu funcționa -- acolo se află o alta.
 msgid "    %s could not be imported."
 msgstr "    %s nu a putut fi importat."
 
-msgid "    %s could not be inserted."
-msgstr "    %s nu a putut fi inserat."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Pista %s nu a putut fi creată: %s"
 
@@ -1232,6 +1229,12 @@ msgstr "  Resolve nu are niciun Full-Mix în Media Pool -- în Timeline „%s”
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve a refuzat Full-Mix -- în Timeline „%s” lipsește sunetul."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve a refuzat Intro -- în Timeline „%s” lipsește Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve a refuzat Outro -- în Timeline „%s” lipsește Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Camerele poartă fereastra de timp și câte o secundă la fiecare capăt: %s scris pentru %s din cele %s înregistrate."

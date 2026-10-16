@@ -703,9 +703,6 @@ msgstr "    %s lần máy quay dự kiến không chạy -- ở đó là một m
 msgid "    %s could not be imported."
 msgstr "    Không nhập được %s."
 
-msgid "    %s could not be inserted."
-msgstr "    Không chèn được %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Không tạo được rãnh loại %s: %s"
 
@@ -1226,6 +1223,12 @@ msgstr "  Resolve không có Full-Mix trong Media Pool -- Timeline \"%s\" thiế
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve đã từ chối Full-Mix -- Timeline \"%s\" thiếu âm thanh."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve đã từ chối Phần mở đầu -- Timeline \"%s\" không có Phần mở đầu."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve đã từ chối Phần kết -- Timeline \"%s\" không có Phần kết."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Các máy quay mang khoảng thời gian cùng một giây ở mỗi đầu: đã ghi %s cho %s trên tổng %s đã ghi hình."

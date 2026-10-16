@@ -3226,6 +3226,12 @@ msgstr "  У Media Pool Resolve немає Full-Mix -- у Timeline «%s» бра
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve відхилив Full-Mix -- у Timeline «%s» бракує звуку."
 
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve відхилив заставку -- у Timeline «%s» немає заставки."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve відхилив кінцівку -- у Timeline «%s» немає кінцівки."
+
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  Звук: Full-Mix одним шматком на A1 (%s)."
 
@@ -3507,9 +3513,6 @@ msgstr "%s, звукова доріжка %d"
 
 msgid "    %s could not be imported."
 msgstr "    Не вдалося імпортувати %s."
-
-msgid "    %s could not be inserted."
-msgstr "    Не вдалося вставити %s."
 
 msgid "    V2 could not be read back: %s"
 msgstr "    Не вдалося перечитати V2: %s"

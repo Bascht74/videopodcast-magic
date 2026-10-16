@@ -3194,6 +3194,12 @@ msgstr "  Resolve के Media Pool में कोई Full-Mix नहीं �
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve ने Full-Mix अस्वीकार किया -- Timeline \"%s\" में ध्वनि नहीं है।"
 
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve ने इंट्रो अस्वीकार किया -- Timeline \"%s\" में इंट्रो नहीं है।"
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve ने आउट्रो अस्वीकार किया -- Timeline \"%s\" में आउट्रो नहीं है।"
+
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  ऑडियो: Full-Mix एक टुकड़े में A1 पर (%s)।"
 
@@ -3475,9 +3481,6 @@ msgstr "%s, ऑडियो ट्रैक %d"
 
 msgid "    %s could not be imported."
 msgstr "    %s इम्पोर्ट नहीं हो सका।"
-
-msgid "    %s could not be inserted."
-msgstr "    %s डाला नहीं जा सका।"
 
 msgid "    V2 could not be read back: %s"
 msgstr "    V2 को दोबारा पढ़ा नहीं जा सका: %s"

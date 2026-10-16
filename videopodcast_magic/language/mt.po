@@ -733,9 +733,6 @@ msgstr "    %sx il-kamera intenzjonata ma kinitx taħdem -- hemm waħda oħra mi
 msgid "    %s could not be imported."
 msgstr "    L-importazzjoni falliet: %s."
 
-msgid "    %s could not be inserted."
-msgstr "    L-inserzjoni falliet: %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Binarju tat-tip %s ma setax jinħoloq: %s"
 
@@ -1262,6 +1259,12 @@ msgstr "  Resolve m'għandux Full-Mix fil-Media Pool -- fit-Timeline \"%s\" jonq
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve irrifjuta l-Full-Mix -- fit-Timeline \"%s\" jonqos il-ħoss."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve irrifjuta d-Daħla -- fit-Timeline \"%s\" tonqos id-Daħla."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve irrifjuta l-Għeluq -- fit-Timeline \"%s\" jonqos il-Għeluq."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Il-kameras iġorru t-tieqa tal-ħin u sekonda f'kull tarf: inkitbu %s għal %s minn %s irreġistrati."

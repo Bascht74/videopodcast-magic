@@ -3206,6 +3206,12 @@ msgstr "  Resolve'un Media Pool'unda Full-Mix yok -- “%s” Timeline'ında ses
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve Full-Mix'i reddetti -- “%s” Timeline'ında ses eksik."
 
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve Girişi reddetti -- “%s” Timeline'ında Giriş yok."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve Kapanışı reddetti -- “%s” Timeline'ında Kapanış yok."
+
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  Ses: Full-Mix tek parça halinde A1'de (%s)."
 
@@ -3487,9 +3493,6 @@ msgstr "%s, ses izi %d"
 
 msgid "    %s could not be imported."
 msgstr "    %s içe aktarılamadı."
-
-msgid "    %s could not be inserted."
-msgstr "    %s eklenemedi."
 
 msgid "    V2 could not be read back: %s"
 msgstr "    V2 geri okunamadı: %s"

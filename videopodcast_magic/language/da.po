@@ -703,9 +703,6 @@ msgstr "    %sx kørte det tiltænkte kamera ikke -- der står et andet."
 msgid "    %s could not be imported."
 msgstr "    %s kunne ikke importeres."
 
-msgid "    %s could not be inserted."
-msgstr "    %s kunne ikke indsættes."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s-spor kunne ikke oprettes: %s"
 
@@ -1228,6 +1225,12 @@ msgstr "  Resolve har ingen Full-Mix i sin Media Pool -- Timeline \"%s\" mangler
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve afviste Full-Mix -- Timeline \"%s\" mangler sin lyd."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve afviste Intro -- Timeline \"%s\" har ingen Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve afviste Outro -- Timeline \"%s\" har ingen Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kameraerne bærer tidsvinduet og et sekund i hver ende: %s skrevet for %s af de optagne %s."

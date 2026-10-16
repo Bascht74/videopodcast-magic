@@ -730,9 +730,6 @@ msgstr "    המצלמה המיועדת לא פעלה (פעמים: %s) -- יש �
 msgid "    %s could not be imported."
 msgstr "    לא ניתן היה לייבא את %s."
 
-msgid "    %s could not be inserted."
-msgstr "    לא ניתן היה להכניס את %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    רצועה מסוג %s לא נוצרה: %s"
 
@@ -1255,6 +1252,12 @@ msgstr "  אין ל-Resolve Full-Mix ב-Media Pool -- ל-Timeline \"%s\" חסר 
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve דחה את ה-Full-Mix -- ל-Timeline \"%s\" חסר השמע."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve דחה את הפתיח -- ל-Timeline \"%s\" אין פתיח."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve דחה את הסיום -- ל-Timeline \"%s\" אין סיום."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  המצלמות נושאות את חלון הזמן ושנייה בכל קצה: נכתבו %s עבור %s מתוך %s שהוקלטו."

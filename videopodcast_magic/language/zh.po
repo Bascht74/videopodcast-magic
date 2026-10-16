@@ -3176,6 +3176,12 @@ msgstr "  Resolve 的 Media Pool 中没有 Full-Mix -- Timeline \"%s\" 缺少声
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve 拒绝了 Full-Mix -- Timeline \"%s\" 缺少声音。"
 
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve 拒绝了片头 -- Timeline \"%s\" 没有片头。"
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve 拒绝了片尾 -- Timeline \"%s\" 没有片尾。"
+
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  音频：Full-Mix 整段放在 A1 上（%s）。"
 
@@ -3457,9 +3463,6 @@ msgstr "%s，音轨 %d"
 
 msgid "    %s could not be imported."
 msgstr "    无法导入%s。"
-
-msgid "    %s could not be inserted."
-msgstr "    无法插入%s。"
 
 msgid "    V2 could not be read back: %s"
 msgstr "    无法回读 V2：%s"

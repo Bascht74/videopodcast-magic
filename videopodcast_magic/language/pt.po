@@ -3194,6 +3194,12 @@ msgstr "  O Resolve não tem nenhum Full-Mix no Media Pool -- a Timeline \"%s\" 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  O Resolve recusou o Full-Mix -- a Timeline \"%s\" fica sem som."
 
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  O Resolve recusou a Abertura -- a Timeline \"%s\" fica sem Abertura."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  O Resolve recusou o Encerramento -- a Timeline \"%s\" fica sem Encerramento."
+
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  Áudio: Full-Mix em uma só peça em A1 (%s)."
 
@@ -3475,9 +3481,6 @@ msgstr "%s, faixa de áudio %d"
 
 msgid "    %s could not be imported."
 msgstr "    Não foi possível importar %s."
-
-msgid "    %s could not be inserted."
-msgstr "    Não foi possível inserir %s."
 
 msgid "    V2 could not be read back: %s"
 msgstr "    Não foi possível reler V2: %s"

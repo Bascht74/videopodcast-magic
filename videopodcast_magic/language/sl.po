@@ -734,9 +734,6 @@ msgstr "    %s-krat predvidena kamera ni snemala -- tam je druga."
 msgid "    %s could not be imported."
 msgstr "    Ni bilo mogoče uvoziti: %s."
 
-msgid "    %s could not be inserted."
-msgstr "    Ni bilo mogoče vstaviti: %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Sledi vrste %s ni bilo mogoče ustvariti: %s"
 
@@ -1263,6 +1260,12 @@ msgstr "  Resolve nima Full-Mixa v svojem Media Poolu -- na Timeline „%s“ ma
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve je zavrnil Full-Mix -- na Timeline „%s“ manjka zvok."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve je zavrnil uvodno špico -- na Timeline „%s“ manjka uvodna špica."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve je zavrnil odjavno špico -- na Timeline „%s“ manjka odjavna špica."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamere nosijo časovno okno in po eno sekundo na vsakem koncu: zapisano %s za %s od posnetih %s."

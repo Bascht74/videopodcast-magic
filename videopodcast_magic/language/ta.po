@@ -730,9 +730,6 @@ msgstr "    %s முறை திட்டமிட்ட கேமரா இ�
 msgid "    %s could not be imported."
 msgstr "    %s இறக்குமதி செய்ய முடியவில்லை."
 
-msgid "    %s could not be inserted."
-msgstr "    %s செருக முடியவில்லை."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s வகைத் தடத்தை உருவாக்க முடியவில்லை: %s"
 
@@ -1255,6 +1252,12 @@ msgstr "  Resolve-இன் Media Pool-இல் Full-Mix இல்லை -- Tim
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve Full-Mix-ஐ மறுத்தது -- Timeline \"%s\"-இல் ஆடியோ இல்லை."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve அறிமுகத்தை மறுத்தது -- Timeline \"%s\"-இல் அறிமுகம் இல்லை."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve நிறைவை மறுத்தது -- Timeline \"%s\"-இல் நிறைவு இல்லை."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  கேமராக்களில் நேர வரம்பும் ஒவ்வொரு முனையிலும் ஒரு வினாடியும் உள்ளன: %s எழுதப்பட்டது, %s நீளத்திற்கு (பதிவானது %s)."

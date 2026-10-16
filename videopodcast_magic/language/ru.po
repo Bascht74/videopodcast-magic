@@ -1351,9 +1351,6 @@ msgstr "    %-26s камера целиком, микс под ней"
 msgid "    %s could not be imported."
 msgstr "    %s не удалось импортировать."
 
-msgid "    %s could not be inserted."
-msgstr "    %s не удалось вставить."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Не удалось создать %s-дорожку: %s"
 
@@ -2187,6 +2184,12 @@ msgstr "  В Media Pool Resolve нет Full-Mix -- в Timeline «%s» не хв�
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve отклонил Full-Mix -- в Timeline «%s» не хватает звука."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve отклонил заставку -- в Timeline «%s» нет заставки."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve отклонил концовку -- в Timeline «%s» нет концовки."
 
 msgid "  The Swift compiler reports: %s"
 msgstr "  Компилятор Swift сообщает: %s"

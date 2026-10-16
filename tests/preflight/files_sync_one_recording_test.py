@@ -10,8 +10,9 @@ it, never by the order the files were handed in -- the window and the
 command line hand them in differently and have to agree. The sections:
 two recordings in sync, the blocks of one recorder, cut by speaker and
 the call without the keyword, a camera with its own sound, the command
-line stopping, and the window -- state to check, mark to row, sentence
-under the list.
+line stopping -- and not where the window's plan leaves the other
+recording out, set to "do not use" -- and the window: state to check,
+mark to row, sentence under the list.
 """
 PLATFORM_BOUND = True
 import os
@@ -25,7 +26,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
-import sys, subprocess, tempfile, time
+import json, sys, subprocess, tempfile, time
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtGui, QtWidgets
@@ -166,16 +167,22 @@ class Call(object):
         self.out = D
         self.dry_run = True
         self.anyway = False
+        self.assign = None
 
 
-def preflight_verdict(project_type):
-    """1 to stop, 0 to go on -- with the machine's own checks replaced."""
+def preflight_verdict(project_type, assign=None):
+    """1 to stop, 0 to go on -- with the machine's own checks replaced.
+
+    *assign*: the assignment file the window hands the run beside.
+    """
     keep = (vpm.check_disk_space, vpm.check_loudness_target)
     vpm.check_disk_space = lambda *a, **k: []
     vpm.check_loudness_target = lambda *a, **k: []
+    call = Call()
+    call.assign = assign
     try:
         # As main() calls it: the project type as a keyword beside the call.
-        return vpm.run_preflight(Call(), [anna, ben], [],
+        return vpm.run_preflight(call, [anna, ben], [],
                                  project_type=project_type)
     finally:
         vpm.check_disk_space, vpm.check_loudness_target = keep
@@ -187,6 +194,18 @@ check("a sync call with two recordings is stopped before the long steps",
 verdict = preflight_verdict("cut")
 check("a cut call with two recordings goes on", verdict == 0,
       "run_preflight answered %r, wanted 0" % verdict)
+# The window's plan as it writes one: a recording set to "do not use"
+# stands in no row, and it is the first by name -- Anna -- here, so the
+# one kept would be the one called second.
+PLAN = os.path.join(D, "plan.json")
+with open(PLAN, "w", encoding="utf-8") as f:
+    json.dump({"format": vpm.FILE_FORMAT, "tracks_of": [
+        {"audio": ben, "blocks": [ben], "speakers": "Ben", "camera": ""}],
+        "cameras": []}, f)
+verdict = preflight_verdict("sync", PLAN)
+check("a sync call whose other recording is set aside goes on",
+      verdict == 0, "both recordings on the line, Ben.wav alone in the "
+      "plan: run_preflight answered %r, wanted 0" % verdict)
 
 print("\n6. The window: state to check, mark to row, sentence under the list")
 

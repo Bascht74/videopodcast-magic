@@ -3176,6 +3176,12 @@ msgstr "  Resolve の Media Pool に Full-Mix がありません -- Timeline \"%
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve が Full-Mix を拒否しました -- Timeline \"%s\" には音声が欠けています。"
 
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve がイントロを拒否しました -- Timeline \"%s\" にはイントロがありません。"
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve がアウトロを拒否しました -- Timeline \"%s\" にはアウトロがありません。"
+
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  音声: Full-Mix を一続きで A1 に（%s）。"
 
@@ -3457,9 +3463,6 @@ msgstr "%s、音声トラック %d"
 
 msgid "    %s could not be imported."
 msgstr "    %s を読み込めませんでした。"
-
-msgid "    %s could not be inserted."
-msgstr "    %s を挿入できませんでした。"
 
 msgid "    V2 could not be read back: %s"
 msgstr "    V2 を読み戻せませんでした: %s"

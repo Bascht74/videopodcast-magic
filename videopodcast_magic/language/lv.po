@@ -732,9 +732,6 @@ msgstr "    %s× paredzētā kamera nefilmēja -- tur ir cita."
 msgid "    %s could not be imported."
 msgstr "    %s neizdevās importēt."
 
-msgid "    %s could not be inserted."
-msgstr "    %s neizdevās ievietot."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Celiņu neizdevās izveidot (%s): %s"
 
@@ -1259,6 +1256,12 @@ msgstr "  Resolve Media Pool nav Full-Mix -- Timeline „%s“ trūkst skaņas."
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve atteica Full-Mix -- Timeline „%s“ trūkst skaņas."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve atteica Intro -- Timeline „%s“ trūkst Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve atteica Outro -- Timeline „%s“ trūkst Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamerās ir laika logs un pa sekundei katrā galā: ierakstīti %s, kas aptver %s no %s ierakstītā materiāla."

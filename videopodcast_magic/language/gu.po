@@ -731,9 +731,6 @@ msgstr "    %s વાર નિર્ધારિત કૅમેરા ચા�
 msgid "    %s could not be imported."
 msgstr "    %s ઇમ્પોર્ટ કરી શકાયું નહીં."
 
-msgid "    %s could not be inserted."
-msgstr "    %s દાખલ કરી શકાયું નહીં."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s પ્રકારનો ટ્રૅક બનાવી શકાયો નહીં: %s"
 
@@ -1256,6 +1253,12 @@ msgstr "  Resolve ના Media Pool માં કોઈ Full-Mix નથી -- Ti
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve એ Full-Mix નકાર્યો -- Timeline \"%s\" માં ધ્વનિ ખૂટે છે."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve એ ઇન્ટ્રો નકાર્યો -- Timeline \"%s\" માં ઇન્ટ્રો નથી."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve એ આઉટ્રો નકાર્યો -- Timeline \"%s\" માં આઉટ્રો નથી."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  કૅમેરામાં સમયખંડ અને દરેક છેડે એક સેકન્ડ છે: %s લખાયું, %s માટે, રેકોર્ડ કરેલા કુલ %s માંથી."

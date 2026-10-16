@@ -709,10 +709,17 @@ keine Sicherungskopie an.
   den übrigen Aufnahmen passt, und noch einmal laufen lassen -- oder
   sie von Hand nach Resolve holen.
 - **Der Lauf hat beim Bauen abgebrochen, und das Projekt ist weg.**
-  Resolve hat eine Datei nicht genommen, der Lauf hat angehalten. Das
-  Projekt, das er gerade angelegt hatte, hat er gelöscht und das vorher
-  offene wieder geöffnet; beides nennt er beim Namen. Ein Projekt, das
-  es vor dem Lauf schon gab, wird nie gelöscht. War vorher nichts offen,
+  Drei Dinge brechen den Bau ab, und welches es war, sagt die Zeile, die
+  mit `Resolve-Teil abgebrochen:` beginnt: Resolve hat eine Datei nicht
+  genommen; Resolve antwortet, gibt aber keine Projektverwaltung heraus;
+  oder das Programm selbst ist bei einem seiner Schritte in Resolve an
+  einem eigenen Fehler gescheitert -- dann hat Resolve nichts
+  abgelehnt, und die Zeile trägt nur die paar Worte des Fehlers selbst,
+  etwa `list index out of range`. War das Projekt schon angelegt, hat
+  der Lauf es wieder gelöscht und das vorher offene wieder geöffnet;
+  beides nennt er beim Namen. Ohne Projektverwaltung ist er gar nicht
+  so weit gekommen, eines anzulegen. Ein Projekt, das es vor dem Lauf
+  schon gab, wird nie gelöscht. War vorher nichts offen,
   das sich wieder laden lässt -- ein frisch gestartetes Resolve --,
   bleibt das neue Projekt offen, und der Lauf sagt es: in der
   Projektverwaltung von Resolve löschen.
@@ -726,10 +733,11 @@ keine Sicherungskopie an.
   `ACHTUNG: ... nicht eingefügt` und am Ende noch einmal. Ebenso die
   Timeline **… Cut**, wenn Resolve keine oder nur einen Teil ihrer
   Einstellungen übernommen hat, keinen Full-Mix im Media Pool hat oder
-  ihn abgelehnt hat, und wenn die Übergabe ihr nichts zu legen ließ --
-  keinen Full-Mix (`Kein Full-Mix gefunden`) oder keine Einstellung, die
-  in der Datei einer Kamera liegt (`Kein Schnitt übrig`): Die Zeile sagt,
-  was der Timeline fehlt -- der Schnitt, sein Rest oder ihr Ton. Alles andere
+  ihn, den Vorspann oder den Abspann abgelehnt hat, und wenn die
+  Übergabe ihr nichts zu legen ließ -- keinen Full-Mix (`Kein Full-Mix
+  gefunden`) oder keine Einstellung, die in der Datei einer Kamera liegt
+  (`Kein Schnitt übrig`): Die Zeile sagt, was der Timeline fehlt -- der
+  Schnitt, sein Rest, ihr Ton, ihr Vorspann oder ihr Abspann. Alles andere
   hat er ohne sie gebaut, und in seinen letzten Zeilen, unter `ACHTUNG:
   dieses Projekt ist nicht vollständig -- was fehlt:`,
   sagt er es noch einmal; die Liste der Bildspuren im Protokoll und die

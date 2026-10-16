@@ -731,9 +731,6 @@ msgstr "    %s× ei filminud ettenähtud kaamera -- seal on teine."
 msgid "    %s could not be imported."
 msgstr "    %s: importimine ebaõnnestus."
 
-msgid "    %s could not be inserted."
-msgstr "    %s: lisamine ebaõnnestus."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Rada ei õnnestunud luua (%s): %s"
 
@@ -1256,6 +1253,12 @@ msgstr "  Resolve'i Media Poolis pole Full-Mixi -- Timeline'il \"%s\" puudub hel
 
 msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
 msgstr "  Resolve keeldus Full-Mixist -- Timeline'il \"%s\" puudub heli."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve keeldus Introst -- Timeline'il \"%s\" puudub Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve keeldus Outrost -- Timeline'il \"%s\" puudub Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kaamerates on ajaaken ja sekund kummaski otsas: kirjutatud %s, see katab %s kokku salvestatud %s-st."
