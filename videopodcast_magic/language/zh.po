@@ -2697,6 +2697,9 @@ msgstr "已检查 %s 项"
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    已设置 --anyway：尽管有上述问题仍会运行。"
 
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    已设置 --anyway：尽管有上述问题仍会运行，但会在上传前停下——auphonic.com 会拒绝这次制作。"
+
 msgid "does the material fit together?"
 msgstr "素材是否相互匹配？"
 
@@ -2795,6 +2798,9 @@ msgstr "\n预检 -- %s"
 
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\n在第一个耗时步骤之前停止。加上 --anyway 则照样运行。"
+
+msgid "\nStopped before the first long step."
+msgstr "\n在第一个耗时步骤之前停止。"
 
 msgid "no video track"
 msgstr "无视频轨道"

@@ -2,13 +2,17 @@
 """A free account's Multitrack run past 21 min stops before anything goes up.
 
 auphonic.com is never spoken to: `_curl_call` is replaced by a stand-in
-answering /api/user.json and ending the run at any upload. Sections: the
-border -- past 21 minutes, on the free plan, Multitrack only -- said as
-needing a paid plan, with Singletrack and work without Auphonic as the
-way out; the stop before the upload, and a paying account going on; the
-line in the Auphonic box, red; and the preflight, which stops a run,
-only warns a dry run, and lets --anyway through. File lengths are stood
-in for.
+answering /api/user.json and a production's creation, and ending the
+run at any upload. Sections: the border -- past 21 minutes, on the free
+plan, Multitrack only -- said as needing a paid plan, with Singletrack
+and work without Auphonic as the way out; the stop before the upload,
+past which a paying account and a free Singletrack run go on; the line
+in the Auphonic box, red; and the preflight, which stops a run, only
+warns a dry run, lets --anyway through and says the upload stops it
+then, offers no --anyway without it, lets one recording through, and
+counts the tracks of the window's plan as the run sends them -- a
+recording set to "do not use" none, two rows of one name one, a
+camera's own sound one. File lengths are stood in for.
 """
 PLATFORM_BOUND = True
 import os
@@ -78,6 +82,12 @@ class Account(object):
         if progress:
             print("<<the upload begins here>>")
             raise Uploaded()
+        if any(str(a).endswith("/api/productions.json")
+               for a in arguments):
+            # A production is created, so a run that goes on reaches
+            # its upload.
+            return json.dumps({"status_code": 201,
+                               "data": {"uuid": "PRODUCTION"}})
         return self.answer
 
 
@@ -134,8 +144,11 @@ tracks = [{"name": "Guest", "axis": guest},
           {"name": "Presenter", "axis": audio}]
 
 
-def run_said(account):
-    """What a Multitrack run of 25 min printed, how it ended, its calls."""
+def run_said(account, single=False):
+    """What a run of 25 min printed, how it ended, its calls.
+
+    Multitrack with both tracks, or *single*: Singletrack with one.
+    """
     stand_in = Account(json.dumps({"status_code": 200, "data": account}))
     vpm._curl_call = stand_in
     said = io.StringIO()
@@ -143,8 +156,12 @@ def run_said(account):
     measure, vpm.media_seconds = vpm.media_seconds, lambda path: 25 * 60.0
     ended = ""
     try:
-        vpm.run_multitrack_production(KEY, "PRESETUUID", "Podcast", tracks,
+        if single:
+            vpm.run_single_production(audio, "PRESETUUID", "Podcast", KEY,
                                       os.path.join(room, "back"))
+        else:
+            vpm.run_multitrack_production(KEY, "PRESETUUID", "Podcast",
+                                          tracks, os.path.join(room, "back"))
     except Uploaded:
         ended = "uploaded"
     except Exception as why:
@@ -166,6 +183,10 @@ check("the stop says the paid plan and the way out",
 text, ended, calls = run_said(PAID_ACCOUNT)
 check("a paying Multitrack run of 25 min goes on to auphonic.com",
       len(calls) >= 2 and "/api/preset/PRESETUUID" in calls[1][-1],
+      "calls in order: %r; ended %r" % ([c[-1] for c in calls], ended))
+text, ended, calls = run_said(FREE_ACCOUNT, single=True)
+check("a free Singletrack run of 25 min goes on to its upload",
+      ended == "uploaded" and "<<the upload begins here>>" in text,
       "calls in order: %r; ended %r" % ([c[-1] for c in calls], ended))
 
 # ------------------------------------------------------------ The box
@@ -192,9 +213,22 @@ check("a free Multitrack production of 21 min shows no border in the box",
 # ------------------------------------------------------ The preflight
 print("\nThe preflight")
 
-LONG = {"Guest.wav": 25 * 60, "Presenter.wav": 15 * 60}
+LONG = {"Guest.wav": 25 * 60, "Presenter.wav": 15 * 60,
+        "WideCam.mov": 15 * 60}
 vpm.sample_count = lambda path: LONG.get(os.path.basename(path), 0) * vpm.SR
 recordings = [guest, audio]
+# A camera whose own sound the window makes a track; only its name and
+# its length, stood in for above, are asked of it.
+camera = os.path.join(room, "WideCam.mov")
+shutil.copyfile(audio, camera)
+
+
+def plan_of(name, *rows):
+    """An assignment file holding *rows*, as the window writes the plan."""
+    path = os.path.join(room, name + ".json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump({"tracks_of": list(rows), "cameras": []}, f)
+    return path
 
 
 def run_args(**changed):
@@ -208,14 +242,23 @@ def run_args(**changed):
     return types.SimpleNamespace(**values)
 
 
-def border_found(**changed):
-    """The finding check_account gives on the border, or None."""
+def border_found(on_line=recordings, videos=0, **changed):
+    """The finding check_account gives on the border, or None.
+
+    *on_line*: the recordings on the command line, *videos* how many
+    cameras beside them.
+    """
     vpm._curl_call = Account(json.dumps({"status_code": 200,
                                          "data": FREE_ACCOUNT}))
     found = vpm.check_account(run_args(**changed),
-                              vpm.group_recording_parts(recordings), 0)
+                              vpm.group_recording_parts(on_line), videos)
     hit = [b for b in found if b.text == SAID % (minutes(25), minutes(21))]
     return hit[0] if hit else None, found
+
+
+def stopped(found):
+    """The findings that would stop the run."""
+    return [(b.kind, b.text) for b in found if b.kind == "abort"]
 
 
 hit, found = border_found()
@@ -226,6 +269,31 @@ hit, found = border_found(dry_run=True)
 check("a dry run is warned of the border, not stopped",
       hit is not None and hit.kind == "warning",
       "said: %r" % ([(b.kind, b.text) for b in found],))
+hit, found = border_found(on_line=[guest])
+check("the preflight lets a free run of one 25 min recording through",
+      not stopped(found), "stops on: %r" % (stopped(found),))
+hit, found = border_found(assign=plan_of(
+    "unused", {"audio": guest, "blocks": [guest], "speakers": "Guest",
+               "camera": ""}))
+check('a recording set to "do not use" is no track to the preflight',
+      not stopped(found), "both recordings on the line, one in the plan; "
+      "stops on: %r" % (stopped(found),))
+hit, found = border_found(assign=plan_of(
+    "onename", {"audio": guest, "blocks": [guest], "speakers": "Guest",
+                "camera": ""},
+    {"audio": audio, "blocks": [audio], "speakers": "Guest", "camera": ""}))
+check("two recordings of one name are one track to the preflight",
+      not stopped(found), "both named Guest in the plan; stops on: %r"
+      % (stopped(found),))
+hit, found = border_found(on_line=[guest], videos=1, assign=plan_of(
+    "camera", {"audio": guest, "blocks": [guest], "speakers": "Guest",
+               "camera": ""},
+    {"audio": camera, "blocks": [camera], "speakers": "Presenter",
+     "camera": camera, "camera_audio": True, "from_camera": camera}))
+check("a camera's own sound is a track to the preflight",
+      hit is not None and hit.kind == "abort",
+      "one recording on the line, the camera's sound beside it in the "
+      "plan; said: %r" % ([(b.kind, b.text) for b in found],))
 
 
 def preflight_returns(**changed):
@@ -252,9 +320,17 @@ def last_line(text):
 back, text = preflight_returns()
 check("the run stops at the preflight", back == 1,
       "returned %r, wanted 1; last line %r" % (back, last_line(text)))
+check("past the border the last line offers no --anyway",
+      last_line(text) == T('\nStopped before the first long step.').strip(),
+      "last line %r" % last_line(text))
 back, text = preflight_returns(anyway=True)
 check("--anyway passes the preflight", back == 0,
       "returned %r, wanted 0; last line %r" % (back, last_line(text)))
+check("with --anyway the last line says the upload stops it",
+      last_line(text) == T('    --anyway is set: it runs despite the points '
+                           'above, but stops before the upload -- '
+                           'auphonic.com would refuse this production.'
+                           ).strip(), "last line %r" % last_line(text))
 
 shutil.rmtree(room, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

@@ -616,6 +616,9 @@ msgstr "\nΔεν επιλέχθηκε προρύθμιση: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nΔιακόπηκε πριν από το πρώτο μεγάλο βήμα. Με --anyway εκτελείται ούτως ή άλλως."
 
+msgid "\nStopped before the first long step."
+msgstr "\nΔιακόπηκε πριν από το πρώτο μεγάλο βήμα."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Το Resolve ίσως τότε να μην αναγνωρίσει τον χρωματικό χώρο εισόδου."
 
@@ -711,6 +714,9 @@ msgstr "    %s: εικόνα και ήχος εισήχθησαν χωριστά
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway έχει οριστεί: εκτελείται παρά τα παραπάνω σημεία."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway έχει οριστεί: εκτελείται παρά τα παραπάνω σημεία, αλλά σταματά πριν από τη μεταφόρτωση -- το auphonic.com θα απέρριπτε αυτή την παραγωγή."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Όλα τα κομμάτια είναι στη θέση τους -- τίποτα να μετακινηθεί."
@@ -5074,7 +5080,7 @@ msgid "  Credit at auphonic.com: not known."
 msgstr "  Πίστωση στο auphonic.com: άγνωστη."
 
 msgid "  Credit at auphonic.com: %s left."
-msgstr "  Πίστωση στο auphonic.com: απομένουν %s."
+msgstr "  Πίστωση στο auphonic.com: %s απομένουν."
 
 msgid "  Credit at auphonic.com: %s left, and this production needs %s -- not enough."
 msgstr "  Πίστωση στο auphonic.com: απομένουν %s, και αυτή η παραγωγή χρειάζεται %s -- δεν φτάνει."
@@ -5098,7 +5104,7 @@ msgid "  Note: the run tries anyway. auphonic.com decides whether the production
 msgstr "  Σημείωση: η εκτέλεση δοκιμάζει ούτως ή άλλως. Το auphonic.com αποφασίζει αν ξεκινά η παραγωγή, και το λέει αν δεν ξεκινά."
 
 msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
-msgstr "Αυτή η παραγωγή Multitrack διαρκεί %s. Στο δωρεάν πρόγραμμα το auphonic.com δέχεται τέτοια μόνο έως περίπου %s· μια μεγαλύτερη χρειάζεται πληρωμένο πρόγραμμα."
+msgstr "Αυτή η παραγωγή Multitrack διαρκεί %s -- στο δωρεάν πρόγραμμα το auphonic.com δέχεται τέτοια μόνο έως περίπου %s· μια μεγαλύτερη χρειάζεται πληρωμένο πρόγραμμα."
 
 msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
 msgstr "Για Singletrack, που το δωρεάν πρόγραμμα δέχεται σε οποιαδήποτε διάρκεια, ορίστε όλα τα κανάλια εκτός από ένα σε «%s» -- όπου ένα κανάλι φέρει όλες τις φωνές. Ή επιλέξτε «%s» στην Προρύθμιση (--without-auphonic): τα κανάλια τότε μιξάρονται εδώ."

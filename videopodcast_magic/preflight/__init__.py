@@ -1374,11 +1374,11 @@ def production_length(chains, multitrack, window_s=None):
 def check_account(args, chains, videos_n):
     """What the account at auphonic.com says to this run, said first.
 
-    In the lines the Auphonic step prints later. Asked once, and only of
-    a run that sends; an account that cannot be asked is one line. Short
-    credit stops nothing: auphonic.com decides at the start. A free
-    Multitrack production past the border stops the run, as auphonic.com
-    would refuse it -- a dry run sends nothing, so there it only warns.
+    Asked once, of a run that sends; short credit stops nothing. A free
+    Multitrack production past the border stops the run -- a dry run is
+    only warned, and --anyway only moves the stop to before the upload.
+    Tracks count as the run sends them: the --assign plan's, joined by
+    name as merge_plan_entries joins them, else one per chain.
     """
     if not PROGRAM.run_uploads(args):
         return []
@@ -1388,6 +1388,33 @@ def check_account(args, chains, videos_n):
         return [Finding("good", "auphonic.com",
                         T('Account at auphonic.com: not known -- it could '
                           'not be asked. The run goes on.'))]
+    # A recording set to "do not use" is in no row of the plan, a camera
+    # whose own sound is used is one. Cameras alone on the line are not
+    # counted: their tracks are measured only as the sound is taken out.
+    try:
+        with open(getattr(args, "assign", None) or "",
+                  encoding="utf-8") as f:
+            plan = json.load(f)
+    except (OSError, ValueError):
+        plan = None
+    if isinstance(plan, dict):
+        plan = plan.get("tracks_of")
+    if isinstance(plan, list):
+        chains, of_name = [], {}
+        for e in plan:
+            if not isinstance(e, dict):
+                continue
+            name = (e.get("speakers") or "").strip()
+            blocks = [b for b in e.get("blocks") or [e.get("audio")]
+                      if isinstance(b, str) and os.path.isfile(b)]
+            if not blocks:
+                continue
+            if name in of_name and not e.get("apart"):
+                of_name[name].extend(blocks)
+                continue
+            chains.append((blocks, []))
+            if name and not e.get("apart"):
+                of_name[name] = blocks
     count = len(chains)
     multitrack = PROGRAM.production_is_multitrack(
         count, bool(videos_n) or count >= 2)
@@ -1401,6 +1428,9 @@ def check_account(args, chains, videos_n):
     if border:
         found.append(Finding("warning" if getattr(args, "dry_run", False)
                              else "abort", "", border[0], border[1]))
+        # The stop before the upload asks the account again, whatever
+        # --anyway says: --anyway moves this stop there, never lifts it.
+        found[-1].stops_at_upload = True
     return found
 
 
@@ -1595,12 +1625,19 @@ def report_findings(findings, heading, anyway=False):
         parts.append(TN(len(abort), '%s reason to stop',
                         '%s reasons to stop') % number_text(len(abort), 0))
     print("    %s" % ", ".join(parts))
+    # --anyway is offered only where it gets the run through, so not
+    # past a point the stop before the upload holds again.
+    held = [b for b in abort if getattr(b, "stops_at_upload", False)]
     if abort and not anyway:
-        print(as_bad(T('\nStopped before the first long step. With --anyway '
+        print(as_bad(T('\nStopped before the first long step.') if held else
+                     T('\nStopped before the first long step. With --anyway '
                        'it runs regardless.')))
         return True
     if abort:
-        print(T('    --anyway is set: it runs despite the points above.'))
+        print(T('    --anyway is set: it runs despite the points above, but '
+                'stops before the upload -- auphonic.com would refuse this '
+                'production.') if held else
+              T('    --anyway is set: it runs despite the points above.'))
     return False
 
 

@@ -2727,6 +2727,9 @@ msgstr "%s verificati"
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway è impostato: si procede nonostante i punti sopra."
 
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway è impostato: si procede nonostante i punti sopra, ma ci si ferma prima del caricamento -- auphonic.com rifiuterebbe questa produzione."
+
 msgid "does the material fit together?"
 msgstr "il materiale è coerente?"
 
@@ -2827,6 +2830,9 @@ msgstr "\nCONTROLLO PRELIMINARE -- %s"
 
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nFermato prima del primo passaggio lungo. Con --anyway procede comunque."
+
+msgid "\nStopped before the first long step."
+msgstr "\nFermato prima del primo passaggio lungo."
 
 msgid "no video track"
 msgstr "nessuna traccia video"

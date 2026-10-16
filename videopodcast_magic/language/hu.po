@@ -618,6 +618,9 @@ msgstr "\nNincs kiválasztott előbeállítás: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nLeállítva az első hosszú lépés előtt. A --anyway kapcsolóval mindenképp fut."
 
+msgid "\nStopped before the first long step."
+msgstr "\nLeállítva az első hosszú lépés előtt."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   A Resolve ekkor esetleg nem ismeri fel a bemeneti színteret."
 
@@ -713,6 +716,9 @@ msgstr "    %s: kép és hang külön beillesztve (hang az A%d sávról)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway meg van adva: a fenti pontok ellenére fut."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway meg van adva: a fenti pontok ellenére fut, de a feltöltés előtt leáll -- az auphonic.com elutasítaná ezt a produkciót."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Minden sáv a helyén van -- nincs mit mozgatni."

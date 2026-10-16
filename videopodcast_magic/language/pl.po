@@ -618,6 +618,9 @@ msgstr "\nNie wybrano presetu: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nZatrzymano przed pierwszym długim krokiem. Z --anyway przebieg i tak ruszy."
 
+msgid "\nStopped before the first long step."
+msgstr "\nZatrzymano przed pierwszym długim krokiem."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve może wtedy nie rozpoznać wejściowej przestrzeni barw."
 
@@ -713,6 +716,9 @@ msgstr "    %s: obraz i dźwięk wstawione osobno (dźwięk od A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    Ustawiono --anyway: przebieg rusza mimo powyższych punktów."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    Ustawiono --anyway: przebieg rusza mimo powyższych punktów, ale zatrzymuje się przed wysłaniem -- auphonic.com odrzuciłby tę produkcję."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Wszystkie ścieżki są na miejscu -- nie ma czego przesuwać."

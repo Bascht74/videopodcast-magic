@@ -644,6 +644,9 @@ msgstr "\nHakuna mpangilio awali uliochaguliwa: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nImesimama kabla ya hatua ndefu ya kwanza. Kwa --anyway inaendelea hata hivyo."
 
+msgid "\nStopped before the first long step."
+msgstr "\nImesimama kabla ya hatua ndefu ya kwanza."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Huenda Resolve isitambue nafasi ya rangi ya ingizo."
 
@@ -739,6 +742,9 @@ msgstr "    %s: picha na sauti zimepachikwa kando (sauti kutoka A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway imewekwa: inaendelea licha ya hoja zilizo juu."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway imewekwa: inaendelea licha ya hoja zilizo juu, lakini husimama kabla ya kupakia -- auphonic.com ingekataa uzalishaji huu."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Treki zote ziko mahali pake -- hakuna cha kusogeza."

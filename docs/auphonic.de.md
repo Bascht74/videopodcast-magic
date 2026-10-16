@@ -106,7 +106,7 @@ ganzen Minuten und mit mindestens drei, zusammengezählt -- und das alles,
 bevor der Lauf die Spuren auf eine Zeitachse legt, was sie nur länger
 machen kann. Ist das Konto im kostenlosen Tarif und die
 Multitrack-Produktion länger als 21 Minuten, kommen zwei weitere, ebenfalls
-rote Zeilen dazu: **Diese Multitrack-Produktion dauert 25 Min. Im
+rote Zeilen dazu: **Diese Multitrack-Produktion dauert 25 Min. -- im
 kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa 21 Min. an;
 eine längere braucht einen bezahlten Tarif.** Darunter steht, was ohne
 bezahlten Tarif bleibt: Singletrack, das der kostenlose Tarif in jeder
@@ -303,7 +303,7 @@ er an:
   als 21 Minuten ist.** Eine solche Produktion lehnt auphonic.com gleich
   beim Start ab, deshalb hält der Lauf an, bevor etwas hochgeladen wird:
   `Aufbereitung fehlgeschlagen: Diese Multitrack-Produktion dauert 25
-  Min. Im kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa
+  Min. -- im kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa
   21 Min. an; eine längere braucht einen bezahlten Tarif.` Dahinter steht
   der Ausweg: Singletrack oder ohne Auphonic arbeiten
   (`--without-auphonic`). Das Konto wird an dieser Stelle noch einmal
@@ -322,8 +322,16 @@ Vorflug das in einer Zeile, `Das Konto bei auphonic.com ist nicht
 bekannt, denn es ließ sich nicht fragen. Der Lauf geht weiter.`, und der
 Lauf geht weiter. Das Guthaben hält keinen Lauf an; die Grenze für
 Multitrack im kostenlosen Tarif hält ihn schon hier an, vor dem ersten
-langen Schritt. Mit `--anyway` läuft er bis zum Halt vor dem Hochladen
-weiter, und der **Probelauf**, der nichts schickt, wird nur gewarnt.
+langen Schritt, und der **Probelauf**, der nichts schickt, wird nur
+gewarnt. Die Spuren werden gezählt, wie der Lauf sie schickt: Eine
+Aufnahme auf **nicht verwenden** ist keine, Aufnahmen unter einem Namen
+sind eine Spur, und eine Kamera, deren eigener Ton verwendet wird, ist
+eine. Nur Kameras allein auf der Kommandozeile zählt der Vorflug
+nicht -- wie viele Spuren ihr Ton hält, wird erst beim Herausholen
+gemessen --, bei ihnen sagt es deshalb erst der Halt vor dem Hochladen.
+An dieser Grenze lautet die letzte Zeile des Berichts `Abbruch vor dem
+ersten langen Schritt.` und bietet kein `--anyway` an: Es verschöbe den
+Halt nur bis vor das Hochladen.
 
 Lehnt auphonic.com trotzdem ab, dann beim Start, nach dem Hochladen, und es
 berechnet nichts. Der Lauf endet dann mit `Aufbereitung fehlgeschlagen:`
@@ -471,6 +479,9 @@ die Meldung sagt das.
   die Produktion.
 * **auphonic.com meldet einen Fehler.** Der Lauf endet mit
   `Aufbereitung fehlgeschlagen:` und dem, was auphonic.com gesagt hat.
+  Ebenso, und sofort statt nach der Zeitgrenze, endet das Warten auf
+  eine Produktion, die auphonic.com als unvollständig führt: `Auphonic
+  meldet 9: Incomplete`.
 * **In der Presetliste steht nur ihr erster Eintrag.** Es ist noch kein
   Schlüssel geprüft: **Verbinden** drücken.
 * **Die zurückgekommenen Spuren passen weder zum Zeitfenster noch zum

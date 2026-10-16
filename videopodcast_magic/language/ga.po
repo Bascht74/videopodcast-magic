@@ -649,6 +649,9 @@ msgstr "\nNíor roghnaíodh réamhshocrú: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nStadadh roimh an gcéad chéim fhada. Le --anyway ritheann sé ar aon nós."
 
+msgid "\nStopped before the first long step."
+msgstr "\nStadadh roimh an gcéad chéim fhada."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   B'fhéidir nach n-aithneoidh Resolve spás datha an ionchuir ansin."
 
@@ -744,6 +747,9 @@ msgstr "    %s: pictiúr agus fuaim curtha isteach ar leith (fuaim ó A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    Tá --anyway socraithe: ritheann sé in ainneoin na bpointí thuas."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    Tá --anyway socraithe: ritheann sé in ainneoin na bpointí thuas, ach stopann sé roimh an uaslódáil -- dhiúltódh auphonic.com don léiriú seo."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Tá gach rian ina áit -- níl aon rud le bogadh."

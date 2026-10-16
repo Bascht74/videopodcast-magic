@@ -2723,6 +2723,9 @@ msgstr "%s denetlendi"
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway verildi: yukarıdaki noktalara rağmen çalışır."
 
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway verildi: yukarıdaki noktalara rağmen çalışır, ama yüklemeden önce durur -- auphonic.com bu prodüksiyonu reddederdi."
+
 msgid "does the material fit together?"
 msgstr "malzeme birbirine uyuyor mu?"
 
@@ -2823,6 +2826,9 @@ msgstr "\nÖN KONTROL -- %s"
 
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nİlk uzun adımdan önce durduruldu. --anyway ile yine de çalışır."
+
+msgid "\nStopped before the first long step."
+msgstr "\nİlk uzun adımdan önce durduruldu."
 
 msgid "no video track"
 msgstr "video izi yok"

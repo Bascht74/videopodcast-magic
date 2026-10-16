@@ -288,9 +288,16 @@ so does **Dry run**, which uploads nothing. Where the account cannot be
 asked -- no key stored, no network -- the preflight says so in one line,
 `Account at auphonic.com: not known -- it could not be asked. The run
 goes on.`, and the run goes on. The credit stops no run; the free
-Multitrack border stops it here already, before the first long step --
-with `--anyway` the run goes on to the stop before the upload, and a
-**Dry run**, which sends nothing, is only warned.
+Multitrack border stops it here already, before the first long step,
+and a **Dry run**, which sends nothing, is only warned. The tracks are
+counted as the run sends them: a recording set to **do not use** is
+none, recordings under one name are one track, and a camera whose own
+sound is used is one. Only cameras alone on the command line are not
+counted here -- how many tracks their sound holds is measured as it is
+taken out -- so for them the stop before the upload is the first to
+say it. Past this border the report's last line reads `Stopped before
+the first long step.` and offers no `--anyway`: it would only move the
+stop to the one before the upload.
 
 Where auphonic.com refuses all the same, it does so at the start, after
 the upload, and charges nothing; the run ends with `Processing failed:`
@@ -425,7 +432,9 @@ another run, and the message says so.
   longer. **Stop** ends the waiting in the same way, not the
   production.
 * **auphonic.com reports an error.** The run ends with `Processing
-  failed:` and what auphonic.com said.
+  failed:` and what auphonic.com said. The waiting for a production
+  auphonic.com holds as incomplete ends the same way, at once rather
+  than at the time limit: `Auphonic reports 9: Incomplete`.
 * **The preset list holds only its first entry.** No key has been
   checked yet: press **Connect**.
 * **The returned tracks fit neither the time window nor the whole

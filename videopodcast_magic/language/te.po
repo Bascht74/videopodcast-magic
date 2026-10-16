@@ -644,6 +644,9 @@ msgstr "\nప్రీసెట్ ఎంచుకోలేదు: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nమొదటి పొడవైన దశకు ముందే ఆగింది. --anyway తో అయినా నడుస్తుంది."
 
+msgid "\nStopped before the first long step."
+msgstr "\nమొదటి పొడవైన దశకు ముందే ఆగింది."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   అప్పుడు Resolve ఇన్‌పుట్ కలర్ స్పేస్‌ను గుర్తించకపోవచ్చు."
 
@@ -739,6 +742,9 @@ msgstr "    %s: చిత్రం, ఆడియో వేర్వేరుగ�
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway సెట్ చేయబడింది: పై అంశాలు ఉన్నప్పటికీ ఇది నడుస్తుంది."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway సెట్ చేయబడింది: పై అంశాలు ఉన్నప్పటికీ ఇది నడుస్తుంది, కానీ అప్‌లోడ్‌కు ముందే ఆగిపోతుంది -- auphonic.com ఈ ప్రొడక్షన్‌ను తిరస్కరిస్తుంది."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    అన్ని ట్రాక్‌లు సరైన స్థానంలో ఉన్నాయి -- జరపాల్సింది ఏమీ లేదు."

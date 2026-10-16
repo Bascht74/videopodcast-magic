@@ -616,6 +616,9 @@ msgstr "\nGeen voorinstelling gekozen: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nGestopt vóór de eerste lange stap. Met --anyway loopt het toch."
 
+msgid "\nStopped before the first long step."
+msgstr "\nGestopt vóór de eerste lange stap."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve herkent de invoerkleurruimte dan misschien niet."
 
@@ -711,6 +714,9 @@ msgstr "    %s: beeld en geluid apart ingevoegd (geluid vanaf A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway is ingesteld: het loopt ondanks de punten hierboven."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway is ingesteld: het loopt ondanks de punten hierboven, maar stopt vóór het uploaden -- auphonic.com zou deze productie weigeren."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Alle sporen liggen goed -- niets te verschuiven."

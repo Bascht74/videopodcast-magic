@@ -646,6 +646,9 @@ msgstr "\nਕੋਈ ਪ੍ਰੀਸੈੱਟ ਨਹੀਂ ਚੁਣਿਆ ਗਿ
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nਪਹਿਲੇ ਲੰਮੇ ਕਦਮ ਤੋਂ ਪਹਿਲਾਂ ਰੋਕਿਆ ਗਿਆ। --anyway ਨਾਲ ਇਹ ਫਿਰ ਵੀ ਚੱਲਦਾ ਹੈ।"
 
+msgid "\nStopped before the first long step."
+msgstr "\nਪਹਿਲੇ ਲੰਮੇ ਕਦਮ ਤੋਂ ਪਹਿਲਾਂ ਰੋਕਿਆ ਗਿਆ।"
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   ਤਦ Resolve ਸ਼ਾਇਦ ਇਨਪੁੱਟ ਕਲਰ ਸਪੇਸ ਨਾ ਪਛਾਣੇ।"
 
@@ -741,6 +744,9 @@ msgstr "    %s: ਤਸਵੀਰ ਅਤੇ ਆਡੀਓ ਵੱਖ-ਵੱਖ ਪ�
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway ਲਾਗੂ ਹੈ: ਇਹ ਉੱਪਰਲੇ ਨੁਕਤਿਆਂ ਦੇ ਬਾਵਜੂਦ ਚੱਲਦਾ ਹੈ।"
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway ਲਾਗੂ ਹੈ: ਇਹ ਉੱਪਰਲੇ ਨੁਕਤਿਆਂ ਦੇ ਬਾਵਜੂਦ ਚੱਲਦਾ ਹੈ, ਪਰ ਅੱਪਲੋਡ ਤੋਂ ਪਹਿਲਾਂ ਰੁਕ ਜਾਂਦਾ ਹੈ -- auphonic.com ਇਸ ਪ੍ਰੋਡਕਸ਼ਨ ਨੂੰ ਰੱਦ ਕਰ ਦਿੰਦਾ।"
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    ਸਾਰੇ ਟਰੈਕ ਆਪਣੀ ਥਾਂ 'ਤੇ ਹਨ -- ਕੁਝ ਵੀ ਖਿਸਕਾਉਣ ਦੀ ਲੋੜ ਨਹੀਂ।"

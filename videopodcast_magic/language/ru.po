@@ -1207,6 +1207,9 @@ msgstr "\nУ звука и изображения общего только %s, 
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nПрервано перед первым долгим шагом. С --anyway прогон идёт всё равно."
 
+msgid "\nStopped before the first long step."
+msgstr "\nПрервано перед первым долгим шагом."
+
 msgid "\nStopped during: %s"
 msgstr "\nПрервано на: %s"
 
@@ -1368,6 +1371,9 @@ msgstr "    %sx нужная камера не работала -- на её м�
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway задан: прогон идёт несмотря на пункты выше."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway задан: прогон идёт несмотря на пункты выше, но останавливается до загрузки -- auphonic.com отклонил бы эту продукцию."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Все дорожки на месте -- двигать нечего."

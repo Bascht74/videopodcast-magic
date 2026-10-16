@@ -616,6 +616,9 @@ msgstr "\n선택된 프리셋 없음: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\n첫 번째 긴 단계 전에 중지했습니다. --anyway를 쓰면 그래도 실행됩니다."
 
+msgid "\nStopped before the first long step."
+msgstr "\n첫 번째 긴 단계 전에 중지했습니다."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   그러면 Resolve가 입력 색 공간을 인식하지 못할 수 있습니다."
 
@@ -711,6 +714,9 @@ msgstr "    %s: 영상과 오디오를 따로 삽입했습니다 (오디오는 A
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway가 설정됨: 위의 사항에도 불구하고 실행합니다."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway가 설정됨: 위의 사항에도 불구하고 실행하지만 업로드 전에 멈춥니다 -- auphonic.com이 이 프로덕션을 거부할 것이기 때문입니다."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    모든 트랙이 제자리에 있습니다 -- 옮길 것이 없습니다."

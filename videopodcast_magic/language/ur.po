@@ -643,6 +643,9 @@ msgstr "\nکوئی پری سیٹ منتخب نہیں: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nپہلے لمبے مرحلے سے پہلے روک دیا گیا۔ --anyway کے ساتھ یہ پھر بھی چلتا ہے۔"
 
+msgid "\nStopped before the first long step."
+msgstr "\nپہلے لمبے مرحلے سے پہلے روک دیا گیا۔"
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   پھر Resolve شاید ان پٹ کلر اسپیس نہ پہچانے۔"
 
@@ -738,6 +741,9 @@ msgstr "    %s: تصویر اور آڈیو الگ الگ شامل کیے گئے 
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway دیا گیا ہے: اوپر کے نکات کے باوجود یہ چلتا ہے۔"
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway دیا گیا ہے: اوپر کے نکات کے باوجود یہ چلتا ہے، لیکن اپ لوڈ سے پہلے رک جاتا ہے -- auphonic.com یہ پروڈکشن رد کر دیتا۔"
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    سب ٹریک اپنی جگہ پر ہیں -- کچھ کھسکانے کی ضرورت نہیں۔"

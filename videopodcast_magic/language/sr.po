@@ -618,6 +618,9 @@ msgstr "\nНије изабран пресет: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nЗаустављено пре првог дугог корака. Са --anyway ради свеједно."
 
+msgid "\nStopped before the first long step."
+msgstr "\nЗаустављено пре првог дугог корака."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve тада можда неће препознати улазни простор боја."
 
@@ -713,6 +716,9 @@ msgstr "    %s: слика и аудио убачени одвојено (ауд
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway је постављен: ради упркос горњим тачкама."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway је постављен: ради упркос горњим тачкама, али се зауставља пре отпремања -- auphonic.com би одбио ову продукцију."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Све траке су на месту -- нема шта да се помера."

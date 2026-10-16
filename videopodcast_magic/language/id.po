@@ -644,6 +644,9 @@ msgstr "\nTidak ada preset yang dipilih: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nBerhenti sebelum langkah panjang pertama. Dengan --anyway proses tetap berjalan."
 
+msgid "\nStopped before the first long step."
+msgstr "\nBerhenti sebelum langkah panjang pertama."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve mungkin lalu tidak mengenali ruang warna masukan."
 
@@ -739,6 +742,9 @@ msgstr "    %s: gambar dan audio disisipkan terpisah (audio dari A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway disetel: proses tetap berjalan meski ada poin-poin di atas."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway disetel: proses tetap berjalan meski ada poin-poin di atas, tetapi berhenti sebelum unggahan -- auphonic.com akan menolak produksi ini."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Semua trek sudah di tempatnya -- tidak ada yang perlu digeser."

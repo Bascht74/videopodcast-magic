@@ -647,6 +647,9 @@ msgstr "\nNobena prednastavitev ni izbrana: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nUstavljeno pred prvim dolgim korakom. Z --anyway teče kljub temu."
 
+msgid "\nStopped before the first long step."
+msgstr "\nUstavljeno pred prvim dolgim korakom."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve potem morda ne bo prepoznal vhodnega barvnega prostora."
 
@@ -742,6 +745,9 @@ msgstr "    %s: slika in zvok sta vstavljena ločeno (zvok iz A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway je nastavljen: zagon teče kljub zgornjim točkam."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway je nastavljen: zagon teče kljub zgornjim točkam, a se ustavi pred nalaganjem -- auphonic.com bi to produkcijo zavrnil."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Vse sledi so na mestu -- ničesar ni treba premakniti."
