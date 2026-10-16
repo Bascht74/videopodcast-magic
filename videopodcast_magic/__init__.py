@@ -586,7 +586,7 @@ def run_from_command_line(args, ap):
             print(T('Resolve part stopped: %s') % e)
             return 1
     for long in ("no_camera_audio", "no_follow_ups", "no_drift",
-                 "dry_run", "multitrack", "resolve"):
+                 "dry_run", "resolve"):
         setattr(args, long, getattr(args, long, False))
     args.name_camera = getattr(args, "name_camera", "Camera Original")
     # One word for the whole run. "sync" means no speakers, no speech
@@ -668,7 +668,7 @@ def run_from_command_line(args, ap):
             return 1
         print()
     # One way in: whether the tracks go up as one Multitrack production
-    # follows from them, and --multitrack, still taken, decides nothing.
+    # follows from them, and from nothing typed on the line.
     return multitrack_or_single(args, ap, audio_paths, video_paths)
 
 

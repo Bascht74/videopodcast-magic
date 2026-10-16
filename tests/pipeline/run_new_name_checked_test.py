@@ -199,13 +199,13 @@ ok, why = refused([(GUEST, "Guest")], TWO + [GUEST, HOST],
                   vpm.T('The assignment file names the cameras here, so '
                         '--new-name would be dropped; give the names there '
                         'or leave --new-name out.'),
-                  ["--multitrack", "--assign", ASSIGN])
+                  ["--assign", ASSIGN])
 check("names beside assigned cameras are refused, saying why",
       ok, why)
 ok, why = refused([(GUEST, "Guest")], [GUEST, HOST],
                   vpm.T('With cameras only, each file is named after the '
                         'tracks taken from its sound, so --new-name would be '
-                        'dropped; leave --new-name out.'), ["--multitrack"])
+                        'dropped; leave --new-name out.'))
 check("names for cameras alone, named by tracks, are refused", ok, why)
 
 print("\n7. Two distinct names")

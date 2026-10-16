@@ -80,7 +80,7 @@ figure of the day is that command, not this paragraph**:
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **1046** -- the command line a run is given: written out of
+* `orders/` **1038** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
@@ -822,10 +822,10 @@ on. A pair whose two channels do not sit side by side is not found.
 
 A camera's two channels are judged like a two channel recorder file:
 two clip-on microphones on them give two rows with two speaker names.
-On the command line (`--multitrack`) the count works the same way as in
-the window, and it is a count of input tracks rather than of files: a
-recording of its own, a channel of a multichannel recorder, or the
-audio of a camera whose **Camera audio** stands on **use the audio**.
+On the command line the count works the same way as in the window,
+and it is a count of input tracks rather than of files: a recording of
+its own, a channel of a multichannel recorder, or the audio of a camera
+whose **Camera audio** stands on **use the audio**.
 The count is read from the assignment file: `cameras_as_tracks` counts
 the rows of `tracks_of` that carry `own_audio`, `camera_audio` or
 `from_camera`. A two channel file that was never split carries no extra

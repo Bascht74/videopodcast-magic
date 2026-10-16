@@ -4,8 +4,8 @@
 Three of them once stood in the help: accepted, never read, the user
 believing they had an effect. Every other test asks whether what was
 wanted happens; none asks whether what is offered still does anything.
---multitrack is the one switch let off that question, kept for a
-release with no effect, and only while its help says so.
+Last, a switch retired is gone and not kept on without effect:
+--multitrack is refused as any word the parser does not know.
 """
 PLATFORM_BOUND = False
 import os
@@ -18,6 +18,8 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import ast
+import contextlib
+import io
 import time
 import the_program
 
@@ -123,22 +125,30 @@ for entry in switches:
     elif entry.dest in keys:
         by_key[entry.dest] = "as a key"
 
-# Taken and doing nothing on purpose, for one release, so that older
-# command lines still run. Let off only where its help says so.
-RETIRED = ("multitrack",)
 found("all %d switches are read, none merely taken" % len(switches),
       ["/".join(entry.option_strings) or entry.dest for entry in switches
-       if entry.dest not in read_by_name and entry.dest not in by_key
-       and entry.dest not in RETIRED])
-retired = [entry for entry in switches if entry.dest in RETIRED]
-check("a switch kept without effect says so in its help",
-      len(retired) == len(RETIRED)
-      and all("does nothing" in (entry.help or "") for entry in retired),
-      "%d of %d found, helps %r"
-      % (len(retired), len(RETIRED), [entry.help for entry in retired]))
+       if entry.dest not in read_by_name and entry.dest not in by_key])
 print("     %d read off the namespace, %d by name: %s"
       % (len(dests & read_by_name), len(by_key),
          ", ".join("%s %s" % (k, v) for k, v in sorted(by_key.items()))))
+
+print("\n2. A switch retired is refused, not kept on without effect")
+# Whether the tracks go up as one Multitrack production follows from the
+# material, so the switch that once said it is gone: the parser answers
+# it as it answers any word it does not know, with its own complaint and
+# a return of 2, before a run begins.
+heard = io.StringIO()
+try:
+    with contextlib.redirect_stderr(heard):
+        parser.parse_args(["--multitrack"])
+    returned = None
+except SystemExit as stop:
+    returned = stop.code
+complaint = (heard.getvalue().strip().splitlines() or [""])[-1]
+check("--multitrack is refused as a word the parser does not know",
+      returned == 2 and "--multitrack" in complaint,
+      "parse_args returned %r against 2 and said %r"
+      % (returned, complaint))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

@@ -116,7 +116,7 @@ assert RAW > 0.5 and 0 <= PROCESSED < 0.001, (RAW, PROCESSED)
 def run(folder, out, *extra):
     """One run with the finished folder given: (code, what it printed)."""
     p = subprocess.run(
-        START + ["--multitrack", "--auphonic-done", folder,
+        START + ["--auphonic-done", folder,
          "--assign", ASSIGN, "--out", out, "--no-metrics",
          "--no-speech-recognition", "--no-transcript-file",
          "--no-wide-edges"] + list(extra)
@@ -176,7 +176,7 @@ check("and names it as from another run", why in said and named in said,
 print("\n3. A returned track handed in as a recording")
 OUT3 = os.path.join(D, "given_out")
 p = subprocess.run(
-    START + ["--multitrack", "--auphonic-done", DONE,
+    START + ["--auphonic-done", DONE,
      "--assign", ASSIGN, "--out", OUT3, "--no-metrics",
      "--no-speech-recognition", "--no-transcript-file", "--no-wide-edges",
      DONE + "/Host.wav", D + "/Guest.wav", D + "/CamHost.mov",
@@ -220,7 +220,7 @@ check("joined alone, the finished folder is taken, with 0",
 if WATCHED:
     check("and joined alone nothing is asked of auphonic.com",
           not asked, "%d calls to curl: %s" % (len(asked), asked[:1]))
-code, said, asked = pictureless(os.path.join(D, "axis_out"), "--multitrack")
+code, said, asked = pictureless(os.path.join(D, "axis_out"))
 check("on one axis without a picture the folder is taken, with 0",
       code == 0 and all(matched % (n, n + ".wav") in said
                         for n in ("Host", "Guest")),

@@ -147,7 +147,7 @@ print("1. A mute camera with a clock and one without, beside recordings")
 # --anyway: Sync takes one recording and the preflight stops a second,
 # as the window does; the cameras behind it are what is asked here.
 code, said, stuck, took = run([sys.executable, SCRIPT, "--project-type",
-                               "sync", "--without-auphonic", "--multitrack",
+                               "sync", "--without-auphonic",
                                "--anyway", "--out", OUT]
                               + TAKEN + [HEARD, MUTE, NEITHER])
 lines = [line.strip() for line in said.splitlines() if line.strip()]
@@ -208,7 +208,7 @@ SECOND = make(["-i", HEARD, "-c", "copy"],
               os.path.join(HOME, "PresenterCam_C002.mov"))
 ALONE = os.path.join(HOME, "alone")
 code, said, stuck, took = run([sys.executable, SCRIPT, "--project-type",
-                               "sync", "--without-auphonic", "--multitrack",
+                               "sync", "--without-auphonic",
                                "--out", ALONE, HEARD, SECOND, MUTE])
 found = [os.path.join(ALONE, f) for f in sorted(os.listdir(ALONE))
          if f.endswith("_resolve.json")] if os.path.isdir(ALONE) else []

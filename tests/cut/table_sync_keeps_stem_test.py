@@ -85,7 +85,7 @@ vpm.plan_from_camera_audio = two_tracks
 vpm.sample_count = lambda path: 48000 * 60
 vpm.build_common_timebase = kept
 args = vpm.build_argument_parser().parse_args(
-    ["--project-type", "sync", "--multitrack", "--dry-run", VIDEO])
+    ["--project-type", "sync", "--dry-run", VIDEO])
 args.name_camera = "Camera Original"
 code = vpm.show_multitrack_plan(args, [], [VIDEO])
 named = [c.get("name") for c in handed.get("cameras") or []]
@@ -110,7 +110,7 @@ def one_each(video_paths, tmpdir, cameras=None, title=""):
 vpm.plan_from_camera_audio = one_each
 handed.clear()
 args = vpm.build_argument_parser().parse_args(
-    ["--project-type", "sync", "--multitrack", "--dry-run", A, B])
+    ["--project-type", "sync", "--dry-run", A, B])
 args.name_camera = "Camera Original"
 code = vpm.show_multitrack_plan(args, [], [A, B])
 named = [c.get("name") for c in handed.get("cameras") or []]
@@ -124,7 +124,7 @@ with open(PLAN, "w", encoding="utf-8") as f:
         for who in ("Guest", "Presenter")]}, f)
 handed.clear()
 args = vpm.build_argument_parser().parse_args(
-    ["--project-type", "sync", "--multitrack", "--dry-run",
+    ["--project-type", "sync", "--dry-run",
      "--assign", PLAN, A, B])
 args.name_camera = "Camera Original"
 code = vpm.show_multitrack_plan(args, [], [A, B])

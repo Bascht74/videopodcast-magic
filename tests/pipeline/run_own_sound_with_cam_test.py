@@ -123,7 +123,7 @@ print("1. Four cameras alone, Sync only, measured and not written")
 try:
     answer = subprocess.run(
         [sys.executable, SCRIPT, "--project-type", "sync",
-         "--without-auphonic", "--multitrack", "--dry-run", "--out",
+         "--without-auphonic", "--dry-run", "--out",
          os.path.join(HOME, "out"), REFERENCE, BY_SOUND, BY_CLOCK, NOWHERE],
         capture_output=True, text=True, timeout=LONGEST,
         env=dict(os.environ, QT_QPA_PLATFORM="offscreen"))

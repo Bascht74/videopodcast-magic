@@ -80,7 +80,10 @@ nie auf die Kommandozeile: über das Fenster oder mit
 Aufbereitung ein, und eine Kommandozeile mit Schaltern, aber ohne
 Dateien listet dann nur die Presets -- alle, mit ihrer Art dahinter, wo
 auphonic.com sie nennt: ohne Dateien gibt es keine Spuren, die sagen
-könnten, welche Art ein Lauf braucht.
+könnten, welche Art ein Lauf braucht. Mit Dateien ergibt sich die Art
+aus ihnen: Zwei Spuren oder mehr auf einer Zeitachse gehen als eine
+Multitrack-Produktion hoch, eine einzelne Spur als Singletrack-Produktion,
+und das Preset muss von dieser Art sein ([Multitrack](multitrack.de.md)).
 
 | Schalter | Wirkung |
 |---|---|
@@ -89,7 +92,6 @@ könnten, welche Art ein Lauf braucht.
 | `--auphonic-wait SEKUNDEN` | wie lange der Lauf darauf wartet, dass auphonic.com fertig wird; ist die Zeit um, bricht er ab und nennt die Adresse der Produktion, die dort weiterläuft; ist sie fertig, holt ein späterer Lauf ihr Ergebnis mit `--auphonic-resume result` ab. Höher wartet länger (7200, zwei Stunden) |
 | `--auphonic-resume WAS` | Produktion ist schon da: `result`, `rerun`, `adopt`, `upload`, `abort` (das Programm fragt) |
 | `--auphonic-done ORDNER` | schon aufbereitete Spuren, nach den Sprechern benannt. Der Lauf nimmt sie von dort, statt sie hochzuladen, und das Guthaben bleibt unangetastet |
-| `--multitrack` | nicht mehr nötig und ohne Wirkung; in dieser Version noch angenommen, damit ältere Kommandozeilen laufen. Ob die Spuren als eine Multitrack-Produktion hochgehen, folgt aus dem Material: zwei Spuren oder mehr auf einer Zeitachse tun es, eine einzelne Spur nicht, und das Preset muss von dieser Art sein. Mehrere Kameras ohne Tonaufnahme geben ihren Ton auch ohne den Schalter je als eigene Spur |
 | `--assign DATEI` | JSON, welcher Ton zu welcher Kamera gehört, unter welchem Sprechernamen und was nicht verwendet wird; die Oberfläche schreibt es für jeden Lauf |
 | `--without-auphonic` | auf diesem Rechner ausrichten, mischen und schreiben, Kameraschnitt aus eigener Spracherkennung |
 

@@ -9,7 +9,7 @@ alignment admits, the rule itself, the sample points that are its
 second opinion, camera against camera, a whole run, what the window
 offers, the same question on the recording side, where another caller
 reads the same verdict and a clock sets the place, and last the same
-rule with no picture at all, where the tick changes nothing.
+rule with no picture at all.
 """
 PLATFORM_BOUND = True
 import os
@@ -530,7 +530,7 @@ check("that run carries both through to the end",
 
 #------------------------------------------ 7. No picture, one rule
 
-print("\n7. No picture: the clock places, with the tick or without")
+print("\n7. No picture: the clock places")
 
 
 def without_picture(folder, *words):
@@ -545,11 +545,9 @@ def without_picture(folder, *words):
             sorted(os.listdir(out)) if os.path.isdir(out) else [])
 
 
-multi_rc, multi_log, multi_made = without_picture(
-    "nopic_multi", "--multitrack", REC, TIMED)
-plain_rc, plain_log, plain_made = without_picture("nopic_plain", REC, TIMED)
+multi_rc, multi_log, multi_made = without_picture("nopic_multi", REC, TIMED)
 lost_rc, lost_log, lost_made = without_picture("nopic_lost", REC, STRAY)
-nopic = multi_log + plain_log + lost_log
+nopic = multi_log + lost_log
 check("none of the runs without a picture threw", "Traceback" not in nopic,
       nopic[nopic.find("Traceback"):][:90] if "Traceback" in nopic else "")
 by_clock = [line.strip()[:90] for line in multi_log.splitlines()
@@ -560,23 +558,6 @@ check("without a picture a sound nothing matches stands at its clock",
       "returned %d, %d lines placed by the clock %s, wrote %s"
       % (multi_rc, len(by_clock), by_clock[:1], multi_made))
 
-
-def same_file(name):
-    """Whether both runs wrote *name*, byte for byte the same."""
-    try:
-        with open(D + "/nopic_multi/" + name, "rb") as a, \
-                open(D + "/nopic_plain/" + name, "rb") as b:
-            return a.read() == b.read()
-    except OSError:
-        return False
-
-
-differ = [n for n in multi_made if not same_file(n)]
-check("and without the tick the same files come out, to the byte",
-      plain_rc == multi_rc and plain_made == multi_made
-      and bool(multi_made) and not differ,
-      "returned %d and %d, wrote %s and %s, %d differ: %s"
-      % (plain_rc, multi_rc, plain_made, multi_made, len(differ), differ))
 refused = [line.strip()[:60] for line in lost_log.splitlines()
            if SAYS_NO in line]
 check("while one with neither a match nor a clock is refused there too",

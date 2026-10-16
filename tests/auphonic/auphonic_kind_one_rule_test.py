@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """The preset list and the run ask one rule for the kind of preset.
 
-Four ways, each asked of the window's preset list and of the run: two
-recordings with a picture, the same without a picture, the same with
---multitrack given, which is still taken and changes nothing, and one
+Three ways, each asked of the window's preset list and of the run: two
+recordings with a picture, the same without a picture, and one
 recording alone. The list is the window's own box, fed the account's two
 presets, and the line under it says which kind and why; the run is the
 time base in this process. auphonic.com is stood in for where the
@@ -226,13 +225,6 @@ try:
           "the preset, no axis and nothing sent" % (code, seen, up))
     code, seen, up = run([], "Podcast_Multi")
     check("a Multitrack preset sends the two as one Multitrack production",
-          code == 0 and "axis" in seen and up == [("multi 2", "u2")],
-          "returned %r against 0, asked in this order: %s, sent %s, wanted "
-          "the axis and [('multi 2', 'u2')]" % (code, seen, up))
-
-    print("\nTwo recordings without a picture, --multitrack given")
-    code, seen, up = run([], "Podcast_Multi", "--multitrack")
-    check("the run sends them as one Multitrack production",
           code == 0 and "axis" in seen and up == [("multi 2", "u2")],
           "returned %r against 0, asked in this order: %s, sent %s, wanted "
           "the axis and [('multi 2', 'u2')]" % (code, seen, up))

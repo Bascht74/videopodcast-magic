@@ -130,7 +130,7 @@ with open(D + "/assign.json", "w", encoding="utf-8") as f:
 #--------------------------------------------------------------- The run
 
 OUT = D + "/out"
-call = [sys.executable, SCRIPT, "--multitrack", "--without-auphonic",
+call = [sys.executable, SCRIPT, "--without-auphonic",
         "--assign", D + "/assign.json", "--out", OUT, "--no-metrics",
         "--no-speech-recognition", "--no-transcript-file",
         "--no-wide-edges", D + "/Mic_A.wav", D + "/Mic_B.wav"] \
