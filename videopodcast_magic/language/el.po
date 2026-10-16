@@ -859,8 +859,18 @@ msgstr "  %s μπλοκ ενώθηκαν μέσω timecode, αρχή %s"
 msgid "  %s of %s files imported."
 msgstr "  Αρχεία που εισήχθησαν: %s από %s."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s ομιλητές, %s πλάνα, συντομότερο %s δ."
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, συντομότερο %s δ."
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s ομιλητής"
+msgstr[1] "%s ομιλητές"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s πλάνο"
+msgstr[1] "%s πλάνα"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s κομμάτια βίντεο, με τα ονόματα των ομιλητών:"
@@ -1219,8 +1229,10 @@ msgstr "  Οι κάμερες φέρουν το χρονικό παράθυρο 
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Οι κάμερες βρίσκονται κοντά μεταξύ τους (το πολύ %s βαθμίδες φωτεινότητας)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Το μοντάζ άλλαξε: %s πλάνα αντί για %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Το μοντάζ άλλαξε: %s πλάνο αντί για %s."
+msgstr[1] "  Το μοντάζ άλλαξε: %s πλάνα αντί για %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Το αρχείο καταγραφής προηγούμενων εκτελέσεων εδώ δεν μπορεί να διαβαστεί (%s), οπότε αναφέρεται ό,τι υπάρχει ήδη."
@@ -3347,11 +3359,11 @@ msgstr "%(name)s (%(prefix)s*.json);;Αρχεία JSON (*.json);;Όλα τα α�
 msgid "the voices below carry the cameras"
 msgstr "οι φωνές παρακάτω φέρουν τις κάμερες"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "μετρημένο από τις ηχογραφήσεις -- %s ομιλητές, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "μετρημένο από τις ηχογραφήσεις -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "από την ολοκληρωμένη εκτέλεση -- %s ομιλητές, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "από την ολοκληρωμένη εκτέλεση -- %s, %s"
 
 msgid "no text"
 msgstr "χωρίς κείμενο"
@@ -3974,8 +3986,10 @@ msgstr "Αποκοπή κομματιού %d από %d"
 msgid "cutting failed: %s"
 msgstr "η αποκοπή απέτυχε: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Μία κάμερα για όλους: κομμένη σε %s πλάνα στην αλλαγή ομιλητή, ώστε το Resolve να μπορεί να τα ομαδοποιήσει."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Μία κάμερα για όλους: κομμένη σε %s πλάνο στην αλλαγή ομιλητή, ώστε το Resolve να μπορεί να το ομαδοποιήσει."
+msgstr[1] "  Μία κάμερα για όλους: κομμένη σε %s πλάνα στην αλλαγή ομιλητή, ώστε το Resolve να μπορεί να τα ομαδοποιήσει."
 
 msgid "Wide shot %d"
 msgstr "Γενικό πλάνο %d"

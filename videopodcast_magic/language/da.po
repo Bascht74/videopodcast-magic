@@ -859,8 +859,18 @@ msgstr "  %s blokke sat sammen via tidskode, start %s"
 msgid "  %s of %s files imported."
 msgstr "  %s af %s filer importeret."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s talere, %s klip, korteste %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, korteste %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s taler"
+msgstr[1] "%s talere"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s klip"
+msgstr[1] "%s klip"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s videospor, navngivet efter talerne:"
@@ -1219,8 +1229,10 @@ msgstr "  Kameraerne bærer tidsvinduet og et sekund i hver ende: %s skrevet for
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Kameraerne ligger tæt på hinanden (højst %s trin lysstyrke)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Klipningen har ændret sig: %s klip i stedet for %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Klipningen har ændret sig: %s klip i stedet for %s."
+msgstr[1] "  Klipningen har ændret sig: %s klip i stedet for %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Optegnelsen over tidligere kørsler her kan ikke læses (%s), så alt, der allerede er på plads, rapporteres."
@@ -3345,11 +3357,11 @@ msgstr "%(name)s (%(prefix)s*.json);;JSON-filer (*.json);;Alle filer (*)"
 msgid "the voices below carry the cameras"
 msgstr "stemmerne nedenfor bærer kameraerne"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "målt fra optagelserne -- %s talere, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "målt fra optagelserne -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "fra den færdige kørsel -- %s talere, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "fra den færdige kørsel -- %s, %s"
 
 msgid "no text"
 msgstr "ingen tekst"
@@ -3972,8 +3984,10 @@ msgstr "Skærer spor %d af %d ud"
 msgid "cutting failed: %s"
 msgstr "udskæring mislykkedes: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Ét kamera til alle: klippet i %s klip ved talerskiftet, så Resolve kan gruppere dem."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Ét kamera til alle: klippet i %s klip ved talerskiftet, så Resolve kan gruppere det."
+msgstr[1] "  Ét kamera til alle: klippet i %s klip ved talerskiftet, så Resolve kan gruppere dem."
 
 msgid "Wide shot %d"
 msgstr "Oversigtsbillede %d"

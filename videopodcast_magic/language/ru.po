@@ -1639,8 +1639,20 @@ msgstr "  %s идёт с %s кадрами/с, для такой частоты 
 msgid "  %s shots, %s s in total, without their audio."
 msgstr "  планов: %s, всего %s с, без их звука."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  говорящих: %s, планов: %s, самый короткий %s с"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, самый короткий %s с"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s говорящий"
+msgstr[1] "%s говорящих"
+msgstr[2] "%s говорящих"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s план"
+msgstr[1] "%s плана"
+msgstr[2] "%s планов"
 
 msgid "  %s video tracks, %s audio tracks created (%s)"
 msgstr "  создано видеодорожек: %s, звуковых дорожек: %s (%s)"
@@ -2020,8 +2032,11 @@ msgstr "  Сдвиг:           %s   (из сравнения камер)"
 msgid "  On this machine: %s"
 msgstr "  На этой машине: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Одна камера на всех: разрезана на %s планов на смене говорящего, чтобы Resolve мог их сгруппировать."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Одна камера на всех: разрезана на %s план на смене говорящего, чтобы Resolve мог его сгруппировать."
+msgstr[1] "  Одна камера на всех: разрезана на %s плана на смене говорящего, чтобы Resolve мог их сгруппировать."
+msgstr[2] "  Одна камера на всех: разрезана на %s планов на смене говорящего, чтобы Resolve мог их сгруппировать."
 
 msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
 msgstr "  Resolve принял только %s планов из %s -- в Timeline «%s» не хватает остального монтажа."
@@ -2191,8 +2206,11 @@ msgstr "  Камеры несут окно времени и по секунде
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Камеры лежат близко друг к другу (не более %s ступеней яркости)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Монтаж изменился: %s планов вместо %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Монтаж изменился: %s план вместо %s."
+msgstr[1] "  Монтаж изменился: %s плана вместо %s."
+msgstr[2] "  Монтаж изменился: %s планов вместо %s."
 
 msgid "  The cut stays as it was."
 msgstr "  Монтаж остаётся прежним."
@@ -3943,8 +3961,8 @@ msgstr "с %s"
 msgid "from ffmpeg.org, and the folder into PATH"
 msgstr "с ffmpeg.org, и папку в PATH"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "из завершённого прогона -- %s говорящих, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "из завершённого прогона -- %s, %s"
 
 msgid "full range"
 msgstr "полный диапазон"
@@ -3985,8 +4003,8 @@ msgstr "ограниченный (Video/TV)"
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "отмечена как общий план -- говорящих не принимает"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "измерено по записям -- %s говорящих, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "измерено по записям -- %s, %s"
 
 msgid "missing -- the container carries no colour tagging"
 msgstr "отсутствует -- контейнер не несёт цветовой маркировки"

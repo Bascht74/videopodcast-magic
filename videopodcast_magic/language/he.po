@@ -886,8 +886,18 @@ msgstr "  %s מקטעים חוברו לפי קוד זמן, התחלה %s"
 msgid "  %s of %s files imported."
 msgstr "  יובאו %s מתוך %s קבצים."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s דוברים, %s שוטים, הקצר ביותר %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, הקצר ביותר %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s דובר"
+msgstr[1] "%s דוברים"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s שוט"
+msgstr[1] "%s שוטים"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s רצועות וידאו, בשמות הדוברים:"
@@ -1246,8 +1256,10 @@ msgstr "  המצלמות נושאות את חלון הזמן ושנייה בכל
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  המצלמות קרובות זו לזו (לכל היותר %s דרגות בהירות)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  החיתוך השתנה: %s שוטים במקום %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  החיתוך השתנה: %s שוט במקום %s."
+msgstr[1] "  החיתוך השתנה: %s שוטים במקום %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  לא ניתן לקרוא כאן את תיעוד ההרצות הקודמות (%s), ולכן מדווח כל מה שכבר קיים."
@@ -3393,11 +3405,11 @@ msgstr "שוט רחב אחרי"
 msgid "the voices below carry the cameras"
 msgstr "הקולות שמתחת נושאים את המצלמות"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "נמדד מההקלטות -- %s דוברים, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "נמדד מההקלטות -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "מההרצה שהסתיימה -- %s דוברים, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "מההרצה שהסתיימה -- %s, %s"
 
 msgid "no text"
 msgstr "ללא טקסט"
@@ -4137,8 +4149,10 @@ msgstr "חיתוך רצועה %d מתוך %d"
 msgid "cutting failed: %s"
 msgstr "החיתוך נכשל: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  מצלמה אחת לכולם: חיתוך ל-%s שוטים בהחלפת דובר, כדי ש-Resolve יוכל לקבץ אותם."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  מצלמה אחת לכולם: חיתוך ל-%s שוט בהחלפת דובר, כדי ש-Resolve יוכל לקבץ אותו."
+msgstr[1] "  מצלמה אחת לכולם: חיתוך ל-%s שוטים בהחלפת דובר, כדי ש-Resolve יוכל לקבץ אותם."
 
 msgid "Shorter shots fall into the following one."
 msgstr "שוטים קצרים יותר מתמזגים בשוט שאחריהם."

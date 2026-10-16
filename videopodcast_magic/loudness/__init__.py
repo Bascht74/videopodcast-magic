@@ -447,17 +447,18 @@ def mix_tracks(sources, target, gain=0.0, curve=None, channels=1,
         fc += "[gm][gc]amultiply[out]"
     else:
         fc += "[out]"
-    # The clock of the first source goes with the mix: without it the
-    # levelled file has no timecode, and a recording with no clock
-    # cannot be placed against anything afterwards.
+    # The first source's clock goes with the mix, or nothing places the
+    # levelled file afterwards -- counted again at the working rate it
+    # leaves at: copied as it was, a 44.1 kHz 01:00:00 read 00:55:07.
     clock = []
     start = bext_time_reference(sources[0])
     if start is not None:
+        own = float(PROGRAM.wav_rate(sources[0]) or SR)
         clock = ["-write_bext", "1", "-metadata",
-                 "time_reference=%d" % int(round(start))]
+                 "time_reference=%d" % int(round(start * SR / own))]
     PROGRAM.run_ffmpeg_with_progress(
         ["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
-         "-map", "[out]", "-c:a", "pcm_s24le"] + clock
+         "-map", "[out]", "-c:a", "pcm_s24le", "-ar", str(SR)] + clock
         + wav_safe(target) + ["-y", target],
         sample_count(sources[0]) / float(SR),
         label or T('Mixing %s') % mixing_label(target))

@@ -861,8 +861,20 @@ msgstr "  Блокова спојено преко тајмкода: %s, поч�
 msgid "  %s of %s files imported."
 msgstr "  Увезено датотека: %s од %s."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  говорника: %s, кадрова: %s, најкраћи %s с"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, најкраћи %s с"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s говорник"
+msgstr[1] "%s говорника"
+msgstr[2] "%s говорника"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s кадар"
+msgstr[1] "%s кадра"
+msgstr[2] "%s кадрова"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  Видео трака (%s), назване по говорницима:"
@@ -1221,8 +1233,11 @@ msgstr "  Камере носе временски прозор и по једн
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Камере су близу једна другој (степени светлине: највише %s)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Монтажа се променила: кадрова: %s уместо %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Монтажа се променила: %s кадар уместо %s."
+msgstr[1] "  Монтажа се променила: %s кадра уместо %s."
+msgstr[2] "  Монтажа се променила: %s кадрова уместо %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Запис о ранијим покретањима овде не може да се прочита (%s), па се пријављује све што већ постоји."
@@ -3348,11 +3363,11 @@ msgstr "%(name)s (%(prefix)s*.json);;JSON датотеке (*.json);;Све да
 msgid "the voices below carry the cameras"
 msgstr "гласови испод носе камере"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "измерено из снимака -- говорника: %s, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "измерено из снимака -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "из завршеног покретања -- говорника: %s, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "из завршеног покретања -- %s, %s"
 
 msgid "no text"
 msgstr "без текста"
@@ -3975,8 +3990,11 @@ msgstr "Исецање траке %d од %d"
 msgid "cutting failed: %s"
 msgstr "исецање није успело: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Једна камера за све: исечена при промени говорника (кадрова: %s), да би Resolve могао да их групише."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Једна камера за све: исечена при промени говорника (кадрова: %s), да би Resolve могао да их групише."
+msgstr[1] "  Једна камера за све: исечена при промени говорника (кадрова: %s), да би Resolve могао да их групише."
+msgstr[2] "  Једна камера за све: исечена при промени говорника (кадрова: %s), да би Resolve могао да их групише."
 
 msgid "Wide shot %d"
 msgstr "Широки кадар %d"

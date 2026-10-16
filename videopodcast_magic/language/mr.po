@@ -887,8 +887,18 @@ msgstr "  %s ब्लॉक टाइमकोडद्वारे जोड�
 msgid "  %s of %s files imported."
 msgstr "  %s फाइली इम्पोर्ट झाल्या (एकूण %s पैकी)."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s वक्ते, %s शॉट, सर्वात लहान %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, सर्वात लहान %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s वक्ता"
+msgstr[1] "%s वक्ते"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s शॉट"
+msgstr[1] "%s शॉट"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s व्हिडिओ ट्रॅक, वक्त्यांच्या नावांनी:"
@@ -1247,8 +1257,10 @@ msgstr "  कॅमेऱ्यांमध्ये वेळ-चौकट आ�
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  कॅमेरे एकमेकांच्या जवळ आहेत (कमाल उजळपणाच्या %s पायऱ्या)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  कट बदलला आहे: %s शॉट, %s ऐवजी."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  कट बदलला आहे: %s शॉट, %s ऐवजी."
+msgstr[1] "  कट बदलला आहे: %s शॉट, %s ऐवजी."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  येथील आधीच्या रनची नोंद वाचता येत नाही (%s), म्हणून आधीपासून असलेले सर्व काही कळवले जाते."
@@ -3396,11 +3408,11 @@ msgstr "वाइड शॉट यानंतर"
 msgid "the voices below carry the cameras"
 msgstr "कॅमेरे खालील आवाजांशी जोडलेले आहेत"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "रेकॉर्डिंग्जमधून मोजले -- %s वक्ते, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "रेकॉर्डिंग्जमधून मोजले -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "पूर्ण झालेल्या रनमधून -- %s वक्ते, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "पूर्ण झालेल्या रनमधून -- %s, %s"
 
 msgid "no text"
 msgstr "मजकूर नाही"
@@ -4140,8 +4152,10 @@ msgstr "ट्रॅक %d कापून काढत आहे (एकूण 
 msgid "cutting failed: %s"
 msgstr "कापणे अयशस्वी: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  सर्वांसाठी एक कॅमेरा: वक्ता बदलताना %s शॉटमध्ये कापले, जेणेकरून Resolve त्यांचे गट करू शकेल."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  सर्वांसाठी एक कॅमेरा: वक्ता बदलताना %s शॉटमध्ये कापले, जेणेकरून Resolve त्याचा गट करू शकेल."
+msgstr[1] "  सर्वांसाठी एक कॅमेरा: वक्ता बदलताना %s शॉटमध्ये कापले, जेणेकरून Resolve त्यांचे गट करू शकेल."
 
 msgid "Shorter shots fall into the following one."
 msgstr "लहान शॉट पुढच्या शॉटमध्ये मिसळतात."

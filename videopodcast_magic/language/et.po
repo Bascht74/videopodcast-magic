@@ -887,8 +887,18 @@ msgstr "  Plokke ajakoodi järgi ühendatud: %s, algus %s"
 msgid "  %s of %s files imported."
 msgstr "  Imporditud faile: %s/%s."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  Kõnelejaid: %s, võtteid: %s, lühim %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, lühim %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s kõneleja"
+msgstr[1] "%s kõnelejat"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s võte"
+msgstr[1] "%s võtet"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  Videorajad (%s), nimetatud kõnelejate järgi:"
@@ -1247,8 +1257,10 @@ msgstr "  Kaamerates on ajaaken ja sekund kummaski otsas: kirjutatud %s, see kat
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Kaamerad on üksteisele lähedal (heleduse astmete erinevus kuni %s)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Montaaž on muutunud: võtteid %s, mitte %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Montaaž on muutunud: %s võte, mitte %s."
+msgstr[1] "  Montaaž on muutunud: %s võtet, mitte %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Varasemate käituste kirjet siin ei saa lugeda (%s), seega teatatakse kõigest, mis juba olemas on."
@@ -3395,11 +3407,11 @@ msgstr "Üldplaan kõige varem"
 msgid "the voices below carry the cameras"
 msgstr "kaamerad määravad allpool olevad hääled"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "mõõdetud salvestistest -- kõnelejaid: %s, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "mõõdetud salvestistest -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "lõpetatud käitusest -- kõnelejaid: %s, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "lõpetatud käitusest -- %s, %s"
 
 msgid "no text"
 msgstr "tekstita"
@@ -4139,8 +4151,10 @@ msgstr "Raja %d väljalõikamine (kokku %d)"
 msgid "cutting failed: %s"
 msgstr "väljalõikamine ebaõnnestus: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Üks kaamera kõigile: kõneleja vahetumisel lõigatud %s võtteks, et Resolve saaks need rühmitada."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Üks kaamera kõigile: kõneleja vahetumisel lõigatud %s võtteks, et Resolve saaks selle rühmitada."
+msgstr[1] "  Üks kaamera kõigile: kõneleja vahetumisel lõigatud %s võtteks, et Resolve saaks need rühmitada."
 
 msgid "Shorter shots fall into the following one."
 msgstr "Lühemad võtted liidetakse järgmisega."

@@ -860,8 +860,20 @@ msgstr "  Bloky (%s) spojeny přes časový kód, začátek %s"
 msgid "  %s of %s files imported."
 msgstr "  Importováno %s z %s souborů."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  mluvčí: %s, záběry: %s, nejkratší %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, nejkratší %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s mluvčí"
+msgstr[1] "%s mluvčí"
+msgstr[2] "%s mluvčích"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s záběr"
+msgstr[1] "%s záběry"
+msgstr[2] "%s záběrů"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  Videostopy: %s, pojmenované podle mluvčích:"
@@ -1220,8 +1232,11 @@ msgstr "  Kamery nesou časové okno a po jedné sekundě na každém konci: %s 
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Kamery leží blízko u sebe (nejvýše %s stupňů jasu)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Střih se změnil: záběrů %s místo %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Střih se změnil: %s záběr místo %s."
+msgstr[1] "  Střih se změnil: %s záběry místo %s."
+msgstr[2] "  Střih se změnil: %s záběrů místo %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Záznam o dřívějších bězích na tomto místě nelze přečíst (%s), proto se hlásí vše, co už tu je."
@@ -3348,11 +3363,11 @@ msgstr "%(name)s (%(prefix)s*.json);;Soubory JSON (*.json);;Všechny soubory (*)
 msgid "the voices below carry the cameras"
 msgstr "hlasy níže nesou kamery"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "změřeno z nahrávek -- mluvčí: %s, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "změřeno z nahrávek -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "z dokončeného běhu -- mluvčí: %s, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "z dokončeného běhu -- %s, %s"
 
 msgid "no text"
 msgstr "bez textu"
@@ -3975,8 +3990,11 @@ msgstr "Vyřezává se stopa %d z %d"
 msgid "cutting failed: %s"
 msgstr "vyřezání selhalo: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Jedna kamera pro všechny: rozstříháno při změně mluvčího na záběry (celkem %s), aby je Resolve mohl seskupit."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Jedna kamera pro všechny: rozstříháno při změně mluvčího na záběry (celkem %s), aby je Resolve mohl seskupit."
+msgstr[1] "  Jedna kamera pro všechny: rozstříháno při změně mluvčího na záběry (celkem %s), aby je Resolve mohl seskupit."
+msgstr[2] "  Jedna kamera pro všechny: rozstříháno při změně mluvčího na záběry (celkem %s), aby je Resolve mohl seskupit."
 
 msgid "Wide shot %d"
 msgstr "Široký záběr %d"

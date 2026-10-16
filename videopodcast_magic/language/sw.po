@@ -887,8 +887,18 @@ msgstr "  bloku %s zimeunganishwa kupitia timecode, mwanzo %s"
 msgid "  %s of %s files imported."
 msgstr "  Faili %s kati ya %s zimeingizwa."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  wazungumzaji %s, vipande %s, kifupi zaidi %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, kifupi zaidi %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "mzungumzaji %s"
+msgstr[1] "wazungumzaji %s"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "kipande %s"
+msgstr[1] "vipande %s"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  treki za video %s, zimepewa majina ya wazungumzaji:"
@@ -1247,8 +1257,10 @@ msgstr "  Kamera zinabeba masafa ya muda na sekunde moja kila mwisho: %s imeandi
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Kamera ziko karibu pamoja (tofauti isiyozidi hatua %s za mwangaza)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Mkato umebadilika: vipande %s badala ya %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Mkato umebadilika: kipande %s badala ya %s."
+msgstr[1] "  Mkato umebadilika: vipande %s badala ya %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Kumbukumbu ya uendeshaji wa awali hapa haiwezi kusomwa (%s), kwa hiyo kila kilichopo tayari kinaripotiwa."
@@ -3398,11 +3410,11 @@ msgstr "Picha pana baada ya"
 msgid "the voices below carry the cameras"
 msgstr "sauti za watu zilizo chini zinabeba kamera"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "imepimwa kutoka kwenye rekodi -- wazungumzaji %s, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "imepimwa kutoka kwenye rekodi -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "kutoka uendeshaji uliokamilika -- wazungumzaji %s, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "kutoka uendeshaji uliokamilika -- %s, %s"
 
 msgid "no text"
 msgstr "hakuna maandishi"
@@ -4142,8 +4154,10 @@ msgstr "Kukata treki %d kati ya %d"
 msgid "cutting failed: %s"
 msgstr "ukataji umeshindwa: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Kamera moja kwa wote: imekatwa kuwa vipande %s kwenye mabadiliko ya mzungumzaji, ili Resolve iweze kuviweka katika vikundi."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Kamera moja kwa wote: imekatwa kuwa kipande %s kwenye mabadiliko ya mzungumzaji, ili Resolve iweze kukiweka katika kikundi."
+msgstr[1] "  Kamera moja kwa wote: imekatwa kuwa vipande %s kwenye mabadiliko ya mzungumzaji, ili Resolve iweze kuviweka katika vikundi."
 
 msgid "Shorter shots fall into the following one."
 msgstr "Vipande vifupi zaidi vinaingia kwenye kinachofuata."

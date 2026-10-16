@@ -973,10 +973,11 @@ def cut_basis_line(basis, speakers, length):
     a finished run too: auphonic.com makes the sound, not the speakers.
     """
     if basis in ("run", "auphonic"):
-        text = T('from the finished run -- %s speakers, %s')
+        text = T('from the finished run -- %s, %s')
     else:
-        text = T('measured from the recordings -- %s speakers, %s')
-    return (text % (number_text(speakers, 0), as_hms(length)),
+        text = T('measured from the recordings -- %s, %s')
+    return (text % (PROGRAM.TN(speakers, '%s speaker', '%s speakers')
+                    % number_text(speakers, 0), as_hms(length)),
             COLOURS["good" if basis in ("run", "auphonic") else "warning"])
 
 def choose_zero_point(audio_origin=(), camera_origin=(), length=0.0):
@@ -3049,12 +3050,19 @@ def cut_list_of(args, segment_list, tracks, cameras, videos, tc_start,
     cut, detail = cut_split_where_one_camera(cut, segment_list, camera_of,
                                               args.min_edit_duration)
     if len(cut) > was:
-        print(T('  One camera for everybody: cut into %s shots at the '
-                'change of speaker, so Resolve can group them.')
+        print(PROGRAM.TN(len(cut), '  One camera for everybody: cut into %s '
+                         'shot at the change of speaker, so Resolve can '
+                         'group them.', '  One camera for everybody: cut '
+                         'into %s shots at the change of speaker, so '
+                         'Resolve can group them.')
               % number_text(len(cut), 0))
     # The numbers are in the interface and the files; the outcome is enough.
-    print(T('  %s speakers, %s shots, shortest %s s')
-          % (number_text(len(segment_list), 0), number_text(len(cut), 0),
+    # Each count picks its own wording: "1 speakers" was the English one.
+    print(T('  %s, %s, shortest %s s')
+          % (PROGRAM.TN(len(segment_list), '%s speaker', '%s speakers')
+             % number_text(len(segment_list), 0),
+             PROGRAM.TN(len(cut), '%s shot', '%s shots')
+             % number_text(len(cut), 0),
              number_text(min((b - a) for a, b, _ in cut)
                          if cut else 0)))
     return {"cut": cut, "segments": segment_list, "detail": detail,
@@ -3248,7 +3256,9 @@ def handover_refreshed(d, cut, segs):
     if d["cut"] == before_value:
         print(T('  The cut stays as it was.'))
     else:
-        print(T('  The cut has changed: %s shots instead of %s.')
+        print(PROGRAM.TN(len(d["cut"]),
+                         '  The cut has changed: %s shot instead of %s.',
+                         '  The cut has changed: %s shots instead of %s.')
               % (number_text(len(d["cut"]), 0),
                  number_text(len(before_value), 0)))
     d["speakers"] = [{"name": n, "sections": [[round(a, 3), round(b, 3)]

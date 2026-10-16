@@ -859,8 +859,18 @@ msgstr "  %s osaa yhdistetty aikakoodin avulla, alku %s"
 msgid "  %s of %s files imported."
 msgstr "  %s / %s tiedostoa tuotu."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s puhujaa, %s otosta, lyhin %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, lyhin %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s puhuja"
+msgstr[1] "%s puhujaa"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s otos"
+msgstr[1] "%s otosta"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s videoraitaa, nimetty puhujien mukaan:"
@@ -1219,8 +1229,10 @@ msgstr "  Kamerat sisältävät aikaikkunan ja sekunnin kummassakin päässä: k
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Kamerat ovat lähellä toisiaan (enintään %s askelta kirkkaudessa)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Leikkaus on muuttunut: %s otosta aiemman %s sijaan."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Leikkaus on muuttunut: %s otos aiemman %s sijaan."
+msgstr[1] "  Leikkaus on muuttunut: %s otosta aiemman %s sijaan."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Merkintää aiemmista ajoista täällä ei voi lukea (%s), joten kaikki, mikä on jo paikallaan, raportoidaan."
@@ -3346,11 +3358,11 @@ msgstr "%(name)s (%(prefix)s*.json);;JSON-tiedostot (*.json);;Kaikki tiedostot (
 msgid "the voices below carry the cameras"
 msgstr "alla olevat puheäänet kantavat kamerat"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "mitattu tallenteista -- %s puhujaa, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "mitattu tallenteista -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "valmiista ajosta -- %s puhujaa, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "valmiista ajosta -- %s, %s"
 
 msgid "no text"
 msgstr "ei tekstiä"
@@ -3973,8 +3985,10 @@ msgstr "Leikataan irti raitaa %d / %d"
 msgid "cutting failed: %s"
 msgstr "irtileikkaus epäonnistui: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Yksi kamera kaikille: leikattu %s otokseen puhujan vaihtuessa, jotta Resolve voi ryhmitellä ne."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Yksi kamera kaikille: leikattu %s otokseen puhujan vaihtuessa, jotta Resolve voi ryhmitellä sen."
+msgstr[1] "  Yksi kamera kaikille: leikattu %s otokseen puhujan vaihtuessa, jotta Resolve voi ryhmitellä ne."
 
 msgid "Wide shot %d"
 msgstr "Yleiskuva %d"

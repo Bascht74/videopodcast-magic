@@ -859,8 +859,16 @@ msgstr "  %s khối được ghép theo mã thời gian, bắt đầu %s"
 msgid "  %s of %s files imported."
 msgstr "  Đã nhập %s trên %s tệp."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s người nói, %s cảnh quay, ngắn nhất %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, ngắn nhất %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s người nói"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s cảnh quay"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s rãnh video, đặt tên theo người nói:"
@@ -1219,8 +1227,9 @@ msgstr "  Các máy quay mang khoảng thời gian cùng một giây ở mỗi �
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Các máy quay khá gần nhau (độ sáng chênh tối đa %s bậc)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Bản dựng đã thay đổi: %s cảnh quay thay vì %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Bản dựng đã thay đổi: %s cảnh quay thay vì %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Không đọc được ghi chép về các lần chạy trước ở đây (%s), nên mọi thứ đã có sẵn đều được báo cáo."
@@ -3344,11 +3353,11 @@ msgstr "%(name)s (%(prefix)s*.json);;Tệp JSON (*.json);;Tất cả tệp (*)"
 msgid "the voices below carry the cameras"
 msgstr "máy quay gắn với các giọng nói bên dưới"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "đo từ các bản ghi -- %s người nói, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "đo từ các bản ghi -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "từ lượt chạy đã xong -- %s người nói, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "từ lượt chạy đã xong -- %s, %s"
 
 msgid "no text"
 msgstr "không có văn bản"
@@ -3971,8 +3980,9 @@ msgstr "Đang tách rãnh %d trên %d"
 msgid "cutting failed: %s"
 msgstr "cắt tách thất bại: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Một máy quay cho tất cả: cắt thành %s cảnh quay tại mỗi lần đổi người nói, để Resolve có thể nhóm chúng."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Một máy quay cho tất cả: cắt thành %s cảnh quay tại mỗi lần đổi người nói, để Resolve có thể nhóm chúng."
 
 msgid "Wide shot %d"
 msgstr "Cảnh rộng %d"

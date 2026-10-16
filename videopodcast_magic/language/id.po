@@ -887,8 +887,16 @@ msgstr "  %s blok digabungkan melalui timecode, awal %s"
 msgid "  %s of %s files imported."
 msgstr "  %s dari %s file diimpor."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s pembicara, %s bidikan, terpendek %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, terpendek %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s pembicara"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s bidikan"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s trek video, dinamai menurut pembicara:"
@@ -1247,8 +1255,9 @@ msgstr "  Kamera memuat rentang waktu ditambah satu detik di tiap ujung: %s ditu
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Semua kamera berdekatan (paling banyak %s tingkat kecerahan)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Potongan telah berubah: %s bidikan alih-alih %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Potongan telah berubah: %s bidikan alih-alih %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Catatan proses sebelumnya di sini tidak dapat dibaca (%s), jadi semua yang sudah ada dilaporkan."
@@ -3396,11 +3405,11 @@ msgstr "Bidikan lebar setelah"
 msgid "the voices below carry the cameras"
 msgstr "suara di bawah ini membawa kamera"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "diukur dari rekaman -- %s pembicara, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "diukur dari rekaman -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "dari proses yang sudah selesai -- %s pembicara, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "dari proses yang sudah selesai -- %s, %s"
 
 msgid "no text"
 msgstr "tanpa teks"
@@ -4140,8 +4149,9 @@ msgstr "Memotong trek %d dari %d"
 msgid "cutting failed: %s"
 msgstr "pemotongan gagal: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Satu kamera untuk semua: dipotong menjadi %s bidikan pada pergantian pembicara, agar Resolve dapat mengelompokkannya."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Satu kamera untuk semua: dipotong menjadi %s bidikan pada pergantian pembicara, agar Resolve dapat mengelompokkannya."
 
 msgid "Shorter shots fall into the following one."
 msgstr "Bidikan yang lebih pendek digabung ke bidikan berikutnya."
