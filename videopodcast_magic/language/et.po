@@ -3695,8 +3695,8 @@ msgstr "Paari pehme piir: siit alates ootab programm lausepiiri ja paneb üldpla
 msgid "and here it is cut, good moment or not"
 msgstr "ja siin lõigatakse, olgu hetk sobiv või mitte"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "Paari range piir: kui alates „Üldplaan kõige varem“ pole lausepiiri tulnud, asendab seda pikim kõnepaus, ja siin lõigatakse, olenemata sellest, mida parajasti öeldakse. See kehtib ainult siis, kui „Üldplaan kõige varem“ on sees ja „Pikk monoloog“ vahetab kaamerat: kui esimene on 0 või teine „Kaamera ei vahetu“, ei sunnita midagi peale, ükskõik kui kaua kaamera seisab."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Paari range piir: võte, mis on pikem kui „Üldplaan kõige varem“ ega paku ei lausepiiri ega pausi, tükeldatakse kella järgi, kui see seisab ka sellest väärtusest kauem. See kehtib, kui „Üldplaan kõige varem“ on sees ja „Pikk monoloog“ vahetab kaamerat. Tervituse ja hüvastijätu üldplaan ei seisa kauem kui see väärtus, ükskõik mida need kaks ütlevad."
 
 msgid "Why the question settings are grey"
 msgstr "Miks küsimuse seaded on hallid"

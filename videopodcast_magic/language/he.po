@@ -3693,8 +3693,8 @@ msgstr "הגבול הרך של הזוג: מכאן התוכנה ממתינה לס
 msgid "and here it is cut, good moment or not"
 msgstr "וכאן נחתך, רגע מתאים או לא"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "הגבול הקשיח של הזוג: אם מאז \"שוט רחב אחרי\" לא הופיע סוף משפט, ההפסקה הארוכה ביותר בדיבור באה במקומו, ובנקודה זו נחתך, יהיה הנאמר אשר יהיה. זה חל רק כל עוד \"שוט רחב אחרי\" פעיל ו־\"מונולוג ארוך\" מחליף מצלמה: כשהראשון על 0 או השני על \"ללא החלפת מצלמה\", דבר אינו נכפה, לא משנה כמה זמן מצלמה עומדת."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "הגבול הקשיח של הזוג: שוט ארוך מ־\"שוט רחב אחרי\" שאין בו לא סוף משפט ולא הפסקה נחתך לפי השעון, בתנאי שהוא עומד גם יותר מערך זה. זה חל כל עוד \"שוט רחב אחרי\" פעיל ו־\"מונולוג ארוך\" מחליף מצלמה. השוט הרחב לברכה ולפרידה לא עומד יותר מערך זה, מה שלא יגידו שני אלה."
 
 msgid "Why the question settings are grey"
 msgstr "למה הגדרות השאלה אפורות"

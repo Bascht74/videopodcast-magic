@@ -3706,8 +3706,8 @@ msgstr "Il-limitu artab tal-par: minn hawn il-programm jistenna tmiem ta' senten
 msgid "and here it is cut, good moment or not"
 msgstr "u hawn jinqata', mument tajjeb jew le"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "Il-limitu iebes tal-par: fejn ma nstab l-ebda tmiem ta' sentenza minn \"Veduta wiesgħa wara\", l-itwal pawża fid-diskors tieħu postu, u f'dan il-punt issir il-qatgħa irrispettivament minn x'qed jingħad. Dan jgħodd biss sakemm \"Veduta wiesgħa wara\" ikun mixgħul u \"Monologu twil\" ibiddel il-kamera: bl-ewwel fuq 0 jew bit-tieni fuq \"L-ebda bidla ta' kamera\", xejn ma jiġi mġiegħel, kemm iddum kamera."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Il-limitu iebes tal-par: inkwadratura itwal minn \"Veduta wiesgħa wara\" li ma toffrix la tmiem ta' sentenza u lanqas pawża tinqasam skont l-arloġġ, sakemm iddum ukoll aktar minn dan. Dan jgħodd sakemm \"Veduta wiesgħa wara\" ikun mixgħul u \"Monologu twil\" ibiddel il-kamera. Il-veduta wiesgħa għat-tislima u l-addiju ma ddumx aktar minn dan, tgħid x'tgħid dawk it-tnejn."
 
 msgid "Why the question settings are grey"
 msgstr "Għaliex l-għażliet tal-mistoqsija huma griżi"

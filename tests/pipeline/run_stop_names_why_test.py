@@ -8,7 +8,8 @@ is not there, an unknown file beside real ones named as skipped, the two
 Resolve switches in a child cut off from Resolve, which checks that
 before main() and stops red, main() uncalled, where it is not, the
 Resolve part in that child stopped by a fault of our own, named as ours
-with its traceback in the log and not on the screen, no
+with its traceback in the log and not on the screen, and handed a
+handover saved again as UTF-16, said as the file's word, not ours; no
 ffmpeg with the repair stood in for and refused, and the one-shot jobs:
 --update with the look switched off, --hdr-check over a file that is
 not HDR; a fault
@@ -189,9 +190,22 @@ OUR_FAULT = "list index out of range"
 # every test running alongside, and this one reads it back.
 CHILD_LOG = os.path.join(HOME, "resolve_child.log")
 HANDOVER = os.path.join(HOME, "Door_resolve.json")
+DOOR = {"format": vpm.FILE_FORMAT, "fps": 25, "production": "Door",
+        "cameras": [{"file": CAMS[0], "name": "CamA"}]}
 with open(HANDOVER, "w", encoding="utf-8") as f:
-    json.dump({"format": vpm.FILE_FORMAT, "fps": 25, "production": "Door",
-               "cameras": [{"file": CAMS[0], "name": "CamA"}]}, f)
+    json.dump(DOOR, f)
+# The same handover saved again as UTF-16, as an editor may: the file's
+# word, not a fault of ours. What UTF-8 says of those bytes is asked of
+# the bytes themselves, not of the program's read.
+UTF16 = os.path.join(HOME, "Resaved_resolve.json")
+RESAVED = json.dumps(DOOR).encode("utf-16")
+with open(UTF16, "wb") as f:
+    f.write(RESAVED)
+try:
+    RESAVED.decode("utf-8")
+    NOT_UTF8 = "the UTF-16 bytes read as UTF-8 after all"
+except UnicodeDecodeError as e:
+    NOT_UTF8 = str(e)
 SHUT = "Resolve's scripting module is out of reach"
 # One string, not lines joined: source_resolve_door_shut reads it as a
 # child of its own and lets its switches through for the nail and the
@@ -224,10 +238,12 @@ if near or there or loose:
 print(%r)
 sys.argv = ["videopodcast-magic"] + {
     "json": ["--resolve-json", %r], "fault": ["--resolve-json", %r],
+    "utf16": ["--resolve-json", %r],
     "tracks": ["--resolve-audio-tracks"]}[sys.argv[1]]
 sys.exit(vpm.main())
 """ % (os.path.join(HOME, "nowhere"), os.path.join(HOME, "nowhere"), HERE,
-       CHILD_LOG, OUR_FAULT, RESOLVE_REASON, SHUT, HANDOVER, HANDOVER)
+       CHILD_LOG, OUR_FAULT, RESOLVE_REASON, SHUT, HANDOVER, HANDOVER,
+       UTF16)
 code, last, said = run([sys.executable, "-c", RESOLVE_CHILD, "json"])
 bolted = SHUT in said.splitlines()
 check("the child finds Resolve out of reach before main() is called",
@@ -269,6 +285,12 @@ if bolted:
           "ends %r" % (len(trace), len(logged.splitlines()),
                        "one" if "Traceback" in said else "none",
                        (logged.strip().splitlines() or [""])[-1][:120]))
+    code, last, said = run([sys.executable, "-c", RESOLVE_CHILD, "utf16"])
+    WANT = vpm.T('Resolve part stopped: %s') % NOT_UTF8
+    check("a handover saved again as UTF-16 returns 1, as the file's word",
+          code == 1 and last == WANT,
+          "returned %r against 1, last line %r against %r"
+          % (code, last, WANT))
 else:
     print("   main() was not called: the checks on the two Resolve "
           "switches wait for a child that cannot reach Resolve")

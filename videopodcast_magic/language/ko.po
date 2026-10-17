@@ -4423,8 +4423,8 @@ msgstr "와이드 샷 늦어도"
 msgid "and here it is cut, good moment or not"
 msgstr "여기서는 좋은 순간이든 아니든 전환함"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "두 설정 중 엄격한 한계: \"와이드 샷까지\" 이후 문장 경계가 나오지 않았다면 가장 긴 말 사이의 쉼이 그 역할을 대신하고, 이 지점에서는 무슨 말을 하고 있든 전환합니다. 이 설정은 \"와이드 샷까지\"가 켜져 있고 \"긴 독백\"이 카메라를 바꿀 때만 적용됩니다. 앞의 것이 0이거나 뒤의 것이 \"카메라 전환 없음\"이면, 카메라가 아무리 오래 머물러도 아무것도 강제되지 않습니다."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "두 설정 중 엄격한 한계: \"와이드 샷까지\"보다 길면서 문장 경계도 쉼도 없는 샷은, 이 값보다도 오래 머무는 경우에 한해 시계에 맞춰 나뉩니다. 이 설정은 \"와이드 샷까지\"가 켜져 있고 \"긴 독백\"이 카메라를 바꿀 때 적용됩니다. 시작 인사와 마무리 인사의 와이드 샷은 그 두 설정과 관계없이 이 값보다 오래 머물지 않습니다."
 
 msgid "Wide shot at least"
 msgstr "와이드 샷 최소"

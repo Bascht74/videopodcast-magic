@@ -3690,8 +3690,8 @@ msgstr "ขีดจำกัดแบบยืดหยุ่นของคู
 msgid "and here it is cut, good moment or not"
 msgstr "และตรงนี้จะตัด ไม่ว่าจังหวะจะดีหรือไม่"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "ขีดจำกัดแบบตายตัวของคู่นี้: หากไม่มีขอบเขตประโยคเกิดขึ้นเลยตั้งแต่ \"ภาพมุมกว้างหลังจาก\" ช่วงหยุดพูดที่ยาวที่สุดจะใช้แทน และ ณ จุดนี้จะตัดไม่ว่ากำลังพูดอะไรอยู่ ข้อนี้ใช้ได้เฉพาะเมื่อ \"ภาพมุมกว้างหลังจาก\" เปิดอยู่และ \"การพูดคนเดียวยาว\" เปลี่ยนกล้อง: ถ้าอย่างแรกเป็น 0 หรืออย่างหลังเป็น \"ไม่เปลี่ยนกล้อง\" จะไม่มีการบังคับใดๆ ไม่ว่ากล้องจะค้างอยู่นานเท่าใด"
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "ขีดจำกัดแบบตายตัวของคู่นี้: ช็อตที่ยาวกว่า \"ภาพมุมกว้างหลังจาก\" และไม่มีทั้งขอบเขตประโยคและช่วงหยุด จะถูกแบ่งตามนาฬิกา หากช็อตนั้นค้างนานกว่าค่านี้ด้วย ข้อนี้ใช้ได้เมื่อ \"ภาพมุมกว้างหลังจาก\" เปิดอยู่และ \"การพูดคนเดียวยาว\" เปลี่ยนกล้อง ภาพมุมกว้างตอนทักทายและบอกลาไม่ค้างนานกว่าค่านี้ ไม่ว่าสองค่านั้นจะเป็นอย่างไร"
 
 msgid "Why the question settings are grey"
 msgstr "ทำไมการตั้งค่าคำถามจึงเป็นสีเทา"

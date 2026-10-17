@@ -4541,8 +4541,8 @@ msgstr "ゼロは質問者が話し終える位置で、応答が始まる位置
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "この 2 つの設定の緩い上限です。ここからプログラムは文の区切りを待ち、時計どおりではなく、そこに引き画を置きます。0 で無効になります。「引き画は遅くとも」が厳しい上限で、そこでは文の区切りがなくてもカットします。"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "この 2 つの設定の厳しい上限です。「引き画は」以降に文の区切りが現れなかった場合は、最も長い発話の切れ目がその代わりになり、この時点で、何が話されていてもカットします。これは「引き画は」が有効で、「長い独話」がカメラを切り替える設定のときだけ働きます。前者が 0、または後者が「カメラを切り替えない」のときは、1 台のカメラがどれだけ長く映っていても何も強制されません。"
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "この 2 つの設定の厳しい上限です。「引き画は」より長く、文の区切りも切れ目もないショットは、この値よりも長く映る場合に限り、時計に合わせて分割されます。これは「引き画は」が有効で、「長い独話」がカメラを切り替える設定のときに働きます。冒頭のあいさつと最後の別れの引き画は、この 2 つの設定にかかわらず、この値より長くは映りません。"
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "そのあと文の終わりまで続きます。5 秒未満では、その一瞥がひきつりのように見えます。"

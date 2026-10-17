@@ -3697,8 +3697,8 @@ msgstr "இந்த இணையின் மென் வரம்பு: இ�
 msgid "and here it is cut, good moment or not"
 msgstr "இங்கே கட் செய்யப்படும், ஏற்ற தருணமோ இல்லையோ"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "இந்த இணையின் கடின வரம்பு: \"வைட் ஷாட் இவ்வளவுக்குப் பின்\" முதல் எந்த வாக்கிய எல்லையும் வரவில்லை என்றால், மிக நீண்ட பேச்சு இடைநிறுத்தம் அதன் இடத்தைப் பிடிக்கும், இந்தப் புள்ளியில் என்ன பேசப்பட்டாலும் கட் நடக்கும். \"வைட் ஷாட் இவ்வளவுக்குப் பின்\" இயக்கத்தில் இருந்து \"நீண்ட தனிப்பேச்சு\" கேமராவை மாற்றும்போது மட்டுமே இது பொருந்தும்: முதலாவது 0 அல்லது இரண்டாவது \"கேமரா மாற்றம் இல்லை\" என இருந்தால், ஒரு கேமரா எவ்வளவு நேரம் நின்றாலும் எதுவும் கட்டாயப்படுத்தப்படாது."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "இந்த இணையின் கடின வரம்பு: \"வைட் ஷாட் இவ்வளவுக்குப் பின்\" ஐ விட நீளமான, வாக்கிய எல்லையோ இடைநிறுத்தமோ இல்லாத ஷாட், இதைவிடவும் நீண்ட நேரம் நின்றால் மட்டும், கடிகாரப்படி பிரிக்கப்படும். \"வைட் ஷாட் இவ்வளவுக்குப் பின்\" இயக்கத்தில் இருந்து \"நீண்ட தனிப்பேச்சு\" கேமராவை மாற்றும்போது இது பொருந்தும். வரவேற்புக்கும் விடைபெறுதலுக்குமான வைட் ஷாட் இதைவிட நீண்ட நேரம் நிற்காது, அந்த இரண்டும் எதைச் சொன்னாலும்."
 
 msgid "Why the question settings are grey"
 msgstr "கேள்வி அமைப்புகள் ஏன் சாம்பல் நிறத்தில் உள்ளன"

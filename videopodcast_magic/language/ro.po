@@ -4525,8 +4525,8 @@ msgstr "Plan larg cel mai târziu"
 msgid "and here it is cut, good moment or not"
 msgstr "și aici se taie, fie momentul bun sau nu"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "Limita tare a perechii: unde nu a apărut nicio limită de propoziție de la \"Plan larg după\", cea mai lungă pauză de vorbire îi ține locul, iar în acest punct se taie, orice s-ar spune. Asta se aplică doar cât timp \"Plan larg după\" este activ și \"Monolog lung\" schimbă camera: cu primul pe 0 sau al doilea pe \"Fără schimbare de cameră\", nu se impune nimic, oricât ar sta o cameră."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Limita tare a perechii: un cadru mai lung decât \"Plan larg după\" care nu oferă nici o limită de propoziție, nici o pauză este tăiat după ceas, cu condiția să stea și mai mult decât această valoare. Asta se aplică cât timp \"Plan larg după\" este activ și \"Monolog lung\" schimbă camera. Planul larg pentru salut și rămas-bun nu stă mai mult decât această valoare, orice ar spune cele două."
 
 msgid "Wide shot at least"
 msgstr "Plan larg cel puțin"

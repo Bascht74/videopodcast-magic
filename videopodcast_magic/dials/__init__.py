@@ -126,13 +126,13 @@ CUT_FIELDS = (
       'limit, where it cuts without one.')),
     ("wide-latest", 'Wide shot at the latest', "%g" % WIDE_LATEST_S, "s",
      'and here it is cut, good moment or not',
-     ('The hard limit of the pair: where no sentence boundary has '
-      'turned up since "Wide shot after", the longest speech pause '
-      'stands in for one, and at this point the cut happens whatever '
-      'is being said. This holds only while "Wide shot after" is on '
-      'and "Long monologue" changes the camera: with the first at 0 or '
-      'the second on "No camera change", nothing is forced, however '
-      'long a camera stands.')),
+     ('The hard limit of the pair: a shot longer than "Wide shot after" '
+      'that offers neither a sentence boundary nor a pause is broken up '
+      'by the clock, provided it stands longer than this too. '
+      'This holds while "Wide shot after" is on and "Long monologue" '
+      'changes the camera. '
+      'The wide shot for greeting and farewell holds no longer than '
+      'this, whatever those two say.')),
     ("wide-length", 'Wide shot at least', "5", "s",
      'so long the inserted wide shot stands at least',
      ('It then runs to the end of the sentence. Below five seconds the '

@@ -3698,8 +3698,8 @@ msgstr "ਜੋੜੀ ਦੀ ਨਰਮ ਹੱਦ: ਇੱਥੋਂ ਪ੍ਰੋਗ
 msgid "and here it is cut, good moment or not"
 msgstr "ਅਤੇ ਇੱਥੇ ਕੱਟ ਹੁੰਦਾ ਹੈ, ਪਲ ਚੰਗਾ ਹੋਵੇ ਜਾਂ ਨਾ"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "ਜੋੜੀ ਦੀ ਸਖ਼ਤ ਹੱਦ: ਜੇ \"ਵਾਈਡ ਸ਼ਾਟ ਇਸ ਤੋਂ ਬਾਅਦ\" ਤੋਂ ਹੁਣ ਤੱਕ ਕੋਈ ਵਾਕ ਦੀ ਹੱਦ ਨਹੀਂ ਆਈ, ਤਾਂ ਬੋਲਣ ਦਾ ਸਭ ਤੋਂ ਲੰਮਾ ਠਹਿਰਾਅ ਉਸ ਦੀ ਥਾਂ ਲੈਂਦਾ ਹੈ, ਅਤੇ ਇਸ ਬਿੰਦੂ 'ਤੇ ਕੱਟ ਹੁੰਦਾ ਹੈ, ਚਾਹੇ ਉਸ ਵੇਲੇ ਕੁਝ ਵੀ ਕਿਹਾ ਜਾ ਰਿਹਾ ਹੋਵੇ। ਇਹ ਤਦ ਹੀ ਲਾਗੂ ਹੁੰਦਾ ਹੈ ਜਦ \"ਵਾਈਡ ਸ਼ਾਟ ਇਸ ਤੋਂ ਬਾਅਦ\" ਚਾਲੂ ਹੋਵੇ ਅਤੇ \"ਲੰਮਾ ਇਕੱਲਾ ਬੋਲ\" ਕੈਮਰਾ ਬਦਲਦਾ ਹੋਵੇ: ਪਹਿਲਾ 0 ਉੱਤੇ ਜਾਂ ਦੂਜਾ \"ਕੈਮਰਾ ਨਹੀਂ ਬਦਲਦਾ\" ਉੱਤੇ ਹੋਵੇ, ਤਾਂ ਕੁਝ ਵੀ ਥੋਪਿਆ ਨਹੀਂ ਜਾਂਦਾ, ਕੈਮਰਾ ਭਾਵੇਂ ਜਿੰਨਾ ਵੀ ਲੰਮਾ ਰਹੇ।"
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "ਜੋੜੀ ਦੀ ਸਖ਼ਤ ਹੱਦ: \"ਵਾਈਡ ਸ਼ਾਟ ਇਸ ਤੋਂ ਬਾਅਦ\" ਤੋਂ ਲੰਮਾ ਜੋ ਸ਼ਾਟ ਨਾ ਵਾਕ ਦੀ ਹੱਦ ਦਿੰਦਾ ਹੈ ਨਾ ਠਹਿਰਾਅ, ਉਸ ਨੂੰ ਘੜੀ ਮੁਤਾਬਕ ਤੋੜਿਆ ਜਾਂਦਾ ਹੈ, ਬਸ਼ਰਤੇ ਉਹ ਇਸ ਤੋਂ ਵੀ ਵੱਧ ਸਮਾਂ ਰਹੇ। ਇਹ ਤਦ ਲਾਗੂ ਹੁੰਦਾ ਹੈ ਜਦ \"ਵਾਈਡ ਸ਼ਾਟ ਇਸ ਤੋਂ ਬਾਅਦ\" ਚਾਲੂ ਹੋਵੇ ਅਤੇ \"ਲੰਮਾ ਇਕੱਲਾ ਬੋਲ\" ਕੈਮਰਾ ਬਦਲਦਾ ਹੋਵੇ। ਸਵਾਗਤ ਅਤੇ ਵਿਦਾਈ ਦਾ ਵਾਈਡ ਸ਼ਾਟ ਇਸ ਤੋਂ ਵੱਧ ਸਮਾਂ ਨਹੀਂ ਰਹਿੰਦਾ, ਉਹ ਦੋਵੇਂ ਭਾਵੇਂ ਕੁਝ ਵੀ ਕਹਿਣ।"
 
 msgid "Why the question settings are grey"
 msgstr "ਸਵਾਲ ਵਾਲੀਆਂ ਸੈਟਿੰਗਾਂ ਸਲੇਟੀ ਕਿਉਂ ਹਨ"

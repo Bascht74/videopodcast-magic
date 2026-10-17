@@ -3696,8 +3696,8 @@ msgstr "या जोडीची सौम्य मर्यादा: इथ�
 msgid "and here it is cut, good moment or not"
 msgstr "आणि इथे कट होतो, क्षण योग्य असो वा नसो"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "या जोडीची कठोर मर्यादा: \"वाइड शॉट यानंतर\" पासून वाक्याची सीमा आली नसल्यास बोलण्यातील सर्वात मोठा विराम तिची जागा घेतो, आणि या बिंदूवर त्या वेळी काहीही बोलले जात असले तरी कट होतो. हे तेव्हाच लागू होते जेव्हा \"वाइड शॉट यानंतर\" चालू असते आणि \"दीर्घ स्वगत\" कॅमेरा बदलते: पहिले 0 वर किंवा दुसरे \"कॅमेरा बदलत नाही\" वर असेल, तर काहीही लादले जात नाही, कॅमेरा कितीही वेळ राहिला तरी."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "या जोडीची कठोर मर्यादा: \"वाइड शॉट यानंतर\" पेक्षा लांब असलेला जो शॉट ना वाक्याची सीमा देतो ना विराम, तो घड्याळानुसार तोडला जातो, मात्र तो यापेक्षाही जास्त वेळ राहत असेल तरच. हे तेव्हा लागू होते जेव्हा \"वाइड शॉट यानंतर\" चालू असते आणि \"दीर्घ स्वगत\" कॅमेरा बदलते. स्वागत आणि निरोपाचा वाइड शॉट यापेक्षा जास्त वेळ राहत नाही, ती दोन काहीही सांगोत."
 
 msgid "Why the question settings are grey"
 msgstr "प्रश्नाच्या सेटिंग्ज करड्या का आहेत"

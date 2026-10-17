@@ -4524,8 +4524,8 @@ msgstr "Široki kadar najkasnije"
 msgid "and here it is cut, good moment or not"
 msgstr "i ovdje se reže, dobar trenutak ili ne"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "Tvrda granica para: ako se od \"Široki kadar nakon\" nije pojavila nijedna granica rečenice, na njezino mjesto dolazi najdulja stanka u govoru, i u ovoj se točki reže, bez obzira na to što se upravo govori. To vrijedi samo dok je \"Široki kadar nakon\" uključeno i \"Dugi monolog\" mijenja kameru: s prvim na 0 ili drugim na \"Bez promjene kamere\" ništa se ne nameće, ma koliko dugo kamera stajala."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Tvrda granica para: kadar dulji od \"Široki kadar nakon\" koji ne nudi ni granicu rečenice ni stanku razbija se po satu, pod uvjetom da stoji i dulje od ove vrijednosti. To vrijedi dok je \"Široki kadar nakon\" uključeno i \"Dugi monolog\" mijenja kameru. Široki kadar za pozdrav i oproštaj ne stoji dulje od ove vrijednosti, bez obzira na to što kažu ta dva."
 
 msgid "Wide shot at least"
 msgstr "Široki kadar najmanje"

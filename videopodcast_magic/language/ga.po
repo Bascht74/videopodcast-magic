@@ -3714,8 +3714,8 @@ msgstr "Teorainn bhog an phéire: as seo amach fanann an ríomhchlár le teorain
 msgid "and here it is cut, good moment or not"
 msgstr "agus gearrtar anseo, nóiméad maith nó ná bíodh"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "Teorainn chrua an phéire: mura raibh teorainn abairte ann ó \"Seat leathan tar éis\", seasann an sos cainte is faide ina háit, agus ag an bpointe seo déantar an gearradh is cuma cad atá á rá. Ní bhaineann sé seo ach fad atá \"Seat leathan tar éis\" ar siúl agus \"Monalóg fhada\" ag athrú an cheamara: leis an gcéad cheann ar 0 nó an dara ceann ar \"Gan athrú ceamara\", ní chuirtear aon rud i bhfeidhm, is cuma cé chomh fada a sheasann ceamara."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Teorainn chrua an phéire: seat atá níos faide ná \"Seat leathan tar éis\" nach dtugann teorainn abairte ná sos, brisear suas é de réir an chloig, ar choinníoll go seasann sé níos faide ná seo freisin. Baineann sé seo fad atá \"Seat leathan tar éis\" ar siúl agus \"Monalóg fhada\" ag athrú an cheamara. Ní sheasann an seat leathan don fháilte agus don slán níos faide ná seo, is cuma cad a deir an dá cheann sin."
 
 msgid "Why the question settings are grey"
 msgstr "Cén fáth a bhfuil socruithe na ceiste liath"

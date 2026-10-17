@@ -4480,8 +4480,8 @@ msgstr "Totál legkésőbb"
 msgid "and here it is cut, good moment or not"
 msgstr "és itt vág, akár jó a pillanat, akár nem"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "A pár kemény határa: ha a \"Totál ennyi után\" óta nem jött mondathatár, a leghosszabb beszédszünet lép a helyére, és ezen a ponton megtörténik a vágás, bármi hangzik is el éppen. Ez csak addig érvényes, amíg \"Totál ennyi után\" be van kapcsolva, és \"Hosszú monológ\" kamerát vált: ha az előbbi 0, vagy az utóbbi \"Nincs kameraváltás\", semmit sem kényszerít ki, akármeddig áll is egy kamera."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "A pár kemény határa: az a beállítás, amely hosszabb a \"Totál ennyi után\" értékénél, és sem mondathatárt, sem szünetet nem kínál, az óra szerint darabokra törik, feltéve, hogy ennél az értéknél is tovább áll. Ez addig érvényes, amíg \"Totál ennyi után\" be van kapcsolva, és \"Hosszú monológ\" kamerát vált. A köszöntés és a búcsúzás totálja nem áll tovább ennél az értéknél, bármit mond is az a kettő."
 
 msgid "Wide shot at least"
 msgstr "Totál legalább"

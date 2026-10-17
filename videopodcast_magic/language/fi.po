@@ -4478,8 +4478,8 @@ msgstr "Yleiskuva viimeistään"
 msgid "and here it is cut, good moment or not"
 msgstr "ja tässä leikataan, oli hetki hyvä tai ei"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "Parin kova raja: jos lauseen rajaa ei ole tullut kohdan \"Yleiskuva aikaisintaan\" jälkeen, pisin puhetauko toimii sen sijaisena, ja tässä kohdassa leikataan, puhuttiinpa mitä tahansa. Tämä pätee vain, kun \"Yleiskuva aikaisintaan\" on käytössä ja \"Pitkä monologi\" vaihtaa kameraa: jos ensimmäinen on 0 tai jälkimmäinen \"Ei kameranvaihtoa\", mitään ei pakoteta, vaikka kamera seisoisi kuinka kauan."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Parin kova raja: kuva, joka on pidempi kuin \"Yleiskuva aikaisintaan\" eikä tarjoa lauseen rajaa eikä taukoa, pilkotaan kellon mukaan, kunhan se seisoo myös tätä arvoa pidempään. Tämä pätee, kun \"Yleiskuva aikaisintaan\" on käytössä ja \"Pitkä monologi\" vaihtaa kameraa. Tervehdyksen ja hyvästelyn yleiskuva ei seiso tätä pidempään, sanoivatpa nuo kaksi mitä tahansa."
 
 msgid "Wide shot at least"
 msgstr "Yleiskuva vähintään"

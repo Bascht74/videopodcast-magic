@@ -142,12 +142,15 @@ a soft limit and a hard one.
   where they ought to lie. Where no sentence boundary has turned up
   since **Wide shot after**, the longest speech pause nearby stands in
   for one, and there the cut happens whatever is being said; where not
-  even a usable pause is there, it falls by the clock. Smaller breaks a
-  standing camera up sooner (on the command line `--wide-latest`). It
-  holds only together with **Wide shot after**: with that at 0, or
-  **Long monologue** on **No camera change**, nothing is forced, and one
-  camera stands as long as its speaker talks -- whoever turns the wide
-  shots off wants none
+  even a usable pause is there, the clock breaks the shot up, provided
+  it stands longer than this too. That part holds only together with
+  **Wide shot after**: with that at 0, or **Long monologue** on **No
+  camera change**, it breaks nothing up, however long a camera stands.
+  The wide shot for greeting and farewell holds no longer than this all
+  the same, whatever those two say (the tick below). Smaller lets the
+  clock in on shorter shots, down to **Wide shot after**, and shortens
+  the wide shot over a long greeting or farewell (on the command line
+  `--wide-latest`)
 * **Wide shot at least**: 5 s, the inserted wide shot stands at least
   this long and then runs on to the end of the sentence; higher makes
   every look away longer (on the command line `--wide-length`)
@@ -823,12 +826,12 @@ clause break before it ends the shot.
 **Wide shot at the latest** is the rip cord. Where no sentence boundary
 turns up, the longest speech pause nearby takes its place, and there the
 cut happens whatever is being said; where there is no usable pause
-either, one camera is broken up by the clock so that no piece of it
-stands longer than this -- as long as **Wide shot after** is on, see
-above. Without a transcript there are no sentence
-boundaries at all: the wide shot then goes to the longest pause nearby
-and stands the set minimum -- which is why the soft limit is shut until
-the words are there and the hard one is not.
+either, one camera is broken up by the clock, provided it stands
+longer than this too -- as long as **Wide shot after** is on and **Long
+monologue** changes the camera, see above. Without a transcript there
+are no sentence boundaries at all: the wide shot then goes to the
+longest pause nearby and stands the set minimum -- which is why the
+soft limit is shut until the words are there and the hard one is not.
 
 ### What the metrics and the colour comparison measure
 

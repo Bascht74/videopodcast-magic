@@ -4524,8 +4524,8 @@ msgstr "Široký záber najneskôr"
 msgid "and here it is cut, good moment or not"
 msgstr "a tu sa strihá, vhodná chvíľa alebo nie"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "Tvrdá hranica dvojice: ak od \"Široký záber po\" neprišla žiadna hranica vety, zastúpi ju najdlhšia pauza v reči, a v tomto bode sa strihá, nech sa práve hovorí čokoľvek. Platí to len vtedy, keď je \"Široký záber po\" zapnuté a \"Dlhý monológ\" strieda kameru: s prvým na 0 alebo druhým na \"Bez zmeny kamery\" sa nič nevynucuje, nech kamera stojí akokoľvek dlho."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Tvrdá hranica dvojice: záber dlhší ako \"Široký záber po\", ktorý neponúka hranicu vety ani pauzu, sa rozdelí podľa hodín, ak stojí aj dlhšie ako táto hodnota. Platí to, kým je \"Široký záber po\" zapnuté a \"Dlhý monológ\" strieda kameru. Široký záber pre privítanie a rozlúčku nestojí dlhšie ako táto hodnota, nech tie dve nastavenia hovoria čokoľvek."
 
 msgid "Wide shot at least"
 msgstr "Široký záber najmenej"
