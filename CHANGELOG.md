@@ -220,6 +220,10 @@ nicht.
   to its end**, so the check after a timecode edit no longer mistakes
   where the movie data ends.
 
+- **A command-line run with its files straight on the desktop or in the
+  home folder now goes up to auphonic.com under its first recording's
+  name**, so the next run finds it and is not charged again.
+
 ### Documentation
 
 - **The requirements chapter now explains the Python 3.12 floor** and
@@ -452,6 +456,11 @@ nicht.
 - **Eine QuickTime-Datei, deren letzter Block nur acht Byte lang ist,
   wird jetzt bis zum Ende gelesen**; die Prüfung nach einer
   Timecode-Änderung verkennt nicht mehr, wo die Filmdaten enden.
+
+- **Ein Kommandozeilenlauf mit Dateien direkt auf dem Schreibtisch oder
+  im Benutzerordner geht jetzt unter dem Namen seiner ersten Aufnahme zu
+  auphonic.com**; der nächste Lauf findet ihn und zahlt nicht noch
+  einmal.
 
 ### Dokumentation
 
