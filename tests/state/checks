@@ -330,6 +330,7 @@ source_sections_named	2
 source_skills_resolve	5
 source_suite_reads_red	6
 source_test_names_swept	10
+source_waits_for_cpu	19
 table_audio_asked_for	60
 table_back_to_one_name	5
 table_blocks_judged	7
