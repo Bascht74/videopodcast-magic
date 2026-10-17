@@ -168,8 +168,8 @@ nicht.
   before anything is created.
 - **A returned Auphonic track that lacks part of what went up is now
   refused**: its line says "refused" and how many seconds are missing, and
-  the run stops. Last week's production, 12 s shorter, used to pass as
-  aligned.
+  the run stops. Before, a return a few seconds shorter than what went
+  up passed as aligned.
 - **With `--auphonic-done`, a file trimmed to a later window is now judged
   as it lies in the folder**; padded with silence, a file up to a minute
   short at its end used to pass the return check.
@@ -318,7 +318,7 @@ nicht.
 - **Ein Probelauf legt die Spuren nicht mehr für sich selbst auf die
   Zeitachse**: Die Vorschau über ein 68 Minuten langes Interview braucht
   rund 2,4 GB weniger Platz, und der Schnitt bleibt Sekunde für Sekunde
-  gleich. Mit API Key und bei Mikrofonen, die einander zu gut hören,
+  gleich. Mit API Key oder bei Mikrofonen, die einander zu gut hören,
   werden die Spuren noch geschrieben.
 - **Ohne Bild messen Fenster und Lauf die Zeitachse nur noch einmal**:
   Jeder übernimmt, was der andere über dieselben Aufnahmen gemessen hat,
@@ -409,8 +409,9 @@ nicht.
   Presets kein Preset, hält er an, bevor etwas angelegt wird.
 - **Eine von Auphonic zurückgekommene Spur, der ein Teil des Hochgeladenen
   fehlt, wird jetzt abgelehnt**: Ihre Zeile sagt „abgelehnt“ und wie
-  viele Sekunden fehlen, und der Lauf hält an. Die 12 s kürzere
-  Produktion der Vorwoche kam bisher als ausgerichtet durch.
+  viele Sekunden fehlen, und der Lauf hält an. Bisher kam eine Rückgabe,
+  die ein paar Sekunden kürzer war als das Hochgeladene, als
+  ausgerichtet durch.
 - **Mit `--auphonic-done` wird eine auf ein späteres Fenster beschnittene
   Datei jetzt so geprüft, wie sie im Ordner liegt**; mit Stille
   aufgefüllt kam eine bis zu einer Minute zu kurze Datei bisher durch.
