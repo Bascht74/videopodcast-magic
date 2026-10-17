@@ -318,6 +318,8 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
 
         def failed(said):
             """The cut is off: *said* is its last word; the window hears."""
+            # Kept for the file list, which builds its rows anew.
+            state.setdefault("split_failed", PROGRAM.ByFile())[api_key] = said
             split_files[api_key] = None
             prework_report(file_path, said, 1.0, "split")
             bridge_emit(bridge.split_done, api_key)
@@ -358,8 +360,9 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
                 # On a full disc ffmpeg leaves the track half written, and
                 # the next cut would take it for done: it asks the size.
                 PROGRAM.remove_quietly(target)
-                return failed(T('cutting failed: %s')
-                              % str(e).strip()[:40])
+                # ffmpeg's own words, without the address it puts first.
+                return failed(T('cutting failed: %s') % PROGRAM.ffprobe_reason(
+                    str(e).encode("utf-8"), file_path))
             out.append((target, label))
         split_files[api_key] = out
         prework_report(file_path, "", 1.0, "split")

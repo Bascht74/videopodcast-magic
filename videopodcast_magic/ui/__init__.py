@@ -565,29 +565,36 @@ def missing_conditions(files, production, assign_lines, camera_lines,
     return pending
 
 
-def tracks_awaited(pending, files, split_files, owed, again):
+def tracks_awaited(pending, model, owed, again):
     """*pending* with the recordings whose tracks have not arrived yet.
 
-    Until then files_for_run hands one over whole; a camera's sound the
-    run cuts itself. Held while *owed*, the prework's open tasks by file,
-    has work for it, or its channels are measured and its cut not tried:
-    one not measurable, or whose cut failed -- None in *split_files* --
-    goes in whole. Under the file tab's key; *again* is (owner, buttons look).
+    Until then files_for_run hands an audio file over whole. Every block
+    counts, and a recording set to "do not use" none. Held while *owed*,
+    the prework's open tasks by file, has work for a block, or its channels
+    are measured and its cut not tried; one not measurable, or whose cut
+    failed (None in split_files), goes whole. *again*: (owner, buttons look).
     """
+    split_files = model.split_files
+    unused = FileSet(x for chain, _name, choice in model.assign_lines
+                     if choice.get() == IGNORE_AUDIO for x in chain)
     waiting, working = [], False
-    for p, kind in files:
-        tried = p in split_files
-        if kind != "audio" or tried and split_files[p] is not None:
+    for p, kind in model.files:
+        if kind != "audio" or p in unused:
             continue
-        try:
-            wide = PROGRAM.channel_count(p) > 1
-        except Exception:
-            continue    # not countable: the run says so, nothing waits
-        busy = owed.get(p, 0) > 0
-        if wide and (busy or not tried and PROGRAM.probe_has(
-                PROGRAM.channel_facts_name(), p)):
-            waiting.append(os.path.basename(p))
-            working = working or busy
+        for b in model.blocks_of.get(p) or [p]:
+            tried = b in split_files
+            if tried and split_files[b] is not None:
+                continue
+            try:
+                wide = PROGRAM.channel_count(b) > 1
+            except Exception:
+                continue    # not countable: the run says so, nothing waits
+            busy = owed.get(b, 0) > 0
+            if wide and (busy or not tried and PROGRAM.probe_has(
+                    PROGRAM.channel_facts_name(), b)):
+                if os.path.basename(p) not in waiting:
+                    waiting.append(os.path.basename(p))
+                working = working or busy
     if working:
         ask_again_soon(*again)
     if waiting:
@@ -2309,7 +2316,7 @@ def gui():
         return tracks_awaited(missing_conditions(
             files, production_var.get(), assign_lines, camera_lines,
             voice_lines, state.get("voiced") or set(), project_type.get()),
-            files, split_files, prework_pending, (window, buttons_check))
+            model, prework_pending, (window, buttons_check))
 
     def buttons_check():
         """Enable start and dry run only once nothing is missing.
