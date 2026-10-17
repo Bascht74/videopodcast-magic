@@ -3439,6 +3439,12 @@ msgstr "   Uzmanību: mērījums nav izmantojams"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Uzmanību: tajā trūkst %s s no augšupielādētā"
 
+msgid "  -->  refused"
+msgstr "  -->  noraidīts"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Noraidīts: %s -- atgrieztais neatbilst augšupielādētajam.\n  Labāk apstāties, nekā ierakstīt kaut ko nepareizu."
+
 msgid "   NOT INSERTED"
 msgstr "   NAV IEVIETOTS"
 

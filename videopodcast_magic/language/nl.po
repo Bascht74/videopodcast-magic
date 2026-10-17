@@ -3386,6 +3386,12 @@ msgstr "   Let op: meting onbruikbaar"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Let op: er ontbreekt %s s van wat omhoogging"
 
+msgid "  -->  refused"
+msgstr "  -->  geweigerd"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Geweigerd: %s -- de teruggave past niet bij de upload.\n  Beter stoppen dan iets verkeerds schrijven."
+
 msgid "   NOT INSERTED"
 msgstr "   NIET INGEVOEGD"
 

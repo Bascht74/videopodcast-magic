@@ -641,8 +641,8 @@ def cut_to_what_was_sent(sent, back):
     except Exception:
         found = {"st": {}}
     # Placed by the rule a camera is placed by. The voice's correction is
-    # no test: it came out near zero on three built replies of other
-    # sound entirely (27.9.2026).
+    # no test: on 16 built replies of other sound it was within 0.5 ms of
+    # zero 12 times and missing 4, as near zero as a right one (17.10.2026).
     if not (match_places_it(found["st"]) or fit_places_it(found["st"])):
         print(as_warn(T('  %s came back %s s longer than it went up, and '
                         'where the sound sent\n  begins in it could not '
@@ -704,13 +704,14 @@ def return_not_sent(found, sent_s, back_s):
 def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
     """Check what Auphonic returns against what was uploaded.
 
-    The service can prepend material and change the length, either of
-    which would undo the alignment. De-bleeding and the leveler change
-    the signal, so the sample points are picked on the processed track,
-    the envelopes flattened, and the estimate a median.
+    Prepended material or a changed length would undo the alignment.
+    De-bleeding and the leveler change the signal, so sample points are
+    picked on the processed track, the envelopes flattened, the estimate
+    a median. A track lacking part of what went up is refused and laid
+    nowhere, one not measurable is unsure; either stops the run.
     """
     print(as_head(T('\nCHECK THE RETURN')))
-    shaky = []
+    shaky, refused = [], []
     # A stereo track coming back with one channel was folded at
     # auphonic.com, and no later step can undo that. Not an error, but
     # it has to be said: the two microphones' difference is gone.
@@ -753,8 +754,19 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
         track["offset_ms"] = ms
         track["residual_ms"] = spread
         length = n_fresh - 2 * edge - window_length2
+        uncertain = st.get("points", 0) < 5 or spread > 150.0
+        # Judged on the file as it came back: a copy trimmed to the window
+        # is padded with silence where that file ran out.
+        came_back, into = track.get("came_back") or (done, 0.0)
+        refusal = None if uncertain else return_not_sent(
+            dict(found, a=found["a"] + into),
+            sample_count(track["axis"]) / float(SR),
+            sample_count(came_back) / float(SR))
         remark = ""
-        if edge or abs(ms) > 5 or abs(length) > 0.05 or clock_drift_ppm:
+        if refusal:
+            # Not laid on the axis: it is not the sound that went up.
+            remark = T('  -->  refused')
+        elif edge or abs(ms) > 5 or abs(length) > 0.05 or clock_drift_ppm:
             target = os.path.join(tmpdir, "ready_%s.wav" % safe_filename(track["name"]))
             place_track_on_axis(done, target, a_corr, clock_drift, 0.0, window_length2,
                            drift=bool(clock_drift_ppm))
@@ -765,10 +777,8 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
                 else T('  -->  aligned')
         else:
             track["ready"] = done
-        uncertain = st.get("points", 0) < 5 or spread > 150.0
         caution = (T('   Caution: measurement unusable') if uncertain
-                   else return_not_sent(found, sample_count(track["axis"])
-                                        / float(SR), n_fresh))
+                   else refusal)
         line = (T('  %-20s offset %s ms%s, length %s s, spread %s '
                   'ms, %s of %s points%s%s')
                 % (track["name"], number_text(ms, plus=True),
@@ -780,14 +790,19 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
                    number_text(st.get("candidates", 0), 0), remark,
                    caution or ""))
         print(as_warn(line) if caution else line)
-        if caution:
+        if refusal:
+            refused.append(track["name"])
+        elif caution:
             shaky.append(track["name"])
+    if refused:
+        print(T('\n  Refused: %s -- what came back does not match what went '
+                'up. Better to\n  stop than to write something wrong.')
+              % ", ".join(refused))
     if shaky:
         print(T('\n  For %s it could not be established whether the return '
                 'matches the\n  upload. Better to stop than to write '
                 'something wrong.') % ", ".join(shaky))
-        return False
-    return True
+    return not (refused or shaky)
 
 
 def find_master_file(*places):

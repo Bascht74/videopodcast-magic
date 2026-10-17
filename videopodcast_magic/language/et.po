@@ -3434,6 +3434,12 @@ msgstr "   Tähelepanu: mõõtmine pole kasutatav"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Tähelepanu: sellest puudub %s s üles läinust"
 
+msgid "  -->  refused"
+msgstr "  -->  tagasi lükatud"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Tagasi lükatud: %s -- tagastus ei vasta üleslaaditule.\n  Parem peatuda kui kirjutada midagi valesti."
+
 msgid "   NOT INSERTED"
 msgstr "   LISAMATA"
 

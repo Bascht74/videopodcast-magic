@@ -385,8 +385,9 @@ def join_only(args, tracks, tmpdir, title=""):
     """Join the blocks and stop: there is no picture to lay them on.
 
     Joining the blocks of a recording needs no camera, and one file out
-    of several is a whole result. One recording: several go onto one
-    axis, align_tracks_only, whatever the kind of production.
+    of several is a whole result, carrying the first block's clock. One
+    recording: several go onto one axis, align_tracks_only, whatever the
+    kind of production.
     """
     first = tracks[0]["blocks"][0]
     folder = PROGRAM.output_folder(args, first)
@@ -444,8 +445,14 @@ def join_only(args, tracks, tmpdir, title=""):
         if args.dry_run:
             print(T('Would write: %s') % target)
             continue
+        # The first block's clock goes along, counted at the rate the
+        # source has: a plain copy writes no bext, and the joined
+        # recording landed at zero wherever it was laid afterwards.
+        stamp = PROGRAM.bext_time_reference(track["source"])
+        clock = [] if stamp is None else [
+            "-write_bext", "1", "-metadata", "time_reference=%d" % stamp]
         shell_quote(["ffmpeg", "-v", "error", "-i", track["source"],
-                     "-c:a", "copy", "-y", target])
+                     "-c:a", "copy"] + clock + ["-y", target])
         written.append(target)
     if written:
         print(as_head(T('RESULT')))
@@ -873,8 +880,9 @@ def processed_tracks_taken(args, tracks, tmpdir, lengths, measured=None,
 
     Each finds its file by name, as long as *lengths* says for it, give
     or take a jingle -- or as long as *measured*, the range without In and
-    Out point, *shift* seconds before the window: then it is trimmed.
-    Sets "done"; False, and said, where one found none.
+    Out point, *shift* seconds before the window: then it is trimmed, and
+    "came_back" keeps the file for the return check. Sets "done"; False,
+    and said, where one found none.
     """
     if getattr(args, "without_auphonic", False):
         print(as_warn(T('  --without-auphonic and --auphonic-done were '
@@ -923,6 +931,9 @@ def processed_tracks_taken(args, tracks, tmpdir, lengths, measured=None,
                                 window + 2 * MARGIN, drift=False)
             track["done"] = target
             track["edge"] = MARGIN
+            # The copy is padded where the file runs out, so the return
+            # check is handed the file itself and where the copy begins.
+            track["came_back"] = (file_path, front - MARGIN)
             existing.remove(best)
             print(T('    %-20s <- %s  (%s, trimmed to the time window, '
                     'name similarity %s)')
@@ -1162,7 +1173,9 @@ def speakers_of_the_run(args, tracks, window):
     """Who speaks when, measured once for the same recordings and window.
 
     Out of the stage store where a dry run or an earlier run measured
-    the same inputs, and said so; else measured and kept there.
+    the same inputs, and said so; else measured and kept there. Taken
+    back, it warns of two alike voices in the window's separation as
+    speakers_for_the_cut does: the log of every run says it again.
     """
     key = speakers_key(args, tracks, window)
     kept = stage_get(key)
@@ -1171,6 +1184,19 @@ def speakers_of_the_run(args, tracks, window):
         print(as_head(T('\nSPEAKERS -- MEASURED BEFORE')))
         print(T('  Taken from the measurement kept on this machine: the '
                 'same recordings, places and window.'))
+        # Where its voices are in the cut and no mix stands in for it.
+        given = ({} if getattr(args, "_speakers_mixed", False)
+                 or not (getattr(args, "_speakers", None) or ([], ""))[0]
+                 else PROGRAM.handed_over(args)[0])
+        for one in ([given] + list(given.get("more") or ())
+                    if given else ()):
+            if one.get("source"):
+                for line in PROGRAM.voices_alike_said(
+                        os.path.basename(one["source"]),
+                        PROGRAM.speaker_voices_stored(
+                            one["source"], one.get("num_speakers") or 0,
+                            one.get("blocks") or ()), one.get("names")):
+                    print(as_warn(line))
         voices_reported(segments)
         return segments
     segments = speakers_for_the_cut(args, tracks, window=window)

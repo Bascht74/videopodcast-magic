@@ -3437,6 +3437,12 @@ msgstr "   ਸਾਵਧਾਨ: ਮਾਪ ਵਰਤਣਯੋਗ ਨਹੀਂ"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   ਸਾਵਧਾਨ: ਭੇਜੇ ਗਏ ਵਿੱਚੋਂ %s s ਇਸ ਵਿੱਚ ਨਹੀਂ ਹੈ"
 
+msgid "  -->  refused"
+msgstr "  -->  ਰੱਦ ਕੀਤਾ"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  ਰੱਦ ਕੀਤਾ: %s -- ਵਾਪਸੀ ਅੱਪਲੋਡ ਨਾਲ ਮੇਲ ਨਹੀਂ ਖਾਂਦੀ।\n  ਕੁਝ ਗਲਤ ਲਿਖਣ ਨਾਲੋਂ ਰੁਕਣਾ ਬਿਹਤਰ ਹੈ।"
+
 msgid "   NOT INSERTED"
 msgstr "   ਪਾਇਆ ਨਹੀਂ ਗਿਆ"
 

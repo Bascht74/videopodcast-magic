@@ -282,6 +282,11 @@ viele solcher Reihen es gibt, die längste davon in Abtastwerten und in
 Millisekunden und wo die erste liegt. Der Hinweis hält nichts auf: eine
 übersteuerte Aufnahme ist manchmal die einzige, die es gibt.
 
+Gezählt wird jede Tonaufnahme und der Ton einer Kamera, deren
+**Kameraton** auf **Ton verwenden** steht: Dieser Ton ist eine Spur wie
+eine Aufnahme. Der Ton jeder anderen Kamera legt nur ihr Bild an seinen
+Platz und wird nicht gezählt.
+
 Das Programm zählt nur bei Ganzzahlformaten. Ein Ganzzahlformat hat bei
 Vollausschlag einen Anschlag, und was darüber lag, ist nie in die Datei
 gekommen. Gleitkomma hat keinen Anschlag, und 0 dBFS ist dort eine Marke

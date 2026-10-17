@@ -3384,6 +3384,12 @@ msgstr "   Varning: mätningen oanvändbar"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Varning: %s s av det som gick upp saknas i den"
 
+msgid "  -->  refused"
+msgstr "  -->  avvisad"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Avvisad: %s -- det som kom tillbaka stämmer inte med det uppladdade.\n  Bättre att stoppa än att skriva något fel."
+
 msgid "   NOT INSERTED"
 msgstr "   INTE INFOGAD"
 

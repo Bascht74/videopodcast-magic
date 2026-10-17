@@ -3386,6 +3386,12 @@ msgstr "   সতর্কতা: মাপ ব্যবহারযোগ্য
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   সতর্কতা: যা পাঠানো হয়েছিল তার %s s এতে নেই"
 
+msgid "  -->  refused"
+msgstr "  -->  প্রত্যাখ্যাত"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  প্রত্যাখ্যাত: %s -- যা ফেরত এসেছে তা আপলোডের সঙ্গে মেলে না।\n  ভুল কিছু লেখার চেয়ে থেমে যাওয়াই ভালো।"
+
 msgid "   NOT INSERTED"
 msgstr "   বসানো হয়নি"
 

@@ -2074,6 +2074,12 @@ msgstr "   تنبيه: القياس غير صالح"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   تنبيه: ينقصه %s s مما أُرسل"
 
+msgid "  -->  refused"
+msgstr "  -->  مرفوض"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  مرفوض: %s -- ما عاد لا يطابق ما رُفع.\n  الإيقاف أفضل من كتابة شيء خاطئ."
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  المزيج النهائي من auphonic.com: %s LUFS، الذروة %s dBTP (%s)"
 

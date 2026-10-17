@@ -1546,6 +1546,12 @@ msgstr "   Внимание: измерение непригодно"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Внимание: в нём нет %s с из отправленного"
 
+msgid "  -->  refused"
+msgstr "  -->  отклонено"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Отклонено: %s -- возвращённое не соответствует выгруженному.\n  Лучше прерваться, чем записать неверное."
+
 msgid "   Caution: more than one frame"
 msgstr "   Внимание: больше одного кадра"
 

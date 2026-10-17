@@ -3435,6 +3435,12 @@ msgstr "   Внимание: измерването е неизползваем�
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Внимание: в него липсват %s s от каченото"
 
+msgid "  -->  refused"
+msgstr "  -->  отхвърлено"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Отхвърлено: %s -- върнатото не съответства на каченото.\n  По-добре да спре, отколкото да запише нещо грешно."
+
 msgid "   NOT INSERTED"
 msgstr "   НЕ Е ВМЪКНАТО"
 

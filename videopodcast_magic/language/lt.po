@@ -3439,6 +3439,12 @@ msgstr "   Dėmesio: matavimas netinkamas"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Dėmesio: jame trūksta %s s įkelto garso"
 
+msgid "  -->  refused"
+msgstr "  -->  atmesta"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Atmesta: %s -- grąžintas rezultatas neatitinka įkėlimo.\n  Geriau sustoti, nei įrašyti ką nors neteisingo."
+
 msgid "   NOT INSERTED"
 msgstr "   NEĮTERPTA"
 

@@ -3387,6 +3387,12 @@ msgstr "   Figyelem: a mérés használhatatlan"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Figyelem: a felküldöttből %s s hiányzik belőle"
 
+msgid "  -->  refused"
+msgstr "  -->  elutasítva"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Elutasítva: %s -- a visszakapott anyag nem egyezik a feltöltöttel.\n  Jobb megállni, mint valami rosszat írni."
+
 msgid "   NOT INSERTED"
 msgstr "   NINCS BEILLESZTVE"
 

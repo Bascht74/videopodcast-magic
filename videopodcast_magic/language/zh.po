@@ -1989,6 +1989,12 @@ msgstr "   注意：测量结果不可用"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   注意：上传的内容中有 %s 秒不在其中"
 
+msgid "  -->  refused"
+msgstr "  -->  已拒绝"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  已拒绝：%s -- 返回结果与上传内容不符。\n  与其写入错误内容，不如中止。"
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  来自 auphonic.com 的缩混：%s LUFS，峰值 %s dBTP (%s)"
 

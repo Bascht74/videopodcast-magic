@@ -3436,6 +3436,12 @@ msgstr "   கவனம்: அளவீடு பயன்படாது"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   கவனம்: பதிவேற்றியதில் %s s இதில் இல்லை"
 
+msgid "  -->  refused"
+msgstr "  -->  நிராகரிக்கப்பட்டது"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  நிராகரிக்கப்பட்டது: %s -- திரும்பி வந்தது பதிவேற்றியதுடன் பொருந்தவில்லை.\n  தவறாக எழுதுவதை விட நிறுத்துவதே நல்லது."
+
 msgid "   NOT INSERTED"
 msgstr "   சேர்க்கப்படவில்லை"
 

@@ -3386,6 +3386,12 @@ msgstr "   Προσοχή: μέτρηση άχρηστη"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Προσοχή: λείπουν %s s από ό,τι ανέβηκε"
 
+msgid "  -->  refused"
+msgstr "  -->  απορρίφθηκε"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Απορρίφθηκε: %s -- αυτό που επιστράφηκε δεν ταιριάζει με ό,τι μεταφορτώθηκε.\n  Καλύτερα διακοπή παρά να γραφτεί κάτι λάθος."
+
 msgid "   NOT INSERTED"
 msgstr "   ΔΕΝ ΕΙΣΗΧΘΗ"
 

@@ -3391,6 +3391,12 @@ msgstr "   Atenție: măsurare inutilizabilă"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Atenție: îi lipsesc %s s din ce a plecat"
 
+msgid "  -->  refused"
+msgstr "  -->  respinsă"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Respins: %s -- rezultatul returnat nu se potrivește cu ce s-a încărcat.\n  Mai bine oprire decât să se scrie ceva greșit."
+
 msgid "   NOT INSERTED"
 msgstr "   NEINSERAT"
 

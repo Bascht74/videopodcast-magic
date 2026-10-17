@@ -2035,6 +2035,12 @@ msgstr "   Увага: вимірювання непридатне"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Увага: у ньому бракує %s с надісланого"
 
+msgid "  -->  refused"
+msgstr "  -->  відхилено"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Відхилено: %s -- повернене не відповідає вивантаженому.\n  Краще зупинитися, ніж записати щось неправильне."
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  Mixdown з auphonic.com: %s LUFS, пік %s dBTP (%s)"
 

@@ -1536,6 +1536,12 @@ msgstr "   Atención: medición inservible"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Atención: le faltan %s s de lo que se subió"
 
+msgid "  -->  refused"
+msgstr "  -->  rechazado"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Rechazado: %s -- lo devuelto no corresponde a lo subido.\n  Mejor parar que escribir algo incorrecto."
+
 msgid "   Caution: more than one frame"
 msgstr "   Atención: más de un fotograma"
 

@@ -265,6 +265,11 @@ longest of them in samples and in milliseconds, and where the first one
 sits. The hint holds nothing up: an overdriven recording is sometimes
 the only recording there is.
 
+It counts every audio recording, and the sound of a camera whose
+**Camera audio** says **use internal audio**: that sound is a track like
+a recording. The sound of every other camera only places its picture,
+and is not counted.
+
 The program counts in integer formats only. An integer format has a stop
 at full scale, and nothing above it ever reached the file. Float has no
 stop, and 0 dBFS there is a mark on the scale, not a wall; a float

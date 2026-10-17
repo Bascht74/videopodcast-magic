@@ -3390,6 +3390,12 @@ msgstr "   Пажња: мерење неупотребљиво"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Пажња: у њему недостаје %s с од послатог"
 
+msgid "  -->  refused"
+msgstr "  -->  одбијено"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Одбијено: %s -- враћено не одговара отпремљеном.\n  Боље стати него записати нешто погрешно."
+
 msgid "   NOT INSERTED"
 msgstr "   НИЈЕ УБАЧЕНО"
 

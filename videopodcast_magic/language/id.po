@@ -3432,6 +3432,12 @@ msgstr "   Perhatian: pengukuran tidak dapat dipakai"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Perhatian: %s s dari yang diunggah tidak ada di dalamnya"
 
+msgid "  -->  refused"
+msgstr "  -->  ditolak"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Ditolak: %s -- hasil kembalian tidak cocok dengan unggahan.\n  Lebih baik berhenti daripada menulis sesuatu yang salah."
+
 msgid "   NOT INSERTED"
 msgstr "   TIDAK DISISIPKAN"
 

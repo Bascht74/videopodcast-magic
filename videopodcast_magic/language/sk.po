@@ -3390,6 +3390,12 @@ msgstr "   Pozor: meranie nepoužiteľné"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Pozor: chýba v ňom %s s z odoslaného"
 
+msgid "  -->  refused"
+msgstr "  -->  odmietnuté"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Odmietnuté: %s -- vrátené nezodpovedá nahratému.\n  Lepšie zastaviť než zapísať niečo nesprávne."
+
 msgid "   NOT INSERTED"
 msgstr "   NEVLOŽENÉ"
 

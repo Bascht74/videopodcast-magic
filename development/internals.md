@@ -50,7 +50,7 @@ figure of the day is that command, not this paragraph**:
   reach it named, out of `speakers/`
 * `resolve/` **2495** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
-* `material/` **2053** -- channels, chains, continuation files, and what
+* `material/` **2068** -- channels, chains, continuation files, and what
   a track is made of
 * `loudness/` **483** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
@@ -59,7 +59,7 @@ figure of the day is that command, not this paragraph**:
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2590** -- the time base and the camera files: every
+* `timebase/` **2616** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
@@ -67,7 +67,7 @@ figure of the day is that command, not this paragraph**:
   and one bound of its own, 500 ppm
 * `auphonic/` **2382** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **2139** -- whether the material fits together before the
+* `preflight/` **2173** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `setup/` **1377** -- finding ffmpeg, installing a missing module,

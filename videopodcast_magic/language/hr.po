@@ -3390,6 +3390,12 @@ msgstr "   Oprez: mjerenje neupotrebljivo"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Oprez: u njemu nedostaje %s s od poslanog"
 
+msgid "  -->  refused"
+msgstr "  -->  odbijeno"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Odbijeno: %s -- vraćeno ne odgovara prenesenom.\n  Bolje stati nego zapisati nešto pogrešno."
+
 msgid "   NOT INSERTED"
 msgstr "   NIJE UMETNUTO"
 

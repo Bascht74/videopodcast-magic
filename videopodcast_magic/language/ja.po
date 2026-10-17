@@ -1989,6 +1989,12 @@ msgstr "   注意: 測定値は使えません"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   注意: 送った音声のうち %s s が含まれていません"
 
+msgid "  -->  refused"
+msgstr "  -->  拒否"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  拒否: %s -- 返却分がアップロードしたものと一致しません。\n  誤ったものを書くより中止します。"
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  auphonic.com のミックスダウン: %s LUFS、ピーク %s dBTP (%s)"
 

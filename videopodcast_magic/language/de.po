@@ -4988,6 +4988,12 @@ msgstr "   ACHTUNG: Messung unbrauchbar"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   ACHTUNG: Von dem, was hochging, fehlen darin %s s"
 
+msgid "  -->  refused"
+msgstr "  -->  abgelehnt"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Abgelehnt: %s -- die Rückgabe passt nicht zum Hochgeladenen.\n  Lieber abbrechen als etwas Falsches schreiben."
+
 msgid "   NOT INSERTED"
 msgstr "   NICHT EINGEFÜGT"
 
