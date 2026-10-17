@@ -447,11 +447,11 @@ nicht.
   des Laufs sie ohne Platz ließ**, nicht mehr, wo der Lauf sie über die
   wandernden Bänder, die Phase oder bei schwacher Übereinstimmung
   eingeordnet hat.
-- **Start und Probelauf warten jetzt, bis eine Datei mit mehreren Kanälen
-  in ihre Spuren zerlegt ist**, auch nach einem Kanal-Häkchen, und die
-  Zeile unter den Knöpfen sagt das; danach bietet die Preset-Liste die
-  Art an, die die Spuren brauchen. Scheitert das Zerlegen, werden sie
-  wieder frei, und die Datei geht im Ganzen in den Lauf.
+- **Start und Probelauf warten jetzt, bis eine Datei mit mehreren
+  Kanälen in ihre Spuren zerlegt ist**, auch nach einem Kanal-Häkchen,
+  und die Zeile darunter sagt das; danach bietet die Preset-Liste die
+  passende Art an. Scheitert das Zerlegen, werden sie frei, und die
+  Datei geht ganz in den Lauf.
 - **Aufnahmen mit 16, 22,05, 44,1 oder 96 kHz liegen jetzt an ihrer
   Stelle und sind so lang wie das Zeitfenster**: Eine 16-kHz-Aufnahme kam
   dreimal so lang heraus. Blöcke einer Aufnahme mit verschiedenen Raten
