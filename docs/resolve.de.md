@@ -84,7 +84,7 @@ bedienbar ist, steht der Grund an ihm:
   Worten ab, auch bei Material ohne Timecode.
 
 **Und auch eine Übergabe, die der Knopf annimmt, kann beim Öffnen noch
-abgewiesen werden.** Zweierlei macht eine unbrauchbar, und beides hält
+abgewiesen werden.** Dreierlei macht eine unbrauchbar, und alles hält
 die Arbeit an, bevor eine Zeitleiste entsteht — der Grund steht in der
 Zeile, die mit *Abbruch* beginnt:
 
@@ -95,6 +95,10 @@ Zeile, die mit *Abbruch* beginnt:
   schreibt, trägt eine — eine ohne kommt also von woanders her. Ohne die
   Rate entstünde die Zeitleiste mit einer geratenen Geschwindigkeit, und
   jeder Schnitt säße neben dem Bild. Den Lauf noch einmal machen.
+- **Sie nennt für Vorspann oder Abspann keine Datei.** Die Übergabe
+  dieses Programms nennt sie immer; der Eintrag wurde also anderswo
+  bearbeitet oder gekürzt. Die Zeile sagt, welchem der beiden die Datei
+  fehlt. Den Lauf noch einmal machen.
 
 Den Abgleich über die Kameras macht das Programm beim Öffnen, jedes
 Mal, wenn sich die Kameras in der Liste ändern, und jedes Mal, wenn der

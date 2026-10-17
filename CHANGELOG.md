@@ -224,6 +224,18 @@ nicht.
   home folder now goes up to auphonic.com under its first recording's
   name**, so the next run finds it and is not charged again.
 
+- **A recompute of an existing Auphonic production now says beforehand
+  that an earlier In point or a later Out point is refused by the return
+  check**, and that uploading everything again is the way out.
+
+- **A returned track whose measurement is unusable is no longer called
+  aligned in the log**: its line says the measurement is unusable, and
+  the run stops.
+
+- **`--resolve-json` with an intro or outro that names no file now stops
+  before Resolve is asked**, with a line naming it, instead of a program
+  fault at the import.
+
 ### Documentation
 
 - **The requirements chapter now explains the Python 3.12 floor** and
@@ -461,6 +473,18 @@ nicht.
   im Benutzerordner geht jetzt unter dem Namen seiner ersten Aufnahme zu
   auphonic.com**; der nächste Lauf findet ihn und zahlt nicht noch
   einmal.
+
+- **Ein Neurechnen einer vorhandenen Auphonic-Produktion sagt jetzt
+  vorher, dass ein früherer In-Punkt oder ein späterer Out-Punkt an der
+  Rückgabeprüfung scheitert**, und dass nur alles neu Hochladen hilft.
+
+- **Eine zurückgekommene Spur mit unbrauchbarer Messung heißt im
+  Protokoll nicht mehr ausgerichtet**: Ihre Zeile nennt die Messung
+  unbrauchbar, und der Lauf hält an.
+
+- **`--resolve-json` mit Vorspann oder Abspann ohne Datei hält jetzt an,
+  bevor Resolve gefragt wird**, und nennt ihn, statt beim Import an
+  einem Programmfehler zu scheitern.
 
 ### Dokumentation
 

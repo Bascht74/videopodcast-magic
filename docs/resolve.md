@@ -76,7 +76,7 @@ at once. Where the button is not usable, the reason stands at it:
   step refuses in the same words, on material without timecode too.
 
 **And a handover the button does take can still be turned away when it
-is opened.** Two things make one unusable, and both stop the work
+is opened.** Three things make one unusable, and all three stop the work
 before a timeline is built, with the reason on the line beginning
 *Abort*:
 
@@ -87,6 +87,9 @@ before a timeline is built, with the reason on the line beginning
   carries one, so a file without it came from somewhere else. Without
   the rate the timeline would be built at a guessed speed and every cut
   would sit beside the picture. Make the run again.
+- **It names no file for its intro or outro.** The program's own
+  handover always does, so the entry was edited or cut short elsewhere;
+  the line says which of the two lacks its file. Make the run again.
 
 The match over the cameras is asked on opening, again whenever the
 cameras in the list change, and whenever the output folder does. A

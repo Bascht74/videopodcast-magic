@@ -48,9 +48,9 @@ figure of the day is that command, not this paragraph**:
 * `cut/` **3334** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
-* `resolve/` **2493** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2504** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
-* `material/` **2090** -- channels, chains, continuation files, and what
+* `material/` **2092** -- channels, chains, continuation files, and what
   a track is made of
 * `loudness/` **483** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
@@ -65,7 +65,7 @@ figure of the day is that command, not this paragraph**:
   camera's drift goes out is `camera_drift`'s alone, by the rule every
   recording answers to (`drift_clear`: three times its uncertainty)
   and one bound of its own, 500 ppm
-* `auphonic/` **2382** -- the sending to auphonic.com and the fetching
+* `auphonic/` **2386** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
 * `preflight/` **2178** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
