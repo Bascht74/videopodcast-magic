@@ -3799,8 +3799,8 @@ msgstr "Primul montaj după vorbitori"
 msgid "\nTRANSCRIPT"
 msgstr "\nTRANSCRIERE"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  Cuvinte: %s -- %s %% către o voce, %s %% către două, %s %% într-o pauză"
+msgid "  %s words"
+msgstr "  Cuvinte: %s"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  Cuvinte: %s, fără nume -- nimeni nu a fost separat"

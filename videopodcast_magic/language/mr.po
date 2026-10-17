@@ -3885,8 +3885,8 @@ msgstr "वक्त्यानुसार पहिला कट"
 msgid "\nTRANSCRIPT"
 msgstr "\nट्रान्सक्रिप्ट"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s शब्द: %s %% एका आवाजाला, %s %% दोघांना, %s %% अंतरात"
+msgid "  %s words"
+msgstr "  %s शब्द"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s शब्द, नावांशिवाय -- कोणाचेही विभाजन झाले नाही"

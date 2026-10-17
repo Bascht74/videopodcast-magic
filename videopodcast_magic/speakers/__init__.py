@@ -2120,9 +2120,10 @@ def unmix_levels(power, c, at_most=30.0):
 # The floor is where passages stop being "mhm" and start being breath.
 SPEECH_MIN_LEN_S = 0.2
 
-# The longest silence inside one passage that does not end it: a breath
-# between two words, not a turn handed over. Set, not measured.
-SPEECH_PAUSE_BRIDGED_S = 0.35
+# The longest silence inside one passage that does not end it: a breath,
+# not a turn handed over. Measured 17.10.2026 on seven excerpts of the
+# owner's interviews: 0.35 to 0.75 took the right camera 88.5 to 92.7 %.
+SPEECH_PAUSE_BRIDGED_S = 0.75
 
 
 def clock_on_axis(curve, clock):
@@ -3626,6 +3627,11 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         else:
             print(T('  In %s, on this machine.') % os.path.basename(source))
         count = int(getattr(args, "speakers_count", 0) or 0)
+        if not count and why == "microphones mixed":
+            # One person per microphone: counting for itself, the model
+            # found a voice too many in 1 of 15 mixes, and then none got a
+            # microphone -- 58 % right against 95.5 % with the count given.
+            count = int(getattr(args, "_speakers_mixed_count", 0) or 0)
         blocks = blocks_in_run(tracks, source)
         stored = speaker_split_stored(source, count, blocks)
         if stored:

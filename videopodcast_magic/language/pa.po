@@ -3887,8 +3887,8 @@ msgstr "ਬੁਲਾਰੇ ਅਨੁਸਾਰ ਪਹਿਲਾ ਕੱਟ"
 msgid "\nTRANSCRIPT"
 msgstr "\nਟ੍ਰਾਂਸਕ੍ਰਿਪਟ"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s ਸ਼ਬਦ: %s %% ਇੱਕ ਆਵਾਜ਼ ਨੂੰ, %s %% ਦੋ ਨੂੰ, %s %% ਵਕਫ਼ੇ ਵਿੱਚ"
+msgid "  %s words"
+msgstr "  %s ਸ਼ਬਦ"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s ਸ਼ਬਦ, ਨਾਵਾਂ ਤੋਂ ਬਿਨਾਂ -- ਕਿਸੇ ਦਾ ਨਿਖੇੜਾ ਨਹੀਂ ਹੋਇਆ"

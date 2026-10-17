@@ -3884,8 +3884,8 @@ msgstr "Esimene montaaž kõneleja järgi"
 msgid "\nTRANSCRIPT"
 msgstr "\nTRANSKRIPTSIOON"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s sõna: %s %% ühele häälele, %s %% kahele, %s %% pausis"
+msgid "  %s words"
+msgstr "  %s sõna"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s sõna, nimedeta -- kedagi ei eristatud"

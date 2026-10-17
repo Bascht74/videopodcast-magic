@@ -3995,8 +3995,8 @@ msgstr "  इस मशीन पर कोई वाक् पहचान न�
 msgid "  Speech recognition (%s): %s words in %s s"
 msgstr "  वाक् पहचान (%s): %s शब्द, %s s में"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s शब्द: %s %% एक आवाज़ को, %s %% दो को, %s %% अंतराल में"
+msgid "  %s words"
+msgstr "  %s शब्द"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s शब्द, बिना नामों के -- किसी को अलग नहीं किया गया"

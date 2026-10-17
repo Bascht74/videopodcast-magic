@@ -3793,8 +3793,8 @@ msgstr "Ensimmäinen leikkaus puhujan mukaan"
 msgid "\nTRANSCRIPT"
 msgstr "\nLITTEROINTI"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s sanaa: %s %% yhdelle puheäänelle, %s %% kahdelle, %s %% aukossa"
+msgid "  %s words"
+msgstr "  %s sanaa"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s sanaa, ilman nimiä -- ketään ei eroteltu"

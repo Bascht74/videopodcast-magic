@@ -3977,8 +3977,8 @@ msgstr "  このマシンには音声認識がありません: macOS 26 には�
 msgid "  Speech recognition (%s): %s words in %s s"
 msgstr "  音声認識 (%s): %s 語、%s 秒"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s 語: 1つの声に %s %%、2つの声に %s %%、間に %s %%"
+msgid "  %s words"
+msgstr "  %s 語"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s 語、名前なし -- 誰も分離されていません"

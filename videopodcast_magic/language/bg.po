@@ -3885,8 +3885,8 @@ msgstr "Първи монтаж по говорещи"
 msgid "\nTRANSCRIPT"
 msgstr "\nТРАНСКРИПЦИЯ"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s думи: %s %% на един глас, %s %% на два, %s %% в празнина"
+msgid "  %s words"
+msgstr "  %s думи"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s думи, без имена -- никой не беше разделен"

@@ -5,9 +5,11 @@ The run's verdict is read off its own functions first, then what the
 window names. Sections: beside a camera, one the phase places and one
 the loudness curve placed at a match of 0.10; beside a camera with a
 hum, one the bands that move place; without a picture, the phase's one
-against the longest. In each a recording no way places is named, so an
-axis naming nothing fails. The limit: no material built here gets the
-curve that low, so that measurement is handed over as the run keeps it.
+against the longest, then the bands' one and the curve's at 0.10. In
+each a recording no way places is named, so an axis naming nothing
+fails. The limit: no material built here gets the curve that low, nor
+the bands to place anything against the longest recording, so those
+measurements are handed over as the run keeps them.
 """
 PLATFORM_BOUND = True
 import os
@@ -193,6 +195,40 @@ print("   %s; named %s" % (text, named(data)))
 check("without a picture a recording the phase placed is not named",
       "buried.wav" not in named(data) and "hiss.wav" in named(data),
       "named %s, wanted hiss.wav and not buried.wav" % named(data))
+
+#------------------------------- 4. Without a picture, as the run keeps it
+
+print("\n4. Without a picture: the bands, and the curve at 0.10, as kept")
+# Against the longest recording the bands place nothing built here: they
+# placed the guest only with the humming recording as its reference, the
+# shorter of the two. So the run's own measurement of section 2 is handed
+# over the way the run keeps one without a picture, beside the curve's at
+# 0.10 of section 1 and the hiss as the run measured it against the room.
+with contextlib.redirect_stdout(io.StringIO()):
+    BY_BANDS = vpm.sound_places("guest.wav", GUEST, HUM_CAM, 40.0, False)
+    HISS_KEPT = vpm.sound_places("hiss.wav", HISS, ROOM, 130.0, False)
+bands_kept = bool(BY_BANDS and BY_BANDS[2].get("from_bands"))
+print("   kept: guest.wav %s, low.wav by its curve at %.2f"
+      % ("by the bands" if bands_kept else "not by the bands",
+         KEPT["quality"]))
+raw = {}
+vpm.recordings_keep(
+    raw, ROOM, {GUEST: BY_BANDS, LOW: (-20.0, 1.0, dict(KEPT)),
+                HISS: HISS_KEPT},
+    dict((p, vpm.sample_count(p)) for p in (ROOM, GUEST, LOW, HISS)))
+with contextlib.redirect_stdout(io.StringIO()):
+    data, text = vpm.measure_time_axis([ROOM, GUEST, LOW, HISS],
+                                       phase_of=speech, raw=raw)
+print("   %s; named %s" % (text, named(data)))
+check("without a picture a recording the bands placed is not named",
+      bands_kept and "guest.wav" not in named(data)
+      and "hiss.wav" in named(data),
+      "named %s, wanted hiss.wav and not guest.wav; the kept measurement "
+      "%s the bands'" % (named(data), "is" if bands_kept else "is not"))
+check("nor without a picture one the curve placed at a match of 0.10",
+      "low.wav" not in named(data) and "hiss.wav" in named(data),
+      "named %s at a match of %.2f, wanted hiss.wav and not low.wav"
+      % (named(data), KEPT["quality"]))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

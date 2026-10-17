@@ -3794,8 +3794,8 @@ msgstr "Eerste montage per spreker"
 msgid "\nTRANSCRIPT"
 msgstr "\nTRANSCRIPT"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s woorden: %s %% bij één stem, %s %% bij twee, %s %% in een gat"
+msgid "  %s words"
+msgstr "  %s woorden"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s woorden, zonder namen -- er is niemand gescheiden"

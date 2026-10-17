@@ -4027,8 +4027,8 @@ msgstr "  На цьому комп'ютері немає розпізнаван�
 msgid "  Speech recognition (%s): %s words in %s s"
 msgstr "  Розпізнавання мовлення (%s): %s слів за %s с"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s слів: %s %% до одного голосу, %s %% до двох, %s %% у паузі"
+msgid "  %s words"
+msgstr "  %s слів"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s слів, без імен -- нікого не розділено"

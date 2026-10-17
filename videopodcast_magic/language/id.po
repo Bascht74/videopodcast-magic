@@ -3882,8 +3882,8 @@ msgstr "Potongan awal per pembicara"
 msgid "\nTRANSCRIPT"
 msgstr "\nTRANSKRIP"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s kata: %s %% ke satu suara, %s %% ke dua, %s %% di celah"
+msgid "  %s words"
+msgstr "  %s kata"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s kata, tanpa nama -- tidak ada yang dipisahkan"

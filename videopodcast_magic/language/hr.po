@@ -3798,8 +3798,8 @@ msgstr "Prvi rez po govornicima"
 msgid "\nTRANSCRIPT"
 msgstr "\nTRANSKRIPT"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s riječi: %s %% na jedan glas, %s %% na dva, %s %% u praznini"
+msgid "  %s words"
+msgstr "  %s riječi"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s riječi, bez imena -- nitko nije razdvojen"

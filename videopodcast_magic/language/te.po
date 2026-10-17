@@ -3886,8 +3886,8 @@ msgstr "వక్తల వారీగా మొదటి కట్"
 msgid "\nTRANSCRIPT"
 msgstr "\nట్రాన్స్‌క్రిప్ట్"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s పదాలు: %s %% ఒక స్వరానికి, %s %% రెండు స్వరాలకు, %s %% ఖాళీలో"
+msgid "  %s words"
+msgstr "  %s పదాలు"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s పదాలు, పేర్లు లేకుండా -- ఎవరినీ వేరుచేయలేదు"

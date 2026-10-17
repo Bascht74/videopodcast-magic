@@ -1678,8 +1678,8 @@ msgstr "  %s plans larges : le montage utilise %s."
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s mots, sans noms -- personne n’a été séparé"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s mots : %s %% sur une voix, %s %% sur deux, %s %% dans un trou"
+msgid "  %s words"
+msgstr "  %s mots"
 
 msgid "  %s would be installed into this Python: %s"
 msgstr "  %s serait installé dans ce Python : %s"

@@ -3779,8 +3779,8 @@ msgstr "화자별 1차 편집"
 msgid "\nTRANSCRIPT"
 msgstr "\n녹취록"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  단어 %s개: 목소리 하나에 %s %%, 둘에 %s %%, 빈틈에 %s %%"
+msgid "  %s words"
+msgstr "  단어 %s개"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  단어 %s개, 이름 없음 -- 아무도 분리되지 않았습니다"

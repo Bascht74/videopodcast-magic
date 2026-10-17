@@ -3794,8 +3794,8 @@ msgstr "Πρώτο μοντάζ ανά ομιλητή"
 msgid "\nTRANSCRIPT"
 msgstr "\nΑΠΟΜΑΓΝΗΤΟΦΩΝΗΣΗ"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s λέξεις: %s %% σε μία φωνή, %s %% σε δύο, %s %% σε κενό"
+msgid "  %s words"
+msgstr "  %s λέξεις"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s λέξεις, χωρίς ονόματα -- κανείς δεν διαχωρίστηκε"

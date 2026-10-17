@@ -3886,8 +3886,8 @@ msgstr "பேச்சாளர் வாரியாக முதல் கட
 msgid "\nTRANSCRIPT"
 msgstr "\nஎழுத்துப்படி"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s சொற்கள்: %s %% ஒரு குரலுக்கு, %s %% இரண்டு குரல்களுக்கு, %s %% இடைவெளியில்"
+msgid "  %s words"
+msgstr "  %s சொற்கள்"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s சொற்கள், பெயர்கள் இல்லாமல் -- யாரும் பிரிக்கப்படவில்லை"

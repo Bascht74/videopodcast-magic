@@ -3885,8 +3885,8 @@ msgstr "مقرر کے لحاظ سے پہلا کٹ"
 msgid "\nTRANSCRIPT"
 msgstr "\nٹرانسکرپٹ"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s الفاظ: %s %% ایک آواز کے، %s %% دو کے، %s %% خلا میں"
+msgid "  %s words"
+msgstr "  %s الفاظ"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s الفاظ، ناموں کے بغیر -- کسی کو الگ نہیں کیا گیا"

@@ -2,8 +2,8 @@
 """The speech recognition says its amounts the way the language does.
 
 Four sections in the order they come: the words dropped for want of a
-time, which take the thousands mark; the shares of the transcript
-report, which take the decimal mark; the recognition's own report,
+time, which take the thousands mark; the word count of the transcript
+report, which takes it too; the recognition's own report,
 where both marks stand in one line and both languages are asked; and
 the seconds a build took. The recogniser and the Swift compiler are
 stand-ins in the last two, so nothing real is run and no wording is
@@ -85,22 +85,22 @@ try:
           "%r -- wanted %r in it and %r not"
           % (said.strip(), "1.234", "1234"))
 
-    print("\n2. The shares of the transcript report take the decimal mark")
-    # A thousand words a tenth of a second apart, and one speaker over
-    # the first 25 seconds: 250 words to a voice and 750 in a gap, so
-    # the shares are 25.0, 0.0 and 75.0 and none of them is a whole
-    # number the decimal mark could hide in.
+    print("\n2. The word count of the transcript report takes the "
+          "thousands mark")
+    # 1234 words a tenth of a second apart, and one speaker over the
+    # first 25 seconds, so the line is the one a separation leads to and
+    # the count has four digits and a mark to carry.
     words = [{"start": i * 0.1, "end": i * 0.1 + 0.05, "word": "w%d" % i}
-             for i in range(1000)]
+             for i in range(1234)]
     segments = [("A", [(0.0, 25.0)])]
     vpm.set_language("de")
     said = spoken(lambda: vpm.write_transcript_files(
         room, "transcript", words, segments))
-    check("the shares of the transcript report carry the German "
-          "decimal mark",
-          "25,0" in said and "25.0" not in said,
+    check("the word count of the transcript report carries the German "
+          "thousands mark",
+          "1.234" in said and "1234" not in said,
           "%r -- wanted %r in it and %r not"
-          % (said.strip(), "25,0", "25.0"))
+          % (said.strip(), "1.234", "1234"))
 
     print("\n3. The recognition's own report writes both marks")
     # The recogniser is a stand-in: it hands back 1234 words and

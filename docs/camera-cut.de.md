@@ -710,7 +710,11 @@ So liest das Script die Spuren:
 * Es zerlegt jede Spur in Blöcke von 100 Millisekunden.
 * Es misst jeden Block gegen den eigenen Grundpegel der Spur, das
   leiseste Fünftel ihrer Blöcke; 10 dB darüber gilt als Sprache.
-* Pausen unter 0,35 Sekunden sind kein Sprecherwechsel.
+* Pausen unter 0,75 Sekunden sind kein Sprecherwechsel. An sieben
+  Ausschnitten echter Gespräche gegen den gemessen, der wirklich
+  sprach: Bei 0,75 statt 0,35 Sekunden stand die Kamera in allen sieben
+  öfter auf der Person, die gerade redete -- im Mittel 92,7 statt 88,5
+  Prozent der Zeit, bei gleich vielen Schnitten.
 * Passagen unter 0,2 Sekunden zählen nicht. An 31 Minuten
   Dreimikrofon-Material gemessen: darunter sind die Passagen, die
   hinzukommen, im Mittel zwei Zehntelsekunden lang — das ist Atem

@@ -3903,8 +3903,8 @@ msgstr "An chéad ghearradh de réir cainteora"
 msgid "\nTRANSCRIPT"
 msgstr "\nTRAS-SCRÍBHINN"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  Focail: %s; %s %% le guth amháin, %s %% le dhá ghuth, %s %% i mbearna"
+msgid "  %s words"
+msgstr "  Focail: %s"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  Focail: %s, gan ainmneacha -- níor scaradh aon duine"

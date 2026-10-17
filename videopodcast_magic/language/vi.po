@@ -3788,8 +3788,8 @@ msgstr "Bản dựng đầu theo người nói"
 msgid "\nTRANSCRIPT"
 msgstr "\nBẢN CHÉP LỜI"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s từ: %s %% cho một giọng nói, %s %% cho hai, %s %% trong khoảng trống"
+msgid "  %s words"
+msgstr "  %s từ"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s từ, không có tên -- không tách được ai"

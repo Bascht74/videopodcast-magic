@@ -1678,8 +1678,8 @@ msgstr "  Общих планов: %s -- монтаж берёт %s."
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  слов: %s, без имён -- никого не разделяли"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  слов: %s, из них %s %% на один голос, %s %% на два, %s %% в пропуске"
+msgid "  %s words"
+msgstr "  слов: %s"
 
 msgid "  %s would be installed into this Python: %s"
 msgstr "  Установка %s пойдёт в этот Python: %s"

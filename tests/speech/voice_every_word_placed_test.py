@@ -50,8 +50,7 @@ SAID = words((0.0, 0.5, "Guten"), (0.5, 1.1, "Tag,"), (1.1, 1.3, "das"),
              (1.3, 1.8, "ist"), (1.8, 2.6, "ein"), (2.6, 3.0, "Versuch."),
              (3.2, 3.6, "Und"), (3.6, 4.4, "weiter."),
              (9.0, 9.4, "Danke."))
-tally = {}
-put = vpm.words_by_speaker(SAID, SEGMENTS, tally)
+put = vpm.words_by_speaker(SAID, SEGMENTS)
 check("every word carries a name",
       all(w.get("speaker") for w in put),
       "%d of %d words named"
@@ -64,25 +63,17 @@ next_two = [w["speaker"] for w in put[6:8]]
 check("the second is Bert's",
       next_two == ["Bert"] * 2,
       "%s against two times Bert" % (next_two,))
-check("all nine words touch exactly one voice",
-      (tally["clear"], tally["shared"], tally["gap"]) == (9, 0, 0),
-      str(tally))
 
 print("\n2. Where two voices touch the same word, the longer one wins")
 OVER = words((3.0, 3.4, "kurz"))
-put = vpm.words_by_speaker(OVER, SEGMENTS, tally)
+put = vpm.words_by_speaker(OVER, SEGMENTS)
 check("0.1 s of Anna against 0.25 s of Bert goes to Bert",
       put[0]["speaker"] == "Bert", put[0].get("speaker"))
-check("and it is counted as shared",
-      (tally["clear"], tally["shared"], tally["gap"]) == (0, 1, 0),
-      str(tally))
 
 print("\n3. A word in a gap goes to the nearest voice")
-tally = {}
-put = vpm.words_by_speaker(words((6.0, 6.2, "hm")), SEGMENTS, tally)
+put = vpm.words_by_speaker(words((6.0, 6.2, "hm")), SEGMENTS)
 check("1.5 s to Bert beats 2.8 s to Anna", put[0]["speaker"] == "Bert",
       put[0].get("speaker"))
-check("and it is counted as a gap", tally["gap"] == 1, str(tally))
 put = vpm.words_by_speaker(words((20.0, 20.2, "so")), SEGMENTS)
 check("behind everything the last voice takes it",
       put[0]["speaker"] == "Anna", put[0].get("speaker"))

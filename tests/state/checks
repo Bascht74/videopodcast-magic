@@ -157,7 +157,7 @@ files_sync_one_recording	20
 files_twin_cameras_named	4
 project_amounts_grouped	3
 project_audio_counted	3
-project_audio_map_shown	9
+project_audio_map_shown	13
 project_cameras_land	23
 project_clip_tracks_read	10
 project_close_forgets	2
@@ -407,7 +407,7 @@ time_order_same_axis	8
 time_over_midnight	9
 time_own_rate_placed	8
 time_phase_late_placed	2
-time_phase_only_mixed	19
+time_phase_only_mixed	22
 time_point_pulled_back	5
 time_preview_fit_as_run	4
 time_reference_silent	5
@@ -416,7 +416,7 @@ time_scatter_not_placed	6
 time_second_try_places	18
 time_short_cam_as_run	5
 time_short_cam_found	6
-time_sound_placed_fits	7
+time_sound_placed_fits	9
 time_sound_stays_put	31
 time_split_keeps_stamp	3
 time_thin_block_refused	8
@@ -424,7 +424,7 @@ time_track_starts_late	8
 time_tracks_alone	32
 time_tracks_sit_together	4
 time_unheard_file_named	8
-time_weak_as_run	7
+time_weak_as_run	8
 time_weak_at_its_clock	6
 time_which_way_is_said	13
 time_window_is_shared	11
@@ -435,12 +435,12 @@ voice_answer_kept	24
 voice_bleed_gone_first	15
 voice_both_splits_stand	18
 voice_both_ways_agree	20
-voice_close_mics_mixed	53
+voice_close_mics_mixed	57
 voice_counts_grouped	3
 voice_cue_fits_two_lines	5
 voice_empty_marks_as_run	5
 voice_every_block_heard	5
-voice_every_word_placed	32
+voice_every_word_placed	29
 voice_failed_read_named	5
 voice_heard_again_named	12
 voice_heard_again_said	10

@@ -154,11 +154,12 @@ spoke is no longer in the answer.
 
 Where that is the case, the program stops asking the microphones one at
 a time. It adds the aligned recordings into a single recording, lets the
-separation listen to that one, and gives every voice it finds the name of
-the microphone it belongs to. That name is the whole point: a voice out
-of a joined recording would otherwise be Speaker 1, a name with nobody
-behind it, and a name with nobody behind it has no camera -- the cut
-would stand on the wide shot from beginning to end.
+separation listen to that one for one person per microphone, and gives
+every voice it finds the name of the microphone it belongs to. That name
+is the whole point: a voice out of a joined recording would otherwise be
+Speaker 1, a name with nobody behind it, and a name with nobody behind
+it has no camera -- the cut would stand on the wide shot from beginning
+to end.
 
 **Too well** is measured, not assumed. Every recording is held against
 every other, in both directions, in the passages where one person is
@@ -209,9 +210,14 @@ A voice that no microphone is far enough ahead of keeps its label and
 gets no camera, and two voices pointing at the same microphone cancel
 each other out, because one microphone is one person. More voices than
 microphones -- somebody in the room without one, or a voice out of the
-run-up -- and not one of them is placed. Where in the end no voice can
-be given a microphone, the log says that the tracks are measured
-instead, and the cut is the one it always was: one voice per track.
+run-up -- and not one of them is placed. That is why the separation is
+told how many people to find: one per microphone, or the number given
+with `--speakers-count`. Left to count for itself, it found one voice
+too many in one of fifteen joined recordings measured, and the speech
+was then named 58 per cent right instead of 95. Where in the end no
+voice can be given a microphone, the log says that the tracks are
+measured instead, and the cut is the one it always was: one voice per
+track.
 
 ### Naming the voices
 
@@ -517,8 +523,7 @@ faster-whisper ten to fifteen minutes.
 What was heard lands beside the result, in the output folder, as three
 files named after the **Production name**: `<name>.json`, `<name>.srt`
 and `<name>.txt`. The log lists their paths under the heading
-`TRANSCRIPT`, and above them how many words were heard and how many of
-those went to one voice, to two, or into a gap between voices.
+`TRANSCRIPT`, and above them how many words were heard.
 
 * **The json** holds a passage per stretch of one voice: when it begins
   and ends, the running text, the speaker, and a row per word with its
@@ -598,7 +603,8 @@ These options are not in the window.
   changed or gone since, or the separation came from another model, it
   is not used: the run warns and goes on without it.
 * `--speakers-count <NUMBER>` says how many people are to be found;
-  without it the program works the count out.
+  without it the program works the count out, and for microphones
+  joined into one recording it takes one person per microphone.
 * `--no-speakers-local` takes no recording apart by voice in this run,
   whatever else asks for it.
 * `--no-speech-recognition` leaves the text out.
