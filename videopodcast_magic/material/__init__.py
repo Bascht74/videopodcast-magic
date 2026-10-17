@@ -1852,8 +1852,21 @@ def place_track_on_axis(source, target, a, b, t0, t1, drift=True):
     the offset divided by b, and the track padded to its full length.
     Every track gets the same window, or the crosstalk cannot be removed.
     """
+    shell_quote(["ffmpeg", "-v", "error", "-i", source, "-af",
+                 ",".join(axis_place_filters(a, b, t0, t1, drift)),
+                 "-ac", str(kept_channels(source)), "-c:a", "pcm_s24le"]
+                + wav_safe(target) + ["-y", target])
+    return target
+
+
+def axis_place_filters(a, b, t0, t1, drift=True):
+    """The filters that lay a recording on the axis from *t0* to *t1*.
+
+    What place_track_on_axis writes, as a list for -af: a reading of the
+    recording at its place goes through the same filters, so it hears
+    what the written track would hold without the track being written.
+    """
     n_window = int(round((t1 - t0) * SR))
-    keep = kept_channels(source)
     # Every count below is a sample at the working rate, so the track is
     # brought to it first: a 16 kHz recording counted at 48 kHz came out
     # three times the window, its sound 1.8 s early (E-666).
@@ -1872,10 +1885,19 @@ def place_track_on_axis(source, target, a, b, t0, t1, drift=True):
     af.append("apad=whole_len=%d" % n_window)
     af.append("atrim=end_sample=%d" % n_window)
     af.append("asetpts=N/SR/TB")
-    shell_quote(["ffmpeg", "-v", "error", "-i", source, "-af", ",".join(af),
-        "-ac", str(keep), "-c:a", "pcm_s24le"]
-            + wav_safe(target) + ["-y", target])
-    return target
+    return af
+
+
+def axis_heard_filters(a, b, t0, t1, drift=True):
+    """What a reading of a recording at its place hears, as a list for -af.
+
+    axis_place_filters, and the one thing the written file adds: it is
+    whole numbers, so a float recording's overs stop at full scale. Read
+    unclipped, a recorder's overs of 2.3 dB on a real interview put the
+    level curve up to 591 steps above the written track's (17.10.2026).
+    """
+    return axis_place_filters(a, b, t0, t1, drift) + [
+        "aformat=sample_fmts=s32"]
 
 
 def envelope_heard(path):

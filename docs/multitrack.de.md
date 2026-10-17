@@ -475,7 +475,11 @@ andere Spur wird dagegen gemessen, Versatz und Uhrengang in einem Zug,
 und das Protokoll nennt die Referenz mit ihrer Laufzeit und jede Spur
 mit dem, was gefunden wurde. Eine Spur, deren Ton zu nichts passt,
 steht an ihrem Timecode, so wie sie es neben einem Bild täte; eine Spur
-ohne beides wird genannt und bleibt draußen.
+ohne beides wird genannt und bleibt draußen. Gemessen wird das für
+dieselben Dateien nur einmal: **Start** und **Probelauf** übernehmen,
+was das Fenster gemessen hat, und das Fenster übernimmt, was ein Lauf
+gemessen hat -- genau wie neben einem Bild. Das Protokoll sagt dann
+`Aus der auf diesem Rechner gespeicherten Messung übernommen`.
 
 Das Fenster fasst alles, was irgendeine Spur gehört hat. Eine Aufnahme,
 die später eingeschaltet wurde, bekommt Stille davor, eine früher

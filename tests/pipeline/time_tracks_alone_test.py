@@ -554,14 +554,16 @@ def axis_line(log_text, name):
     name stands on several lines; the answer is the first after the
     last of them. Not the first after the first: an ffmpeg without
     soxr prints its note while the bar stands at 0 %, and the note's
-    second line would be read as the answer.
+    second line would be read as the answer. A dry run writes no track
+    and draws no bar: its line is the first that begins with the name.
     """
     lines = log_text.splitlines()
     start = next((i for i, x in enumerate(lines) if WRITING in x), None)
     lines = lines[start or len(lines):]
     bars = [i for i, x in enumerate(lines)
             if x.strip().startswith(name + " [")]
-    after = lines[bars[-1] + 1:bars[-1] + 2] if bars else []
+    after = lines[bars[-1] + 1:bars[-1] + 2] if bars else [
+        x for x in lines if x.strip().startswith(name + " ")][:1]
     return after[0].strip() if after else ""
 
 

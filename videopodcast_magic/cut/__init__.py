@@ -345,22 +345,33 @@ def sound_levels(path, step=DIP_STEP_S):
         return []
     if key in _LEVELS:
         return _LEVELS[key]
-    rate = int(round(1.0 / step))
     try:
         p = subprocess.run(
             ["ffmpeg", "-v", "error", "-i", path, "-map", "a:0", "-af",
-             "aresample=8000,aeval=abs(val(0)):c=same,aresample=%d" % rate,
-             "-ac", "1", "-f", "s16le", "-"], capture_output=True)
+             levels_filters(step), "-ac", "1", "-f", "s16le", "-"],
+            capture_output=True)
     except OSError:
         return []
-    data = p.stdout or b""
-    if p.returncode or len(data) < 4:
-        _LEVELS[key] = []
-        return []
-    out = list(struct.unpack("<%dh" % (len(data) // 2),
-                             data[:len(data) // 2 * 2]))
+    out = [] if p.returncode else levels_read(p.stdout or b"")
     _LEVELS[key] = out
     return out
+
+def levels_filters(step=DIP_STEP_S):
+    """The filters sound_levels measures with: one loudness every *step*.
+
+    Down to 8000 Hz, rectified, one value per step. A sum read off the
+    recordings at their place ends in the same, so its values are the
+    ones the summed file would give.
+    """
+    return ("aresample=8000,aeval=abs(val(0)):c=same,aresample=%d"
+            % int(round(1.0 / step)))
+
+def levels_read(data):
+    """The values levels_filters wrote as signed 16 bit; [] under two."""
+    if len(data or b"") < 4:
+        return []
+    return list(struct.unpack("<%dh" % (len(data) // 2),
+                              data[:len(data) // 2 * 2]))
 
 def sound_levels_for(d):
     """Return the level envelope belonging to a handover file.

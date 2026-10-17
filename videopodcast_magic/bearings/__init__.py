@@ -431,18 +431,37 @@ ENOUGH_WINDOWS = 3
 SHARP_ENOUGH = 10.0
 
 
-def measure_offsets_by_crosstalk(tracks, rate=16000):
+def track_heard_at_place(track, window, rate=16000):
+    """One track as it lies on the axis over *window*: one channel at *rate*.
+
+    Read off its recording through the filters it is written onto the
+    axis with, its a, b and drift as they stand, so it holds what the
+    written track would and nothing is written for it.
+    """
+    p = subprocess.run(
+        ["ffmpeg", "-v", "error", "-i", track["source"], "-af",
+         ",".join(PROGRAM.axis_heard_filters(
+             track["a"], track.get("b", 1.0), window[0], window[1],
+             track.get("drift", False))),
+         "-ac", "1", "-ar", str(rate), "-f", "f32le", "-"],
+        capture_output=True)
+    return np.frombuffer(p.stdout, dtype=np.float32).astype(np.float64)
+
+
+def measure_offsets_by_crosstalk(tracks, rate=16000, window=None):
     """Measure the crosstalk window by window.
 
     When one person speaks, their voice is faintly in the other microphones
     too -- always a few milliseconds *later*, the time sound takes to travel.
     Returns {(i, j): [(time, milliseconds), ...]} for "i speaks, measured in
-    j", plus a list of what failed.
+    j", plus a list of what failed. With *window* (t0, t1) each track is
+    heard off its recording at its place, else off its file on the axis.
     """
     data = parallel_map(
         tracks,
-        lambda track: np.asarray(decode_audio(track["axis"], rate=rate),
-                                 dtype=np.float64))
+        lambda track: track_heard_at_place(track, window, rate) if window
+        else np.asarray(decode_audio(track["axis"], rate=rate),
+                        dtype=np.float64))
     level, speech = _block_levels(data, rate)
     measurements, lines, nb = {}, [], int(rate)
     for i, track in enumerate(tracks):
@@ -524,17 +543,21 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
                       limit_ppm=0.5, drift_allowed=True):
     """Verify the tracks line up, and straighten them if not.
 
-    Measured on the crosstalk in both directions: the sound path is
-    symmetric and cancels out, leaving the fixed offset and the clock
-    drift, and both are removed by rewriting the track. From about 20 ms
-    on the crossing voice is audible as a second one.
+    Measured on the crosstalk both ways: the sound path is symmetric and
+    cancels out, leaving offset and clock drift, both removed where the
+    track is written again. From about 20 ms on the crossing voice is a
+    second one. With the window each track is heard off its recording at
+    its place, so a dry run, which writes none, is checked as a run is.
     """
     if len(tracks) < 2:
         return
     print(T('\n  Check against the bleed -- reference is %s:')
           % tracks[0]["name"])
+    at_place = (t0, t1) if t0 is not None and t1 is not None and all(
+        t.get("source") and "a" in t for t in tracks) else None
     try:
-        measurements, lines = measure_offsets_by_crosstalk(tracks)
+        measurements, lines = measure_offsets_by_crosstalk(
+            tracks, window=at_place)
     except PROGRAM.Stopped:
         # Stop ends the run; it is no failure of this step.
         raise
@@ -611,8 +634,11 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
         track["b"] = held * (1.0 + k * 1e-6)
         track["drift"] = bool(drift_allowed
                            and (track.get("drift") or k != 0.0))
-        place_track_on_axis(track["source"], track["axis"], track["a"], track["b"], t0, t1,
-                       track.get("drift", False))
+        if track.get("axis"):
+            # Only a track that was written is written again; one a dry
+            # run left unwritten is heard at its new place below.
+            place_track_on_axis(track["source"], track["axis"], track["a"],
+                                track["b"], t0, t1, track.get("drift", False))
         shifted.append((track["name"], d0, k))
     if not shifted:
         print(T('    All tracks are in place -- nothing to move.'))
@@ -624,7 +650,8 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
                  % number_text(-k, 1, plus=True)
                  if abs(k) >= limit_ppm else ""))
     try:
-        measurements2, _ = measure_offsets_by_crosstalk(tracks)
+        measurements2, _ = measure_offsets_by_crosstalk(tracks,
+                                                        window=at_place)
     except PROGRAM.Stopped:
         # Stop ends the run; it is no failure of this step.
         raise
@@ -970,7 +997,7 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
     """
     raw = {} if raw is None else raw
     if not any(p.lower().endswith(VIDEO_SUFFIXES) for p in paths):
-        return recordings_axis(paths, tc_of, rows, phase_of)
+        return recordings_axis(paths, tc_of, rows, phase_of, raw)
     # Every file at once: each envelope is read on its own, and over
     # hours of 4K this is the longest part of the measurement.
     def curve_of(file_path):
@@ -1217,17 +1244,58 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
     return answer, axis_text(answer)
 
 
+def recordings_kept(raw, heads):
+    """What a kept measurement without a picture says, or None.
+
+    The reference, every other recording measured against it and every
+    length in samples, by the path_key of its first block -- only where
+    it was made of exactly these *heads*. Whoever measured it, the
+    window or a run: (reference, {head: placing or None}, {head: n}).
+    """
+    found = dict((path_key(h), h) for h in heads)
+    try:
+        against, length = raw["against"], raw["samples"]
+        if len(found) < 2 or raw["reference"] not in found \
+                or set(against) | {raw["reference"]} != set(found) \
+                or set(length) != set(found):
+            return None
+        return (found[raw["reference"]],
+                dict((found[k], tuple(at) if at else None)
+                     for k, at in against.items()),
+                dict((found[k], int(n)) for k, n in length.items()))
+    except (TypeError, KeyError, AttributeError, ValueError):
+        return None
+
+
+def recordings_keep(raw, reference, against, length):
+    """Put what the recordings' sound said into *raw*, for the other side.
+
+    The shape recordings_kept reads: by path_key of each first block,
+    *against* {head: placing or None} and *length* {head: samples}.
+    """
+    raw.update(reference=path_key(reference),
+               against=dict((path_key(p), list(at) if at else None)
+                            for p, at in against.items()),
+               samples=dict((path_key(p), int(n))
+                            for p, n in length.items()))
+
+
 def recordings_axis(paths, tc_of=lambda p: None, rows=None,
-                    phase_of=lambda p: True):
+                    phase_of=lambda p: True, raw=None):
     """The time axis with no picture, as the run lays the recordings.
 
     Each joined of its blocks (*rows*, {head: blocks}), the longest the
     reference, the rest measured against it by sound_places and laid by
-    the run's drift rule, or at a clock off what the sound placed, else
-    nowhere: measure_tracks_against_each_other, answered in the shape of
-    measure_time_axis. Later blocks are blocks_after_their_head's.
+    recordings_laid; what *raw* holds of these recordings, a run's, is
+    taken instead, and what is measured goes into it. In the shape of
+    measure_time_axis; later blocks are blocks_after_their_head's.
     """
+    raw = {} if raw is None else raw
     rows = dict((path_key(h), r) for h, r in (rows or {}).items())
+    kept = recordings_kept(raw, paths)
+    if kept:
+        ref, measured, length = kept
+        return recordings_laid(paths, tc_of, ref, measured, length)
 
     def samples(file_path):
         """Its length in samples, or nought where it cannot be read."""
@@ -1261,6 +1329,20 @@ def recordings_axis(paths, tc_of=lambda p: None, rows=None,
             if p in heard else None)))
     finally:
         shutil.rmtree(folder, True)
+    recordings_keep(raw, ref, measured, length)
+    return recordings_laid(paths, tc_of, ref, measured, length)
+
+
+def recordings_laid(paths, tc_of, ref, measured, length):
+    """Lay the recordings by what their sound said: recordings_axis's answer.
+
+    By the run's drift rule, or at a clock off what the sound placed, else
+    nowhere, as measure_tracks_against_each_other lays them. *ref* is the
+    reference, *measured* {path: placing or None} every other one, and
+    *length* {path: samples}; measured or kept, the same.
+    """
+    others = [p for p in paths if p != ref]
+    heard = [p for p in paths if length.get(p, 0) > 0]
     clocks = dict((p, tc_of(p)) for p in paths)
     position = {ref: (0.0, 1.0, {})}
     position.update((p, m) for p, m in measured.items()
