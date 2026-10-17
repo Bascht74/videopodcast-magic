@@ -568,22 +568,23 @@ def missing_conditions(files, production, assign_lines, camera_lines,
 def tracks_awaited(pending, files, split_files, owed, again):
     """*pending* with the recordings whose tracks have not arrived yet.
 
-    Until they are cut, files_for_run hands such a file over whole; a
-    camera's sound the run cuts itself. Held while *owed*, the prework's
-    open tasks by file, has work for it or its channels are measured: a
-    file whose channels cannot be measured goes into the run as one
-    track. Under the file tab's key; *again* is (owner, buttons look).
+    Until then files_for_run hands one over whole; a camera's sound the
+    run cuts itself. Held while *owed*, the prework's open tasks by file,
+    has work for it, or its channels are measured and its cut not tried:
+    one not measurable, or whose cut failed -- None in *split_files* --
+    goes in whole. Under the file tab's key; *again* is (owner, buttons look).
     """
     waiting, working = [], False
     for p, kind in files:
-        if kind != "audio" or p in split_files:
+        tried = p in split_files
+        if kind != "audio" or tried and split_files[p] is not None:
             continue
         try:
             wide = PROGRAM.channel_count(p) > 1
         except Exception:
             continue    # not countable: the run says so, nothing waits
         busy = owed.get(p, 0) > 0
-        if wide and (busy or PROGRAM.probe_has(
+        if wide and (busy or not tried and PROGRAM.probe_has(
                 PROGRAM.channel_facts_name(), p)):
             waiting.append(os.path.basename(p))
             working = working or busy
