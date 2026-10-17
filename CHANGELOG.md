@@ -106,9 +106,10 @@ nicht.
   the time, with as many cuts.
 - **The transcript line in the log now gives only the number of words**;
   its three shares followed how right the names were only weakly.
-- **"Wide shot at the latest" now says its two minutes hold only while
-  "Wide shot after" is on and "Long monologue" changes the camera**; the
-  manual and `--help` say the same. The behaviour is unchanged.
+- **"Wide shot at the latest" now says what it does**: the clock breaks
+  up a shot only when it is longer than both this and "Wide shot after",
+  and the greeting and farewell wide shot ends there either way; the
+  manual and `--help` say the same. The cut is unchanged.
 - **`--update` now installs a release with that release's own list of
   package versions**, so going back to an earlier version brings that
   version's packages too. Releases before 3.0.0b28 carry no list and are
@@ -237,6 +238,11 @@ nicht.
   before Resolve is asked**, with a line naming it, instead of a program
   fault at the import.
 
+- **A handover that is not UTF-8 is now reported as the file's
+  problem**, as before 3.0.0b29, no longer as a fault in the program to
+  report: one saved again as UTF-16, or a video handed to `--resolve-
+  json`.
+
 ### Documentation
 
 - **The requirements chapter now explains the Python 3.12 floor** and
@@ -318,7 +324,7 @@ nicht.
   Multitrack-Produktion entsteht.
 - **Ein Probelauf legt die Spuren nicht mehr für sich selbst auf die
   Zeitachse**: Die Vorschau über ein 68 Minuten langes Interview braucht
-  rund 2,4 GB weniger Platz, und der Schnitt bleibt Sekunde für Sekunde
+  rund 2,4 GB weniger Platz, und der Schnitt bleibt auf die Sekunde
   gleich. Mit API Key oder bei Mikrofonen, die einander zu gut hören,
   werden die Spuren noch geschrieben.
 - **Ohne Bild messen Fenster und Lauf die Zeitachse nur noch einmal**:
@@ -337,10 +343,11 @@ nicht.
 - **Die Transkript-Zeile im Protokoll nennt jetzt nur noch die Zahl der
   Wörter**; ihre drei Anteile folgten der Richtigkeit der Namen nur
   schwach.
-- **„Weitwinkel spätestens“ sagt jetzt, dass seine zwei Minuten nur
-  gelten, solange „Weitwinkel nach“ an ist und „Langer Monolog“ die
-  Kamera wechselt**; Handbuch und `--help` sagen dasselbe. Das Verhalten
-  bleibt, wie es war.
+- **„Weitwinkel spätestens“ sagt jetzt, was es tut**: Die Uhr bricht
+  eine Einstellung nur auf, wenn sie länger ist als dieser Wert und als
+  „Weitwinkel nach“, und der Weitwinkel für Begrüßung und Abschied endet
+  dort so oder so; Handbuch und `--help` sagen dasselbe. Der Schnitt
+  bleibt gleich.
 - **`--update` installiert eine Version jetzt mit ihrer eigenen Liste
   von Paketversionen**; wer zu einer früheren Version zurückgeht,
   bekommt deren Pakete. Versionen vor 3.0.0b28 haben keine Liste und
@@ -488,6 +495,10 @@ nicht.
 - **`--resolve-json` mit Vorspann oder Abspann ohne Datei hält jetzt an,
   bevor Resolve gefragt wird**, und nennt ihn, statt beim Import an
   einem Programmfehler zu scheitern.
+
+- **Eine Übergabedatei, die nicht UTF-8 ist, wird jetzt wieder als
+  Problem der Datei gemeldet**, nicht mehr als Fehler im Programm: etwa
+  eine als UTF-16 neu gespeicherte oder ein Video an `--resolve-json`.
 
 ### Dokumentation
 
