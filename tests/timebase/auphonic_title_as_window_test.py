@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-"""A command-line run goes up to auphonic.com under its production's name.
+"""A command-line run goes up to auphonic.com under a title its next run finds.
 
 A run finds a production again by its title alone; one title every run
-shared found last week's production for this week's recordings. main()
-in this process, on material in episode folders; auphonic.com stood in
+shared found last week's production for this week's recordings, and one
+by the clock found none. main() in this process; auphonic.com stood in
 where the tracks go up, noting the title and ending the run there.
 Sections: two weeks without a picture, one recording, two weeks with a
-picture, a name given with --production, and the window's own line,
-whose production name stays the title it was.
+picture, a name given with --production, the window's own line, whose
+production name stays the title it was; then, with auphonic.com stood
+in as a list the program's own lookup reads, one recording straight on
+a desktop and one in an episode folder, each run twice minutes apart.
 """
 PLATFORM_BOUND = True
 import os
@@ -76,6 +78,64 @@ def offline(_key, arguments, *_a, **_k):
     raise RuntimeError("auphonic.com is not asked for that in this test")
 
 
+class Productions(object):
+    """auphonic.com as a list of productions, newest first, ten a page.
+
+    Each one it makes is done at once and hands back what went up into
+    it, so the run's return check holds; *made* keeps them, and what a
+    second run finds there it finds with the program's own lookup.
+    """
+
+    def __init__(self):
+        self.made = []
+
+    def titles(self):
+        """The titles of the productions made, oldest first."""
+        return [p["metadata"]["title"] for p in reversed(self.made)]
+
+    def __call__(self, _key, arguments, *_a, **_k):
+        arguments = [str(a) for a in arguments]
+        url = next((a for a in arguments if a.startswith(vpm.AUPHONIC)), "")
+        path = url[len(vpm.AUPHONIC):]
+        answer = {}
+        if "-o" in arguments:
+            uuid = path.rsplit("/", 1)[-1].split(".")[0]
+            shutil.copy(os.path.join(ROOM, "held", uuid + ".wav"),
+                        arguments[arguments.index("-o") + 1])
+            return ""
+        if path == "/api/user.json":
+            answer = {"credits": 10.0, "is_paying_user": True}
+        elif path.startswith("/api/productions.json?"):
+            at = int(path.split("offset=", 1)[-1].split("&")[0] or 0)
+            answer = self.made[at:at + 10]
+        elif path == "/api/productions.json":
+            with open(arguments[arguments.index("-d") + 1][1:],
+                      encoding="utf-8") as f:
+                asked = json.load(f)
+            uuid = "U%d" % (len(self.made) + 1)
+            answer = {"uuid": uuid, "status": 3, "status_string": "Done",
+                      "metadata": {"title": asked["metadata"]["title"]},
+                      "output_files": [{
+                          "filename": uuid + ".wav", "format": "wav",
+                          "download_url": vpm.AUPHONIC + "/dl/%s.wav" % uuid}]}
+            self.made.insert(0, answer)
+        elif path.startswith("/api/preset/"):
+            answer = {"uuid": "PRESETUUID", "preset_name": "Podcast",
+                      "is_multitrack": False,
+                      "output_files": [{"format": "wav", "ending": "wav"}]}
+        elif path.startswith("/api/production/"):
+            uuid = path.split("/")[3].split(".")[0]
+            sent_up = [a[len("input_file=@"):] for a in arguments
+                       if a.startswith("input_file=@")]
+            if sent_up:
+                os.makedirs(os.path.join(ROOM, "held"), exist_ok=True)
+                shutil.copy(sent_up[0],
+                            os.path.join(ROOM, "held", uuid + ".wav"))
+            answer = next((p for p in self.made if p["uuid"] == uuid), {})
+        return json.dumps({"status_code": 200, "data": answer})
+
+
+REAL_SINGLE = vpm.run_single_production
 vpm._curl_call = offline
 vpm.load_api_key = lambda *a, **k: KEY
 vpm.preset_for_run = lambda args, key, multitrack: ("PRESETUUID", "Podcast")
@@ -124,6 +184,28 @@ def line(argv, preset="Podcast_Multi"):
     return list(argv) + ["--auphonic-preset", preset, "--out", out,
                          "--lufs", "source", "--no-metrics",
                          "--no-speech-recognition", "--no-transcript-file"]
+
+
+def twice(argv):
+    """The same line run now and again with the clock two minutes on.
+
+    Both against one stand-in list of productions, the second run told
+    to take a result it finds. The two logs, and that list.
+    """
+    server = Productions()
+    vpm._curl_call = server
+    vpm.run_single_production = REAL_SINGLE
+    real = time.strftime
+    logs = [run(argv + ["--auphonic-resume", "result"])[1]]
+    time.strftime = lambda form, *_a: real(
+        form, time.localtime(time.time() + 120))
+    try:
+        logs.append(run(argv + ["--auphonic-resume", "result"])[1])
+    finally:
+        time.strftime = real
+        vpm._curl_call = offline
+        vpm.run_single_production = single
+    return logs, server
 
 
 try:
@@ -183,6 +265,32 @@ try:
     titles, _log = run(list(argv or ["-"])[1:])
     check("the window's production name stays the title, not the folder",
           titles == ["Pilot"], "titles sent %r, wanted ['Pilot']" % titles)
+
+    print("\n6. One recording straight on a desktop, run twice")
+    desk = os.path.join(ROOM, "Desktop")
+    os.makedirs(desk)
+    logs, server = twice(line([shutil.copy(GUEST, desk)], "Podcast_Single"))
+    titles = server.titles()
+    check("a general folder's material goes up under its recording's name",
+          titles[:1] == ["Guest"],
+          "productions made %r, wanted the first titled 'Guest'" % titles)
+    check("the run minutes later finds that production and makes none",
+          len(titles) == 1,
+          "productions made over two runs %r, wanted one" % titles)
+    head = vpm.T('  Production at auphonic.com:   %s') % ""
+    said = [x for x in logs[0].splitlines() if x.startswith(head)]
+    check("the run says the title it goes up under",
+          said == [head + "Guest"],
+          "lines naming the production at auphonic.com %r, wanted one "
+          "naming 'Guest'" % said)
+
+    print("\n7. One recording in an episode folder, run twice")
+    logs, server = twice(line(week("Episode_48", [GUEST]), "Podcast_Single"))
+    titles = server.titles()
+    check("an episode folder still names it, found again minutes later",
+          titles == ["Episode_48"],
+          "productions made over two runs %r, wanted ['Episode_48']"
+          % titles)
 except Exception as e:
     bad.append("the test ran into %s: %s" % (type(e).__name__, e))
 finally:

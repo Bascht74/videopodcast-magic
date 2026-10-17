@@ -359,8 +359,13 @@ track alike, and asks what should happen to it. The name is the
 production's, in the window and on the command line alike: **Production
 name**, `--production`, or else the folder the material lies in. An
 episode whose folder has a name of its own therefore does not find last
-week's. The program looks among the newest 50 productions at
-auphonic.com; one further back is not found, and the run makes a new
+week's. Where that folder says nothing about the production -- the
+desktop, the downloads, the home folder, the top of a memory card -- a
+command-line run goes up under the name of its first track instead,
+which stays the same from one run to the next. Two episodes recorded
+under the same file names in such a folder therefore find each other: a
+folder of their own or `--production` keeps them apart. The program
+looks among the newest 50 productions at auphonic.com; one further back is not found, and the run makes a new
 production, which costs credit. For several tracks the answers are
 these:
 

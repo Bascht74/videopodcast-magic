@@ -811,20 +811,31 @@ def guess_production_name(file_path):
     """Return the production name from the folder holding the files.
 
     Files sitting directly on a volume or in the home folder have a
-    meaningless folder name; then date and time are used instead.
+    meaningless folder name (folder_says_nothing); then date and time
+    are used instead.
+    """
+    name = os.path.basename(os.path.dirname(os.path.abspath(file_path)))
+    if folder_says_nothing(file_path):
+        return 'Production ' + time.strftime("%Y-%m-%d %H-%M")
+    return name
+
+
+def folder_says_nothing(file_path):
+    """Whether the folder holding *file_path* says nothing of a production.
+
+    The root of a disk or of a volume, the home folder, and the folders
+    every home has (general_folder_names) -- whatever lies there.
     """
     folder = os.path.dirname(os.path.abspath(file_path))
     name = os.path.basename(folder)
     parent = os.path.dirname(folder)
     general = general_folder_names()
-    meaningless = (not name
-                    or folder == os.sep                  # root
-                    or parent == "/Volumes"              # volume root
-                    or folder == os.path.expanduser("~")  # home folder
-                    or name.lower() in general)
-    if meaningless:
-        return 'Production ' + time.strftime("%Y-%m-%d %H-%M")
-    return name
+    home = path_key(os.path.expanduser("~"))
+    return (not name
+            or folder == os.sep                  # root
+            or parent == "/Volumes"              # volume root
+            or path_key(folder) == home          # home folder
+            or name.lower() in general)
 
 
 # How much shorter than the rest a file has to be before one with no
