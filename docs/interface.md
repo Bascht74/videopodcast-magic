@@ -587,11 +587,17 @@ the Resolve project, and what the log records.
 cut -- the time axis, who speaks when, the cut with its shots -- reports
 all of it in the log, and makes no edit. It is the run the preview makes
 quietly for itself: pressed once the preview stands, it takes the time
-axis and who speaks when from what the preview kept. One thing it does
-write: where the microphones hear each other too well
-to be told apart, it measures how far apart they stand and keeps the
-joined recording the separation needs, so the run that follows does not
-build it a second time. It
+axis and who speaks when from what the preview kept. It writes no
+track onto the time axis for its own use: the check against the bleed
+and the quiet moments the cut is placed at are read off the recordings
+where they lie, so it needs neither the time nor the room in the
+temporary folder that a copy of every track would cost. Two things
+still have the tracks written there, and they go again when the run
+ends: with an **API Key**, so the log can say how much would go up to
+auphonic.com, and where the microphones hear each other too well
+to be told apart -- it then measures how far apart they stand and keeps
+the joined recording the separation needs, so the run that follows does
+not build it a second time. It
 and **Start** stay locked while something is outstanding, and **what it
 is stands under the buttons**, with the tab it is on:
 

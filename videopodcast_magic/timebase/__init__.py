@@ -604,24 +604,48 @@ def no_recording_base_message(name):
              'with another program.') % name
 
 
-def measure_tracks_against_each_other(tracks, phase_of=lambda paths: True):
+def measure_tracks_against_each_other(tracks, phase_of=lambda paths: True,
+                                      key=None):
     """Put every track on the time axis of the longest one.
 
-    The longest recording is the reference for the same reason the
-    longest camera is: it overlaps most with the others. A track the
-    sound cannot place stands at its clock, as with a picture. Returns
-    the tracks that found a place, each carrying a and b. *phase_of*
-    says of a track's blocks whether the phase way may place it.
+    The longest recording is the reference: it overlaps most with the
+    others. A track the sound cannot place stands at its clock, as with a
+    picture; *phase_of* says of a track's blocks whether the phase way may
+    place it. What the store keeps under *key*, the window's or a run's,
+    is taken instead of measuring. Returns the tracks placed, with a, b.
     """
-    reference = max(tracks, key=lambda t: sample_count(t["source"]))
+    head = dict((id(t), (t.get("blocks") or [t["source"]])[0])
+                for t in tracks)
+    kept = key and PROGRAM.recordings_kept(
+        (stage_get(key) or {}).get("raw"), list(head.values()))
+    if kept:
+        print(T('  Taken from the measurement kept on this machine: the '
+                'same files and settings, so nothing is measured again.'))
+        reference = next(t for t in tracks if head[id(t)] == kept[0])
+    else:
+        reference = max(tracks, key=lambda t: sample_count(t["source"]))
     length = sample_count(reference["source"]) / float(SR)
     print(T('  Reference: %s (%s, longest running time)')
           % (reference["name"], as_hms(length)))
-    measured = dict(
-        (id(t), sound_places(t["name"], t["source"], reference["source"],
-                             length, bool(phase_of(t.get("blocks")
-                                                   or [t["source"]]))))
-        for t in tracks if t is not reference)
+    if kept:
+        measured = dict((id(t), kept[1].get(head[id(t)]))
+                        for t in tracks if t is not reference)
+    else:
+        measured = dict(
+            (id(t), sound_places(t["name"], t["source"],
+                                 reference["source"], length,
+                                 bool(phase_of(t.get("blocks")
+                                               or [t["source"]]))))
+            for t in tracks if t is not reference)
+        if key:
+            raw = {}
+            PROGRAM.recordings_keep(
+                raw, head[id(reference)],
+                dict((head[id(t)], measured[id(t)]) for t in tracks
+                     if t is not reference),
+                dict((head[id(t)], sample_count(t["source"]))
+                     for t in tracks))
+            stage_put(key, {"raw": raw})
     # The clock of each, read off its first block, and the base the
     # cameras' rule picks: the first the sound placed, reference first.
     clocks = dict((id(t), file_timecode((t.get("blocks") or [t["source"]])[0]))
@@ -649,18 +673,28 @@ def measure_tracks_against_each_other(tracks, phase_of=lambda paths: True):
     return placed
 
 
-def tracks_onto_axis(args, tracks, t0, t1, folder, pattern):
+def tracks_onto_axis(args, tracks, t0, t1, folder, pattern,
+                     separating=False):
     """Write every track onto the axis from *t0* to *t1*, into *folder*.
 
-    Both paths write with this, a picture's into the temp folder and
-    the one without under *pattern* into the output; the drift is taken
-    out only where it stands clear, and the line under each says so.
+    Both paths write with this, a picture's into the temp folder and the
+    one without under *pattern* into the output; the drift goes out only
+    where it stands clear, and the line under each says so. A dry run
+    writes only where dry_run_writes_tracks says (*separating* handed on).
     """
     print(as_head(T('\nWRITING TRACKS TO THE AXIS')))
+    written = not args.dry_run or dry_run_writes_tracks(args, tracks,
+                                                        separating)
     for track in tracks:
         target = os.path.join(folder, pattern % safe_filename(track["name"]))
         track["drift"] = (not getattr(args, "no_drift", False)
                           and drift_clear(track["b"], track.get("st")))
+        if not written:
+            # Where it would lie and for how long, and nothing written.
+            print("    %-20s %s%s" % (track["name"], as_hms(t1 - t0),
+                                      drift_note(track["b"], track.get("st"),
+                                                 track["drift"])))
+            continue
         show_progress(track["name"], 0.0)
         place_track_on_axis(track["source"], target, track["a"], track["b"],
                             t0, t1, track["drift"])
@@ -671,22 +705,45 @@ def tracks_onto_axis(args, tracks, t0, t1, folder, pattern):
                                 as_data_size(size_in_mb(target)),
                                 drift_note(track["b"], track.get("st"),
                                            track["drift"])))
+    if not written:
+        print(T('\n  (dry run: nothing written)'))
     verify_alignment(tracks, t0, t1,
                      drift_allowed=not getattr(args, "no_drift", False))
 
 
-def align_tracks_only(args, tracks, tmpdir, title=""):
+def dry_run_writes_tracks(args, tracks, separating=False):
+    """Whether a dry run still writes its tracks onto the axis.
+
+    The check and the sum for the cut read the recordings at their place.
+    Two readers still read the files: a dry run with a key, saying what
+    would go up, and a separation mixing microphones that hear each other
+    too well, kept for the next run -- asked by separation_for_run's rule
+    where *separating* says one follows. The files go with the temp folder.
+    """
+    if args.auphonic_key and run_uploads(args):
+        return True
+    if (not separating or sync_only(args) or PROGRAM.SPEAKER_SPLIT_OFF
+            or getattr(args, "no_speakers_local", False)
+            or getattr(args, "speakers_local", None)
+            or getattr(args, "_camera_audio", None)):
+        return False
+    apart = PROGRAM.microphones_apart_of_run(args, tracks)
+    return apart is not None and apart < PROGRAM.MICROPHONES_APART_DB
+
+
+def align_tracks_only(args, tracks, tmpdir, title="", key=None):
     """Lay the tracks against each other where there is no picture.
 
     Equally long and with the same start point, which is what a
     multitrack production needs. The window holds everything any track
-    heard: a silent edge costs less than a recording cut short.
+    heard: a silent edge costs less than a recording cut short. *key*
+    names the measurement in the stage store, the window's and the run's.
     """
     step_begin("time base")
     print(as_head(T('\nMEASURING THE TIME AXIS')))
     print(T('  No picture: the tracks are laid against each other.'))
     placed = measure_tracks_against_each_other(
-        tracks, lambda paths: phase_of_run(args, paths))
+        tracks, lambda paths: phase_of_run(args, paths), key)
     if len(placed) < 2:
         print(T('\nOnly one track found a place -- there is nothing left '
                 'to lay it against.'))
@@ -1413,8 +1470,10 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         made = join_the_plan(plan, tmpdir)
         if len(made) > 1:
             # Several recordings and no picture: they are laid against
-            # each other instead of against a camera, whatever the tick.
-            return align_tracks_only(args, made, tmpdir, title)
+            # each other instead of against a camera, whatever the tick;
+            # measured once, by the window or by a run, under one name.
+            return align_tracks_only(args, made, tmpdir, title,
+                                     run_axis_key(args, plan, video_paths))
         # One recording and no picture: its blocks become one file, and
         # that is the whole job.
         return join_only(args, made, tmpdir, title)
@@ -1584,7 +1643,8 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     silence_report([max(0.0, t1 - b) for b in ends], ends,
                    T('from %s'))
 
-    tracks_onto_axis(args, tracks, t0, t1, tmpdir, "axis_%s.wav")
+    tracks_onto_axis(args, tracks, t0, t1, tmpdir, "axis_%s.wav",
+                     separating=True)
     if not finished_mix_onto_axis(args, finished, t0, t1, tmpdir):
         return 1
 
@@ -1737,10 +1797,10 @@ def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
     """The rest of a dry run once the axis stands: who speaks, the cut.
 
     Everything a run works out before it writes, the handover included,
-    and nothing it writes: no camera file, mix, single track or loudness,
-    no upload, metrics, colour comparison or Resolve. A separation is
-    only read where one is kept, and no speech is recognised. The level
-    dips come from a sum of the raw tracks; *axis* is the axis's key.
+    and nothing it writes: no camera file, mix, track, loudness, upload,
+    metrics, colour comparison or Resolve. A separation is only read where
+    kept, no speech is recognised, and the dips come off the recordings at
+    their place (levels_at_their_place); *axis* is the axis's key.
     """
     sync = sync_only(args)
     segment_list, cut, words = [], [], []
@@ -1750,15 +1810,13 @@ def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
         segment_list = speakers_of_the_run(args, tracks, (t0, t1))
     step_begin("result")
     if not sync:
-        levels = mix_tracks([t["axis"] for t in tracks],
-                            os.path.join(tmpdir, "levels.wav"),
-                            label=T('Building the sum'))
+        levels = levels_at_their_place(tracks, t0, t1, tmpdir)
         words = words_carried(args, tracks, (t0, t1)) or []
         work = cut_list_of(args, segment_list, tracks, cameras, videos,
                            tc_start, ref_clip, t1 - t0, words=words,
-                           sound_source=levels)
-        # The sum goes with tmpdir; its envelope stays, for a recut.
-        levels_key = PROGRAM.keep_levels(PROGRAM.sound_levels(levels))
+                           levels=levels)
+        # No sum is left on the disc; its envelope stays, for a recut.
+        levels_key = PROGRAM.keep_levels(levels)
         cut, segment_list = ((work["cut"], work["segments"]) if work
                              else ([], []))
         roles_said(segment_list, words)
@@ -1782,6 +1840,54 @@ def dry_run_ends(args, tracks, cameras, videos, tmpdir, position, t0, t1,
     shutil.rmtree(tmpdir, ignore_errors=True)
     print(T('\n  (dry run: worked out and kept, output folder untouched)'))
     return 0
+
+
+def levels_at_their_place(tracks, t0, t1, tmpdir):
+    """The loudness of the tracks' sum on the axis, every DIP_STEP_S.
+
+    What sound_levels reads off the tracks written and summed by
+    mix_tracks, read off the recordings: each through the filters it is
+    written with, brought to the widest as mix_tracks brings it, summed
+    and measured in one ffmpeg; tracks and sum stop at full scale as their
+    files did. Only the values touch *tmpdir*; [] where unreadable.
+    """
+    have = [kept_channels(t["source"]) for t in tracks]
+    width = max(have or [1])
+    parts, chains = [], []
+    for i, (track, n) in enumerate(zip(tracks, have)):
+        parts += ["-i", track["source"]]
+        chains.append("[%d:a]%s,aformat=channel_layouts=%s,%s" % (
+            i, ",".join(PROGRAM.axis_heard_filters(
+                track["a"], track.get("b", 1.0), t0, t1,
+                track.get("drift", False))),
+            "stereo" if n == 2 else "mono",
+            PROGRAM.channel_filter(n, width)))
+    if len(chains) == 1:
+        fc = chains[0] + "," + PROGRAM.levels_filters() + "[out]"
+    else:
+        fc = (";".join("%s[m%d]" % (c, i) for i, c in enumerate(chains))
+              + ";" + "".join("[m%d]" % i for i in range(len(chains)))
+              + "amix=inputs=%d:normalize=0," % len(chains)
+              # The summed file was whole numbers too: clipped as it was.
+              + "aformat=sample_fmts=s32," + PROGRAM.levels_filters()
+              + "[out]")
+    raw = os.path.join(tmpdir, "levels.raw")
+    try:
+        PROGRAM.run_ffmpeg_with_progress(
+            ["ffmpeg", "-v", "error"] + parts
+            + ["-filter_complex", fc, "-map", "[out]", "-ac", "1",
+               "-f", "s16le", "-y", raw],
+            t1 - t0, T('Building the sum'))
+        with open(raw, "rb") as f:
+            data = f.read()
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
+    except Exception:
+        return []
+    finally:
+        PROGRAM.remove_quietly(raw)
+    return PROGRAM.levels_read(data)
 
 
 def check_written_file(target, items, n_camera, args, fps):

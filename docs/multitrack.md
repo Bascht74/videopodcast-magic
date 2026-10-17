@@ -442,7 +442,11 @@ camera is: it overlaps most with the others. Every other track is
 measured against it, offset and clock drift in one go, and the log names
 the reference with its running time and each track with what was found.
 A track whose sound matches nothing stands at its timecode, as it would
-beside a picture; a track with neither is named and stays out.
+beside a picture; a track with neither is named and stays out. That
+measurement is made once for the same files: **Start** and **Dry run**
+take what the window measured, and the window takes what a run
+measured, as they do beside a picture. The log then says `Taken from
+the measurement kept on this machine`.
 
 The window holds everything any track heard. A recording switched on
 late gets silence in front of it, one switched off early silence behind,

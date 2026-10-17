@@ -643,10 +643,18 @@ ausrechnet -- die Zeitachse, wer wann spricht, den Schnitt mit seinen
 Einstellungen --, das alles ins Protokoll schreibt und doch keinen
 Schnitt erzeugt. Es ist derselbe Lauf, den die Vorschau still für sich
 macht: Gedrückt, sobald die Vorschau steht, nimmt er Zeitachse und
-Sprecher aus dem, was sie aufbewahrt hat. Eines schreibt er doch: Hören die Mikrofone einander zu gut,
-um auseinandergehalten zu werden, misst er ihren Abstand und bewahrt
-die zusammengelegte Aufnahme auf, die die Trennung braucht -- der
-richtige Lauf muss sie dann nicht ein zweites Mal bauen.
+Sprecher aus dem, was sie aufbewahrt hat. Für sich selbst legt er
+keine Spur auf die Zeitachse: Die Probe gegen das Übersprechen und die
+leisen Stellen, an die der Schnitt gesetzt wird, liest er aus den
+Aufnahmen dort, wo sie liegen. Die Zeit und den Platz im
+temporären Ordner, die eine Kopie jeder Spur kosten würde, braucht er
+also nicht. Zweierlei lässt die Spuren dort doch noch schreiben, und mit
+dem Ende des Laufs sind sie wieder fort: ein **API Key**, damit das
+Protokoll sagen kann, wie viel zu auphonic.com hochginge, und Mikrofone,
+die einander zu gut hören, um auseinandergehalten zu werden. Dann misst
+er ihren Abstand und bewahrt die zusammengelegte Aufnahme auf, die die
+Trennung braucht -- der richtige Lauf muss sie nicht ein zweites Mal
+bauen.
 Er und **Start** bleiben gesperrt, solange etwas offen ist, und
 **unter den Knöpfen steht, was**, mitsamt dem Reiter, auf dem es steht:
 
