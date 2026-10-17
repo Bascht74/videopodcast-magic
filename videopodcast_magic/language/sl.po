@@ -731,9 +731,6 @@ msgstr "    %-24s zvok ni vstavljen"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s-krat predvidena kamera ni snemala -- tam je druga."
 
-msgid "    %s could not be imported."
-msgstr "    Ni bilo mogoče uvoziti: %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Sledi vrste %s ni bilo mogoče ustvariti: %s"
 
@@ -1574,9 +1571,6 @@ msgstr "\n  OSVEŽITEV SEZNAMA MONTAŽE"
 msgid "\n  Render job"
 msgstr "\n  Opravilo izvoza"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Del z Resolve se je ustavil: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  USTAVLJENO: %s"
 
@@ -1879,6 +1873,9 @@ msgstr "REZULTAT"
 
 msgid "Resolve part stopped: %s"
 msgstr "Del z Resolve se je ustavil: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Del z Resolve se je ustavil zaradi napake v tem programu, ne v Resolve: %s -- prosimo, prijavite jo. Podrobnosti so v dnevniku."
 
 msgid "Stopped: %s"
 msgstr "Ustavljeno: %s"
@@ -3707,8 +3704,8 @@ msgstr "Mehka meja para: od tu program čaka na mejo stavka in tja postavi splo�
 msgid "and here it is cut, good moment or not"
 msgstr "in tukaj se reže, dober trenutek ali ne"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Trda meja para: če se od „Splošni plan po“ ni pojavila nobena meja stavka, jo nadomesti najdaljši premor v govoru, in na tej točki se reže, karkoli se že govori."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Trda meja para: če se od „Splošni plan po“ ni pojavila nobena meja stavka, jo nadomesti najdaljši premor v govoru, in na tej točki se reže, karkoli se že govori. To velja le, dokler je „Splošni plan po“ vklopljeno in „Dolg monolog“ menja kamero: s prvim na 0 ali drugim na „Brez menjave kamere“ se nič ne vsili, ne glede na to, kako dolgo kamera stoji."
 
 msgid "Why the question settings are grey"
 msgstr "Zakaj so nastavitve vprašanja sive"

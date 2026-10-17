@@ -729,9 +729,6 @@ msgstr "    %-24s garsas neįterptas"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s× numatytoji kamera nefilmavo -- ten yra kita."
 
-msgid "    %s could not be imported."
-msgstr "    %s nepavyko importuoti."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Takelio nepavyko sukurti (%s): %s"
 
@@ -1569,9 +1566,6 @@ msgstr "\n  ATNAUJINTI MONTAŽO SĄRAŠĄ"
 msgid "\n  Render job"
 msgstr "\n  Renderinimo užduotis"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve dalis sustabdyta: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  SUSTABDYTA: %s"
 
@@ -1874,6 +1868,9 @@ msgstr "REZULTATAS"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve dalis sustabdyta: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve dalis sustabdyta dėl šios programos klaidos, ne dėl Resolve: %s -- prašome apie ją pranešti. Išsami informacija – žurnale."
 
 msgid "Stopped: %s"
 msgstr "Sustabdyta: %s"
@@ -3703,8 +3700,8 @@ msgstr "Poros švelnioji riba: nuo čia programa laukia sakinio ribos ir ten įs
 msgid "and here it is cut, good moment or not"
 msgstr "o čia kerpama, tinkamas momentas ar ne"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Poros griežtoji riba: jei nuo „Bendrasis planas anksčiausiai“ neatsirado sakinio ribos, jos vietą užima ilgiausia kalbos pauzė, o šioje vietoje kerpama, kad ir kas tuo metu būtų sakoma."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Poros griežtoji riba: jei nuo „Bendrasis planas anksčiausiai“ neatsirado sakinio ribos, jos vietą užima ilgiausia kalbos pauzė, o šioje vietoje kerpama, kad ir kas tuo metu būtų sakoma. Tai galioja tik tol, kol „Bendrasis planas anksčiausiai“ įjungta, o „Ilgas monologas“ keičia kamerą: kai pirmasis 0 arba antrasis „Kamera nekeičiama“, nieko neprimetama, kad ir kiek ilgai stovėtų kamera."
 
 msgid "Why the question settings are grey"
 msgstr "Kodėl klausimo nustatymai pilki"

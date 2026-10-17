@@ -730,9 +730,6 @@ msgstr "    %-24s ਕੋਈ ਆਡੀਓ ਨਹੀਂ ਪਾਇਆ ਗਿਆ"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s ਵਾਰ ਮਿੱਥਿਆ ਕੈਮਰਾ ਨਹੀਂ ਚੱਲ ਰਿਹਾ ਸੀ -- ਉੱਥੇ ਕੋਈ ਹੋਰ ਹੈ।"
 
-msgid "    %s could not be imported."
-msgstr "    %s: ਇੰਪੋਰਟ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ।"
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s ਕਿਸਮ ਦਾ ਟਰੈਕ ਬਣਾਇਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s"
 
@@ -1567,9 +1564,6 @@ msgstr "\n  ਕੱਟ ਸੂਚੀ ਤਾਜ਼ਾ ਕਰਨਾ"
 msgid "\n  Render job"
 msgstr "\n  ਰੈਂਡਰ ਜੌਬ"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve ਵਾਲਾ ਹਿੱਸਾ ਰੁਕ ਗਿਆ: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  ਰੁਕ ਗਿਆ: %s"
 
@@ -1872,6 +1866,9 @@ msgstr "ਨਤੀਜਾ"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve ਵਾਲਾ ਹਿੱਸਾ ਰੁਕ ਗਿਆ: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "ਇਸ ਪ੍ਰੋਗਰਾਮ ਦੀ ਗਲਤੀ ਕਾਰਨ Resolve ਵਾਲਾ ਹਿੱਸਾ ਰੁਕ ਗਿਆ, Resolve ਕਾਰਨ ਨਹੀਂ: %s -- ਕਿਰਪਾ ਕਰਕੇ ਇਸਦੀ ਜਾਣਕਾਰੀ ਦਿਓ। ਵੇਰਵੇ ਲੌਗ ਵਿੱਚ ਹਨ।"
 
 msgid "Stopped: %s"
 msgstr "ਰੁਕ ਗਿਆ: %s"
@@ -3701,8 +3698,8 @@ msgstr "ਜੋੜੀ ਦੀ ਨਰਮ ਹੱਦ: ਇੱਥੋਂ ਪ੍ਰੋਗ
 msgid "and here it is cut, good moment or not"
 msgstr "ਅਤੇ ਇੱਥੇ ਕੱਟ ਹੁੰਦਾ ਹੈ, ਪਲ ਚੰਗਾ ਹੋਵੇ ਜਾਂ ਨਾ"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "ਜੋੜੀ ਦੀ ਸਖ਼ਤ ਹੱਦ: ਜੇ \"ਵਾਈਡ ਸ਼ਾਟ ਇਸ ਤੋਂ ਬਾਅਦ\" ਤੋਂ ਹੁਣ ਤੱਕ ਕੋਈ ਵਾਕ ਦੀ ਹੱਦ ਨਹੀਂ ਆਈ, ਤਾਂ ਬੋਲਣ ਦਾ ਸਭ ਤੋਂ ਲੰਮਾ ਠਹਿਰਾਅ ਉਸ ਦੀ ਥਾਂ ਲੈਂਦਾ ਹੈ, ਅਤੇ ਇਸ ਬਿੰਦੂ 'ਤੇ ਕੱਟ ਹੁੰਦਾ ਹੈ, ਚਾਹੇ ਉਸ ਵੇਲੇ ਕੁਝ ਵੀ ਕਿਹਾ ਜਾ ਰਿਹਾ ਹੋਵੇ।"
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "ਜੋੜੀ ਦੀ ਸਖ਼ਤ ਹੱਦ: ਜੇ \"ਵਾਈਡ ਸ਼ਾਟ ਇਸ ਤੋਂ ਬਾਅਦ\" ਤੋਂ ਹੁਣ ਤੱਕ ਕੋਈ ਵਾਕ ਦੀ ਹੱਦ ਨਹੀਂ ਆਈ, ਤਾਂ ਬੋਲਣ ਦਾ ਸਭ ਤੋਂ ਲੰਮਾ ਠਹਿਰਾਅ ਉਸ ਦੀ ਥਾਂ ਲੈਂਦਾ ਹੈ, ਅਤੇ ਇਸ ਬਿੰਦੂ 'ਤੇ ਕੱਟ ਹੁੰਦਾ ਹੈ, ਚਾਹੇ ਉਸ ਵੇਲੇ ਕੁਝ ਵੀ ਕਿਹਾ ਜਾ ਰਿਹਾ ਹੋਵੇ। ਇਹ ਤਦ ਹੀ ਲਾਗੂ ਹੁੰਦਾ ਹੈ ਜਦ \"ਵਾਈਡ ਸ਼ਾਟ ਇਸ ਤੋਂ ਬਾਅਦ\" ਚਾਲੂ ਹੋਵੇ ਅਤੇ \"ਲੰਮਾ ਇਕੱਲਾ ਬੋਲ\" ਕੈਮਰਾ ਬਦਲਦਾ ਹੋਵੇ: ਪਹਿਲਾ 0 ਉੱਤੇ ਜਾਂ ਦੂਜਾ \"ਕੈਮਰਾ ਨਹੀਂ ਬਦਲਦਾ\" ਉੱਤੇ ਹੋਵੇ, ਤਾਂ ਕੁਝ ਵੀ ਥੋਪਿਆ ਨਹੀਂ ਜਾਂਦਾ, ਕੈਮਰਾ ਭਾਵੇਂ ਜਿੰਨਾ ਵੀ ਲੰਮਾ ਰਹੇ।"
 
 msgid "Why the question settings are grey"
 msgstr "ਸਵਾਲ ਵਾਲੀਆਂ ਸੈਟਿੰਗਾਂ ਸਲੇਟੀ ਕਿਉਂ ਹਨ"

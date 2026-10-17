@@ -148,7 +148,7 @@ files_project_first	17
 files_project_offered	35
 files_risky_edit_refused	6
 files_same_names_apart	9
-files_set_aside_skipped	14
+files_set_aside_skipped	20
 files_split_found_again	10
 files_stage_kept_by_key	29
 files_stamp_by_place	4
@@ -162,7 +162,7 @@ project_clip_tracks_read	10
 project_close_forgets	2
 project_connect_says_why	11
 project_each_track_set	8
-project_errors_reach_run	4
+project_errors_reach_run	6
 project_every_offset	11
 project_file_beats_last	6
 project_grades_stay_off	8
@@ -249,7 +249,7 @@ run_space_has_margin	19
 run_starter_arch_fits	30
 run_stays_local	20
 run_stop_heard_midway	32
-run_stop_names_why	27
+run_stop_names_why	30
 run_stop_passes_through	13
 run_stored_words_cut	7
 run_switch_changes_it	12

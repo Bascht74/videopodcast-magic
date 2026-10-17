@@ -727,9 +727,6 @@ msgstr "    %-24s صدایی درج نشد"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s بار دوربین موردنظر در حال ضبط نبود -- دوربین دیگری آنجاست."
 
-msgid "    %s could not be imported."
-msgstr "    %s وارد نشد."
-
 msgid "    %s track could not be created: %s"
 msgstr "    ترک نوع %s ساخته نشد: %s"
 
@@ -1564,9 +1561,6 @@ msgstr "\n  به‌روزرسانی فهرست برش‌ها"
 msgid "\n  Render job"
 msgstr "\n  کار رندر"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  بخش Resolve متوقف شد: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  متوقف شد: %s"
 
@@ -1869,6 +1863,9 @@ msgstr "نتیجه"
 
 msgid "Resolve part stopped: %s"
 msgstr "بخش Resolve متوقف شد: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "بخش Resolve به‌خاطر خطایی در همین برنامه متوقف شد، نه در Resolve: %s -- لطفاً آن را اطلاع دهید. جزئیات در گزارش آمده است."
 
 msgid "Stopped: %s"
 msgstr "متوقف شد: %s"
@@ -3698,8 +3695,8 @@ msgstr "حد نرمِ این دو: از اینجا برنامه منتظر پا�
 msgid "and here it is cut, good moment or not"
 msgstr "و اینجا برش می‌خورد، لحظه مناسب باشد یا نه"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "حد سختِ این دو: اگر از «نمای باز پس از این مدت» به بعد هیچ پایان جمله‌ای پیش نیامده باشد، طولانی‌ترین وقفه گفتار جای آن را می‌گیرد، و در این نقطه برش می‌خورد، هر چه در حال گفته شدن باشد."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "حد سختِ این دو: اگر از «نمای باز پس از این مدت» به بعد هیچ پایان جمله‌ای پیش نیامده باشد، طولانی‌ترین وقفه گفتار جای آن را می‌گیرد، و در این نقطه برش می‌خورد، هر چه در حال گفته شدن باشد. این فقط تا وقتی برقرار است که «نمای باز پس از این مدت» روشن باشد و «تک‌گویی طولانی» دوربین را عوض کند: اگر اولی 0 باشد یا دومی روی «بدون تغییر دوربین»، هیچ چیز تحمیل نمی‌شود، هر قدر هم که یک دوربین بماند."
 
 msgid "Why the question settings are grey"
 msgstr "چرا تنظیمات پرسش خاکستری‌اند"

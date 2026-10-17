@@ -702,9 +702,6 @@ msgstr "    %-24s nie wstawiono dźwięku"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s× przewidziana kamera nie nagrywała -- w tym miejscu jest inna."
 
-msgid "    %s could not be imported."
-msgstr "    Nie można zaimportować: %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Nie można utworzyć ścieżki typu %s: %s"
 
@@ -1542,9 +1539,6 @@ msgstr "\n  ODŚWIEŻ LISTĘ MONTAŻOWĄ"
 msgid "\n  Render job"
 msgstr "\n  Zadanie renderowania"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Część Resolve przerwana: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  PRZERWANO: %s"
 
@@ -1847,6 +1841,9 @@ msgstr "WYNIK"
 
 msgid "Resolve part stopped: %s"
 msgstr "Przerwano część Resolve: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Przerwano część Resolve z powodu błędu w tym programie, nie w Resolve: %s -- prosimy go zgłosić. Szczegóły są w dzienniku."
 
 msgid "Stopped: %s"
 msgstr "Przerwano: %s"
@@ -4525,8 +4522,8 @@ msgstr "Plan ogólny najpóźniej"
 msgid "and here it is cut, good moment or not"
 msgstr "a tu następuje cięcie, dobry moment czy nie"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Twarda granica tej pary: jeśli od \"Plan ogólny po\" nie pojawiła się granica zdania, jej miejsce zajmuje najdłuższa przerwa w mowie, a w tym punkcie następuje cięcie, bez względu na to, co jest właśnie mówione."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Twarda granica tej pary: jeśli od \"Plan ogólny po\" nie pojawiła się granica zdania, jej miejsce zajmuje najdłuższa przerwa w mowie, a w tym punkcie następuje cięcie, bez względu na to, co jest właśnie mówione. Działa to tylko wtedy, gdy \"Plan ogólny po\" jest włączone, a \"Długi monolog\" zmienia kamerę: przy pierwszym na 0 albo drugim na \"Bez zmiany kamery\" nic nie jest wymuszane, choćby kamera stała nie wiadomo jak długo."
 
 msgid "Wide shot at least"
 msgstr "Plan ogólny co najmniej"

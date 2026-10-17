@@ -727,9 +727,6 @@ msgstr "    %-24s ஆடியோ செருகப்படவில்லை"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s முறை திட்டமிட்ட கேமரா இயங்கவில்லை -- அங்கே வேறொரு கேமரா உள்ளது."
 
-msgid "    %s could not be imported."
-msgstr "    %s இறக்குமதி செய்ய முடியவில்லை."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s வகைத் தடத்தை உருவாக்க முடியவில்லை: %s"
 
@@ -1564,9 +1561,6 @@ msgstr "\n  கட் பட்டியலைப் புதுப்பிக
 msgid "\n  Render job"
 msgstr "\n  ரெண்டர் பணி"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve பகுதி நிறுத்தப்பட்டது: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  நிறுத்தப்பட்டது: %s"
 
@@ -1869,6 +1863,9 @@ msgstr "முடிவு"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve பகுதி நிறுத்தப்பட்டது: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "இந்த நிரலின் பிழையால் Resolve பகுதி நிறுத்தப்பட்டது, Resolve-ஆல் அல்ல: %s -- தயவுசெய்து இதைத் தெரிவிக்கவும். விவரங்கள் பதிவேட்டில் உள்ளன."
 
 msgid "Stopped: %s"
 msgstr "நிறுத்தப்பட்டது: %s"
@@ -3700,8 +3697,8 @@ msgstr "இந்த இணையின் மென் வரம்பு: இ�
 msgid "and here it is cut, good moment or not"
 msgstr "இங்கே கட் செய்யப்படும், ஏற்ற தருணமோ இல்லையோ"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "இந்த இணையின் கடின வரம்பு: \"வைட் ஷாட் இவ்வளவுக்குப் பின்\" முதல் எந்த வாக்கிய எல்லையும் வரவில்லை என்றால், மிக நீண்ட பேச்சு இடைநிறுத்தம் அதன் இடத்தைப் பிடிக்கும், இந்தப் புள்ளியில் என்ன பேசப்பட்டாலும் கட் நடக்கும்."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "இந்த இணையின் கடின வரம்பு: \"வைட் ஷாட் இவ்வளவுக்குப் பின்\" முதல் எந்த வாக்கிய எல்லையும் வரவில்லை என்றால், மிக நீண்ட பேச்சு இடைநிறுத்தம் அதன் இடத்தைப் பிடிக்கும், இந்தப் புள்ளியில் என்ன பேசப்பட்டாலும் கட் நடக்கும். \"வைட் ஷாட் இவ்வளவுக்குப் பின்\" இயக்கத்தில் இருந்து \"நீண்ட தனிப்பேச்சு\" கேமராவை மாற்றும்போது மட்டுமே இது பொருந்தும்: முதலாவது 0 அல்லது இரண்டாவது \"கேமரா மாற்றம் இல்லை\" என இருந்தால், ஒரு கேமரா எவ்வளவு நேரம் நின்றாலும் எதுவும் கட்டாயப்படுத்தப்படாது."
 
 msgid "Why the question settings are grey"
 msgstr "கேள்வி அமைப்புகள் ஏன் சாம்பல் நிறத்தில் உள்ளன"

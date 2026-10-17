@@ -1,15 +1,19 @@
 # -*- coding: utf-8 -*-
-"""A --resolve run whose Resolve build refused a track ends in 1, not 0.
+"""A --resolve run whose Resolve build was refused or stopped ends in 1.
 
-Two whole Sync only runs of the interview fixture's cameras and one
+Whole Sync only runs of the interview fixture's cameras and one
 recording, started through main as the command line starts one, with
 the Resolve build asked for: once with a video track Resolve refuses
 every time -- first that the build reached it, then the run's code --
-and once with nothing refused. Resolve is a stand-in whose timelines
-refuse AddTrack as project_refusal_heeded's do; the run and the build
-are the real ones. The limit: --resolve itself is not typed, because a
-test may not carry a switch that connects (source_resolve_door_shut);
-the parser's default for it is set instead, which is all the switch does.
+once with nothing refused, and twice with a build that stops at the
+import, on Resolve's word and on a fault of our own -- first that the
+build made its project and took it back, then the run's code. Resolve is
+a stand-in whose timelines refuse AddTrack as project_refusal_heeded's
+do, and for the stop the shared stand-in's project manager with a
+project open before; the run and the build are the real ones. The
+limit: --resolve itself is not typed, because a test may not carry a
+switch that connects (source_resolve_door_shut); the parser's default
+for it is set instead, which is all the switch does.
 """
 PLATFORM_BOUND = True
 import os
@@ -25,6 +29,7 @@ import the_program
 SCRIPT = the_program.SCRIPT
 import contextlib, glob, io, re, shutil, tempfile, time
 from fixture_root import fixture
+import resolve_stand_in as stand
 began = time.time()
 vpm = the_program.load()
 vpm.set_language("en")
@@ -233,9 +238,13 @@ for f in RECORDING + CAMERAS:
     shutil.copy(f, GIVEN[-1])
 
 
-def run(refuse, n):
-    """One whole run: its code, what the build refused, what it printed."""
-    CURRENT["pm"] = PM(refuse)
+def run(refuse, n, pm=None):
+    """One whole run: its code, what the build refused, what it printed.
+
+    *pm* is the project manager the build meets, else one of this file's
+    refusing as *refuse* says.
+    """
+    CURRENT["pm"] = PM(refuse) if pm is None else pm
     out = os.path.join(WORK, "out%d" % n)
     said = io.StringIO()
     kept = sys.argv
@@ -250,7 +259,7 @@ def run(refuse, n):
         sys.argv = kept
     # The run names the project itself; one run makes one.
     made = list(CURRENT["pm"].projects.values())
-    return code, sum(p.refused for p in made), said.getvalue()
+    return code, sum(getattr(p, "refused", 0) for p in made), said.getvalue()
 
 
 # The build names its transcript last, and a path says nothing about
@@ -290,5 +299,54 @@ check("a run whose build refused nothing ends in 0",
       code == 0 and refused == 0,
       "the run ended in %r against 0, %d refusals against none, last "
       "line %r" % (code, refused, last_line(said)))
+
+print("\n3. A build that stops at the import")
+# The shared stand-in's project manager, with a project open before the
+# run: the build makes its own, stops, and takes it back as Resolve lets
+# it -- the one before loaded first, the made one deleted then.
+BEFORE = "Before"
+IMPORTING = vpm.import_media
+
+
+def stopped(fault, n):
+    """One whole run whose build stops at the import, raising *fault*.
+
+    Returns the run's code, what was left in the project manager, and
+    the run's last line.
+    """
+    pm = stand.ProjectManager(names=[BEFORE])
+    pm.current = pm.projects[BEFORE]
+
+    def import_stops(mp, paths):
+        raise fault
+
+    vpm.import_media = import_stops
+    try:
+        code, _refused, said = run({}, n, pm)
+    finally:
+        vpm.import_media = IMPORTING
+    left = "projects %r, %r open, made %r" % (
+        sorted(pm.projects), pm.current.GetName() if pm.current else None,
+        pm.made)
+    back = (pm.made and sorted(pm.projects) == [BEFORE]
+            and pm.current is pm.projects[BEFORE])
+    return code, back, left, last_line(said)
+
+
+resolve_code, resolve_back, resolve_left, resolve_last = stopped(
+    RuntimeError("the stand-in Resolve takes none of the files"), 3)
+ours_code, ours_back, ours_left, ours_last = stopped(
+    IndexError("list index out of range"), 4)
+# The precondition: the build reached Resolve, made its project and
+# stopped -- or the codes below say nothing about a stopped build.
+check("a stopped build made its project and took it back again",
+      resolve_back and ours_back,
+      "on Resolve's word %s, on our fault %s; last lines %r and %r"
+      % (resolve_left, ours_left, resolve_last, ours_last))
+check("a run whose Resolve build stopped ends in 1, not 0",
+      resolve_code == 1 and ours_code == 1,
+      "stopped on Resolve's word the run ended in %r, on a fault of ours "
+      "in %r, both against 1; last lines %r and %r"
+      % (resolve_code, ours_code, resolve_last, ours_last))
 
 stop()

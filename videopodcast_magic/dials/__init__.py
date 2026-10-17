@@ -128,7 +128,10 @@ CUT_FIELDS = (
      ('The hard limit of the pair: where no sentence boundary has '
       'turned up since "Wide shot after", the longest speech pause '
       'stands in for one, and at this point the cut happens whatever '
-      'is being said.')),
+      'is being said. This holds only while "Wide shot after" is on '
+      'and "Long monologue" changes the camera: with the first at 0 or '
+      'the second on "No camera change", nothing is forced, however '
+      'long a camera stands.')),
     ("wide-length", 'Wide shot at least', "5", "s",
      'so long the inserted wide shot stands at least',
      ('It then runs to the end of the sentence. Below five seconds the '

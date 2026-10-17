@@ -728,9 +728,6 @@ msgstr "    %-24s heli ei lisatud"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s× ei filminud ettenähtud kaamera -- seal on teine."
 
-msgid "    %s could not be imported."
-msgstr "    %s: importimine ebaõnnestus."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Rada ei õnnestunud luua (%s): %s"
 
@@ -1565,9 +1562,6 @@ msgstr "\n  MONTAAŽILOENDI VÄRSKENDAMINE"
 msgid "\n  Render job"
 msgstr "\n  Renderdustöö"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve'i osa peatatud: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  PEATATUD: %s"
 
@@ -1870,6 +1864,9 @@ msgstr "TULEMUS"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve'i osa peatatud: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve'i osa peatus selle programmi vea tõttu, mitte Resolve'i: %s -- palun teatage sellest. Üksikasjad on logis."
 
 msgid "Stopped: %s"
 msgstr "Peatatud: %s"
@@ -3698,8 +3695,8 @@ msgstr "Paari pehme piir: siit alates ootab programm lausepiiri ja paneb üldpla
 msgid "and here it is cut, good moment or not"
 msgstr "ja siin lõigatakse, olgu hetk sobiv või mitte"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Paari range piir: kui alates „Üldplaan kõige varem“ pole lausepiiri tulnud, asendab seda pikim kõnepaus, ja siin lõigatakse, olenemata sellest, mida parajasti öeldakse."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Paari range piir: kui alates „Üldplaan kõige varem“ pole lausepiiri tulnud, asendab seda pikim kõnepaus, ja siin lõigatakse, olenemata sellest, mida parajasti öeldakse. See kehtib ainult siis, kui „Üldplaan kõige varem“ on sees ja „Pikk monoloog“ vahetab kaamerat: kui esimene on 0 või teine „Kaamera ei vahetu“, ei sunnita midagi peale, ükskõik kui kaua kaamera seisab."
 
 msgid "Why the question settings are grey"
 msgstr "Miks küsimuse seaded on hallid"

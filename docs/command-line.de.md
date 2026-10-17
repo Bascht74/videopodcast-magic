@@ -125,7 +125,7 @@ und das Preset muss von dieser Art sein ([Multitrack](multitrack.de.md)).
 | `--wide-after SEKUNDEN` | ab dieser Standzeit bricht das Programm die Einstellung an einer Satzgrenze auf, nicht nach der Uhr, 0 aus (70) |
 | `--wide-length SEKUNDEN` | wie lange die eingeschobene Einstellung mindestens steht; danach läuft sie bis zum Satzende (5) |
 | `--wide-most SEKUNDEN` | wie lange sie höchstens steht; wenn das Satzende darüber liegt, beendet die letzte Teilsatzgrenze davor die Einstellung (15) |
-| `--wide-latest SEKUNDEN` | wie lange eine Kamera höchstens ohne Schnitt stehen darf (120) |
+| `--wide-latest SEKUNDEN` | wie lange eine Kamera höchstens ohne Schnitt stehen darf, solange `--wide-after` nicht 0 ist und `--on-monologue` nicht `hold` (120) |
 | `--no-wide-edges` | den Weitwinkel nicht über Begrüßung und Verabschiedung halten |
 
 ## Vorflug und Kennzahlen steuern

@@ -700,9 +700,6 @@ msgstr "    %-24s ingen lyd indsat"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx kørte det tiltænkte kamera ikke -- der står et andet."
 
-msgid "    %s could not be imported."
-msgstr "    %s kunne ikke importeres."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s-spor kunne ikke oprettes: %s"
 
@@ -1537,9 +1534,6 @@ msgstr "\n  OPDATER KLIPLISTEN"
 msgid "\n  Render job"
 msgstr "\n  Renderingsjob"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve-delen stoppet: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  STOPPET: %s"
 
@@ -1842,6 +1836,9 @@ msgstr "RESULTAT"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve-delen stoppet: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve-delen stoppede på en fejl i dette program, ikke i Resolve: %s -- meld den venligst. Detaljerne står i loggen."
 
 msgid "Stopped: %s"
 msgstr "Stoppet: %s"
@@ -4477,8 +4474,8 @@ msgstr "Oversigtsbillede senest"
 msgid "and here it is cut, good moment or not"
 msgstr "og her klippes der, godt øjeblik eller ej"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Den hårde grænse af de to: er der ikke kommet nogen sætningsgrænse siden \"Oversigtsbillede efter\", træder den længste talepause i stedet, og på dette punkt klippes der, uanset hvad der bliver sagt."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Den hårde grænse af de to: er der ikke kommet nogen sætningsgrænse siden \"Oversigtsbillede efter\", træder den længste talepause i stedet, og på dette punkt klippes der, uanset hvad der bliver sagt. Det gælder kun, mens \"Oversigtsbillede efter\" er slået til, og \"Lang monolog\" skifter kamera: står det første på 0 eller det andet på \"Intet kameraskift\", gennemtvinges intet, hvor længe et kamera end står."
 
 msgid "Wide shot at least"
 msgstr "Oversigtsbillede mindst"

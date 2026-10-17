@@ -92,7 +92,10 @@ class Resolve(Refusing):
 
 
 class ProjectManager(Refusing):
-    """Projects by name in the current folder; a taken name is refused."""
+    """Projects by name in the current folder; a taken name is refused.
+
+    The open one cannot be deleted, as in Resolve.
+    """
 
     def __init__(self, names=(), refuse_names=(), **switches):
         Refusing.__init__(self, **switches)
@@ -121,6 +124,15 @@ class ProjectManager(Refusing):
 
     def GetCurrentProject(self):
         return self.current
+
+    def DeleteProject(self, name):
+        # Resolve deletes none that is open, measured in
+        # resolve/live/resolve_ground.py, and none that is not there.
+        if (self.asked("DeleteProject", name) or name not in self.projects
+                or self.projects[name] is self.current):
+            return False
+        del self.projects[name]
+        return True
 
 
 class ColourGroup(object):

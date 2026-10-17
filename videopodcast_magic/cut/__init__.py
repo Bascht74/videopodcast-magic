@@ -2892,14 +2892,16 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
                 print("  %s" % p)
     if js and getattr(args, "resolve", False):
         # The build's code goes up to whoever called this step; a track
-        # Resolve refused twice is not a finished build.
+        # Resolve refused twice is not a finished build, and one that
+        # stopped -- its project taken back -- is none at all.
         try:
             return build_resolve_project(handover, args.resolve_project,
                                          log=stem + "_resolve_log.txt")
         except Exception as e:
-            print(T('\n  Resolve part stopped: %s') % e)
+            PROGRAM.say_resolve_stopped(e, "\n  ")
             print(T('  %s is ready -- with --resolve-json it can be done '
                     'later.') % os.path.basename(js))
+            return 1
     return 0
 
 def cut_seating(args, tracks, cameras, gone):

@@ -6,7 +6,9 @@ cannot be fetched (curl stood in for, fenced behind a proxy to nowhere),
 a lone camera with no sound, a file of no known kind alone, a path that
 is not there, an unknown file beside real ones named as skipped, the two
 Resolve switches in a child cut off from Resolve, which checks that
-before main() and stops red, main() uncalled, where it is not, no
+before main() and stops red, main() uncalled, where it is not, the
+Resolve part in that child stopped by a fault of our own, named as ours
+with its traceback in the log and not on the screen, no
 ffmpeg with the repair stood in for and refused, and the one-shot jobs:
 --update with the look switched off, --hdr-check over a file that is
 not HDR; a fault
@@ -181,6 +183,11 @@ print("\n4. Resolve out of reach, and main() saying so")
 # any path holding the module, nails connect_to_resolve, and checks all
 # three before main() is called; where one does not hold it stops there.
 RESOLVE_REASON = "no Resolve here -- the stand-in answers in its place"
+# A fault no Resolve raises: the program's own, where it asks for one.
+OUR_FAULT = "list index out of range"
+# The child's log, stood in for: beside the program it is shared with
+# every test running alongside, and this one reads it back.
+CHILD_LOG = os.path.join(HOME, "resolve_child.log")
 HANDOVER = os.path.join(HOME, "Door_resolve.json")
 with open(HANDOVER, "w", encoding="utf-8") as f:
     json.dump({"format": vpm.FILE_FORMAT, "fps": 25, "production": "Door",
@@ -199,7 +206,11 @@ sys.path[:] = [p for p in sys.path if not any(
 sys.path.insert(0, %r)
 import the_program
 vpm = the_program.load()
+vpm.logbook.log_path = lambda: %r
+MODE = sys.argv[1]
 def refuse(*a, **k):
+    if MODE == "fault":
+        raise IndexError(%r)
     raise RuntimeError(%r)
 vpm.connect_to_resolve = refuse
 near = [m for m in MODULES if importlib.util.find_spec(m) is not None]
@@ -212,11 +223,11 @@ if near or there or loose:
     sys.exit(3)
 print(%r)
 sys.argv = ["videopodcast-magic"] + {
-    "json": ["--resolve-json", %r],
+    "json": ["--resolve-json", %r], "fault": ["--resolve-json", %r],
     "tracks": ["--resolve-audio-tracks"]}[sys.argv[1]]
 sys.exit(vpm.main())
 """ % (os.path.join(HOME, "nowhere"), os.path.join(HOME, "nowhere"), HERE,
-       RESOLVE_REASON, SHUT, HANDOVER)
+       CHILD_LOG, OUR_FAULT, RESOLVE_REASON, SHUT, HANDOVER, HANDOVER)
 code, last, said = run([sys.executable, "-c", RESOLVE_CHILD, "json"])
 bolted = SHUT in said.splitlines()
 check("the child finds Resolve out of reach before main() is called",
@@ -237,6 +248,27 @@ if bolted:
                                             "not said"))
     check("and its last line says it stopped, and why", last == WANT,
           "last line %r against %r" % (last, WANT))
+    code, last, said = run([sys.executable, "-c", RESOLVE_CHILD, "fault"])
+    WANT = vpm.T('Resolve part stopped on a fault in this program, not in '
+                 'Resolve: %s -- please report it. The details are in the '
+                 'log.') % ("IndexError: " + OUR_FAULT)
+    check("a Resolve build stopped by a fault of ours returns 1",
+          code == 1, "returned %r against 1, last line %r" % (code, last))
+    check("and its last line names the fault as ours, to be reported",
+          last == WANT, "last line %r against %r" % (last, WANT))
+    try:
+        with open(CHILD_LOG, encoding="utf-8", errors="replace") as f:
+            logged = f.read()
+    except OSError:
+        logged = ""
+    trace = [x for x in logged.splitlines() if x.startswith("Traceback")]
+    check("and the fault's traceback is in the log, not on the screen",
+          bool(trace) and ("IndexError: " + OUR_FAULT) in logged
+          and "Traceback" not in said,
+          "%d traceback lines in %d log lines, %s on the screen; the log "
+          "ends %r" % (len(trace), len(logged.splitlines()),
+                       "one" if "Traceback" in said else "none",
+                       (logged.strip().splitlines() or [""])[-1][:120]))
 else:
     print("   main() was not called: the checks on the two Resolve "
           "switches wait for a child that cannot reach Resolve")

@@ -1050,6 +1050,9 @@ msgstr "Interrotto: %s"
 msgid "Resolve part stopped: %s"
 msgstr "Parte Resolve interrotta: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Parte Resolve interrotta per un errore di questo programma, non di Resolve: %s -- si prega di segnalarlo. I dettagli sono nel registro."
+
 msgid "Presets could not be loaded: %s"
 msgstr "Impossibile caricare i preset: %s"
 
@@ -1735,9 +1738,6 @@ msgstr "Anteprima non possibile: %s"
 
 msgid "    %-26s the camera in one piece, the mix below"
 msgstr "    %-26s la telecamera in un unico pezzo, il mix sotto"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Parte Resolve interrotta: %s"
 
 msgid "  %s is ready -- with --resolve-json it can be done later."
 msgstr "  %s è pronto -- con --resolve-json si può fare più tardi."
@@ -3501,9 +3501,6 @@ msgstr "campo totale %s, il mix è la sua prima traccia audio"
 msgid "%s, audio track %d"
 msgstr "%s, traccia audio %d"
 
-msgid "    %s could not be imported."
-msgstr "    Impossibile importare %s."
-
 msgid "    V2 could not be read back: %s"
 msgstr "    Impossibile rileggere V2: %s"
 
@@ -4610,8 +4607,8 @@ msgstr "Lo zero è dove chi chiede smette, non dove inizia la risposta: la pausa
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "Il limite morbido della coppia: da qui il programma aspetta un confine di frase e mette lì il campo totale, non secondo l’orologio. 0 lo disattiva. «Campo totale al più tardi» è il limite rigido, dove si stacca anche senza."
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Il limite rigido della coppia: se da «Campo totale dopo» non è arrivato nessun confine di frase, la pausa di parlato più lunga ne prende il posto, e a questo punto si stacca, qualunque cosa si stia dicendo."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Il limite rigido della coppia: se da «Campo totale dopo» non è arrivato nessun confine di frase, la pausa di parlato più lunga ne prende il posto, e a questo punto si stacca, qualunque cosa si stia dicendo. Vale solo finché «Campo totale dopo» è attivo e «Monologo lungo» cambia telecamera: con il primo a 0 o il secondo su «Nessun cambio di telecamera» non si forza nulla, per quanto a lungo resti una telecamera."
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "Poi dura fino alla fine della frase. Sotto i cinque secondi lo sguardo sembra un sussulto."

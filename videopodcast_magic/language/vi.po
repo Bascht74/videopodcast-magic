@@ -700,9 +700,6 @@ msgstr "    %-24s chưa chèn âm thanh"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s lần máy quay dự kiến không chạy -- ở đó là một máy quay khác."
 
-msgid "    %s could not be imported."
-msgstr "    Không nhập được %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Không tạo được rãnh loại %s: %s"
 
@@ -1534,9 +1531,6 @@ msgstr "\n  LÀM MỚI DANH SÁCH DỰNG"
 msgid "\n  Render job"
 msgstr "\n  Tác vụ render"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Phần Resolve đã dừng: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  ĐÃ DỪNG: %s"
 
@@ -1839,6 +1833,9 @@ msgstr "KẾT QUẢ"
 
 msgid "Resolve part stopped: %s"
 msgstr "Phần Resolve đã dừng: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Phần Resolve đã dừng vì một lỗi của chương trình này, không phải của Resolve: %s -- vui lòng báo lỗi này. Chi tiết có trong nhật ký."
 
 msgid "Stopped: %s"
 msgstr "Đã dừng: %s"
@@ -4432,8 +4429,8 @@ msgstr "Cảnh rộng muộn nhất"
 msgid "and here it is cut, good moment or not"
 msgstr "và ở đây sẽ cắt, dù có phải thời điểm tốt hay không"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Giới hạn cứng của cặp này: nếu từ \"Cảnh rộng sau\" đến giờ chưa có ranh giới câu nào, khoảng ngừng nói dài nhất sẽ thay thế, và tại điểm này sẽ cắt bất kể đang nói gì."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Giới hạn cứng của cặp này: nếu từ \"Cảnh rộng sau\" đến giờ chưa có ranh giới câu nào, khoảng ngừng nói dài nhất sẽ thay thế, và tại điểm này sẽ cắt bất kể đang nói gì. Điều này chỉ áp dụng khi \"Cảnh rộng sau\" đang bật và \"Độc thoại dài\" có đổi máy quay: khi cái đầu là 0 hoặc cái sau là \"Không đổi máy quay\", sẽ không ép buộc gì, dù một máy quay đứng lâu đến đâu."
 
 msgid "Wide shot at least"
 msgstr "Cảnh rộng tối thiểu"

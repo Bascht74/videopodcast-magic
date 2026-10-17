@@ -1046,6 +1046,9 @@ msgstr "Durduruldu: %s"
 msgid "Resolve part stopped: %s"
 msgstr "Resolve bölümü durduruldu: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve bölümü bu programdaki bir hata yüzünden durduruldu, Resolve yüzünden değil: %s -- lütfen bildirin. Ayrıntılar günlükte."
+
 msgid "Presets could not be loaded: %s"
 msgstr "Hazır ayarlar yüklenemedi: %s"
 
@@ -1731,9 +1734,6 @@ msgstr "Önizleme mümkün değil: %s"
 
 msgid "    %-26s the camera in one piece, the mix below"
 msgstr "    %-26s kamera tek parça, miks altında"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve bölümü durduruldu: %s"
 
 msgid "  %s is ready -- with --resolve-json it can be done later."
 msgstr "  %s hazır -- --resolve-json ile daha sonra yapılabilir."
@@ -3497,9 +3497,6 @@ msgstr "geniş çekim %s, mix onun ilk ses izi"
 msgid "%s, audio track %d"
 msgstr "%s, ses izi %d"
 
-msgid "    %s could not be imported."
-msgstr "    %s içe aktarılamadı."
-
 msgid "    V2 could not be read back: %s"
 msgstr "    V2 geri okunamadı: %s"
 
@@ -4605,8 +4602,8 @@ msgstr "Sıfır, soranın sustuğu yerdir, yanıtın başladığı yer değil: a
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "Çiftin yumuşak sınırı: buradan sonra program bir cümle sınırını bekler ve geniş çekimi saate göre değil, oraya koyar. 0 bunu kapatır. “Geniş çekim en geç” sert sınırdır; orada cümle sınırı olmadan da kesilir."
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Çiftin sert sınırı: “Şu süreden sonra geniş çekim”den bu yana hiçbir cümle sınırı çıkmadıysa en uzun konuşma duraklaması onun yerini tutar ve bu noktada, o an ne söylenirse söylensin kesilir."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Çiftin sert sınırı: “Şu süreden sonra geniş çekim”den bu yana hiçbir cümle sınırı çıkmadıysa en uzun konuşma duraklaması onun yerini tutar ve bu noktada, o an ne söylenirse söylensin kesilir. Bu yalnızca “Şu süreden sonra geniş çekim” açıkken ve “Uzun monolog” kamerayı değiştirirken geçerlidir: ilki 0 ya da ikincisi “Kamera değişikliği yok” olduğunda, bir kamera ne kadar uzun kalırsa kalsın hiçbir şey zorlanmaz."
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "Ardından cümlenin sonuna kadar sürer. Beş saniyenin altında bu bakış bir seğirme gibi görünür."

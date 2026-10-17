@@ -730,9 +730,6 @@ msgstr "    %-24s ma ddaħħal l-ebda awdjo"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx il-kamera intenzjonata ma kinitx taħdem -- hemm waħda oħra minflokha."
 
-msgid "    %s could not be imported."
-msgstr "    L-importazzjoni falliet: %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Binarju tat-tip %s ma setax jinħoloq: %s"
 
@@ -1573,9 +1570,6 @@ msgstr "\n  AĠĠORNAMENT TAL-LISTA TAL-MUNTAĠĠ"
 msgid "\n  Render job"
 msgstr "\n  Xogħol tat-twassil"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Il-parti ta' Resolve waqfet: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  WAQAF: %s"
 
@@ -1878,6 +1872,9 @@ msgstr "RIŻULTAT"
 
 msgid "Resolve part stopped: %s"
 msgstr "Il-parti ta' Resolve waqfet: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Il-parti ta' Resolve waqfet minħabba żball f'dan il-programm, mhux f'Resolve: %s -- jekk jogħġbok irrapportah. Id-dettalji jinsabu fil-log."
 
 msgid "Stopped: %s"
 msgstr "Waqaf: %s"
@@ -3709,8 +3706,8 @@ msgstr "Il-limitu artab tal-par: minn hawn il-programm jistenna tmiem ta' senten
 msgid "and here it is cut, good moment or not"
 msgstr "u hawn jinqata', mument tajjeb jew le"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Il-limitu iebes tal-par: fejn ma nstab l-ebda tmiem ta' sentenza minn \"Veduta wiesgħa wara\", l-itwal pawża fid-diskors tieħu postu, u f'dan il-punt issir il-qatgħa irrispettivament minn x'qed jingħad."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Il-limitu iebes tal-par: fejn ma nstab l-ebda tmiem ta' sentenza minn \"Veduta wiesgħa wara\", l-itwal pawża fid-diskors tieħu postu, u f'dan il-punt issir il-qatgħa irrispettivament minn x'qed jingħad. Dan jgħodd biss sakemm \"Veduta wiesgħa wara\" ikun mixgħul u \"Monologu twil\" ibiddel il-kamera: bl-ewwel fuq 0 jew bit-tieni fuq \"L-ebda bidla ta' kamera\", xejn ma jiġi mġiegħel, kemm iddum kamera."
 
 msgid "Why the question settings are grey"
 msgstr "Għaliex l-għażliet tal-mistoqsija huma griżi"

@@ -728,9 +728,6 @@ msgstr "    %-24s tidak ada audio yang disisipkan"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx kamera yang dimaksud tidak berjalan -- ada kamera lain di sana."
 
-msgid "    %s could not be imported."
-msgstr "    %s tidak dapat diimpor."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Trek %s tidak dapat dibuat: %s"
 
@@ -1562,9 +1559,6 @@ msgstr "\n  PERBARUI DAFTAR POTONGAN"
 msgid "\n  Render job"
 msgstr "\n  Tugas render"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Bagian Resolve dihentikan: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  DIHENTIKAN: %s"
 
@@ -1867,6 +1861,9 @@ msgstr "HASIL"
 
 msgid "Resolve part stopped: %s"
 msgstr "Bagian Resolve dihentikan: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Bagian Resolve dihentikan oleh kesalahan dalam program ini, bukan di Resolve: %s -- mohon laporkan. Rinciannya ada di log."
 
 msgid "Stopped: %s"
 msgstr "Dihentikan: %s"
@@ -3696,8 +3693,8 @@ msgstr "Batas lunak dari pasangan ini: mulai dari sini program menunggu batas ka
 msgid "and here it is cut, good moment or not"
 msgstr "dan di sini dipotong, momen tepat atau tidak"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Batas keras dari pasangan ini: jika tidak ada batas kalimat sejak \"Bidikan lebar setelah\", jeda bicara terpanjang menggantikannya, dan pada titik ini potongan terjadi apa pun yang sedang diucapkan."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Batas keras dari pasangan ini: jika tidak ada batas kalimat sejak \"Bidikan lebar setelah\", jeda bicara terpanjang menggantikannya, dan pada titik ini potongan terjadi apa pun yang sedang diucapkan. Ini hanya berlaku selama \"Bidikan lebar setelah\" aktif dan \"Monolog panjang\" mengganti kamera: bila yang pertama 0 atau yang kedua \"Tanpa ganti kamera\", tidak ada yang dipaksakan, berapa pun lamanya satu kamera bertahan."
 
 msgid "Why the question settings are grey"
 msgstr "Mengapa pengaturan pertanyaan berwarna abu-abu"

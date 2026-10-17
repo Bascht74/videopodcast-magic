@@ -1081,6 +1081,9 @@ msgstr "توقف: %s"
 msgid "Resolve part stopped: %s"
 msgstr "توقف جزء Resolve: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "توقف جزء Resolve بسبب خطأ في هذا البرنامج، لا في Resolve: %s -- يُرجى الإبلاغ عنه. التفاصيل في السجل."
+
 msgid "Presets could not be loaded: %s"
 msgstr "تعذّر تحميل الإعدادات المسبقة: %s"
 
@@ -1782,9 +1785,6 @@ msgstr "المعاينة غير ممكنة: %s"
 
 msgid "    %-26s the camera in one piece, the mix below"
 msgstr "    %-26s الكاميرا قطعة واحدة، والمزيج تحتها"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  توقف جزء Resolve: %s"
 
 msgid "  %s is ready -- with --resolve-json it can be done later."
 msgstr "  %s جاهز -- باستخدام --resolve-json يمكن إتمامه لاحقًا."
@@ -3555,9 +3555,6 @@ msgstr "اللقطة الواسعة %s، والمزيج هو أول مسار ص�
 msgid "%s, audio track %d"
 msgstr "%s، المسار الصوتي %d"
 
-msgid "    %s could not be imported."
-msgstr "    تعذّر استيراد %s."
-
 msgid "    V2 could not be read back: %s"
 msgstr "    تعذّرت قراءة V2 مجددًا: %s"
 
@@ -4786,8 +4783,8 @@ msgstr "الصفر هو حيث يتوقف السائل، لا حيث تبدأ ا
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "الحد المرن للإعدادين: من هنا ينتظر البرنامج حدّ جملة ويضع اللقطة الواسعة عنده، لا وفق الساعة. 0 يوقفه. \"اللقطة الواسعة على أبعد تقدير\" هو الحد الصارم، حيث يتم القطع من دونه."
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "الحد الصارم للإعدادين: إذا لم يظهر أي حدّ جملة منذ \"اللقطة الواسعة بعد\"، تحل أطول وقفة كلام محله، وعند هذه النقطة يتم القطع أيًّا كان ما يُقال."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "الحد الصارم للإعدادين: إذا لم يظهر أي حدّ جملة منذ \"اللقطة الواسعة بعد\"، تحل أطول وقفة كلام محله، وعند هذه النقطة يتم القطع أيًّا كان ما يُقال. لا يسري هذا إلا ما دام \"اللقطة الواسعة بعد\" مفعّلًا و\"مونولوج طويل\" يبدّل الكاميرا: إذا كان الأول 0 أو الثاني على \"بدون تغيير الكاميرا\"، فلا يُفرض شيء، مهما طال بقاء الكاميرا."
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "ثم تستمر حتى نهاية الجملة. تحت خمس ثوانٍ تبدو النظرة كارتعاشة."

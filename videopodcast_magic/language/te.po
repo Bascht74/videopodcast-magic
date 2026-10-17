@@ -728,9 +728,6 @@ msgstr "    %-24s ఆడియో చేర్చబడలేదు"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s సార్లు ఉద్దేశించిన కెమెరా నడవలేదు -- అక్కడ వేరే కెమెరా ఉంది."
 
-msgid "    %s could not be imported."
-msgstr "    %s ఇంపోర్ట్ చేయడం సాధ్యం కాలేదు."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s రకం ట్రాక్ సృష్టించడం సాధ్యం కాలేదు: %s"
 
@@ -1565,9 +1562,6 @@ msgstr "\n  కట్ జాబితాను నవీకరించడం"
 msgid "\n  Render job"
 msgstr "\n  రెండర్ జాబ్"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve భాగం ఆగిపోయింది: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  ఆపివేయబడింది: %s"
 
@@ -1870,6 +1864,9 @@ msgstr "ఫలితం"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve భాగం ఆగిపోయింది: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "ఈ ప్రోగ్రామ్‌లోని లోపం వల్ల Resolve భాగం ఆగిపోయింది, Resolve వల్ల కాదు: %s -- దయచేసి దీన్ని నివేదించండి. వివరాలు లాగ్‌లో ఉన్నాయి."
 
 msgid "Stopped: %s"
 msgstr "ఆపివేయబడింది: %s"
@@ -3700,8 +3697,8 @@ msgstr "ఈ జంటలోని మృదువైన పరిమితి: �
 msgid "and here it is cut, good moment or not"
 msgstr "మరియు ఇక్కడ కట్ అవుతుంది, మంచి క్షణమైనా కాకపోయినా"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "ఈ జంటలోని కఠిన పరిమితి: \"వైడ్ షాట్ ఇంత తర్వాత\" నుండి ఏ వాక్య సరిహద్దూ రాకపోతే, అన్నిటికంటే పొడవైన మాటల విరామం దాని స్థానంలో నిలుస్తుంది, మరియు ఈ బిందువు వద్ద ఏం మాట్లాడుతున్నా కట్ జరుగుతుంది."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "ఈ జంటలోని కఠిన పరిమితి: \"వైడ్ షాట్ ఇంత తర్వాత\" నుండి ఏ వాక్య సరిహద్దూ రాకపోతే, అన్నిటికంటే పొడవైన మాటల విరామం దాని స్థానంలో నిలుస్తుంది, మరియు ఈ బిందువు వద్ద ఏం మాట్లాడుతున్నా కట్ జరుగుతుంది. \"వైడ్ షాట్ ఇంత తర్వాత\" ఆన్‌లో ఉండి \"సుదీర్ఘ మోనోలాగ్\" కెమెరాను మార్చినప్పుడు మాత్రమే ఇది వర్తిస్తుంది: మొదటిది 0 లేదా రెండవది \"కెమెరా మార్పు లేదు\" అయితే, ఒక కెమెరా ఎంతసేపు ఉన్నా ఏదీ బలవంతం చేయబడదు."
 
 msgid "Why the question settings are grey"
 msgstr "ప్రశ్న సెట్టింగ్‌లు ఎందుకు బూడిద రంగులో ఉన్నాయి"

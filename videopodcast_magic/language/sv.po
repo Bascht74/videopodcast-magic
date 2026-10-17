@@ -700,9 +700,6 @@ msgstr "    %-24s inget ljud infogat"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx var den avsedda kameran inte igång -- där står en annan."
 
-msgid "    %s could not be imported."
-msgstr "    %s kunde inte importeras."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s-spår kunde inte skapas: %s"
 
@@ -1537,9 +1534,6 @@ msgstr "\n  UPPDATERA KLIPPLISTAN"
 msgid "\n  Render job"
 msgstr "\n  Renderingsjobb"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve-delen stoppad: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  STOPPAT: %s"
 
@@ -1842,6 +1836,9 @@ msgstr "RESULTAT"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve-delen stoppad: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve-delen stoppad av ett fel i det här programmet, inte i Resolve: %s -- rapportera det gärna. Detaljerna finns i loggen."
 
 msgid "Stopped: %s"
 msgstr "Stoppat: %s"
@@ -4477,8 +4474,8 @@ msgstr "Översiktsbild senast"
 msgid "and here it is cut, good moment or not"
 msgstr "och här klipps det, bra tillfälle eller inte"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Den hårda gränsen av de två: har ingen meningsgräns dykt upp sedan \"Översiktsbild efter\", träder den längsta talpausen in i dess ställe, och vid den här punkten klipps det, vad som än sägs."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Den hårda gränsen av de två: har ingen meningsgräns dykt upp sedan \"Översiktsbild efter\", träder den längsta talpausen in i dess ställe, och vid den här punkten klipps det, vad som än sägs. Det gäller bara så länge \"Översiktsbild efter\" är på och \"Lång monolog\" byter kamera: med det första på 0 eller det andra på \"Inget kamerabyte\" tvingas ingenting fram, hur länge en kamera än står."
 
 msgid "Wide shot at least"
 msgstr "Översiktsbild minst"

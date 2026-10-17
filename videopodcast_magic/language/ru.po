@@ -1075,9 +1075,6 @@ msgstr "\n  ОБНОВИТЬ МОНТАЖНЫЙ ЛИСТ"
 msgid "\n  Render job"
 msgstr "\n  Задание рендера"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Часть с Resolve прервана: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  ПРЕРВАНО: %s"
 
@@ -1347,9 +1344,6 @@ msgstr "    %-26s изображение из монтажа камер, зву�
 
 msgid "    %-26s the camera in one piece, the mix below"
 msgstr "    %-26s камера целиком, микс под ней"
-
-msgid "    %s could not be imported."
-msgstr "    %s не удалось импортировать."
 
 msgid "    %s track could not be created: %s"
 msgstr "    Не удалось создать %s-дорожку: %s"
@@ -3381,6 +3375,9 @@ msgstr "Resolve не отвечает -- см. Настройки"
 msgid "Resolve part stopped: %s"
 msgstr "Часть Resolve прервана: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Часть Resolve прервана из-за ошибки в этой программе, а не в Resolve: %s -- пожалуйста, сообщите о ней. Подробности в журнале."
+
 msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
 msgstr "Resolve масштабирует до разрешения Timeline. Всё, что меньше, растягивается и становится мягче."
 
@@ -4663,8 +4660,8 @@ msgstr "Ноль -- там, где спрашивающий замолкает, 
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "Мягкая граница пары: отсюда программа ждёт границу предложения и ставит общий план туда, а не по часам. 0 отключает. «Общий план не позже» -- жёсткая граница, там режется и без границы предложения."
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Жёсткая граница пары: если после «Общий план после» не нашлось ни одной границы предложения, её заменяет самая длинная пауза в речи, и в этой точке режется, что бы в этот момент ни говорилось."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Жёсткая граница пары: если после «Общий план после» не нашлось ни одной границы предложения, её заменяет самая длинная пауза в речи, и в этой точке режется, что бы в этот момент ни говорилось. Это действует, только пока «Общий план после» включено и «Длинный монолог» меняет камеру: если первое равно 0 или второе стоит на «Без смены камеры», ничего не навязывается, сколько бы ни стояла одна камера."
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "Затем он длится до конца предложения. Короче пяти секунд такой взгляд выглядит как дёрганье."

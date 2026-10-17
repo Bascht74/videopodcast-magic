@@ -729,9 +729,6 @@ msgstr "    %-24s не е вмъкнат звук"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx предвидената камера не работеше -- на нейно място има друга."
 
-msgid "    %s could not be imported."
-msgstr "    Не можа да се импортира: %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Писта от тип %s не можа да се създаде: %s"
 
@@ -1566,9 +1563,6 @@ msgstr "\n  ОБНОВЯВАНЕ НА СПИСЪКА НА МОНТАЖА"
 msgid "\n  Render job"
 msgstr "\n  Задача за рендер"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Частта с Resolve спря: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  СПРЯНО: %s"
 
@@ -1871,6 +1865,9 @@ msgstr "РЕЗУЛТАТ"
 
 msgid "Resolve part stopped: %s"
 msgstr "Частта с Resolve спря: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Частта с Resolve спря заради грешка в тази програма, не в Resolve: %s -- моля, съобщете за нея. Подробностите са в дневника."
 
 msgid "Stopped: %s"
 msgstr "Спряно: %s"
@@ -3699,8 +3696,8 @@ msgstr "Меката граница на двойката: оттук прогр
 msgid "and here it is cut, good moment or not"
 msgstr "и тук се реже, подходящ момент или не"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Твърдата граница на двойката: ако от „Общ план след“ не се е появила граница на изречение, най-дългата пауза в речта я замества и в тази точка се реже, каквото и да се казва."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Твърдата граница на двойката: ако от „Общ план след“ не се е появила граница на изречение, най-дългата пауза в речта я замества и в тази точка се реже, каквото и да се казва. Това важи само докато „Общ план след“ е включено и „Дълъг монолог“ сменя камерата: при първото на 0 или второто на „Без смяна на камерата“ нищо не се налага, колкото и дълго да стои една камера."
 
 msgid "Why the question settings are grey"
 msgstr "Защо настройките за въпроса са сиви"

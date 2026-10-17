@@ -13,7 +13,7 @@ rates, run times, distributions, comparisons.
 ## How the program is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
-program lives any more -- 863 lines of it, against the 37 535 it held
+program lives any more -- 881 lines of it, against the 37 535 it held
 on 4.9.2026, the day the single file became a folder. **Forty-four
 pieces have moved out**, each in a folder of its own beside it with an
 `__init__.py` in it, and the way in reaches them with `beside()`.
@@ -45,10 +45,10 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3343** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3321** -- who is on camera when, and what carries it out
+* `cut/` **3323** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
-* `resolve/` **2495** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2493** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
 * `material/` **2068** -- channels, chains, continuation files, and what
   a track is made of
@@ -67,7 +67,7 @@ figure of the day is that command, not this paragraph**:
   and one bound of its own, 500 ppm
 * `auphonic/` **2382** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **2173** -- whether the material fits together before the
+* `preflight/` **2178** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `setup/` **1377** -- finding ffmpeg, installing a missing module,
@@ -80,7 +80,7 @@ figure of the day is that command, not this paragraph**:
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **1039** -- the command line a run is given: written out of
+* `orders/` **1041** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **709** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
@@ -139,7 +139,7 @@ figure of the day is that command, not this paragraph**:
   the next: the work folder, what somebody chose, the write that is
   moved into place rather than left half done, and whether a stored
   file may be read at all
-* `dials/` **180** -- the kinds a shot can be, the cut fields and their
+* `dials/` **183** -- the kinds a shot can be, the cut fields and their
   choices
 * `filing/` **158** -- path_key, ByFile and FileSet
 * `soundings/` **173** -- what has been measured of a file, taken once

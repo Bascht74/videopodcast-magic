@@ -123,7 +123,7 @@ single track as a Singletrack one, and the preset has to be of that kind
 | `--wide-after SECONDS` | from this hold time on the program breaks the shot up at a sentence boundary, not by the clock, 0 off (70) |
 | `--wide-length SECONDS` | how long the interposed shot stands at least; it then runs to the end of the sentence (5) |
 | `--wide-most SECONDS` | how long it stands at most; if the end of the sentence lies beyond it, the last clause break before it ends the shot (15) |
-| `--wide-latest SECONDS` | longest one camera may stand without a cut (120) |
+| `--wide-latest SECONDS` | longest one camera may stand without a cut, while `--wide-after` is not 0 and `--on-monologue` not `hold` (120) |
 | `--no-wide-edges` | do not hold the wide shot over the greeting and the goodbye |
 
 ## Steering the preflight and the metrics

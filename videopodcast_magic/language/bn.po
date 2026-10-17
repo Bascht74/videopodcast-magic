@@ -702,9 +702,6 @@ msgstr "    %-24s কোনো অডিও বসানো হয়নি"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sবার নির্ধারিত ক্যামেরাটি চলছিল না -- সেখানে অন্য একটি ক্যামেরা আছে।"
 
-msgid "    %s could not be imported."
-msgstr "    %s ইমপোর্ট করা যায়নি।"
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s ধরনের ট্র্যাক তৈরি করা যায়নি: %s"
 
@@ -1539,9 +1536,6 @@ msgstr "\n  কাট তালিকা হালনাগাদ"
 msgid "\n  Render job"
 msgstr "\n  রেন্ডার কাজ"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve অংশ থেমে গেছে: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  থামানো হয়েছে: %s"
 
@@ -1844,6 +1838,9 @@ msgstr "ফলাফল"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve অংশ থামানো হয়েছে: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "এই প্রোগ্রামের একটি ত্রুটিতে Resolve অংশ থামানো হয়েছে, Resolve-এর কারণে নয়: %s -- অনুগ্রহ করে এটি জানান। বিস্তারিত লগে আছে।"
 
 msgid "Stopped: %s"
 msgstr "থামানো হয়েছে: %s"
@@ -4479,8 +4476,8 @@ msgstr "ওয়াইড শট সবচেয়ে দেরিতে"
 msgid "and here it is cut, good moment or not"
 msgstr "আর এখানে কাট হয়, ভালো মুহূর্ত হোক বা না হোক"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "জোড়ার কঠিন সীমা: \"ওয়াইড শট পর্যন্ত\" থেকে কোনো বাক্যের সীমানা না এলে কথার সবচেয়ে লম্বা বিরতি তার জায়গা নেয়, আর এই বিন্দুতে কাট হয়, তখন যা-ই বলা হোক না কেন।"
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "জোড়ার কঠিন সীমা: \"ওয়াইড শট পর্যন্ত\" থেকে কোনো বাক্যের সীমানা না এলে কথার সবচেয়ে লম্বা বিরতি তার জায়গা নেয়, আর এই বিন্দুতে কাট হয়, তখন যা-ই বলা হোক না কেন। এটি তখনই খাটে যখন \"ওয়াইড শট পর্যন্ত\" চালু থাকে এবং \"দীর্ঘ একক বক্তব্য\" ক্যামেরা বদলায়: প্রথমটি 0 হলে বা দ্বিতীয়টি \"ক্যামেরা বদল নেই\" হলে কিছুই জোর করে করা হয় না, একটি ক্যামেরা যত দীর্ঘই থাকুক।"
 
 msgid "Wide shot at least"
 msgstr "ওয়াইড শট অন্তত"

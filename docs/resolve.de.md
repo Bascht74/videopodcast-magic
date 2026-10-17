@@ -710,19 +710,23 @@ keine Sicherungskopie an.
   sie von Hand nach Resolve holen.
 - **Der Lauf hat beim Bauen abgebrochen, und das Projekt ist weg.**
   Drei Dinge brechen den Bau ab, und welches es war, sagt die Zeile, die
-  mit `Resolve-Teil abgebrochen:` beginnt: Resolve hat eine Datei nicht
+  mit `Resolve-Teil abgebrochen` beginnt: Resolve hat eine Datei nicht
   genommen; Resolve antwortet, gibt aber keine Projektverwaltung heraus;
   oder das Programm selbst ist bei einem seiner Schritte in Resolve an
   einem eigenen Fehler gescheitert -- dann hat Resolve nichts
-  abgelehnt, und die Zeile trägt nur die paar Worte des Fehlers selbst,
-  etwa `list index out of range`. War das Projekt schon angelegt, hat
-  der Lauf es wieder gelöscht und das vorher offene wieder geöffnet;
-  beides nennt er beim Namen. Ohne Projektverwaltung ist er gar nicht
+  abgelehnt, die Zeile sagt `ein Fehler in diesem Programm, nicht in
+  Resolve` und bittet, ihn zu melden, und die Einzelheiten stehen im
+  Protokoll. War das Projekt schon angelegt, hat der Lauf es wieder
+  gelöscht und das vorher offene wieder geöffnet; beides nennt er beim
+  Namen. Ohne Projektverwaltung ist er gar nicht
   so weit gekommen, eines anzulegen. Ein Projekt, das es vor dem Lauf
   schon gab, wird nie gelöscht. War vorher nichts offen,
   das sich wieder laden lässt -- ein frisch gestartetes Resolve --,
   bleibt das neue Projekt offen, und der Lauf sagt es: in der
-  Projektverwaltung von Resolve löschen.
+  Projektverwaltung von Resolve löschen. Was es auch war, das Fenster
+  endet dann mit `Mit Fehlern beendet.` statt mit `Fertig.`, und ein
+  Lauf von der Kommandozeile endet mit einem Fehlercode: ein Bau, der
+  abgebrochen hat, hat nichts gebaut.
 - **Die letzten Zeilen des Laufs sagen, das Projekt sei nicht
   vollständig.** Resolve hat eine Spur abgelehnt, ist ein zweites Mal
   gefragt worden und hat wieder abgelehnt. Der Lauf hat es gesagt, als

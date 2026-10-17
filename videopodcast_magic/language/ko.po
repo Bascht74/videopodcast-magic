@@ -700,9 +700,6 @@ msgstr "    %-24s 삽입된 오디오 없음"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s회 예정된 카메라가 녹화 중이 아니었습니다 -- 그 자리에는 다른 카메라가 있습니다."
 
-msgid "    %s could not be imported."
-msgstr "    %s을(를) 가져올 수 없습니다."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s 유형 트랙을 만들 수 없습니다: %s"
 
@@ -1534,9 +1531,6 @@ msgstr "\n  편집 목록 새로 고침"
 msgid "\n  Render job"
 msgstr "\n  렌더 작업"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve 부분 중단됨: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  중단됨: %s"
 
@@ -1839,6 +1833,9 @@ msgstr "결과"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve 부분 중단됨: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "이 프로그램의 오류로 Resolve 부분 중단됨(Resolve의 문제가 아님): %s -- 신고해 주세요. 자세한 내용은 로그에 있습니다."
 
 msgid "Stopped: %s"
 msgstr "중단됨: %s"
@@ -4423,8 +4420,8 @@ msgstr "와이드 샷 늦어도"
 msgid "and here it is cut, good moment or not"
 msgstr "여기서는 좋은 순간이든 아니든 전환함"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "두 설정 중 엄격한 한계: \"와이드 샷까지\" 이후 문장 경계가 나오지 않았다면 가장 긴 말 사이의 쉼이 그 역할을 대신하고, 이 지점에서는 무슨 말을 하고 있든 전환합니다."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "두 설정 중 엄격한 한계: \"와이드 샷까지\" 이후 문장 경계가 나오지 않았다면 가장 긴 말 사이의 쉼이 그 역할을 대신하고, 이 지점에서는 무슨 말을 하고 있든 전환합니다. 이 설정은 \"와이드 샷까지\"가 켜져 있고 \"긴 독백\"이 카메라를 바꿀 때만 적용됩니다. 앞의 것이 0이거나 뒤의 것이 \"카메라 전환 없음\"이면, 카메라가 아무리 오래 머물러도 아무것도 강제되지 않습니다."
 
 msgid "Wide shot at least"
 msgstr "와이드 샷 최소"

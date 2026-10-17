@@ -655,18 +655,20 @@ backup copy.
   Give the file a timecode that fits the other recordings and run
   again, or bring it into Resolve by hand.
 - **The run stopped while building, and the project is gone.** Three
-  things stop the build, and the line beginning `Resolve part stopped:`
+  things stop the build, and the line beginning `Resolve part stopped`
   says which: Resolve would not take a file; Resolve answers, but hands
   out no project manager; or the program itself went wrong at one of
-  its steps in Resolve -- then Resolve refused nothing, and the line
-  carries only the fault's own few words, such as `list index out of
-  range`. Where the project was already made, the run deleted it again
-  and opened the one you had open before; it says both by name.
-  Without a project manager it never got as far as making one. A
+  its steps in Resolve -- then Resolve refused nothing, the line says
+  `on a fault in this program, not in Resolve` and asks you to report
+  it, and the log holds the details. Where the project was already
+  made, the run deleted it again and opened the one you had open
+  before; it says both by name. Without a project manager it never got as far as making one. A
   project that existed before the run is never deleted. Where
   nothing that can be opened again was open before -- a freshly started
   Resolve -- the made project stays open and the run says so: delete it
-  in Resolve's project manager.
+  in Resolve's project manager. Whichever it was, the window ends on
+  `Finished with errors.` instead of `Done.`, and a run from the command
+  line ends with an error code: a build that stopped built nothing.
 - **The last lines of the run say the project is not complete.**
   Resolve refused a track, was asked a second time, and refused again.
   The run named it the moment it happened -- the track, the timeline,
