@@ -728,9 +728,6 @@ msgstr "    %-24s કોઈ ઑડિયો દાખલ કરાયો નથ�
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s વાર નિર્ધારિત કૅમેરા ચાલુ ન હતો -- ત્યાં બીજો છે."
 
-msgid "    %s could not be imported."
-msgstr "    %s ઇમ્પોર્ટ કરી શકાયું નહીં."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s પ્રકારનો ટ્રૅક બનાવી શકાયો નહીં: %s"
 
@@ -1565,9 +1562,6 @@ msgstr "\n  કટ યાદી તાજી કરવી"
 msgid "\n  Render job"
 msgstr "\n  રેન્ડર જૉબ"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve વાળો ભાગ અટકી ગયો: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  અટકાવ્યું: %s"
 
@@ -1870,6 +1864,9 @@ msgstr "પરિણામ"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve વાળો ભાગ અટકી ગયો: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "આ પ્રોગ્રામની ભૂલને કારણે Resolve વાળો ભાગ અટકી ગયો, Resolve ને કારણે નહીં: %s -- કૃપા કરીને તેની જાણ કરો. વિગતો લૉગમાં છે."
 
 msgid "Stopped: %s"
 msgstr "અટકાવ્યું: %s"
@@ -3698,8 +3695,8 @@ msgstr "આ જોડીની નરમ મર્યાદા: અહીંથ�
 msgid "and here it is cut, good moment or not"
 msgstr "અને અહીં કટ થાય છે, ક્ષણ સારી હોય કે ન હોય"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "આ જોડીની કઠોર મર્યાદા: \"વાઇડ શૉટ આટલા પછી\" થી વાક્યની કોઈ સીમા ન આવી હોય, તો બોલવામાં સૌથી લાંબો વિરામ તેનું સ્થાન લે છે, અને આ બિંદુએ, તે સમયે ગમે તે બોલાતું હોય, કટ થાય છે."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "આ જોડીની કઠોર મર્યાદા: \"વાઇડ શૉટ આટલા પછી\" થી વાક્યની કોઈ સીમા ન આવી હોય, તો બોલવામાં સૌથી લાંબો વિરામ તેનું સ્થાન લે છે, અને આ બિંદુએ, તે સમયે ગમે તે બોલાતું હોય, કટ થાય છે. આ ત્યારે જ લાગુ પડે છે જ્યારે \"વાઇડ શૉટ આટલા પછી\" ચાલુ હોય અને \"લાંબું સ્વગત\" કૅમેરા બદલતું હોય: પહેલું 0 પર હોય કે બીજું \"કૅમેરા બદલાતો નથી\" પર, તો કંઈ ફરજિયાત થતું નથી, કૅમેરા ભલે ગમે તેટલો સમય રહે."
 
 msgid "Why the question settings are grey"
 msgstr "પ્રશ્નની સેટિંગ્સ ભૂખરી કેમ છે"

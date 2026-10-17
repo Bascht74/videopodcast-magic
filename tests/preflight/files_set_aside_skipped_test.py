@@ -10,8 +10,12 @@ The sections: the resolution hint a colour chart makes and loses; that
 the set-aside file keeps findings of its own and they all carry the
 mark; that a file taking part carries none; that a finding born of the
 comparison never carries it; the same for sound, where a short
-recording earns a hint only while it takes part; and the balance line,
-which a marked finding leaves alone.
+recording earns a hint only while it takes part; the balance line,
+which a marked finding leaves alone; the run's own report, which a
+marked stop or note neither stops nor counts, as the window's line does
+not; and the run's preflight, which counts a recording the plan sets to
+"do not use" neither for the room on disk nor for the loudness line.
+The stop is made here as a finding, not found in a file.
 """
 PLATFORM_BOUND = True
 import os
@@ -25,8 +29,9 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
-import sys, subprocess, tempfile, time
+import collections, contextlib, io, json, sys, subprocess, tempfile, time
 vpm = the_program.load()
+vpm.set_language("en")
 
 began = time.time()
 done = 0
@@ -163,6 +168,105 @@ check("a hint that takes part changes the balance line",
 check("a hint about a set-aside file leaves the balance alone",
       left_out == quiet,
       "%r against %r without it" % (left_out[0][-40:], quiet[0][-40:]))
+
+print("\n8. The run's report counts no finding that was set aside")
+stop = vpm.Finding("abort", "X", "a reason to stop")
+put_by_stop = vpm.Finding("abort", "X", "a reason to stop")
+put_by_stop.set_aside = True
+
+
+def report(findings):
+    """What the run's report says to *findings*: (stops, its lines)."""
+    said = io.StringIO()
+    with contextlib.redirect_stdout(said):
+        stops = vpm.report_findings(findings, "set aside")
+    return stops, [x.strip() for x in said.getvalue().splitlines()
+                   if x.strip()]
+
+
+stops, lines = report([stop])
+check("a stop that takes part stops the run's report", stops is True,
+      "report_findings answered %r, its last line %r"
+      % (stops, (lines or [""])[-1]))
+stops, lines = report([put_by_stop])
+check("a stop about a set-aside file does not stop the run's report",
+      stops is False, "report_findings answered %r, its last line %r"
+      % (stops, (lines or [""])[-1]))
+window = vpm.preflight_sentence([put_by_stop], 0, 0, 2)
+check("and the window's line leaves the same stop alone",
+      window == quiet,
+      "%r against %r without it" % (window[0][-40:], quiet[0][-40:]))
+stops, lines = report([put_by, put_by_stop])
+WANT = vpm.T('%s checked') % vpm.number_text(2, 0)
+check("the run's balance counts neither a set-aside stop nor note",
+      WANT in lines, "%r looked for, the balance reads %r"
+      % (WANT, [x for x in lines if x.startswith(WANT)]))
+
+print("\n9. The run's preflight counts no recording set aside")
+# The window's plan as it writes one: a recording set to "do not use"
+# stands in no row. Anna is the one the run sends, Ben the one left out.
+PLAN = os.path.join(D, "plan.json")
+with open(PLAN, "w", encoding="utf-8") as f:
+    json.dump({"format": vpm.FILE_FORMAT, "tracks_of": [
+        {"audio": long1, "blocks": [long1], "speakers": "Anna",
+         "camera": ""}], "cameras": []}, f)
+
+
+class Call(object):
+    """What the preflight sees of a call that sends nothing."""
+
+    def __init__(self, assign=None):
+        self.no_preflight = False
+        self.preflight_again = False
+        self.apart = ()
+        self.together = ()
+        self.in_point = ""
+        self.out_point = ""
+        self.fps = 25.0
+        self.out = D
+        self.dry_run = False
+        self.anyway = False
+        self.without_auphonic = True
+        self.lufs = -16.0
+        self.assign = assign
+
+
+Usage = collections.namedtuple("Usage", "total used free")
+
+
+def lines_of(audio, videos, assign=None):
+    """{field: text} of what the run's preflight found for this call.
+
+    Free space is made up, so the line on the disk says what is needed
+    and not what this machine has left.
+    """
+    seen = []
+    keep = vpm.report_findings, vpm.shutil.disk_usage
+    vpm.report_findings = lambda found, *a, **k: (seen.extend(found),
+                                                   False)[1]
+    vpm.shutil.disk_usage = lambda _p: Usage(0, 0, 1e15)
+    try:
+        vpm.run_preflight(Call(assign), audio, videos)
+    finally:
+        vpm.report_findings, vpm.shutil.disk_usage = keep
+    return dict((b.field, b.text) for b in seen
+                if b.field in (vpm.T('Disk space'), vpm.T('Loudness')))
+
+
+sent = lines_of([long1], [cam1]).get(vpm.T('Disk space'))
+aside = lines_of([long1, long2], [cam1], PLAN).get(vpm.T('Disk space'))
+# The folder is written as <work>: a path that changes with every run
+# says nothing a reader could compare.
+check("a recording set aside asks for no room on the disk",
+      sent is not None and aside == sent,
+      "with Ben.wav set aside %r against %r with Anna.wav alone"
+      % tuple((x or "").replace(D, "<work>") for x in (aside, sent)))
+sent = lines_of([long1], []).get(vpm.T('Loudness'))
+aside = lines_of([long1, long2], [], PLAN).get(vpm.T('Loudness'))
+check("a recording set aside does not change the loudness line",
+      sent is not None and aside == sent,
+      "with Ben.wav set aside %r against %r with Anna.wav alone"
+      % (aside, sent))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

@@ -700,9 +700,6 @@ msgstr "    %-24s geen geluid ingevoegd"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx liep de bedoelde camera niet -- daar staat een andere."
 
-msgid "    %s could not be imported."
-msgstr "    %s kon niet worden geïmporteerd."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Spoor van het type %s kon niet worden aangemaakt: %s"
 
@@ -1537,9 +1534,6 @@ msgstr "\n  MONTAGELIJST VERNIEUWEN"
 msgid "\n  Render job"
 msgstr "\n  Renderopdracht"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve-deel afgebroken: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  AFGEBROKEN: %s"
 
@@ -1842,6 +1836,9 @@ msgstr "RESULTAAT"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve-deel afgebroken: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve-deel afgebroken door een fout in dit programma, niet in Resolve: %s -- meld deze alstublieft. De details staan in het logboek."
 
 msgid "Stopped: %s"
 msgstr "Afgebroken: %s"
@@ -4479,8 +4476,8 @@ msgstr "Totaalshot uiterlijk"
 msgid "and here it is cut, good moment or not"
 msgstr "en hier wordt geknipt, goed moment of niet"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "De harde grens van het paar: is er sinds \"Totaalshot na\" geen zinsgrens gekomen, dan neemt de langste spreekpauze die plaats in, en op dit punt wordt geknipt, wat er ook gezegd wordt."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "De harde grens van het paar: is er sinds \"Totaalshot na\" geen zinsgrens gekomen, dan neemt de langste spreekpauze die plaats in, en op dit punt wordt geknipt, wat er ook gezegd wordt. Dit geldt alleen zolang \"Totaalshot na\" aan staat en \"Lange monoloog\" van camera wisselt: met het eerste op 0 of het tweede op \"Geen camerawissel\" wordt niets afgedwongen, hoe lang een camera ook blijft staan."
 
 msgid "Wide shot at least"
 msgstr "Totaalshot minstens"

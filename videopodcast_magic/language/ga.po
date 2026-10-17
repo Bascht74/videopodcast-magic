@@ -733,9 +733,6 @@ msgstr "    %-24s níor cuireadh fuaim isteach"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx ní raibh an ceamara beartaithe ag rith -- tá ceann eile ann."
 
-msgid "    %s could not be imported."
-msgstr "    Níorbh fhéidir %s a iompórtáil."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Níorbh fhéidir rian den chineál %s a chruthú: %s"
 
@@ -1579,9 +1576,6 @@ msgstr "\n  ATHNUAIGH AN LIOSTA GEARRTHA"
 msgid "\n  Render job"
 msgstr "\n  Jab rindreála"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Cuireadh stop le cuid Resolve: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  STOPTHA: %s"
 
@@ -1884,6 +1878,9 @@ msgstr "TORADH"
 
 msgid "Resolve part stopped: %s"
 msgstr "Cuireadh stop le cuid Resolve: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Cuireadh stop le cuid Resolve de bharr earráide sa ríomhchlár seo, ní in Resolve: %s -- tuairiscigh í, le do thoil. Tá na sonraí sa logchomhad."
 
 msgid "Stopped: %s"
 msgstr "Stoptha: %s"
@@ -3717,8 +3714,8 @@ msgstr "Teorainn bhog an phéire: as seo amach fanann an ríomhchlár le teorain
 msgid "and here it is cut, good moment or not"
 msgstr "agus gearrtar anseo, nóiméad maith nó ná bíodh"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Teorainn chrua an phéire: mura raibh teorainn abairte ann ó \"Seat leathan tar éis\", seasann an sos cainte is faide ina háit, agus ag an bpointe seo déantar an gearradh is cuma cad atá á rá."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Teorainn chrua an phéire: mura raibh teorainn abairte ann ó \"Seat leathan tar éis\", seasann an sos cainte is faide ina háit, agus ag an bpointe seo déantar an gearradh is cuma cad atá á rá. Ní bhaineann sé seo ach fad atá \"Seat leathan tar éis\" ar siúl agus \"Monalóg fhada\" ag athrú an cheamara: leis an gcéad cheann ar 0 nó an dara ceann ar \"Gan athrú ceamara\", ní chuirtear aon rud i bhfeidhm, is cuma cé chomh fada a sheasann ceamara."
 
 msgid "Why the question settings are grey"
 msgstr "Cén fáth a bhfuil socruithe na ceiste liath"

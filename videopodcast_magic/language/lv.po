@@ -729,9 +729,6 @@ msgstr "    %-24s skaņa nav ievietota"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s× paredzētā kamera nefilmēja -- tur ir cita."
 
-msgid "    %s could not be imported."
-msgstr "    %s neizdevās importēt."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Celiņu neizdevās izveidot (%s): %s"
 
@@ -1569,9 +1566,6 @@ msgstr "\n  ATJAUNINĀT MONTĀŽAS SARAKSTU"
 msgid "\n  Render job"
 msgstr "\n  Renderēšanas uzdevums"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve daļa apturēta: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  APTURĒTS: %s"
 
@@ -1874,6 +1868,9 @@ msgstr "REZULTĀTS"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve daļa apturēta: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve daļa apturēta šīs programmas kļūdas dēļ, nevis Resolve dēļ: %s -- lūdzu, ziņojiet par to. Sīkāka informācija ir žurnālā."
 
 msgid "Stopped: %s"
 msgstr "Apturēts: %s"
@@ -3703,8 +3700,8 @@ msgstr "Pāra mīkstā robeža: no šejienes programma gaida teikuma robežu un 
 msgid "and here it is cut, good moment or not"
 msgstr "un šeit griež, piemērots brīdis vai ne"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Pāra stingrā robeža: ja kopš „Kopplāns agrākais“ nav parādījusies teikuma robeža, tās vietā stājas garākā runas pauze, un šajā punktā griež neatkarīgi no tā, kas tiek teikts."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Pāra stingrā robeža: ja kopš „Kopplāns agrākais“ nav parādījusies teikuma robeža, tās vietā stājas garākā runas pauze, un šajā punktā griež neatkarīgi no tā, kas tiek teikts. Tas darbojas tikai tik ilgi, kamēr „Kopplāns agrākais“ ir ieslēgts un „Garš monologs“ maina kameru: ja pirmais ir 0 vai otrais ir „Bez kameras maiņas“, nekas netiek uzspiests, lai cik ilgi kamera stāvētu."
 
 msgid "Why the question settings are grey"
 msgstr "Kāpēc jautājuma iestatījumi ir pelēki"

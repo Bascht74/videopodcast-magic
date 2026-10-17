@@ -1077,9 +1077,6 @@ msgstr "\n  ACTUALISER LA LISTE DES COUPES"
 msgid "\n  Render job"
 msgstr "\n  Tâche de rendu"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Partie Resolve interrompue : %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  INTERROMPU : %s"
 
@@ -1349,9 +1346,6 @@ msgstr "    %-26s image du montage caméra, audio d’un seul tenant"
 
 msgid "    %-26s the camera in one piece, the mix below"
 msgstr "    %-26s la caméra d’un seul tenant, le mixage en dessous"
-
-msgid "    %s could not be imported."
-msgstr "    Impossible d’importer %s."
 
 msgid "    %s track could not be created: %s"
 msgstr "    Impossible de créer la piste %s : %s"
@@ -3380,6 +3374,9 @@ msgstr "Resolve ne répond pas -- voir Réglages"
 msgid "Resolve part stopped: %s"
 msgstr "Partie Resolve interrompue : %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Partie Resolve interrompue par une erreur de ce programme, pas de Resolve : %s -- merci de la signaler. Les détails sont dans le journal."
+
 msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
 msgstr "Resolve met tout à l’échelle de la résolution de la Timeline. Ce qui est plus petit est agrandi et perd en netteté."
 
@@ -4631,8 +4628,8 @@ msgstr "Le zéro est là où celui qui pose la question s’arrête, pas là où
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "La limite souple des deux réglages : à partir d’ici, le programme attend une fin de phrase et y place le plan large, pas selon l’horloge. 0 la désactive. « Plan large au plus tard » est la limite stricte, où l’on coupe sans fin de phrase."
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "La limite stricte des deux réglages : si aucune fin de phrase n’est venue depuis « Plan large après », la plus longue pause de parole en tient lieu, et à ce moment-là, on coupe, quoi qu’on soit en train de dire."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "La limite stricte des deux réglages : si aucune fin de phrase n’est venue depuis « Plan large après », la plus longue pause de parole en tient lieu, et à ce moment-là, on coupe, quoi qu’on soit en train de dire. Cela ne vaut que tant que « Plan large après » est actif et que « Long monologue » change de caméra : avec le premier à 0 ou le second sur « Pas de changement de caméra », rien n’est imposé, aussi longtemps qu’une caméra reste."
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "Il dure ensuite jusqu’à la fin de la phrase. En dessous de cinq secondes, ce coup d’œil fait l’effet d’un tic."

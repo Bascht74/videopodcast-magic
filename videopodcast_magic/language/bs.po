@@ -723,9 +723,6 @@ msgstr "    %-24s zvuk nije umetnut"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx predviđena kamera nije snimala -- tamo je druga."
 
-msgid "    %s could not be imported."
-msgstr "    %s nije se mogao uvesti."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s traka nije se mogla kreirati: %s"
 
@@ -1563,9 +1560,6 @@ msgstr "\n  OSVJEŽI LISTU REZOVA"
 msgid "\n  Render job"
 msgstr "\n  Zadatak renderiranja"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Dio za Resolve zaustavljen: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  ZAUSTAVLJENO: %s"
 
@@ -1868,6 +1862,9 @@ msgstr "REZULTAT"
 
 msgid "Resolve part stopped: %s"
 msgstr "Dio za Resolve zaustavljen: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Dio za Resolve zaustavljen zbog greške u ovom programu, ne u Resolveu: %s -- molimo prijavite je. Detalji su u zapisniku."
 
 msgid "Stopped: %s"
 msgstr "Zaustavljeno: %s"
@@ -3696,8 +3693,8 @@ msgstr "Meka granica para: odavde program čeka granicu rečenice i ondje postav
 msgid "and here it is cut, good moment or not"
 msgstr "i ovdje se reže, dobar trenutak ili ne"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Tvrda granica para: ako se od \"Široki kadar nakon\" nije pojavila nijedna granica rečenice, na njeno mjesto dolazi najduža pauza u govoru, i u ovoj se tački reže, bez obzira na to šta se upravo govori."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Tvrda granica para: ako se od \"Široki kadar nakon\" nije pojavila nijedna granica rečenice, na njeno mjesto dolazi najduža pauza u govoru, i u ovoj se tački reže, bez obzira na to šta se upravo govori. To vrijedi samo dok je \"Široki kadar nakon\" uključeno i \"Dugi monolog\" mijenja kameru: s prvim na 0 ili drugim na \"Bez promjene kamere\" ništa se ne nameće, ma koliko dugo kamera stajala."
 
 msgid "Why the question settings are grey"
 msgstr "Zašto su postavke pitanja sive"

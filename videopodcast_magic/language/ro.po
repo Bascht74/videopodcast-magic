@@ -702,9 +702,6 @@ msgstr "    %-24s niciun audio inserat"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    de %s ori camera prevăzută nu funcționa -- acolo se află o alta."
 
-msgid "    %s could not be imported."
-msgstr "    %s nu a putut fi importat."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Pista %s nu a putut fi creată: %s"
 
@@ -1542,9 +1539,6 @@ msgstr "\n  REÎMPROSPĂTAREA LISTEI DE MONTAJ"
 msgid "\n  Render job"
 msgstr "\n  Sarcină de randare"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Partea Resolve s-a oprit: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  OPRIT: %s"
 
@@ -1847,6 +1841,9 @@ msgstr "REZULTAT"
 
 msgid "Resolve part stopped: %s"
 msgstr "Partea Resolve oprită: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Partea Resolve oprită din cauza unei erori a acestui program, nu a lui Resolve: %s -- vă rugăm s-o raportați. Detaliile sunt în jurnal."
 
 msgid "Stopped: %s"
 msgstr "Oprit: %s"
@@ -4525,8 +4522,8 @@ msgstr "Plan larg cel mai târziu"
 msgid "and here it is cut, good moment or not"
 msgstr "și aici se taie, fie momentul bun sau nu"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Limita tare a perechii: unde nu a apărut nicio limită de propoziție de la \"Plan larg după\", cea mai lungă pauză de vorbire îi ține locul, iar în acest punct se taie, orice s-ar spune."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Limita tare a perechii: unde nu a apărut nicio limită de propoziție de la \"Plan larg după\", cea mai lungă pauză de vorbire îi ține locul, iar în acest punct se taie, orice s-ar spune. Asta se aplică doar cât timp \"Plan larg după\" este activ și \"Monolog lung\" schimbă camera: cu primul pe 0 sau al doilea pe \"Fără schimbare de cameră\", nu se impune nimic, oricât ar sta o cameră."
 
 msgid "Wide shot at least"
 msgstr "Plan larg cel puțin"

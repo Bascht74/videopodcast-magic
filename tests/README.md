@@ -518,7 +518,7 @@ it is green.
 | `project_close_forgets` | Closing a project forgets the handovers remembered for its cameras. |
 | `project_connect_says_why` | Each way the connection to Resolve fails is told apart, and a hit kept. |
 | `project_each_track_set` | Checks: on reuse the tracks are switched over one at a time. |
-| `project_errors_reach_run` | A --resolve run whose Resolve build refused a track ends in 1, not 0. |
+| `project_errors_reach_run` | A --resolve run whose Resolve build was refused or stopped ends in 1. |
 | `project_every_offset` | Every camera reaches the handover with its offset -- and only a camera. |
 | `project_file_beats_last` | A project opened after another takes its answers from its own file. |
 | `project_grades_stay_off` | Remote grades: off by default, and always set -- old projects too. |

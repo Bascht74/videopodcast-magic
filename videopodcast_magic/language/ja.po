@@ -1026,6 +1026,9 @@ msgstr "中止しました：%s"
 msgid "Resolve part stopped: %s"
 msgstr "Resolve の処理を中止しました：%s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "このプログラム自身の不具合で Resolve の処理を中止しました（Resolve 側の問題ではありません）：%s -- ご報告ください。詳細はログにあります。"
+
 msgid "Presets could not be loaded: %s"
 msgstr "プリセットを読み込めませんでした：%s"
 
@@ -1707,9 +1710,6 @@ msgstr "プレビューできません: %s"
 
 msgid "    %-26s the camera in one piece, the mix below"
 msgstr "    %-26s カメラは一続き、その下にミックス"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve の処理を中止しました: %s"
 
 msgid "  %s is ready -- with --resolve-json it can be done later."
 msgstr "  %s の準備ができています -- --resolve-json で後から実行できます。"
@@ -3467,9 +3467,6 @@ msgstr "引き画 %s、ミックスはその最初の音声トラック"
 msgid "%s, audio track %d"
 msgstr "%s、音声トラック %d"
 
-msgid "    %s could not be imported."
-msgstr "    %s を読み込めませんでした。"
-
 msgid "    V2 could not be read back: %s"
 msgstr "    V2 を読み戻せませんでした: %s"
 
@@ -4541,8 +4538,8 @@ msgstr "ゼロは質問者が話し終える位置で、応答が始まる位置
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "この 2 つの設定の緩い上限です。ここからプログラムは文の区切りを待ち、時計どおりではなく、そこに引き画を置きます。0 で無効になります。「引き画は遅くとも」が厳しい上限で、そこでは文の区切りがなくてもカットします。"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "この 2 つの設定の厳しい上限です。「引き画は」以降に文の区切りが現れなかった場合は、最も長い発話の切れ目がその代わりになり、この時点で、何が話されていてもカットします。"
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "この 2 つの設定の厳しい上限です。「引き画は」以降に文の区切りが現れなかった場合は、最も長い発話の切れ目がその代わりになり、この時点で、何が話されていてもカットします。これは「引き画は」が有効で、「長い独話」がカメラを切り替える設定のときだけ働きます。前者が 0、または後者が「カメラを切り替えない」のときは、1 台のカメラがどれだけ長く映っていても何も強制されません。"
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "そのあと文の終わりまで続きます。5 秒未満では、その一瞥がひきつりのように見えます。"

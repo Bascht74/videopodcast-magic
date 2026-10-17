@@ -726,9 +726,6 @@ msgstr "    %-24s ไม่ได้แทรกเสียง"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s ครั้งที่กล้องที่กำหนดไม่ได้ทำงานอยู่ -- จึงมีกล้องอื่นอยู่ตรงนั้นแทน"
 
-msgid "    %s could not be imported."
-msgstr "    นำเข้า %s ไม่ได้"
-
 msgid "    %s track could not be created: %s"
 msgstr "    สร้างแทร็กประเภท %s ไม่ได้: %s"
 
@@ -1560,9 +1557,6 @@ msgstr "\n  รีเฟรชรายการตัดต่อ"
 msgid "\n  Render job"
 msgstr "\n  งานเรนเดอร์"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  ส่วนของ Resolve หยุดทำงาน: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  หยุดแล้ว: %s"
 
@@ -1865,6 +1859,9 @@ msgstr "ผลลัพธ์"
 
 msgid "Resolve part stopped: %s"
 msgstr "ส่วนของ Resolve หยุดทำงาน: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "ส่วนของ Resolve หยุดทำงานเพราะข้อผิดพลาดในโปรแกรมนี้ ไม่ใช่ใน Resolve: %s -- โปรดแจ้งปัญหานี้ รายละเอียดอยู่ในล็อก"
 
 msgid "Stopped: %s"
 msgstr "หยุดแล้ว: %s"
@@ -3693,8 +3690,8 @@ msgstr "ขีดจำกัดแบบยืดหยุ่นของคู
 msgid "and here it is cut, good moment or not"
 msgstr "และตรงนี้จะตัด ไม่ว่าจังหวะจะดีหรือไม่"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "ขีดจำกัดแบบตายตัวของคู่นี้: หากไม่มีขอบเขตประโยคเกิดขึ้นเลยตั้งแต่ \"ภาพมุมกว้างหลังจาก\" ช่วงหยุดพูดที่ยาวที่สุดจะใช้แทน และ ณ จุดนี้จะตัดไม่ว่ากำลังพูดอะไรอยู่"
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "ขีดจำกัดแบบตายตัวของคู่นี้: หากไม่มีขอบเขตประโยคเกิดขึ้นเลยตั้งแต่ \"ภาพมุมกว้างหลังจาก\" ช่วงหยุดพูดที่ยาวที่สุดจะใช้แทน และ ณ จุดนี้จะตัดไม่ว่ากำลังพูดอะไรอยู่ ข้อนี้ใช้ได้เฉพาะเมื่อ \"ภาพมุมกว้างหลังจาก\" เปิดอยู่และ \"การพูดคนเดียวยาว\" เปลี่ยนกล้อง: ถ้าอย่างแรกเป็น 0 หรืออย่างหลังเป็น \"ไม่เปลี่ยนกล้อง\" จะไม่มีการบังคับใดๆ ไม่ว่ากล้องจะค้างอยู่นานเท่าใด"
 
 msgid "Why the question settings are grey"
 msgstr "ทำไมการตั้งค่าคำถามจึงเป็นสีเทา"

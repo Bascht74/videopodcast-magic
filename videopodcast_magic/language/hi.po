@@ -1034,6 +1034,9 @@ msgstr "रोका गया: %s"
 msgid "Resolve part stopped: %s"
 msgstr "Resolve वाला भाग रुक गया: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "इस प्रोग्राम की एक गड़बड़ी से Resolve वाला भाग रुक गया, Resolve की वजह से नहीं: %s -- कृपया इसकी सूचना दें। विवरण लॉग में है।"
+
 msgid "Presets could not be loaded: %s"
 msgstr "प्रीसेट लोड नहीं हो सके: %s"
 
@@ -1719,9 +1722,6 @@ msgstr "पूर्वावलोकन संभव नहीं: %s"
 
 msgid "    %-26s the camera in one piece, the mix below"
 msgstr "    %-26s कैमरा एक टुकड़े में, मिक्स उसके नीचे"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve वाला भाग रुका: %s"
 
 msgid "  %s is ready -- with --resolve-json it can be done later."
 msgstr "  %s तैयार है -- --resolve-json से इसे बाद में किया जा सकता है।"
@@ -3485,9 +3485,6 @@ msgstr "वाइड शॉट %s, मिक्स उसका पहला ऑ
 msgid "%s, audio track %d"
 msgstr "%s, ऑडियो ट्रैक %d"
 
-msgid "    %s could not be imported."
-msgstr "    %s इम्पोर्ट नहीं हो सका।"
-
 msgid "    V2 could not be read back: %s"
 msgstr "    V2 को दोबारा पढ़ा नहीं जा सका: %s"
 
@@ -4593,8 +4590,8 @@ msgstr "शून्य वहाँ है जहाँ प्रश्न प�
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "इन दोनों की नरम सीमा: यहाँ से प्रोग्राम वाक्य की सीमा की प्रतीक्षा करता है और वाइड शॉट वहीं रखता है, घड़ी के अनुसार नहीं। 0 इसे बंद करता है। \"वाइड शॉट अधिकतम विलंब\" कठोर सीमा है, जहाँ वाक्य की सीमा के बिना भी काटा जाता है।"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "इन दोनों की कठोर सीमा: यदि \"वाइड शॉट के बाद\" से कोई वाक्य की सीमा नहीं आई, तो सबसे लंबा बोलने का विराम उसकी जगह लेता है, और इस बिंदु पर काटा जाता है, चाहे उस समय कुछ भी कहा जा रहा हो।"
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "इन दोनों की कठोर सीमा: यदि \"वाइड शॉट के बाद\" से कोई वाक्य की सीमा नहीं आई, तो सबसे लंबा बोलने का विराम उसकी जगह लेता है, और इस बिंदु पर काटा जाता है, चाहे उस समय कुछ भी कहा जा रहा हो। यह तभी लागू होता है जब \"वाइड शॉट के बाद\" चालू हो और \"लंबा एकालाप\" कैमरा बदलता हो: पहला 0 पर या दूसरा \"कैमरा न बदलें\" पर हो, तो कुछ भी थोपा नहीं जाता, कैमरा चाहे जितनी देर रहे।"
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "फिर यह वाक्य के अंत तक चलता है। पाँच सेकंड से कम में यह झलक एक झटके जैसी लगती है।"

@@ -702,9 +702,6 @@ msgstr "    %-24s nincs beillesztett hang"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx nem futott az előirányzott kamera -- ott egy másik áll."
 
-msgid "    %s could not be imported."
-msgstr "    %s nem importálható."
-
 msgid "    %s track could not be created: %s"
 msgstr "    A(z) %s sáv nem hozható létre: %s"
 
@@ -1539,9 +1536,6 @@ msgstr "\n  A VÁGÁSLISTA FRISSÍTÉSE"
 msgid "\n  Render job"
 msgstr "\n  Renderelési feladat"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  A Resolve-rész leállt: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  LEÁLLÍTVA: %s"
 
@@ -1844,6 +1838,9 @@ msgstr "EREDMÉNY"
 
 msgid "Resolve part stopped: %s"
 msgstr "A Resolve-rész leállítva: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "A Resolve-rész leállt a program saját hibája miatt, nem a Resolve miatt: %s -- kérjük, jelentse. A részletek a naplóban vannak."
 
 msgid "Stopped: %s"
 msgstr "Leállítva: %s"
@@ -4480,8 +4477,8 @@ msgstr "Totál legkésőbb"
 msgid "and here it is cut, good moment or not"
 msgstr "és itt vág, akár jó a pillanat, akár nem"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "A pár kemény határa: ha a \"Totál ennyi után\" óta nem jött mondathatár, a leghosszabb beszédszünet lép a helyére, és ezen a ponton megtörténik a vágás, bármi hangzik is el éppen."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "A pár kemény határa: ha a \"Totál ennyi után\" óta nem jött mondathatár, a leghosszabb beszédszünet lép a helyére, és ezen a ponton megtörténik a vágás, bármi hangzik is el éppen. Ez csak addig érvényes, amíg \"Totál ennyi után\" be van kapcsolva, és \"Hosszú monológ\" kamerát vált: ha az előbbi 0, vagy az utóbbi \"Nincs kameraváltás\", semmit sem kényszerít ki, akármeddig áll is egy kamera."
 
 msgid "Wide shot at least"
 msgstr "Totál legalább"

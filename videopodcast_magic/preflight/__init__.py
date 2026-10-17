@@ -1661,9 +1661,12 @@ def report_findings(findings, heading, anyway=False):
         if b.advice and not PROGRAM.GUI_RUNNING:
             for line in textwrap.wrap(b.advice, 70):
                 print("      %s" % line)
-    abort = [b for b in findings if b.kind == "abort"]
-    hints = [b for b in findings if b.kind == "hint"]
-    fixed = [b for b in findings if b.kind == "fixed"]
+    # What belongs to a file that does not take part is said above and
+    # counted nowhere, as in the window's line under the list.
+    counts = [b for b in findings if not b.set_aside]
+    abort = [b for b in counts if b.kind == "abort"]
+    hints = [b for b in counts if b.kind == "hint"]
+    fixed = [b for b in counts if b.kind == "fixed"]
     parts = [T('%s checked') % number_text(len(findings), 0)]
     if fixed:
         parts.append(TN(len(fixed), '%s fixed on its own',
@@ -1885,14 +1888,16 @@ def run_preflight(args, audio_paths, video_paths, project_type=None):
                               finished=getattr(args, "finished_mix", ()),
                               heard=heard)
     findings = channels_as_a_run_has_them(findings, audio_paths)
-    # Counted as the run counts them: blocks of one recording are one.
+    # Counted as the run counts them: blocks of one recording are one,
+    # and one set to "do not use" is none -- the run sends it nowhere.
+    sent = [p for p in audio_paths if p not in set_aside]
     chains = (group_recording_parts(
-        audio_paths, getattr(args, "no_follow_ups", False),
+        sent, getattr(args, "no_follow_ups", False),
         getattr(args, "apart", ()), getattr(args, "together", ()))
-        if audio_paths else [])
+        if sent else [])
     recordings = len(chains)
     # These two depend on the call and the machine, not the material.
-    findings += check_disk_space(getattr(args, "out", None), audio_paths, video_paths,
+    findings += check_disk_space(getattr(args, "out", None), sent, video_paths,
                              window_from_points(args),
                              bool(getattr(args, "dry_run", False)),
                              recordings)

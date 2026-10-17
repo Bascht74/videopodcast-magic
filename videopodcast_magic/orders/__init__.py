@@ -719,8 +719,10 @@ def build_argument_parser():
     ap.add_argument("--wide-latest", dest="wide_latest", type=float,
                     default=WIDE_LATEST_S, metavar="SECONDS",
                     help="upper limit: longest one camera may stand without "
-                         "a cut. Where no good pause turns up, it cuts "
-                         "anyway. (default: %g)" % WIDE_LATEST_S)
+                         "a cut, while --wide-after is not 0 and "
+                         "--on-monologue not hold. Where no good pause "
+                         "turns up, it cuts anyway. (default: %g)"
+                         % WIDE_LATEST_S)
     ap.add_argument("--no-wide-edges", dest="no_wide_edges",
                     action="store_true",
                     help="do NOT hold the wide shot at the beginning and the "

@@ -1034,6 +1034,9 @@ msgstr "Interrompido: %s"
 msgid "Resolve part stopped: %s"
 msgstr "Parte do Resolve interrompida: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Parte do Resolve interrompida por um erro deste programa, não do Resolve: %s -- por favor, informe-o. Os detalhes estão no registro."
+
 msgid "Presets could not be loaded: %s"
 msgstr "Não foi possível carregar as predefinições: %s"
 
@@ -1719,9 +1722,6 @@ msgstr "Pré-visualização impossível: %s"
 
 msgid "    %-26s the camera in one piece, the mix below"
 msgstr "    %-26s a câmera numa só peça, o mix embaixo"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Parte do Resolve interrompida: %s"
 
 msgid "  %s is ready -- with --resolve-json it can be done later."
 msgstr "  %s está pronto -- com --resolve-json isso pode ser feito depois."
@@ -3485,9 +3485,6 @@ msgstr "plano geral %s, o mix é a sua primeira faixa de áudio"
 msgid "%s, audio track %d"
 msgstr "%s, faixa de áudio %d"
 
-msgid "    %s could not be imported."
-msgstr "    Não foi possível importar %s."
-
 msgid "    V2 could not be read back: %s"
 msgstr "    Não foi possível reler V2: %s"
 
@@ -4593,8 +4590,8 @@ msgstr "O zero fica onde quem pergunta para, não onde a resposta começa: a pau
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "O limite suave do par: a partir daqui o programa espera um limite de frase e coloca o plano geral ali, não pelo relógio. 0 desliga. \"Plano geral o mais tardar\" é o limite rígido, onde se corta mesmo sem limite de frase."
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "O limite rígido do par: onde nenhum limite de frase apareceu desde \"Plano geral após\", a pausa de fala mais longa faz as vezes de um, e neste ponto se corta, seja o que for que esteja sendo dito."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "O limite rígido do par: onde nenhum limite de frase apareceu desde \"Plano geral após\", a pausa de fala mais longa faz as vezes de um, e neste ponto se corta, seja o que for que esteja sendo dito. Isso só vale enquanto \"Plano geral após\" estiver ativo e \"Monólogo longo\" trocar de câmera: com o primeiro em 0 ou o segundo em \"Sem troca de câmera\", nada é forçado, por mais que uma câmera fique."
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "Depois ele segue até o fim da frase. Com menos de cinco segundos, o olhar parece um tique."

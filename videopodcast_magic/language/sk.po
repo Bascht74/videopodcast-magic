@@ -701,9 +701,6 @@ msgstr "    %-24s žiadny zvuk nevložený"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx nebežala zamýšľaná kamera -- namiesto nej je tam iná."
 
-msgid "    %s could not be imported."
-msgstr "    %s sa nepodarilo importovať."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s stopu sa nepodarilo vytvoriť: %s"
 
@@ -1541,9 +1538,6 @@ msgstr "\n  OBNOVIŤ STRIHOVÝ ZOZNAM"
 msgid "\n  Render job"
 msgstr "\n  Renderovacia úloha"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Časť pre Resolve zastavená: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  ZASTAVENÉ: %s"
 
@@ -1846,6 +1840,9 @@ msgstr "VÝSLEDOK"
 
 msgid "Resolve part stopped: %s"
 msgstr "Časť Resolve zastavená: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Časť Resolve zastavená pre chybu v tomto programe, nie v Resolve: %s -- nahláste ju, prosím. Podrobnosti sú v protokole."
 
 msgid "Stopped: %s"
 msgstr "Zastavené: %s"
@@ -4524,8 +4521,8 @@ msgstr "Široký záber najneskôr"
 msgid "and here it is cut, good moment or not"
 msgstr "a tu sa strihá, vhodná chvíľa alebo nie"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Tvrdá hranica dvojice: ak od \"Široký záber po\" neprišla žiadna hranica vety, zastúpi ju najdlhšia pauza v reči, a v tomto bode sa strihá, nech sa práve hovorí čokoľvek."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Tvrdá hranica dvojice: ak od \"Široký záber po\" neprišla žiadna hranica vety, zastúpi ju najdlhšia pauza v reči, a v tomto bode sa strihá, nech sa práve hovorí čokoľvek. Platí to len vtedy, keď je \"Široký záber po\" zapnuté a \"Dlhý monológ\" strieda kameru: s prvým na 0 alebo druhým na \"Bez zmeny kamery\" sa nič nevynucuje, nech kamera stojí akokoľvek dlho."
 
 msgid "Wide shot at least"
 msgstr "Široký záber najmenej"

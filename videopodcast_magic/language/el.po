@@ -700,9 +700,6 @@ msgstr "    %-24s κανένας ήχος δεν εισήχθη"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s φορές η προβλεπόμενη κάμερα δεν λειτουργούσε -- εκεί βρίσκεται μια άλλη."
 
-msgid "    %s could not be imported."
-msgstr "    %s δεν μπόρεσε να εισαχθεί."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Το κομμάτι %s δεν μπόρεσε να δημιουργηθεί: %s"
 
@@ -1537,9 +1534,6 @@ msgstr "\n  ΑΝΑΝΕΩΣΗ ΤΗΣ ΛΙΣΤΑΣ ΜΟΝΤΑΖ"
 msgid "\n  Render job"
 msgstr "\n  Εργασία rendering"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Το μέρος του Resolve σταμάτησε: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  ΔΙΑΚΟΠΗ: %s"
 
@@ -1842,6 +1836,9 @@ msgstr "ΑΠΟΤΕΛΕΣΜΑ"
 
 msgid "Resolve part stopped: %s"
 msgstr "Το τμήμα Resolve διακόπηκε: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Το τμήμα Resolve διακόπηκε λόγω σφάλματος σε αυτό το πρόγραμμα, όχι στο Resolve: %s -- παρακαλούμε αναφέρετέ το. Οι λεπτομέρειες βρίσκονται στο αρχείο καταγραφής."
 
 msgid "Stopped: %s"
 msgstr "Διακόπηκε: %s"
@@ -4479,8 +4476,8 @@ msgstr "Γενικό πλάνο το αργότερο"
 msgid "and here it is cut, good moment or not"
 msgstr "και εδώ κόβει, καλή στιγμή ή όχι"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Το σκληρό όριο του ζεύγους: όπου δεν έχει εμφανιστεί όριο πρότασης από το \"Γενικό πλάνο μετά από\", η μεγαλύτερη παύση ομιλίας παίρνει τη θέση του, και σε αυτό το σημείο γίνεται η κοπή, ό,τι κι αν λέγεται."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Το σκληρό όριο του ζεύγους: όπου δεν έχει εμφανιστεί όριο πρότασης από το \"Γενικό πλάνο μετά από\", η μεγαλύτερη παύση ομιλίας παίρνει τη θέση του, και σε αυτό το σημείο γίνεται η κοπή, ό,τι κι αν λέγεται. Αυτό ισχύει μόνο όσο το \"Γενικό πλάνο μετά από\" είναι ενεργό και ο \"Μακρύς μονόλογος\" αλλάζει κάμερα: με το πρώτο στο 0 ή το δεύτερο σε \"Χωρίς αλλαγή κάμερας\", τίποτα δεν επιβάλλεται, όσο κι αν μένει μια κάμερα."
 
 msgid "Wide shot at least"
 msgstr "Γενικό πλάνο τουλάχιστον"

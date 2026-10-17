@@ -546,6 +546,25 @@ def stopped_on_command_line(e):
     return 1
 
 
+def say_resolve_stopped(e, indent=""):
+    """Say why the Resolve part stopped, in one line, and return 1.
+
+    A RuntimeError is the build's own word -- what Resolve refused or
+    would not answer -- and an OSError or a broken handover file the
+    system's; anything else is a fault in this program's own code, said
+    as one, to be reported, with its traceback into the log. Called
+    inside the except, by a whole run and by the Resolve part alone.
+    """
+    if isinstance(e, (RuntimeError, OSError, json.JSONDecodeError)):
+        print(indent + T('Resolve part stopped: %s') % e)
+        return 1
+    fault_into_log()
+    print(indent + T('Resolve part stopped on a fault in this program, not '
+                     'in Resolve: %s -- please report it. The details are '
+                     'in the log.') % ("%s: %s" % (type(e).__name__, e)))
+    return 1
+
+
 def run_from_command_line(args, ap):
     """The run a command line asks for: said, preflight, then the one door.
 
@@ -583,8 +602,7 @@ def run_from_command_line(args, ap):
             return build_resolve_project(args.resolve_json, args.resolve_project,
                                  )
         except Exception as e:
-            print(T('Resolve part stopped: %s') % e)
-            return 1
+            return say_resolve_stopped(e)
     for long in ("no_camera_audio", "no_follow_ups", "no_drift",
                  "dry_run", "resolve"):
         setattr(args, long, getattr(args, long, False))

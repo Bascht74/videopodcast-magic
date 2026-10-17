@@ -155,7 +155,10 @@ gehören zusammen: eine weiche Grenze und eine harte.
   Nähe an ihre Stelle, und dort wird geschnitten, gleich was gerade
   gesagt wird; ist auch keine brauchbare Pause da, entscheidet die Uhr.
   Kleiner unterbricht eine stehende Kamera früher (auf der Kommandozeile
-  `--wide-latest`)
+  `--wide-latest`). Sie gilt nur zusammen mit **Weitwinkel nach**: Steht
+  das auf 0 oder **Langer Monolog** auf **Kein Kamerawechsel**, wird
+  nichts erzwungen, und eine Kamera steht so lange, wie ihr Sprecher
+  redet -- wer die Weitwinkel abschaltet, will keine
 * **Weitwinkel mindestens**: 5 s, so lange steht der eingeschobene
   Weitwinkel mindestens, danach läuft er bis zum Ende des Satzes; höher
   macht jeden Blick weg länger (auf der Kommandozeile `--wide-length`)
@@ -868,7 +871,8 @@ beendet ihn die letzte Teilsatzgrenze davor.
 tritt die längste Sprechpause in der Nähe an ihre Stelle, und dort wird
 geschnitten, gleich was gerade gesagt wird; ist auch keine brauchbare
 Pause da, wird eine Kamera nach der Uhr aufgebrochen, damit kein Stück
-von ihr länger als diese Zeit steht. Ohne Transkript gibt es
+von ihr länger als diese Zeit steht -- solange **Weitwinkel nach** an
+ist, siehe oben. Ohne Transkript gibt es
 überhaupt keine Satzgrenzen: der Weitwinkel geht dann an die längste
 Pause in der Nähe und steht die eingestellte Mindestzeit — deshalb ist
 die weiche Grenze gesperrt, solange die Wörter fehlen, und die harte

@@ -702,9 +702,6 @@ msgstr "    %-24s аудио није убачен"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s пута предвиђена камера није радила -- тамо стоји друга."
 
-msgid "    %s could not be imported."
-msgstr "    Увоз није успео за %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Трака %s није могла бити направљена: %s"
 
@@ -1542,9 +1539,6 @@ msgstr "\n  ОСВЕЖАВАЊЕ ЛИСТЕ МОНТАЖЕ"
 msgid "\n  Render job"
 msgstr "\n  Задатак рендеровања"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve део је прекинут: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  ЗАУСТАВЉЕНО: %s"
 
@@ -1847,6 +1841,9 @@ msgstr "РЕЗУЛТАТ"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve део заустављен: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve део заустављен због грешке у овом програму, не у Resolve-у: %s -- молимо пријавите је. Појединости су у дневнику."
 
 msgid "Stopped: %s"
 msgstr "Заустављено: %s"
@@ -4524,8 +4521,8 @@ msgstr "Широки кадар најкасније"
 msgid "and here it is cut, good moment or not"
 msgstr "и овде се сече, добар тренутак или не"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Тврда граница пара: ако се од \"Широки кадар после\" није појавила ниједна граница реченице, њено место заузима најдужа пауза у говору, и у овој тачки се сече, без обзира на то шта се управо говори."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Тврда граница пара: ако се од \"Широки кадар после\" није појавила ниједна граница реченице, њено место заузима најдужа пауза у говору, и у овој тачки се сече, без обзира на то шта се управо говори. То важи само док је \"Широки кадар после\" укључено и \"Дуги монолог\" мења камеру: са првим на 0 или другим на \"Без промене камере\" ништа се не намеће, ма колико дуго камера стајала."
 
 msgid "Wide shot at least"
 msgstr "Широки кадар најмање"

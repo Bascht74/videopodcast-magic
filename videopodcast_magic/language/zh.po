@@ -1026,6 +1026,9 @@ msgstr "已中止：%s"
 msgid "Resolve part stopped: %s"
 msgstr "Resolve 部分已中止：%s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve 部分因本程序自身的错误而中止，并非 Resolve 的问题：%s——请报告此问题。详细信息见日志。"
+
 msgid "Presets could not be loaded: %s"
 msgstr "无法加载预设：%s"
 
@@ -1707,9 +1710,6 @@ msgstr "无法预览：%s"
 
 msgid "    %-26s the camera in one piece, the mix below"
 msgstr "    %-26s 摄像机完整连续，混音在其下方"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve 部分已中止：%s"
 
 msgid "  %s is ready -- with --resolve-json it can be done later."
 msgstr "  %s 已就绪 -- 可用 --resolve-json 稍后完成。"
@@ -3467,9 +3467,6 @@ msgstr "全景 %s，混音是其第一条音轨"
 msgid "%s, audio track %d"
 msgstr "%s，音轨 %d"
 
-msgid "    %s could not be imported."
-msgstr "    无法导入%s。"
-
 msgid "    V2 could not be read back: %s"
 msgstr "    无法回读 V2：%s"
 
@@ -4541,8 +4538,8 @@ msgstr "零点是提问者停下的地方，而不是回答开始的地方：两
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "这一对设置中的软上限：从此处起，程序等待句子边界并把全景放在那里，而不是按时钟放。0 表示关闭。“全景最迟”是硬上限，到那里即使没有句子边界也会切。"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "这一对设置中的硬上限：如果自“全景在”以来没有出现句子边界，就以最长的说话停顿代替，而到了这个时间点，无论正在说什么都会切。"
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "这一对设置中的硬上限：如果自“全景在”以来没有出现句子边界，就以最长的说话停顿代替，而到了这个时间点，无论正在说什么都会切。仅当“全景在”开启且“长时间独白”会切换镜头时才生效：前者为 0 或后者为“不切换镜头”时，不会强制任何切换，无论一个镜头停留多久。"
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "之后它会持续到句子结束。短于五秒时，这一瞥看起来像是抽搐。"

@@ -727,9 +727,6 @@ msgstr "    %-24s לא הוכנס שמע"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    המצלמה המיועדת לא פעלה (פעמים: %s) -- יש שם מצלמה אחרת."
 
-msgid "    %s could not be imported."
-msgstr "    לא ניתן היה לייבא את %s."
-
 msgid "    %s track could not be created: %s"
 msgstr "    רצועה מסוג %s לא נוצרה: %s"
 
@@ -1564,9 +1561,6 @@ msgstr "\n  רענון רשימת החיתוכים"
 msgid "\n  Render job"
 msgstr "\n  משימת רינדור"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  החלק של Resolve הופסק: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  הופסק: %s"
 
@@ -1869,6 +1863,9 @@ msgstr "תוצאה"
 
 msgid "Resolve part stopped: %s"
 msgstr "החלק של Resolve הופסק: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "החלק של Resolve הופסק בגלל תקלה בתוכנה הזו, לא ב־Resolve: %s -- נא לדווח עליה. הפרטים ביומן."
 
 msgid "Stopped: %s"
 msgstr "הופסק: %s"
@@ -3696,8 +3693,8 @@ msgstr "הגבול הרך של הזוג: מכאן התוכנה ממתינה לס
 msgid "and here it is cut, good moment or not"
 msgstr "וכאן נחתך, רגע מתאים או לא"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "הגבול הקשיח של הזוג: אם מאז \"שוט רחב אחרי\" לא הופיע סוף משפט, ההפסקה הארוכה ביותר בדיבור באה במקומו, ובנקודה זו נחתך, יהיה הנאמר אשר יהיה."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "הגבול הקשיח של הזוג: אם מאז \"שוט רחב אחרי\" לא הופיע סוף משפט, ההפסקה הארוכה ביותר בדיבור באה במקומו, ובנקודה זו נחתך, יהיה הנאמר אשר יהיה. זה חל רק כל עוד \"שוט רחב אחרי\" פעיל ו־\"מונולוג ארוך\" מחליף מצלמה: כשהראשון על 0 או השני על \"ללא החלפת מצלמה\", דבר אינו נכפה, לא משנה כמה זמן מצלמה עומדת."
 
 msgid "Why the question settings are grey"
 msgstr "למה הגדרות השאלה אפורות"

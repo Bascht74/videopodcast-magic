@@ -700,9 +700,6 @@ msgstr "    %-24s ääntä ei lisätty"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx aiottu kamera ei ollut käynnissä -- tilalla on toinen."
 
-msgid "    %s could not be imported."
-msgstr "    Leikettä %s ei voitu tuoda."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s-raitaa ei voitu luoda: %s"
 
@@ -1537,9 +1534,6 @@ msgstr "\n  PÄIVITÄ LEIKKAUSLUETTELO"
 msgid "\n  Render job"
 msgstr "\n  Renderöintityö"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve-osuus pysähtyi: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  PYSÄYTETTY: %s"
 
@@ -1842,6 +1836,9 @@ msgstr "TULOS"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve-osa pysäytetty: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve-osa pysäytetty tämän ohjelman virheen vuoksi, ei Resolven: %s -- ilmoitathan siitä. Yksityiskohdat ovat lokissa."
 
 msgid "Stopped: %s"
 msgstr "Pysäytetty: %s"
@@ -4478,8 +4475,8 @@ msgstr "Yleiskuva viimeistään"
 msgid "and here it is cut, good moment or not"
 msgstr "ja tässä leikataan, oli hetki hyvä tai ei"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Parin kova raja: jos lauseen rajaa ei ole tullut kohdan \"Yleiskuva aikaisintaan\" jälkeen, pisin puhetauko toimii sen sijaisena, ja tässä kohdassa leikataan, puhuttiinpa mitä tahansa."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Parin kova raja: jos lauseen rajaa ei ole tullut kohdan \"Yleiskuva aikaisintaan\" jälkeen, pisin puhetauko toimii sen sijaisena, ja tässä kohdassa leikataan, puhuttiinpa mitä tahansa. Tämä pätee vain, kun \"Yleiskuva aikaisintaan\" on käytössä ja \"Pitkä monologi\" vaihtaa kameraa: jos ensimmäinen on 0 tai jälkimmäinen \"Ei kameranvaihtoa\", mitään ei pakoteta, vaikka kamera seisoisi kuinka kauan."
 
 msgid "Wide shot at least"
 msgstr "Yleiskuva vähintään"

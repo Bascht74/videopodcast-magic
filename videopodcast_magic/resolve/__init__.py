@@ -1805,10 +1805,8 @@ def insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in):
         entry = d.get(kind)
         if not entry:
             continue
-        clip = clips.get(entry["source"])
-        if clip is None:
-            print(T('    %s could not be imported.') % where_to)
-            continue
+        # Always there: import_media hands back every file or raises.
+        clip = clips[entry["source"]]
         L = float(entry.get("duration") or 0.0)
         meeting_point = _meeting_point(entry, kind)
         word0, word1 = first_and_last_word(d)

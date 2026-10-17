@@ -728,9 +728,6 @@ msgstr "    %-24s hakuna sauti iliyopachikwa"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx kamera iliyokusudiwa haikuwa ikirekodi -- kuna nyingine hapo."
 
-msgid "    %s could not be imported."
-msgstr "    %s: haikuweza kuingizwa."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Treki ya aina %s haikuweza kuundwa: %s"
 
@@ -1565,9 +1562,6 @@ msgstr "\n  ONYESHA UPYA ORODHA YA MIKATO"
 msgid "\n  Render job"
 msgstr "\n  Kazi ya render"
 
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Sehemu ya Resolve imesimamishwa: %s"
-
 msgid "\n  STOPPED: %s"
 msgstr "\n  IMESIMAMISHWA: %s"
 
@@ -1870,6 +1864,9 @@ msgstr "MATOKEO"
 
 msgid "Resolve part stopped: %s"
 msgstr "Sehemu ya Resolve imesimamishwa: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Sehemu ya Resolve imesimamishwa na hitilafu katika programu hii, si katika Resolve: %s -- tafadhali iripoti. Maelezo kamili yamo kwenye kumbukumbu."
 
 msgid "Stopped: %s"
 msgstr "Imesimamishwa: %s"
@@ -3701,8 +3698,8 @@ msgstr "Kikomo laini cha jozi hii: kuanzia hapa programu inasubiri mpaka wa sent
 msgid "and here it is cut, good moment or not"
 msgstr "na hapa hukatwa, wakati uwe mzuri au la"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Kikomo kigumu cha jozi hii: pale ambapo hakuna mpaka wa sentensi uliotokea tangu \"Picha pana baada ya\", pumziko refu zaidi la kuzungumza huchukua nafasi yake, na katika hatua hii mkato hufanyika bila kujali kinachosemwa."
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
+msgstr "Kikomo kigumu cha jozi hii: pale ambapo hakuna mpaka wa sentensi uliotokea tangu \"Picha pana baada ya\", pumziko refu zaidi la kuzungumza huchukua nafasi yake, na katika hatua hii mkato hufanyika bila kujali kinachosemwa. Hili linatumika tu wakati \"Picha pana baada ya\" imewashwa na \"Monolojia ndefu\" inabadilisha kamera: ikiwa ya kwanza ni 0 au ya pili ni \"Bila kubadili kamera\", hakuna kinacholazimishwa, hata kamera ikikaa muda gani."
 
 msgid "Why the question settings are grey"
 msgstr "Kwa nini mipangilio ya swali ni ya kijivu"
