@@ -1152,8 +1152,8 @@ msgstr "  सुरुवात %s -- प्रत्येक शॉट ति�
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  अशी Timeline अजून नव्हती -- ती फक्त तयार केली जाते."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  टीप: हे त्या वेळी अपलोड केलेल्या फाइलींनी गणना करते. त्यांच्यात\n  त्या दिवसाची वेळ-चौकट आणि संरेखन आहे. जिथे इन पॉइंट, आउट पॉइंट\n  किंवा मोजलेली स्थिती आता वेगळी आहे, तिथे परतीची तपासणी तो\n  फरक मोजते आणि ट्रॅक योग्य जागी हलवते."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  टीप: हे त्या वेळी अपलोड केलेल्या फाइलींनी गणना करते. त्यांच्यात\n  त्या दिवसाची वेळ-चौकट आणि संरेखन आहे. जिथे इन पॉइंट, आउट पॉइंट\n  आणि मोजलेली स्थिती आता त्याच चौकटीत राहते, तिथे परतीची तपासणी\n  फरक मोजते आणि ट्रॅक योग्य जागी हलवते. जिथे ते तिच्या बाहेर जातात --\n  आधीचा इन पॉइंट, नंतरचा आउट पॉइंट -- तिथे ती ट्रॅक नाकारते:\n  तेव्हा सर्व काही पुन्हा अपलोड करा."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  टीप: या ffmpeg मध्ये soxr नाही -- घड्याळाचे विचलन फक्त\n  21 ppm च्या पायऱ्यांनी काढता येते."
@@ -4345,6 +4345,9 @@ msgstr "हा प्रोग्राम %s म्हणून चालत �
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "या हस्तांतरणात फ्रेम दर नाही, म्हणून त्यातून Timeline बनवता येत नाही. कृपया रन पुन्हा करा."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "या हस्तांतरणात %s साठी कोणतीही फाइल नाही, म्हणून त्यातून Timeline बनवता येत नाही. कृपया रन पुन्हा करा."
 
 msgid "Cut by speaker"
 msgstr "वक्त्यानुसार कट"

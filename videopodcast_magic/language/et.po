@@ -1152,8 +1152,8 @@ msgstr "  Algus %s -- iga võte paigutatakse selle suhtes."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Sellist Timeline'i veel polnud -- see ainult luuakse."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Märkus: arvutatakse tollal üles laaditud failidega. Neis on\n  tolle päeva ajaaken ja joondus. Kui algpunkt, lõpp-punkt\n  või mõõdetud asukoht on nüüd teistsugused, mõõdab tagastuskontroll\n  erinevuse ja nihutab rajad paika."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Märkus: arvutatakse tollal üles laaditud failidega. Neis on\n  tolle päeva ajaaken ja joondus. Kui algpunkt, lõpp-punkt ja mõõdetud\n  asukoht jäävad nüüd selle akna sisse, mõõdab tagastuskontroll\n  erinevuse ja nihutab rajad paika. Kui need ulatuvad sellest välja --\n  varasem algpunkt, hilisem lõpp-punkt --, lükkab see rajad tagasi:\n  siis laadi kõik uuesti üles."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Märkus: sellel ffmpeg'il pole soxr-i -- kella triivi saab eemaldada ainult\n  21 ppm sammudega."
@@ -4344,6 +4344,9 @@ msgstr "See programm töötab kui %s ja selle jaoks paigaldatud paketid on %s, s
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Selles üleandmises pole kaadrisagedust, seega ei saa sellest Timeline'i ehitada. Palun tee käitus uuesti."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "See üleandmine ei nimeta %s jaoks faili, seega ei saa sellest Timeline'i ehitada. Palun tee käitus uuesti."
 
 msgid "Cut by speaker"
 msgstr "Montaaž kõneleja järgi"

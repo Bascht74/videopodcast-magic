@@ -7,11 +7,12 @@ accepted -- processed, short by a lossy frame, and longer by a jingle
 in front and a tail behind; returns that are not the take are refused
 -- last week's take forward against this week's reversed and 12 s
 shorter, the take reversed at full length, another voice, and the take
-with its last seconds gone; the refusal is said on the track's line and
-under the lines, apart from a return of noise left unsure; and a return
-of the whole range trimmed to the window is judged on the file as it
-came, whole or short at its end. Not asked: other sound longer than
-what went up, placed inside it -- that passes.
+with its first or its last seconds gone; the refusal is said on the
+track's line and under the lines, apart from a return of noise left
+unsure, whose line says its measurement is unusable and not that it was
+aligned; and a return of the whole range trimmed to the window is judged
+on the file as it came, whole or short at its end. Not asked: other
+sound longer than what went up, placed inside it -- that passes.
 """
 PLATFORM_BOUND = True
 import os
@@ -148,6 +149,12 @@ answer, track, _said = returned(
     "Trimmed", sent, processed("trimmed.wav", take[:n - int(3.0 * SR)]))
 check("the take with its last 3 s gone is refused", answer is False,
       numbers(answer, track) + ", 3.00 s taken off its end")
+# What a recompute brings back once the In point has moved 4 s earlier:
+# the files of that day begin 4 s into what goes up today.
+answer, track, _said = returned(
+    "Front", sent, processed("front.wav", take[int(4.0 * SR):]))
+check("the take with its first 4 s gone is refused", answer is False,
+      numbers(answer, track) + ", 4.00 s taken off its start")
 
 print("\nHow a refusal is said")
 said = vpm.T('   Caution: %s s of what went up is not in it').split("%s")[1]
@@ -178,6 +185,14 @@ check("a return of noise is left unsure, not named refused",
       and UNDER_REFUSED % "Noise" not in said_noise,
       numbers(answer, track) + ", the log's last lines: %r"
       % said_noise.strip()[-160:])
+# Laid all the same, by a measurement nobody can use, and the run stops
+# on it: its line may not claim the track was aligned.
+UNUSABLE = vpm.T('   Caution: measurement unusable').strip()
+line = next((x for x in said_noise.splitlines() if "Noise" in x
+             and "offset" in x), "")
+check("a return of noise says its measurement is unusable, not aligned",
+      UNUSABLE in line and ALIGNED not in line,
+      "the line: %r" % line.strip()[:160])
 
 print("\nA return of the whole range, trimmed to the window")
 # The window is the take, 76 s into a range of 120 s that went up

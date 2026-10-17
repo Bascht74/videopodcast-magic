@@ -1152,8 +1152,8 @@ msgstr "  ప్రారంభం %s -- ప్రతి షాట్ దీన�
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  అలాంటి Timeline ఇంకా లేదు -- ఇప్పుడు కొత్తగా నిర్మించబడుతుంది."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  గమనిక: ఇది ఆ సమయంలో అప్‌లోడ్ చేసిన ఫైళ్లతో లెక్కిస్తుంది. వాటిలో\n  ఆ రోజు సమయ పరిధి, సమలేఖనం ఉంటాయి. ఇన్ పాయింట్, అవుట్ పాయింట్\n  లేదా కొలిచిన స్థానం ఇప్పుడు భిన్నంగా ఉంటే, తిరుగు తనిఖీ ఆ\n  తేడాను కొలిచి ట్రాక్‌లను సరైన స్థానానికి జరుపుతుంది."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  గమనిక: ఇది ఆ సమయంలో అప్‌లోడ్ చేసిన ఫైళ్లతో లెక్కిస్తుంది. వాటిలో\n  ఆ రోజు సమయ పరిధి, సమలేఖనం ఉంటాయి. ఇన్ పాయింట్, అవుట్ పాయింట్\n  మరియు కొలిచిన స్థానం ఇప్పుడు ఆ పరిధిలోనే ఉంటే, తిరుగు తనిఖీ\n  తేడాను కొలిచి ట్రాక్‌లను సరైన స్థానానికి జరుపుతుంది. అవి దాన్ని దాటితే --\n  ముందటి ఇన్ పాయింట్, తర్వాతి అవుట్ పాయింట్ -- అది ట్రాక్‌లను తిరస్కరిస్తుంది:\n  అప్పుడు అన్నీ మళ్లీ అప్‌లోడ్ చేయండి."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  గమనిక: ఈ ffmpeg లో soxr లేదు -- గడియార విచలనాన్ని 21 ppm\n  దశలలో మాత్రమే తొలగించవచ్చు."
@@ -4346,6 +4346,9 @@ msgstr "ఈ ప్రోగ్రామ్ %s ఆర్కిటెక్చర�
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "ఈ అప్పగింతలో ఫ్రేమ్ రేట్ లేదు, కాబట్టి దీని నుండి Timeline నిర్మించలేము. దయచేసి రన్‌ను మళ్లీ చేయండి."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "ఈ అప్పగింతలో %s కోసం ఫైల్ పేర్కొనలేదు, కాబట్టి దీని నుండి Timeline నిర్మించలేము. దయచేసి రన్‌ను మళ్లీ చేయండి."
 
 msgid "Cut by speaker"
 msgstr "వక్తల వారీగా కట్"

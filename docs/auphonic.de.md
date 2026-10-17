@@ -415,7 +415,14 @@ mehreren Spuren sind das die Antworten:
 
 Guthaben verbraucht allein das Hochladen. Punkt 2 rechnet mit dem neuen
 Preset und lädt nichts hoch, also lässt sich ein Preset nach dem anderen
-durchgehen. Das Programm lädt erst hoch, wenn es dazu aufgefordert wird.
+durchgehen. Gerechnet wird dabei mit den Dateien, die damals hochgingen,
+im Fenster von damals. Bleiben In-Punkt, Out-Punkt und gemessene Lage
+heute innerhalb dieses Fensters, misst die Rückgabeprüfung unten den
+Unterschied und rückt die Spuren zurecht; reichen sie darüber hinaus --
+ein früherer In-Punkt, ein späterer Out-Punkt, ein länger gewordenes
+gemeinsames Fenster --, lehnt sie die Spuren ab, und nur Punkt 3 hilft.
+Punkt 1 nimmt dieselben Dateien und wird ebenso geprüft. Das Programm
+lädt erst hoch, wenn es dazu aufgefordert wird.
 Punkt 1 erscheint nur, wenn alles Nötige da ist. Bei anderen Spurnamen
 dort fragt das Programm, ob es sie übernimmt.
 
@@ -502,9 +509,11 @@ sagt das.
   fehlen darin 12,0 s`, und unter den Zeilen wird sie genannt:
   `Abgelehnt: Guest -- die Rückgabe passt nicht zum Hochgeladenen.` Der
   Lauf hält an. Die Produktion bei auphonic.com enthält
-  anderen Ton, meist eine frühere gleichen Namens. Der Folge unter
-  **Name der Produktion** einen eigenen Namen geben, oder alles neu
-  hochladen.
+  anderen Ton: meist eine frühere gleichen Namens, oder die eigenen
+  Dateien dieser Folge aus einem engeren Fenster, neu gerechnet oder
+  übernommen, nachdem der In-Punkt früher oder der Out-Punkt später
+  gerückt ist. Einer anderen Folge unter **Name der Produktion** einen
+  eigenen Namen geben, sonst alles neu hochladen.
 * **Der Lauf soll Guthaben kosten, das nicht gemeint war.** Nur die
   Antwort, die alles neu hochlädt, lädt hoch, und nur das Hochladen
   kostet. Die anderen Antworten lassen die Dateien stehen, wo sie sind.

@@ -1122,8 +1122,8 @@ msgstr "  Điểm đầu %s -- mọi cảnh quay được đặt theo mốc này
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Chưa có Timeline nào như vậy -- chỉ dựng mới."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Lưu ý: việc tính toán dùng các tệp đã tải lên lúc đó. Chúng mang\n  khoảng thời gian và căn chỉnh của ngày hôm đó. Nếu điểm vào, điểm ra\n  hoặc vị trí đã đo nay khác đi, bước kiểm tra khi trả về sẽ đo\n  chênh lệch và dời các rãnh về đúng chỗ."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Lưu ý: việc tính toán dùng các tệp đã tải lên lúc đó. Chúng mang\n  khoảng thời gian và căn chỉnh của ngày hôm đó. Nếu điểm vào, điểm ra\n  và vị trí đã đo nay vẫn nằm trong khoảng đó, bước kiểm tra khi trả về sẽ\n  đo chênh lệch và dời các rãnh về đúng chỗ. Nếu chúng vượt ra ngoài --\n  điểm vào sớm hơn, điểm ra muộn hơn -- bước kiểm tra sẽ từ chối các rãnh:\n  khi đó hãy tải lên lại tất cả."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Lưu ý: ffmpeg này không có soxr -- độ trôi đồng hồ chỉ có thể loại bỏ\n  theo từng bước 21 ppm."
@@ -4067,6 +4067,9 @@ msgstr "Chương trình này đang chạy dưới dạng %s còn các gói đư�
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Bản bàn giao này không có tốc độ khung hình, nên không thể dựng Timeline từ đó. Hãy chạy lại."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Bản bàn giao này không chỉ ra tệp nào cho %s, nên không thể dựng Timeline từ đó. Hãy chạy lại."
 
 msgid ", %s file does not fit"
 msgid_plural ", %s files do not fit"

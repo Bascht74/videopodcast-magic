@@ -1213,8 +1213,8 @@ msgstr "Там бракує файлів -- без нового вивантаж
 msgid "  Existing result adopted -- nothing computed, nothing paid."
 msgstr "  Наявний результат прийнято -- нічого не пораховано, нічого не сплачено."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Зауваження: рахується з файлами, вивантаженими тоді. Вони несуть\n  часове вікно й вирівнювання того дня. Якщо точка входу, точка виходу\n  чи виміряне положення тепер інші, перевірка повернення вимірює\n  різницю й ставить доріжки на місце."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Зауваження: рахується з файлами, вивантаженими тоді. Вони несуть\n  часове вікно й вирівнювання того дня. Якщо точка входу, точка виходу\n  й виміряне положення тепер лишаються всередині цього вікна, перевірка\n  повернення вимірює різницю й ставить доріжки на місце. Якщо вони виходять\n  за нього -- раніша точка входу, пізніша точка виходу, -- вона відхиляє доріжки:\n  тоді вивантажте все знову."
 
 msgid "  Settings brought to preset %r"
 msgstr "  Налаштування приведено до пресета %r"
@@ -3090,6 +3090,9 @@ msgstr "%(name)s (%(prefix)s*.json);;Файли JSON (*.json);;Усі файли
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Ця передача не містить частоти кадрів, тож Timeline з неї не побудувати. Будь ласка, зробіть запуск ще раз."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "У цій передачі для пункту «%s» не вказано файлу, тож Timeline з неї не побудувати. Будь ласка, зробіть запуск ще раз."
 
 msgid "This Resolve project already exists"
 msgstr "Цей проєкт Resolve уже існує"

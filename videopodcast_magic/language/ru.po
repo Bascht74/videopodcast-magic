@@ -2011,8 +2011,8 @@ msgstr "  Не в монтаже: %s -- разделение говорит в �
 msgid "  Not used:  %s."
 msgstr "  Не в счёт:  %s."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Замечание: считается с файлами, выгруженными тогда. Они несут в себе\n  окно времени и выравнивание того дня. Если точка входа, точка выхода\n  или измеренное положение теперь другие, обратная проверка измерит\n  разницу и поставит дорожки на место."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Замечание: считается с файлами, выгруженными тогда. Они несут в себе\n  окно времени и выравнивание того дня. Если точка входа, точка выхода\n  и измеренное положение теперь остаются внутри этого окна, обратная проверка\n  измерит разницу и поставит дорожки на место. Если они выходят за него --\n  более ранняя точка входа, более поздняя точка выхода, -- она отклонит дорожки:\n  тогда отправьте всё заново."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Замечание: у этого ffmpeg нет soxr -- дрейф часов вычитается только\n  шагами по 21 ppm."
@@ -3702,6 +3702,9 @@ msgstr "Этот файл записан версией %s в формате %d;
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Эта передача не несёт частоты кадров, поэтому Timeline из неё не построить. Сделайте прогон ещё раз."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "В этой передаче у пункта «%s» нет файла, поэтому Timeline из неё не построить. Сделайте прогон ещё раз."
 
 msgid "This is %s. Which version shall pip put in its place?"
 msgstr "Здесь работает %s. Какую версию pip должен поставить на её место?"

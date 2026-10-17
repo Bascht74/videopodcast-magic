@@ -1154,8 +1154,8 @@ msgstr "  ਸ਼ੁਰੂਆਤ %s -- ਹਰ ਸ਼ਾਟ ਇਸੇ ਦੇ ਹ�
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  ਅਜਿਹੀ ਕੋਈ Timeline ਅਜੇ ਮੌਜੂਦ ਨਹੀਂ ਸੀ -- ਇਹ ਬੱਸ ਬਣਾਈ ਜਾਂਦੀ ਹੈ।"
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  ਨੋਟ: ਇਹ ਉਸ ਸਮੇਂ ਅੱਪਲੋਡ ਕੀਤੀਆਂ ਫ਼ਾਈਲਾਂ ਨਾਲ ਗਿਣਦਾ ਹੈ। ਉਨ੍ਹਾਂ ਵਿੱਚ\n  ਉਸ ਦਿਨ ਦਾ ਸਮਾਂ-ਦਾਇਰਾ ਅਤੇ ਇਕਸਾਰਤਾ ਹੈ। ਜਿੱਥੇ ਇਨ ਪੁਆਇੰਟ, ਆਊਟ ਪੁਆਇੰਟ\n  ਜਾਂ ਮਾਪੀ ਗਈ ਸਥਿਤੀ ਹੁਣ ਵੱਖਰੀ ਹੈ, ਉੱਥੇ ਵਾਪਸੀ ਜਾਂਚ ਉਸ\n  ਫ਼ਰਕ ਨੂੰ ਮਾਪਦੀ ਹੈ ਅਤੇ ਟਰੈਕਾਂ ਨੂੰ ਸਹੀ ਥਾਂ 'ਤੇ ਲੈ ਆਉਂਦੀ ਹੈ।"
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  ਨੋਟ: ਇਹ ਉਸ ਸਮੇਂ ਅੱਪਲੋਡ ਕੀਤੀਆਂ ਫ਼ਾਈਲਾਂ ਨਾਲ ਗਿਣਦਾ ਹੈ। ਉਨ੍ਹਾਂ ਵਿੱਚ\n  ਉਸ ਦਿਨ ਦਾ ਸਮਾਂ-ਦਾਇਰਾ ਅਤੇ ਇਕਸਾਰਤਾ ਹੈ। ਜਿੱਥੇ ਇਨ ਪੁਆਇੰਟ, ਆਊਟ ਪੁਆਇੰਟ\n  ਅਤੇ ਮਾਪੀ ਗਈ ਸਥਿਤੀ ਹੁਣ ਉਸੇ ਦਾਇਰੇ ਦੇ ਅੰਦਰ ਰਹਿੰਦੀ ਹੈ, ਉੱਥੇ ਵਾਪਸੀ ਜਾਂਚ\n  ਫ਼ਰਕ ਨੂੰ ਮਾਪਦੀ ਹੈ ਅਤੇ ਟਰੈਕਾਂ ਨੂੰ ਸਹੀ ਥਾਂ 'ਤੇ ਲੈ ਆਉਂਦੀ ਹੈ। ਜਿੱਥੇ ਉਹ ਉਸ ਤੋਂ ਬਾਹਰ ਜਾਂਦੇ ਹਨ --\n  ਪਹਿਲਾਂ ਦਾ ਇਨ ਪੁਆਇੰਟ, ਬਾਅਦ ਦਾ ਆਊਟ ਪੁਆਇੰਟ -- ਉੱਥੇ ਉਹ ਟਰੈਕਾਂ ਨੂੰ ਰੱਦ ਕਰਦੀ ਹੈ:\n  ਤਦ ਸਭ ਕੁਝ ਦੁਬਾਰਾ ਅੱਪਲੋਡ ਕਰੋ।"
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  ਨੋਟ: ਇਸ ffmpeg ਵਿੱਚ soxr ਨਹੀਂ ਹੈ -- ਘੜੀ ਦਾ ਖਿਸਕਾਅ ਸਿਰਫ਼\n  21 ppm ਦੇ ਕਦਮਾਂ ਵਿੱਚ ਹਟਾਇਆ ਜਾ ਸਕਦਾ ਹੈ।"
@@ -4347,6 +4347,9 @@ msgstr "ਇਹ ਪ੍ਰੋਗਰਾਮ %s ਵਜੋਂ ਚੱਲ ਰਿਹਾ �
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "ਇਸ ਸਪੁਰਦਗੀ ਵਿੱਚ ਕੋਈ ਫ਼ਰੇਮ ਦਰ ਨਹੀਂ ਹੈ, ਇਸ ਲਈ ਇਸ ਤੋਂ Timeline ਨਹੀਂ ਬਣਾਈ ਜਾ ਸਕਦੀ। ਕਿਰਪਾ ਕਰਕੇ ਰਨ ਦੁਬਾਰਾ ਕਰੋ।"
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "ਇਸ ਸਪੁਰਦਗੀ ਵਿੱਚ %s ਲਈ ਕੋਈ ਫ਼ਾਈਲ ਨਹੀਂ ਹੈ, ਇਸ ਲਈ ਇਸ ਤੋਂ Timeline ਨਹੀਂ ਬਣਾਈ ਜਾ ਸਕਦੀ। ਕਿਰਪਾ ਕਰਕੇ ਰਨ ਦੁਬਾਰਾ ਕਰੋ।"
 
 msgid "Cut by speaker"
 msgstr "ਬੁਲਾਰੇ ਅਨੁਸਾਰ ਕੱਟ"

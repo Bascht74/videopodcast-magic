@@ -2011,8 +2011,8 @@ msgstr "  Pas dans le montage : %s -- une séparation parle pour l’enregistrem
 msgid "  Not used:  %s."
 msgstr "  Non utilisées : %s."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Remarque : le calcul se fait avec les fichiers envoyés à l’époque. Ils portent\n  la fenêtre temporelle et l’alignement de ce jour-là. Si le point d’entrée, le point\n  de sortie ou la position mesurée diffèrent aujourd’hui, la vérification de retour mesure\n  la différence et remet les pistes en place."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Remarque : le calcul se fait avec les fichiers envoyés à l’époque. Ils portent\n  la fenêtre temporelle et l’alignement de ce jour-là. Si le point d’entrée, le point\n  de sortie et la position mesurée restent aujourd’hui dans cette fenêtre, la vérification\n  de retour mesure la différence et remet les pistes en place. S’ils la dépassent --\n  un point d’entrée plus tôt, un point de sortie plus tard --, elle refuse les pistes :\n  il faut alors tout renvoyer."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Remarque : ce ffmpeg n’a pas soxr -- la dérive d’horloge ne peut être corrigée que par\n  pas de 21 ppm."
@@ -3704,6 +3704,9 @@ msgstr "Ce fichier a été écrit par la version %s au format %d ; celle-ci écr
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Ce transfert ne porte pas de fréquence d’images, la Timeline ne peut donc pas en être construite. Veuillez refaire l’exécution."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Ce transfert ne nomme aucun fichier pour %s, la Timeline ne peut donc pas en être construite. Veuillez refaire l’exécution."
 
 msgid "This is %s. Which version shall pip put in its place?"
 msgstr "Ici tourne %s. Quelle version pip doit-il mettre à sa place ?"

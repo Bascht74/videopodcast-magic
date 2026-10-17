@@ -1158,8 +1158,8 @@ msgstr "  Bidu %s -- kull qatgħa titqiegħed skontu."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Għadha ma kienet teżisti l-ebda Timeline bħal din -- qed tinbena biss."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Nota: il-kalkolu jsir bil-fajls li ttellgħu dak iż-żmien. Dawn iġorru\n  t-tieqa tal-ħin u l-allinjament ta' dak il-jum. Fejn il-punt tad-dħul, il-punt tal-ħruġ\n  jew il-pożizzjoni mkejla huma differenti issa, il-kontroll tar-ritorn ikejjel\n  id-differenza u jressaq il-binarji f'posthom."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Nota: il-kalkolu jsir bil-fajls li ttellgħu dak iż-żmien. Dawn iġorru\n  t-tieqa tal-ħin u l-allinjament ta' dak il-jum. Fejn il-punt tad-dħul, il-punt tal-ħruġ\n  u l-pożizzjoni mkejla jibqgħu issa ġewwa dik it-tieqa, il-kontroll tar-ritorn ikejjel\n  id-differenza u jressaq il-binarji f'posthom. Fejn imorru lil hinn minnha --\n  punt tad-dħul aktar kmieni, punt tal-ħruġ aktar tard -- jiċħad il-binarji:\n  imbagħad erġa' tella' kollox."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Nota: dan il-ffmpeg m'għandux soxr -- id-drift tal-arloġġ jista' jitneħħa biss\n  f'passi ta' 21 ppm."
@@ -4357,6 +4357,9 @@ msgstr "Dan il-programm qed jaħdem bħala %s u l-pakketti installati għalih hu
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Din il-konsenja ma fihiex rata tal-oqfsa, għalhekk it-Timeline ma tistax tinbena minnha. Jekk jogħġbok erġa' agħmel it-tħaddim."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Din il-konsenja ma ssemmi l-ebda fajl għal %s, għalhekk it-Timeline ma tistax tinbena minnha. Jekk jogħġbok erġa' agħmel it-tħaddim."
 
 msgid "Cut by speaker"
 msgstr "Muntaġġ skont il-kelliem"

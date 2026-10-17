@@ -1155,8 +1155,8 @@ msgstr "  Pradžia %s -- pagal ją išdėstomas kiekvienas planas."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Tokio Timeline dar nebuvo -- jis tik kuriamas."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Pastaba: skaičiuojama su tuo metu įkeltais failais. Juose yra\n  tos dienos laiko langas ir sulygiavimas. Jei pradžios taškas, pabaigos taškas\n  ar išmatuota padėtis dabar skiriasi, grąžinimo patikra išmatuoja\n  skirtumą ir perkelia takelius į vietą."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Pastaba: skaičiuojama su tuo metu įkeltais failais. Juose yra\n  tos dienos laiko langas ir sulygiavimas. Jei pradžios taškas, pabaigos taškas\n  ir išmatuota padėtis dabar lieka to lango viduje, grąžinimo patikra\n  išmatuoja skirtumą ir perkelia takelius į vietą. Jei jie išeina už jo --\n  ankstesnis pradžios taškas, vėlesnis pabaigos taškas -- ji takelius atmeta:\n  tada įkelkite viską iš naujo."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Pastaba: šis ffmpeg neturi soxr -- laikrodžio dreifą galima pašalinti tik\n  21 ppm žingsniais."
@@ -4350,6 +4350,9 @@ msgstr "Ši programa veikia kaip %s, o jai įdiegti paketai yra %s, todėl nė v
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Šiame perdavime nėra kadrų dažnio, todėl iš jo negalima sukurti Timeline. Paleiskite vykdymą dar kartą."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Šiame perdavime nenurodytas %s failas, todėl iš jo negalima sukurti Timeline. Paleiskite vykdymą dar kartą."
 
 msgid "Cut by speaker"
 msgstr "Montažas pagal kalbėtoją"

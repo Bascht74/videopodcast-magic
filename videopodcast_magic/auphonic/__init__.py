@@ -2208,12 +2208,16 @@ def reuse_production(key, existing, request, preset, tracks,
         return download_results(key, p, names, target_folder, base)
 
     if not upload_again:
+        # The return check refuses a return lacking what goes up today
+        # (return_not_sent), so only a window inside that one is laid.
         print(T('  Note: this computes with the files uploaded at the '
                 'time. They carry\n  the time window and the alignment of '
-                'that day. Where the In point, the Out point\n  or the '
-                'measured '
-                'position differ now, the return check measures the\n  '
-                'difference and moves the tracks into place.'))
+                'that day. Where the In point, the\n  Out point and the '
+                'measured position now stay inside that window, the\n  '
+                'return check measures the difference and moves the tracks '
+                'into place.\n  Where they reach beyond it -- an earlier In '
+                'point, a later Out point --\n  it refuses the tracks: then '
+                'upload everything again.'))
     print(T('  Settings brought to preset %r')
           % (preset.get("preset_name") or "?"))
     change = dict(request)

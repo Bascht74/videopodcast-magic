@@ -1151,8 +1151,8 @@ msgstr "  آغاز %s -- ہر شاٹ اسی کے مطابق رکھا جاتا ہ
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  ایسا کوئی Timeline ابھی موجود نہیں تھا -- بس بنایا جاتا ہے۔"
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  نوٹ: یہ اس وقت اپ لوڈ کی گئی فائلوں سے حساب کرتا ہے۔ ان میں\n  اس دن کا وقتی دائرہ اور سیدھ ہے۔ جہاں اِن پوائنٹ، آؤٹ پوائنٹ\n  یا ناپی گئی جگہ اب مختلف ہو، واپسی کی جانچ\n  فرق ناپ کر ٹریکوں کو ان کی جگہ پر لے آتی ہے۔"
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  نوٹ: یہ اس وقت اپ لوڈ کی گئی فائلوں سے حساب کرتا ہے۔ ان میں\n  اس دن کا وقتی دائرہ اور سیدھ ہے۔ جہاں اِن پوائنٹ، آؤٹ پوائنٹ\n  اور ناپی گئی جگہ اب اسی دائرے کے اندر رہیں، واپسی کی جانچ\n  فرق ناپ کر ٹریکوں کو ان کی جگہ پر لے آتی ہے۔ جہاں وہ اس سے باہر جائیں --\n  پہلے کا اِن پوائنٹ، بعد کا آؤٹ پوائنٹ -- وہاں وہ ٹریکوں کو مسترد کرتی ہے:\n  تب سب کچھ دوبارہ اپ لوڈ کریں۔"
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  نوٹ: اس ffmpeg میں soxr نہیں -- گھڑی کا انحراف صرف\n  21 ppm کے درجوں میں نکالا جا سکتا ہے۔"
@@ -4345,6 +4345,9 @@ msgstr "یہ پروگرام %s کے طور پر چل رہا ہے اور اس ک�
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "اس حوالگی فائل میں فریم ریٹ نہیں، اس لیے اس سے Timeline نہیں بن سکتا۔ براہ کرم رن دوبارہ کریں۔"
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "اس حوالگی فائل میں %s کے لیے کوئی فائل نہیں، اس لیے اس سے Timeline نہیں بن سکتا۔ براہ کرم رن دوبارہ کریں۔"
 
 msgid "Cut by speaker"
 msgstr "مقرر کے لحاظ سے کٹ"

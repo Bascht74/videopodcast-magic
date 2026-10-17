@@ -1124,8 +1124,8 @@ msgstr "  Αρχή %s -- κάθε πλάνο τοποθετείται σε σχ�
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Δεν υπήρχε ακόμη τέτοιο Timeline -- απλώς χτίζεται."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Σημείωση: ο υπολογισμός γίνεται με τα αρχεία που μεταφορτώθηκαν τότε. Φέρουν\n  το χρονικό παράθυρο και την ευθυγράμμιση εκείνης της ημέρας. Όπου το σημείο In, το σημείο Out\n  ή η μετρημένη θέση διαφέρουν τώρα, ο έλεγχος επιστροφής μετρά τη\n  διαφορά και μετακινεί τα κομμάτια στη θέση τους."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Σημείωση: ο υπολογισμός γίνεται με τα αρχεία που μεταφορτώθηκαν τότε. Φέρουν\n  το χρονικό παράθυρο και την ευθυγράμμιση εκείνης της ημέρας. Όπου το σημείο In,\n  το σημείο Out και η μετρημένη θέση μένουν τώρα μέσα σε εκείνο το παράθυρο,\n  ο έλεγχος επιστροφής μετρά τη διαφορά και μετακινεί τα κομμάτια στη θέση τους.\n  Όπου το ξεπερνούν -- νωρίτερο σημείο In, αργότερο σημείο Out -- απορρίπτει\n  τα κομμάτια: τότε μεταφορτώστε τα πάντα ξανά."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Σημείωση: αυτό το ffmpeg δεν έχει soxr -- η ολίσθηση ρολογιού αφαιρείται μόνο σε\n  βήματα των 21 ppm."
@@ -4074,6 +4074,9 @@ msgstr "Αυτό το πρόγραμμα εκτελείται ως %s και τ�
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Αυτή η παράδοση δεν φέρει ρυθμό καρέ, οπότε το Timeline δεν μπορεί να χτιστεί από αυτήν. Παρακαλώ κάντε ξανά την εκτέλεση."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Αυτή η παράδοση δεν ορίζει αρχείο για το %s, οπότε το Timeline δεν μπορεί να χτιστεί από αυτήν. Παρακαλώ κάντε ξανά την εκτέλεση."
 
 msgid ", %s file does not fit"
 msgid_plural ", %s files do not fit"
