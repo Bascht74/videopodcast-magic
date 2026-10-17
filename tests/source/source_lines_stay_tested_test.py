@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
-"""No function loses tested lines, and no new one goes untested.
+"""No function loses tested lines, no new one goes untested, the share holds.
 
 A ratchet over what the whole suite runs of the program, measured by
 coverage.py across every process (tests/tested_lines.py says how) and
-held per function, never as one share: a share lets a new untested
-function hide behind a test written elsewhere. In order: the measurement
-saw the program run at all, no function has more untested lines than
-its floor, and no function the state does not know is untested whole.
-A floor falls by itself, except under `unsteady` in the state, and goes
-with its function. Before the version JUDGED_FROM names, what would fall
-is a NOTED line and the run stays green. Only `VPM_COVERAGE=1 bash
-run.sh` runs this, after the rest.
+held per function, with one share for the whole only beneath that: a
+share alone lets a new untested function hide behind a test written
+elsewhere. In order: the measurement saw the program run at all, no
+function has more untested lines than its floor, no function the state
+does not know is untested whole, and the whole program runs at least the
+share of its lines SHARE_WANTED names. A floor falls by itself, except
+under `unsteady` in the state, and goes with its function. Before the
+version JUDGED_FROM names, what would fall is a NOTED line and the run
+stays green. Only `VPM_COVERAGE=1 VPM_ALL_LANGUAGES=1 bash run.sh` runs
+this, after the rest.
 """
 PLATFORM_BOUND = True
 import os
@@ -57,6 +59,10 @@ TABLE = os.environ.get("VPM_COVERAGE_TABLE")
 # same, and nobody has to remember the day. A version that cannot be
 # read is judged.
 JUDGED_FROM = "3.0.0b30"
+# The owner's order for 3.0.0b30: beneath the floors, the whole program's
+# share of lines run, in per cent, may not fall below this. Judged from
+# JUDGED_FROM like the rest, and noted before it.
+SHARE_WANTED = 95
 
 
 def version_order(text):
@@ -164,14 +170,27 @@ for mark, now, may, line in risen:
     print("      line %-6s %s  %d untested, the state allows %d"
           % (line, mark, now, may))
 if risen:
-    print("      a function nobody touched that rose is unsteady: its"
-          " highest count goes under %r in %s, by hand"
+    print("      a function nobody touched that rose: first the test that"
+          " stopped reaching it; only a count that moves between runs of"
+          " one tree goes under %r in %s, at its highest"
           % (UNSTEADY, os.path.basename(STATE)))
 check("no function the state does not know is untested whole", not fresh,
       "%d untested: %s" % (len(fresh), first_few(
           ["%s %d lines" % (m, n) for m, n, _l in fresh])))
 for mark, now, line in fresh:
     print("      line %-6s %s  %d lines, none of them run" % (line, mark, now))
+
+# ----------------------------------------------------- The share of the whole
+# Beneath the floors, not instead of them: a floor catches a test that
+# went away, this asks for the lines no test has reached yet -- and says
+# how many more have to run, so that the work it asks for is counted.
+lines_run = lines - untested
+lines_wanted = (SHARE_WANTED * lines + 99) // 100
+check("the whole program runs at least the share of lines wanted",
+      100 * lines_run >= SHARE_WANTED * lines,
+      "%.1f %% of %d lines run, %d %% wanted: %d lines missing"
+      % (100.0 * lines_run / lines, lines, SHARE_WANTED,
+         max(0, lines_wanted - lines_run)))
 
 # A floor moves only on a run with nothing over it, noted or failed:
 # written while a function stands over its floor, the state would take

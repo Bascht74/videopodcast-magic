@@ -143,11 +143,11 @@ the short way leaves the table of tested lines as the long way does.
 found later.** A push runs the everyday suite, separation off;
 `publish.yml` turns it on. The two tests that really run the
 separation, `voice_split_hears_two` and `voice_split_hears_blocks`,
-therefore run for a release only on the long way. A check run's name does not say which of the two
-suites made it, so the evidence job cannot tell and does not pretend
-to. (Since 16.10.2026 they also run on the short way, but on one job of
-six: the macOS py3.14 job that measures the tested lines runs the
-whole suite.) **The owner settled it on 24.9.2026:** the short way is given up
+therefore run for a release on all six jobs only on the long way; on the
+short way, since 16.10.2026, on one -- the macOS py3.14 job that
+measures the tested lines runs the whole suite. A check run's name does
+not say which of the two suites made it, so the evidence job cannot tell
+and does not pretend to. **The owner settled it on 24.9.2026:** the short way is given up
 where the merge touches anything of the separation, and the line
 names the file that sent it the long way. On 24.9.2026 that was
 `videopodcast_magic/speakers/`; **on 25.9.2026 he widened it to four
@@ -324,10 +324,15 @@ job keeps the table as the artifact `tested-lines-macOS-py3.14`.
 
 **For 3.0.0b29 it measures and does not stop the release**: what it would
 fail on is said as `NOTED tested lines:` lines under the suite's
-summary. From 3.0.0b30 on it fails like any test, and a red guard is no
-tag. Nobody switches that: the test names the version it judges from
-and orders the program's `VERSION` against it, so a release that skips
-that number is judged as well.
+summary. From 3.0.0b30 on it fails like any test -- on a function over
+its floor, on a function nobody runs, and, by the owner's order for
+3.0.0b30, on the whole program's share of lines run under 95 % -- and a
+red guard is no tag. Nobody switches that: the test names the version it
+judges from and orders the program's `VERSION` against it, so a release
+that skips that number is judged as well. **So the same measured run is
+made here before the release push** (`cd tests && VPM_COVERAGE=1
+VPM_ALL_LANGUAGES=1 bash run.sh`, with the coverage.py `tests.yml`
+pins): what it would stop on is found before the one push, not after.
 
 ## What it does not ask, on purpose
 

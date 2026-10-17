@@ -163,10 +163,17 @@ source, which would quietly disarm the ratchet.
 One more runs only where the program's lines are measured:
 `source_lines_stay_tested_test.py` keeps `state/tested_lines_state.json`,
 the lines no test runs, per function, and a release's macOS py3.14 job
-holds them -- `VPM_COVERAGE=1 bash run.sh` does the same here, with
-coverage.py installed; an ordinary run sets it aside. Its floors fall by
-themselves except under `unsteady`, the functions whose count was seen
-to differ between two runs. `tested_lines.py` says how it measures.
+holds them, and the whole program's share of lines run beside them: from
+3.0.0b30 on it may not fall below 95 %. `VPM_COVERAGE=1
+VPM_ALL_LANGUAGES=1 bash run.sh` does the same here -- without every
+language `run.sh` refuses -- with coverage.py installed for the suite's
+Python, and floors are written only with the version
+`.github/workflows/tests.yml` pins (7.16.2), because another one may
+count a line differently; `run.sh` says so when the two differ. An
+ordinary run sets it aside. Its floors fall by themselves except under
+`unsteady`, the functions whose count was seen to differ between runs of
+one tree or between this machine and the builder. `tested_lines.py` says
+how it measures.
 
 The bigger counters are held on places rather than on plain numbers --
 `ratchet.py` says why. A count alone lets one fault be swapped for
@@ -840,7 +847,7 @@ it is green.
 | `source_imported_is_whole` | Importing the program gives the whole of it, whatever argv said. |
 | `source_limits_hold` | Style check for comments and docstrings. |
 | `source_line_loads_no_qt` | The command line runs without Qt: no PySide6 module is ever loaded. |
-| `source_lines_stay_tested` | No function loses tested lines, and no new one goes untested. |
+| `source_lines_stay_tested` | No function loses tested lines, no new one goes untested, the share holds. |
 | `source_live_asks_first` | The live tests reach nothing outside until the word that starts them. |
 | `source_material_stays` | A run of fixtures.sh leaves the checked-in material as it found it. |
 | `source_names_said_once` | The repository and the name a person reads are each written out once. |

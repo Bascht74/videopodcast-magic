@@ -12,8 +12,9 @@ A needless step in the middle of a path, /tmp/x/./A.wav, does here what
 a drive letter and a backslash do on Windows: two names for one file
 that compare unequal.
 
-The sections: the store in memory, the curve saved beside it on disc,
-and that the window looks for both under the same name. The clean-up
+The sections: the store in memory, the curve saved beside it on disc
+-- and none for a name no file stands behind -- and that the window
+looks for both under the same name. The clean-up
 itself lives inside the window and is read out of the source.
 """
 PLATFORM_BOUND = True
@@ -122,6 +123,19 @@ there = vpm.envelope_cache_path(LONG_WAY, 5.0, 4000)
 check("both names lead to one saved curve", here == there,
       "%s against %s" % (os.path.basename(here or ""),
                          os.path.basename(there or "")))
+# A name no file stands behind -- a drive unplugged between the list and
+# the reading -- is given no saved curve, and the store says so rather
+# than raising: the reading after it is what tells the user the file is
+# gone. Asked here because nothing else in the suite reaches it.
+try:
+    nowhere = vpm.envelope_cache_path(os.path.join(D, "gone.wav"), 5.0, 4000)
+except OSError as error:
+    nowhere = error
+check("a name no file stands behind is given no saved curve",
+      nowhere is None,
+      "%s for /gone.wav, wanted None, the cache folder %s"
+      % (os.path.basename(nowhere) if isinstance(nowhere, str)
+         else repr(nowhere), "set" if folder_real() else "not set"))
 
 vpm._ENV.clear()
 vpm.video_envelope(STRAIGHT)             # writes it out
