@@ -284,6 +284,7 @@ sound_each_gets_a_track	17
 sound_far_block_left_out	6
 sound_finished_mix_used	8
 sound_follows_device	7
+sound_heard_cam_clipped	5
 sound_hush_reason	7
 sound_jingle_edges	5
 sound_join_any_rate	6
