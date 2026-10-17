@@ -168,11 +168,12 @@ wirklich gesprochen hat, steht in der Antwort nicht mehr drin.
 
 Wo das so ist, fragt das Programm die Mikrofone nicht mehr einzeln ab.
 Es legt die ausgerichteten Aufnahmen zu einer einzigen zusammen, lässt
-die Trennung diese eine abhören und gibt jeder gefundenen Stimme den
-Namen des Mikrofons, zu dem sie gehört. Auf diesen Namen kommt alles an:
-eine Stimme aus einer zusammengelegten Aufnahme hieße sonst Sprecher 1,
-und hinter diesem Namen steht niemand -- also auch keine Kamera, und der
-Schnitt stünde von Anfang bis Ende im Weitwinkel.
+die Trennung darin eine Person je Mikrofon suchen und gibt jeder
+gefundenen Stimme den Namen des Mikrofons, zu dem sie gehört. Auf diesen
+Namen kommt alles an: eine Stimme aus einer zusammengelegten Aufnahme
+hieße sonst Sprecher 1, und hinter diesem Namen steht niemand -- also
+auch keine Kamera, und der Schnitt stünde von Anfang bis Ende im
+Weitwinkel.
 
 **Zu gut** ist gemessen und nicht angenommen. Jede Aufnahme wird gegen
 jede andere gehalten, in beide Richtungen, an den Stellen, an denen
@@ -225,10 +226,14 @@ Stimme, vor der kein Mikrofon weit genug steht, behält ihre Bezeichnung
 und bekommt keine Kamera, und zwei Stimmen, die auf dasselbe Mikrofon
 zeigen, heben einander auf, denn ein Mikrofon ist eine Person. Mehr
 Stimmen als Mikrofone -- jemand im Raum ohne eigenes, oder eine Stimme
-aus dem Vorlauf -- und keine einzige wird zugeordnet. Lässt sich am Ende
-keiner Stimme ein Mikrofon geben, sagt das Protokoll, dass stattdessen
-die Spuren gemessen werden, und der Schnitt ist der, der er immer war:
-eine Stimme je Spur.
+aus dem Vorlauf -- und keine einzige wird zugeordnet. Deshalb bekommt
+die Trennung gesagt, wie viele Personen sie finden soll: eine je
+Mikrofon, oder so viele, wie `--speakers-count` angibt. Zählte sie
+selbst, fand sie unter fünfzehn gemessenen zusammengelegten Aufnahmen
+einmal eine Stimme zu viel, und dann war die Rede nur zu 58 statt zu 95
+Prozent richtig benannt. Lässt sich am Ende keiner Stimme ein Mikrofon
+geben, sagt das Protokoll, dass stattdessen die Spuren gemessen werden,
+und der Schnitt ist der, der er immer war: eine Stimme je Spur.
 
 ### Die Stimmen benennen
 
@@ -555,8 +560,7 @@ Was gehört wurde, landet neben dem Ergebnis im Ausgabeordner, in drei
 Dateien, benannt nach dem **Namen der Produktion**: `<Name>.json`,
 `<Name>.srt` und `<Name>.txt`. Das Protokoll nennt ihre Pfade unter
 der Überschrift `TRANSKRIPT`, und darüber, wie viele Wörter gehört
-wurden und wie viele davon einer Stimme, zweien oder einer Lücke
-zwischen den Stimmen zufielen.
+wurden.
 
 * **Die json-Datei** hält für jede Strecke einer Stimme eine Passage:
   wann sie anfängt und endet, den Text am Stück, den Sprecher, und je
@@ -643,7 +647,8 @@ Diese Optionen gibt es im Fenster nicht.
   Trennung von einem anderen Modell --, wird sie nicht verwendet: Der
   Lauf warnt und macht ohne sie weiter.
 * `--speakers-count <ZAHL>` gibt an, wie viele Personen zu finden
-  sind; ohne die Angabe rechnet das Programm die Zahl selbst aus.
+  sind; ohne die Angabe rechnet das Programm die Zahl selbst aus, und
+  bei zusammengelegten Mikrofonen nimmt es eine Person je Mikrofon.
 * `--no-speakers-local` nimmt in diesem Lauf keine Aufnahme nach Stimmen
   auseinander, gleich was sonst danach verlangt.
 * `--no-speech-recognition` lässt den Text weg.

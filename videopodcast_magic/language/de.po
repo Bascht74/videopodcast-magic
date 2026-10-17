@@ -5554,8 +5554,8 @@ msgstr ""
 "\n"
 "TRANSKRIPT"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s Wörter: %s %% auf eine Stimme, %s %% auf zwei, %s %% in einer Lücke"
+msgid "  %s words"
+msgstr "  %s Wörter"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s Wörter, ohne Namen -- es wurde niemand getrennt"

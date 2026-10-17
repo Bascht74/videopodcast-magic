@@ -3886,8 +3886,8 @@ msgstr "Pirmā montāža pēc runātāja"
 msgid "\nTRANSCRIPT"
 msgstr "\nTRANSKRIPCIJA"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  Vārdi: %s -- %s %% vienai balsij, %s %% divām, %s %% pauzē"
+msgid "  %s words"
+msgstr "  Vārdi: %s"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  Vārdi: %s, bez runātāju vārdiem -- neviens netika atdalīts"

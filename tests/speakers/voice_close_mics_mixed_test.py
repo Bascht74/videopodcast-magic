@@ -13,9 +13,11 @@ already in hand, by the assignment file or --speakers-from alike: below
 the limit the run overrules it, above the limit and wherever the
 measurement could decide nothing it does not, and how far apart they
 stand is asked once a run at most, with auphonic.com as without. Then
-the count the log gives for the mix. Last a run whose returned tracks would name the wrong
-person: the raw mix decides. The model is not run -- the voices are
-handed in with their true times.
+the count the log gives for the mix, and the number of people the mix
+is taken apart for: one per microphone in it, unless set by hand, while
+a single recording counts for itself. Last a run whose returned tracks
+would name the wrong person: the raw mix decides. The model is not run
+-- the voices are handed in with their true times.
 """
 PLATFORM_BOUND = True
 import os
@@ -772,7 +774,60 @@ try:
           "an axis" % (said_about_all[0] if said_about_all else "nothing",
                        wanted.strip()))
 
-    print("\n10. After auphonic.com the raw mix says who speaks")
+    print("\n10. The mix is taken apart for one person per microphone")
+    #
+    # Left to count for itself the model can find a voice more than there
+    # are microphones, and then not one is named after a microphone. So
+    # the run says how many: the tracks that went into the mix, the four
+    # above holding three. The stand-in notes the count it is asked for,
+    # and the store is emptied before each run so that every one asks.
+    asked_for = []
+
+    def counting_split(path, count=0, **kw):
+        """The stand-in above, noting how many people it was asked for."""
+        asked_for.append(count)
+        return ([("SPEAKER_00", [(1.0, 6.0)]),
+                 ("SPEAKER_01", [(7.0, 12.0)])], "")
+
+    def counts_asked(tracks, **over):
+        """The counts one run handed the separation, in order."""
+        shutil.rmtree(OWN_STORE, ignore_errors=True)
+        os.makedirs(OWN_STORE)
+        del asked_for[:]
+        kept_out, sys.stdout = sys.stdout, io.StringIO()
+        try:
+            vpm.separation_for_run(Started(**over), tracks, {}, 0.0,
+                                   LENGTH, [])
+        finally:
+            sys.stdout = kept_out
+        return list(asked_for)
+
+    straight_split = vpm.speaker_split_run
+    vpm.speaker_split_run = counting_split
+    try:
+        of_two = counts_asked(on_the_axis(CLOSE))
+        of_three = counts_asked(four)
+        by_hand = counts_asked(on_the_axis(CLOSE), speakers_count=5)
+        alone = counts_asked(on_the_axis(CLOSE[:1]))
+    finally:
+        vpm.speaker_split_run = straight_split
+    check("a mix of two microphones is taken apart for two people",
+          of_two == [2],
+          "the separation was asked for %s, wanted [2]" % of_two)
+    check("and a mix of three of four tracks for the three that are in it",
+          of_three == [3],
+          "the separation was asked for %s, wanted [3] -- one of the four "
+          "tracks has no axis" % of_three)
+    check("a number of people set by hand still stands for a mix",
+          by_hand == [5],
+          "the separation was asked for %s with --speakers-count 5, "
+          "wanted [5]" % by_hand)
+    check("a single recording is still left to count its people itself",
+          alone == [0],
+          "the separation was asked for %s, wanted [0], the model's own "
+          "count" % alone)
+
+    print("\n11. After auphonic.com the raw mix says who speaks")
     #
     # The returned tracks carry the sound and nothing else. Here they
     # are made to lie: each one holds the other person's clean voice, so

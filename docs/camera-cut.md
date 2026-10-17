@@ -668,7 +668,11 @@ How the script reads the tracks:
 * It cuts each track into blocks of 100 milliseconds.
 * It measures each block against that track's own noise floor, the
   quietest fifth of its blocks; 10 dB above that counts as speech.
-* Pauses under 0.35 seconds are not speaker changes.
+* Pauses under 0.75 seconds are not speaker changes. Measured on seven
+  excerpts of real interviews against who really spoke: at 0.75 rather
+  than 0.35 seconds the camera was on the person speaking more often in
+  all seven, on average 92.7 per cent of the time against 88.5, with as
+  many cuts as before.
 * Passages under 0.2 seconds do not count. Measured on 31 minutes
   of three-microphone material: below that the passages that come
   back average two tenths of a second, which is breath rather than

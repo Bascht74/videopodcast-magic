@@ -3892,8 +3892,8 @@ msgstr "L-ewwel muntaġġ skont il-kelliem"
 msgid "\nTRANSCRIPT"
 msgstr "\nTRASKRIZZJONI"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  Kliem (%s): %s %% għal leħen wieħed, %s %% għal tnejn, %s %% f'vojt"
+msgid "  %s words"
+msgstr "  Kliem (%s)"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  Kliem (%s), mingħajr ismijiet -- ħadd ma ġie separat"

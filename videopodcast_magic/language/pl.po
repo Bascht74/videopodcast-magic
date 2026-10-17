@@ -3796,8 +3796,8 @@ msgstr "Pierwszy montaż według mówców"
 msgid "\nTRANSCRIPT"
 msgstr "\nTRANSKRYPCJA"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s słów: %s %% do jednego głosu, %s %% do dwóch, %s %% w luce"
+msgid "  %s words"
+msgstr "  %s słów"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s słów, bez nazw -- nikogo nie rozdzielono"

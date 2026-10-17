@@ -3881,8 +3881,8 @@ msgstr "نخستین برش بر اساس گوینده"
 msgid "\nTRANSCRIPT"
 msgstr "\nرونوشت"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s واژه: %s %% به یک صدا، %s %% به دو صدا، %s %% در وقفه"
+msgid "  %s words"
+msgstr "  %s واژه"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s واژه، بدون نام -- هیچ کس تفکیک نشد"

@@ -6,11 +6,13 @@ open: clips in the root bin and in a bin inside it, a timeline among
 them, and a timeline with an empty audio track and one with a file on
 it. In turn: the media pool -- the clip in the inner bin is shown, the
 timeline is not taken for a clip, the documented mapping is read as one
-track of four channels, a clip with no mapping says so, and a clip
-whose mapping raises is named while the look goes on; the timelines --
-every audio track listed, and the file on it named; then that nothing
-in Resolve was set, made or deleted; and last, that with no project
-open it stops and says why.
+track of four channels, a clip with no mapping says so, a clip whose
+mapping raises is named while the look goes on to the next clip in its
+bin, and a mapping no count of tracks can be read from says so and the
+look goes on; the timelines -- every audio track listed, and the file
+on it named; then that nothing in Resolve was set, made or deleted; and
+last, that with no project open, or no project manager, it stops and
+says why.
 """
 PLATFORM_BOUND = False
 import os
@@ -48,12 +50,16 @@ def check(name, ok, extra=""):
 # The door nailed shut before anything calls at it: the look reaches the
 # stand-in holding whichever project manager the section put here.
 CURRENT = {}
-vpm.connect_to_resolve = lambda: stand.Resolve(pm=CURRENT["pm"])
+vpm.connect_to_resolve = lambda: stand.Resolve(
+    pm=CURRENT["pm"], refuse=CURRENT["refuse"])
 
 
-def look(pm):
-    """(what it printed as lines, what it returned, what it raised)."""
-    CURRENT["pm"] = pm
+def look(pm, refuse=()):
+    """(what it printed as lines, what it returned, what it raised).
+
+    *refuse* names the calls of Resolve itself that answer no.
+    """
+    CURRENT["pm"], CURRENT["refuse"] = pm, refuse
     said = io.StringIO()
     got = raised = None
     with contextlib.redirect_stdout(said):
@@ -80,12 +86,17 @@ GUEST = stand.Clip("/tmp/GuestCam_C003.mov", mapping=DOCUMENTED,
                    properties={"Type": "Video + Audio"})
 PRESENTER = stand.Clip("/tmp/Presenter_TR01.WAV", mapping=None)
 BROKEN = stand.Clip("/tmp/CoPresenter_TR02.WAV", throw=["GetAudioMapping"])
+# A mapping with no part that names tracks: the channels are there, how
+# many tracks they make is not. The clip after it shows the look goes on.
+UNCOUNTED = stand.Clip("/tmp/Guest_TR01.WAV", mapping=json.dumps(
+    {"embedded_audio_channels": 2, "linked_audio": {}}))
+LATER = stand.Clip("/tmp/Presenter_TR03.WAV", mapping=DOCUMENTED)
 CUT = stand.Clip("/tmp/Episode cut", properties={"Type": "Timeline"})
 WIDE = stand.Clip("/tmp/WideCam_C001.mov", mapping=DOCUMENTED)
 
 pm = stand.ProjectManager(names=["Episode"])
 p = pm.current = pm.projects["Episode"]
-p.pool.root.clips += [GUEST, PRESENTER, BROKEN, CUT]
+p.pool.root.clips += [GUEST, PRESENTER, BROKEN, UNCOUNTED, LATER, CUT]
 inner = stand.Folder()
 inner.clips.append(WIDE)
 p.pool.root.folders.append(inner)
@@ -94,7 +105,8 @@ p.timelines.append(tl)
 tl.lay("video", 1, stand.Item(GUEST.GetName()))
 tl.lay("audio", 2, stand.Item(PRESENTER.GetName()))
 tl.names["audio"][1] = "Presenter"
-asked = [pm, p, p.pool, tl, GUEST, PRESENTER, BROKEN, CUT, WIDE] \
+asked = [pm, p, p.pool, tl, GUEST, PRESENTER, BROKEN, UNCOUNTED, LATER,
+         CUT, WIDE] \
     + tl.tracks["video"][0] + tl.tracks["audio"][1]
 
 lines, got, raised = look(pm)
@@ -128,6 +140,19 @@ check("a clip whose mapping raises is named, and the look goes on",
       "%r %s, returned %r, raised %r"
       % (WANT, "said" if WANT in block(lines, BROKEN.GetName())
          else "not said", got, raised))
+check("and the clip after it in the same bin is still shown",
+      "    " + UNCOUNTED.GetName() in lines,
+      "%r looked for among %d lines printed, after %r"
+      % (UNCOUNTED.GetName(), len(lines), BROKEN.GetName()))
+WANT = vpm.T('      --> no count of audio tracks can be read from this '
+             'mapping')
+check("a mapping no count of tracks can be read from says so",
+      WANT in block(lines, UNCOUNTED.GetName()),
+      "%r looked for in %r" % (WANT, block(lines, UNCOUNTED.GetName())))
+check("and the look goes on to the next clip in that bin",
+      "    " + LATER.GetName() in lines,
+      "%r looked for among %d lines printed, after %r, raised %r"
+      % (LATER.GetName(), len(lines), UNCOUNTED.GetName(), raised))
 
 print("\n2. The timelines")
 tracks = [s for s in timelines if s.startswith("      A")]
@@ -151,6 +176,12 @@ print("\n4. No project open")
 lines, got, raised = look(stand.ProjectManager())
 WANT = vpm.T('No project open.')
 check("with no project open it stops and says so",
+      isinstance(raised, RuntimeError) and str(raised) == WANT,
+      "raised %r against RuntimeError(%r), returned %r"
+      % (raised, WANT, got))
+lines, got, raised = look(stand.ProjectManager(),
+                          refuse=["GetProjectManager"])
+check("with no project manager it stops the same way",
       isinstance(raised, RuntimeError) and str(raised) == WANT,
       "raised %r against RuntimeError(%r), returned %r"
       % (raised, WANT, got))

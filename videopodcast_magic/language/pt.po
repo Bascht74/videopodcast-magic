@@ -3992,8 +3992,8 @@ msgstr "  Não há reconhecimento de fala nesta máquina: o macOS 26 traz um, ca
 msgid "  Speech recognition (%s): %s words in %s s"
 msgstr "  Reconhecimento de fala (%s): %s palavras em %s s"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s palavras: %s %% para uma voz, %s %% para duas, %s %% em uma lacuna"
+msgid "  %s words"
+msgstr "  %s palavras"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s palavras, sem nomes -- ninguém foi separado"

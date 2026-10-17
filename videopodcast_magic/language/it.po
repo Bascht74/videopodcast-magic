@@ -4008,8 +4008,8 @@ msgstr "  Nessun riconoscimento vocale su questa macchina: macOS 26 ne porta uno
 msgid "  Speech recognition (%s): %s words in %s s"
 msgstr "  Riconoscimento vocale (%s): %s parole in %s s"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s parole: %s %% a una voce, %s %% a due, %s %% in una pausa"
+msgid "  %s words"
+msgstr "  %s parole"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s parole, senza nomi -- nessuno è stato separato"

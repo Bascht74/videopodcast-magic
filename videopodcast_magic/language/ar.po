@@ -4062,8 +4062,8 @@ msgstr "  لا يوجد تعرف على الكلام على هذا الجهاز:
 msgid "  Speech recognition (%s): %s words in %s s"
 msgstr "  التعرف على الكلام (%s): %s كلمة في %s ث"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s كلمة: %s %% لصوت واحد، %s %% لصوتين، %s %% في فجوة"
+msgid "  %s words"
+msgstr "  %s كلمة"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s كلمة، بلا أسماء -- لم يُفصل أحد"

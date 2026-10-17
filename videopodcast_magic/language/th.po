@@ -3876,8 +3876,8 @@ msgstr "การตัดต่อแรกตามผู้พูด"
 msgid "\nTRANSCRIPT"
 msgstr "\nบทถอดความ"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s คำ: %s %% เป็นของเสียงพูดเดียว, %s %% ของสองเสียงพูด, %s %% อยู่ในช่องว่าง"
+msgid "  %s words"
+msgstr "  %s คำ"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s คำ ไม่มีชื่อ -- ไม่ได้แยกผู้พูดคนใดเลย"

@@ -3791,8 +3791,8 @@ msgstr "বক্তা অনুযায়ী প্রথম কাট"
 msgid "\nTRANSCRIPT"
 msgstr "\nট্রান্সক্রিপ্ট"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %sটি শব্দ: %s %% একটি কণ্ঠস্বরে, %s %% দুটিতে, %s %% ফাঁকে"
+msgid "  %s words"
+msgstr "  %sটি শব্দ"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %sটি শব্দ, নাম ছাড়া -- কাউকে পৃথক করা হয়নি"

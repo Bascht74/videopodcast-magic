@@ -158,18 +158,16 @@ def corrected_words(words, start_by, end_by):
 SENTENCE_MINORITY_SHARE = 0.2
 
 
-def words_by_speaker(words, segments, tally=None):
+def words_by_speaker(words, segments):
     """Give every word the speaker whose segments cover most of it.
 
     A word touching nobody goes to the nearest segment; where two
     cover it equally, the one speaking more wins -- the order
-    *segments*, [(name, [(from, to), ...])], arrives in. *tally* counts
-    clear, shared and gap words. No segments, no "speaker" on a word.
+    *segments*, [(name, [(from, to), ...])], arrives in. No segments,
+    no "speaker" on a word.
     """
     out = [dict(w) for w in sorted(words or (),
                                    key=lambda w: (w["start"], w["end"]))]
-    if tally is not None:
-        tally.update({"clear": 0, "shared": 0, "gap": 0})
     if not out or not segments:
         return out
     covered_by = [0.0] * len(out)
@@ -206,10 +204,6 @@ def words_by_speaker(words, segments, tally=None):
     for k, w in enumerate(out):
         if not touching[k] and nearest_name[k]:
             w["speaker"] = nearest_name[k]
-    if tally is not None:
-        tally["clear"] = sum(1 for n in touching if n == 1)
-        tally["shared"] = sum(1 for n in touching if n > 1)
-        tally["gap"] = sum(1 for n in touching if not n)
     return out
 
 
@@ -234,10 +228,9 @@ def sentence_speakers(words, limit=SENTENCE_MINORITY_SHARE):
     return out
 
 
-def words_with_speakers(words, segments, tally=None,
-                        limit=SENTENCE_MINORITY_SHARE):
+def words_with_speakers(words, segments, limit=SENTENCE_MINORITY_SHARE):
     """Say who spoke each word: covered most, then agreed per sentence."""
-    return sentence_speakers(words_by_speaker(words, segments, tally), limit)
+    return sentence_speakers(words_by_speaker(words, segments), limit)
 
 
 def speech_passages(words):
@@ -391,18 +384,15 @@ def write_transcript_files(folder, base, words, segments=()):
     origins apart. Without speaker segments the files carry no names:
     a guess is worse than a gap. Returns the files written.
     """
-    tally = {}
-    said = words_with_speakers(words, segments, tally)
+    said = words_with_speakers(words, segments)
     if not said:
         return []
     total = len(said)
     if segments:
-        print(T('  %s words: %s %% to one voice, %s %% to two, '
-                '%s %% in a gap')
-              % (number_text(total, 0),
-                 number_text(100.0 * tally["clear"] / total, 1),
-                 number_text(100.0 * tally["shared"] / total, 1),
-                 number_text(100.0 * tally["gap"] / total, 1)))
+        # The count alone. The share on one voice (94-98 % on 18 real
+        # separations) measured word edges against turns, not who was
+        # right (90.6-99.1 %), and followed that only weakly.
+        print(T('  %s words') % number_text(total, 0))
     else:
         print(T('  %s words, without names -- nobody was separated')
               % number_text(total, 0))

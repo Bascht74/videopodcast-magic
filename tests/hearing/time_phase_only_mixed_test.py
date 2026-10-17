@@ -5,8 +5,10 @@ A person says what a recording's sound holds, speech or mixed; the
 program no longer guesses. In order: the rule itself; the command line
 that carries it; the order the window writes; an old project; a run on
 the interview's recordings beside cameras that hear only a tone, which
-the phase way lays a hundred seconds out; the preview on the same; and
-the phase way not even asked under speech.
+the phase way lays a hundred seconds out; the preview on the same; the
+phase way not even asked under speech; and without a picture, beside a
+longer recording that heard only a tone, the preview choosing the way
+for each recording as the run does.
 """
 PLATFORM_BOUND = True
 import os
@@ -251,6 +253,67 @@ check("under speech the phase way is not even asked",
       st.get("unplaceable") is True and "phase_sharp" not in st,
       "unplaceable %r, phase sharpness %r -- wanted True and none"
       % (st.get("unplaceable"), st.get("phase_sharp")))
+
+print("\n8. Without a picture, the way chosen for each recording")
+# The longest recording is the reference: one a recorder made of a tone
+# alone, which shares nothing with the two of the interview. The phase
+# way, asked, lays the one marked mixed against it all the same, in the
+# run as in the preview.
+TONE = os.path.join(TMP, "Guest_REC00040.wav")
+subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
+                "sine=frequency=440:duration=120:sample_rate=48000",
+                "-c:a", "pcm_s16le", TONE, "-y"], check=True)
+ALONE = [TONE, REC, OTHER]
+
+
+def without_picture(marked):
+    """(the preview's axis, the run's {recording: (start, by phase)})."""
+    keys = set(vpm.path_key(p) for p in marked)
+    with contextlib.redirect_stdout(io.StringIO()):
+        data, _text = vpm.measure_time_axis(
+            ALONE, vpm.file_timecode,
+            phase_of=lambda p: vpm.path_key(p) in keys)
+        made = vpm.join_the_plan([{"audio": p, "blocks": [p]}
+                                  for p in ALONE], TMP)
+        laid = vpm.measure_tracks_against_each_other(
+            made, lambda blocks: vpm.path_key(blocks[0]) in keys)
+    return data, dict((t["blocks"][0],
+                       (-t["a"] / t["b"],
+                        bool((t.get("st") or {}).get("from_phase"))))
+                      for t in laid)
+
+
+def from_tone(data, p):
+    """Where the preview lays *p* from the tone, or None."""
+    axis = data.get("axis") or {}
+    k, r = vpm.path_key(p), vpm.path_key(TONE)
+    return axis[k] - axis[r] if k in axis and r in axis else None
+
+
+def no_place(data):
+    return [os.path.basename(p) for p in data.get("no_place") or ()]
+
+
+data, laid = without_picture([])
+check("without a picture under speech the preview refuses it as the run "
+      "does",
+      REC in (data.get("no_place") or ()) and REC not in laid,
+      "the preview's no place %r; the run placed %r"
+      % (no_place(data), sorted(os.path.basename(p) for p in laid)))
+data, laid = without_picture([REC])
+here = from_tone(data, REC)
+run_here = laid.get(REC, (None, False))
+check("without a picture, marked mixed, the preview lays it as the run "
+      "does",
+      run_here[1] and here is not None and abs(here - run_here[0]) <= 0.0001,
+      "the preview %s from the tone, the run %s%s"
+      % ("none" if here is None else "%+.4f s" % here,
+         "none" if run_here[0] is None else "%+.4f s" % run_here[0],
+         " by phase" if run_here[1] else ", not by phase"))
+check("and without a picture leaves the one nobody marked refused too",
+      OTHER in (data.get("no_place") or ()) and OTHER not in laid,
+      "the preview's no place %r; the run placed %r"
+      % (no_place(data), sorted(os.path.basename(p) for p in laid)))
 
 shutil.rmtree(TMP, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

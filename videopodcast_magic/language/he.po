@@ -3879,8 +3879,8 @@ msgstr "חיתוך ראשון לפי דובר"
 msgid "\nTRANSCRIPT"
 msgstr "\nתמלול"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s מילים: %s %% לקול אחד, %s %% לשניים, %s %% בהפסקה"
+msgid "  %s words"
+msgstr "  %s מילים"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s מילים, ללא שמות -- אף אחד לא הופרד"

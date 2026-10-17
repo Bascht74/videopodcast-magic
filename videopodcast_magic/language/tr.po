@@ -4004,8 +4004,8 @@ msgstr "  Bu makinede konuşma tanıma yok: macOS 26 bir tane getiriyor, aksi ha
 msgid "  Speech recognition (%s): %s words in %s s"
 msgstr "  Konuşma tanıma (%s): %s sözcük, %s sn"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s sözcük: %s %% tek sese, %s %% iki sese, %s %% bir boşlukta"
+msgid "  %s words"
+msgstr "  %s sözcük"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s sözcük, adsız -- kimse ayrılmadı"

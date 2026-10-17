@@ -3890,8 +3890,8 @@ msgstr "Prva montaža po govorcih"
 msgid "\nTRANSCRIPT"
 msgstr "\nPREPIS"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  Besede (%s): %s %% enemu glasu, %s %% dvema, %s %% v vrzeli"
+msgid "  %s words"
+msgstr "  Besede (%s)"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  Besede (%s), brez imen -- nihče ni bil ločen"

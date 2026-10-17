@@ -3884,8 +3884,8 @@ msgstr "Mkato wa kwanza kwa mzungumzaji"
 msgid "\nTRANSCRIPT"
 msgstr "\nNAKALA"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  Maneno %s: %s %% kwa sauti moja, %s %% kwa mbili, %s %% kwenye pengo"
+msgid "  %s words"
+msgstr "  Maneno %s"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  Maneno %s, bila majina -- hakuna aliyetenganishwa"

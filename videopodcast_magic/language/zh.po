@@ -3974,8 +3974,8 @@ msgstr "  此计算机上没有语音识别：macOS 26 自带一个，否则会�
 msgid "  Speech recognition (%s): %s words in %s s"
 msgstr "  语音识别（%s）：%s 个词，%s 秒"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s 个词：%s %% 归于一个声音，%s %% 归于两个，%s %% 落在间隙中"
+msgid "  %s words"
+msgstr "  %s 个词"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s 个词，没有姓名——没有分离出任何人"

@@ -3789,8 +3789,8 @@ msgstr "Første klipping etter taler"
 msgid "\nTRANSCRIPT"
 msgstr "\nTRANSKRIPSJON"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s ord: %s %% til én stemme, %s %% til to, %s %% i et hull"
+msgid "  %s words"
+msgstr "  %s ord"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s ord, uten navn -- ingen ble separert"
