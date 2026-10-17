@@ -94,6 +94,10 @@ nicht.
 - **Without a picture, the window and a run measure the time axis only
   once**: each takes what the other measured over the same recordings, as
   they already did beside a picture.
+- **A camera that gives no sound at all no longer stops the run when no
+  other camera is heard**: the recordings are laid against each other as
+  without a picture, and each camera stands at its timecode. The window
+  lays every file at the same place.
 - **A recording without a picture whose level is adjusted is now always
   written at 48 kHz**, as the check before the run announces.
 - **Pauses inside a turn are now bridged up to 0.75 s instead of 0.35 s**
@@ -303,6 +307,10 @@ nicht.
 - **Ohne Bild messen Fenster und Lauf die Zeitachse nur noch einmal**:
   Jeder übernimmt, was der andere über dieselben Aufnahmen gemessen hat,
   wie schon neben einem Bild.
+- **Eine Kamera ganz ohne Ton hält den Lauf nicht mehr an, wenn auch
+  sonst keine Kamera zu hören ist**: Die Aufnahmen werden wie ohne Bild
+  gegeneinander gelegt, und jede Kamera steht an ihrem Timecode. Das
+  Fenster legt jede Datei an dieselbe Stelle.
 - **Eine Aufnahme ohne Bild, deren Pegel angepasst wird, wird jetzt
   immer mit 48 kHz geschrieben**, wie die Prüfung vor dem Lauf ankündigt.
 - **Pausen innerhalb einer Rede werden jetzt bis 0,75 s statt 0,35 s
