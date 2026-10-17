@@ -2,7 +2,11 @@
 # The suite. Success = return code 0, no traceback, no "FAIL".
 # The tests run several at a time, each with its own fixture directory:
 # most of the time goes on starting Python and ffmpeg rather than on the
-# processor. WORKERS=1 runs them one after another.
+# processor. WORKERS=1 runs them one after another. While another suite
+# or measurement that waits is running, each test waits to start until
+# the machine has processor to spare (cpu_wait.sh): VPM_CPU_BUSY_MOST,
+# default 90 percent busy, and 0 turns it off; VPM_CPU_WAIT_MOST,
+# default 600 seconds, after which it starts anyway.
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$HERE"
 # The suite runs on the version the program recommends, or it proves
@@ -208,6 +212,7 @@ export RESOLVE_SCRIPT_LIB="$RUN_TEMP_SETTINGS/no-resolve-here/fusionscript"
 # cache and settings behind; this takes them with it.
 fixtures_out() {
   fixtures_let_go
+  cpu_wait_let_go
   [ -n "$KEEP_TEMP" ] || rm -rf "$RUN_TEMP_CACHE" "$RUN_TEMP_SETTINGS"
   rm -f "$RUN_STARTED"
 }
@@ -216,6 +221,9 @@ trap 'exit 130' INT TERM
 # What counts as red in a test's output: one function, in a file of its
 # own so a test can ask it without starting a whole run.
 . "$HERE/verdict.sh"
+# And the wait for processor before each test, machine-wide. Read before
+# fixtures_share names this run to the suites a test starts inside it.
+. "$HERE/cpu_wait.sh"
 fixtures_hold
 
 # The shared fixture folders are read-only. Building them here, before
@@ -252,6 +260,9 @@ OUT=$(mktemp -d "${TMPDIR:-/tmp}/suite_XXXXXX")
 STARTS="$RUN_TEMP/starts"
 mkdir -p "$STARTS"
 export STARTS
+# And one per test that had to wait for processor before it started.
+CPU_WAITS="$RUN_TEMP/waits"
+mkdir -p "$CPU_WAITS"
 # One file per test again, holding the number of judgements it printed.
 # The summary reads them back and carries state/checks forward, and a
 # worker cannot hand a number up any other way: it runs in a shell of
@@ -262,6 +273,7 @@ export COUNTS
 export TMPDIR="$RUN_TEMP"
 clean_up() {
   fixtures_let_go
+  cpu_wait_let_go
   if [ -n "$KEEP_TEMP" ]; then
     echo "temporary material kept in $RUN_TEMP"
     echo "cache of this run kept in $RUN_TEMP_CACHE"
@@ -651,6 +663,7 @@ test_file() {
 
 run_one() {
   t="$1"
+  cpu_wait "$t"
   began=$SECONDS
   test_file "$t"
   # A test that crashed is run again before the whole run is called red.
@@ -898,7 +911,7 @@ $short"
 # and FLOORS 12 KB; in a file they cost the environment one path.
 FUNCS="$RUN_TEMP/functions.sh"
 { declare -f run_one crash_block timeout_block crash_said test_file said_red
-  declare -p FLOORS SILENT; } > "$FUNCS"
+  declare -p FLOORS SILENT; cpu_wait_carry; } > "$FUNCS"
 export FUNCS OUT HERE LIMIT TOTAL TRIES PY
 
 # A test that measures real time cannot share the machine. Playing a
@@ -1096,6 +1109,8 @@ case "$VPM_TESTS" in
                 "the neutral half runs once, on a job of its own" ;;
   *)       echo "platform: both halves, every test once" ;;
 esac
+# How long the tests waited for processor, or why they did not.
+cpu_wait_said
 # state/checks carried forward. The count of judgements rises with every
 # check anybody adds, so a floor kept by hand would be behind within the
 # day and then be raised in a hurry, which is how a floor stops meaning

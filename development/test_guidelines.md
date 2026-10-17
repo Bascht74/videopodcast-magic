@@ -406,6 +406,27 @@ use a callback or polling."* And flakiness is not wear: 78 percent of
 flaky tests were already flaky when they were written. It is built in,
 which is why this stands in the rules and not in a clean-up plan.
 
+**The suite waits for processor the same way, and only beside somebody
+who waits too.** `run.sh` starts its tests several at a time, up to
+`WORKERS`, and asks `tests/cpu_wait.sh` before each start: *while
+another suite or measurement that waits is running, a test starts only
+on a look that finds the machine under `VPM_CPU_BUSY_MOST` percent busy
+over the last half second (default 90), one start per look and each
+start of that half second counted as a busy processor, and after
+`VPM_CPU_WAIT_MOST` seconds (default 600) it starts anyway.* Measured
+17.10.2026 on 14 processors: three suites side by side took 527 s with
+the wait and 482 s without it, but without it every test took three
+times as long, the longest 77 s against 36; one after another they take
+about 590 s. A suite alone keeps the machine at 90 % or more for two
+thirds of its seconds, and held to the rule against itself it took 8 to
+12 % longer, so a run alone does not look. The look reads every
+processor's ticks against the last half second's, one Python start of
+20 ms, and sees a hog fill the machine within 0.8 s: `ps` needed a
+second, `top` 1.6 s a call, the load average 25 s, and `host_statistics`
+answers from a cache. Off on GitHub and with
+`VPM_CPU_BUSY_MOST=0`; a measurement outside `run.sh` goes through
+`bash tests/cpu_wait.sh <command>`.
+
 ## 7. A skipped test is not a green one
 
 **Skipping has to be visible or it is a lie.** A test that bows out
