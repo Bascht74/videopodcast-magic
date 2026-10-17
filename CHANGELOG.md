@@ -96,6 +96,12 @@ nicht.
   they already did beside a picture.
 - **A recording without a picture whose level is adjusted is now always
   written at 48 kHz**, as the check before the run announces.
+- **Pauses inside a turn are now bridged up to 0.75 s instead of 0.35 s**
+  where the program reads from the tracks who speaks: on real interviews
+  the camera stood on the speaker more often, 92.7 instead of 88.5 % of
+  the time, with as many cuts.
+- **The transcript line in the log now gives only the number of words**;
+  its three shares followed how right the names were only weakly.
 - **"Wide shot at the latest" now says its two minutes hold only while
   "Wide shot after" is on and "Long monologue" changes the camera**; the
   manual and `--help` say the same. The behaviour is unchanged.
@@ -166,6 +172,10 @@ nicht.
 - **On the free plan, the check before a run now counts tracks as the run
   sends them**: a recording set to "do not use" counts as none, two
   recordings of one name as one, a camera whose sound is used as one.
+- **Microphones joined into one recording are now separated for one
+  person per microphone**, unless `--speakers-count` gives a number: one
+  voice too many used to leave every voice without its microphone, 58
+  instead of 95 % of the cut right.
 - **A Sync run whose second recording is set to "do not use" is no longer
   stopped by its own check**, and in the window no stop suggests
   `--anyway`, which the window cannot pass.
@@ -295,6 +305,13 @@ nicht.
   wie schon neben einem Bild.
 - **Eine Aufnahme ohne Bild, deren Pegel angepasst wird, wird jetzt
   immer mit 48 kHz geschrieben**, wie die Prüfung vor dem Lauf ankündigt.
+- **Pausen innerhalb einer Rede werden jetzt bis 0,75 s statt 0,35 s
+  überbrückt**, wo das Programm aus den Spuren liest, wer spricht: An
+  echten Interviews stand die Kamera öfter auf der Person, die redete,
+  92,7 statt 88,5 % der Zeit, bei gleich vielen Schnitten.
+- **Die Transkript-Zeile im Protokoll nennt jetzt nur noch die Zahl der
+  Wörter**; ihre drei Anteile folgten der Richtigkeit der Namen nur
+  schwach.
 - **„Weitwinkel spätestens“ sagt jetzt, dass seine zwei Minuten nur
   gelten, solange „Weitwinkel nach“ an ist und „Langer Monolog“ die
   Kamera wechselt**; Handbuch und `--help` sagen dasselbe. Das Verhalten
@@ -377,6 +394,10 @@ nicht.
   jetzt so, wie der Lauf sie schickt**: Eine Aufnahme auf „nicht
   verwenden“ zählt nicht, zwei Aufnahmen eines Namens als eine, eine
   Kamera, deren Ton verwendet wird, als eine.
+- **Zusammengelegte Mikrofone werden jetzt nach einer Person je Mikrofon
+  getrennt**, sofern `--speakers-count` keine Zahl angibt: Eine Stimme zu
+  viel ließ bisher jede Stimme ohne ihr Mikrofon, 58 statt 95 % des
+  Schnitts richtig.
 - **Ein Sync-Lauf, dessen zweite Aufnahme auf „nicht verwenden“ steht,
   wird nicht mehr von seiner eigenen Prüfung angehalten**, und im
   Fenster schlägt kein Halt mehr `--anyway` vor, das das Fenster gar
