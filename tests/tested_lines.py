@@ -6,9 +6,11 @@ that test. Nothing here runs on an ordinary `bash run.sh`: the suite
 measures only under `VPM_COVERAGE=1`, which a release sets on one job
 (tests.yml says which), and the whole of the cost is behind that switch.
 
-How it measures. coverage.py, from 7.10 on, puts a `.pth` file into the
+How it measures. coverage.py, from 7.13 on, puts a `.pth` file into the
 site-packages it is installed in, and every Python started from there
 looks for `COVERAGE_PROCESS_START` and, finding it, measures itself.
+Floors are written with the version tests.yml pins: another may count a
+line differently, and run.sh says so when the two differ.
 So run.sh writes the configuration `config()` gives, points that one
 variable at it, and every process the suite starts -- the tests, the
 program they start, the program that program starts -- writes a data
@@ -174,9 +176,10 @@ def floors(tables, old):
     `tables` are what each run left under VPM_COVERAGE_TABLE, `old` the
     state as it stands. A function's floor is its highest count in any
     run; one whose count differs between the runs goes under UNSTEADY
-    with that count, beside those already there, which keep the higher
-    of their old count and this one. A function no run has goes. An
-    entry whose count did not move keeps its old line, as the judging
+    with that count, and only those: the list is written afresh, so an
+    entry an older tree needed goes once these runs hold it steady, and
+    a lost test cannot stand there excused. A function no run has goes.
+    An entry whose count did not move keeps its old line, as the judging
     half keeps it, so a diff of the state shows what moved.
     """
     seen = {}
@@ -192,11 +195,10 @@ def floors(tables, old):
         line = counts[0][1]
         kept = was.get(mark)
         new[KEY][mark] = kept if kept and kept[0] == high else [high, line]
-        if mark in was_unsteady or len(set(c for c, _l in counts)) > 1:
-            most = max(high, was_unsteady.get(mark, [0])[0])
+        if len(set(c for c, _l in counts)) > 1:
             kept = was_unsteady.get(mark)
-            new[UNSTEADY][mark] = (kept if kept and kept[0] == most
-                                   else [most, line])
+            new[UNSTEADY][mark] = (kept if kept and kept[0] == high
+                                   else [high, line])
     return new
 
 

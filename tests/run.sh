@@ -405,6 +405,7 @@ LINES_GUARD=source_lines_stay_tested
 GUARD_ASIDE=""
 GUARD_RUNS=""
 GUARD_NOTED=""
+COVERAGE_OTHER=""
 if printf '%s\n' $TESTS | grep -qx "$LINES_GUARD"; then
   GUARD_ASIDE=1
   TESTS=$(printf '%s\n' $TESTS | grep -vx "$LINES_GUARD")
@@ -421,16 +422,23 @@ case "${VPM_COVERAGE:-}" in
            "runs every language: set VPM_ALL_LANGUAGES=1 beside it" >&2
       exit 2
     fi
-    # The .pth coverage.py has put beside itself since 7.10 is what
-    # starts it in every process; a coverage.py without it measures the
-    # tests and none of the programs they start, and says nothing.
+    # The version the builder measures with, read where it is pinned:
+    # a floor is a count of lines, and another coverage.py may count a
+    # line differently, so the floors are written with that one.
+    COVERAGE_PIN=$(sed -n 's/.*pip install coverage==\([0-9][0-9.]*\).*/\1/p' \
+      "$(dirname "$HERE")/.github/workflows/tests.yml" 2> /dev/null | head -1)
+    # The .pth coverage.py has put beside itself since 7.13 is what
+    # starts it in every process -- 7.10 to 7.12 install none on Python
+    # 3.14, measured 17.10.2026 -- and a coverage.py without it measures
+    # the tests and none of the programs they start, and says nothing.
     if ! "$PY" -c 'import coverage, os, site, sys
 dirs = site.getsitepackages() + [site.getusersitepackages()]
 sys.exit(0 if any(os.path.exists(os.path.join(d, "a1_coverage.pth"))
                   for d in dirs) else 1)' 2> /dev/null; then
-      echo "VPM_COVERAGE=1 wants coverage.py 7.10 or later installed for" \
-           "$PY, whose .pth starts it in every process:" \
-           "$PY -m pip install coverage" >&2
+      echo "VPM_COVERAGE=1 wants coverage.py installed for $PY, 7.13 or" \
+           "later, whose .pth starts it in every process -- and the" \
+           "floors are written with the one tests.yml pins:" \
+           "$PY -m pip install coverage${COVERAGE_PIN:+==$COVERAGE_PIN}" >&2
       exit 2
     fi
     COVERAGE_DATA="$RUN_TEMP/coverage"
@@ -442,8 +450,22 @@ sys.exit(0 if any(os.path.exists(os.path.join(d, "a1_coverage.pth"))
     # Judged only over the whole folder: a floor per function measured
     # over three tests would call most of the program untested.
     [ -n "$GUARD_ASIDE" ] && [ "$WHOLE" = 1 ] && GUARD_RUNS=1
-    echo "tested lines: measured with coverage.py" \
-         "$("$PY" -c 'import coverage; print(coverage.__version__)')" ;;
+    COVERAGE_VERSION=$("$PY" -c 'import coverage; print(coverage.__version__)')
+    echo "tested lines: measured with coverage.py $COVERAGE_VERSION"
+    # Said at the start and again in the summary: the floors this run
+    # writes, and the table it leaves, count as this version counts.
+    if [ -z "$COVERAGE_PIN" ]; then
+      COVERAGE_OTHER="tested lines: no coverage.py pin found in"\
+" .github/workflows/tests.yml -- the floors are written with the"\
+" version the builder measures with"
+    elif [ "$COVERAGE_VERSION" != "$COVERAGE_PIN" ]; then
+      COVERAGE_OTHER="tested lines: coverage.py $COVERAGE_VERSION, not"\
+" the $COVERAGE_PIN tests.yml pins -- the floors and the table this run"\
+" writes count lines as $COVERAGE_VERSION does, the builder's as"\
+" $COVERAGE_PIN does; floors are written with $PY -m pip install"\
+" coverage==$COVERAGE_PIN"
+    fi
+    if [ -n "$COVERAGE_OTHER" ]; then echo "$COVERAGE_OTHER"; fi ;;
   *) echo "VPM_COVERAGE is '$VPM_COVERAGE'; it takes 1 or nothing" >&2
      exit 2 ;;
 esac
@@ -1057,6 +1079,7 @@ elif [ -n "$GUARD_NOTED" ]; then
        "version it names on:"
   printf '%s\n' "$GUARD_NOTED" | sed 's/^/  /'
 fi
+if [ -n "$COVERAGE_OTHER" ]; then echo "$COVERAGE_OTHER"; fi
 # The release run's texts cut off, one line each, said even when there
 # are none; tests.yml lifts the block into the job's summary by these
 # first words, and the owner's next release gets a card for each line.

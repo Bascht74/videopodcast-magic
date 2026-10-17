@@ -126,7 +126,7 @@ files_colour_carried	14
 files_colour_change_said	6
 files_colour_fair	7
 files_colr_names_hdr	12
-files_curve_kept_once	12
+files_curve_kept_once	13
 files_cut_without_keys	6
 files_data_track_kept	13
 files_folder_shown	3
@@ -310,7 +310,7 @@ source_frozen_name_holds	9
 source_imported_is_whole	5
 source_limits_hold	19
 source_line_loads_no_qt	6
-source_lines_stay_tested	3
+source_lines_stay_tested	4
 source_live_asks_first	19
 source_material_stays	3
 source_names_said_once	4

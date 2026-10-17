@@ -164,10 +164,15 @@ What that refers to is the command-line switches, the format of the
 project file, and the names of what comes out. **Manual, tests or notes
 alone get no new number.**
 
-**Every language, once, before the word.** The everyday suite tests
-English and German only (the owner's rule, 26.9.2026); a release tests
-every catalogue. Here that is `cd tests && VPM_ALL_LANGUAGES=1 bash
-run.sh`, green before the push. On the builder a push never tests
+**Every language, once, before the word, and measured.** The everyday
+suite tests English and German only (the owner's rule, 26.9.2026); a
+release tests every catalogue and measures the tested lines. Here that
+is one run, `cd tests && VPM_COVERAGE=1 VPM_ALL_LANGUAGES=1 bash run.sh`
+with the coverage.py `.github/workflows/tests.yml` pins, green before
+the push: from 3.0.0b30 on a red `source_lines_stay_tested` is no tag,
+and a function over its floor or a share under 95 % found here is mended
+before the push, not discovered in the release run (mechanics.md, "The
+tested lines"). On the builder a push never tests
 every language, not even the release pull request's (the owner,
 26.9.2026): the release run does, `all_languages: true` on the long
 way and the job "Languages" on the short one -- why, beside that input
@@ -208,21 +213,23 @@ file of the speaker separation, the suite runs as it has since
 4.9.2026 (`way: long -- ...`, with the reason). Measured
 21.9.2026: `484daa8`, the merge of #186, carries the tree of `8a58ea4`,
 its head, and the six check runs of `8a58ea4` all concluded success.
-**One thing the short way does not give you:** the pull request's run
-is the everyday suite, separation off, and only the workflow's own run
-turns it on -- so `voice_split_hears_two` and
-`voice_split_hears_blocks` run for a release only on the long way.
+**One thing the short way gives up:** the pull request's run is the
+everyday suite, separation off, so `voice_split_hears_two` and
+`voice_split_hears_blocks` run for a release on all six jobs only on the
+long way -- on the short way on one, the macOS py3.14 job of
+"Languages", which since 16.10.2026 runs the whole suite to measure the
+tested lines.
 **Since 24.9.2026 the owner's answer to that is a fourth question:**
 the short way is taken only where the merge touches nothing of the
 separation -- since 25.9.2026 its code, its model,
 requirements.txt and the two tests that run it, but not pyproject.toml,
 whose version every release changes. A pull request that changed one of
 them goes the long way, and the line names the file that sent it
-there. **Since 26.9.2026 a fifth:** a pull request runs English and
-German only, every language only where it changes the `VERSION` line,
-so the short way is taken only where the merge changes the version.
-How the five questions are asked, and where that difference is kept,
-is `.claude/skills/freigabe/mechanics.md`.
+there. **The version is not asked:** a push runs English and German
+only (the owner, 26.9.2026), and the short way starts a languages job of
+its own, so every language runs either way -- since 27.9.2026 with the
+separation installed. How the four questions are asked, and where that
+difference is kept, is `.claude/skills/freigabe/mechanics.md`.
 
 **Before the word, count what is left over.** The commonest way to break
 the one-run rule is not impatience, it is a file forgotten while
@@ -412,7 +419,10 @@ ends in `cut off, to fix next release: N` and the lines.
 8. Set in `pyproject.toml` too -- the fifth place, which no test reaches?
 9. The number Semantic Versioning asks for -- PATCH, MINOR or MAJOR?
 10. `tests/source/text_release_ready_test.py` green here, and the whole
-    suite with it, in every language (`VPM_ALL_LANGUAGES=1`)?
+    suite with it, in every language and measured -- `cd tests &&
+    VPM_COVERAGE=1 VPM_ALL_LANGUAGES=1 bash run.sh`, with the coverage.py
+    `.github/workflows/tests.yml` pins -- green here before the release
+    push?
 10b. The language slices run here on the Mac in every language before
     the release push -- `cd tests && VPM_ALL_LANGUAGES=1 bash run.sh
     */*_langs*_test.py` -- so a cut-off text is found here, not in the
