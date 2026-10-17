@@ -20,7 +20,6 @@ FILE_FORMAT = PROGRAM.FILE_FORMAT
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIX_ONLY = PROGRAM.MIX_ONLY
 PROJECT_PREFIX = PROGRAM.PROJECT_PREFIX
-SOUND_MATCH_ENOUGH = PROGRAM.SOUND_MATCH_ENOUGH
 SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 T = PROGRAM.T
 TN = PROGRAM.TN
@@ -31,7 +30,6 @@ TYPE_INTRO = PROGRAM.TYPE_INTRO
 VERSION = PROGRAM.VERSION
 VIDEO_SUFFIXES = PROGRAM.VIDEO_SUFFIXES
 WEAK_MATCH = PROGRAM.WEAK_MATCH
-align_envelopes = PROGRAM.align_envelopes
 as_head = PROGRAM.as_head
 as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
@@ -42,9 +40,7 @@ clock_base = PROGRAM.clock_base
 decode_audio = PROGRAM.decode_audio
 expand_chains_to_tracks = PROGRAM.expand_chains_to_tracks
 ffprobe_json = PROGRAM.ffprobe_json
-files_with_no_place = PROGRAM.files_with_no_place
 finished_tracks_find = PROGRAM.finished_tracks_find
-fit_speaks_against = PROGRAM.fit_speaks_against
 format_complaint = PROGRAM.format_complaint
 gcc_phat_offset = PROGRAM.gcc_phat_offset
 group_recording_parts = PROGRAM.group_recording_parts
@@ -992,8 +988,8 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
     The longest heard camera is the reference, as in the run; a timecode
     from *tc_of* hangs the axis off it; a weak camera at its clock, each
     recording by the run's measurement, joined where *rows* {head: blocks}
-    says, the phase way where *phase_of* says; *raw* kept is taken; no
-    picture at all is recordings_axis. Returns (result, text) by path_key.
+    says, the phase way where *phase_of* says; *raw* kept is taken; with
+    no camera heard, recordings_axis. Returns (result, text) by path_key.
     """
     raw = {} if raw is None else raw
     if not any(p.lower().endswith(VIDEO_SUFFIXES) for p in paths):
@@ -1020,20 +1016,18 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
     # cameras_on_one_axis, the longest heard camera and a chain through
     # the others. A recording longer than every camera never is one.
     cameras = [p for p in envelopes if p.lower().endswith(VIDEO_SUFFIXES)]
-    if cameras:
-        kept = cameras_kept(raw, cameras)
-        if kept:
-            reference, on_axis, left = kept
-        else:
-            reference, on_axis, left = cameras_on_one_axis(
-                dict((p, envelopes[p]) for p in cameras), clocks,
-                spread=lambda fn, xs: parallel_map(xs, fn), hop_ms=HOP)
-        cameras_keep(raw, reference, on_axis, left, paths, cameras)
+    if not cameras:
+        # None heard: the recordings carry the axis and every camera
+        # stands at its clock, as recordings_carry_cameras lays them.
+        return recordings_axis(paths, tc_of, rows, phase_of, raw)
+    kept = cameras_kept(raw, cameras)
+    if kept:
+        reference, on_axis, left = kept
     else:
-        reference = max(sorted(envelopes, key=path_key),
-                        key=lambda p: len(envelopes[p]))
-        on_axis, left = {}, {}
-    camera_ref = reference if cameras else None
+        reference, on_axis, left = cameras_on_one_axis(
+            dict((p, envelopes[p]) for p in cameras), clocks,
+            spread=lambda fn, xs: parallel_map(xs, fn), hop_ms=HOP)
+    cameras_keep(raw, reference, on_axis, left, paths, cameras)
     axis, weak = {reference: 0.0}, []
     # Not "clocks": that one holds timecodes above.
     clock_speed = {reference: 1.0}
@@ -1051,47 +1045,15 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
         weak.append(p)
         if left[p].get("quality", 0.0) < WEAK_MATCH:
             under.add(p)
-    # Beside a camera a recording has no measurement of the window's own:
-    # the run's, below, is the only one.
-    others = [p for p in envelopes if p != reference and not cameras]
-
-    def against_reference(file_path):
-        try:
-            # The same method as the run: sample points over the whole
-            # runtime, a regression line, the median.
-            a_s, b, st = align_envelopes(envelopes[reference],
-                                          envelopes[file_path], HOP,
-                                          warn=os.path.basename(file_path))
-            return a_s, b, st
-        except Exception:
-            return None
-
-    measured = dict(zip(others, parallel_map(others, against_reference)))
-    for p in others + unheard:
-        a_s, b, st = measured.get(p) or (0.0, 1.0, {})
-        g = st.get("quality", 0.0)
-        # A recording by the run's own rule besides: laid in on a turn
-        # or two, a block lands half a minute out.
-        if (abs(g) < SOUND_MATCH_ENOUGH or fit_speaks_against(st)
-                or (not p.lower().endswith(VIDEO_SUFFIXES)
-                    and not PROGRAM.sound_places_recording(st))):
-            # No phase way here: laid in at this floor it places files
-            # hours out. See align_audio_to_video.
-            weak.append(p)
-            if g < WEAK_MATCH:
-                under.add(p)
-            continue
-        # As the run writes the track: divided by b where it takes the
-        # drift out, a is where the recording sits in its own time.
-        axis[p], clock_speed[p] = run_place(a_s, b, st)
+    # What has no curve has no measurement either: under every floor.
+    weak.extend(unheard)
+    under.update(unheard)
     # Those go by the run's rule, never by a recording's clock or a
     # middle of several: clock_base, or refused. The rest as before.
     placed = [(p, clocks.get(p)) for p in sorted(
-        cameras, key=lambda p: (p != camera_ref, path_key(p)))
+        cameras, key=lambda p: (p != reference, path_key(p)))
         if p not in by_clock]
-    refused = set(files_with_no_place(
-        [p for p in weak if p not in by_clock
-         and p.lower().endswith(VIDEO_SUFFIXES)], clocks))
+    refused = set()
     for p in by_clock:
         axis.pop(p, None)
         clock_speed.pop(p, None)
@@ -1101,27 +1063,20 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
         elif w in axis:
             axis[p] = axis[w] + clocks[p] - clocks[w]
             clock_speed[p] = 1.0
-    # A recording its sound does not place stands where the run lays it:
-    # at the run's own measurement against the run's reference, or at
-    # its clock where every way of measuring came up empty.
-    ref_r = camera_ref if camera_ref is not None else reference
     # The run's length for its sample points: the reference's container.
     try:
-        length = float(video_facts(ref_r).get("duration") or 0.0)
+        length = float(video_facts(reference).get("duration") or 0.0)
     except Exception:
-        length = len(envelopes[ref_r]) * HOP / 1000.0
+        length = len(envelopes[reference]) * HOP / 1000.0
     camera_clocks = [clocks.get(c) for c in paths
                      if c.lower().endswith(VIDEO_SUFFIXES)]
-    # Where its reference camera has no place here, neither has it.
-    # Beside a camera every recording is measured as the run does; with
-    # none heard only the weak ones.
-    recordings = [q for q in (paths if camera_ref else weak) if ref_r in axis
-                  and not q.lower().endswith(VIDEO_SUFFIXES)]
+    # Beside a camera every recording is measured as the run does.
+    recordings = [q for q in paths if not q.lower().endswith(VIDEO_SUFFIXES)]
 
     # A recording of blocks beside a camera is joined, as the run joins
     # it; one whose blocks cannot be joined is measured alone.
     joins = dict((path_key(h), list(r)) for h, r in (rows or {}).items()
-                 if camera_ref is not None and len(r or ()) > 1)
+                 if len(r or ()) > 1)
     folder = tempfile.mkdtemp(prefix="vpm_axis_join_") if joins else None
 
     def as_the_run(file_path):
@@ -1134,11 +1089,11 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
             if part == "joined":
                 got = row_joined_places(row, os.path.join(
                     folder, "joined_%d.wav" % recordings.index(file_path)),
-                    ref_r, length, phase_of)
+                    reference, length, phase_of)
             else:
                 got = PROGRAM.sound_places(
-                    os.path.basename(file_path), file_path, ref_r, length,
-                    bool(phase_of(file_path)))
+                    os.path.basename(file_path), file_path, reference,
+                    length, bool(phase_of(file_path)))
             if got is not False:
                 kept[path_key(file_path)] = list(got) if got else None
                 return got
@@ -1165,82 +1120,92 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
             refused.add(p)
         elif not found[2].get("unplaceable"):
             start, clock_speed[p] = run_place(*found)
-            axis[p] = axis[ref_r] + start
+            axis[p] = axis[reference] + start
         elif clock_base(clocks[p], placed) in axis:
             w = clock_base(clocks[p], placed)
             axis[p] = axis[w] + clocks[p] - clocks[w]
             clock_speed[p] = 1.0
         else:
             refused.add(p)
-    # The median offset, so one outlier cannot skew everything. A file whose
-    # sound was not recognised has no vote: it holds the failed measurement,
-    # which beside its clock would pull the middle to a place nothing found.
-    offsets = sorted(t - axis[p] for p in axis if p not in weak
-                       for t in [tc_of(p)] if t is not None)
-    absolute = bool(offsets)
-    if absolute:
-        middle = offsets[len(offsets) // 2]
-        for p in axis:
-            axis[p] += middle
-        # A camera the sound did not place stands at its clock, and only
-        # here, before the count below: a reading means nothing relative.
-        # One set against a base on the axis already stands there.
-        for p in weak:
-            if (p.lower().endswith(VIDEO_SUFFIXES) and p not in refused
-                    and clocks.get(p) is not None and p not in axis):
-                axis[p] = float(clocks[p])
-                clock_speed[p] = 1.0
-    nowhere = [p for p in weak if p in refused]
-    lost = [p for p in nowhere if p in under]
-    # A silent file has no curve to read a length off, so its container gives
-    # it (silent there: none, not 0), judged alone: in the middle, two short
-    # silent clips would stop a sounding jingle counting as short.
-    length_of = dict((p, len(e) * HOP / 1000.0)
-                     for p, e in envelopes.items())
-    silent_length = {}
-    for p in unheard:
+    try:
+        fps = float(video_facts(reference).get("fps") or 0.0) or 25.0
+    except Exception:
+        fps = 25.0
+    return axis_answer(
+        axis, clock_speed, weak, refused, under, clocks, reference,
+        dict((p, len(e) * HOP / 1000.0) for p, e in envelopes.items()),
+        container_lengths(unheard), fps)
+
+
+def container_lengths(paths):
+    """How long each file runs by its container, where that can be read.
+
+    For a file with no curve to read a length off, judged alone: in the
+    middle, two short silent clips would stop a sounding jingle counting
+    as short. {path: seconds}; one that gives none is left out, not 0.
+    """
+    found = {}
+    for p in paths:
         try:
             runs = float(video_facts(p).get("duration") or 0.0)
         except Exception:
             continue
         if runs > 0.0:
-            silent_length[p] = runs
+            found[p] = runs
+    return found
+
+
+def axis_answer(axis, speed, weak, refused, under, clocks, reference,
+                length_of, own_length=None, fps=None):
+    """The window's answer out of where its files lie, every way alike.
+
+    Tied to the timecode by the middle of what the sound placed, else
+    counted from the earliest; named not fitting, nowhere, under every
+    floor, far shorter, or with a clock and no base. *fps* says where a
+    clock and the measurement part, as a run with a picture says it.
+    """
+    axis, speed = dict(axis), dict(speed)
+    # The median offset, so one outlier cannot skew everything. A file whose
+    # sound was not recognised has no vote: it holds the failed measurement,
+    # which beside its clock would pull the middle to a place nothing found.
+    offsets = sorted(t - axis[p] for p in axis if p not in weak
+                     for t in [clocks.get(p)] if t is not None)
+    if offsets:
+        middle = offsets[len(offsets) // 2]
+        axis = dict((p, t + middle) for p, t in axis.items())
+        # A camera the sound did not place stands at its clock, and only
+        # here, before the count below: a reading means nothing relative.
+        for p in weak:
+            if (p.lower().endswith(VIDEO_SUFFIXES) and p not in refused
+                    and clocks.get(p) is not None and p not in axis):
+                axis[p], speed[p] = float(clocks[p]), 1.0
+    nowhere = [p for p in weak if p in refused]
     # A file that fits nothing and is far shorter than everything around
     # it is a jingle, not a camera; a clock that places it beats sound.
-    brief = files_far_shorter(nowhere, length_of, silent_length)
-    alone = [p for p in nowhere if clocks.get(p) is not None]
+    answer = {"weak": weak, "unplaceable": [p for p in nowhere if p in under],
+              "brief": files_far_shorter(nowhere, length_of, own_length),
+              "no_place": nowhere, "reference": path_key(reference),
+              "clock_alone": [p for p in nowhere
+                              if clocks.get(p) is not None]}
     if len(axis) < 2:
         # No axis, but the measurement did happen and knows which files
-        # it could not place. Thrown away here, the one file that fits
-        # nothing would come out of a two-file production unmarked.
-        return ({"axis": {}, "clock": {}, "absolute": False, "weak": weak,
-                 "unplaceable": lost, "brief": brief,
-                 "no_place": nowhere, "clock_alone": alone},
+        # it could not place: the one that fits nothing is named.
+        return (dict(answer, axis={}, clock={}, absolute=False),
                 T('time axis not measurable'))
     # Where a clock and the measurement part, said as the run says it;
     # only the measured places, never one a clock gave.
-    try:
-        fps = float(video_facts(reference).get("fps") or 0.0) or 25.0
-    except Exception:
-        fps = 25.0
     for line in clock_apart_lines(
             dict((p, axis[p] - axis[reference]) for p in axis
-                 if p not in weak and p not in by_clock),
-            clocks, reference, fps):
+                 if p not in weak), clocks, reference, fps) if fps else ():
         print(line)
-    if not absolute:
+    if not offsets:
         origin = min(axis.values())
-        for p in axis:
-            axis[p] -= origin
+        axis = dict((p, t - origin) for p, t in axis.items())
     # Not before here: everything above reads the file itself, and the
     # timecode is asked for under the name that was passed in.
-    axis = dict((path_key(p), t) for p, t in axis.items())
-    speed = dict((path_key(p), b) for p, b in clock_speed.items()
-                 if path_key(p) in axis)
-    answer = {"axis": axis, "clock": speed, "absolute": absolute,
-              "weak": weak, "unplaceable": lost, "brief": brief,
-              "no_place": nowhere, "clock_alone": alone,
-              "reference": path_key(reference)}
+    answer.update(axis=dict((path_key(p), t) for p, t in axis.items()),
+                  clock=dict((path_key(p), b) for p, b in speed.items()
+                             if p in axis), absolute=bool(offsets))
     return answer, axis_text(answer)
 
 
@@ -1282,51 +1247,39 @@ def recordings_keep(raw, reference, against, length):
 
 def recordings_axis(paths, tc_of=lambda p: None, rows=None,
                     phase_of=lambda p: True, raw=None):
-    """The time axis with no picture, as the run lays the recordings.
+    """The time axis with no camera heard, as the run lays the files.
 
-    Each joined of its blocks (*rows*, {head: blocks}), the longest the
-    reference, the rest measured against it by sound_places and laid by
-    recordings_laid; what *raw* holds of these recordings, a run's, is
-    taken instead, and what is measured goes into it. In the shape of
-    measure_time_axis; later blocks are blocks_after_their_head's.
+    Each recording joined of its blocks (*rows*, {head: blocks}), the
+    longest the reference and the rest measured against it by the run's
+    own functions, laid by recordings_laid; what *raw* holds of them, a
+    run's, is taken, and what is measured goes in. Later blocks are
+    blocks_after_their_head's.
     """
     raw = {} if raw is None else raw
     rows = dict((path_key(h), r) for h, r in (rows or {}).items())
-    kept = recordings_kept(raw, paths)
+    heads = [p for p in paths if not p.lower().endswith(VIDEO_SUFFIXES)]
+    kept = recordings_kept(raw, heads)
     if kept:
-        ref, measured, length = kept
-        return recordings_laid(paths, tc_of, ref, measured, length)
-
-    def samples(file_path):
-        """Its length in samples, or nought where it cannot be read."""
-        try:
-            return PROGRAM.sample_count(file_path)
-        except Exception:
-            return 0
-
+        return recordings_laid(paths, tc_of, *kept)
     folder = tempfile.mkdtemp(prefix="vpm_axis_join_")
     try:
         source = {}
-        for n, p in enumerate(paths):
+        for n, p in enumerate(heads):
             row = list(rows.get(path_key(p)) or [p])
             try:
                 source[p] = (p if len(row) < 2 else join_audio_parts(
                     row, os.path.join(folder, "joined_%d.wav" % n))[0])
             except Exception:
                 source[p] = p
-        length = dict((p, samples(source[p])) for p in paths)
-        heard = [p for p in paths if length[p] > 0]
+        ref, length = (PROGRAM.recordings_reference(source) if source
+                       else (None, {}))
         # As measure_time_axis: one file alone is no axis and no fault.
-        if not heard or len(paths) < 2:
-            return ({}, "" if heard else T('time axis not measurable'))
-        # As the run: the first of the longest, in the order given.
-        ref = max(heard, key=lambda p: length[p])
-        others = [p for p in paths if p != ref]
-        measured = dict(zip(others, parallel_map(
-            others, lambda p: PROGRAM.sound_places(
-                os.path.basename(p), source[p], source[ref],
-                length[ref] / float(PROGRAM.SR), bool(phase_of(p)))
-            if p in heard else None)))
+        if not length.get(ref) or len(paths) < 2:
+            return ({}, "" if length.get(ref) else
+                    T('time axis not measurable'))
+        measured = PROGRAM.recordings_measured(
+            source, ref, length, phase_of,
+            spread=lambda fn, xs: parallel_map(xs, fn))
     finally:
         shutil.rmtree(folder, True)
     recordings_keep(raw, ref, measured, length)
@@ -1334,56 +1287,57 @@ def recordings_axis(paths, tc_of=lambda p: None, rows=None,
 
 
 def recordings_laid(paths, tc_of, ref, measured, length):
-    """Lay the recordings by what their sound said: recordings_axis's answer.
+    """Lay the files by what the recordings' sound said, as the run does.
 
-    By the run's drift rule, or at a clock off what the sound placed, else
-    nowhere, as measure_tracks_against_each_other lays them. *ref* is the
-    reference, *measured* {path: placing or None} every other one, and
-    *length* {path: samples}; measured or kept, the same.
+    Each recording by recording_laid, every camera by cameras_at_their_
+    clocks against what the sound placed -- the run's own functions,
+    asked quietly. *ref* is the reference, *measured* {head: placing or
+    None} every other one, *length* {head: samples}; measured or kept.
     """
-    others = [p for p in paths if p != ref]
-    heard = [p for p in paths if length.get(p, 0) > 0]
+    heads = [p for p in paths if not p.lower().endswith(VIDEO_SUFFIXES)]
+    cameras = [p for p in paths if p.lower().endswith(VIDEO_SUFFIXES)]
     clocks = dict((p, tc_of(p)) for p in paths)
-    position = {ref: (0.0, 1.0, {})}
-    position.update((p, m) for p, m in measured.items()
-                    if m and not m[2].get("unplaceable"))
-    axis, speed, weak, nowhere, lost = {ref: 0.0}, {ref: 1.0}, [], [], []
-    for p in others:
+    own = dict((p, clocks[p]) for p in heads)
+    position = PROGRAM.recordings_position(ref, measured)
+    laid, weak, refused, under = {ref: (0.0, 1.0, {})}, [], set(), set()
+    for p in (q for q in heads if q != ref):
         got = measured.get(p)
         if sound_left_it(got):
             weak.append(p)
-        if got and got[2].get("unplaceable") and not cannot_be_placed(
-                got[2], clocks[p], [c for q, c in clocks.items() if q != p]):
-            got = PROGRAM.recording_at_its_clock(clocks[p], position, clocks)
-        elif got and got[2].get("unplaceable"):
-            got = None
-        if not got:
-            nowhere.append(p)
-            if (measured.get(p) or (0, 0, {}))[2].get("quality", 0.0) \
-                    < WEAK_MATCH:
-                lost.append(p)
-            continue
-        axis[p], speed[p] = run_place(*got)
-    # Tied to the timecode as measure_time_axis ties it: the middle of
-    # what the sound placed, else counted from the earliest.
-    offsets = sorted(t - axis[p] for p in axis if p not in weak
-                     for t in [clocks.get(p)] if t is not None)
-    shift = (offsets[len(offsets) // 2] if offsets
-             else -min(axis.values()))
-    seconds = dict((p, length[p] / float(PROGRAM.SR)) for p in heard)
-    answer = {"axis": dict((path_key(p), t + shift) for p, t in axis.items()),
-              "clock": dict((path_key(p), b) for p, b in speed.items()),
-              "absolute": bool(offsets), "weak": weak,
-              "unplaceable": lost,
-              "brief": files_far_shorter(nowhere, seconds),
-              "no_place": nowhere,
-              "clock_alone": [p for p in nowhere
-                              if clocks.get(p) is not None],
-              "reference": path_key(ref)}
-    if len(axis) < 2:
-        return (dict(answer, axis={}, clock={}, absolute=False),
-                T('time axis not measurable'))
-    return answer, axis_text(answer)
+            if (got or (0, 0, {}))[2].get("quality", 0.0) < WEAK_MATCH:
+                under.add(p)
+        got = PROGRAM.recording_laid(p, got, own, position,
+                                     os.path.basename(p),
+                                     say=lambda line: None)
+        if got:
+            laid[p] = got[:3]
+        else:
+            refused.add(p)
+    # A camera none heard is named as not fitting, under every floor,
+    # and stands at its clock or nowhere: the run's own call.
+    laid.update(PROGRAM.cameras_at_their_clocks(cameras, position, clocks,
+                                                say=lambda line: None))
+    weak += cameras
+    under.update(cameras)
+    refused.update(p for p in cameras if p not in laid)
+    axis, speed = {}, {}
+    for p, at in laid.items():
+        axis[p], speed[p] = run_place(*at)
+    # The camera the run's marks are read at: the longest placed, by
+    # path where nothing else decides; with none, the recording.
+    runs = container_lengths(cameras)
+    on = sorted((p for p in cameras if p in laid), key=path_key)
+    reference, fps = ref, None
+    if on:
+        reference = max(on, key=lambda p: runs.get(p, 0.0))
+        try:
+            fps = float(video_facts(reference).get("fps") or 0.0) or 25.0
+        except Exception:
+            fps = 25.0
+    return axis_answer(
+        axis, speed, weak, refused, under, clocks, reference,
+        dict((p, length[p] / float(PROGRAM.SR)) for p in heads
+             if length.get(p, 0) > 0), runs, fps)
 
 
 def block_at(blocks, when, begins):

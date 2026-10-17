@@ -481,6 +481,22 @@ was das Fenster gemessen hat, und das Fenster übernimmt, was ein Lauf
 gemessen hat -- genau wie neben einem Bild. Das Protokoll sagt dann
 `Aus der auf diesem Rechner gespeicherten Messung übernommen`.
 
+Dasselbe gilt neben Kameras, die keinen Ton geben. Gibt keine einzige
+Kamera Ton -- keine hat eine Tonspur, oder aus keiner lässt sich etwas
+lesen --, dann gibt es nichts, wogegen sich die Aufnahmen legen ließen;
+sie tragen die Achse also auch hier und werden genau wie oben
+gegeneinander gelegt. Jede Kamera steht dann dort, wohin ihr Timecode
+sie setzt, gemessen an der ersten Aufnahme, die der Ton eingeordnet hat
+und die einen Timecode trägt, die Referenz zuerst. Das Protokoll sagt
+von ihr, sie gebe keinen messbaren Ton und sei allein nach ihrer Uhr
+eingeordnet, und das Fenster legt sie an dieselbe Stelle, mit dem
+Vermerk **Ton nicht erkannt; über den Timecode platziert**. Eine Kamera
+ohne Timecode, oder ohne eine solche Aufnahme, an der er sich messen
+ließe, bleibt draußen, und ist keine Kamera mehr übrig, hält der Lauf
+an. Von da an geht alles wie mit Bild: Die längste Kamera, die einen
+Platz hat, gibt die Zeitachse vor, und die Spuren kommen in die
+Kameradateien.
+
 Das Fenster fasst alles, was irgendeine Spur gehört hat. Eine Aufnahme,
 die später eingeschaltet wurde, bekommt Stille davor, eine früher
 ausgeschaltete Stille dahinter, und das Protokoll sagt, wieviel und bei
@@ -543,7 +559,8 @@ mastert
   gemeinsam -- oder sie hat gar keine Tonspur, und ihr **Kameraton**
   sagt **keine Tonspur** --, und auch kein Timecode ordnet sie ein: Sie
   trägt keinen, oder keine Kamera, die der Ton eingeordnet hat, trägt
-  einen, mit dem sich ihrer abgleichen ließe. Das Programm schlägt vor,
+  einen, mit dem sich ihrer abgleichen ließe (keine Aufnahme, wo keine
+  Kamera Ton gibt). Das Programm schlägt vor,
   sie wegzulassen, statt sie auf gut Glück irgendwohin zu legen; das
   Protokoll nennt die Datei und sagt, welcher der beiden Fälle es ist.
   Sie braucht einen Timecode, der zu den anderen Aufnahmen passt -- den

@@ -146,7 +146,9 @@ Four tabs, in the order they are needed.
     camera the sound did place, and its own is set against that one --
     the longest camera where it carries a timecode, otherwise the next
     placed camera that does. The clock of an audio recording places no
-    camera, and a clock read once says nothing. Without such a camera
+    camera while any camera gives sound -- where none does, a recording
+    the sound placed takes that part, as in the run -- and a clock read
+    once says nothing. Without such a camera
     the camera stays out, and the file list and the log both say why.
     A jingle is both at once: no timecode, and nothing in its sound that
     the room also has, and it stands red in the list. A camera whose
@@ -1142,8 +1144,9 @@ where the failed match of its sound would put it; what is missing is
 only the second opinion, and the measurement bars nothing for it. A
 camera with no sound track has nothing to be heard by and is judged
 the same way: its timecode places it, set against a camera the sound
-did place that carries one too, and without that it counts as a file
-with no place, below.
+did place that carries one too -- or, where no camera gives any sound,
+against a recording the sound placed, as the run does -- and without
+that it counts as a file with no place, below.
 
 A file with no place at all says **does not fit the other files: sound
 not recognised, no timecode.** and stands red -- unless it is set to

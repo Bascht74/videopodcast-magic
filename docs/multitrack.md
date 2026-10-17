@@ -448,6 +448,20 @@ take what the window measured, and the window takes what a run
 measured, as they do beside a picture. The log then says `Taken from
 the measurement kept on this machine`.
 
+The same holds beside cameras that give no sound. Where no camera gives
+any -- none has a sound track, or none gives anything readable out of
+it -- there is nothing to lay the recordings against, so they carry the
+axis here too, laid against each other exactly as above. Each camera
+then stands where its timecode puts it, set against the first recording
+the sound placed that carries one, the reference first. The log says of
+it that it gives no sound to measure and was placed by its clock alone,
+and the window lays it at the same place, with **sound not recognised;
+placed by its timecode**. A camera with no timecode, or with no such
+recording to set it against, stays out, and where no camera is left the
+run stops. From there on everything goes as with a picture: the longest
+camera that has a place sets the time axis, and the tracks go into the
+camera files.
+
 The window holds everything any track heard. A recording switched on
 late gets silence in front of it, one switched off early silence behind,
 and the log says how much of each and on which track. A silent edge
@@ -503,7 +517,8 @@ against what the preset masters to ([Preflight](preflight.md)).
   at all: nothing in its sound matches the rest of the material -- or it
   has no sound track at all, and its **Camera audio** says **no audio
   track** -- and no timecode places it either: it carries none, or no
-  camera the sound placed carries one to set it against. The program
+  camera the sound placed carries one to set it against (no recording,
+  where no camera gives any sound). The program
   proposes leaving it out rather than laying it down at a guess, and the
   log names the file and which of the two it is. Give it a timecode
   that fits the other recordings -- another program has to set that;

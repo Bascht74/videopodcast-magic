@@ -55,11 +55,11 @@ figure of the day is that command, not this paragraph**:
 * `loudness/` **483** -- loudness and mixing: EBU R128 measured, the
   speakers brought to one level, the whole brought to its target under
   the true-peak ceiling with the limiter, and the tracks summed into a mix
-* `bearings/` **2496** -- where each file and each voice sits, and how
+* `bearings/` **2450** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2722** -- the time base and the camera files: every
+* `timebase/` **2877** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
@@ -74,7 +74,7 @@ figure of the day is that command, not this paragraph**:
   keeping the key, and storing it from the terminal
 * `speech/` **1590** -- what is said and when, and what is written down
   from it
-* `hearing/` **1399** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1379** -- decoding, envelopes, bands, phase, aligning
   audio to video
 * `fittings/` **1340** -- helpers that shape what the window shows and
   hold none of its state
@@ -680,7 +680,7 @@ way every window in this table was found.
 | `speech/` | binds `SPEECH_CODES`, which is the last name of the way in's own that it takes | anywhere from `SPEECH_CODES` down would do; it stands above the run that wants it |
 | `material/` | 44 head lines. On 27.9.2026 the two window rows `channel_rows_build` and `channel_rows_fit` went to `filesheet/` and the four that write a camera file to `timebase/`, each to its only reader; later that day loudness and mixing went to `loudness/`, `parallel_map`, `remove_quietly`, `how_many_processors` and `ask_choice` to `workbench/`, `python_note` to `herald/`, `format_complaint` to `stowage/` and the two prework weights to `prework/`, and it binds `parallel_map` and `remove_quietly` back. The checking binds the camera margin and the clipping out of it; `timebase/` binds the camera margin too, which keeps it here | before the loudness and the checking |
 | `loudness/` | 23 head lines, five of them the material's channel names -- `channel_count`, `channel_filter`, `kept_channels`, `wav_safe`, `widest_track` -- which hold it under the material; `OUTPUT_SINK` and `run_ffmpeg_with_progress` it reads through `PROGRAM.` at the use, as the material did. `cut/` binds four of its names, `timebase/` three. A piece since 27.9.2026, out of `material/` | directly under the material, and above the cut and the time base |
-| `bearings/` | 60 head lines, the material's names among them, `group_recording_parts` one of those; `np` and `name_to_fit` (from `preflight/`, read below it) are the names it reads late through `PROGRAM.`, both at call time. `camera_offset` and `not_on_the_axis` came out of the window on 7.9.2026 and needed no head line of their own. Eleven pieces bind names of its own, `ui/` 17 of them and `speakers/` seven | after the material, before the checking |
+| `bearings/` | 56 head lines, the material's names among them, `group_recording_parts` one of those; `np` and `name_to_fit` (from `preflight/`, read below it) are the names it reads late through `PROGRAM.`, both at call time. `camera_offset` and `not_on_the_axis` came out of the window on 7.9.2026 and needed no head line of their own. Eleven pieces bind names of its own, `ui/` 17 of them and `speakers/` seven | after the material, before the checking |
 | `preflight/` | 58 head lines. `caption_room` of `player/` and `hint`, `label` and `speaks_as` of `fittings/` became head lines on 7.9.2026, so `loudness_field_build` stops asking the program at every use; `read_preset` of `auphonic/` and `MATRIX_BT2020` of `colour/` are the two left that way, both read after this one. It binds `RUN_STOP`; the separation binds its `run_ffmpeg_with_progress` | **the upper edge measured 7.9.2026**: moved up to just under `RUN_STOP` it answers `AttributeError: 'Program' object has no attribute 'CAMERA_MARGIN_S'`, rc=1 -- the material holds it down, not the window's toolbox. Before the separation |
 | `colour/` | 13 head lines, the latest of them the preflight's `Finding`; `resolve/` binds `LOG_MARKERS` and `_marker_stands_alone` back for the project's output space, and since 27.9.2026 the colour-space spellings `HDR_TAGS`, `SDR_TAGS`, `plain_spelling` and `hdr_says` too; `cut/` binds `hdr_from_sources`. `metadata/`, `bearings/` and `preflight/`, read above it, reach `colour_text`, `camera_text`, `bit_depth` and the two BT.2020 codes through `PROGRAM.` | **both edges measured 26.9.2026**: one read-block earlier -- above `preflight/` -- answers `AttributeError: 'Program' object has no attribute 'Finding'`, rc=1; below `resolve/` it answers the same for `LOG_MARKERS`, rc=1. Directly under the preflight, as early as it can |
 | `auphonic/` | binds `check_preset` and `report_findings` out of `preflight/`, and `gui_log` out of `herald/`; `preflight/` reaches back for the one name that would close the circle, `read_preset`, through `PROGRAM.` | after the checking, because `choose_preset` asks it whether the preset fits |
@@ -900,6 +900,24 @@ same question now. A file the sound could not vouch for is still marked
 `no_place` bars anything. `weak_note` and `weak_colour` turn the two
 apart: warning colour and "sound not recognised; placed by its
 timecode" against error colour and "does not fit the other files".
+
+**With no camera heard, the recordings carry the axis**, in the window
+as in the run and through the same code. `recordings_reference`,
+`recordings_measured`, `recordings_position`, `recording_laid` and
+`cameras_at_their_clocks` in `timebase/` are the rule: the longest
+recording is the reference, the others are measured by `sound_places`
+and laid by `sound_or_clock`, the base of a clock being the first the
+sound placed that carries one -- the reference first, then by path --
+and every camera stands at its timecode against that base. The run asks
+them through `recordings_laid_against`: with no picture by way of
+`measure_tracks_against_each_other`, and beside cameras none of which
+gives a curve by way of `recordings_carry_cameras`, which
+`build_common_timebase` takes where `envelope_heard` answers for no
+camera. The window asks them quietly, in `recordings_axis` and
+`recordings_laid`. Its answer -- weak, no place, under every floor,
+far shorter, a clock alone, tied to the timecode or counted from the
+earliest -- is built by `axis_answer` on both of its paths, with a
+heard camera and without; the window has no floor of its own left.
 
 `speaker_source_pick` follows the same rule rather than one of its
 own. It leaves out only what has no place at all; a camera whose sound
