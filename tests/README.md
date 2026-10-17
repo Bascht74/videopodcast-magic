@@ -595,7 +595,7 @@ it is green.
 | `auphonic_single_reused` | A second Singletrack run finds its production by title, not paying again. |
 | `auphonic_speech_read` | What a production writes about the audio, and in which language. |
 | `auphonic_stays_quiet` | The program says nothing to auphonic.com unless somebody asks it to. |
-| `auphonic_title_as_window` | A command-line run goes up to auphonic.com under its production's name. |
+| `auphonic_title_as_window` | A command-line run goes up to auphonic.com under a title its next run finds. |
 | `auphonic_titles_apart` | Each Singletrack production of a run goes up under a title of its own. |
 | `auphonic_transcript_ours` | The transcript is ours: auphonic.com's is neither asked for nor fetched. |
 | `auphonic_unsaved_said` | A key the store refuses takes its tick back and says so in the window. |

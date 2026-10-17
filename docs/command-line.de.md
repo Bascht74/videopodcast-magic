@@ -40,7 +40,7 @@ das Python, dann der Vorflug mit acht Prüfungen und einem Hinweis.*
 | `--out ORDNER` | wohin die Ergebnisse kommen (neben jedes Video) |
 | `--project-type WAS` | wofür der Lauf da ist: `cut` legt die Kameras auf eine Zeitachse und schneidet nach Sprecher, im Fenster „Schnitt nach Sprecher“; `sync` legt nur den Ton auf jede Kamera und baut die Multicam-Timeline, „Nur synchronisieren“ -- ohne Sprecher, ohne Spracherkennung, ohne Transkript, ohne Schnittlisten (`cut`) |
 | `--suffix TEXT` | wird an den Dateinamen gehängt (`_audio`) |
-| `--production NAME` | der Name der Produktion, nach dem die Übergabe, die Listen und das Transkript heißen und unter dem sie bei auphonic.com hochgeht; neben `--assign` nicht gelesen, dessen Datei ihren eigenen trägt (der Ordner, in dem das Material liegt) |
+| `--production NAME` | der Name der Produktion, nach dem die Übergabe, die Listen und das Transkript heißen und unter dem sie bei auphonic.com hochgeht; neben `--assign` nicht gelesen, dessen Datei ihren eigenen trägt (der Ordner, in dem das Material liegt; in einem, der nichts über die Produktion sagt, etwa dem Schreibtisch, Datum und Uhrzeit, und bei auphonic.com der Name der ersten Spur) |
 | `--name-camera TEXT` | Name der Kameraspur (`Camera Original`) |
 | `--parallel ANZAHL` | so viele Videodateien gleichzeitig; 0 entscheidet selbst, 1 nacheinander (0) |
 | `--dry-run` | alles bis zum fertigen Schnitt ausrechnen und berichten, nichts schreiben |

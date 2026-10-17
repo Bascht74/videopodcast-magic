@@ -1596,7 +1596,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
 
     Equally long files with the same start point -- what Auphonic
     requires, and what makes crosstalk removal worth anything. *title*
-    is the production's at auphonic.com; without one, its name.
+    is the production's at auphonic.com; without one, its name -- or,
+    where the folder says nothing and the name is the clock's, the
+    first recording's.
     """
     step_begin("time base")
     videos = []
@@ -1629,6 +1631,13 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         # material sits in. Without it two jobs from two shoots wrote
         # the same handover and the second took the first's place.
         args.production = guess_production_name(first)
+        if not title and plan and PROGRAM.folder_says_nothing(first):
+            # A folder that says nothing names it by the clock, and by
+            # the clock the next run never finds this one's production
+            # and pays again. The first recording's name stays.
+            title = track_name_of(plan[0])
+            if run_uploads(args):
+                print(T('  Production at auphonic.com:   %s') % title)
     # And the title at auphonic.com, as the window's: a run finds a
     # production again by its title, and one every run shared found
     # last week's production for this week's recordings.
