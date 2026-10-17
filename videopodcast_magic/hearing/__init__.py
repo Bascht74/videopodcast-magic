@@ -1019,13 +1019,6 @@ def sound_places_recording(st):
                  or st.get("points", 0) >= RECORDING_POINTS_ENOUGH))
 
 
-# Against a sound recording a real match reads far lower, so this floor
-# only tells a measurement from noise.
-SOUND_MATCH_ENOUGH = 0.15
-# Not the count of sample points: they are set 30 seconds apart, so
-# shorter material has none at all and is still placed exactly right.
-
-
 def timecode_places_it(own, others):
     """Report whether a timecode can put this file among the others.
 
@@ -1174,19 +1167,6 @@ def cameras_on_one_axis(curves, clocks=None, warn=True, spread=None,
                    sorted(placed, key=lambda q: (q != reference,
                                                  path_key(q))))
     return reference, ordered, left
-
-
-def files_with_no_place(weak, clocks):
-    """Which of the badly fitting recordings no clock places either.
-
-    The one reading of "it fits nowhere" for a recording; a camera goes
-    by clock_base. Weak alone is not it -- a file whose sound says
-    nothing is still placed by its timecode -- and below the floor is
-    not it either, because a jingle lands above that.
-    """
-    return [p for p in weak
-            if not timecode_places_it(
-                clocks.get(p), [t for q, t in clocks.items() if q != p])]
 
 
 def cannot_be_placed(st, own_tc, other_tcs):

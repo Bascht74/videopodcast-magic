@@ -244,9 +244,12 @@ phase to fall back on there, so the first way is the whole measurement,
 and what one camera has to reach against another is many times what a
 recording has to reach against a camera. A camera that does not reach it
 is placed by its timecode, set against a camera the sound did place that
-carries one too -- the clock of an audio recording places no camera.
-Where either of the two timecodes is missing, it stays out in the same
-way.
+carries one too -- the clock of an audio recording places no camera,
+as long as any camera gives sound at all. Where none does, the
+recordings carry the axis and each camera is set against them by its
+timecode, as [Multitrack](multitrack.md) describes under *Multitrack
+with no camera at all*. Where either of the two timecodes is missing,
+it stays out in the same way.
 
 A camera that reports a sound track but gives nothing readable out of
 it -- the sound broke off after a moment, or the track was lost in a

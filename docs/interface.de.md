@@ -162,8 +162,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
     Kamera, die der Ton sehr wohl eingeordnet hat; an dieser wird der
     eigene gemessen — an der längsten Kamera, wenn sie einen trägt,
     sonst an der nächsten eingeordneten, die einen hat. Die Uhr einer
-    Tonaufnahme ordnet keine Kamera ein, und eine einmal abgelesene Uhr
-    sagt nichts. Gibt es keine solche Kamera, bleibt die Kamera draußen,
+    Tonaufnahme ordnet keine Kamera ein, solange überhaupt eine Kamera
+    Ton gibt -- gibt keine welchen, übernimmt das wie im Lauf eine
+    Aufnahme, die der Ton eingeordnet hat --, und eine einmal abgelesene
+    Uhr sagt nichts. Gibt es keine solche Kamera, bleibt die Kamera draußen,
     und Dateiliste wie Protokoll sagen, warum. Ein Jingle ist beides auf
     einmal: kein Timecode, und im Ton nichts, was der Raum auch hat — er
     steht rot in der Liste. Eine Kamera, deren Mikrofon vom Raum nichts
@@ -1234,8 +1236,9 @@ ihres Tons sie legen würde; es fehlt allein die Gegenprobe, und die
 Messung sperrt für sie nichts. Eine Kamera ohne Tonspur hat nichts, woran
 man sie hören könnte, und wird ebenso beurteilt: ihr Timecode setzt sie,
 gemessen an einer Kamera, die der Ton eingeordnet hat und die ebenfalls
-einen trägt, und ohne eine solche gilt sie als Datei ohne Platz, wie
-gleich darunter.
+einen trägt -- oder, wo keine Kamera Ton gibt, an einer Aufnahme, die
+der Ton eingeordnet hat, wie im Lauf --, und ohne eine solche gilt sie
+als Datei ohne Platz, wie gleich darunter.
 
 Eine Datei, die überhaupt keinen Platz hat, trägt den Vermerk **passt
 nicht zu den anderen Dateien: Ton nicht erkannt, kein Timecode.** und

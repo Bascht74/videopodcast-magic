@@ -260,8 +260,12 @@ anderen erreichen muss, liegt um ein Vielfaches höher als das, was eine
 Aufnahme gegenüber einer Kamera erreichen muss. Eine Kamera, die das
 nicht erreicht, ordnet ihr Timecode ein, gemessen an einer Kamera, die
 der Ton eingeordnet hat und die ebenfalls einen trägt -- die Uhr einer
-Tonaufnahme ordnet keine Kamera ein. Fehlt einer der beiden Timecodes,
-bleibt die Kamera genauso draußen.
+Tonaufnahme ordnet keine Kamera ein, solange überhaupt eine Kamera Ton
+gibt. Gibt keine welchen, tragen die Aufnahmen die Achse, und jede
+Kamera wird über ihren Timecode an ihnen gemessen, wie es
+[Multitrack](multitrack.de.md) unter *Multitrack ganz ohne Kamera*
+beschreibt. Fehlt einer der beiden Timecodes, bleibt die Kamera genauso
+draußen.
 
 Eine Kamera, die zwar eine Tonspur meldet, aus der sich aber nichts
 lesen lässt -- der Ton brach nach einem Augenblick ab, oder die Spur ging
