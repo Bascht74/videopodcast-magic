@@ -837,10 +837,23 @@ jobs:
             # into, and pip already fetches the plain wheel there. And
             # ahead of the list, so pyannote finds torch already in
             # place and does not pull the other one in behind it.
+            #
+            # torchaudio comes from the same index, and that is not
+            # tidiness. pyannote.audio asks for it, and from the plain
+            # index Linux gets the build made against the CUDA torch,
+            # which does not load beside the CPU one: "Could not load
+            # this library: .../torchaudio/lib/_torchaudio.abi3.so",
+            # torchaudio 2.11.0 beside torch 2.14.0+cpu and 2.14.1+cpu,
+            # on both Pythons -- so on Linux the separation never
+            # imported and voice_split_hears_two skipped on the one
+            # allowed skip (3.0.0b28's release run, 36337473240). Read
+            # on 17.10.2026, when 3.0.0b29's second such test made it
+            # two (run 39036332275). Windows takes the plain index
+            # and the same torchaudio 2.11.0, and it imports there.
             if [ "$RUNNER_OS" = "Linux" ]; then
               python -m pip install \
                 --index-url https://download.pytorch.org/whl/cpu \
-                torch torchvision
+                torch torchvision torchaudio
             fi
             python -m pip install -r requirements-dev.txt
           else
