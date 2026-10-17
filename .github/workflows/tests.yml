@@ -406,7 +406,7 @@ jobs:
       # part of it measures a part of the program, so on this job the
       # names below are dropped and it is chosen whatever system they
       # were meant for -- which is how the short way measures too.
-      VPM_COVERAGE: ${{ (matrix.label == 'macOS' && matrix.python == '3.14' && (inputs.tested_lines == true || inputs.tested_lines == 'true')) && '1' || '' }}
+      VPM_COVERAGE: ${{ (matrix.label == 'macOS' && matrix.python == '3.14' && (inputs.tested_lines == true || inputs.tested_lines == 'true') && (inputs.all_languages == true || inputs.all_languages == 'true')) && '1' || '' }}
       # Where the guard leaves the table it measured, kept as a file of
       # the run whatever its verdict: the builder's floor can differ
       # from the one measured at home, and a red run has to show it.
