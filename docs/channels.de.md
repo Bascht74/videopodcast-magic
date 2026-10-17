@@ -44,9 +44,12 @@ auseinander. Die Messung schlägt vor, das Häkchen berichtigt:
   Rec.wav sind noch nicht in Spuren zerlegt.** Sind die Spuren da, werden
   beide von selbst frei -- ein früher gestarteter Lauf bekäme die Datei
   im Ganzen. Eine Datei, deren Kanäle sich nicht lesen lassen, hält sie
-  nur auf, solange sie gemessen wird. Wird ein Haken umgesetzt, nachdem
-  die Spuren da sind, wird die Datei neu zerlegt, und beide warten
-  wieder, bis die neuen Spuren da sind.
+  nur auf, solange sie gemessen wird, und eine, deren Zerlegen
+  scheitert -- etwa an einer vollen Platte --, nur so lange, wie sie
+  zerlegt wird: Danach geht sie im Ganzen in den Lauf. Wird ein Haken
+  umgesetzt, nachdem die Spuren da sind oder das Zerlegen gescheitert
+  ist, wird die Datei neu zerlegt, und beide warten wieder, bis das
+  erledigt ist.
 * Bei einer Datei, deren Kanalzahl sich gar nicht lesen lässt, sagt der
   Lauf das, statt die Zeile warten zu lassen.
 

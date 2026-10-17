@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """The window waits for a file's tracks, then goes by them, not the file.
 
-The mixer fixture's eight channels, its measuring and then its cutting
-held by stand-ins until the window has been looked at: both times Start
-and Dry run grey and the footer naming the file, and no press handing a
-run the file whole. Let go: a press hands the four tracks, and the
-preset list, asked before the file came, offers Multitrack alone. A tick
-then cut anew, held the same: both wait again, no press hands it whole,
-and let go a press hands the ticked tracks. Last a file whose channels a
-stand-in cannot read holds Start only while measured. The run stood in.
+The mixer fixture's eight channels, measured then cut, each held by a
+stand-in until looked at: Start and Dry run grey, the footer naming the
+file, no press handing it whole; let go, a press hands four tracks and
+the presets, asked first, offer Multitrack alone. A tick cuts anew, held
+the same, then the ticked tracks. A file whose channels cannot be read
+holds Start only while measured; one whose cut fails as on a full disc
+both only while cut, its half track gone, and once taken out and added
+again it is cut anew. The run stood in.
 """
 PLATFORM_BOUND = True
 import os
@@ -69,6 +69,9 @@ shutil.copy(os.path.join(fixture("mixer"), "Mixer.wav"), mixer)
 other = tempfile.mkdtemp(prefix="vpm_tracks_other_")
 unreadable = os.path.join(other, "Recorder.wav")
 shutil.copy(mixer, unreadable)
+third = tempfile.mkdtemp(prefix="vpm_tracks_third_")
+failing = os.path.join(third, "Console.wav")
+shutil.copy(mixer, failing)
 adding = [mixer]
 QtWidgets.QFileDialog.getOpenFileNames = staticmethod(
     lambda *a, **k: (list(adding), ""))
@@ -87,9 +90,10 @@ vpm.run_argv = lambda values, plan="": (
 # The measuring and the cutting, each held in the prework's thread until
 # the window has been looked at: without the hold the tracks can be in
 # before the first look on a fast machine. The file whose channels cannot
-# be read is held the same way before it is refused.
+# be read is held the same way before it is refused, and the one whose
+# cut fails before it fails.
 held = {"measuring": threading.Event(), "cutting": threading.Event(),
-        "refusing": threading.Event()}
+        "refusing": threading.Event(), "failing": threading.Event()}
 free = {name: threading.Event() for name in held}
 
 
@@ -104,7 +108,20 @@ real_split = vpm.split_channels
 real_facts = vpm.channel_facts_cached
 
 
+half = []      # the tracks the failing cut began
+room = []      # once set, the disc has room and the failing file cuts
+
+
 def split_held(*a, **k):
+    if os.path.basename(a[0]) == os.path.basename(failing):
+        if room:
+            return real_split(*a, **k)
+        # As ffmpeg on a full disc: part of the track written, then out.
+        hold("failing")
+        half.append(a[2])
+        with open(a[2], "wb") as fh:
+            fh.write(b"RIFF half a track")
+        raise OSError("No space left on device")
     hold("cutting")
     return real_split(*a, **k)
 
@@ -144,6 +161,16 @@ def tick_box(word):
     for w in win().findChildren(QtWidgets.QCheckBox):
         if w.text().strip() == word:
             return w
+
+
+def file_row(name):
+    """A row of the file list by its name, with the list it is in."""
+    for tree in win().findChildren(QtWidgets.QTreeWidget):
+        found = tree.findItems(
+            name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive, 0)
+        if found:
+            return tree, found[0]
+    return None, None
 
 
 def footer_note():
@@ -328,6 +355,63 @@ def step():
                   "the refusal, footer %r"
                   % (seen["grey while measured"], start.isEnabled(), now,
                      footer_note()))
+            phase[0], waited[0] = "failing", time.time()
+            adding[:] = [failing]
+            button(vpm.T('Add files ...')).click()
+        elif phase[0] == "failing":
+            if not held["failing"].is_set() and now < LIMIT:
+                return QtCore.QTimer.singleShot(20, step)
+            seen["grey while cut"] = (held["failing"].is_set()
+                                      and not start.isEnabled()
+                                      and not dry.isEnabled())
+            seen["said while cut"] = footer_note()
+            phase[0], waited[0] = "failed", time.time()
+            free["failing"].set()
+        elif phase[0] == "failed":
+            if not (start.isEnabled() and dry.isEnabled()) and now < LIMIT:
+                return QtCore.QTimer.singleShot(50, step)
+            print("\n7. A file whose cut fails, as on a full disc")
+            check("a file whose cut fails holds Start and Dry run no longer",
+                  seen["grey while cut"] and start.isEnabled()
+                  and dry.isEnabled(),
+                  "both grey while cut %r (footer %r), Start enabled %r and "
+                  "Dry run %r %.1f s after the failure, footer %r"
+                  % (seen["grey while cut"], seen["said while cut"],
+                     start.isEnabled(), dry.isEnabled(), now, footer_note()))
+            left = [os.path.basename(x) for x in half if os.path.exists(x)]
+            check("and the track it half wrote is not left to pass as cut",
+                  half and not left,
+                  "%d tracks begun, still on disc %r" % (len(half), left))
+            # The disc has room now. Taken out and added again, the file
+            # is cut as the first time: no tick is needed to say so.
+            room.append(True)
+            seen["handed before it left"] = len(handed)
+            tree, row = file_row(os.path.basename(failing))
+            seen["row found"] = row is not None
+            if row is not None:
+                tree.setCurrentItem(row)
+                button(vpm.T('Remove')).click()
+            adding[:] = [failing]
+            button(vpm.T('Add files ...')).click()
+            phase[0], waited[0] = "back", time.time()
+        elif phase[0] == "back":
+            if start.isEnabled():
+                start.click()
+            after = handed[seen["handed before it left"]:]
+            last = [n for n in (after[-1] if after else [])
+                    if n.startswith("Console")]
+            if (not last or "Console.wav" in last) and now < LIMIT:
+                return QtCore.QTimer.singleShot(20, step)
+            print("\n8. The same file taken out and added, the disc free")
+            whole = sum("Console.wav" in h for h in after)
+            print("   presses since: %d, %d of them handing it whole"
+                  % (len(after), whole))
+            check("the failed file, taken out and added again, is cut anew",
+                  seen["row found"]
+                  and sorted(n.split("_")[-1] for n in last) == TRACKS,
+                  "row found %r, handed %r after %.1f s, wanted %r, Start "
+                  "enabled %r" % (seen["row found"], last, now, TRACKS,
+                                  start.isEnabled()))
             app.quit()
             return
         QtCore.QTimer.singleShot(20, step)
@@ -358,6 +442,7 @@ for event in free.values():
     event.set()
 clean_up(folder)
 clean_up(other)
+clean_up(third)
 # Here and nowhere else: a window that never got as far as the checks
 # quits on the timer above, and this line is what says how few it made.
 print("\n%d checks in %.2f s" % (done, time.time() - began))

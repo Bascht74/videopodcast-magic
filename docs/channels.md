@@ -43,9 +43,11 @@ measurement proposes, the tick corrects:
   and the line under the buttons says **The channels of Rec.wav are not
   cut into tracks yet.** They free themselves once the tracks are in --
   a run started earlier would get the file whole. A file whose channels
-  cannot be read holds them only while it is being measured. A tick
-  changed after the tracks are in cuts the file anew, and the two wait
-  again until the new tracks are in.
+  cannot be read holds them only while it is being measured, and one
+  whose cutting fails -- a full disc, say -- only while it is being cut:
+  it then goes into the run whole. A tick changed after the tracks are
+  in, or after the cutting failed, cuts the file anew, and the two wait
+  again until that is done.
 * For a file whose channel count cannot be read at all, the run says
   that rather than leaving the row waiting.
 
