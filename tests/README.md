@@ -341,7 +341,7 @@ it is green.
 | `sound_heard_cam_clipped` | A camera whose own sound is a track is counted for clipping, no other. |
 | `sound_hush_reason` | A channel that carries nothing says which rule caught it. |
 | `sound_jingle_edges` | Where an intro's sound starts and ends is found, and none is invented. |
-| `sound_join_any_rate` | Timecoded blocks in a row are joined whole at 44.1 and 96 kHz too. |
+| `sound_join_any_rate` | Blocks in a row are joined whole at any rate, two rates in one too. |
 | `sound_join_order` | Audio blocks are joined in the order they were handed over. |
 | `sound_join_widens_mono` | Blocks of different width join at the widest, mono on both sides. |
 | `sound_loudest_block` | The facts of a recording come from its loudest block. |

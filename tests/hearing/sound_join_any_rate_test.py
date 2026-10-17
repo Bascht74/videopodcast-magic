@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-"""Timecoded blocks in a row are joined whole at 44.1 and 96 kHz too.
+"""Blocks in a row are joined whole at any rate, two rates in one too.
 
 A recorder stamps a block in samples at its own rate, and the join lays
 the blocks by those stamps. In order: a 96 kHz recording in two blocks
 of ten seconds, one straight after the other -- as long as both, no hole
 said, the second where its stamp puts it; the same at 44.1 kHz -- as
-long as both, not taken for microphones side by side; and two 96 kHz
-blocks with ten seconds between them, the hole named with its length.
+long as both, not taken for microphones side by side; two 96 kHz blocks
+with ten seconds between them, the hole named with its length; and two
+blocks with no stamp, one at 44.1 and one at 48 kHz -- as long as both.
 """
 PLATFORM_BOUND = True
 import os
@@ -43,12 +44,16 @@ D = tempfile.mkdtemp(prefix="vpm_joinrate_")
 
 
 def block(name, freq, rate, stamp):
-    """Ten seconds of one tone at *rate*, stamped *stamp* samples in."""
+    """Ten seconds of one tone at *rate*, stamped *stamp* samples in.
+
+    *stamp* None writes no bext chunk: a block with no clock at all.
+    """
     path = os.path.join(D, name + ".wav")
+    clock = [] if stamp is None else [
+        "-write_bext", "1", "-metadata", "time_reference=%d" % stamp]
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
                     "sine=frequency=%d:sample_rate=%d:duration=10"
-                    % (freq, rate), "-c:a", "pcm_s24le", "-write_bext", "1",
-                    "-metadata", "time_reference=%d" % stamp, path],
+                    % (freq, rate), "-c:a", "pcm_s24le"] + clock + [path],
                    check=True)
     return path
 
@@ -126,6 +131,15 @@ named = vpm.T('  Gap of %s at %s -- filled with silence').strip() % (
     "0:00:10.000", "0:00:10.000")
 check("a hole between 96 kHz blocks is named with its own length",
       holes(said) == [named], "said %s, wanted [%r]" % (holes(said), named))
+
+print("\n4. Two blocks with no timecode, at 44.1 and at 48 kHz")
+said, info, length, _joined = join(
+    "mixed", block("Guest_REC00051", 440, 44100, None),
+    block("Guest_REC00052", 880, 48000, None))
+check("blocks at 44.1 and 48 kHz with no clock join as long as both",
+      not info.get("tc") and abs(length - 20.0) < 0.001,
+      "%.6f s joined, wanted 20.000000 s; joined by timecode: %s, "
+      "wanted False" % (length, info.get("tc")))
 
 shutil.rmtree(D, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))
