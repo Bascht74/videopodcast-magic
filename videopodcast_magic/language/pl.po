@@ -3391,6 +3391,12 @@ msgstr "   Uwaga: pomiar bezużyteczny"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Uwaga: brakuje w nim %s s z tego, co wysłano"
 
+msgid "  -->  refused"
+msgstr "  -->  odrzucono"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Odrzucono: %s -- zwrot nie pasuje do przesłanych danych.\n  Lepiej przerwać, niż zapisać coś błędnego."
+
 msgid "   NOT INSERTED"
 msgstr "   NIE WSTAWIONO"
 

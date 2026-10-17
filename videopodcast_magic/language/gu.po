@@ -3434,6 +3434,12 @@ msgstr "   સાવધાન: માપ બિનઉપયોગી"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   સાવધાન: અપલોડ થયેલામાંથી %s s તેમાં નથી"
 
+msgid "  -->  refused"
+msgstr "  -->  નકાર્યું"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  નકાર્યું: %s -- પરત આવેલું અપલોડ સાથે મેળ ખાતું નથી.\n  કંઈક ખોટું લખવા કરતાં અટકવું સારું."
+
 msgid "   NOT INSERTED"
 msgstr "   દાખલ કર્યું નથી"
 

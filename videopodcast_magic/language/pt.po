@@ -2003,6 +2003,12 @@ msgstr "   Atenção: medição inutilizável"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Atenção: faltam-lhe %s s do que foi enviado"
 
+msgid "  -->  refused"
+msgstr "  -->  recusado"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Recusado: %s -- o retorno não corresponde ao envio.\n  Melhor parar do que escrever algo errado."
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  Mixdown do auphonic.com: %s LUFS, pico %s dBTP (%s)"
 

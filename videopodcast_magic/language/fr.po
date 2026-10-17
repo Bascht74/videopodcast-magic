@@ -1548,6 +1548,12 @@ msgstr "   Attention : mesure inutilisable"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Attention : il y manque %s s de ce qui est parti"
 
+msgid "  -->  refused"
+msgstr "  -->  refusée"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Refus : %s -- ce qui revient ne correspond pas à ce qui a été envoyé.\n  Mieux vaut s’arrêter que d’écrire quelque chose de faux."
+
 msgid "   Caution: more than one frame"
 msgstr "   Attention : plus d’une image"
 

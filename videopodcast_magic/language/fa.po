@@ -3434,6 +3434,12 @@ msgstr "   احتیاط: اندازه‌گیری قابل استفاده نیس�
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   احتیاط: %s s از آنچه بالا رفت در آن نیست"
 
+msgid "  -->  refused"
+msgstr "  -->  رد شد"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  رد شد: %s -- آنچه برگشت با بارگذاری مطابقت ندارد.\n  توقف بهتر از نوشتن چیزی نادرست است."
+
 msgid "   NOT INSERTED"
 msgstr "   درج نشد"
 

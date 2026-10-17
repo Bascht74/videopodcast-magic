@@ -2019,6 +2019,12 @@ msgstr "   Attenzione: misura inutilizzabile"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Attenzione: vi mancano %s s di ciò che è stato caricato"
 
+msgid "  -->  refused"
+msgstr "  -->  rifiutato"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Rifiutato: %s -- il ritorno non corrisponde al caricamento.\n  Meglio fermarsi che scrivere qualcosa di sbagliato."
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  Mixdown da auphonic.com: %s LUFS, picco %s dBTP (%s)"
 

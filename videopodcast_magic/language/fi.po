@@ -3385,6 +3385,12 @@ msgstr "   Varoitus: mittaus käyttökelvoton"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Varoitus: siitä puuttuu %s s lähetetystä"
 
+msgid "  -->  refused"
+msgstr "  -->  hylätty"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Hylätty: %s -- palautus ei vastaa lähetettyä.\n  Parempi pysähtyä kuin kirjoittaa jotakin väärää."
+
 msgid "   NOT INSERTED"
 msgstr "   EI LISÄTTY"
 

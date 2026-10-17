@@ -3429,6 +3429,12 @@ msgstr "   ข้อควรระวัง: การวัดใช้ไม�
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   ข้อควรระวัง: ขาดเสียงที่อัปโหลดไป %s s"
 
+msgid "  -->  refused"
+msgstr "  -->  ปฏิเสธแล้ว"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  ปฏิเสธ: %s -- สิ่งที่ได้กลับมาไม่ตรงกับสิ่งที่อัปโหลด\n  หยุดดีกว่าเขียนสิ่งที่ผิด"
+
 msgid "   NOT INSERTED"
 msgstr "   ไม่ได้แทรก"
 

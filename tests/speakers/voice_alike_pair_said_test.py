@@ -7,8 +7,9 @@ line, a third voice apart, never itself; the log's line, by the names
 given and by label; the window's road, the row and the line under the
 table built again, the row unchanged for voices apart; the run's log
 warns of its own separation and of the window's handed over, not where
-a mix stands in for it. Prints by hand, widgets stood in for: what the
-model makes of voices is measured.
+a mix stands in for it; and a run taking who speaks when back from the
+store says it again, there too not for a mix. Prints by hand, widgets
+stood in for: what the model makes of voices is measured.
 """
 PLATFORM_BOUND = True
 import os
@@ -319,6 +320,51 @@ segments, log = handed(alike, mixed=True)
 check("but not of the window's where a mix stands in for it",
       len(segments) == 2 and "sound alike" not in log,
       "%d voices in the cut; the log was %r" % (len(segments), log[-400:]))
+
+print("\nWho speaks when, taken back from the store")
+TAKEN = vpm.T('\nSPEAKERS -- MEASURED BEFORE').strip()
+
+
+def taken_back(path, mixed=False):
+    """Two runs handed the window's separation of *path*, one after the
+    other: the second takes who speaks when out of the stage store.
+    Returns (voices in its cut, whether it took them, its log)."""
+    tracks = [{"name": os.path.basename(path), "source": path,
+               "blocks": [path], "a": 0.0, "b": 1.0, "axis": path}]
+    naming = vpm.name_voices_by_microphone
+    if mixed:
+        vpm.name_voices_by_microphone = lambda voices, box: (voices, [])
+    kept = sys.stdout
+    try:
+        for _run in range(2):
+            args = Args(None)
+            args._speakers_of = vpm.speakers_for_project(
+                path, SEGMENTS, 0,
+                {"SPEAKER_00": "Presenter", "SPEAKER_01": "Guest"})
+            said = io.StringIO()
+            sys.stdout = said
+            args._speakers = vpm.separation_for_run(args, tracks, {}, 0.0,
+                                                    1.0, [])
+            args._speakers_mixed = mixed
+            segments = vpm.speakers_of_the_run(args, tracks, (0.0, 1.0))
+            sys.stdout = kept
+    finally:
+        sys.stdout = kept
+        vpm.name_voices_by_microphone = naming
+    log = said.getvalue()
+    return segments, TAKEN in log, log
+
+
+segments, taken, log = taken_back(alike)
+check("a run taking who speaks when from the store warns again",
+      len(segments) == 2 and taken and wanted in log.splitlines(),
+      "%d voices in the cut, taken from the store: %s; wanted %r in a log "
+      "of %r" % (len(segments), taken, wanted, log[-400:]))
+segments, taken, log = taken_back(alike, mixed=True)
+check("and there too not where a mix stands in for it",
+      len(segments) == 2 and taken and "sound alike" not in log,
+      "%d voices in the cut, taken from the store: %s; the log was %r"
+      % (len(segments), taken, log[-400:]))
 
 shutil.rmtree(os.environ["VPM_CACHE"], ignore_errors=True)
 shutil.rmtree(folder, ignore_errors=True)

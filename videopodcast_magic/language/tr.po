@@ -2015,6 +2015,12 @@ msgstr "   Dikkat: ölçüm kullanılamaz"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Dikkat: yüklenenin %s s'si içinde yok"
 
+msgid "  -->  refused"
+msgstr "  -->  reddedildi"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Reddedildi: %s -- dönüş yüklenenle eşleşmiyor.\n  Yanlış bir şey yazmaktansa durmak daha iyi."
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  auphonic.com mixdown'ı: %s LUFS, tepe %s dBTP (%s)"
 

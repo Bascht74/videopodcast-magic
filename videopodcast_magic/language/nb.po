@@ -3384,6 +3384,12 @@ msgstr "   Advarsel: målingen ubrukelig"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Advarsel: %s s av det som gikk opp, mangler i den"
 
+msgid "  -->  refused"
+msgstr "  -->  avvist"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Avvist: %s -- det som kom tilbake, svarer ikke til det opplastede.\n  Bedre å stoppe enn å skrive noe feil."
+
 msgid "   NOT INSERTED"
 msgstr "   IKKE SATT INN"
 

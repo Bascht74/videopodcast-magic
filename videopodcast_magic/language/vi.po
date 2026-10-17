@@ -3380,6 +3380,12 @@ msgstr "   Cảnh báo: số đo không dùng được"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Cảnh báo: thiếu %s s so với phần đã tải lên"
 
+msgid "  -->  refused"
+msgstr "  -->  bị từ chối"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Bị từ chối: %s -- phần trả về không khớp với phần tải lên.\n  Thà dừng lại còn hơn ghi ra thứ sai."
+
 msgid "   NOT INSERTED"
 msgstr "   CHƯA CHÈN"
 

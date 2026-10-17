@@ -3443,6 +3443,12 @@ msgstr "   Pozor: meritev je neuporabna"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Pozor: v njem manjka %s s poslanega"
 
+msgid "  -->  refused"
+msgstr "  -->  zavrnjeno"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Zavrnjeno: %s -- vrnjeno se ne ujema z naloženim.\n  Bolje ustaviti kot zapisati kaj napačnega."
+
 msgid "   NOT INSERTED"
 msgstr "   NI VSTAVLJENO"
 

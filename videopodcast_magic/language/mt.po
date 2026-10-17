@@ -3445,6 +3445,12 @@ msgstr "   Attenzjoni: kejl li ma jistax jintuża"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Attenzjoni: fih jonqsu %s s minn dak li tela'"
 
+msgid "  -->  refused"
+msgstr "  -->  miċħud"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Miċħud: %s -- dak li ġie lura ma jaqbilx ma' dak li ttella'.\n  Aħjar jieqaf milli jikteb xi ħaġa ħażina."
+
 msgid "   NOT INSERTED"
 msgstr "   MHIX IMDAĦĦLA"
 

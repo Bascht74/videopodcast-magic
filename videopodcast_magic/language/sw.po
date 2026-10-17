@@ -3437,6 +3437,12 @@ msgstr "   Tahadhari: kipimo hakitumiki"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Tahadhari: %s s za kilichopakiwa hazimo ndani yake"
 
+msgid "  -->  refused"
+msgstr "  -->  imekataliwa"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Imekataliwa: %s -- kilichorudishwa hakilingani na kilichopakiwa.\n  Ni bora kusimama kuliko kuandika kitu kisicho sahihi."
+
 msgid "   NOT INSERTED"
 msgstr "   HAIJAPACHIKWA"
 

@@ -7,9 +7,11 @@ accepted -- processed, short by a lossy frame, and longer by a jingle
 in front and a tail behind; returns that are not the take are refused
 -- last week's take forward against this week's reversed and 12 s
 shorter, the take reversed at full length, another voice, and the take
-with its last seconds gone; and the refusal is said on the track's
-line. Not asked: other sound longer than what went up, placed inside
-it -- that passes.
+with its last seconds gone; the refusal is said on the track's line and
+under the lines, apart from a return of noise left unsure; and a return
+of the whole range trimmed to the window is judged on the file as it
+came, whole or short at its end. Not asked: other sound longer than
+what went up, placed inside it -- that passes.
 """
 PLATFORM_BOUND = True
 import os
@@ -28,6 +30,7 @@ import struct
 import subprocess
 import tempfile
 import time
+import types
 import numpy as np
 
 began = time.time()
@@ -152,6 +155,66 @@ line = next((x for x in said_last_week.splitlines() if "LastWeek" in x
              and "offset" in x), "")
 check("the refused track's line says what went up is not in it",
       said in line, "the line: %r" % line.strip()[:160])
+REFUSED = vpm.T('  -->  refused')
+ALIGNED = vpm.T('  -->  aligned')
+check("and that it is refused, not that it was aligned",
+      REFUSED in line and ALIGNED not in line,
+      "the line: %r" % line.strip()[:160])
+UNDER_REFUSED = vpm.T('\n  Refused: %s -- what came back does not match '
+                      'what went up. Better to\n  stop than to write '
+                      'something wrong.')
+UNDER_UNSURE = vpm.T('\n  For %s it could not be established whether the '
+                     'return matches the\n  upload. Better to stop than to '
+                     'write something wrong.')
+check("under the lines it is named refused, not left unsure",
+      UNDER_REFUSED % "LastWeek" in said_last_week
+      and UNDER_UNSURE % "LastWeek" not in said_last_week,
+      "the log's last lines: %r" % said_last_week.strip()[-160:])
+noise = np.random.default_rng(1).normal(size=n) * 0.1
+answer, track, said_noise = returned("Noise", sent,
+                                     write("noise.wav", noise))
+check("a return of noise is left unsure, not named refused",
+      answer is False and UNDER_UNSURE % "Noise" in said_noise
+      and UNDER_REFUSED % "Noise" not in said_noise,
+      numbers(answer, track) + ", the log's last lines: %r"
+      % said_noise.strip()[-160:])
+
+print("\nA return of the whole range, trimmed to the window")
+# The window is the take, 76 s into a range of 120 s that went up
+# before an In point was set; past a minute in, the trim is the way.
+RANGE_S, SHIFT_S = 120.0, 76.0
+recording = speech_like(RANGE_S, seed=7)
+recording[int(SHIFT_S * SR):int(SHIFT_S * SR) + n] = take
+
+
+def trimmed(name, seconds):
+    """The range as long as *seconds* handed in by --auphonic-done, then
+    checked: (taken, the return check's answer, the track)."""
+    folder = os.path.join(T, name)
+    os.makedirs(folder)
+    write(os.path.join(name, "Guest.wav"), recording[:int(seconds * SR)])
+    track = {"name": "Guest", "axis": sent}
+    args = types.SimpleNamespace(auphonic_done=folder,
+                                 without_auphonic=False)
+    with contextlib.redirect_stdout(io.StringIO()):
+        taken = vpm.processed_tracks_taken(args, [track], folder,
+                                           {"Guest": TAKE_S}, RANGE_S,
+                                           SHIFT_S)
+        answer = vpm.verify_returned_tracks([track], TAKE_S, folder)
+    return taken, answer, track
+
+
+taken, answer, track = trimmed("Whole", RANGE_S)
+check("a trimmed return of the whole range is accepted",
+      taken is True and answer is True and track.get("edge"),
+      "taken %r, edge %r, %s" % (taken, track.get("edge"),
+                                 numbers(answer, track)))
+taken, answer, track = trimmed("Short", RANGE_S - 14.0)
+check("one whose file lacks the take's last 14 s is refused",
+      taken is True and answer is False and track.get("edge"),
+      "taken %r, edge %r, %s, the file as it came %.2f s"
+      % (taken, track.get("edge"), numbers(answer, track),
+         RANGE_S - 14.0))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

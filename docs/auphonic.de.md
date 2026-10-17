@@ -460,9 +460,11 @@ die für ein weiteres Fenster hochgegangen sind.
 
 Einen nachträglich gesetzten In- oder Out-Punkt verrechnet das Programm
 hier, nicht bei Auphonic. Es beschneidet die zurückgekommenen Spuren auf
-das neue Fenster. Wenn die Länge weder zum Fenster noch zum ganzen
-gemessenen Bereich passt, gehören die Dateien zu einem anderen Lauf, und
-die Meldung sagt das.
+das neue Fenster und hält dabei jede Datei so, wie sie im Ordner liegt,
+gegen das, was hochging: Endet sie vor dem Fenster, wird auch sie
+abgelehnt. Wenn die Länge weder zum Fenster noch zum ganzen gemessenen
+Bereich passt, gehören die Dateien zu einem anderen Lauf, und die Meldung
+sagt das.
 
 ### Wenn etwas klemmt
 
@@ -489,8 +491,10 @@ die Meldung sagt das.
   Ordner dieses Laufs nehmen, oder den Ton noch einmal über
   auphonic.com schicken.
 * **Einer zurückgekommenen Spur fehlt ein Teil dessen, was hochging.**
-  Das Protokoll sagt `ACHTUNG: Von dem, was hochging, fehlen darin
-  12,0 s`, und der Lauf hält an. Die Produktion bei auphonic.com enthält
+  In ihrer Zeile im Protokoll steht `ACHTUNG: Von dem, was hochging,
+  fehlen darin 12,0 s`, und unter den Zeilen wird sie genannt:
+  `Abgelehnt: Guest -- die Rückgabe passt nicht zum Hochgeladenen.` Der
+  Lauf hält an. Die Produktion bei auphonic.com enthält
   anderen Ton, meist eine frühere gleichen Namens. Der Folge unter
   **Name der Produktion** einen eigenen Namen geben, oder alles neu
   hochladen.

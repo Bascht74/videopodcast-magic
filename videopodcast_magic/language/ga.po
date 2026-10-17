@@ -3453,6 +3453,12 @@ msgstr "   Aire: níl an tomhas inúsáidte"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   Aire: tá %s s den mhéid a chuaigh suas in easnamh air"
 
+msgid "  -->  refused"
+msgstr "  -->  diúltaithe"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Diúltaithe: %s -- ní thagann an toradh leis an uaslódáil.\n  Is fearr stopadh ná rud mícheart a scríobh."
+
 msgid "   NOT INSERTED"
 msgstr "   NÍOR CUIREADH ISTEACH"
 

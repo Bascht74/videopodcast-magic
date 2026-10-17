@@ -2003,6 +2003,12 @@ msgstr "   सावधान: माप अनुपयोगी"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   सावधान: अपलोड किए गए में से %s s इसमें नहीं है"
 
+msgid "  -->  refused"
+msgstr "  -->  अस्वीकृत"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  अस्वीकृत: %s -- वापसी अपलोड से मेल नहीं खाती।\n  कुछ गलत लिखने से रुकना बेहतर है।"
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  auphonic.com से मिक्सडाउन: %s LUFS, शिखर %s dBTP (%s)"
 

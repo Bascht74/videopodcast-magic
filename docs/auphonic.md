@@ -415,9 +415,11 @@ up is not in it`. A track that is longer is taken: a jingle, or a
 recompute over files that went up for a wider window.
 
 The program handles a later In point or Out point here, not at Auphonic.
-It trims the returned tracks to the new window. If the length matches
-neither the window nor the whole measured range, the files belong to
-another run, and the message says so.
+It trims the returned tracks to the new window, and holds each file as
+it lies in the folder against what went up: one that ends before the
+window does is refused as well. If the length matches neither the window
+nor the whole measured range, the files belong to another run, and the
+message says so.
 
 ### When something goes wrong
 
@@ -440,8 +442,10 @@ another run, and the message says so.
 * **The returned tracks fit neither the time window nor the whole
   measured range.** They belong to another run. Use the folder that
   belongs to this run, or let the audio go through auphonic.com again.
-* **A returned track lacks part of what went up.** The log says
-  `Caution: 12.0 s of what went up is not in it`, and the run stops.
+* **A returned track lacks part of what went up.** The track's line in
+  the log says `Caution: 12.0 s of what went up is not in it`, and under
+  the lines it is named: `Refused: Guest -- what came back does not
+  match what went up.` The run stops.
   The production at auphonic.com holds other sound, most often an
   earlier one of the same name. Give the episode a name of its own
   under **Production name**, or upload everything again.

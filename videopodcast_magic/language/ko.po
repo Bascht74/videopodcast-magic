@@ -3371,6 +3371,12 @@ msgstr "   주의: 측정값 사용 불가"
 msgid "   Caution: %s s of what went up is not in it"
 msgstr "   주의: 올라간 것 중 %s s가 들어 있지 않습니다"
 
+msgid "  -->  refused"
+msgstr "  -->  거부됨"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  거부됨: %s -- 반환된 것이 업로드한 것과 맞지 않습니다.\n  잘못된 것을 쓰느니 중단하는 편이 낫습니다."
+
 msgid "   NOT INSERTED"
 msgstr "   삽입 안 됨"
 
