@@ -201,7 +201,8 @@ nicht.
   the moving bands, by the phase or at a weak match.
 - **Start and Dry run now wait until a file of several channels is cut
   into its tracks**, also after a channel tick, and the line under the buttons
-  says so; the preset list then offers the kind the tracks need.
+  says so; the preset list then offers the kind the tracks need. If the
+  cut fails, they let go, and the file goes into the run whole.
 - **Recordings at 16, 22.05, 44.1 or 96 kHz now land in their place and
   as long as the window**: a 16 kHz recording came out three times as
   long. Blocks of one recording at different rates are joined whole.
@@ -449,7 +450,8 @@ nicht.
 - **Start und Probelauf warten jetzt, bis eine Datei mit mehreren Kanälen
   in ihre Spuren zerlegt ist**, auch nach einem Kanal-Häkchen, und die
   Zeile unter den Knöpfen sagt das; danach bietet die Preset-Liste die
-  Art an, die die Spuren brauchen.
+  Art an, die die Spuren brauchen. Scheitert das Zerlegen, werden sie
+  wieder frei, und die Datei geht im Ganzen in den Lauf.
 - **Aufnahmen mit 16, 22,05, 44,1 oder 96 kHz liegen jetzt an ihrer
   Stelle und sind so lang wie das Zeitfenster**: Eine 16-kHz-Aufnahme kam
   dreimal so lang heraus. Blöcke einer Aufnahme mit verschiedenen Raten

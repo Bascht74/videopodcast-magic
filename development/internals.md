@@ -40,7 +40,7 @@ figure of the day is that command, not this paragraph**:
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3310** -- the window and everything it shows, asks or offers,
+* `ui/` **3311** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `player/` **3343** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
@@ -101,7 +101,7 @@ figure of the day is that command, not this paragraph**:
 * `filelist/` **544** -- the list of chosen files: the tree it is
   shown in, what adding and removing do to it, and a recording of
   several blocks shown as one entry
-* `prework/` **466** -- the audio, envelopes, channels and tracks
+* `prework/` **485** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them and what each is worth
 * `resolvesheet/` **624** -- the third tab: whether Resolve answers,
   the camera cut with its settings, forecast and preview, what the
