@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """A dry run writes no track onto the axis unless a reader past the check does.
 
-The interview fixture, three dry runs in this process, every track the
+The interview fixture, a dry run per section in this process, every track the
 run writes onto the axis counted. Without a key and with no separation
 it writes none and still ends with 0. With a key it writes each track,
 because what it says would go up to auphonic.com is read off them, and
 it says so. Where the microphones hear each other too well for the
 separation, it writes each track and keeps the mix made of them for the
-run after. Nothing reaches auphonic.com: the key is made up, the preset
-a stand-in, the preflight off. The limit: the tracks written are
+run after; where they stand far apart, the separation needs no mix and
+it writes none. Nothing reaches auphonic.com: the key is made up, the
+preset a stand-in, the preflight off. The limit: the tracks written are
 counted at the one function that writes them, not on the disc.
 """
 PLATFORM_BOUND = True
@@ -140,6 +141,21 @@ try:
     check("and keeps the mix it made of them for the run after",
           len(mixes) == 1, "%d mixes kept in the store, 1 expected"
           % len(mixes))
+
+    print("\n4. Microphones far apart: the separation needs no mix")
+    vpm.load_api_key = lambda: ""
+    vpm.SPEAKER_SPLIT_OFF = False
+    vpm.speaker_split_available = lambda deep=False: True
+    # Well above the program's own limit, wherever that limit stands.
+    far = vpm.MICROPHONES_APART_DB + 20.0
+    vpm.microphones_apart_db = lambda paths: far
+    code, log = dry_run("apart", ["--without-auphonic"])
+    check("a dry run separating microphones far apart writes no track",
+          code == 0 and len(written) == 0,
+          "return code %r, %d tracks written, %d expected at %.1f dB apart "
+          "against a limit of %.1f dB; the last it said: %r"
+          % (code, len(written), 0, far, vpm.MICROPHONES_APART_DB,
+             log[-160:]))
 except Exception as e:
     # A crash ends the runs, not the count: it goes out through stop().
     bad.append("the runs crashed [%r]" % e)

@@ -213,7 +213,7 @@ run_dry_leaves_no_trace	8
 run_dry_leaves_out	4
 run_dry_reports_voices	14
 run_dry_run_not_stopped	6
-run_dry_writes_no_track	6
+run_dry_writes_no_track	7
 run_ffmpeg_new_enough	26
 run_ffmpeg_not_fetched	15
 run_ffmpeg_offered	21
@@ -290,7 +290,7 @@ sound_follows_device	7
 sound_heard_cam_clipped	5
 sound_hush_reason	7
 sound_jingle_edges	5
-sound_join_any_rate	6
+sound_join_any_rate	7
 sound_join_order	2
 sound_join_widens_mono	3
 sound_loudest_block	5
@@ -395,7 +395,7 @@ time_drop_label_kept	6
 time_fit_reports	11
 time_guess_refused	60
 time_heard_as_written	4
-time_join_keeps_stamp	3
+time_join_keeps_stamp	4
 time_length_is_in_to_out	24
 time_length_names_change	5
 time_lost_end_named	4

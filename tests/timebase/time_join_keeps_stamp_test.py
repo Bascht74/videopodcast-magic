@@ -6,9 +6,10 @@ rate, and whatever lays the joined file afterwards goes by that stamp.
 join_the_plan and join_only in this process, over two stamped blocks
 written here, the second straight after the first, one hour in. In
 order: at 48 kHz, joined as it came, the file carries the hour; at
-44.1 kHz it carries it at its own rate; and where the loudness is set
-on the way and the file leaves at the working rate, the hour is counted
-at that rate.
+44.1 kHz it carries it at its own rate; a 44.1 kHz block followed by a
+48 kHz one carries it at the first block's rate; and where the loudness
+is set on the way and the file leaves at the working rate, the hour is
+counted at that rate.
 """
 PLATFORM_BOUND = True
 import os
@@ -56,21 +57,26 @@ def unmeasurable(*a, **k):
     raise ValueError("stand-in: the join is copied as it came")
 
 
-def joined(name, rate, stamp, level):
+def joined(name, rate, stamp, level, then=None):
     """Two blocks of *rate* stamped *stamp* on, joined and written out.
 
     *level* lets the loudness be measured and set, as on a run; without,
-    the joined blocks are copied as they came. Returns (return code,
-    the written file's stamp, its rate), None for what is not there.
+    the joined blocks are copied as they came. *then* is the second
+    block's rate where it differs, its stamp counted at that rate.
+    Returns (return code, the written file's stamp, its rate), None for
+    what is not there.
     """
     folder = os.path.join(ROOM, name)
     out = os.path.join(folder, "out")
     os.makedirs(out)
     blocks = []
-    for i, at in enumerate((stamp, stamp + 3 * rate)):
+    then = then or rate
+    for i, (at, at_rate) in enumerate(((stamp, rate),
+                                       ((stamp // rate + 3) * then, then))):
         path = os.path.join(folder, "Guest_%03d.wav" % (i + 1))
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
-                        "sine=frequency=440:sample_rate=%d:duration=3" % rate,
+                        "sine=frequency=440:sample_rate=%d:duration=3"
+                        % at_rate,
                         "-af", "volume=-30dB", "-c:a", "pcm_s24le",
                         "-write_bext", "1", "-metadata",
                         "time_reference=%d" % at, path], check=True)
@@ -103,6 +109,13 @@ check("a 44.1 kHz one keeps it at its own rate",
       code == 0 and stamp == HOUR_44 and rate == 44100,
       "returned %r, the joined file stamped %r at %r Hz, wanted %d at "
       "44100" % (code, stamp, rate, HOUR_44))
+code, stamp, rate = joined("mixed", 44100, HOUR_44, level=False, then=48000)
+check("one with a 48 kHz block after it keeps it at the first one's rate",
+      code == 0 and stamp == HOUR_44 and rate == 44100,
+      "returned %r, the joined file stamped %r at %r Hz, its clock at "
+      "%s s, wanted %d at 44100, 3600.000 s" % (
+          code, stamp, rate, "%.3f" % (stamp / float(rate))
+          if stamp and rate else None, HOUR_44))
 
 print("\n2. Its loudness set on the way")
 code, stamp, rate = joined("level44", 44100, HOUR_44, level=True)
