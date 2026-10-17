@@ -232,11 +232,6 @@ Four tabs, in the order they are needed.
   saved project all the same, and a file put back later came up on the
   old answer without a word about it -- a recording with an empty name,
   a camera on **Intro**.
-
-  ![The file list](images/files.png)
-
-  *The list after a project was opened, with the marks from the
-  preflight and the strip underneath.*
 - **Assignment & time window**: tables on the left, player on the right,
   or under them where the window is too narrow for the two side by side.
   Appears with the files.
@@ -334,11 +329,6 @@ Four tabs, in the order they are needed.
   counts as on every path: the run writes the camera file under it, and the
   camera's track in Resolve carries it ([Multitrack](multitrack.md),
   "Setting the assignment").
-
-  ![Assignment table and player](images/assignment.png)
-
-  *Above which recording belongs to which camera, below what becomes
-  of each camera.*
 - **Resolve cut**: a line about Resolve only where Resolve does not
   answer -- **Resolve does not answer -- see Settings**, with the way to
   the settings beside it. Where it answers, nothing stands there: about

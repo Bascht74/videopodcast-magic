@@ -37,11 +37,7 @@ NOT_A_CHAPTER = ("README",)
 # A chapter that breaks the rule today, the version that may not go out
 # before it keeps it, and what is owed. Put right at the picture pass of
 # that version, then the entry goes; the run says when it has to.
-OWED = {
-    "interface": ("3.0.0b29",
-                  "shows three pictures -- files, assignment, output; "
-                  "the owner says which one the chapter keeps"),
-}
+OWED = {}
 
 # A picture as markdown writes it, and as HTML would.
 SHOWN = re.compile(r"!\[[^\]]*\]\(([^)\s]+)[^)]*\)|<img[^>]*src=\"([^\"]+)\"")

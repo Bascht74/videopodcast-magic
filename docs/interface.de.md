@@ -257,11 +257,6 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   blieb das Entfernte in der gespeicherten Projektdatei stehen, und wer
   eine Datei später wieder hinzunahm, bekam wortlos die alte Antwort --
   eine Aufnahme mit leerem Namen, eine Kamera auf **Vorspann**.
-
-  ![Die Dateiliste](images/files.de.png)
-
-  *Die Liste nach dem Öffnen eines Projekts, mit den Prüfzeichen aus
-  dem Vorflug und dem Streifen darunter.*
 - **Zuordnung & Zeitfenster**: links die Tabellen, rechts der Player;
   ist das Fenster für beide nebeneinander zu schmal, rückt der Player
   unter die Tabellen. Erscheint mit den Dateien.
@@ -367,11 +362,6 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   diesem Namen schreibt der Lauf die Kameradatei, und die Spur der
   Kamera in Resolve trägt ihn ebenfalls ([Multitrack](multitrack.de.md),
   „Die Zuordnung setzen“).
-
-  ![Zuordnungstabelle und Player](images/assignment.de.png)
-
-  *Oben, welche Aufnahme zu welcher Kamera gehört, unten, was aus
-  jeder Kamera wird.*
 - **Resolve-Schnitt**: eine Zeile über Resolve nur dort, wo Resolve
   nicht antwortet -- **Resolve antwortet nicht -- siehe Einstellungen**,
   mit dem Weg zu den Einstellungen daneben. Antwortet Resolve, steht
