@@ -376,7 +376,14 @@ these:
 4. cancel
 
 The upload alone spends credit. Answer 2 recomputes with the new preset
-and uploads nothing, so preset after preset can be tried. The program
+and uploads nothing, so preset after preset can be tried. It computes
+with the files that went up then, in that day's window. Where the In
+point, the Out point and the measured position now stay inside that
+window, the return check below measures the difference and moves the
+tracks into place; where they reach beyond it -- an earlier In point, a
+later Out point, a common window grown longer -- it refuses the tracks,
+and only answer 3 helps. Answer 1 takes the same files and is held the
+same way. The program
 uploads only when asked to. Answer 1 appears only if everything needed
 is there. If the tracks are named differently there, the program asks
 whether to adopt those names.
@@ -451,9 +458,11 @@ message says so.
   the log says `Caution: 12.0 s of what went up is not in it`, and under
   the lines it is named: `Refused: Guest -- what came back does not
   match what went up.` The run stops.
-  The production at auphonic.com holds other sound, most often an
-  earlier one of the same name. Give the episode a name of its own
-  under **Production name**, or upload everything again.
+  The production at auphonic.com holds other sound: most often an
+  earlier one of the same name, or this episode's own files from a
+  narrower window, recomputed or taken after the In point moved earlier
+  or the Out point later. Give another episode a name of its own under
+  **Production name**; otherwise upload everything again.
 * **A run is about to cost credit that was not meant.** Only the answer
   that uploads everything again uploads, and only the upload costs. The
   other answers leave the files where they are.

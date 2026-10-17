@@ -1122,8 +1122,8 @@ msgstr "  시작 %s -- 모든 샷이 이를 기준으로 배치됩니다."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  이런 Timeline이 아직 없었습니다 -- 새로 만들기만 합니다."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  참고: 당시 업로드한 파일로 계산합니다. 그 파일에는\n  그날의 시간 구간과 정렬이 담겨 있습니다. 인 포인트, 아웃 포인트\n  또는 측정된 위치가 지금 다르면 반환 점검이 그\n  차이를 측정하여 트랙을 제자리로 옮깁니다."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  참고: 당시 업로드한 파일로 계산합니다. 그 파일에는\n  그날의 시간 구간과 정렬이 담겨 있습니다. 인 포인트, 아웃 포인트와\n  측정된 위치가 지금도 그 구간 안에 있으면 반환 점검이\n  차이를 측정하여 트랙을 제자리로 옮깁니다. 그 밖으로 벗어나면 --\n  더 이른 인 포인트, 더 늦은 아웃 포인트 -- 트랙을 거부합니다:\n  그때는 모두 다시 업로드하세요."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  참고: 이 ffmpeg에는 soxr이 없습니다 -- 클럭 드리프트는\n  21 ppm 단위로만 보정할 수 있습니다."
@@ -4058,6 +4058,9 @@ msgstr "이 프로그램은 %s(으)로 실행 중인데 설치된 패키지는 %
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "이 인계 파일에는 프레임 레이트가 없어 Timeline을 만들 수 없습니다. 다시 실행하세요."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "이 인계 파일에는 %s의 파일이 지정되어 있지 않아 Timeline을 만들 수 없습니다. 다시 실행하세요."
 
 msgid ", %s file does not fit"
 msgid_plural ", %s files do not fit"

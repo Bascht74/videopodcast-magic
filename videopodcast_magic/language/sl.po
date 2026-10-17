@@ -1159,8 +1159,8 @@ msgstr "  Začetek %s -- vsak kader se umesti glede nanj."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Takšne Timeline še ni bilo -- samo se zgradi."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Opomba: računa se z datotekami, naloženimi takrat. Te nosijo\n  časovno okno in poravnavo tistega dne. Če se vstopna točka, izstopna točka\n  ali izmerjeni položaj zdaj razlikujejo, povratno preverjanje izmeri\n  razliko in premakne sledi na mesto."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Opomba: računa se z datotekami, naloženimi takrat. Te nosijo\n  časovno okno in poravnavo tistega dne. Če vstopna točka, izstopna točka\n  in izmerjeni položaj zdaj ostanejo znotraj tega okna, povratno preverjanje\n  izmeri razliko in premakne sledi na mesto. Če segajo čez njega --\n  zgodnejša vstopna točka, poznejša izstopna točka --, zavrne sledi:\n  takrat znova naložite vse."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Opomba: ta ffmpeg nima soxr -- drsenje ure je mogoče odstraniti le v\n  korakih po 21 ppm."
@@ -4355,6 +4355,9 @@ msgstr "Ta program teče kot %s, paketi, nameščeni zanj, pa so %s, zato nobene
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Ta predaja ne vsebuje hitrosti sličic, zato iz nje ni mogoče zgraditi Timeline. Prosimo, ponovite zagon."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "V tej predaji za postavko »%s« ni navedena datoteka, zato iz nje ni mogoče zgraditi Timeline. Prosimo, ponovite zagon."
 
 msgid "Cut by speaker"
 msgstr "Montaža po govorcih"

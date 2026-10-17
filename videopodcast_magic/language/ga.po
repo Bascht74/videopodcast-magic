@@ -1163,8 +1163,8 @@ msgstr "  Tús %s -- suitear gach seat i gcoibhneas leis."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Ní raibh a leithéid de Timeline ann fós -- níl ann ach é a thógáil."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Nóta: ríomhann sé seo leis na comhaid a uaslódáladh ag an am. Tá\n  raon ama agus ailíniú an lae sin iontu. Nuair atá an pointe isteach, an pointe amach\n  nó an suíomh tomhaiste difriúil anois, tomhaiseann an tseiceáil fillte an\n  difríocht agus bogann sí na rianta ina n-áit."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Nóta: ríomhann sé seo leis na comhaid a uaslódáladh ag an am. Tá\n  raon ama agus ailíniú an lae sin iontu. Nuair a fhanann an pointe isteach, an pointe\n  amach agus an suíomh tomhaiste laistigh den raon sin anois, tomhaiseann an tseiceáil\n  fillte an difríocht agus bogann sí na rianta ina n-áit. Nuair a théann siad thairis --\n  pointe isteach níos luaithe, pointe amach níos déanaí -- diúltaíonn sí na rianta:\n  uaslódáil gach rud arís ansin."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Nóta: níl soxr ag an ffmpeg seo -- ní féidir sruth cloig a bhaint amach ach i\n  gcéimeanna de 21 ppm."
@@ -4366,6 +4366,9 @@ msgstr "Tá an ríomhchlár seo ag rith mar %s agus is %s iad na pacáistí atá
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Níl ráta frámaí sa seachadadh seo, mar sin ní féidir an Timeline a thógáil uaidh. Déan an rith arís, le do thoil."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Ní ainmníonn an seachadadh seo comhad don %s, mar sin ní féidir an Timeline a thógáil uaidh. Déan an rith arís, le do thoil."
 
 msgid "Cut by speaker"
 msgstr "Gearradh de réir cainteora"

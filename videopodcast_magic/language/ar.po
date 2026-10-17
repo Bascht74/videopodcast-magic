@@ -1234,8 +1234,8 @@ msgstr "تنقص ملفات هناك -- بدون رفع جديد لا يمكن �
 msgid "  Existing result adopted -- nothing computed, nothing paid."
 msgstr "  اعتُمدت النتيجة الموجودة -- لا حساب ولا دفع."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  ملاحظة: يجري الحساب بالملفات المرفوعة آنذاك. وهي تحمل\n  النافذة الزمنية والمحاذاة كما كانتا يومها. وحيث تختلف نقطة البداية أو نقطة النهاية\n  أو الموضع المقاس الآن، يقيس فحص الإرجاع\n  الفرق وينقل المسارات إلى مكانها."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  ملاحظة: يجري الحساب بالملفات المرفوعة آنذاك. وهي تحمل\n  النافذة الزمنية والمحاذاة كما كانتا يومها. وحيث تبقى نقطة البداية ونقطة\n  النهاية والموضع المقاس الآن داخل تلك النافذة، يقيس فحص الإرجاع\n  الفرق وينقل المسارات إلى مكانها. وحيث تتجاوزها -- نقطة بداية\n  أبكر أو نقطة نهاية أبعد -- يرفض الفحص المسارات:\n  عندها ارفع كل شيء من جديد."
 
 msgid "  Settings brought to preset %r"
 msgstr "  تُضبط الإعدادات وفق الإعداد المسبق %r"
@@ -3128,6 +3128,9 @@ msgstr "%(name)s (%(prefix)s*.json);;ملفات JSON (*.json);;كل الملفا
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "ملف التسليم هذا لا يحمل معدل إطارات، لذا لا يمكن بناء الـTimeline منه. يُرجى إعادة التشغيل."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "ملف التسليم هذا لا يسمّي ملفًا لعنصر «%s»، لذا لا يمكن بناء الـTimeline منه. يُرجى إعادة التشغيل."
 
 msgid "This Resolve project already exists"
 msgstr "مشروع Resolve هذا موجود بالفعل"

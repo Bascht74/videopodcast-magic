@@ -1148,8 +1148,8 @@ msgstr "  เริ่มต้น %s -- ทุกช็อตวางโดย
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  ยังไม่มี Timeline นี้ -- จึงสร้างใหม่เท่านั้น"
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  หมายเหตุ: ส่วนนี้คำนวณด้วยไฟล์ที่อัปโหลดในตอนนั้น ซึ่งมี\n  ช่วงเวลาและการจัดตำแหน่งของวันนั้น หากจุดเข้า จุดออก\n  หรือตำแหน่งที่วัดได้ต่างไปจากเดิม การตรวจสอบขากลับจะวัด\n  ส่วนต่างและเลื่อนแทร็กให้เข้าที่"
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  หมายเหตุ: ส่วนนี้คำนวณด้วยไฟล์ที่อัปโหลดในตอนนั้น ซึ่งมี\n  ช่วงเวลาและการจัดตำแหน่งของวันนั้น หากจุดเข้า จุดออก\n  และตำแหน่งที่วัดได้ยังอยู่ภายในช่วงนั้น การตรวจสอบขากลับจะวัด\n  ส่วนต่างและเลื่อนแทร็กให้เข้าที่ หากเกินออกไป --\n  จุดเข้าที่เร็วขึ้น จุดออกที่ช้าลง -- จะปฏิเสธแทร็ก:\n  เมื่อนั้นให้อัปโหลดทั้งหมดใหม่"
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  หมายเหตุ: ffmpeg ตัวนี้ไม่มี soxr -- ลบการคลาดของนาฬิกาได้\n  ทีละ 21 ppm เท่านั้น"
@@ -4338,6 +4338,9 @@ msgstr "โปรแกรมนี้ทำงานเป็น %s แต่�
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "การส่งมอบนี้ไม่มีอัตราเฟรม จึงสร้าง Timeline จากข้อมูลนี้ไม่ได้ โปรดทำรอบการทำงานใหม่อีกครั้ง"
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "การส่งมอบนี้ไม่ได้ระบุไฟล์สำหรับ %s จึงสร้าง Timeline จากข้อมูลนี้ไม่ได้ โปรดทำรอบการทำงานใหม่อีกครั้ง"
 
 msgid "Cut by speaker"
 msgstr "ตัดต่อตามผู้พูด"

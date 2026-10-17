@@ -1155,8 +1155,8 @@ msgstr "  Sākums %s -- pret to tiek novietots katrs plāns."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Šāda Timeline vēl nebija -- tas tikai tiek izveidots."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Piezīme: aprēķins notiek ar toreiz augšupielādētajiem failiem. Tajos ir\n  tās dienas laika logs un salāgošana. Ja sākuma punkts, beigu punkts\n  vai izmērītā pozīcija tagad atšķiras, atgriešanas pārbaude izmēra\n  starpību un pārvieto celiņus vietā."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Piezīme: aprēķins notiek ar toreiz augšupielādētajiem failiem. Tajos ir\n  tās dienas laika logs un salāgošana. Ja sākuma punkts, beigu punkts\n  un izmērītā pozīcija tagad paliek šī loga iekšpusē, atgriešanas pārbaude\n  izmēra starpību un pārvieto celiņus vietā. Ja tie iziet ārpus tā --\n  agrāks sākuma punkts, vēlāks beigu punkts --, tā noraida celiņus:\n  tad augšupielādējiet visu no jauna."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Piezīme: šim ffmpeg nav soxr -- pulksteņa dreifu var izņemt tikai\n  ar 21 ppm soli."
@@ -4350,6 +4350,9 @@ msgstr "Šī programma darbojas kā %s, bet tai instalētās pakotnes ir %s, tā
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Šajā nodošanā nav kadru ātruma, tāpēc no tās nevar izveidot Timeline. Lūdzu, veiciet izpildi vēlreiz."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Šajā nodošanā nav norādīts fails elementam %s, tāpēc no tās nevar izveidot Timeline. Lūdzu, veiciet izpildi vēlreiz."
 
 msgid "Cut by speaker"
 msgstr "Montāža pēc runātāja"

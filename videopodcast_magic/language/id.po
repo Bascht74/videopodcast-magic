@@ -1150,8 +1150,8 @@ msgstr "  Awal %s -- setiap bidikan ditempatkan relatif terhadapnya."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Timeline seperti itu belum ada -- baru dibuat sekarang."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Catatan: ini menghitung dengan file yang diunggah saat itu. File itu membawa\n  rentang waktu dan penyelarasan hari itu. Jika titik masuk, titik keluar\n  atau posisi terukur kini berbeda, pemeriksaan balik mengukur\n  selisihnya dan menggeser trek ke tempatnya."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Catatan: ini menghitung dengan file yang diunggah saat itu. File itu membawa\n  rentang waktu dan penyelarasan hari itu. Jika titik masuk, titik keluar\n  dan posisi terukur kini tetap di dalam rentang itu, pemeriksaan balik\n  mengukur selisihnya dan menggeser trek ke tempatnya. Jika melampauinya --\n  titik masuk lebih awal, titik keluar lebih akhir -- pemeriksaan menolak trek:\n  maka unggah semuanya lagi."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Catatan: ffmpeg ini tidak memiliki soxr -- penyimpangan jam hanya dapat dihilangkan dalam\n  langkah 21 ppm."
@@ -4341,6 +4341,9 @@ msgstr "Program ini berjalan sebagai %s dan paket yang terpasang untuknya adalah
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Serah terima ini tidak memuat laju frame, jadi Timeline tidak dapat dibangun darinya. Silakan jalankan proses lagi."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Serah terima ini tidak menyebut file untuk %s, jadi Timeline tidak dapat dibangun darinya. Silakan jalankan proses lagi."
 
 msgid "Cut by speaker"
 msgstr "Potongan per pembicara"

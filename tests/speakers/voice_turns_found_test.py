@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 """Speech is found back where it was put, offset and all.
 
-Two tracks take turns over a quiet floor, at times written down here as
-values. In order: that every track comes back with a row of its own,
-that each of the two holds the three sections it was made from, that no
-edge has moved more than a third of a second, and that a track handed in
-with an offset comes back with its sections and on the axis that offset
-puts it. What the material carries is modulated noise, not a voice: what
-is measured is the pattern of loudness, and nothing about speech itself.
+Two tracks take turns over a quiet floor, at times written here as
+values: every track comes back with a row of its own, each holds the
+three sections it was made from, no edge moved over a third of a
+second, and a track handed in with an offset comes back on the axis it
+puts it on; then a third, alone, its breath of 0.6 s bridged and its
+pause of 0.9 s not -- written out, as they pin the program's own bridge.
+The material is modulated noise: the pattern of loudness is measured,
+not speech.
 """
 PLATFORM_BOUND = True
 import os
@@ -63,9 +64,13 @@ D = tempfile.mkdtemp(prefix="vpm_speakertest_")
 SR = 48000
 EDGE = 0.3            # how far an edge may sit from where it was put
 OFFSET = 100.0        # what the second run hands in as the track's start
-# Two tracks that take turns "talking" (noise) over a quiet floor.
+# Two tracks that take turns "talking" (noise) over a quiet floor, and a
+# third for the bridge.
 want = {"A": [(1.0, 4.0), (8.0, 11.5), (16.0, 18.0)],
-        "B": [(5.0, 7.5), (12.0, 15.0), (19.0, 22.0)]}
+        "B": [(5.0, 7.5), (12.0, 15.0), (19.0, 22.0)],
+        # One passage, a breath of 0.6 s inside it, then a pause of 0.9 s
+        # before the next. Built after A and B, so theirs stay as they were.
+        "C": [(1.0, 3.0), (3.6, 5.6), (6.5, 8.5)]}
 rng = np.random.default_rng(3)
 for name, parts in want.items():
     x = rng.normal(0, 0.002, int(24 * SR))          # noise floor
@@ -115,6 +120,17 @@ off_m, where_m, edges_m = worst_edge(moved, shifted, "A")
 check("every section is moved by the offset the track was handed in with",
       off_m <= EDGE, "worst %.2f s against %.2f s allowed, over %d edges of "
       "6 -- %s" % (off_m, EDGE, edges_m, where_m or "no edge moved at all"))
+
+print("\n3. A breath is bridged, a pause is not")
+c = dict(m.speakers_from_tracks([("C", "%s/C.wav" % D, 0.0)])).get("C", [])
+print("   C: %s" % [("%.2f-%.2f" % (a, b)) for a, b in c])
+BRIDGED = [(1.0, 5.6), (6.5, 8.5)]
+off_c, where_c, edges_c = worst_edge(c, BRIDGED, "C")
+check("a breath of 0.6 s is bridged, a pause of 0.9 s is not",
+      len(c) == 2 and off_c <= EDGE,
+      "%d sections %s against 2 wanted %s, worst edge %.2f s against %.2f s"
+      % (len(c), [("%.2f-%.2f" % (a, b)) for a, b in c],
+         [("%.2f-%.2f" % (a, b)) for a, b in BRIDGED], off_c, EDGE))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

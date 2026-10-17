@@ -236,11 +236,22 @@ def handover_complaint(d):
     inside. A number and not a string, because that is what is written.
     """
     rate = d.get("fps")
-    if isinstance(rate, (int, float)) and not isinstance(rate, bool) \
-            and float(rate) > 0:
-        return ""
-    return T("This handover carries no frame rate, so the timeline "
-             "cannot be built from it. Please make the run again.")
+    if not (isinstance(rate, (int, float)) and not isinstance(rate, bool)
+            and float(rate) > 0):
+        return T("This handover carries no frame rate, so the timeline "
+                 "cannot be built from it. Please make the run again.")
+    # An intro or an outro named without its file would stop the build
+    # at the import, as a fault of its own. The first is named here.
+    fileless = next((label_of(k) for k in (TYPE_INTRO, TYPE_OUTRO)
+                     if d.get(k) and not (
+                         isinstance(d[k], dict)
+                         and isinstance(d[k].get("source"), str)
+                         and d[k]["source"].strip())), "")
+    if fileless:
+        return T("This handover names no file for the %s, so the timeline "
+                 "cannot be built from it. Please make the run again.") \
+            % fileless
+    return ""
 
 
 def apply_project_settings(p, d):

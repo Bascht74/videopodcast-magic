@@ -1999,8 +1999,8 @@ msgstr "  No está en el corte: %s -- una separación habla a favor de la grabac
 msgid "  Not used:  %s."
 msgstr "  Sin usar:  %s."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Nota: se calcula con los archivos subidos entonces. Llevan\n  la ventana de tiempo y la alineación de aquel día. Donde el punto de entrada, el de salida\n  o la posición medida sean ahora otros, la comprobación de retorno mide la\n  diferencia y coloca las pistas en su sitio."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Nota: se calcula con los archivos subidos entonces. Llevan\n  la ventana de tiempo y la alineación de aquel día. Donde el punto de entrada,\n  el de salida y la posición medida queden ahora dentro de esa ventana, la\n  comprobación de retorno mide la diferencia y coloca las pistas en su sitio.\n  Donde vayan más allá -- un punto de entrada anterior, uno de salida posterior --,\n  rechaza las pistas: entonces vuelve a subirlo todo."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Nota: este ffmpeg no tiene soxr -- la deriva de reloj solo se puede descontar en\n  pasos de 21 ppm."
@@ -3689,6 +3689,9 @@ msgstr "Este archivo lo escribió la versión %s en el formato %d; esta escribe 
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Esta entrega no lleva frecuencia de imagen, así que con ella no se puede construir la Timeline. Vuelve a hacer la ejecución, por favor."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Esta entrega no nombra ningún archivo para %s, así que con ella no se puede construir la Timeline. Vuelve a hacer la ejecución, por favor."
 
 msgid "This is %s. Which version shall pip put in its place?"
 msgstr "Aquí corre %s. ¿Qué versión debe poner pip en su lugar?"

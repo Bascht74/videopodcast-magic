@@ -1126,8 +1126,8 @@ msgstr "  শুরু %s -- প্রতিটি শট এর সাপেক
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  এমন কোনো Timeline আগে ছিল না -- শুধু তৈরি করা হচ্ছে।"
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  নোট: এটি সেই সময় আপলোড করা ফাইল দিয়ে গণনা করে। সেগুলোতে\n  সেই দিনের সময়-পরিসর ও সারিবদ্ধতা রয়েছে। ইন পয়েন্ট, আউট পয়েন্ট\n  বা মাপা অবস্থান এখন আলাদা হলে, ফেরত যাচাই সেই\n  পার্থক্য মেপে ট্র্যাকগুলোকে জায়গামতো সরিয়ে দেয়।"
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  নোট: এটি সেই সময় আপলোড করা ফাইল দিয়ে গণনা করে। সেগুলোতে\n  সেই দিনের সময়-পরিসর ও সারিবদ্ধতা রয়েছে। ইন পয়েন্ট, আউট পয়েন্ট\n  ও মাপা অবস্থান এখন সেই পরিসরের ভেতরে থাকলে, ফেরত যাচাই\n  পার্থক্য মেপে ট্র্যাকগুলোকে জায়গামতো সরিয়ে দেয়। তার বাইরে গেলে --\n  আগের ইন পয়েন্ট, পরের আউট পয়েন্ট -- এটি ট্র্যাকগুলো প্রত্যাখ্যান করে:\n  তখন সব আবার আপলোড করুন।"
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  নোট: এই ffmpeg-এ soxr নেই -- ঘড়ির বিচ্যুতি কেবল\n  21 ppm-এর ধাপে সরানো যায়।"
@@ -4074,6 +4074,9 @@ msgstr "এই প্রোগ্রাম %s হিসেবে চলছে, �
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "এই হস্তান্তরে কোনো ফ্রেম রেট নেই, তাই এ থেকে Timeline তৈরি করা যায় না। অনুগ্রহ করে চালনাটি আবার করুন।"
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "এই হস্তান্তরে %s-এর জন্য কোনো ফাইল নেই, তাই এ থেকে Timeline তৈরি করা যায় না। অনুগ্রহ করে চালনাটি আবার করুন।"
 
 msgid ", %s file does not fit"
 msgid_plural ", %s files do not fit"

@@ -1151,8 +1151,8 @@ msgstr "  தொடக்கம் %s -- ஒவ்வொரு ஷாட்ட�
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  அத்தகைய Timeline இதுவரை இல்லை -- இப்போது புதிதாக உருவாக்கப்படுகிறது."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  குறிப்பு: இது அப்போது பதிவேற்றிய கோப்புகளைக் கொண்டு கணக்கிடுகிறது. அவற்றில்\n  அன்றைய நேர வரம்பும் சீரமைப்பும் உள்ளன. இன் புள்ளி, அவுட் புள்ளி\n  அல்லது அளவிட்ட நிலை இப்போது வேறுபட்டால், திரும்பும் சரிபார்ப்பு அந்த\n  வேறுபாட்டை அளந்து தடங்களைச் சரியான இடத்திற்கு நகர்த்தும்."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  குறிப்பு: இது அப்போது பதிவேற்றிய கோப்புகளைக் கொண்டு கணக்கிடுகிறது. அவற்றில்\n  அன்றைய நேர வரம்பும் சீரமைப்பும் உள்ளன. இன் புள்ளி, அவுட் புள்ளி\n  மற்றும் அளவிட்ட நிலை இப்போது அந்த வரம்புக்குள் இருந்தால், திரும்பும் சரிபார்ப்பு\n  வேறுபாட்டை அளந்து தடங்களைச் சரியான இடத்திற்கு நகர்த்தும். அதைத் தாண்டினால் --\n  முந்தைய இன் புள்ளி, பிந்தைய அவுட் புள்ளி -- அது தடங்களை நிராகரிக்கும்:\n  அப்போது அனைத்தையும் மீண்டும் பதிவேற்றவும்."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  குறிப்பு: இந்த ffmpeg-இல் soxr இல்லை -- கடிகார விலகலை 21 ppm\n  படிகளில் மட்டுமே நீக்க முடியும்."
@@ -4346,6 +4346,9 @@ msgstr "இந்த நிரல் %s கட்டமைப்பில் இ
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "இந்த ஒப்படைப்பில் ஃப்ரேம் வீதம் இல்லை, எனவே இதிலிருந்து Timeline-ஐ உருவாக்க முடியாது. தயவுசெய்து இயக்கத்தை மீண்டும் செய்யவும்."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "இந்த ஒப்படைப்பில் %s-க்கான கோப்பு குறிப்பிடப்படவில்லை, எனவே இதிலிருந்து Timeline-ஐ உருவாக்க முடியாது. தயவுசெய்து இயக்கத்தை மீண்டும் செய்யவும்."
 
 msgid "Cut by speaker"
 msgstr "பேச்சாளர் வாரியாக கட்"

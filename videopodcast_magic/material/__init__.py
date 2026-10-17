@@ -771,10 +771,12 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
             place_track_on_axis(done, target, a_corr, clock_drift, 0.0, window_length2,
                            drift=bool(clock_drift_ppm))
             track["ready"] = target
-            remark = (T('  -->  aligned, clock drift %s ppm taken out')
-                      % number_text(clock_drift_ppm, 1, plus=True)) \
-                if clock_drift_ppm \
-                else T('  -->  aligned')
+            # Laid by a measurement that cannot be used, the run stops on
+            # it below: its line says that, and nothing was aligned.
+            remark = ("" if uncertain
+                      else T('  -->  aligned, clock drift %s ppm taken out')
+                      % number_text(clock_drift_ppm, 1, plus=True)
+                      if clock_drift_ppm else T('  -->  aligned'))
         else:
             track["ready"] = done
         caution = (T('   Caution: measurement unusable') if uncertain

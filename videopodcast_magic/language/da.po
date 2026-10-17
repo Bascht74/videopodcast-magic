@@ -1124,8 +1124,8 @@ msgstr "  Start %s -- hvert klip placeres i forhold til den."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Der fandtes endnu ingen sådan Timeline -- den bygges bare."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Bemærkning: der beregnes med de filer, der blev uploadet dengang. De bærer\n  tidsvinduet og justeringen fra den dag. Hvor ind-punktet, ud-punktet\n  eller den målte position er anderledes nu, måler returtjekket\n  forskellen og flytter sporene på plads."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Bemærkning: der beregnes med de filer, der blev uploadet dengang. De bærer\n  tidsvinduet og justeringen fra den dag. Hvor ind-punktet, ud-punktet\n  og den målte position nu holder sig inden for det vindue, måler\n  returtjekket forskellen og flytter sporene på plads. Hvor de går ud over\n  det -- et tidligere ind-punkt, et senere ud-punkt -- afviser det sporene:\n  upload så alt igen."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Bemærkning: denne ffmpeg har ingen soxr -- klokkedrift kan kun fjernes i\n  trin på 21 ppm."
@@ -4072,6 +4072,9 @@ msgstr "Dette program kører som %s, og de pakker, der er installeret til det, e
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Denne overdragelse bærer ingen billedhastighed, så Timeline kan ikke bygges ud fra den. Lav kørslen igen."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Denne overdragelse angiver ingen fil til %s, så Timeline kan ikke bygges ud fra den. Lav kørslen igen."
 
 msgid ", %s file does not fit"
 msgid_plural ", %s files do not fit"

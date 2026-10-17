@@ -1128,8 +1128,8 @@ msgstr "  Początek %s -- każde ujęcie jest ustawiane względem niego."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Taka Timeline jeszcze nie istniała -- jest tylko budowana."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Wskazówka: obliczenia korzystają z plików przesłanych wtedy. Zawierają one\n  okno czasowe i wyrównanie z tamtego dnia. Jeśli punkt wejścia, punkt wyjścia\n  lub zmierzone położenie są teraz inne, kontrola zwrotna mierzy\n  różnicę i przesuwa ścieżki na miejsce."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Wskazówka: obliczenia korzystają z plików przesłanych wtedy. Zawierają one\n  okno czasowe i wyrównanie z tamtego dnia. Jeśli punkt wejścia, punkt wyjścia\n  i zmierzone położenie pozostają teraz wewnątrz tego okna, kontrola zwrotna\n  mierzy różnicę i przesuwa ścieżki na miejsce. Jeśli wychodzą poza nie --\n  wcześniejszy punkt wejścia, późniejszy punkt wyjścia -- odrzuca ścieżki:\n  wtedy prześlij wszystko ponownie."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Wskazówka: ten ffmpeg nie ma soxr -- dryf zegara można usuwać tylko\n  w krokach po 21 ppm."
@@ -4080,6 +4080,9 @@ msgstr "Ten program działa jako %s, a zainstalowane dla niego pakiety to %s, wi
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "To przekazanie nie zawiera liczby klatek na sekundę, więc nie da się z niego zbudować Timeline. Wykonaj przebieg jeszcze raz."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "To przekazanie nie wskazuje pliku dla %s, więc nie da się z niego zbudować Timeline. Wykonaj przebieg jeszcze raz."
 
 msgid ", %s file does not fit"
 msgid_plural ", %s files do not fit"

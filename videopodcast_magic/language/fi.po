@@ -1124,8 +1124,8 @@ msgstr "  Alku %s -- jokainen otos sijoitetaan sen mukaan."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Sellaista Timelinea ei vielä ollut -- se vain rakennetaan."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Huomautus: laskenta tehdään tuolloin lähetetyillä tiedostoilla. Niissä on\n  sen päivän aikaikkuna ja kohdistus. Jos in-piste, out-piste\n  tai mitattu sijainti on nyt toinen, paluutarkistus mittaa\n  eron ja siirtää raidat paikoilleen."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Huomautus: laskenta tehdään tuolloin lähetetyillä tiedostoilla. Niissä on\n  sen päivän aikaikkuna ja kohdistus. Jos in-piste, out-piste ja mitattu\n  sijainti pysyvät nyt sen ikkunan sisällä, paluutarkistus mittaa eron\n  ja siirtää raidat paikoilleen. Jos ne ulottuvat sen yli -- aiempi\n  in-piste, myöhempi out-piste --, se hylkää raidat:\n  lähetä silloin kaikki uudelleen."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Huomautus: tässä ffmpeg:ssä ei ole soxr:ää -- kellon ajautuman voi poistaa vain\n  21 ppm:n askelin."
@@ -4073,6 +4073,9 @@ msgstr "Tämä ohjelma toimii muodossa %s ja sille asennetut paketit ovat muotoa
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Tässä luovutuksessa ei ole kuvataajuutta, joten Timelinea ei voi rakentaa siitä. Tee ajo uudelleen."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Tämä luovutus ei nimeä tiedostoa kohteelle %s, joten Timelinea ei voi rakentaa siitä. Tee ajo uudelleen."
 
 msgid ", %s file does not fit"
 msgid_plural ", %s files do not fit"

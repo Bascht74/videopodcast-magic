@@ -1127,8 +1127,8 @@ msgstr "  Začátek %s -- podle něj se umisťuje každý záběr."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Taková Timeline ještě neexistovala -- pouze se staví."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Poznámka: počítá se se soubory nahranými tehdy. Nesou v sobě\n  časové okno a zarovnání z toho dne. Kde se bod In, bod Out\n  nebo změřená poloha nyní liší, zpětná kontrola změří\n  rozdíl a posune stopy na místo."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Poznámka: počítá se se soubory nahranými tehdy. Nesou v sobě\n  časové okno a zarovnání z toho dne. Kde bod In, bod Out a změřená\n  poloha nyní zůstávají uvnitř toho okna, zpětná kontrola změří rozdíl\n  a posune stopy na místo. Kde z něj vybíhají -- dřívější bod In,\n  pozdější bod Out --, kontrola stopy odmítne:\n  pak vše znovu nahrajte."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Poznámka: tento ffmpeg nemá soxr -- drift hodin lze odstranit jen\n  v krocích po 21 ppm."
@@ -4079,6 +4079,9 @@ msgstr "Tento program běží jako %s a balíčky pro něj nainstalované jsou %
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Toto předání nenese žádnou snímkovou frekvenci, Timeline z něj proto nelze postavit. Spusťte prosím běh znovu."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Toto předání neuvádí žádný soubor pro %s, Timeline z něj proto nelze postavit. Spusťte prosím běh znovu."
 
 msgid ", %s file does not fit"
 msgid_plural ", %s files do not fit"

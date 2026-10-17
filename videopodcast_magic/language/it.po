@@ -1203,8 +1203,8 @@ msgstr "Lì mancano dei file -- senza un nuovo caricamento non si può calcolare
 msgid "  Existing result adopted -- nothing computed, nothing paid."
 msgstr "  Risultato esistente adottato -- nulla calcolato, nulla pagato."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Nota: si calcola con i file caricati allora. Portano con sé\n  la finestra temporale e l’allineamento di quel giorno. Se il punto di ingresso, il punto di uscita\n  o la posizione misurata ora sono diversi, il controllo di ritorno misura la\n  differenza e rimette le tracce al loro posto."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Nota: si calcola con i file caricati allora. Portano con sé\n  la finestra temporale e l’allineamento di quel giorno. Se il punto di ingresso, il punto\n  di uscita e la posizione misurata restano ora dentro quella finestra, il controllo\n  di ritorno misura la differenza e rimette le tracce al loro posto. Se vanno oltre --\n  un punto di ingresso prima, un punto di uscita dopo -- rifiuta le tracce:\n  allora ricarica tutto."
 
 msgid "  Settings brought to preset %r"
 msgstr "  Impostazioni portate al preset %r"
@@ -3074,6 +3074,9 @@ msgstr "%(name)s (%(prefix)s*.json);;File JSON (*.json);;Tutti i file (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Questa consegna non contiene una frequenza fotogrammi, quindi non si può costruire la Timeline. Ripetere l’esecuzione."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Questa consegna non indica alcun file per %s, quindi non si può costruire la Timeline. Ripetere l’esecuzione."
 
 msgid "This Resolve project already exists"
 msgstr "Questo progetto Resolve esiste già"
