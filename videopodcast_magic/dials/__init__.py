@@ -83,7 +83,8 @@ MIN_EDIT_DURATION_S = 3.0
 SILENCE_HOLD_S = 1.0
 
 # The hard limit of the wide shot: no camera stands longer than two
-# minutes without a cut. A rule of the cut, set, not measured.
+# minutes without a cut -- while "Wide shot after" is on and "Long
+# monologue" changes the camera. A rule of the cut, set, not measured.
 WIDE_LATEST_S = 120.0
 
 # How fine the camera cut turns out. Per entry: switch, label,

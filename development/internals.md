@@ -139,7 +139,7 @@ figure of the day is that command, not this paragraph**:
   the next: the work folder, what somebody chose, the write that is
   moved into place rather than left half done, and whether a stored
   file may be read at all
-* `dials/` **183** -- the kinds a shot can be, the cut fields and their
+* `dials/` **184** -- the kinds a shot can be, the cut fields and their
   choices
 * `filing/` **158** -- path_key, ByFile and FileSet
 * `soundings/` **173** -- what has been measured of a file, taken once
