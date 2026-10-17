@@ -93,11 +93,11 @@ nächsten Start, sobald einmal eine von Hand auf- oder zugeklappt wurde;
 bis dahin sind alle offen, und eine Gruppe, in der ein Wert von der
 Vorgabe abweicht, wird als letzte zugeklappt, wenn der Platz knapp wird.
 
-![Die Stellschrauben für den Kameraschnitt](images/resolve-cut.de.png)
+![Der fertige Schnitt mit Schnittband und Legende](images/cut-band.de.png)
 
-*Reiter Resolve-Schnitt: links die Werte in drei Gruppen, die sich
-zuklappen lassen, rechts die Vorschau. Die Wörter sind hier schon
-aufgeschrieben, darum wirkt jede Einstellung.*
+*Die Vorschau im Reiter Resolve-Schnitt, wenn der Schnitt gerechnet
+ist: seine Zahlen über dem Player, darunter das Band der Einstellungen
+und die Legende mit dem Anteil jeder Kamera.*
 
 Alle neun Felder nehmen Sekunden, und die Zahl in jeder Zeile ist die
 Vorgabe. Ein leeres Feld heißt Vorgabe, ein Komma gilt als

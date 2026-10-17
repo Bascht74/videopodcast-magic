@@ -83,11 +83,11 @@ once one has been opened or shut by hand; until then all of them open,
 and a group holding a value off its default is the last to be shut for
 room.
 
-![The knobs for the camera cut](images/resolve-cut.png)
+![The finished cut with its band and legend](images/cut-band.png)
 
-*Tab Resolve cut: the values on the left in three groups that fold
-away, the preview on the right. Words are written down here, so every
-setting is active.*
+*The preview on the tab Resolve cut once the cut is worked out: its
+numbers over the player, the band of shots under it, and the legend
+with each camera's share.*
 
 All nine fields take seconds, and the number in each line is the
 default. An empty field means the default, a comma counts as the decimal
