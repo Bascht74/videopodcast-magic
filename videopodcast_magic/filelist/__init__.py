@@ -275,6 +275,20 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
 
     def items_fresh():
         """Build every row of the list again, and what hangs off the rows."""
+        # Why a cut failed outlives the rows, not the file leaving the list.
+        why = state.setdefault("split_failed", PROGRAM.ByFile())
+
+        def prework_said(node, row):
+            """The row of *row* to the prework, whose words go beside why."""
+            def put(column, text):
+                """*text* and why a cut failed, while its None stands."""
+                told = [why[x] for x in row if x in why and why[x] not in text
+                        and model.split_files.get(x, ()) is None]
+                node.setText(column, "   --   ".join([text] + told[:1]))
+            put(2, os.path.dirname(row[0]))
+            said = PROGRAM.types.SimpleNamespace(setText=put)
+            prework_node.update((x, (said, os.path.dirname(x))) for x in row)
+
         probe_warm([p for p, _ in model.files])
         items.clear()
         # The rows are gone with it, so what could draw them again goes too.
@@ -328,12 +342,14 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
                             lines_node, channel_rows_show, shown)
                         join_row_show(node, row[0], heads)
                         sound_row_show(node, row[0])
+                        prework_said(node, row)
                         continue
                     p = row[0]
                     node = item(group, shown.get(p) or os.path.basename(p),
                                     os.path.dirname(p), "audio",
                                     files_for_it=[p])
                     lines_node[p] = node
+                    prework_said(node, row)
                     join_row_show(node, p, heads)
                     sound_row_show(node, p)
                     channel_rows_show(node, p)
@@ -361,6 +377,8 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
                 for k, value in lines:
                     item(node, "      " + k, value)
                 node.setExpanded(False)
+        for gone in [x for x in list(why) if x not in recording_of]:
+            why.pop(gone, None)
         # The drop area gives way to the list as soon as something is in it.
         drop_area.setVisible(not model.files)
         items.setVisible(bool(model.files))
