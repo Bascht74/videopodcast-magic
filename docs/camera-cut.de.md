@@ -153,12 +153,16 @@ gehören zusammen: eine weiche Grenze und eine harte.
   keine Aufnahme gezeigt, wo sie liegen sollten. Ist seit **Weitwinkel
   nach** keine Satzgrenze gekommen, tritt die längste Sprechpause in der
   Nähe an ihre Stelle, und dort wird geschnitten, gleich was gerade
-  gesagt wird; ist auch keine brauchbare Pause da, entscheidet die Uhr.
-  Kleiner unterbricht eine stehende Kamera früher (auf der Kommandozeile
-  `--wide-latest`). Sie gilt nur zusammen mit **Weitwinkel nach**: Steht
-  das auf 0 oder **Langer Monolog** auf **Kein Kamerawechsel**, wird
-  nichts erzwungen, und eine Kamera steht so lange, wie ihr Sprecher
-  redet -- wer die Weitwinkel abschaltet, will keine
+  gesagt wird; ist auch keine brauchbare Pause da, bricht die Uhr die
+  Einstellung auf, sofern sie auch länger steht als dieser Wert. Dieser
+  Teil gilt nur zusammen mit **Weitwinkel nach**: Steht das auf 0 oder
+  **Langer Monolog** auf **Kein Kamerawechsel**, wird nichts
+  aufgebrochen, so lange eine Kamera auch steht. Der Weitwinkel für
+  Begrüßung und Verabschiedung steht trotzdem nie länger als dieser
+  Wert, gleich was die beiden sagen (das Häkchen unten). Kleiner lässt
+  die Uhr schon an kürzere Einstellungen, bis hinab zu **Weitwinkel
+  nach**, und kürzt den Weitwinkel über einer langen Begrüßung oder
+  Verabschiedung (auf der Kommandozeile `--wide-latest`)
 * **Weitwinkel mindestens**: 5 s, so lange steht der eingeschobene
   Weitwinkel mindestens, danach läuft er bis zum Ende des Satzes; höher
   macht jeden Blick weg länger (auf der Kommandozeile `--wide-length`)
@@ -214,7 +218,7 @@ und Ende auf dem Weitwinkel (auf der Kommandozeile schaltet
 `--no-wide-edges` es ab). Der Weitwinkel am Anfang hält, bis das Wort
 wirklich übergeben wird, nicht bis zum ersten längeren Block einer
 Nebenstimme. Keiner der beiden Ränder hält länger als ein Drittel der
-Aufnahme und länger als **Weitwinkel spätestens**: Wo Begrüßung oder
+Aufnahme oder länger als **Weitwinkel spätestens**: Wo Begrüßung oder
 Abschied länger dauern würden, endet dieser Rand dort -- in einer kurzen
 Aufnahme beim Drittel, in einer langen bei der Einstellung --, und das
 Protokoll vermerkt es unter `Weitwinkel am Rand`, samt der Stelle, an
@@ -874,9 +878,9 @@ beendet ihn die letzte Teilsatzgrenze davor.
 **Weitwinkel spätestens** ist die Reißleine. Kommt keine Satzgrenze,
 tritt die längste Sprechpause in der Nähe an ihre Stelle, und dort wird
 geschnitten, gleich was gerade gesagt wird; ist auch keine brauchbare
-Pause da, wird eine Kamera nach der Uhr aufgebrochen, damit kein Stück
-von ihr länger als diese Zeit steht -- solange **Weitwinkel nach** an
-ist, siehe oben. Ohne Transkript gibt es
+Pause da, wird eine Kamera nach der Uhr aufgebrochen, sofern sie auch
+länger als diese Zeit steht -- solange **Weitwinkel nach** an ist und
+**Langer Monolog** die Kamera wechselt, siehe oben. Ohne Transkript gibt es
 überhaupt keine Satzgrenzen: der Weitwinkel geht dann an die längste
 Pause in der Nähe und steht die eingestellte Mindestzeit — deshalb ist
 die weiche Grenze gesperrt, solange die Wörter fehlen, und die harte

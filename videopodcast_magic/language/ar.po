@@ -4786,8 +4786,8 @@ msgstr "الصفر هو حيث يتوقف السائل، لا حيث تبدأ ا
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "الحد المرن للإعدادين: من هنا ينتظر البرنامج حدّ جملة ويضع اللقطة الواسعة عنده، لا وفق الساعة. 0 يوقفه. \"اللقطة الواسعة على أبعد تقدير\" هو الحد الصارم، حيث يتم القطع من دونه."
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "الحد الصارم للإعدادين: إذا لم يظهر أي حدّ جملة منذ \"اللقطة الواسعة بعد\"، تحل أطول وقفة كلام محله، وعند هذه النقطة يتم القطع أيًّا كان ما يُقال. لا يسري هذا إلا ما دام \"اللقطة الواسعة بعد\" مفعّلًا و\"مونولوج طويل\" يبدّل الكاميرا: إذا كان الأول 0 أو الثاني على \"بدون تغيير الكاميرا\"، فلا يُفرض شيء، مهما طال بقاء الكاميرا."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "الحد الصارم للإعدادين: اللقطة الأطول من \"اللقطة الواسعة بعد\" التي لا تقدّم حدّ جملة ولا وقفة تُقسَّم حسب الساعة، بشرط أن تكون أطول من هذه القيمة أيضًا. يسري هذا ما دام \"اللقطة الواسعة بعد\" مفعّلًا و\"مونولوج طويل\" يبدّل الكاميرا. ولا تدوم اللقطة الواسعة للترحيب والوداع أطول من هذه القيمة، أيًّا كان ما يقوله هذان الإعدادان."
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "ثم تستمر حتى نهاية الجملة. تحت خمس ثوانٍ تبدو النظرة كارتعاشة."

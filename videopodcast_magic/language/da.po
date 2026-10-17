@@ -4477,8 +4477,8 @@ msgstr "Oversigtsbillede senest"
 msgid "and here it is cut, good moment or not"
 msgstr "og her klippes der, godt øjeblik eller ej"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "Den hårde grænse af de to: er der ikke kommet nogen sætningsgrænse siden \"Oversigtsbillede efter\", træder den længste talepause i stedet, og på dette punkt klippes der, uanset hvad der bliver sagt. Det gælder kun, mens \"Oversigtsbillede efter\" er slået til, og \"Lang monolog\" skifter kamera: står det første på 0 eller det andet på \"Intet kameraskift\", gennemtvinges intet, hvor længe et kamera end står."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Den hårde grænse af de to: et billede, der står længere end \"Oversigtsbillede efter\" og hverken byder på en sætningsgrænse eller en pause, brydes op efter uret, forudsat at det også står længere end dette. Det gælder, mens \"Oversigtsbillede efter\" er slået til, og \"Lang monolog\" skifter kamera. Oversigtsbilledet til velkomst og farvel står ikke længere end dette, uanset hvad de to siger."
 
 msgid "Wide shot at least"
 msgstr "Oversigtsbillede mindst"

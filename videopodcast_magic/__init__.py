@@ -550,12 +550,13 @@ def say_resolve_stopped(e, indent=""):
     """Say why the Resolve part stopped, in one line, and return 1.
 
     A RuntimeError is the build's own word -- what Resolve refused or
-    would not answer -- and an OSError or a broken handover file the
-    system's; anything else is a fault in this program's own code, said
-    as one, to be reported, with its traceback into the log. Called
-    inside the except, by a whole run and by the Resolve part alone.
+    would not answer -- and an OSError or a handover file that is not
+    JSON, or not UTF-8, the system's; anything else is a fault in this
+    program, said as one, to be reported, its traceback into the log.
+    Called inside the except, by a whole run and the Resolve part alone.
     """
-    if isinstance(e, (RuntimeError, OSError, json.JSONDecodeError)):
+    if isinstance(e, (RuntimeError, OSError, json.JSONDecodeError,
+                      UnicodeDecodeError)):
         print(indent + T('Resolve part stopped: %s') % e)
         return 1
     fault_into_log()

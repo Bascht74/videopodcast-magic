@@ -4432,8 +4432,8 @@ msgstr "Cảnh rộng muộn nhất"
 msgid "and here it is cut, good moment or not"
 msgstr "và ở đây sẽ cắt, dù có phải thời điểm tốt hay không"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "Giới hạn cứng của cặp này: nếu từ \"Cảnh rộng sau\" đến giờ chưa có ranh giới câu nào, khoảng ngừng nói dài nhất sẽ thay thế, và tại điểm này sẽ cắt bất kể đang nói gì. Điều này chỉ áp dụng khi \"Cảnh rộng sau\" đang bật và \"Độc thoại dài\" có đổi máy quay: khi cái đầu là 0 hoặc cái sau là \"Không đổi máy quay\", sẽ không ép buộc gì, dù một máy quay đứng lâu đến đâu."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Giới hạn cứng của cặp này: một cảnh dài hơn \"Cảnh rộng sau\" mà không có ranh giới câu cũng không có khoảng ngừng sẽ bị chia theo đồng hồ, miễn là nó cũng đứng lâu hơn giá trị này. Điều này áp dụng khi \"Cảnh rộng sau\" đang bật và \"Độc thoại dài\" có đổi máy quay. Cảnh rộng cho lời chào và lời tạm biệt không đứng lâu hơn giá trị này, bất kể hai thiết lập kia nói gì."
 
 msgid "Wide shot at least"
 msgstr "Cảnh rộng tối thiểu"

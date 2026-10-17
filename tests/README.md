@@ -527,7 +527,7 @@ it is green.
 | `project_connect_says_why` | Each way the connection to Resolve fails is told apart, and a hit kept. |
 | `project_each_track_set` | Checks: on reuse the tracks are switched over one at a time. |
 | `project_edge_file_named` | An intro or outro without its file is named before Resolve is asked. |
-| `project_errors_reach_run` | A --resolve run whose Resolve build was refused or stopped ends in 1. |
+| `project_errors_reach_run` | A refused or stopped --resolve build ends the run in 1; a stop says whose. |
 | `project_every_offset` | Every camera reaches the handover with its offset -- and only a camera. |
 | `project_file_beats_last` | A project opened after another takes its answers from its own file. |
 | `project_grades_stay_off` | Remote grades: off by default, and always set -- old projects too. |

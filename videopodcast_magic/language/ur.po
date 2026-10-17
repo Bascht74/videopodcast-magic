@@ -3696,8 +3696,8 @@ msgstr "جوڑی کی نرم حد: یہاں سے پروگرام جملے کے ا
 msgid "and here it is cut, good moment or not"
 msgstr "اور یہاں کٹ لگتا ہے، اچھا لمحہ ہو یا نہ ہو"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said. This holds only while \"Wide shot after\" is on and \"Long monologue\" changes the camera: with the first at 0 or the second on \"No camera change\", nothing is forced, however long a camera stands."
-msgstr "جوڑی کی سخت حد: جہاں \"وائیڈ شاٹ اتنی دیر بعد\" کے بعد سے جملے کا کوئی اختتام نہیں آیا، وہاں بولنے میں سب سے لمبا خلا اس کی جگہ لیتا ہے، اور اس مقام پر کٹ لگتا ہے چاہے اس وقت کچھ بھی کہا جا رہا ہو۔ یہ صرف تب لاگو ہوتا ہے جب \"وائیڈ شاٹ اتنی دیر بعد\" آن ہو اور \"طویل یک طرفہ گفتگو\" کیمرا بدلتا ہو: پہلا 0 پر یا دوسرا \"کیمرا تبدیل نہیں\" پر ہو تو کچھ بھی مسلط نہیں کیا جاتا، کیمرا چاہے کتنی ہی دیر رہے۔"
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "جوڑی کی سخت حد: \"وائیڈ شاٹ اتنی دیر بعد\" سے لمبا جو شاٹ نہ جملے کا اختتام دیتا ہے نہ کوئی وقفہ، اسے گھڑی کے حساب سے توڑا جاتا ہے، بشرطیکہ وہ اس سے بھی زیادہ دیر رہے۔ یہ تب لاگو ہوتا ہے جب \"وائیڈ شاٹ اتنی دیر بعد\" آن ہو اور \"طویل یک طرفہ گفتگو\" کیمرا بدلتا ہو۔ استقبال اور الوداع کا وائیڈ شاٹ اس سے زیادہ دیر نہیں رہتا، وہ دونوں چاہے کچھ بھی کہیں۔"
 
 msgid "Why the question settings are grey"
 msgstr "سوال والی ترتیبات سرمئی کیوں ہیں"

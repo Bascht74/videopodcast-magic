@@ -8,7 +8,8 @@ the first and the last. One announcement past a third: no shot falls
 under the minimum edit duration, and the log names it the only one.
 The mixedcase voices over a minute keep their edges and say nothing.
 Half an hour: each edge stops at "Wide shot at the latest", and at a
-lower setting at that one.
+lower setting at that one -- with "Wide shot after" at 0, as everywhere
+above, and with it on and "Long monologue" on "No camera change" alike.
 """
 PLATFORM_BOUND = False
 import os
@@ -49,13 +50,13 @@ ONLY = vpm.T('  shortened to at most %s each -- the only announcement '
              'runs from %s to %s')
 
 
-def cut_and_log(tracks, length, latest=120.0):
+def cut_and_log(tracks, length, latest=120.0, after=0.0, rules=None):
     """The cut with the wide shot at the edges, and what it printed."""
     said = io.StringIO()
     with contextlib.redirect_stdout(said):
         cut = vpm.camera_cut(tracks, length, CAMERA_OF, "Wide", SHORTEST,
-                             0.3, after=0.0, holds=5.0, at_latest=latest,
-                             edge=True, rules=None, faint=False)
+                             0.3, after=after, holds=5.0, at_latest=latest,
+                             edge=True, rules=rules, faint=False)
     return [(round(a, 3), round(b, 3), who) for a, b, who in cut], \
         said.getvalue()
 
@@ -141,6 +142,15 @@ check("a lower latest setting holds both edges to it",
       and low[-1] == (1740.0, 1800.0, "Wide"),
       "first %s, last %s, wanted Wide 0.0-60.0 and Wide 1740.0-1800.0"
       % (shot(low, 0), shot(low, -1)))
+# What the four texts about the setting promise: the two that switch
+# the breaking up off in the middle leave the edges to it.
+held, _held_log = cut_and_log(HALF, 1800.0, after=70.0,
+                              rules=vpm.cut_rules(on_monologue=vpm.SHOT_HOLD))
+check("with No camera change on a monologue the edges stop there too",
+      bool(held) and held[0] == (0.0, 120.0, "Wide")
+      and held[-1] == (1680.0, 1800.0, "Wide"),
+      "first %s, last %s, wanted Wide 0.0-120.0 and Wide 1680.0-1800.0"
+      % (shot(held, 0), shot(held, -1)))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

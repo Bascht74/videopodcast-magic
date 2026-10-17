@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""A --resolve run whose Resolve build was refused or stopped ends in 1.
+"""A refused or stopped --resolve build ends the run in 1; a stop says whose.
 
 Whole Sync only runs of the interview fixture's cameras and one
 recording, started through main as the command line starts one, with
@@ -7,7 +7,8 @@ the Resolve build asked for: once with a video track Resolve refuses
 every time -- first that the build reached it, then the run's code --
 once with nothing refused, and twice with a build that stops at the
 import, on Resolve's word and on a fault of our own -- first that the
-build made its project and took it back, then the run's code. Resolve is
+build made its project and took it back, then the run's code, then the
+line that says which of the two stopped it. Resolve is
 a stand-in whose timelines refuse AddTrack as project_refusal_heeded's
 do, and for the stop the shared stand-in's project manager with a
 project open before; the run and the build are the real ones. The
@@ -267,8 +268,8 @@ def run(refuse, n, pm=None):
 WRITTEN = vpm.T('  Transcript: %s').split("%s")[0].strip()
 
 
-def last_line(said):
-    """The run's last word, without the colour marks, for a FAIL line.
+def rows_of(said):
+    """The run's lines, without the colour marks and the transcript's.
 
     The folder of this run is written as <work>: a path that changes
     with every run says nothing a reader could compare.
@@ -276,8 +277,13 @@ def last_line(said):
     rows = [re.sub(re.escape(vpm.MARK) + ".", "", x).strip()
             .replace(WORK, "<work>")
             for x in said.splitlines() if x.strip()]
-    rows = [x for x in rows if not x.startswith(WRITTEN)]
-    return rows[-1][:160] if rows else ""
+    return [x for x in rows if not x.startswith(WRITTEN)]
+
+
+def last_line(said, back=1):
+    """The run's last word, for a FAIL line; *back* 2 the one before."""
+    rows = rows_of(said)
+    return rows[-back][:160] if len(rows) >= back else ""
 
 
 print("1. A video track Resolve refuses every time")
@@ -311,8 +317,8 @@ IMPORTING = vpm.import_media
 def stopped(fault, n):
     """One whole run whose build stops at the import, raising *fault*.
 
-    Returns the run's code, what was left in the project manager, and
-    the run's last line.
+    Returns the run's code, what was left in the project manager, the
+    run's last line, and all it said.
     """
     pm = stand.ProjectManager(names=[BEFORE])
     pm.current = pm.projects[BEFORE]
@@ -330,13 +336,15 @@ def stopped(fault, n):
         pm.made)
     back = (pm.made and sorted(pm.projects) == [BEFORE]
             and pm.current is pm.projects[BEFORE])
-    return code, back, left, last_line(said)
+    return code, back, left, last_line(said), said
 
 
-resolve_code, resolve_back, resolve_left, resolve_last = stopped(
-    RuntimeError("the stand-in Resolve takes none of the files"), 3)
-ours_code, ours_back, ours_left, ours_last = stopped(
-    IndexError("list index out of range"), 4)
+RESOLVE_WORD = "the stand-in Resolve takes none of the files"
+OUR_FAULT = "list index out of range"
+resolve_code, resolve_back, resolve_left, resolve_last, resolve_said = \
+    stopped(RuntimeError(RESOLVE_WORD), 3)
+ours_code, ours_back, ours_left, ours_last, ours_said = stopped(
+    IndexError(OUR_FAULT), 4)
 # The precondition: the build reached Resolve, made its project and
 # stopped -- or the codes below say nothing about a stopped build.
 check("a stopped build made its project and took it back again",
@@ -348,5 +356,19 @@ check("a run whose Resolve build stopped ends in 1, not 0",
       "stopped on Resolve's word the run ended in %r, on a fault of ours "
       "in %r, both against 1; last lines %r and %r"
       % (resolve_code, ours_code, resolve_last, ours_last))
+# The stop is said in the line before the last: the run closes on the
+# handover being ready for --resolve-json.
+WANT = vpm.T('Resolve part stopped: %s') % RESOLVE_WORD
+check("a build stopped on Resolve's word says the Resolve part stopped",
+      WANT in rows_of(resolve_said),
+      "the line before the last %r against %r"
+      % (last_line(resolve_said, 2), WANT))
+WANT = vpm.T('Resolve part stopped on a fault in this program, not in '
+             'Resolve: %s -- please report it. The details are in the '
+             'log.') % ("IndexError: " + OUR_FAULT)
+check("a build stopped by a fault of ours names it as ours",
+      WANT in rows_of(ours_said),
+      "the line before the last %r against %r"
+      % (last_line(ours_said, 2), WANT))
 
 stop()

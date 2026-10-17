@@ -101,7 +101,7 @@ cut_refusal_ends_red	11
 cut_resolve_refusal_said	12
 cut_right_camera	67
 cut_rules_hold	84
-cut_short_edges_kept	12
+cut_short_edges_kept	13
 cut_slider_recuts_only	6
 cut_speech_time_fits	6
 cut_stored_voices_used	7
@@ -164,7 +164,7 @@ project_close_forgets	2
 project_connect_says_why	11
 project_each_track_set	8
 project_edge_file_named	3
-project_errors_reach_run	6
+project_errors_reach_run	8
 project_every_offset	11
 project_file_beats_last	6
 project_grades_stay_off	8
@@ -252,7 +252,7 @@ run_space_has_margin	19
 run_starter_arch_fits	30
 run_stays_local	20
 run_stop_heard_midway	32
-run_stop_names_why	30
+run_stop_names_why	31
 run_stop_passes_through	13
 run_stored_words_cut	7
 run_switch_changes_it	12
