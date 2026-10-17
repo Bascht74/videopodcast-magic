@@ -243,6 +243,13 @@ nicht.
   report: one saved again as UTF-16, or a video handed to `--resolve-
   json`.
 
+- **Start and Dry run now wait for every block of a recording** being
+  cut into tracks, not only its first, and a recording set to "do not
+  use" no longer holds them.
+
+- **A file whose cut into tracks fails now says why in its row of the
+  file list**, in ffmpeg's words, until it is cut again or taken out.
+
 ### Documentation
 
 - **The requirements chapter now explains the Python 3.12 floor** and
@@ -323,10 +330,10 @@ nicht.
   Einstellungen des Presets ohne dessen Vor- und Abspann**, so wie eine
   Multitrack-Produktion entsteht.
 - **Ein Probelauf legt die Spuren nicht mehr für sich selbst auf die
-  Zeitachse**: Die Vorschau über ein 68 Minuten langes Interview braucht
-  rund 2,4 GB weniger Platz, und der Schnitt bleibt auf die Sekunde
-  gleich. Mit API Key oder bei Mikrofonen, die einander zu gut hören,
-  werden die Spuren noch geschrieben.
+  Zeitachse**: Ein 68-Minuten-Interview braucht in der Vorschau rund 2,4
+  GB weniger Platz, der Schnitt bleibt gleich. Mit API Key oder bei
+  Mikrofonen, die einander zu gut hören, werden die Spuren noch
+  geschrieben.
 - **Ohne Bild messen Fenster und Lauf die Zeitachse nur noch einmal**:
   Jeder übernimmt, was der andere über dieselben Aufnahmen gemessen hat,
   wie schon neben einem Bild.
@@ -499,6 +506,14 @@ nicht.
 - **Eine Übergabedatei, die nicht UTF-8 ist, wird jetzt wieder als
   Problem der Datei gemeldet**, nicht mehr als Fehler im Programm: etwa
   eine als UTF-16 neu gespeicherte oder ein Video an `--resolve-json`.
+
+- **Start und Probelauf warten jetzt auf jeden Block einer Aufnahme**,
+  die in Spuren zerlegt wird, nicht nur auf den ersten; eine auf „nicht
+  verwenden“ gestellte hält sie nicht mehr auf.
+
+- **Scheitert das Zerlegen in Spuren, sagt die Zeile der Datei jetzt,
+  warum**, in ffmpegs Worten, bis sie neu zerlegt oder herausgenommen
+  wird.
 
 ### Dokumentation
 
