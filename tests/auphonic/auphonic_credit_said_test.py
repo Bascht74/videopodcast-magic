@@ -4,16 +4,16 @@
 auphonic.com is never spoken to: `_curl_call` is replaced by a stand-in
 answering /api/user.json the way its API page shows it. Sections: the
 account read; the lines before an upload -- the plan, the credit in
-whole minutes, what a production needs rounded up to at least one, a
-hint where the credit is short, and a warning with a note beside it
-where a free account's Multitrack production is longer than the 21
-minutes auphonic.com took, none on the border itself; a run that
-says it before anything goes up and goes on; the line in the Auphonic
-box, red where the production needs more, plain without a preset; the
-box in the window, fed the length of the rows, shown once the account
-answered, preset or not; and the check before the run, which says the
-same lines first, asks once, and stops nothing. File lengths are stood
-in for from the window on.
+whole minutes, what a production needs rounded up to at least three,
+and a hint where the credit is short; a run that says it before
+anything goes up and goes on; the line in the Auphonic box, saying
+enough or not enough, red where the production needs more, plain
+without a preset; the box in the window, fed what the rows are charged
+-- Singletrack productions each at least three minutes -- shown once
+the account answered, preset or not; and the check before the run,
+which says the same lines first and asks once. The free Multitrack
+border is auphonic_free_long_stops'. File lengths are stood in for
+from the window on.
 """
 PLATFORM_BOUND = True
 import os
@@ -67,7 +67,8 @@ PAID = {"username": "testuser", "credits": 2.87309201310154,
 class Account(object):
     """Stands in for auphonic.com: answers the account, notes each call.
 
-    An upload -- any call with a progress bar -- ends the run with
+    A production made is answered with its id, so the run goes on. An
+    upload -- any call with a progress bar -- ends the run with
     Uploaded, having first written a mark into what the run prints, so
     the order of the two can be read off the text.
     """
@@ -81,6 +82,8 @@ class Account(object):
         if progress:
             print("<<the upload begins here>>")
             raise Uploaded()
+        if any(str(a).endswith("/api/productions.json") for a in arguments):
+            return json.dumps({"status_code": 200, "data": {"uuid": "U1"}})
         if isinstance(self.answer, Exception):
             raise self.answer
         return self.answer
@@ -160,11 +163,6 @@ SHORT = T('  Credit at auphonic.com: %s left, and this '
           'production needs %s -- not enough.')
 TRIES = T('  Note: the run tries anyway. auphonic.com decides whether the '
           'production starts, and says so if it does not.')
-WARN = T('  Warning: this Multitrack production is %s long, and on the '
-         'free plan auphonic.com takes one only up to about %s.')
-WHY = T('  Note: auphonic.com refuses a longer one at the start and charges '
-        'nothing for it. The run tries anyway; if auphonic.com refuses, its '
-        'own message follows.')
 
 HOUR = {"hours": 1.0, "paying": True}
 lines = verdict(HOUR, 30 * 60, False)
@@ -188,39 +186,22 @@ check("short credit is no warning",
       % (len(warned(lines)), len(lines), warned(lines)))
 
 lines = verdict(HOUR, 20, False)
-check("a 20 s production is said to need 1 min, never 0 min",
-      lines[1:] == [ENOUGH % (minutes(60), minutes(1))],
+check("a 20 s production is said to need 3 min, the least charged",
+      lines[1:] == [ENOUGH % (minutes(60), minutes(3))],
       "1 h left for 20 s: %r" % (lines,))
-lines = verdict(HOUR, 90, False)
-check("a production of 1 min 30 s is said to need 2 min, rounded up",
-      lines[1:] == [ENOUGH % (minutes(60), minutes(2))],
-      "1 h left for 90 s: %r" % (lines,))
-lines = verdict({"hours": 30 / 3600.0, "paying": True}, 20, False)
-check("30 s of credit does not carry a 20 s production charged as 1 min",
-      lines[1:] == [SHORT % (minutes(0), minutes(1)), TRIES],
-      "30 s left for 20 s: %r" % (lines,))
+lines = verdict(HOUR, 210, False)
+check("a production of 3 min 30 s is said to need 4 min, rounded up",
+      lines[1:] == [ENOUGH % (minutes(60), minutes(4))],
+      "1 h left for 210 s: %r" % (lines,))
+lines = verdict({"hours": 150 / 3600.0, "paying": True}, 20, False)
+check("2 min 30 s of credit does not carry a 20 s production at 3 min",
+      lines[1:] == [SHORT % (minutes(2), minutes(3)), TRIES],
+      "150 s left for 20 s: %r" % (lines,))
 
 FREE = {"hours": 2.0, "paying": False}
 lines = verdict(FREE, 21 * 60 + 1, True)
 check("a free account is said as free, first",
       lines[:1] == [FREE_SAID], "lines: %r" % (lines,))
-check("a free Multitrack production past 21 min gets the border warning",
-      lines[-2:] == [vpm.as_warn(WARN % (minutes(22), minutes(21))), WHY],
-      "21 min 1 s on the free plan: %r" % (lines,))
-check("the border line is marked a warning, and only that line",
-      warned(lines) == [vpm.as_warn(WARN % (minutes(22), minutes(21)))],
-      "%d of %d lines marked a warning: %r"
-      % (len(warned(lines)), len(lines), warned(lines)))
-lines = verdict(FREE, 21 * 60, True)
-check("a free Multitrack production of exactly 21 min gets none",
-      len(lines) == 2 and not warned(lines),
-      "21 min on the free plan: %r" % (lines,))
-lines = verdict(FREE, 22 * 60, False)
-check("the border holds for Multitrack only, not Singletrack",
-      len(lines) == 2, "22 min Singletrack, free: %r" % (lines,))
-lines = verdict(dict(FREE, paying=True), 22 * 60, True)
-check("a paying account's Multitrack production may be longer",
-      len(lines) == 2, "22 min Multitrack, paid: %r" % (lines,))
 lines = verdict(None, 30 * 60, True)
 check("an account that did not answer is said as not known",
       lines == [UNKNOWN, T('  Credit at auphonic.com: not known -- the '
@@ -266,16 +247,17 @@ def run_said(account):
         False), account)
 
 
-# Three seconds of sound are charged as a whole minute.
-ONE = minutes(1)
+# Three seconds of sound are charged as three minutes, the least.
+ONE = minutes(3)
 
-# Three seconds of sound against a fiftieth of an hour, 72 s: enough.
-text, calls = run_said(dict(PAID, credits=0.02))
+# Three seconds of sound against 0.06 of an hour, 216 s: enough.
+text, calls = run_said(dict(PAID, credits=0.06))
 mark = text.find("<<the upload begins here>>")
 enough = text.find(ENOUGH % (ONE, ONE))
+# Between the two the run looks for a production of its title.
 check("a run asks the account before its upload, not after",
-      len(calls) == 2 and calls[0][-1].endswith("/api/user.json")
-      and "-F" in calls[1],
+      calls and calls[0][-1].endswith("/api/user.json")
+      and "-F" in calls[-1] and not any("-F" in c for c in calls[:-1]),
       "calls in order: %r" % ([c[-1] if "-F" not in c else "upload"
                                for c in calls],))
 plan = text.find(PAYING)
@@ -299,22 +281,6 @@ check("nothing a run says about the account is a warning",
       not warned(text[:mark].splitlines()), "%r"
       % (warned(text[:mark].splitlines()),))
 
-# A free account, two tracks of 25 minutes by the measure the run asks:
-# the files are short, their length is stood in for.
-tracks = [{"name": "Guest", "axis": audio},
-          {"name": "Presenter", "axis": audio}]
-measure, vpm.media_seconds = vpm.media_seconds, lambda path: 25 * 60.0
-text, calls = said_by(lambda: vpm.run_multitrack_production(
-    KEY, "PRESETUUID", "Podcast", tracks, os.path.join(room, "back")),
-    dict(PAID, credits=2.0, is_paying_user=False))
-vpm.media_seconds = measure
-border = text.find(vpm.as_warn(WARN % (minutes(25), minutes(21))))
-check("a free Multitrack run of 25 min gives the border warning",
-      border >= 0 and text.find(WHY) > border, "%r" % text[:500])
-check("and goes on to auphonic.com after it",
-      len(calls) >= 2 and "/api/preset/PRESETUUID" in calls[1][-1],
-      "calls in order: %r" % ([c[-1] for c in calls],))
-
 # ------------------------------------------------------- 4. The box
 print("\n4. The line in the Auphonic box")
 
@@ -336,23 +302,22 @@ check("the box shows what the account has left once it answered",
 check("credit that carries the production is not red",
       RED not in line.styleSheet(), "150 min for 40: style %r"
       % line.styleSheet())
+ENOUGH_BOX = T('Enough for the %s this production needs.')
+NOT_ENOUGH_BOX = T('Not enough for the %s this production needs.')
+check("the box says the credit is enough for what the production needs",
+      ENOUGH_BOX % minutes(40) in line.text()
+      and NOT_ENOUGH_BOX % minutes(40) not in line.text(),
+      "150 min for 40: text %r" % line.text())
 show({"hours": 0.5, "paying": True}, False, 40 * 60)
 check("the box is red when the production needs more than is left",
       RED in line.styleSheet(), "30 min for 40: style %r"
       % line.styleSheet())
+check("the box says the credit is not enough for what the production needs",
+      NOT_ENOUGH_BOX % minutes(40) in line.text(),
+      "30 min for 40: text %r" % line.text())
 show({"hours": 0.0, "paying": True}, False)
 check("the box is red when no credit is left",
       RED in line.styleSheet(), "style %r" % line.styleSheet())
-FREE_LINE = T('On the free plan auphonic.com takes a Multitrack production '
-              'only up to about %s.') % minutes(21)
-show({"hours": 2.0, "paying": False}, True, 22 * 60)
-check("the box names the free Multitrack border past 21 min, in red",
-      RED in line.styleSheet() and FREE_LINE in line.text(),
-      "22 min: style %r, text %r" % (line.styleSheet(), line.text()))
-show({"hours": 2.0, "paying": False}, True, 21 * 60)
-check("a free Multitrack production of 21 min shows no border",
-      RED not in line.styleSheet() and FREE_LINE not in line.text(),
-      "21 min: style %r, text %r" % (line.styleSheet(), line.text()))
 show({"hours": 2.0, "paying": False}, False, 40 * 60)
 check("a free plan in Singletrack mode is said, and not red",
       RED not in line.styleSheet() and not line.isHidden()
@@ -390,8 +355,19 @@ alone = types.SimpleNamespace(assign_lines=model.assign_lines, files=[],
 check("Singletrack productions add up",
       vpm.run_seconds_of(alone, False) == 40 * 60.0,
       "25 and 15 min apart: %r" % (vpm.run_seconds_of(alone, False),))
+LONG.update({"Guest.wav": 20, "Presenter.wav": 20})
+check("each Singletrack production is charged at least 3 min",
+      vpm.run_seconds_of(alone, False) == 6 * 60.0,
+      "20 s and 20 s apart: %r s, 360 s wanted"
+      % (vpm.run_seconds_of(alone, False),))
+LONG.update({"Guest.wav": 200, "Presenter.wav": 200})
+check("each Singletrack production is rounded up before they add up",
+      vpm.run_seconds_of(alone, False) == 8 * 60.0,
+      "200 s and 200 s apart: %r s, 480 s wanted"
+      % (vpm.run_seconds_of(alone, False),))
+LONG.update({"Guest.wav": 25 * 60, "Presenter.wav": 15 * 60})
 
-page, multi = QtWidgets.QWidget(), QtWidgets.QPushButton()
+page = QtWidgets.QWidget()
 page_layout = QtWidgets.QVBoxLayout(page)
 arrived = []
 bridge = types.SimpleNamespace(presets=types.SimpleNamespace(
@@ -399,7 +375,7 @@ bridge = types.SimpleNamespace(presets=types.SimpleNamespace(
 state = {"account": {"hours": 20 / 60.0, "paying": True}}
 built = vpm.make_auphonic_box(
     QtWidgets, state, bridge, lambda *a: None, page_layout, lambda: None,
-    lambda: None, multi, vpm.Value(""), lambda: "", lambda *a: None,
+    lambda: None, vpm.Value(""), lambda: "", lambda *a: None,
     lambda: vpm.run_tracks_of(model))
 credit = [w for w in page.findChildren(QtWidgets.QLabel)
           if w.wordWrap() and not w.text().startswith(T('Preset:'))]
@@ -427,6 +403,9 @@ check("the window shows the credit once a preset is chosen",
 check("it is red when the rows need more than is left",
       RED in credit.styleSheet(), "20 min for 25: style %r"
       % credit.styleSheet())
+check("the window says the credit is not enough for the rows' 25 min",
+      T('Not enough for the %s this production needs.') % minutes(25)
+      in credit.text(), "20 min for 25: text %r" % credit.text())
 state["account"] = {"hours": 30 / 60.0, "paying": True}
 built[6]()
 check("and not red when the credit carries them",
@@ -481,13 +460,6 @@ check("the check says a free account first",
 check("the check says the credit against the 25 min of the rows",
       texts[1:2] == [ENOUGH.strip() % (minutes(120), minutes(25))],
       "said: %r" % (texts,))
-check("a free Multitrack run of 25 min gets the border warning in the check",
-      texts[-2:] == [WARN.strip() % (minutes(25), minutes(21)), WHY.strip()]
-      and [b.kind for b in found][-2:] == ["warning", "good"],
-      "said: %r" % ([(b.kind, b.text) for b in found],))
-check("nothing the check says about the account stops the run",
-      not [b for b in found if b.kind == "abort"],
-      "kinds: %r" % ([b.kind for b in found],))
 found, _ = account_said(dict(PAID, credits=2.0))
 check("the check says a paying account as paying",
       [b.text for b in found][:1] == [PAYING.strip()],
@@ -513,17 +485,6 @@ found, calls = account_said(FREE_ACCOUNT, without_auphonic=True)
 check("a run without auphonic.com says nothing about the account",
       not found and not calls,
       "said %r, calls %r" % ([b.text for b in found], calls))
-
-text, calls = said_by(lambda: said_by.__setattr__(
-    "returned", vpm.run_preflight(run_args(), recordings, [])),
-    FREE_ACCOUNT)
-marked = [one for one in text.splitlines()
-          if WARN.strip() % (minutes(25), minutes(21)) in one]
-check("the check before a run marks the border warning, and does not stop",
-      [vpm.split_kind(one)[0] for one in marked] == ["warning"]
-      and getattr(said_by, "returned", None) == 0,
-      "returned %r; %r" % (getattr(said_by, "returned", None),
-                            text[-600:]))
 
 shutil.rmtree(room, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

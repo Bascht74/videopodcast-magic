@@ -265,7 +265,6 @@ def window_values(state, model, prework_done, without_auphonic,
                        for p, value in model.clip_kinds.items()},
         "out_folder": model.out_folder.get(),
         "dry_run": bool(only_look),
-        "multitrack": bool(model.multitrack.get()),
         # "cut" or "sync"; the window does not start without one.
         "project_type": model.project_type.get(),
         "camera_audio_only": bool(state["camera_audio"]),

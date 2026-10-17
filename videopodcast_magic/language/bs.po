@@ -129,12 +129,6 @@ msgstr "Nema vlastite predefinirane postavke Singletrack -- kreirajte je"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "Nema vlastite predefinirane postavke -- kreirajte je na auphonic.com"
 
-msgid "No Multitrack preset found in the account."
-msgstr "U računu nije pronađena nijedna predefinirana postavka Multitrack."
-
-msgid "No Singletrack preset found in the account."
-msgstr "U računu nije pronađena nijedna predefinirana postavka Singletrack."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "U računu nema predefinirane postavke Multitrack. Samo ove: %s"
 
@@ -272,6 +266,9 @@ msgstr "  Prepoznavač govora je izgrađen (%s s)."
 
 msgid "  The speech recognition reports: %s"
 msgstr "  Prepoznavanje govora javlja: %s"
+
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS ovdje ne prepoznaje ovaj jezik (%s), preuzima ga Whisper"
 
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Prepoznato u %s: spremno za %s s, odslušano za %s s"
@@ -642,6 +639,9 @@ msgstr "\nNije odabrana predefinirana postavka: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nZaustavljeno prije prvog dugog koraka. S --anyway svejedno se izvodi."
 
+msgid "\nStopped before the first long step."
+msgstr "\nZaustavljeno prije prvog dugog koraka."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve tada možda neće prepoznati ulazni prostor boja."
 
@@ -723,12 +723,6 @@ msgstr "    %-24s zvuk nije umetnut"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx predviđena kamera nije snimala -- tamo je druga."
 
-msgid "    %s could not be imported."
-msgstr "    %s nije se mogao uvesti."
-
-msgid "    %s could not be inserted."
-msgstr "    %s nije se mogao umetnuti."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s traka nije se mogla kreirati: %s"
 
@@ -737,6 +731,9 @@ msgstr "    %s: slika i zvuk umetnuti odvojeno (zvuk iz A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway je postavljen: izvodi se uprkos tačkama iznad."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway je postavljen: izvodi se uprkos tačkama iznad, ali se zaustavlja prije otpremanja -- auphonic.com bi odbio ovu produkciju."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Sve trake su na mjestu -- nema šta pomjerati."
@@ -885,8 +882,20 @@ msgstr "  Blokovi (%s) spojeni preko vremenskog koda, početak %s"
 msgid "  %s of %s files imported."
 msgstr "  Uvezeno %s od %s datoteka."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  govornici: %s, kadrovi: %s, najkraći %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, najkraći %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s govornik"
+msgstr[1] "%s govornika"
+msgstr[2] "%s govornika"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s kadar"
+msgstr[1] "%s kadra"
+msgstr[2] "%s kadrova"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  Video trake: %s, nazvane po govornicima:"
@@ -1140,8 +1149,8 @@ msgstr "  Početak %s -- prema njemu se postavlja svaki kadar."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Takav Timeline još nije postojao -- samo se gradi."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Napomena: računa se s datotekama prenesenim tada. One nose\n  vremenski prozor i poravnanje tog dana. Gdje se tačka In, tačka Out\n  ili izmjereni položaj sada razlikuju, povratna provjera mjeri\n  razliku i pomjera trake na mjesto."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Napomena: računa se s datotekama prenesenim tada. One nose\n  vremenski prozor i poravnanje tog dana. Gdje tačka In, tačka Out\n  i izmjereni položaj sada ostaju unutar tog prozora, povratna provjera\n  mjeri razliku i pomjera trake na mjesto. Gdje izlaze izvan njega --\n  ranija tačka In, kasnija tačka Out -- ona odbija trake:\n  tada sve ponovo prenesite."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Napomena: ovaj ffmpeg nema soxr -- drift sata se može ukloniti samo\n  u koracima od 21 ppm."
@@ -1152,8 +1161,8 @@ msgstr "  Bez posljedica za zvuk."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Pomak:             %s   (iz poređenja kamera)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Na Timeline je samo %s od %s kadrova."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve je preuzeo samo %s od %s kadrova -- na Timeline \"%s\" nedostaje ostatak montaže."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Vrhovi:            %s dB iznad %s dBTP -- limiter ih hvata"
@@ -1200,8 +1209,8 @@ msgstr "  Referenca: %s (%s, najduže trajanje)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Ostaje:            %s dB na svakoj traci, to je %s LUFS umjesto %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve nije preuzeo nijednu sliku -- Timeline je prazan. Ništa\n  se više na njemu ne gradi."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve nije preuzeo nijednu sliku -- na Timeline \"%s\" nedostaju montaža i njen zvuk."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Rezultat: %s (%s) -- ostaje pored video datoteke\n"
@@ -1233,11 +1242,17 @@ msgstr "  Cilj:              %s LUFS  ->  %s dB na svakoj traci"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline dobija %s: najvišu od njih, ili sljedeću brzinu koju\n  Resolve ima iznad nje. Pri pretvaranju naviše Resolve ponavlja sličice,\n  naniže ih odbacuje. Svaka kamera zadržava svoju brzinu, a rez\n  računa u njoj."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix nije bilo moguće uvesti."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve nema Full-Mix u svom Media Poolu -- na Timeline \"%s\" nedostaje zvuk."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix nije bilo moguće umetnuti."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve je odbio Full-Mix -- na Timeline \"%s\" nedostaje zvuk."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve je odbio Intro -- na Timeline \"%s\" nedostaje Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve je odbio Outro -- na Timeline \"%s\" nedostaje Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamere nose vremenski prozor i po jednu sekundu na svakom kraju: %s zapisano za %s od snimljenih %s."
@@ -1245,8 +1260,11 @@ msgstr "  Kamere nose vremenski prozor i po jednu sekundu na svakom kraju: %s za
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Kamere su blizu jedna drugoj (najviše %s stepeni svjetline)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Rez se promijenio: kadrova %s umjesto %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Rez se promijenio: %s kadar umjesto %s."
+msgstr[1] "  Rez se promijenio: %s kadra umjesto %s."
+msgstr[2] "  Rez se promijenio: %s kadrova umjesto %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Bilješka o ranijim prolazima na ovom mjestu se ne može pročitati (%s), pa se prijavljuje sve što je već tu."
@@ -1380,9 +1398,6 @@ msgstr "Datoteka dodjele nije čitljiva: %s"
 msgid "Camera audio not usable: %s"
 msgstr "Zvuk kamere nije upotrebljiv: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK NIJE MOGUĆ\n  Potrebne su barem dvije ulazne trake, a pronađena je samo %s.\n  Traka je vlastiti snimak, kanal višekanalnog snimača ili zvuk\n  kamere -- a on se računa čim njen Zvuk kamere kaže\n  \"koristi interni zvuk\". Bez dvije takve nema šta razdvajati,\n  a ista datoteka prolazi kao obična\n  produkcija."
-
 msgid "No preset is called %r."
 msgstr "Nijedna predefinirana postavka se ne zove %r."
 
@@ -1494,9 +1509,6 @@ msgstr "PROJEKAT SAČUVAN\n  %s\n  Ovaj prolaz se kasnije može ponovo otvoriti 
 msgid "Presets could not be loaded: %s"
 msgstr "Predefinirane postavke se nisu mogle učitati: %s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Više kamera, ali nema audio datoteke. Svaka kamera bi imala vlastiti zvuk --\nza to služi --multitrack. Inače jednu kameru za drugom."
-
 msgid "The file is NOT recognised as HDR."
 msgstr "Datoteka NIJE prepoznata kao HDR."
 
@@ -1547,9 +1559,6 @@ msgstr "\n  OSVJEŽI LISTU REZOVA"
 
 msgid "\n  Render job"
 msgstr "\n  Zadatak renderiranja"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Dio za Resolve zaustavljen: %s"
 
 msgid "\n  STOPPED: %s"
 msgstr "\n  ZAUSTAVLJENO: %s"
@@ -1616,9 +1625,6 @@ msgstr "  Prozor:              %s -- sve što je ijedna traka čula"
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: tišina %s na početku i %s na kraju"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nNakon spajanja blokova ostaje samo jedna traka, a multitrack treba po jednu za svaki glas. Gdje su dvoje ljudi uzeti za jedan snimak, --apart iz njega izdvaja jedan blok."
 
 msgid "RECOGNISED PLAN"
 msgstr "PREPOZNATI PLAN"
@@ -1857,6 +1863,9 @@ msgstr "REZULTAT"
 msgid "Resolve part stopped: %s"
 msgstr "Dio za Resolve zaustavljen: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Dio za Resolve zaustavljen zbog greške u ovom programu, ne u Resolveu: %s -- molimo prijavite je. Detalji su u zapisniku."
+
 msgid "Stopped: %s"
 msgstr "Zaustavljeno: %s"
 
@@ -1946,6 +1955,13 @@ msgstr "%s dovedeno na predefiniranu postavku"
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s kanala -- dijeli se na trake, vidi redove iznad."
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s kanala -- komandna linija ih ne dijeli na trake, nego datoteku sažima u "
+"jedan kanal, dvije osobe u jedan glas."
 
 msgid "%s checked"
 msgstr "%s provjereno"
@@ -2067,6 +2083,17 @@ msgstr "<span style='color:%(t)s'><b>kadrova: %(n)s</b>, medijan %(med)s s, najk
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Svaki par kanala prosuđuje se zasebno: jedna stereo traka, ili dva mikrofona i stoga dvije trake. Tihi ulazi otpadaju. Redovi ispod datoteke govore šta je izmjereno, a kvačica to nadjačava."
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
+msgstr ""
+"Sačuvajte njene kanale kao zasebne datoteke da svaki postane traka, ili je "
+"otvorite u prozoru, koji je dijeli po redovima kanala. Pokretanje koje je "
+"šalje na auphonic.com zaustavlja se prije otpremanja: auphonic.com prima "
+"najviše dva kanala u jednoj datoteci."
+
 msgid "A negative value makes the picture lead the sound."
 msgstr "Negativna vrijednost stavlja sliku ispred zvuka."
 
@@ -2075,12 +2102,6 @@ msgstr "Dodaj datoteke ..."
 
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Poravnanje ide po izmjerenom pomaku; vremenski kod je samo unakrsna provjera."
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Svi snimci nose isto ime -- iz toga nastaje jedna jedina traka."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Svi redovi nose isto ime -- to daje jednu jedinu traku, a Multitrack treba barem dvije."
 
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Dodjela: koja audio traka pripada kojoj kameri"
@@ -2199,8 +2220,8 @@ msgstr "Tačka Out je %s nakon posljednje sličice"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Za isporuku se obično uzima ograničeni raspon. Puni nije pogrešan, ali ga neki plejeri ne čitaju ispravno."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Određuje kako auphonic.com obrađuje zvuk.\n\n\"%s\" ostavlja ključ na mjestu, a ipak ne ide tamo.\nZvuk se tada samo spaja i normalizira, ne razdvaja --\na bez odvojenih traka nema reza kamera."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Određuje kako auphonic.com obrađuje zvuk.\n\n\"%s\" ostavlja ključ na mjestu, a ipak ne ide tamo.\nZvuk se tada samo spaja i normalizira, ne razdvaja --\nali rez kamera isti je kao s predefiniranom postavkom."
 
 msgid "Distance to mean"
 msgstr "Odstupanje od prosjeka"
@@ -2234,9 +2255,6 @@ msgstr "Ovojnica nije uspjela: %s"
 
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "Ovojnice i zvuk kamere pripremaju se u pozadini."
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Svaki red treba ime -- kod Auphonica ono postaje track ID."
 
 msgid "External preview -- the app does not know this format"
 msgstr "Vanjski pretpregled -- aplikacija ne poznaje ovaj format"
@@ -2342,15 +2360,6 @@ msgstr "Zvuk koji nedostaje %s popunjen tišinom%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Modul DaVinciResolveScript ne može se učitati: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Jedna audio traka po osobi, držana odvojeno sve do auphonic.com.\nRadi i bez toga -- ali onda bez De-Bleeda i Levelera.\nPotrebne su dvije ulazne trake: vlastiti snimak, kanal\nvišekanalnog snimača ili zvuk video datoteke postavljene na\n\"koristi interni zvuk\". Rez kamera ne treba ovu kvačicu."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (jedna traka po govorniku)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack treba barem dvije ulazne trake. Traka je vlastiti snimak, kanal višekanalnog snimača ili zvuk video datoteke postavljene na \"koristi interni zvuk\". Više blokova istog snimka računa se kao jedna, trake stavljene po strani uopće ne."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Još se ne koristi nikakav zvuk -- dodajte audio snimak ili na listi datoteka postavite Zvuk kamere neke video datoteke na \"koristi interni zvuk\"."
@@ -2490,9 +2499,6 @@ msgstr "Nije obavezno -- YouTube tada primjenjuje zadane vrijednosti (Sony BVM-X
 msgid "Not ready yet:"
 msgstr "Još nije spremno:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "Jedan audio snimak još nema ime govornika."
-
 msgid "One frame back."
 msgstr "Jedna sličica nazad."
 
@@ -2501,9 +2507,6 @@ msgstr "Jedna sekunda nazad."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Svaki kadar u boji svoje kamere. Pređite mišem za kameru i trajanje, kliknite za skok."
-
-msgid "Only one speaker"
-msgstr "Samo jedan govornik"
 
 msgid "Open json project file"
 msgstr "Otvori datoteku projekta json"
@@ -2751,9 +2754,6 @@ msgstr "Još nema poznatih govornika -- utvrđuju se iz traka čim se otvori ova
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "Tri broja su primarne boje, krivulja i matrica. Različite oznake trebaju različite ulazne prostore boja u Resolve -- inače jedna kamera izgleda drugačije od druge."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Nema zasebnih audio snimaka. Tada se koristi zvuk kamera, njih %s -- svaka postaje traka, a Auphonic uklanja preslušavanje."
-
 msgid "There is no result yet."
 msgstr "Još nema rezultata."
 
@@ -2874,8 +2874,21 @@ msgstr "Bez toga svaki plejer mora pogađati, a svi pogađaju SDR. U Resolve pod
 msgid "Without processing at auphonic.com"
 msgstr "Bez obrade na auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Još nema reza kamera: potrebne su dvije osobe, svaka s imenom i kamerom.\nOdvojeni snimci to daju s kvačicom Multitrack, a isto tako i \"više govornika\" u polju Ime govornika jednog snimka --\nglasovi tamo pronađeni dobijaju svoju kameru u tabeli ispod snimaka.\nResolve projekat svejedno nastaje -- sve kamere na svojim izmjerenim mjestima, spremne za Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Još nema reza kamera: potrebne su dvije osobe, svaka s imenom i kamerom.\n"
+"Odvojeni snimci to daju, svaki pod svojim imenom, a isto tako i \"više "
+"govornika\" u polju Ime govornika jednog snimka --\n"
+"glasovi tamo pronađeni dobijaju svoju kameru u tabeli ispod snimaka.\n"
+"Resolve projekat svejedno nastaje -- sve kamere na svojim izmjerenim "
+"mjestima, spremne za Multicam."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Bez vremenskog koda položaj datoteka se mjeri."
@@ -3047,9 +3060,6 @@ msgstr "nije pronađeno mjesto gdje govori tačno jedna osoba -- razdvajanje se 
 msgid "no production id in the response"
 msgstr "u odgovoru nema id-a produkcije"
 
-msgid "no production id in the response: %s"
-msgstr "u odgovoru nema id-a produkcije: %s"
-
 msgid "no timecode"
 msgstr "bez vremenskog koda"
 
@@ -3203,6 +3213,21 @@ msgstr "izvorni folder"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "šablon trake nema ništa uključeno -- trake bi se vratile tačno onakve kakve su prenesene."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "predložak ima intro -- ne koristi se: intro i outro dolaze iz video datoteka."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "predložak ima outro -- ne koristi se: intro i outro dolaze iz video datoteka."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "predložak ima intro i outro -- ne koristi se nijedan: intro i outro dolaze iz video datoteka."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Dolaze iz video datoteka kojima je u listi datoteka Vrsta postavljena na Intro ili Outro, ili iz --intro i --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "video datoteke označene su različito: %s"
 
@@ -3250,9 +3275,6 @@ msgstr "široki kadar %s, miks je njegova prva audio traka"
 
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s se pojavljuje više puta. Ovi se snimci spajaju u jednu traku i nižu redom prema vremenskom kodu -- ispravno ako je snimanje u međuvremenu bilo zaustavljeno."
-
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Svi snimci nose isto ime. To daje jednu traku -- Multitrack treba barem dvije."
 
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Dvije bi kamere dale istu datoteku (%s). Druga bi prebrisala prvu."
@@ -3320,9 +3342,6 @@ msgstr "vlastiti snimak"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Stavlja ovaj snimak u drugi, sa svim njegovim blokovima.\nKoristite to gdje nazivi datoteka pretrazi ne daju nikakvo uporište."
 
-msgid "Cameras only"
-msgstr "Samo kamere"
-
 msgid "Curve number %d"
 msgstr "Krivulja broj %d"
 
@@ -3374,9 +3393,6 @@ msgstr "Početak %s"
 msgid "Take from source files"
 msgstr "Preuzmi iz izvornih datoteka"
 
-msgid "Take the camera audio"
-msgstr "Uzmi zvuk kamere"
-
 msgid "Target: %s"
 msgstr "Cilj: %s"
 
@@ -3395,11 +3411,11 @@ msgstr "Široki kadar nakon"
 msgid "the voices below carry the cameras"
 msgstr "glasovi ispod nose kamere"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "izmjereno iz snimaka -- govornici: %s, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "izmjereno iz snimaka -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "iz dovršenog prolaza -- govornici: %s, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "iz dovršenog prolaza -- %s, %s"
 
 msgid "no text"
 msgstr "bez teksta"
@@ -3409,6 +3425,15 @@ msgstr "bez naziva"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Oprez: mjerenje neupotrebljivo"
+
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Oprez: u njemu nedostaje %s s od poslanog"
+
+msgid "  -->  refused"
+msgstr "  -->  odbijeno"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Odbijeno: %s -- vraćeno ne odgovara prenesenom.\n  Bolje stati nego zapisati nešto pogrešno."
 
 msgid "   NOT INSERTED"
 msgstr "   NIJE UMETNUTO"
@@ -3584,15 +3609,6 @@ msgstr "Spoji ih"
 msgid "Mixing %s"
 msgstr "Miksanje %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack treba dvije trake u gornjoj tabeli -- kamera se računa kao jedna čim je njen Zvuk kamere postavljen na \"koristi interni zvuk\"."
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Samo jedna traka -- za drugu postavite Zvuk kamere neke kamere na \"koristi interni zvuk\"."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Samo jedna traka, a nije preostao nijedan zvuk kamere koji bi se mogao uzeti."
-
 msgid "do not use internal audio"
 msgstr "ne koristi interni zvuk"
 
@@ -3607,9 +3623,6 @@ msgstr "Ako se koristi, zvuk ove datoteke postaje traka kao svaka druga -- pojav
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Nema zvuka s kojim bi se radilo -- postavite Zvuk kamere neke video datoteke na \"koristi interni zvuk\" ili dodajte audio snimak."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack treba više traka"
 
 msgid "Mute."
 msgstr "Isključi zvuk."
@@ -3680,8 +3693,8 @@ msgstr "Meka granica para: odavde program čeka granicu rečenice i ondje postav
 msgid "and here it is cut, good moment or not"
 msgstr "i ovdje se reže, dobar trenutak ili ne"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Tvrda granica para: ako se od \"Široki kadar nakon\" nije pojavila nijedna granica rečenice, na njeno mjesto dolazi najduža pauza u govoru, i u ovoj se tački reže, bez obzira na to šta se upravo govori."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Tvrda granica para: kadar duži od \"Široki kadar nakon\" koji ne nudi ni granicu rečenice ni pauzu razbija se po satu, pod uslovom da stoji i duže od ove vrijednosti. To vrijedi dok je \"Široki kadar nakon\" uključeno i \"Dugi monolog\" mijenja kameru. Široki kadar za pozdrav i oproštaj ne stoji duže od ove vrijednosti, bez obzira na to šta kažu ta dva."
 
 msgid "Why the question settings are grey"
 msgstr "Zašto su postavke pitanja sive"
@@ -3715,9 +3728,6 @@ msgstr "Tišina"
 
 msgid "Speaker name"
 msgstr "Ime govornika"
-
-msgid "Speaker names"
-msgstr "Imena govornika"
 
 msgid "Static metadata"
 msgstr "Statički metapodaci"
@@ -3863,17 +3873,14 @@ msgstr "\nREZ SA ŠIROKIM KADROM"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nPRVI REZ PO GOVORNICIMA"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Više od dva kanala ide na auphonic.com kao jedan: spajanje se isključuje samo za stereo.\n  Gdje kanali trebaju ostati odvojeni, najprije razrežite datoteku na trake."
-
 msgid "First cut by speaker"
 msgstr "Prvi rez po govornicima"
 
 msgid "\nTRANSCRIPT"
 msgstr "\nTRANSKRIPT"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s riječi: %s %% na jedan glas, %s %% na dva, %s %% u praznini"
+msgid "  %s words"
+msgstr "  %s riječi"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s riječi, bez imena -- niko nije razdvojen"
@@ -3971,9 +3978,6 @@ msgstr "  Trake se koriste kako su snimljene: poravnate, miksane i dovedene na\n
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  Navedeni su i --without-auphonic i --auphonic-done. Gotove trake imaju prednost: nema više ničega što bi se bilo kuda slalo."
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK NIJE MOGUĆ\n  Bez API ključa nema šta poslati na auphonic.com.\n  S --without-auphonic umjesto toga radi lokalno: poravnato,\n  miksano i rezano, ali bez De-Bleeda i bez Levelera."
-
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Oprez: mjerljivo je samo %s od %s parova. Za ostale nije pronađen trenutak u kojem govori tačno jedna osoba, pa njihovo preslušavanje ostaje -- detekcija govornika ovdje je nepouzdana."
 
@@ -4030,9 +4034,6 @@ msgstr "Ponovo cijela dužina (tipka 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Također dohvaćeno: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic ne prihvata postavke: %s"
 
 msgid "      %s channels"
 msgstr "      kanala: %s"
@@ -4163,8 +4164,11 @@ msgstr "Izrezivanje trake %d od %d"
 msgid "cutting failed: %s"
 msgstr "izrezivanje nije uspjelo: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Jedna kamera za sve: izrezano pri promjeni govornika na kadrove (ukupno %s), da ih Resolve može grupirati."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Jedna kamera za sve: izrezano pri promjeni govornika na kadrove (ukupno %s), da ih Resolve može grupirati."
+msgstr[1] "  Jedna kamera za sve: izrezano pri promjeni govornika na kadrove (ukupno %s), da ih Resolve može grupirati."
+msgstr[2] "  Jedna kamera za sve: izrezano pri promjeni govornika na kadrove (ukupno %s), da ih Resolve može grupirati."
 
 msgid "Shorter shots fall into the following one."
 msgstr "Kraći kadrovi stapaju se sa sljedećim."
@@ -4339,6 +4343,9 @@ msgstr "Ovaj program radi kao %s, a paketi instalirani za njega su %s, pa se nij
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Ova predaja ne nosi brzinu sličica, pa se iz nje Timeline ne može izgraditi. Ponovite prolaz."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Ova predaja ne navodi datoteku za %s, pa se iz nje Timeline ne može izgraditi. Ponovite prolaz."
 
 msgid "Cut by speaker"
 msgstr "Rez po govornicima"
@@ -4775,8 +4782,8 @@ msgstr "  Resolve je dvaput odbio video traku V%d -- na Timeline \"%s\" nedostaj
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s pomak %s, drift sata nije izmjeren%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Oprez: ovaj projekat nije potpun -- šta je Resolve odbio:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Oprez: ovaj projekat nije potpun -- šta nedostaje:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Drift sata:        nije izmjeren -- njen zvuk je dao premalo tačaka za mjerenje"
@@ -5064,9 +5071,6 @@ msgstr "Tačka Out se promijenila od posljednjeg prolaza: tada %s, sada %s. Rez 
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Produkcija završena, ali ZIP s pojedinačnim trakama nema običan naziv datoteke"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Više kamera, ali nema audio snimka. Svaka kamera bi imala vlastiti zvuk -- za to služi Multitrack. Inače jednu kameru za drugom."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Arhiva sadrži %s više puta, pa iz nje ništa nije izvađeno."
 
@@ -5075,9 +5079,6 @@ msgstr "Ovdje snimke imenuje datoteka dodjele, pa bi --speaker-name bio odbačen
 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Gotova verzija ne odgovara svom kontrolnom zbiru, pa nije raspakovana: na listi je %s, stiglo je %s."
-
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Listu kontrolnih zbirova nije bilo moguće preuzeti, pa gotova verzija nije raspakovana: %s"
 
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Lista kontrolnih zbirova ne navodi %s, pa gotova verzija nije raspakovana."
@@ -5154,14 +5155,11 @@ msgstr "Račun na auphonic.com: nepoznat -- nije ga bilo moguće upitati. Pokret
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Napomena: pokretanje ipak pokušava. auphonic.com odlučuje hoće li produkcija krenuti, i kaže ako neće."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Upozorenje: ova Multitrack produkcija traje %s, a na besplatnom planu auphonic.com prima takvu samo do otprilike %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Ova Multitrack produkcija traje %s. Na besplatnom planu auphonic.com prima takvu samo do otprilike %s; za dužu je potreban plaćeni plan."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Napomena: auphonic.com dužu odbija već na početku i za nju ništa ne naplaćuje. Pokretanje ipak pokušava; ako auphonic.com odbije, slijedi njegova vlastita poruka."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Na besplatnom planu auphonic.com prima Multitrack produkciju samo do otprilike %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Za Singletrack, koji besplatni plan prima bilo koje dužine, postavite sve trake osim jedne na \"%s\" -- tamo gdje jedna traka nosi sve glasove. Ili odaberite \"%s\" pod Predefinirana postavka (--without-auphonic): trake se tada miješaju ovdje."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Projekat %r iz ovog pokretanja ostaje otvoren -- prije nije bilo otvoreno ništa\n  što bi se moglo ponovo otvoriti. Izbrišite ga u Resolveovom upravitelju projekata."
@@ -5240,3 +5238,70 @@ msgstr "gotovi miks -- bez govornika, bez kamere"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Govor: smješta se samo prema glasnoći. Snimak koji nema ništa zajedničko\ns kamerama se odbija. Miješano: ispod glasova su muzika ili miks,\ni gdje glasnoća ništa ne nađe, faza ga smije smjestiti.\nGotovi miks: stereo miks napravljen drugdje, postavljen kao miješani zvuk. Ide\nu datoteke kamera i u predaju umjesto miksa koji gradi obrada --\nbez govornika, bez rezova, ne šalje se na auphonic.com.\nPod „%s“ Govor se ne nudi."
+
+msgid "Cutting"
+msgstr "Rezanje"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "predložak reže na auphonic.com (%s) -- zvuk bi se vratio kraći od slike, a kamere bi se pomjerile."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Isključite to u predlošku na auphonic.com: Audio Algorithms, Automatic Cutting -- odznačite %s, ili postavite Cut Mode na Set Cuts To Silent, koji zadržava dužinu."
+
+msgid "Speech recognition"
+msgstr "Prepoznavanje govora"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "uključeno u predlošku -- nije zatraženo, i ništa od njegovog teksta se ne preuzima: transkript nastaje ovdje."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- kako ih predložak ima; program ne mijenja nijedan."
+
+msgid "Enough for the %s this production needs."
+msgstr "Dovoljno za %s koje ova produkcija treba."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nije dovoljno za %s koje ova produkcija treba."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s ima %s kanala, a auphonic.com prima najviše dva u jednoj datoteci. Ništa nije poslano.\n"
+"  Recite koji kanali idu zajedno: na kartici Datoteke & produkcija datoteka se otvara u po jedan red za svaki kanal, a kvačica u redu spaja ga sa sljedećim. Ako datoteka ne prikazuje redove kanala, prvo sačuvajte njene kanale kao zasebne datoteke."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, jer %s traka leži na jednoj vremenskoj osi. Može se odabrati "
+"druga predefinirana postavka Multitrack; za Singletrack postavite sve trake "
+"osim jedne na \"ne koristiti\"."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, jer postoji jedna traka. Može se odabrati druga predefinirana "
+"postavka Singletrack; za Multitrack dodajte drugu traku -- snimak ili kameru "
+"postavljenu na \"koristi interni zvuk\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> iz ovog mapiranja ne može se pročitati broj audio traka"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve odgovara, ali ne daje upravitelja projekata."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Kanali datoteke %s još nisu izrezani u trake."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s i %s u %s zvuče slično (sličnost %s): razdvajanje ih je možda "
+"pomiješalo -- provjerite njihovu dodjelu."

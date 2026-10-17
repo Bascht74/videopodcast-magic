@@ -124,6 +124,10 @@ class AssignmentTable(object):
         """Write what the tables and the player show into the project."""
         m, state, player = self.model, self.state, self.player
         remembered = m.remembered
+        # A voice's answer is stored a turn of the loop later; a rebuild
+        # landing in that turn (tracks cut in the background, say) would
+        # build the rows again from the store, without it.
+        PROGRAM.queue_flush(state, "voices", state.get("voices_remember"))
         for row, nv, cv in m.assign_lines:
             # The finished mix's row holds no answer of its own; set back,
             # the row finds the one it had.
@@ -174,7 +178,7 @@ class AssignmentTable(object):
             state["preview_soon"]()
         assignment_marks_show(
             self.audio_fields, m.assign_lines, self.video_fields,
-            m.camera_lines, bool(m.multitrack.get()), state, m.voice_lines)
+            m.camera_lines, state, m.voice_lines)
         self.buttons_check()
 
     def assignment_fresh(self, forget=()):
@@ -398,7 +402,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     column_layout = QtWidgets.QVBoxLayout(content)
     column_layout.setContentsMargins(0, 0, 0, 0)
     column_layout.setSpacing(10)
-    # In front of the Multitrack tick and the prework bar.
+    # In front of the auphonic.com box and the prework bar.
     assign_position.insertWidget(0, content)
     state["assignment_content"] = content
     assign_lines[:] = []
@@ -721,12 +725,11 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         own = list(taken.get(path_key(b)) or [])
         if used:
             own += mine or [own_audio_name]
-        multitrack_now = bool(state["multitrack"].get()) and not sync_only
         # A kept name nobody typed was the table's own -- a project
         # file saves every field -- so it follows the table.
         kept = remembered.get("video:" + b) or ""
         offer = camera_name_suggestion(production_var.get(), short, own,
-                                       multitrack_now, sync_only)
+                                       sync_only)
         by_hand = camera_name_typed(
             kept, remembered.get("videotyped:" + b),
             camera_names_offered(production_var.get(), short, own)

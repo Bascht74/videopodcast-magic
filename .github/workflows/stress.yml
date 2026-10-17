@@ -1,0 +1,455 @@
+name: stress
+
+# One test, many times, under load, on the builder's own machines.
+#
+# A hang that comes once in seventy-five runs is not seen by a suite
+# that runs the test once. This runs ONE named test a few hundred times
+# per system, several copies at once on each runner so the machine is
+# busy, and counts what came back green, red and hung. A hang keeps the
+# test's whole output -- the stacks it writes at 120 s among it -- as
+# an artifact.
+#
+# Started by a push, not by hand: a branch named stress/<anything>. The
+# file .github/stress.env on that branch says what runs. workflow_dispatch
+# would need this file on main first; a push only needs it on the
+# branch. So to stress a commit, put this file and stress.env on top of
+# it and push that under stress/... -- the program is the commit's, the
+# two files only add the run.
+#
+# What one run costs, with stress.env as it stands (10 jobs per system,
+# 6 copies at once, 6 rounds each = 360 runs per system): the test takes
+# 15 to 30 s alone and 30 to 45 s with six beside it, so a job is about
+# 4 to 5 minutes of running after 3 minutes (Linux) or 5 to 7 minutes
+# (Windows) of setting up -- about 8 minutes a Linux job and 12 a
+# Windows job. Linux and Windows together: about 200 runner-minutes,
+# and about 15 minutes until the answer, if the twenty jobs get
+# machines at once. An estimate, not a measurement; the first run says.
+# The repository is public, so standard runners cost nothing. macOS
+# (off by default) bills ten times the minute on a private repository
+# and runs five jobs at a time.
+#
+# Pushes, pull requests, tags, releases and the weekly run never start
+# it: the only way in is a push to a branch under stress/.
+
+run-name: "stress #${{ github.run_number }} on ${{ github.ref_name }}"
+
+on:
+  push:
+    branches:
+      - 'stress/**'
+
+# A second push to the same stress branch replaces the run before it.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # Reads stress.env, says what it read, and lays out the jobs.
+  plan:
+    name: "What runs"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.read.outputs.matrix }}
+      test: ${{ steps.read.outputs.test }}
+      file: ${{ steps.read.outputs.file }}
+      parallel: ${{ steps.read.outputs.parallel }}
+      rounds: ${{ steps.read.outputs.rounds }}
+      limit: ${{ steps.read.outputs.limit }}
+      burn: ${{ steps.read.outputs.burn }}
+      python: ${{ steps.read.outputs.python }}
+      pyside6: ${{ steps.read.outputs.pyside6 }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: |
+            .github/stress.env
+            tests/*_test.py
+            tests/*/*_test.py
+          sparse-checkout-cone-mode: false
+      - name: "Read: .github/stress.env"
+        id: read
+        shell: python
+        run: |
+          import glob, json, os, re, sys
+
+          want = {"TEST": "", "SHARDS": "10", "PARALLEL": "6",
+                  "ROUNDS": "6", "LIMIT": "200", "BURN": "0",
+                  "OSES": "ubuntu-26.04 windows-latest",
+                  "PYTHON": "3.14", "PYSIDE6": ""}
+          got = dict(want)
+          with open(".github/stress.env", encoding="utf-8") as f:
+              for n, line in enumerate(f, 1):
+                  line = line.strip()
+                  if not line or line.startswith("#"):
+                      continue
+                  key, eq, value = line.partition("=")
+                  if not eq or key not in want:
+                      sys.exit("FAIL: stress.env line %d: %r -- known keys: %s"
+                               % (n, line, " ".join(want)))
+                  got[key] = value.strip()
+          bad = []
+          for key in ("SHARDS", "PARALLEL", "ROUNDS", "LIMIT", "BURN"):
+              if not got[key].isdigit():
+                  bad.append("%s=%r is not a number" % (key, got[key]))
+          if not re.fullmatch(r"[A-Za-z0-9_]+", got["TEST"]):
+              bad.append("TEST=%r is not a test name" % got["TEST"])
+          if not re.fullmatch(r"3\.\d+", got["PYTHON"]):
+              bad.append("PYTHON=%r is not 3.x" % got["PYTHON"])
+          if got["PYSIDE6"] and not re.fullmatch(r"[0-9.]+", got["PYSIDE6"]):
+              bad.append("PYSIDE6=%r is not a version" % got["PYSIDE6"])
+          labels = {"ubuntu": "Linux", "windows": "Windows", "macos": "macOS"}
+          oses = got["OSES"].split()
+          for os_name in oses:
+              if os_name.split("-")[0] not in labels:
+                  bad.append("OSES names %r, not a runner this knows"
+                             % os_name)
+          if not oses:
+              bad.append("OSES names no system")
+          if not bad and int(got["SHARDS"]) * len(oses) > 40:
+              bad.append("SHARDS x systems is %d jobs -- over 40 is a "
+                         "mistake, not a stress run"
+                         % (int(got["SHARDS"]) * len(oses)))
+          files = [p for p in glob.glob("tests/%s_test.py" % got["TEST"])
+                   + glob.glob("tests/*/%s_test.py" % got["TEST"])
+                   if "/live/" not in p]
+          if len(files) != 1:
+              bad.append("TEST=%s matches %d files under tests/: %s"
+                         % (got["TEST"], len(files), files))
+          if bad:
+              sys.exit("FAIL: .github/stress.env -- " + "; ".join(bad))
+          matrix = [{"os": o, "label": labels[o.split("-")[0]], "shard": s}
+                    for o in oses for s in range(1, int(got["SHARDS"]) + 1)]
+          per = int(got["PARALLEL"]) * int(got["ROUNDS"]) * int(got["SHARDS"])
+          line = ("%s on %s: %s jobs each, %s copies at once x %s rounds = "
+                  "%d runs per system, limit %s s, %s busy loops, Python %s, "
+                  "PySide6 %s" % (got["TEST"], " ".join(oses), got["SHARDS"],
+                                  got["PARALLEL"], got["ROUNDS"], per,
+                                  got["LIMIT"], got["BURN"], got["PYTHON"],
+                                  got["PYSIDE6"] or "as requirements.txt"))
+          print(line)
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+              f.write(line + "\n")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write("matrix=%s\n" % json.dumps({"include": matrix}))
+              f.write("test=%s\n" % got["TEST"])
+              f.write("file=%s\n" % files[0][len("tests/"):])
+              for key in ("PARALLEL", "ROUNDS", "LIMIT", "BURN", "PYTHON",
+                          "PYSIDE6"):
+                  f.write("%s=%s\n" % (key.lower(), got[key]))
+
+  stress:
+    needs: plan
+    name: ${{ matrix.label }} ${{ matrix.shard }}
+    runs-on: ${{ matrix.os }}
+    # Setting up, plus ROUNDS runs that each stop at LIMIT at the worst.
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    env:
+      # As tests.yml has them for its suite, and run.sh for each test.
+      VPM_PYTHON: python
+      QT_QPA_PLATFORM: offscreen
+      VPM_FIXTURES: /tmp/vpm-fixtures-ci
+      VPM_MEDIA: /tmp/vpm-fixtures-ci/interview
+      PYTHONUTF8: '1'
+      LANG: C
+      LC_ALL: C
+      LANGUAGE: en
+      VPM_SILENT: '1'
+      VPM_NO_SPEAKER_SPLIT: '1'
+      VPM_NO_UPDATE_CHECK: '1'
+      PYTHONFAULTHANDLER: '1'
+      PYTHONUNBUFFERED: '1'
+      FILE: ${{ needs.plan.outputs.file }}
+      PARALLEL: ${{ needs.plan.outputs.parallel }}
+      ROUNDS: ${{ needs.plan.outputs.rounds }}
+      LIMIT: ${{ needs.plan.outputs.limit }}
+      BURN: ${{ needs.plan.outputs.burn }}
+      PYSIDE6: ${{ needs.plan.outputs.pyside6 }}
+      TAG: ${{ matrix.label }}-${{ matrix.shard }}
+
+    # The setting-up below is tests.yml's, step for step, for a run
+    # without the separation. What is left out is the speaker model's
+    # checks (no stress run reads the model) and the list of tests set
+    # aside per system (one test is named here, and it is run).
+    steps:
+      - uses: actions/checkout@v7
+
+      # The same file tests.yml writes, with the same word, so the pip
+      # cache's key is the suite's and its packages come from there.
+      - name: "Record: whether this run installs the separation"
+        shell: bash
+        run: printf '%s\n' false > ci-speaker-split.txt
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ needs.plan.outputs.python }}
+          cache: pip
+          cache-dependency-path: |
+            requirements-dev.txt
+            requirements.txt
+            ci-speaker-split.txt
+
+      - name: "Install: ffmpeg (Linux)"
+        if: runner.os == 'Linux'
+        run: |
+          set -e
+          held=$(python3 - <<'PY'
+          import ast
+          held = {}
+          with open("videopodcast_magic/setup/__init__.py", encoding="utf-8") as f:
+              for node in ast.parse(f.read()).body:
+                  if isinstance(node, ast.Assign) and len(node.targets) == 1 \
+                          and getattr(node.targets[0], "id", "") in (
+                              "FFMPEG_BUILD_PLACE", "FFMPEG_BUILD_SUMS"):
+                      held[node.targets[0].id] = ast.literal_eval(node.value)
+          url = held["FFMPEG_BUILD_PLACE"] % ("linux64", "tar.xz")
+          print(url, held["FFMPEG_BUILD_SUMS"].get(url.rsplit("/", 1)[-1], ""))
+          PY
+          )
+          url=${held% *}
+          sum=${held##* }
+          name=$(basename "$url" .tar.xz)
+          if [ -z "$sum" ] || [ "$sum" = "$url" ]; then
+            echo "FAIL: the program names $url and carries no sum for it."
+            exit 1
+          fi
+          echo "build: $url"
+          curl -fsSL --retry 3 -o /tmp/ff.tar.xz "$url"
+          echo "$sum  /tmp/ff.tar.xz" | sha256sum -c -
+          tar -xJf /tmp/ff.tar.xz -C /tmp
+          sudo install -m755 "/tmp/$name/bin/ffmpeg" "/tmp/$name/bin/ffprobe" \
+                             /usr/local/bin/
+          ffmpeg -version | head -1
+
+      - name: "Install: ffmpeg (macOS)"
+        if: runner.os == 'macOS'
+        run: |
+          brew update || brew update || true
+          brew install ffmpeg || brew upgrade ffmpeg || true
+          ffmpeg -version | sed -n 1p
+
+      - name: "Install: ffmpeg (Windows)"
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          if command -v ffmpeg > /dev/null 2>&1; then
+            exit 0
+          fi
+          for try in 1 2 3; do
+            choco install ffmpeg -y --no-progress || true
+            if command -v ffmpeg > /dev/null 2>&1; then
+              break
+            fi
+            if [ "$try" != 3 ]; then
+              echo "no ffmpeg after try $try -- waiting 20 s"
+              sleep 20
+            fi
+          done
+          if ! command -v ffmpeg > /dev/null 2>&1; then
+            echo "FAIL: no ffmpeg after three tries"
+            exit 1
+          fi
+
+      - name: "Install: what Qt needs without a screen (Linux)"
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get install -y -qq \
+            libegl1 libgl1 libxkbcommon-x11-0 libdbus-1-3 \
+            libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 \
+            libxcb-randr0 libxcb-render-util0 libxcb-image0 libxcb-sync1 \
+            libxcb-xfixes0 libxcb-xkb1 libxcb-xinerama0 \
+            libfontconfig1 libfreetype6 libpulse0
+
+      # requirements-dev.txt without pyannote.audio and torchvision, as
+      # tests.yml installs it for a run without the separation.
+      - name: "Install: the Python packages"
+        shell: bash
+        run: |
+          set -e
+          python -m pip install --upgrade pip
+          slim="$RUNNER_TEMP/requirements-ci.txt"
+          : > "$slim"
+          while IFS= read -r line || [ -n "$line" ]; do
+            line="${line%$'\r'}"   # a Windows checkout ends each line in \r
+            case "$line" in
+              -r\ *) cat "${line#-r }" >> "$slim" ;;
+              *) printf '%s\n' "$line" >> "$slim" ;;
+            esac
+          done < requirements-dev.txt
+          grep -viE '^[[:space:]]*(pyannote\.audio|torchvision)[[:space:]]*$' \
+            "$slim" > "$slim.2"
+          python -m pip install -r "$slim.2"
+          if [ -n "$PYSIDE6" ]; then
+            python -m pip install "PySide6==$PYSIDE6"
+          fi
+          echo "runner:  $RUNNER_OS $RUNNER_ARCH, $(getconf _NPROCESSORS_ONLN 2>/dev/null || echo '?') cores"
+          python -VV
+          python -c "import numpy, PySide6; \
+            print('numpy', numpy.__version__); \
+            print('PySide6', PySide6.__version__)"
+          ffmpeg -version 2>&1 | sed -n 1p
+
+      - name: "Build: the shared fixtures"
+        shell: bash
+        run: bash tests/fixtures.sh
+
+      # The limit around one run is Python, not timeout(1): Windows finds
+      # its own timeout.exe first, which only waits (run.sh says so), and
+      # a limit has to take the test's own child window with it, or a
+      # killed run leaves a process holding the machine. So the run gets
+      # a process group (a new session) of its own, and on Windows
+      # taskkill /T takes the tree.
+      #
+      # Each run gets its own cache, settings and temp folder, as run.sh
+      # gives each suite, and is judged as run.sh judges a test
+      # (verdict.sh's said_red). Hung: the limit killed it, or the test
+      # wrote a faulthandler timeout or ended a stuck window itself.
+      - name: "Run: the test, ${{ needs.plan.outputs.rounds }} rounds x ${{ needs.plan.outputs.parallel }} at once"
+        shell: bash
+        run: |
+          # GitHub starts bash with -e; a red run is counted, not obeyed.
+          set +e
+          S="$RUNNER_TEMP/stress"
+          KEEP="$S/kept"
+          mkdir -p "$KEEP"
+          LIMITER="$S/limit.py"
+          cat > "$LIMITER" <<'PY'
+          import os, signal, subprocess, sys
+          limit, out, cmd = float(sys.argv[1]), sys.argv[2], sys.argv[3:]
+          kw = ({"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP}
+                if os.name == "nt" else {"start_new_session": True})
+          with open(out, "wb") as f:
+              p = subprocess.Popen(cmd, stdout=f, stderr=subprocess.STDOUT,
+                                   **kw)
+              try:
+                  sys.exit(p.wait(timeout=limit))
+              except subprocess.TimeoutExpired:
+                  if os.name == "nt":
+                      subprocess.run(["taskkill", "/T", "/F", "/PID",
+                                      str(p.pid)], stdout=subprocess.DEVNULL,
+                                     stderr=subprocess.DEVNULL)
+                  else:
+                      os.killpg(p.pid, signal.SIGKILL)
+                  p.wait()
+                  f.write(b"\nSTRESS: killed by the limit after %d s\n"
+                          % limit)
+                  sys.exit(124)
+          PY
+          . tests/verdict.sh
+          lane() {
+            l=$1
+            for r in $(seq 1 "$ROUNDS"); do
+              T="$S/l$l-r$r"
+              mkdir -p "$T/cache" "$T/settings" "$T/temp"
+              began=$SECONDS
+              VPM_CACHE="$T/cache" VPM_SETTINGS="$T/settings" \
+              TMPDIR="$T/temp" \
+              RESOLVE_SCRIPT_API="$T/settings/no-resolve-here" \
+              RESOLVE_SCRIPT_LIB="$T/settings/no-resolve-here/fusionscript" \
+                python "$LIMITER" "$LIMIT" "$T/out.txt" \
+                  python "tests/$FILE"
+              rc=$?
+              took=$((SECONDS - began))
+              if [ $rc -eq 124 ] || grep -qE \
+                   '^Timeout \(0:|ended by this test after' "$T/out.txt"; then
+                kind=hung
+              elif [ $rc -ne 0 ] || said_red "$(cat "$T/out.txt")"; then
+                kind=red
+              else
+                kind=green
+              fi
+              echo "$kind $rc $took $l $r" >> "$S/lane-$l.txt"
+              echo "copy $l round $r: $kind (code $rc, $took s)"
+              if [ "$kind" != green ]; then
+                cp "$T/out.txt" "$KEEP/$TAG-copy$l-round$r-$kind.txt"
+              fi
+              rm -rf "$T"
+            done
+          }
+          burners=()
+          for b in $(seq 1 "$BURN"); do
+            python -c "while True: pass" &
+            burners+=($!)
+          done
+          lanes=()
+          for l in $(seq 1 "$PARALLEL"); do
+            lane "$l" &
+            lanes+=($!)
+          done
+          wait "${lanes[@]}"
+          for p in "${burners[@]}"; do kill "$p" 2>/dev/null; done
+          cat "$S"/lane-*.txt > "$S/runs.txt"
+          runs=$(grep -c '' "$S/runs.txt" || true)
+          green=$(grep -c '^green ' "$S/runs.txt" || true)
+          red=$(grep -c '^red ' "$S/runs.txt" || true)
+          hung=$(grep -c '^hung ' "$S/runs.txt" || true)
+          printf '%s %s %s %s %s\n' "${{ matrix.label }}" "$runs" "$green" \
+            "$red" "$hung" > "$KEEP/$TAG-count.txt"
+          line="$TAG: $runs runs, $green green, $red red, $hung hung"
+          echo "$line"
+          echo "$line" >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: stress-${{ matrix.label }}-${{ matrix.shard }}
+          path: ${{ runner.temp }}/stress/kept
+          if-no-files-found: warn
+          retention-days: 14
+
+  # Adds the jobs up: one line per system. Red when anything hung or
+  # went red, or when a job never got as far as counting.
+  sum:
+    needs: [plan, stress]
+    if: ${{ !cancelled() && needs.plan.result == 'success' }}
+    name: "Sum"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Nothing to fetch when no job got as far as uploading; the count
+      # below then says so.
+      - uses: actions/download-artifact@v7
+        continue-on-error: true
+        with:
+          pattern: stress-*
+          path: kept
+          merge-multiple: true
+      - name: "Count"
+        shell: bash
+        env:
+          TEST: ${{ needs.plan.outputs.test }}
+          MATRIX: ${{ needs.plan.outputs.matrix }}
+        run: |
+          mkdir -p kept
+          want=$(printf '%s' "$MATRIX" | python3 -c \
+            "import json, sys; print(len(json.load(sys.stdin)['include']))")
+          got=$(ls kept/*-count.txt 2>/dev/null | wc -l | tr -d ' ')
+          {
+            echo "## $TEST"
+            echo
+            echo '```'
+            cat kept/*-count.txt 2>/dev/null | awk '
+              { runs[$1] += $2; green[$1] += $3; red[$1] += $4
+                hung[$1] += $5; jobs[$1]++ }
+              END { for (s in runs)
+                      printf "%s: %d runs, %d hung, %d red (%d jobs)\n",
+                             s, runs[s], hung[s], red[s], jobs[s] }' | sort
+            echo "jobs that counted: $got of $want"
+            echo '```'
+            echo
+            for f in kept/*-hung.txt kept/*-red.txt; do
+              if [ -f "$f" ]; then echo "* $(basename "$f")"; fi
+            done
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+          bad=$(cat kept/*-count.txt 2>/dev/null \
+                | awk '{ n += $4 + $5 } END { print n + 0 }')
+          if [ "$got" != "$want" ] || [ "$bad" != 0 ]; then
+            echo "not clean: $bad runs hung or red, $got of $want jobs counted"
+            exit 1
+          fi

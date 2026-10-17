@@ -83,7 +83,8 @@ MIN_EDIT_DURATION_S = 3.0
 SILENCE_HOLD_S = 1.0
 
 # The hard limit of the wide shot: no camera stands longer than two
-# minutes without a cut. A rule of the cut, set, not measured.
+# minutes without a cut -- while "Wide shot after" is on and "Long
+# monologue" changes the camera. A rule of the cut, set, not measured.
 WIDE_LATEST_S = 120.0
 
 # How fine the camera cut turns out. Per entry: switch, label,
@@ -125,10 +126,13 @@ CUT_FIELDS = (
       'limit, where it cuts without one.')),
     ("wide-latest", 'Wide shot at the latest', "%g" % WIDE_LATEST_S, "s",
      'and here it is cut, good moment or not',
-     ('The hard limit of the pair: where no sentence boundary has '
-      'turned up since "Wide shot after", the longest speech pause '
-      'stands in for one, and at this point the cut happens whatever '
-      'is being said.')),
+     ('The hard limit of the pair: a shot longer than "Wide shot after" '
+      'that offers neither a sentence boundary nor a pause is broken up '
+      'by the clock, provided it stands longer than this too. '
+      'This holds while "Wide shot after" is on and "Long monologue" '
+      'changes the camera. '
+      'The wide shot for greeting and farewell holds no longer than '
+      'this, whatever those two say.')),
     ("wide-length", 'Wide shot at least', "5", "s",
      'so long the inserted wide shot stands at least',
      ('It then runs to the end of the sentence. Below five seconds the '

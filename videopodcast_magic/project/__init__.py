@@ -339,12 +339,16 @@ def make_project_file(QtWidgets, window, state, model, report, write,
         file_path = axis_file()
         if not file_path:
             return
-        axis_old = (project_collect(file_path).get("timeline") or [])
+        old = project_collect(file_path)
         d = {"format": FILE_FORMAT,
              "version": VERSION,
              "files": [{"path": p, "kind": a} for p, a in model.files],
-             "timeline": axis_old,
+             "timeline": old.get("timeline") or [],
              "timeline_absolute": bool(state.get("axis_absolute"))}
+        # The reference camera belongs to the timeline it was measured
+        # with, and goes along with it; a file without one gains none.
+        if old.get("timeline_reference"):
+            d["timeline_reference"] = old["timeline_reference"]
         settings_extend(d)
         try:
             with open(file_path, "w", encoding="utf-8") as f:
@@ -420,7 +424,6 @@ def make_project_file(QtWidgets, window, state, model, report, write,
         model.speech_language.set(PROGRAM.language_of_system())
         model.lufs.set(loudness_last())
         model.edge_on.set(True)
-        model.multitrack.set(False)
         model.project_type.set("")
         window.project_closed.emit()
 
@@ -533,14 +536,8 @@ def make_project_file(QtWidgets, window, state, model, report, write,
                                 state.get("speakers_source") or "")
         PROGRAM.cameras_carry_path(model.remembered,
                                    [p for p, a in present if a == "video"])
-        if d.get("multitrack"):
-            model.multitrack.set(True)
         window.presets_wanted.emit()
         window.files_changed.emit()
-        if model.multitrack.get():
-            # The tick fires nothing where it already stood, so the later
-            # tabs are told by hand that the project is open.
-            window.mode_changed.emit()
         state["results"] = []
         for name in SPEAKER_STATE:
             state.pop(name, None)

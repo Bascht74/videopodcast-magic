@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-"""An opened project shows its two ticks as saved, in English and German.
+"""An opened project shows its wide-shot tick as saved, in English and German.
 
-The project file says Multitrack on and the wide shot at the edges off
--- each the other way round from what a fresh window holds, so a tick
-that was never restored cannot pass for one that was. The same file is
-opened by two windows, one started under LANGUAGE=en and one under
-LANGUAGE=de, and each reports both ticks once nothing has moved them for
-a while. The sections: the English window against the file, the German
-window really German, and the German ticks against the English ones.
+The project file says the wide shot at the edges off -- the other way
+round from what a fresh window holds, so a tick that was never restored
+cannot pass for one that was. The same file is opened by two windows,
+one started under LANGUAGE=en and one under LANGUAGE=de, and each
+reports the tick once nothing has moved it for a while. The sections:
+the English window against the file, the German window really German,
+and the German tick against the English one.
 """
 PLATFORM_BOUND = True
 import os
@@ -38,7 +38,7 @@ PATIENCE = 90.0
 
 
 def child():
-    """One window: open the project, wait for standstill, report both ticks."""
+    """One window: open the project, wait for standstill, report the tick."""
     os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
     from PySide6 import QtWidgets, QtCore
     app = QtWidgets.QApplication(sys.argv[:1])
@@ -60,8 +60,7 @@ def child():
         shown(self)
 
     QtWidgets.QWidget.show = offstage
-    labels = {"multi": vpm.T('Multitrack (one track per speaker)'),
-              "wide": vpm.T('Wide shot for greeting at the start and '
+    labels = {"wide": vpm.T('Wide shot for greeting at the start and '
                             'farewell at the end')}
     moved = [time.time(), 0]
 
@@ -176,7 +175,7 @@ try:
     with open(project, "w", encoding="utf-8") as f:
         json.dump({"format": 3, "version": "test", "timeline": [],
                    "preset": "", "production": "Ticks", "call": [],
-                   "multitrack": True, "wide_at_edges": False,
+                   "wide_at_edges": False,
                    "project_type": "cut", "out_folder": out_folder,
                    "assignment": {}, "camera_cut": {},
                    "files": [{"path": p, "kind": "audio"}
@@ -188,28 +187,24 @@ finally:
 
 
 def ticks(d):
-    """Both ticks one window reported, in words, for a failure line."""
-    return "Multitrack %s, wide shot at the edges %s (%s toggle(s), %s)" % (
-        d.get("multi"), d.get("wide"), d.get("toggles"),
+    """The tick one window reported, in words, for a failure line."""
+    return "wide shot at the edges %s (%s toggle(s), %s)" % (
+        d.get("wide"), d.get("toggles"),
         d.get("error") or "still for %s s" % d.get("still"))
 
 
 print("1. The English window against the file")
-check("the English window shows the Multitrack tick the file saved",
-      en.get("multi") is True, ticks(en) + ", the file says True")
 check("the English window leaves the wide-shot tick off as saved",
       en.get("wide") is False, ticks(en) + ", the file says False")
 
 print("\n2. The German window")
 check("the second window really speaks German",
       de.get("texts") and de.get("texts") != en.get("texts"),
-      "the Multitrack box reads %r there and %r in English"
-      % ((de.get("texts") or {}).get("multi"),
-         (en.get("texts") or {}).get("multi")))
-check("the German window shows the same two ticks as the English",
-      (de.get("multi"), de.get("wide")) == (True, False)
-      and (de.get("multi"), de.get("wide"))
-      == (en.get("multi"), en.get("wide")),
+      "the wide-shot box reads %r there and %r in English"
+      % ((de.get("texts") or {}).get("wide"),
+         (en.get("texts") or {}).get("wide")))
+check("the German window shows the same tick as the English",
+      de.get("wide") is False and de.get("wide") == en.get("wide"),
       "German: %s; English: %s" % (ticks(de), ticks(en)))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))

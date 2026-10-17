@@ -172,6 +172,14 @@ them and lose the time:
   the line it was waiting for never ran. Whoever writes a wait tries it
   once on something that finishes in a second.
 * **Windows offscreen only.** Nothing may jump onto the screen.
+* **Tests wait for processor by themselves.** While another suite or
+  measurement that waits is running, `run.sh` holds each start until
+  the machine is under 90 % busy (`tests/cpu_wait.sh`), so suites may
+  be started side by side. **A measurement outside `run.sh` goes
+  through `bash tests/cpu_wait.sh <command>`**: it waits, and the
+  suites see it while it runs. With `bash tests/cpu_wait.sh &&` in
+  front it waits as well, but nobody sees it afterwards and a suite
+  beside it does not yield.
 * **Its own fixture root.** `run.sh` puts the material in
   `/tmp/vpm-fixtures-<user id>` -- one folder per person, not per run.
   Two suites at once therefore read and write the same material.
@@ -270,7 +278,9 @@ This machine: `gtimeout` (/opt/local/bin), no `timeout`; windows
               copies in <your folder> only, and no `rm` with a pattern
               anywhere else.
               Own VPM_FIXTURES, never pkill, and the copies go as soon
-              as the measurement is written.
+              as the measurement is written. Tests wait for processor
+              by themselves; a measurement outside run.sh starts with
+              `bash tests/cpu_wait.sh <command>`.
 
 Send back:
   - what you changed, one sentence per file

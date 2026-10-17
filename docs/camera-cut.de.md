@@ -9,8 +9,7 @@ Der Schnitt braucht zwei Personen mit je einem Namen und einer Kamera.
 Eine Person genügt auch, solange es eine zweite Kamera gibt, auf der
 niemand ist. Zwei Personen liefern getrennte Aufnahmen, und ebenso die
 Stimmen, die auf einer Aufnahme auseinandergehalten wurden, deren
-**Sprechername** mit **mehrere Sprecher** beantwortet ist; das Häkchen
-**Multitrack** gehört nicht dazu. Beide Wege stehen in [Spracherkennung
+**Sprechername** mit **mehrere Sprecher** beantwortet ist. Beide Wege stehen in [Spracherkennung
 und Sprechertrennung](speech.de.md).
 
 **Wer im Schnitt ist, hängt nicht daran, woher er kam.** Eine eigene
@@ -79,7 +78,7 @@ ihrer eigenen Größe.
 Die Oberfläche nimmt alle Werte entgegen: auf dem Reiter
 **Resolve-Schnitt**, im Kasten **Kameraschnitt**. Je Wert ein Feld,
 daneben die Einheit und eine kurze Zeile. Den Kasten gibt es, sobald
-**Multitrack** gesetzt ist oder der Schnitt seine Personen hat — zwei
+der Schnitt seine Personen hat — zwei
 davon, oder eine mit einer zweiten Kamera, auf der niemand ist; vorher
 steht an seiner Stelle eine Zeile und sagt, was fehlt.
 
@@ -94,11 +93,11 @@ nächsten Start, sobald einmal eine von Hand auf- oder zugeklappt wurde;
 bis dahin sind alle offen, und eine Gruppe, in der ein Wert von der
 Vorgabe abweicht, wird als letzte zugeklappt, wenn der Platz knapp wird.
 
-![Die Stellschrauben für den Kameraschnitt](images/resolve-cut.de.png)
+![Der fertige Schnitt mit Schnittband und Legende](images/cut-band.de.png)
 
-*Reiter Resolve-Schnitt: links die Werte in drei Gruppen, die sich
-zuklappen lassen, rechts die Vorschau. Die Wörter sind hier schon
-aufgeschrieben, darum wirkt jede Einstellung.*
+*Die Vorschau im Reiter Resolve-Schnitt, wenn der Schnitt gerechnet
+ist: seine Zahlen über dem Player, darunter das Band der Einstellungen
+und die Legende mit dem Anteil jeder Kamera.*
 
 Alle neun Felder nehmen Sekunden, und die Zahl in jeder Zeile ist die
 Vorgabe. Ein leeres Feld heißt Vorgabe, ein Komma gilt als
@@ -149,12 +148,21 @@ gehören zusammen: eine weiche Grenze und eine harte.
   ihn das Bild 77 Mal, alle 39 Sekunden; bei 70 noch 37 Mal, alle 104.
   Beide setzen den Schnitt auf eine Satzgrenze — es geht also um
   Rhythmus, nicht um Richtigkeit.
-* **Weitwinkel spätestens**: 120 s, die harte Grenze. Ist seit
-  **Weitwinkel nach** keine Satzgrenze gekommen, tritt die längste
-  Sprechpause in der Nähe an ihre Stelle, und dort wird geschnitten,
-  gleich was gerade gesagt wird; ist auch keine brauchbare Pause da,
-  entscheidet die Uhr. Kleiner unterbricht eine stehende Kamera früher
-  (auf der Kommandozeile `--wide-latest`)
+* **Weitwinkel spätestens**: 120 s, die harte Grenze. Die zwei Minuten
+  sind gesetzt, nicht gemessen: anders als bei der weichen Grenze hat
+  keine Aufnahme gezeigt, wo sie liegen sollten. Ist seit **Weitwinkel
+  nach** keine Satzgrenze gekommen, tritt die längste Sprechpause in der
+  Nähe an ihre Stelle, und dort wird geschnitten, gleich was gerade
+  gesagt wird; ist auch keine brauchbare Pause da, bricht die Uhr die
+  Einstellung auf, sofern sie auch länger steht als dieser Wert. Dieser
+  Teil gilt nur zusammen mit **Weitwinkel nach**: Steht das auf 0 oder
+  **Langer Monolog** auf **Kein Kamerawechsel**, wird nichts
+  aufgebrochen, so lange eine Kamera auch steht. Der Weitwinkel für
+  Begrüßung und Verabschiedung steht trotzdem nie länger als dieser
+  Wert, gleich was die beiden sagen (das Häkchen unten). Kleiner lässt
+  die Uhr schon an kürzere Einstellungen, bis hinab zu **Weitwinkel
+  nach**, und kürzt den Weitwinkel über einer langen Begrüßung oder
+  Verabschiedung (auf der Kommandozeile `--wide-latest`)
 * **Weitwinkel mindestens**: 5 s, so lange steht der eingeschobene
   Weitwinkel mindestens, danach läuft er bis zum Ende des Satzes; höher
   macht jeden Blick weg länger (auf der Kommandozeile `--wide-length`)
@@ -210,7 +218,7 @@ und Ende auf dem Weitwinkel (auf der Kommandozeile schaltet
 `--no-wide-edges` es ab). Der Weitwinkel am Anfang hält, bis das Wort
 wirklich übergeben wird, nicht bis zum ersten längeren Block einer
 Nebenstimme. Keiner der beiden Ränder hält länger als ein Drittel der
-Aufnahme und länger als **Weitwinkel spätestens**: Wo Begrüßung oder
+Aufnahme oder länger als **Weitwinkel spätestens**: Wo Begrüßung oder
 Abschied länger dauern würden, endet dieser Rand dort -- in einer kurzen
 Aufnahme beim Drittel, in einer langen bei der Einstellung --, und das
 Protokoll vermerkt es unter `Weitwinkel am Rand`, samt der Stelle, an
@@ -233,7 +241,7 @@ in die vorherige.
 ### Die vier Einstellungen, die auf die Wörter warten
 
 **Nach einer Frage**, **Antwort früher im Bild**, **Weitwinkel nach**
-und **Weitwinkel höchstens** stehen grau da, solange keine Niederschrift
+und **Weitwinkel höchstens** stehen grau da, solange kein Transkript
 bekannt ist, und eine Zeile darunter sagt, warum: ohne aufgeschriebene
 Sprache wird keine Frage gefunden und keine Satzgrenze, also bewirken
 diese vier nichts. Vorher ließen sie sich setzen und taten trotzdem
@@ -246,23 +254,23 @@ liefert denselben einen Einschub, ob dort 40 steht oder 90, und
 und 15 Sekunden gegen 20 bis 30.
 
 **Weitwinkel mindestens** und **Weitwinkel spätestens** bleiben offen,
-auch ohne Niederschrift: die beiden zählen nach der Uhr und brauchen
+auch ohne Transkript: die beiden zählen nach der Uhr und brauchen
 keinen Satz. Offen sind sie, solange es überhaupt einen Weitwinkel gibt
 — der nächste Abschnitt handelt vom zweiten Grund, aus dem eine
 Einstellung grau dasteht.
 
-Die Niederschrift schreibt das Fenster selbst, im Hintergrund, sobald
+Das Transkript schreibt das Fenster selbst, im Hintergrund, sobald
 die Zeitachse steht: der Balken der Vorarbeit unter den Tabellen auf
-**Zuordnung & Zeitfenster** führt sie als eigene Zeile,
-**Niederschrift**. Solange sie entsteht, sagt die Zeile unter den vier
-genau das, und ist sie fertig, werden die vier von selbst frei; von da
+**Zuordnung & Zeitfenster** führt es als eigene Zeile,
+**Transkript**. Solange es entsteht, sagt die Zeile unter den vier
+genau das, und ist es fertig, werden die vier von selbst frei; von da
 an rechnet die Vorschau mit ihnen. Hat die Trennung die Wörter einer
 einzelnen Aufnahme schon aufgeschrieben, werden diese so übernommen,
-wie sie sind. Steht die Niederschrift, schneiden **Trockenlauf** und
+wie sie sind. Steht das Transkript, schneiden **Probelauf** und
 **Start** nach denselben Wörtern: Wird aus einer Frage in der Vorschau
-ein Reaktionsschnitt, dann auch im Lauf. Ein Lauf ohne sie -- von der
-Kommandozeile, oder bevor das Fenster fertig war -- schreibt seine
-eigene.
+ein Reaktionsschnitt, dann auch im Lauf. Ein Lauf ohne das Transkript -- von der
+Kommandozeile, oder bevor das Fenster fertig war -- schreibt sein
+eigenes.
 
 ### Wenn keine Kamera frei von Sprechern ist
 
@@ -328,7 +336,7 @@ für die Ränder hier nichts.
 
 Keines der beiden Graus bleibt für immer. Eine Kamera kennzeichnen oder
 einer den Sprecher wegnehmen, und die fünf sind im selben Augenblick
-wieder da — so wie die vier, sobald die Niederschrift steht.
+wieder da — so wie die vier, sobald das Transkript steht.
 
 ### Wenn die Sprache nicht sagt, wer zu zeigen ist
 
@@ -374,7 +382,7 @@ Wechsel vorgezogen. Wo Fragen wegfielen, folgt eine zweite Zeile mit der
 Zahl je Grund — der Hauptsprecher fragte, Fragender und Antwortender auf
 einer Kamera, niemand antwortete rechtzeitig, die Antwort behielt das
 Wort nicht, bei der Frage sprach niemand, das Bild wechselte dort nicht
-zum Antwortenden, die Antwort wurde mit der Frage davor gezählt. Ohne Niederschrift steht an ihrer Stelle genau das, damit eine
+zum Antwortenden, die Antwort wurde mit der Frage davor gezählt. Ohne Transkript steht an ihrer Stelle genau das, damit eine
 Einstellung, die nichts bewirken kann, nicht wie eine kaputte aussieht.
 
 **Zuhörer** heißt: wer als Nächstes spricht, und nur, wenn auf dieser
@@ -709,7 +717,11 @@ So liest das Script die Spuren:
 * Es zerlegt jede Spur in Blöcke von 100 Millisekunden.
 * Es misst jeden Block gegen den eigenen Grundpegel der Spur, das
   leiseste Fünftel ihrer Blöcke; 10 dB darüber gilt als Sprache.
-* Pausen unter 0,35 Sekunden sind kein Sprecherwechsel.
+* Pausen unter 0,75 Sekunden sind kein Sprecherwechsel. An sieben
+  Ausschnitten echter Gespräche gegen den gemessen, der wirklich
+  sprach: Bei 0,75 statt 0,35 Sekunden stand die Kamera in allen sieben
+  öfter auf der Person, die gerade redete -- im Mittel 92,7 statt 88,5
+  Prozent der Zeit, bei gleich vielen Schnitten.
 * Passagen unter 0,2 Sekunden zählen nicht. An 31 Minuten
   Dreimikrofon-Material gemessen: darunter sind die Passagen, die
   hinzukommen, im Mittel zwei Zehntelsekunden lang — das ist Atem
@@ -732,8 +744,10 @@ auflösen: die Pegel bleiben, wie gemessen, und das Protokoll sagt warum
 und nennt das schlechteste Paar.
 
 Bis 5 dB Trennung hinunter arbeitet die Erkennung exakt, deutlich unter
-den 9,5 dB, die die 3:1-Regel verlangt; die Messreihe dahinter steht in
-[What was measured](../development/measurements.md) (englisch).
+den 9,5 dB, die die 3:1-Regel verlangt. Die 5 dB sind gemessen, die
+Messreihe steht in [What was measured](../development/measurements.md)
+(englisch); die 9,5 dB sind gesetzt, nicht gemessen -- sie sind die
+Rechnung der Regel selbst, und keine Aufnahme hier hat sie geprüft.
 
 Das Protokoll sagt, wie stark das Übersprechen war, und darunter je
 Sprecher Redezeit und Zahl der Abschnitte. Wenn nichts zu hören war,
@@ -787,8 +801,9 @@ was man von Hand eingestellt hat und nicht wieder erraten kann. Das sind
 die Dateiliste, Name, Projekttyp und Ablageort der Produktion, das
 Zeitfenster, alle
 Werte des Kameraschnitts, wer zu welcher Kamera gehört, das
-Auphonic-Preset, die Stereo-Häkchen, die gemessene Lage jeder Datei und
-wie schnell ihr Recorder lief; der API Key steht **nicht** darin.
+Auphonic-Preset, die Stereo-Häkchen, die gemessene Lage jeder Datei,
+wie schnell ihr Recorder lief und an welcher Kamera die anderen gemessen
+wurden; der API Key steht **nicht** darin.
 
 Darin steht, was jemand geantwortet hat, und sonst nichts. Ein von Hand
 gewähltes Preset bleibt auch dann darin stehen, wenn die Presetliste
@@ -807,7 +822,10 @@ die niemand mehr sieht.
 
 Beim Öffnen prüft das Programm das Format der Datei und weist eine Datei
 in einem anderen Format ab. Ältere Projektdateien kann es nicht mehr
-öffnen.
+öffnen. Fehlt einer Datei nur etwas, das später dazugekommen ist -- wie
+schnell ein Recorder lief, an welcher Kamera die anderen gemessen wurden
+--, dann hat sie dasselbe Format und lässt sich öffnen; das Fehlende
+ermittelt das Programm dann so wie früher.
 
 Sie entsteht schon, sobald das Programm die Zeitachse gemessen hat, dann
 noch neben dem Material, weil es den Ausgabeordner noch nicht gibt. Wenn
@@ -860,8 +878,9 @@ beendet ihn die letzte Teilsatzgrenze davor.
 **Weitwinkel spätestens** ist die Reißleine. Kommt keine Satzgrenze,
 tritt die längste Sprechpause in der Nähe an ihre Stelle, und dort wird
 geschnitten, gleich was gerade gesagt wird; ist auch keine brauchbare
-Pause da, wird eine Kamera nach der Uhr aufgebrochen, damit kein Stück
-von ihr länger als diese Zeit steht. Ohne Niederschrift gibt es
+Pause da, wird eine Kamera nach der Uhr aufgebrochen, sofern sie auch
+länger als diese Zeit steht -- solange **Weitwinkel nach** an ist und
+**Langer Monolog** die Kamera wechselt, siehe oben. Ohne Transkript gibt es
 überhaupt keine Satzgrenzen: der Weitwinkel geht dann an die längste
 Pause in der Nähe und steht die eingestellte Mindestzeit — deshalb ist
 die weiche Grenze gesperrt, solange die Wörter fehlen, und die harte
@@ -921,17 +940,17 @@ Lautheitsmessung läuft je Spur zweimal durch.
   Kamera. Das Protokoll sagt es unter `SPRECHER -- HIER GEMESSEN` oder
   `SPRECHER -- NACH STIMMEN GETRENNT`.
 * **Auf dem Reiter Resolve-Schnitt fehlt der Kasten für den Schnitt.**
-  **Multitrack** ist nicht gesetzt, und niemand trägt Namen und Kamera —
+  Niemand trägt Namen und Kamera —
   oder eine Person tut es und es gibt keine zweite Kamera. Auf dem
   Reiter **Zuordnung & Zeitfenster** jeder Stimme einen Namen und eine
   Kamera geben.
 * **Vier Einstellungen sind grau und nehmen nichts an.** Es ist noch
-  keine Niederschrift da. **Nach einer Frage**, **Antwort früher im
+  kein Transkript da. **Nach einer Frage**, **Antwort früher im
   Bild**, **Weitwinkel nach** und **Weitwinkel höchstens** brauchen
-  eine. Das Fenster schreibt sie im Hintergrund, sobald die Zeitachse
+  eines. Das Fenster schreibt es im Hintergrund, sobald die Zeitachse
   steht — der Balken der Vorarbeit zeigt dann die Zeile
-  **Niederschrift** —, und ist sie fertig, werden die vier von selbst
-  frei. Ist `VPM_NO_SPEAKER_SPLIT` gesetzt, schreibt das Fenster keine,
+  **Transkript** —, und ist es fertig, werden die vier von selbst
+  frei. Ist `VPM_NO_SPEAKER_SPLIT` gesetzt, schreibt das Fenster keines,
   und der erste Lauf tut es.
 * **Fünf Einstellungen sind grau, und der Weitwinkel lässt sich nicht
   wählen.** Jede Kamera trägt einen Sprecher, also gibt es keinen
@@ -966,7 +985,7 @@ Im Fenster gibt es dafür keine Entsprechung.
   öfter
 * `--reaction-hold` welchen Anteil der zehn Sekunden nach der Frage der
   Antwortende halten muss, zwischen 0 und 1 (0,7); höher und er greift
-  seltener. Beide gehören zur Frage und wollen eine Niederschrift, wie
+  seltener. Beide gehören zur Frage und wollen ein Transkript, wie
   die zwei Einstellungen dafür im Fenster
 * `--no-metrics` lässt die Kennzahlendatei und den Farbvergleich weg
 * `VPM_PLAYER_DEBUG=1` vor dem Aufruf stellt Uhr, Stand und Sollwert

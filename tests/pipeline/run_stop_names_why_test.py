@@ -4,13 +4,15 @@
 Each case is a bare command line in a process of its own: presets that
 cannot be fetched (curl stood in for, fenced behind a proxy to nowhere),
 a lone camera with no sound, a file of no known kind alone, a path that
-is not there, two cameras with no recording and no --multitrack, the
-last also naming the unknown file beside it as skipped, the two
+is not there, an unknown file beside real ones named as skipped, the two
 Resolve switches in a child cut off from Resolve, which checks that
-before main() and stops red, main() uncalled, where it is not, no
-ffmpeg with the repair stood in for and refused, --multitrack over a
-single recording, and the one-shot jobs: --update with the look
-switched off, --hdr-check over a file that is not HDR; a fault
+before main() and stops red, main() uncalled, where it is not, the
+Resolve part in that child stopped by a fault of our own, named as ours
+with its traceback in the log and not on the screen, and handed a
+handover saved again as UTF-16, said as the file's word, not ours; no
+ffmpeg with the repair stood in for and refused, and the one-shot jobs:
+--update with the look switched off, --hdr-check over a file that is
+not HDR; a fault
 nobody foresaw, raised where the run begins, said in one line with no
 traceback; and a run that would send to auphonic.com with no key
 stored, with a picture and without, while a dry run needs none. What they return when they did their work is
@@ -169,12 +171,6 @@ check("a missing file returns 1 and names it",
       "returned %r against 1, last line %r against %r" % (code, last, WANT))
 code, last, said = run([sys.executable, SCRIPT, "--without-auphonic",
                         "--out", os.path.join(HOME, "out3"), NOTES] + CAMS)
-WANT = vpm.T('Several cameras but no audio file. Each camera would have its '
-             'own audio --\nthat is what --multitrack is for. Otherwise '
-             'one camera after another.').splitlines()[-1].strip()
-check("two cameras without a recording and without Multitrack return 1 "
-      "and say what --multitrack is for", code == 1 and last == WANT,
-      "returned %r against 1, last line %r against %r" % (code, last, WANT))
 SKIPPED = vpm.T('Unknown extension, skipped: %s') % "notes.txt"
 check("an unknown file beside real ones is named as skipped",
       SKIPPED in said.splitlines(),
@@ -188,10 +184,28 @@ print("\n4. Resolve out of reach, and main() saying so")
 # any path holding the module, nails connect_to_resolve, and checks all
 # three before main() is called; where one does not hold it stops there.
 RESOLVE_REASON = "no Resolve here -- the stand-in answers in its place"
+# A fault no Resolve raises: the program's own, where it asks for one.
+OUR_FAULT = "list index out of range"
+# The child's log, stood in for: beside the program it is shared with
+# every test running alongside, and this one reads it back.
+CHILD_LOG = os.path.join(HOME, "resolve_child.log")
 HANDOVER = os.path.join(HOME, "Door_resolve.json")
+DOOR = {"format": vpm.FILE_FORMAT, "fps": 25, "production": "Door",
+        "cameras": [{"file": CAMS[0], "name": "CamA"}]}
 with open(HANDOVER, "w", encoding="utf-8") as f:
-    json.dump({"format": vpm.FILE_FORMAT, "fps": 25, "production": "Door",
-               "cameras": [{"file": CAMS[0], "name": "CamA"}]}, f)
+    json.dump(DOOR, f)
+# The same handover saved again as UTF-16, as an editor may: the file's
+# word, not a fault of ours. What UTF-8 says of those bytes is asked of
+# the bytes themselves, not of the program's read.
+UTF16 = os.path.join(HOME, "Resaved_resolve.json")
+RESAVED = json.dumps(DOOR).encode("utf-16")
+with open(UTF16, "wb") as f:
+    f.write(RESAVED)
+try:
+    RESAVED.decode("utf-8")
+    NOT_UTF8 = "the UTF-16 bytes read as UTF-8 after all"
+except UnicodeDecodeError as e:
+    NOT_UTF8 = str(e)
 SHUT = "Resolve's scripting module is out of reach"
 # One string, not lines joined: source_resolve_door_shut reads it as a
 # child of its own and lets its switches through for the nail and the
@@ -206,7 +220,11 @@ sys.path[:] = [p for p in sys.path if not any(
 sys.path.insert(0, %r)
 import the_program
 vpm = the_program.load()
+vpm.logbook.log_path = lambda: %r
+MODE = sys.argv[1]
 def refuse(*a, **k):
+    if MODE == "fault":
+        raise IndexError(%r)
     raise RuntimeError(%r)
 vpm.connect_to_resolve = refuse
 near = [m for m in MODULES if importlib.util.find_spec(m) is not None]
@@ -219,11 +237,13 @@ if near or there or loose:
     sys.exit(3)
 print(%r)
 sys.argv = ["videopodcast-magic"] + {
-    "json": ["--resolve-json", %r],
+    "json": ["--resolve-json", %r], "fault": ["--resolve-json", %r],
+    "utf16": ["--resolve-json", %r],
     "tracks": ["--resolve-audio-tracks"]}[sys.argv[1]]
 sys.exit(vpm.main())
 """ % (os.path.join(HOME, "nowhere"), os.path.join(HOME, "nowhere"), HERE,
-       RESOLVE_REASON, SHUT, HANDOVER)
+       CHILD_LOG, OUR_FAULT, RESOLVE_REASON, SHUT, HANDOVER, HANDOVER,
+       UTF16)
 code, last, said = run([sys.executable, "-c", RESOLVE_CHILD, "json"])
 bolted = SHUT in said.splitlines()
 check("the child finds Resolve out of reach before main() is called",
@@ -244,6 +264,33 @@ if bolted:
                                             "not said"))
     check("and its last line says it stopped, and why", last == WANT,
           "last line %r against %r" % (last, WANT))
+    code, last, said = run([sys.executable, "-c", RESOLVE_CHILD, "fault"])
+    WANT = vpm.T('Resolve part stopped on a fault in this program, not in '
+                 'Resolve: %s -- please report it. The details are in the '
+                 'log.') % ("IndexError: " + OUR_FAULT)
+    check("a Resolve build stopped by a fault of ours returns 1",
+          code == 1, "returned %r against 1, last line %r" % (code, last))
+    check("and its last line names the fault as ours, to be reported",
+          last == WANT, "last line %r against %r" % (last, WANT))
+    try:
+        with open(CHILD_LOG, encoding="utf-8", errors="replace") as f:
+            logged = f.read()
+    except OSError:
+        logged = ""
+    trace = [x for x in logged.splitlines() if x.startswith("Traceback")]
+    check("and the fault's traceback is in the log, not on the screen",
+          bool(trace) and ("IndexError: " + OUR_FAULT) in logged
+          and "Traceback" not in said,
+          "%d traceback lines in %d log lines, %s on the screen; the log "
+          "ends %r" % (len(trace), len(logged.splitlines()),
+                       "one" if "Traceback" in said else "none",
+                       (logged.strip().splitlines() or [""])[-1][:120]))
+    code, last, said = run([sys.executable, "-c", RESOLVE_CHILD, "utf16"])
+    WANT = vpm.T('Resolve part stopped: %s') % NOT_UTF8
+    check("a handover saved again as UTF-16 returns 1, as the file's word",
+          code == 1 and last == WANT,
+          "returned %r against 1, last line %r against %r"
+          % (code, last, WANT))
 else:
     print("   main() was not called: the checks on the two Resolve "
           "switches wait for a child that cannot reach Resolve")
@@ -283,32 +330,7 @@ check("a run with no ffmpeg that is not repaired returns 1", code == 1,
 check("and its last line says nothing runs until that is put right",
       last == WANT, "last line %r against %r" % (last, WANT))
 
-print("\n6. Multitrack over a single recording")
-ALONE = os.path.join(HOME, "Presenter_REC0001.wav")
-made = subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
-                       "sine=frequency=440:duration=2", "-c:a", "pcm_s16le",
-                       ALONE], stdout=subprocess.PIPE,
-                      stderr=subprocess.STDOUT, timeout=ASK)
-# A precondition of the material, not a judgement about the program.
-assert made.returncode == 0 and os.path.exists(ALONE), made.stdout
-code, last, _said = run([sys.executable, SCRIPT, "--multitrack",
-                         "--without-auphonic", "--out",
-                         os.path.join(HOME, "out6"), ALONE])
-WANT = (vpm.T('MULTITRACK NOT POSSIBLE\n  At least two input tracks are '
-              'needed, and only %s was found.\n  A track is a recording of '
-              'its own, a channel of a multichannel\n  recorder, or the '
-              'audio of a camera -- that counts as soon as its\n  Camera '
-              'audio says "use internal audio". Without two of them '
-              'there\n  '
-              'is nothing to decouple, and the same file runs through as an\n'
-              '  ordinary production.')
-        % vpm.number_text(1, 0)).splitlines()[-1].strip()
-check("multitrack over one recording returns 1", code == 1,
-      "returned %r against 1, last line %r" % (code, last))
-check("and its last line says it would run as an ordinary production",
-      last == WANT, "last line %r against %r" % (last, WANT))
-
-print("\n7. The one-shot jobs that cannot do theirs")
+print("\n6. The one-shot jobs that cannot do theirs")
 # The look for new versions switched off is the fault here, so --update
 # is refused before anything could leave; the proxies to nowhere stand
 # behind it. Named as the program reads it: the fence's lower case
@@ -327,7 +349,14 @@ check("an --hdr-check over a file that is not HDR returns 1", code == 1,
 check("and its last line says the file is not recognised as HDR",
       last == WANT, "last line %r against %r" % (last, WANT))
 
-print("\n8. A fault nobody foresaw, where the run begins")
+print("\n7. A fault nobody foresaw, where the run begins")
+ALONE = os.path.join(HOME, "Presenter_REC0001.wav")
+made = subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+                       "sine=frequency=440:duration=2", "-c:a", "pcm_s16le",
+                       ALONE], stdout=subprocess.PIPE,
+                      stderr=subprocess.STDOUT, timeout=ASK)
+# A precondition of the material, not a judgement about the program.
+assert made.returncode == 0 and os.path.exists(ALONE), made.stdout
 # Bent where main() looks the door up: whatever breaks behind it is
 # not one of the refusals above, so it is what nobody wrote a line for.
 FAULT = "the stand-in breaks where the run begins"
@@ -355,7 +384,7 @@ check("and no traceback reaches the terminal", not traced,
       "%d traceback lines among %d, last line %r"
       % (len(traced), len(said.splitlines()), last))
 
-print("\n9. auphonic.com wanted, and no key stored")
+print("\n8. auphonic.com wanted, and no key stored")
 # The store stood in for as empty, so the owner's key is never read;
 # the proxies to nowhere stand behind it all the same.
 KEYLESS = "\n".join([

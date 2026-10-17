@@ -641,8 +641,8 @@ def cut_to_what_was_sent(sent, back):
     except Exception:
         found = {"st": {}}
     # Placed by the rule a camera is placed by. The voice's correction is
-    # no test: it came out near zero on three built replies of other
-    # sound entirely (27.9.2026).
+    # no test: on 16 built replies of other sound it was within 0.5 ms of
+    # zero 12 times and missing 4, as near zero as a right one (17.10.2026).
     if not (match_places_it(found["st"]) or fit_places_it(found["st"])):
         print(as_warn(T('  %s came back %s s longer than it went up, and '
                         'where the sound sent\n  begins in it could not '
@@ -679,16 +679,39 @@ def cut_to_what_was_sent(sent, back):
     return front, behind
 
 
+# What a return may lack of the sound sent: a lossy file cut to its frames,
+# 0.1 s in the live test, and the measuring error. Built speech, 16.10.2026:
+# right returns lacked 0.015 s at most; 85 of 88 of other sound over 1 s.
+RETURN_MISSING_MOST_S = 0.25
+
+
+def return_not_sent(found, sent_s, back_s):
+    """Why a return cannot be the sound that went up, or None.
+
+    Placed where where_sent_sits put it, the sound sent has to lie whole
+    inside the return; longer is allowed (a jingle, a wider window
+    recomputed), so other sound placed inside passes. Points and spread
+    look alike for both, and a quiet de-bled speaker matches as a stranger.
+    """
+    a, b = found["a"], found["drift"]
+    missing = sent_s - (min(back_s, a + b * sent_s) - max(0.0, a)) / b
+    if missing > RETURN_MISSING_MOST_S:
+        return (T('   Caution: %s s of what went up is not in it')
+                % number_text(missing, 1))
+    return None
+
+
 def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
     """Check what Auphonic returns against what was uploaded.
 
-    The service can prepend material and change the length, either of
-    which would undo the alignment. De-bleeding and the leveler change
-    the signal, so the sample points are picked on the processed track,
-    the envelopes flattened, and the estimate a median.
+    Prepended material or a changed length would undo the alignment.
+    De-bleeding and the leveler change the signal, so sample points are
+    picked on the processed track, the envelopes flattened, the estimate
+    a median. A track lacking part of what went up is refused and laid
+    nowhere, one not measurable is unsure; either stops the run.
     """
     print(as_head(T('\nCHECK THE RETURN')))
-    shaky = []
+    shaky, refused = [], []
     # A stereo track coming back with one channel was folded at
     # auphonic.com, and no later step can undo that. Not an error, but
     # it has to be said: the two microphones' difference is gone.
@@ -731,19 +754,33 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
         track["offset_ms"] = ms
         track["residual_ms"] = spread
         length = n_fresh - 2 * edge - window_length2
+        uncertain = st.get("points", 0) < 5 or spread > 150.0
+        # Judged on the file as it came back: a copy trimmed to the window
+        # is padded with silence where that file ran out.
+        came_back, into = track.get("came_back") or (done, 0.0)
+        refusal = None if uncertain else return_not_sent(
+            dict(found, a=found["a"] + into),
+            sample_count(track["axis"]) / float(SR),
+            sample_count(came_back) / float(SR))
         remark = ""
-        if edge or abs(ms) > 5 or abs(length) > 0.05 or clock_drift_ppm:
+        if refusal:
+            # Not laid on the axis: it is not the sound that went up.
+            remark = T('  -->  refused')
+        elif edge or abs(ms) > 5 or abs(length) > 0.05 or clock_drift_ppm:
             target = os.path.join(tmpdir, "ready_%s.wav" % safe_filename(track["name"]))
             place_track_on_axis(done, target, a_corr, clock_drift, 0.0, window_length2,
                            drift=bool(clock_drift_ppm))
             track["ready"] = target
-            remark = (T('  -->  aligned, clock drift %s ppm taken out')
-                      % number_text(clock_drift_ppm, 1, plus=True)) \
-                if clock_drift_ppm \
-                else T('  -->  aligned')
+            # Laid by a measurement that cannot be used, the run stops on
+            # it below: its line says that, and nothing was aligned.
+            remark = ("" if uncertain
+                      else T('  -->  aligned, clock drift %s ppm taken out')
+                      % number_text(clock_drift_ppm, 1, plus=True)
+                      if clock_drift_ppm else T('  -->  aligned'))
         else:
             track["ready"] = done
-        uncertain = st.get("points", 0) < 5 or spread > 150.0
+        caution = (T('   Caution: measurement unusable') if uncertain
+                   else refusal)
         line = (T('  %-20s offset %s ms%s, length %s s, spread %s '
                   'ms, %s of %s points%s%s')
                 % (track["name"], number_text(ms, plus=True),
@@ -753,16 +790,21 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
                    number_text(spread, 0),
                    number_text(st.get("points", 0), 0),
                    number_text(st.get("candidates", 0), 0), remark,
-                   T('   Caution: measurement unusable') if uncertain else ""))
-        print(as_warn(line) if uncertain else line)
-        if uncertain:
+                   caution or ""))
+        print(as_warn(line) if caution else line)
+        if refusal:
+            refused.append(track["name"])
+        elif caution:
             shaky.append(track["name"])
+    if refused:
+        print(T('\n  Refused: %s -- what came back does not match what went '
+                'up. Better to\n  stop than to write something wrong.')
+              % ", ".join(refused))
     if shaky:
         print(T('\n  For %s it could not be established whether the return '
                 'matches the\n  upload. Better to stop than to write '
                 'something wrong.') % ", ".join(shaky))
-        return False
-    return True
+    return not (refused or shaky)
 
 
 def find_master_file(*places):
@@ -1827,9 +1869,25 @@ def place_track_on_axis(source, target, a, b, t0, t1, drift=True):
     the offset divided by b, and the track padded to its full length.
     Every track gets the same window, or the crosstalk cannot be removed.
     """
+    shell_quote(["ffmpeg", "-v", "error", "-i", source, "-af",
+                 ",".join(axis_place_filters(a, b, t0, t1, drift)),
+                 "-ac", str(kept_channels(source)), "-c:a", "pcm_s24le"]
+                + wav_safe(target) + ["-y", target])
+    return target
+
+
+def axis_place_filters(a, b, t0, t1, drift=True):
+    """The filters that lay a recording on the axis from *t0* to *t1*.
+
+    What place_track_on_axis writes, as a list for -af: a reading of the
+    recording at its place goes through the same filters, so it hears
+    what the written track would hold without the track being written.
+    """
     n_window = int(round((t1 - t0) * SR))
-    keep = kept_channels(source)
-    af = []
+    # Every count below is a sample at the working rate, so the track is
+    # brought to it first: a 16 kHz recording counted at 48 kHz came out
+    # three times the window, its sound 1.8 s early (E-666).
+    af = ["aresample=%d" % SR]
     if drift and abs(b - 1.0) > 1e-7:
         af.append(rate_filter_chain(b))
         start = a / b + t0
@@ -1844,10 +1902,19 @@ def place_track_on_axis(source, target, a, b, t0, t1, drift=True):
     af.append("apad=whole_len=%d" % n_window)
     af.append("atrim=end_sample=%d" % n_window)
     af.append("asetpts=N/SR/TB")
-    shell_quote(["ffmpeg", "-v", "error", "-i", source, "-af", ",".join(af),
-        "-ac", str(keep), "-c:a", "pcm_s24le"]
-            + wav_safe(target) + ["-y", target])
-    return target
+    return af
+
+
+def axis_heard_filters(a, b, t0, t1, drift=True):
+    """What a reading of a recording at its place hears, as a list for -af.
+
+    axis_place_filters, and the one thing the written file adds: it is
+    whole numbers, so a float recording's overs stop at full scale. Read
+    unclipped, a recorder's overs of 2.3 dB on a real interview put the
+    level curve up to 591 steps above the written track's (17.10.2026).
+    """
+    return axis_place_filters(a, b, t0, t1, drift) + [
+        "aformat=sample_fmts=s32"]
 
 
 def envelope_heard(path):

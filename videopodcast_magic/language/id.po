@@ -134,12 +134,6 @@ msgstr "Tak ada preset Singletrack milik Anda -- buat satu"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "Tak ada preset milik Anda -- buat di auphonic.com"
 
-msgid "No Multitrack preset found in the account."
-msgstr "Tidak ditemukan preset Multitrack di akun."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Tidak ditemukan preset Singletrack di akun."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "Tidak ada preset Multitrack di akun. Hanya ini: %s"
 
@@ -277,6 +271,9 @@ msgstr "  Pengenal ucapan sudah dibangun (%s s)."
 
 msgid "  The speech recognition reports: %s"
 msgstr "  Pengenalan ucapan melaporkan: %s"
+
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS tidak mengenali %s di sini, Whisper mengambil alih"
 
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Dikenali dalam %s: siap dalam %s s, didengar dalam %s s"
@@ -647,6 +644,9 @@ msgstr "\nTidak ada preset yang dipilih: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nBerhenti sebelum langkah panjang pertama. Dengan --anyway proses tetap berjalan."
 
+msgid "\nStopped before the first long step."
+msgstr "\nBerhenti sebelum langkah panjang pertama."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve mungkin lalu tidak mengenali ruang warna masukan."
 
@@ -728,12 +728,6 @@ msgstr "    %-24s tidak ada audio yang disisipkan"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx kamera yang dimaksud tidak berjalan -- ada kamera lain di sana."
 
-msgid "    %s could not be imported."
-msgstr "    %s tidak dapat diimpor."
-
-msgid "    %s could not be inserted."
-msgstr "    %s tidak dapat disisipkan."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Trek %s tidak dapat dibuat: %s"
 
@@ -742,6 +736,9 @@ msgstr "    %s: gambar dan audio disisipkan terpisah (audio dari A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway disetel: proses tetap berjalan meski ada poin-poin di atas."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway disetel: proses tetap berjalan meski ada poin-poin di atas, tetapi berhenti sebelum unggahan -- auphonic.com akan menolak produksi ini."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Semua trek sudah di tempatnya -- tidak ada yang perlu digeser."
@@ -890,8 +887,16 @@ msgstr "  %s blok digabungkan melalui timecode, awal %s"
 msgid "  %s of %s files imported."
 msgstr "  %s dari %s file diimpor."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s pembicara, %s bidikan, terpendek %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, terpendek %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s pembicara"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s bidikan"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s trek video, dinamai menurut pembicara:"
@@ -1145,8 +1150,8 @@ msgstr "  Awal %s -- setiap bidikan ditempatkan relatif terhadapnya."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Timeline seperti itu belum ada -- baru dibuat sekarang."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Catatan: ini menghitung dengan file yang diunggah saat itu. File itu membawa\n  rentang waktu dan penyelarasan hari itu. Jika titik masuk, titik keluar\n  atau posisi terukur kini berbeda, pemeriksaan balik mengukur\n  selisihnya dan menggeser trek ke tempatnya."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Catatan: ini menghitung dengan file yang diunggah saat itu. File itu membawa\n  rentang waktu dan penyelarasan hari itu. Jika titik masuk, titik keluar\n  dan posisi terukur kini tetap di dalam rentang itu, pemeriksaan balik\n  mengukur selisihnya dan menggeser trek ke tempatnya. Jika melampauinya --\n  titik masuk lebih awal, titik keluar lebih akhir -- pemeriksaan menolak trek:\n  maka unggah semuanya lagi."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Catatan: ffmpeg ini tidak memiliki soxr -- penyimpangan jam hanya dapat dihilangkan dalam\n  langkah 21 ppm."
@@ -1157,8 +1162,8 @@ msgstr "  Tidak berpengaruh pada audio."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Selisih:          %s   (dari perbandingan kamera)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Hanya %s dari %s bidikan yang ada di Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve hanya mengambil %s dari %s bidikan -- Timeline \"%s\" tidak memiliki sisa potongan."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Puncak:            %s dB di atas %s dBTP -- limiter menangkapnya"
@@ -1205,8 +1210,8 @@ msgstr "  Referensi: %s (%s, durasi terpanjang)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Sisa:              %s dB di setiap trek, yaitu %s LUFS alih-alih %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve sama sekali tidak menerima gambar -- Timeline kosong. Tidak ada\n  lagi yang dibangun di atasnya."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve tidak mengambil gambar sama sekali -- Timeline \"%s\" tidak memiliki potongan dan audionya."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Hasil: %s (%s) -- tetap di samping file video\n"
@@ -1238,11 +1243,17 @@ msgstr "  Target:            %s LUFS  ->  %s dB di setiap trek"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline mendapat %s: yang tertinggi di antaranya, atau laju berikutnya yang dimiliki Resolve\n  di atasnya. Saat dikonversi ke atas Resolve mengulang frame, ke bawah\n  membuangnya. Setiap kamera mempertahankan lajunya sendiri, dan potongan menghitung\n  dalam laju itu."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix tidak dapat diimpor."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve tidak memiliki Full-Mix di Media Pool -- Timeline \"%s\" tidak memiliki audio."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix tidak dapat disisipkan."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve menolak Full-Mix -- Timeline \"%s\" tidak memiliki audio."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve menolak Intro -- Timeline \"%s\" tidak memiliki Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve menolak Outro -- Timeline \"%s\" tidak memiliki Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamera memuat rentang waktu ditambah satu detik di tiap ujung: %s ditulis untuk %s dari %s yang direkam."
@@ -1250,8 +1261,9 @@ msgstr "  Kamera memuat rentang waktu ditambah satu detik di tiap ujung: %s ditu
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Semua kamera berdekatan (paling banyak %s tingkat kecerahan)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Potongan telah berubah: %s bidikan alih-alih %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Potongan telah berubah: %s bidikan alih-alih %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Catatan proses sebelumnya di sini tidak dapat dibaca (%s), jadi semua yang sudah ada dilaporkan."
@@ -1385,9 +1397,6 @@ msgstr "File pemetaan tidak terbaca: %s"
 msgid "Camera audio not usable: %s"
 msgstr "Audio kamera tidak dapat digunakan: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK TIDAK MUNGKIN\n  Diperlukan setidaknya dua trek masukan, dan hanya %s yang ditemukan.\n  Trek adalah rekaman tersendiri, satu kanal dari perekam\n  multikanal, atau audio sebuah kamera -- yang terhitung begitu\n  Audio kamera untuk kamera itu berisi \"gunakan audio internal\". Tanpa dua trek\n  tidak ada yang bisa dipisahkan, dan file yang sama diproses sebagai\n  produksi biasa."
-
 msgid "No preset is called %r."
 msgstr "Tidak ada preset bernama %r."
 
@@ -1499,9 +1508,6 @@ msgstr "PROYEK DISIMPAN\n  %s\n  Proses ini dapat dibuka lagi nanti -- kiri atas
 msgid "Presets could not be loaded: %s"
 msgstr "Preset tidak dapat dimuat: %s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Beberapa kamera tetapi tanpa file audio. Setiap kamera akan memiliki audionya sendiri --\nitulah gunanya --multitrack. Jika tidak, kamera satu per satu."
-
 msgid "The file is NOT recognised as HDR."
 msgstr "File TIDAK dikenali sebagai HDR."
 
@@ -1552,9 +1558,6 @@ msgstr "\n  PERBARUI DAFTAR POTONGAN"
 
 msgid "\n  Render job"
 msgstr "\n  Tugas render"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Bagian Resolve dihentikan: %s"
 
 msgid "\n  STOPPED: %s"
 msgstr "\n  DIHENTIKAN: %s"
@@ -1621,9 +1624,6 @@ msgstr "  Rentang waktu:       %s -- semua yang didengar trek mana pun"
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: hening %s di awal dan %s di akhir"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nHanya satu trek tersisa setelah blok-blok digabung, sedangkan multitrack membutuhkan satu trek per suara. Jika dua orang dianggap satu rekaman, --apart mengeluarkan satu blok darinya."
 
 msgid "RECOGNISED PLAN"
 msgstr "RENCANA YANG DIKENALI"
@@ -1862,6 +1862,9 @@ msgstr "HASIL"
 msgid "Resolve part stopped: %s"
 msgstr "Bagian Resolve dihentikan: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Bagian Resolve dihentikan oleh kesalahan dalam program ini, bukan di Resolve: %s -- mohon laporkan. Rinciannya ada di log."
+
 msgid "Stopped: %s"
 msgstr "Dihentikan: %s"
 
@@ -1951,6 +1954,13 @@ msgstr "%s disesuaikan dengan preset"
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s kanal -- dipotong menjadi trek, lihat baris di atas."
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s kanal -- baris perintah tidak memotongnya menjadi trek dan melipat file "
+"menjadi satu kanal, dua orang menjadi satu suara."
 
 msgid "%s checked"
 msgstr "%s diperiksa"
@@ -2072,6 +2082,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)s bidikan</b>, median %(med)s s, terpen
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Setiap pasangan kanal dinilai tersendiri: satu trek stereo, atau dua mikrofon sehingga dua trek. Input yang senyap dibuang. Baris di bawah file menyebutkan apa yang diukur, dan centang mengesampingkannya."
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
+msgstr ""
+"Simpan kanal-kanalnya sebagai file tersendiri agar masing-masing menjadi "
+"trek, atau buka di jendela, yang memotongnya menurut baris kanalnya. Proses "
+"yang mengirimnya ke auphonic.com berhenti sebelum unggahan: auphonic.com "
+"menerima paling banyak dua kanal dalam satu file."
+
 msgid "A negative value makes the picture lead the sound."
 msgstr "Nilai negatif membuat gambar mendahului audio."
 
@@ -2080,12 +2101,6 @@ msgstr "Tambahkan file ..."
 
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Penyelarasan mengikuti selisih yang diukur; timecode hanya sebagai uji silang."
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Semua rekaman memakai nama yang sama -- itu menjadi satu trek saja."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Semua baris memakai nama yang sama -- itu menjadi satu trek saja, dan Multitrack membutuhkan minimal dua."
 
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Pemetaan: trek audio mana milik kamera mana"
@@ -2204,8 +2219,8 @@ msgstr "Titik keluar berada %s setelah frame terakhir"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Untuk pengiriman biasanya dipakai rentang terbatas. Full tidak salah, tetapi sebagian pemutar salah membacanya."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Menentukan cara auphonic.com mengolah audio.\n\n\"%s\" membiarkan kunci tetap ada dan tetap tidak pergi ke sana.\nAudio kemudian hanya digabung dan dinormalisasi, tidak dipisahkan --\ndan tanpa trek terpisah tidak ada potongan kamera."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Menentukan cara auphonic.com mengolah audio.\n\n\"%s\" membiarkan kunci tetap ada dan tetap tidak pergi ke sana.\nAudio kemudian hanya digabung dan dinormalisasi, tidak dipisahkan --\ntetapi potongan kamera tetap sama seperti dengan preset."
 
 msgid "Distance to mean"
 msgstr "Jarak ke rata-rata"
@@ -2239,9 +2254,6 @@ msgstr "Selubung gagal: %s"
 
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "Selubung dan audio kamera disiapkan di latar belakang."
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Setiap baris memerlukan nama -- di Auphonic nama itu menjadi track ID."
 
 msgid "External preview -- the app does not know this format"
 msgstr "Pratinjau eksternal -- aplikasi tidak mengenal format ini"
@@ -2347,15 +2359,6 @@ msgstr "Audio yang hilang %s diisi dengan keheningan%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Modul DaVinciResolveScript tidak dapat dimuat: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Satu trek audio per orang, tetap terpisah sampai ke auphonic.com.\nBisa juga tanpa ini -- tetapi tanpa De-Bleed dan Leveler.\nPerlu dua trek masukan: rekaman tersendiri, satu kanal dari\nperekam multikanal, atau audio file video yang diatur ke \"gunakan\naudio internal\". Potongan kamera tidak memerlukan centang ini."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (satu trek per pembicara)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack memerlukan setidaknya dua trek masukan. Satu trek adalah rekaman tersendiri, satu kanal dari perekam multikanal, atau audio file video yang diatur ke \"gunakan audio internal\". Beberapa blok dari rekaman yang sama dihitung sebagai satu, trek yang disisihkan tidak dihitung sama sekali."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Belum ada audio yang digunakan -- tambahkan rekaman audio, atau atur Audio kamera sebuah file video ke \"gunakan audio internal\" di daftar file."
@@ -2495,9 +2498,6 @@ msgstr "Tidak wajib -- YouTube lalu memakai nilai bawaan (Sony BVM-X300). Untuk 
 msgid "Not ready yet:"
 msgstr "Belum siap:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "Satu rekaman audio belum memiliki nama pembicara."
-
 msgid "One frame back."
 msgstr "Mundur satu frame."
 
@@ -2506,9 +2506,6 @@ msgstr "Mundur satu detik."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Setiap bidikan dalam warna kameranya. Arahkan kursor untuk kamera dan durasi, klik untuk melompat."
-
-msgid "Only one speaker"
-msgstr "Hanya satu pembicara"
 
 msgid "Open json project file"
 msgstr "Buka file proyek json"
@@ -2756,9 +2753,6 @@ msgstr "Belum ada pembicara yang diketahui -- mereka dikenali dari trek begitu t
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "Ketiga angka itu adalah warna primer, kurva, dan matriks. Tag yang berbeda memerlukan ruang warna masukan yang berbeda di Resolve -- jika tidak, satu kamera terlihat berbeda dari yang lain."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Tidak ada rekaman audio terpisah. Maka audio dari %s kamera yang digunakan -- masing-masing menjadi satu trek, dan Auphonic menghapus kebocoran suara."
-
 msgid "There is no result yet."
 msgstr "Belum ada hasil."
 
@@ -2879,8 +2873,22 @@ msgstr "Tanpa itu setiap pemutar harus menebak, dan semuanya menebak SDR. Di Res
 msgid "Without processing at auphonic.com"
 msgstr "Tanpa pemrosesan di auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Belum ada potongan kamera: diperlukan dua orang, masing-masing dengan nama dan kamera.\nRekaman terpisah memberikannya dengan centang Multitrack, begitu pula \"beberapa pembicara\" di kolom Nama pembicara pada satu rekaman --\nsuara yang ditemukan di sana mendapat kameranya di tabel di bawah rekaman.\nProyek Resolve tetap dibuat -- semua kamera di tempat terukurnya, siap untuk Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Belum ada potongan kamera: diperlukan dua orang, masing-masing dengan nama "
+"dan kamera.\n"
+"Rekaman terpisah memberikannya, masing-masing dengan namanya sendiri, begitu "
+"pula \"beberapa pembicara\" di kolom Nama pembicara pada satu rekaman --\n"
+"suara yang ditemukan di sana mendapat kameranya di tabel di bawah rekaman.\n"
+"Proyek Resolve tetap dibuat -- semua kamera di tempat terukurnya, siap untuk "
+"Multicam."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Tanpa timecode, posisi file diukur."
@@ -3052,9 +3060,6 @@ msgstr "tidak ditemukan bagian tempat tepat satu orang berbicara -- pemisahan ti
 msgid "no production id in the response"
 msgstr "tidak ada ID produksi dalam respons"
 
-msgid "no production id in the response: %s"
-msgstr "tidak ada ID produksi dalam respons: %s"
-
 msgid "no timecode"
 msgstr "tidak ada timecode"
 
@@ -3208,6 +3213,21 @@ msgstr "folder sumber"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "templat trek tidak mengaktifkan apa pun -- trek akan kembali persis seperti saat diunggah."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "preset ini punya intro -- tidak dipakai: intro dan outro berasal dari file video."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "preset ini punya outro -- tidak dipakai: intro dan outro berasal dari file video."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "preset ini punya intro dan outro -- keduanya tidak dipakai: intro dan outro berasal dari file video."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Keduanya berasal dari file video yang Jenisnya diatur ke Intro atau Outro di daftar file, atau dari --intro dan --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "file video diberi tanda yang berbeda: %s"
 
@@ -3255,9 +3275,6 @@ msgstr "bidikan lebar %s, campuran adalah trek audio pertamanya"
 
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s muncul lebih dari sekali. Rekaman-rekaman ini digabungkan menjadi satu trek dan diurutkan menurut timecode -- benar jika perekaman dihentikan di antaranya."
-
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Semua rekaman memakai nama yang sama. Itu menghasilkan satu trek -- Multitrack memerlukan paling sedikit dua."
 
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Dua kamera akan menghasilkan file yang sama (%s). Yang kedua akan menimpa yang pertama."
@@ -3325,9 +3342,6 @@ msgstr "rekaman tersendiri"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Memasukkan rekaman ini ke rekaman lain, beserta semua bloknya.\nGunakan jika nama file tidak memberi petunjuk apa pun bagi pencarian."
 
-msgid "Cameras only"
-msgstr "Hanya kamera"
-
 msgid "Curve number %d"
 msgstr "Kurva nomor %d"
 
@@ -3379,9 +3393,6 @@ msgstr "Awal %s"
 msgid "Take from source files"
 msgstr "Ambil dari file sumber"
 
-msgid "Take the camera audio"
-msgstr "Ambil audio kamera"
-
 msgid "Target: %s"
 msgstr "Tujuan: %s"
 
@@ -3400,11 +3411,11 @@ msgstr "Bidikan lebar setelah"
 msgid "the voices below carry the cameras"
 msgstr "suara di bawah ini membawa kamera"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "diukur dari rekaman -- %s pembicara, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "diukur dari rekaman -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "dari proses yang sudah selesai -- %s pembicara, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "dari proses yang sudah selesai -- %s, %s"
 
 msgid "no text"
 msgstr "tanpa teks"
@@ -3414,6 +3425,15 @@ msgstr "tanpa nama"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Perhatian: pengukuran tidak dapat dipakai"
+
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Perhatian: %s s dari yang diunggah tidak ada di dalamnya"
+
+msgid "  -->  refused"
+msgstr "  -->  ditolak"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Ditolak: %s -- hasil kembalian tidak cocok dengan unggahan.\n  Lebih baik berhenti daripada menulis sesuatu yang salah."
 
 msgid "   NOT INSERTED"
 msgstr "   TIDAK DISISIPKAN"
@@ -3589,15 +3609,6 @@ msgstr "Gabungkan"
 msgid "Mixing %s"
 msgstr "Mencampur %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack memerlukan dua trek di tabel atas -- sebuah kamera terhitung satu setelah Audio kamera-nya diatur ke \"gunakan audio internal\"."
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Hanya satu trek -- atur Audio kamera pada salah satu kamera ke \"gunakan audio internal\" untuk trek kedua."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Hanya satu trek, dan tidak ada audio kamera tersisa untuk diambil."
-
 msgid "do not use internal audio"
 msgstr "tanpa audio internal"
 
@@ -3612,9 +3623,6 @@ msgstr "Jika dipakai, audio file ini menjadi trek seperti yang lain -- trek itu 
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Tidak ada audio untuk dikerjakan -- atur Audio kamera sebuah file video ke \"gunakan audio internal\", atau tambahkan rekaman audio."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack memerlukan beberapa trek"
 
 msgid "Mute."
 msgstr "Membisukan."
@@ -3685,8 +3693,8 @@ msgstr "Batas lunak dari pasangan ini: mulai dari sini program menunggu batas ka
 msgid "and here it is cut, good moment or not"
 msgstr "dan di sini dipotong, momen tepat atau tidak"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Batas keras dari pasangan ini: jika tidak ada batas kalimat sejak \"Bidikan lebar setelah\", jeda bicara terpanjang menggantikannya, dan pada titik ini potongan terjadi apa pun yang sedang diucapkan."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Batas keras dari pasangan ini: bidikan yang lebih panjang dari \"Bidikan lebar setelah\" dan tidak menawarkan batas kalimat maupun jeda dipecah menurut jam, asalkan bidikan itu juga bertahan lebih lama dari ini. Ini berlaku selama \"Bidikan lebar setelah\" aktif dan \"Monolog panjang\" mengganti kamera. Bidikan lebar untuk salam dan pamit tidak bertahan lebih lama dari ini, apa pun kata kedua pengaturan itu."
 
 msgid "Why the question settings are grey"
 msgstr "Mengapa pengaturan pertanyaan berwarna abu-abu"
@@ -3719,9 +3727,6 @@ msgid "Silence"
 msgstr "Keheningan"
 
 msgid "Speaker name"
-msgstr "Nama pembicara"
-
-msgid "Speaker names"
 msgstr "Nama pembicara"
 
 msgid "Static metadata"
@@ -3868,17 +3873,14 @@ msgstr "\nPOTONGAN DENGAN BIDIKAN LEBAR"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nPOTONGAN AWAL PER PEMBICARA"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Lebih dari dua kanal dikirim ke auphonic.com sebagai satu: penggabungan hanya dimatikan untuk stereo.\n  Jika kanal-kanal harus tetap terpisah, potong dulu file menjadi beberapa trek."
-
 msgid "First cut by speaker"
 msgstr "Potongan awal per pembicara"
 
 msgid "\nTRANSCRIPT"
 msgstr "\nTRANSKRIP"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s kata: %s %% ke satu suara, %s %% ke dua, %s %% di celah"
+msgid "  %s words"
+msgstr "  %s kata"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s kata, tanpa nama -- tidak ada yang dipisahkan"
@@ -3976,9 +3978,6 @@ msgstr "  Trek digunakan sebagaimana direkam: diselaraskan, dicampur, dan dibawa
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  --without-auphonic dan --auphonic-done keduanya diberikan. Trek yang sudah jadi yang dipakai: tidak ada lagi yang perlu dikirim ke mana pun."
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK TIDAK MUNGKIN\n  Tanpa kunci API tidak ada yang bisa dikirim ke auphonic.com.\n  Dengan --without-auphonic proses berjalan lokal sebagai gantinya: diselaraskan,\n  dicampur, dan dipotong, tetapi tanpa De-Bleed dan Leveler."
-
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Perhatian: hanya %s dari %s pasangan yang dapat diukur. Untuk sisanya tidak ditemukan saat di mana tepat satu orang berbicara, jadi kebocoran suaranya tetap ada -- deteksi pembicara tidak andal di sini."
 
@@ -4035,9 +4034,6 @@ msgstr "Seluruh durasi lagi (tombol 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Juga diambil: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic tidak menerima pengaturan: %s"
 
 msgid "      %s channels"
 msgstr "      %s kanal"
@@ -4168,8 +4164,9 @@ msgstr "Memotong trek %d dari %d"
 msgid "cutting failed: %s"
 msgstr "pemotongan gagal: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Satu kamera untuk semua: dipotong menjadi %s bidikan pada pergantian pembicara, agar Resolve dapat mengelompokkannya."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Satu kamera untuk semua: dipotong menjadi %s bidikan pada pergantian pembicara, agar Resolve dapat mengelompokkannya."
 
 msgid "Shorter shots fall into the following one."
 msgstr "Bidikan yang lebih pendek digabung ke bidikan berikutnya."
@@ -4344,6 +4341,9 @@ msgstr "Program ini berjalan sebagai %s dan paket yang terpasang untuknya adalah
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Serah terima ini tidak memuat laju frame, jadi Timeline tidak dapat dibangun darinya. Silakan jalankan proses lagi."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Serah terima ini tidak menyebut file untuk %s, jadi Timeline tidak dapat dibangun darinya. Silakan jalankan proses lagi."
 
 msgid "Cut by speaker"
 msgstr "Potongan per pembicara"
@@ -4696,8 +4696,8 @@ msgstr "  Resolve menolak trek video V%d dua kali -- Timeline \"%s\" tidak memil
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s selisih %s, penyimpangan jam tidak diukur%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Perhatian: proyek ini tidak lengkap -- yang ditolak Resolve:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Perhatian: proyek ini tidak lengkap -- yang kurang:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Penyimpangan jam: tidak diukur -- suaranya memberi terlalu sedikit titik untuk pengukuran"
@@ -4983,9 +4983,6 @@ msgstr "Titik keluar telah berubah sejak proses terakhir: sebelumnya %s, sekaran
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Produksi selesai, tetapi ZIP berisi trek terpisah tidak memiliki nama file biasa"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Beberapa kamera tetapi tidak ada rekaman audio. Setiap kamera akan memiliki audionya sendiri -- untuk itulah Multitrack. Jika tidak, satu kamera setelah yang lain."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Arsip berisi %s lebih dari sekali, jadi tidak ada yang diekstrak darinya."
 
@@ -4994,9 +4991,6 @@ msgstr "File pemetaan menamai rekaman di sini, jadi --speaker-name akan diabaika
 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Paket siap pakai tidak cocok dengan checksum-nya, jadi tidak diekstrak: %s tercantum, %s yang tiba."
-
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Daftar checksum tidak dapat diambil, jadi paket siap pakai tidak diekstrak: %s"
 
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Daftar checksum tidak menyebut %s, jadi paket siap pakai tidak diekstrak."
@@ -5073,14 +5067,11 @@ msgstr "Akun di auphonic.com: tidak diketahui -- tidak dapat ditanyakan. Proses 
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Catatan: proses tetap mencoba. auphonic.com yang memutuskan apakah produksi dimulai, dan mengatakannya jika tidak."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Peringatan: produksi Multitrack ini berdurasi %s, dan pada paket gratis auphonic.com hanya menerima yang seperti itu hingga sekitar %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Produksi Multitrack ini berdurasi %s. Pada paket gratis, auphonic.com hanya menerima produksi seperti itu hingga sekitar %s; yang lebih panjang memerlukan paket berbayar."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Catatan: auphonic.com menolak yang lebih panjang sejak awal dan tidak menagih apa pun untuknya. Proses tetap mencoba; jika auphonic.com menolak, pesannya sendiri menyusul."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Pada paket gratis, auphonic.com hanya menerima produksi Multitrack hingga sekitar %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Untuk Singletrack, yang diterima paket gratis dengan durasi berapa pun, atur semua trek kecuali satu ke \"%s\" -- bila satu trek memuat semua suara. Atau pilih \"%s\" di bawah Preset (--without-auphonic): trek lalu dicampur di sini."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Proyek %r dari proses ini tetap terbuka -- sebelumnya tidak ada yang terbuka\n  yang bisa dibuka lagi. Hapus di pengelola proyek Resolve."
@@ -5159,3 +5150,70 @@ msgstr "mix jadi -- bukan pembicara, tanpa kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Ucapan: ditempatkan hanya menurut kenyaringannya. Rekaman yang tidak punya kesamaan apa pun\ndengan kamera ditolak. Campuran: musik atau mix ada di bawah suara-suara,\ndan di mana kenyaringan tidak menemukan apa pun, fase boleh menempatkannya.\nMix jadi: mix stereo yang dibuat di tempat lain, diletakkan seperti suara campuran. Mix ini masuk\nke berkas kamera dan serah terima menggantikan mix buatan proses --\nbukan pembicara, tidak dipotong, tidak dikirim ke auphonic.com.\nDengan \"%s\" Ucapan tidak ditawarkan."
+
+msgid "Cutting"
+msgstr "Pemotongan"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "preset memotong di auphonic.com (%s) -- suara akan kembali lebih pendek daripada gambar, dan kamera akan bergeser."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Matikan di preset pada auphonic.com: Audio Algorithms, Automatic Cutting -- hapus centang %s, atau setel Cut Mode ke Set Cuts To Silent, yang menjaga durasi."
+
+msgid "Speech recognition"
+msgstr "Pengenalan ucapan"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "aktif di preset -- tidak diminta, dan tidak ada teksnya yang diunduh: transkrip dibuat di sini."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- sebagaimana ada di preset; program tidak mengubah satu pun."
+
+msgid "Enough for the %s this production needs."
+msgstr "Cukup untuk %s yang diperlukan produksi ini."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Tidak cukup untuk %s yang diperlukan produksi ini."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s memiliki %s kanal, dan auphonic.com menerima paling banyak dua dalam satu file. Tidak ada yang dikirim.\n"
+"  Tentukan kanal mana yang satu kesatuan: di tab File & produksi file terbuka menjadi satu baris per kanal, dan centang pada sebuah baris menggabungkannya dengan baris berikutnya. Jika file tidak menampilkan baris kanal, simpan dulu kanal-kanalnya sebagai file tersendiri."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, karena %s trek berada pada satu sumbu waktu. Preset Multitrack "
+"lain dapat dipilih; untuk Singletrack, atur semua trek kecuali satu ke "
+"\"jangan gunakan\"."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, karena hanya ada satu trek. Preset Singletrack lain dapat "
+"dipilih; untuk Multitrack, tambahkan trek kedua -- sebuah rekaman, atau "
+"kamera yang diatur ke \"gunakan audio internal\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> jumlah trek audio tidak dapat dibaca dari pemetaan ini"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve menjawab, tetapi tidak memberikan pengelola proyek."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Kanal %s belum dipotong menjadi trek."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s dan %s di %s terdengar mirip (kemiripan %s): pemisahan mungkin "
+"tertukar antara keduanya -- periksa pemetaannya."

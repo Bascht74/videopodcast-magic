@@ -39,6 +39,17 @@ auseinander. Die Messung schlägt vor, das Häkchen berichtigt:
 * Nur eine Zeile, die etwas anderes sagt als die Messung, steht als
   **manuell gesetzt -- übersteuert die Messung** da.
 * Bis die Messung da ist, sagt die Zeile das, statt zu raten.
+* Solange die Datei nicht in ihre Spuren zerlegt ist, warten **Start**
+  und **Probelauf**, und unter den Knöpfen steht **Die Kanäle von
+  Rec.wav sind noch nicht in Spuren zerlegt.** Sind die Spuren da, werden
+  beide von selbst frei -- ein früher gestarteter Lauf bekäme die Datei
+  im Ganzen. Eine Datei, deren Kanäle sich nicht lesen lassen, hält sie
+  nur auf, solange sie gemessen wird, und eine, deren Zerlegen
+  scheitert -- etwa an einer vollen Platte --, nur so lange, wie sie
+  zerlegt wird: Danach geht sie im Ganzen in den Lauf. Wird ein Haken
+  umgesetzt, nachdem die Spuren da sind oder das Zerlegen gescheitert
+  ist, wird die Datei neu zerlegt, und beide warten wieder, bis das
+  erledigt ist.
 * Bei einer Datei, deren Kanalzahl sich gar nicht lesen lässt, sagt der
   Lauf das, statt die Zeile warten zu lassen.
 
@@ -135,6 +146,28 @@ eine Spur als Stereo hochging und einkanalig zurückkommt, sagt der Lauf
 das und macht weiter. Der Mix bleibt zweikanalig, weg ist der
 Unterschied zwischen den beiden Mikrofonen dieser einen Spur.
 
+### Mehr als zwei Kanäle in einer Datei
+
+auphonic.com nimmt in einer Datei höchstens zwei Kanäle. Eine Datei mit
+mehr Kanälen geht nie dorthin -- weder allein, als Produktion aus einer
+einzigen Spur, noch neben anderen Aufnahmen als eine Spur einer
+Multitrack-Produktion: Dort käme sie auf einen Kanal zusammengelegt an,
+alle Stimmen darauf in einer. Der Lauf hält an, bevor die Zeitachse
+gemessen wird, schickt nichts und sagt warum, je Datei eine Zeile:
+
+```
+Rec.wav hat 4 Kanäle, und auphonic.com nimmt höchstens zwei in einer Datei. Es wurde nichts gesendet.
+```
+
+Die Antwort steckt in den Kanalzeilen oben: Dort festlegen, welche
+Kanäle zusammengehören, dann wird jedes Paar und jeder einzelne Kanal
+eine eigene Spur. Ab zwei Spuren schickt der Lauf sie als eine
+Multitrack-Produktion ([Aufbereitung über auphonic.com](auphonic.de.md)).
+Hat die Datei keine Kanalzeilen -- weil sich ihre Kanäle nicht lesen
+lassen oder weil der Lauf von der Kommandozeile kam, die keine kennt --,
+ihre Kanäle zuerst als eigene Dateien speichern, wie unter „Wenn sich
+die Kanäle nicht lesen lassen“ beschrieben.
+
 ### Wenn etwas klemmt
 
 * **Zwei Personen sind in einer Spur gelandet.** Das Häkchen in der
@@ -148,6 +181,10 @@ Unterschied zwischen den beiden Mikrofonen dieser einen Spur.
   sobald die Messung da ist.
 * **Eine Stereospur kommt von auphonic.com einkanalig zurück.** Der Lauf
   sagt das und macht weiter. Der Mix bleibt zweikanalig.
+* **Der Lauf hält an mit `hat 4 Kanäle, und auphonic.com nimmt
+  höchstens zwei in einer Datei`.** In den Kanalzeilen festlegen, welche
+  Kanäle zusammengehören, wie unter „Mehr als zwei Kanäle in einer
+  Datei“ beschrieben.
 
 Jeder Kanal hat jetzt seinen Platz: eine eigene Spur, eine Hälfte einer
 Stereospur, oder er bleibt draußen. Was aus diesen Spuren wird, steht in

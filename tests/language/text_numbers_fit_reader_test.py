@@ -247,7 +247,7 @@ CAP_MS = 120.0
 IN_A_LINE = 10
 
 
-def bleed_at_the_cap(tracks, rate=16000):
+def bleed_at_the_cap(tracks, rate=16000, window=None):
     """Stand in for the crosstalk reading: every neighbour at the cap."""
     heard = {}
     for i in range(len(tracks) - 1):

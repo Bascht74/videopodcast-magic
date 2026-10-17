@@ -5,11 +5,9 @@ Two microphones in one room, the second switched on later and off
 earlier, and no camera. The axis is built out of the tracks themselves,
 with the longest one as the reference; the files come out equally long
 and with one start point, so the shorter recording is padded at both
-ends, and the run says how far apart the two recorders were. Without
---multitrack the same two files come out, to the byte: the tick groups
-the recordings and decides nothing here. One recording alone is joined
-whole, and an In point is said to do nothing there. And the run says
-one thing about --lufs on this path, not two.
+ends, and the run says how far apart the two recorders were. One
+recording alone is joined whole, and an In point is said to do nothing
+there. And the run says one thing about --lufs on this path, not two.
 
 What the tracks carry is asked before where they sit: a file that came
 out empty measures as perfectly placed, so the judgements about the
@@ -237,16 +235,16 @@ WATCHED = curl_calls() == ["--version"]
 open(CURL_CALLS, "w").close()
 
 
-#-------------------------------------- 1. With --multitrack: an axis
+#------------------------------------- 1. Two recordings: an axis
 
 print("1. Two recordings, no picture: they are laid against each other")
 # No target, said in words: without --lufs the line levels to -16.
-p = subprocess.run(CALL + ["--multitrack", "--lufs", "source",
+p = subprocess.run(CALL + ["--lufs", "source",
                            "--out", D + "/run",
                            D + "/Host.wav", D + "/Guest.wav"],
                    capture_output=True, text=True, env=ENV)
-# Kept under a second name as well: section 2 writes over `log`, and the
-# last judgement of section 4 has to ask this run and not that one.
+# Kept under a second name as well: section 3 writes over `log`, and the
+# last judgement of section 5 has to ask this run and not that one.
 axis_log = log = (p.stdout or "") + (p.stderr or "")
 check("no traceback", "Traceback" not in log,
       log[log.find("Traceback"):][:90])
@@ -277,8 +275,8 @@ check("the run measures the two recorders against each other",
 made = sorted(f for f in os.listdir(D + "/run")) \
     if os.path.isdir(D + "/run") else []
 print("   written: %s" % made)
-# The measured trap: with --multitrack two people must never end up in
-# one file, however alike their names look from outside.
+# The measured trap: two people must never end up in one file, however
+# alike their names look from outside.
 check("one file per voice, and not the two glued into one",
       made == ["Guest_aligned.wav", "Host_aligned.wav"], str(made))
 # The measurements below need those two files, and nothing after this
@@ -368,7 +366,7 @@ else:
 print("\n2. Even with a key, --without-auphonic lets nothing out")
 if WATCHED:
     p = subprocess.run(local_ground.keyed(NOT_A_KEY) + CALL[2:]
-                       + ["--multitrack", "--out", D + "/keyed",
+                       + ["--out", D + "/keyed",
                           D + "/Host.wav", D + "/Guest.wav"],
                        capture_output=True, text=True, env=ENV)
     keyed_log = (p.stdout or "") + (p.stderr or "")
@@ -407,51 +405,11 @@ else:
           "watched whether a run reached auphonic.com.")
 
 
-#------------------------------ 3. Without it: the same axis, the same files
-
-print("\n3. Without --multitrack the same two files come out")
-# The call of section 1 with the tick taken off, and nothing else: the
-# plain path and Multitrack share one placement since both were given
-# the same recordings and came out three files against a refusal.
-p = subprocess.run(CALL + ["--lufs", "source", "--out", D + "/plain",
-                           D + "/Host.wav", D + "/Guest.wav"],
-                   capture_output=True, text=True, env=ENV)
-log = (p.stdout or "") + (p.stderr or "")
-check("no traceback", "Traceback" not in log,
-      log[log.find("Traceback"):][:90])
-check("the run ends green", p.returncode == 0, str(p.returncode))
-LAID = vpm.T('  No picture: the tracks are laid against each other.').strip()
-check("and it says the tracks are laid against each other, as with it",
-      LAID in log and LAID in axis_log,
-      "the line %r stands %d times without the tick and %d with it"
-      % (LAID[:40], log.count(LAID), axis_log.count(LAID)))
-plain = sorted(f for f in os.listdir(D + "/plain")) \
-    if os.path.isdir(D + "/plain") else []
-print("   written: %s" % plain)
-check("without the tick the same files come out as with it",
-      plain == made and made == ["Guest_aligned.wav", "Host_aligned.wav"],
-      "%s without the tick, %s with it" % (plain, made))
-
-
-def same_bytes(name):
-    """Whether the file of both runs is one and the same, byte for byte."""
-    with open(D + "/run/" + name, "rb") as a, \
-            open(D + "/plain/" + name, "rb") as b:
-        return a.read() == b.read()
-
-
-differ = [f for f in plain if f in made and not same_bytes(f)]
-check("and they carry the same sound to the byte",
-      bool(plain) and not differ,
-      "%d of %d files differ between the two runs: %s"
-      % (len(differ), len(plain), differ))
-
-
-#------------------------------------ 3b. One recording is joined whole
+#------------------------------------- 3. One recording is joined whole
 
 # One recording and no picture: nothing to lay it against, so it is
 # joined and left whole, and an In or Out point is said to do nothing.
-print("\n3b. One recording alone is joined whole")
+print("\n3. One recording alone is joined whole")
 p = subprocess.run(CALL + ["--out", D + "/alone", "--in-point", "+0:10",
                            D + "/Host.wav"],
                    capture_output=True, text=True, env=ENV)
@@ -498,8 +456,8 @@ else:
 # put the voices out of balance, which is what the path exists to keep
 # -- so the number only does something when it travels to auphonic.com.
 print("\n5. With --lufs the log says one thing about it, not two")
-# Without the tick: the path is the same, and the preflight has to find
-# it by the recordings, not by the switch.
+# Two recordings and no picture, as in section 1: the preflight finds
+# the path by the recordings.
 p = subprocess.run(CALL + ["--lufs", "-16",
                            "--out", D + "/loud",
                            D + "/Host.wav", D + "/Guest.wav"],
@@ -596,14 +554,16 @@ def axis_line(log_text, name):
     name stands on several lines; the answer is the first after the
     last of them. Not the first after the first: an ffmpeg without
     soxr prints its note while the bar stands at 0 %, and the note's
-    second line would be read as the answer.
+    second line would be read as the answer. A dry run writes no track
+    and draws no bar: its line is the first that begins with the name.
     """
     lines = log_text.splitlines()
     start = next((i for i, x in enumerate(lines) if WRITING in x), None)
     lines = lines[start or len(lines):]
     bars = [i for i, x in enumerate(lines)
             if x.strip().startswith(name + " [")]
-    after = lines[bars[-1] + 1:bars[-1] + 2] if bars else []
+    after = lines[bars[-1] + 1:bars[-1] + 2] if bars else [
+        x for x in lines if x.strip().startswith(name + " ")][:1]
     return after[0].strip() if after else ""
 
 
@@ -619,7 +579,7 @@ read_at = read_at[read_at < len(guest_part) - 1]
 write(FAST + "/Host.wav", HOST)
 write(FAST + "/Guest.wav",
       np.interp(read_at, np.arange(len(guest_part)), guest_part))
-p = subprocess.run(CALL + ["--multitrack", "--dry-run", "--out",
+p = subprocess.run(CALL + ["--dry-run", "--out",
                            FAST + "/run", FAST + "/Host.wav",
                            FAST + "/Guest.wav"],
                    capture_output=True, text=True, env=ENV)

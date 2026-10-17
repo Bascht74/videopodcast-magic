@@ -202,7 +202,7 @@ with open(PLAN, "w", encoding="utf-8") as f:
 # --anyway: Sync takes one recording and the preflight stops a second,
 # as the window does; the order of the names behind it is what is asked.
 code, said, stuck = run([sys.executable, SCRIPT, "--project-type", "sync",
-                         "--without-auphonic", "--multitrack", "--anyway",
+                         "--without-auphonic", "--anyway",
                          "--assign",
                          PLAN, "--out", os.path.join(HOME, "out")]
                         + TAKEN + [FILMED])

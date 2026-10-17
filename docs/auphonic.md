@@ -86,30 +86,73 @@ rebuilds the production from that preset.
 Once the key is checked, a line under the preset shows the minutes of
 credit left at auphonic.com and the plan, free or paying -- whether a
 preset is chosen or not, and with **work without Auphonic** as well.
-With a preset chosen, the line turns red where the credit is fewer than
-the production needs -- as long as the longest track for Multitrack, all
-tracks together otherwise, before the run lays them on one axis, which
-can only make them longer. On the free plan a Multitrack production
-longer than 21 minutes adds a second line, red as well: **On the free
-plan auphonic.com takes a Multitrack production only up to about 21
-min.** Without a preset the line is never red: there is no production to
-hold the credit against. The box asks the account together with the
+With a preset chosen and the recordings measured, a second line judges
+the run before it starts: **Enough for the 40 min this production
+needs.**, or **Not enough for the 40 min this production needs.** with
+the line turned red. What a production needs is what auphonic.com
+charges for it: a Multitrack production as long as its longest track,
+and lone tracks one production each, every one in whole minutes and at
+least three, added up -- all of it before the run lays the tracks on
+one axis, which can only make them longer. On the free plan a
+Multitrack production longer than 21 minutes adds two further lines, red
+as well: **This Multitrack production is 25 min long. On the free plan
+auphonic.com takes one only up to about 21 min; a longer one needs a
+paid plan.**, and under it the way out without one: Singletrack, which
+the free plan takes at any length -- every track but one set to **do not
+use**, where one track holds every voice -- or **work without Auphonic**
+under **Preset:**. A run started like that stops before the upload, see
+below. A single track has no such border on the free plan; only the
+credit counts there. Without a preset the line is
+never red: there is no production to hold the credit against. The box asks the account together with the
 presets and at no other time.
 
-The tick **Multitrack (one track per speaker)** is not in the Auphonic
-box and needs no key. What it decides here is whether every person keeps
-a track of their own: only separate tracks can auphonic.com work on one
-by one and free of the bleed from the others. Where everybody stands in
-one track there is nothing for the de-bleed to take apart.
+Whether every person keeps a track of their own is settled in the
+tables on the **Assignment & time window** tab, not in this box, and
+needs no key. Only separate tracks can auphonic.com work on one by one
+and free of the bleed from the others. Where everybody stands in one
+track there is nothing for the de-bleed to take apart.
 
 The number of tracks decides the kind of production. A single track goes
-up as an ordinary production, two or more as a multitrack production,
-and the preset has to match: an ordinary preset for the one, a
-multitrack preset for the others. The tick does not decide it: two
-recordings with a picture, or two without any, go up together whether
-it is set or not, and the preset list offers the kind the run will
-need. A preset of the wrong kind stops the run before the time axis is
-measured.
+up as an ordinary production, two or more on one time axis as a
+multitrack production, and the preset has to match: an ordinary preset
+for the one, a multitrack preset for the others. Nothing is ticked for
+it. The preset list offers only the kind the run will need, and a grey
+line under it says which kind and why -- `Multitrack, because 3 tracks
+lie on one time axis.` -- and what would change it. A preset of the
+wrong kind stops the run before the time axis is measured.
+
+### What the preflight reads in the preset
+
+Before the time axis is measured, the preset is read out, and the
+preflight says what it found under `PREFLIGHT -- does the preset fit
+the run?`. The preset decides how the sound is processed; the program
+switches nothing on and nothing off in it.
+
+* `Algorithms` names every switch the preset has on, with its setting in
+  brackets: `leveler, normloudness (-16 LUFS), filtering (autoeq) -- as
+  the preset has them, the program changes none.` A multitrack preset
+  has a second line, `per track`, for the settings its first track
+  gives every track. An intro or outro stored in the preset is no track
+  and is passed over here.
+* `Cutting` **stops the run** where the preset lets auphonic.com cut --
+  **Cut Silence**, **Cut Fillers**, **Cut Coughs** or **Cut Music**.
+  The sound would come back shorter than the pictures, and every camera
+  after the first cut would slip. The line under it says where to switch
+  it off: on auphonic.com, in the preset, under **Audio Algorithms**,
+  **Automatic Cutting**. A **Cut Mode** of **Set Cuts To Silent** or
+  **Export Uncut Audio** keeps the length, and the run goes on.
+* `Speech recognition` says in one line when the preset has
+  auphonic.com's speech recognition switched on. It stops nothing. The
+  transcript is made here either way (see below), so neither kind of
+  production asks for it or fetches its text.
+* `Intro / outro` says in one line when the preset holds an intro or an
+  outro, for a single track as for several. Neither is used: the
+  production takes the preset's settings without them, and intro and
+  outro come from the video files. It stops nothing.
+
+Two more stop the run: a preset that masters to another loudness than
+the run's, and a multitrack preset with no track stored in it. What to
+do about each is in [Preflight](preflight.md).
 
 ### Storing the key without the window
 
@@ -139,6 +182,12 @@ None of the text comes from auphonic.com. The program listens to the
 finished mix on this machine and writes down every word with the time it
 was said: a json with times, an srt for subtitles and a txt to read, in
 the shape auphonic.com delivers its own.
+
+A preset with auphonic.com's speech recognition switched on changes
+nothing about that. The production is created without it, for a single
+track as for several, so auphonic.com transcribes nothing. Subtitles,
+speech data and transcript are neither asked for nor fetched: there is
+one transcript, and it is the one made here.
 
 This costs the processor, not credit. It needs no key, no preset and no
 upload, and a run without Auphonic writes the same three files.
@@ -212,39 +261,53 @@ preflight asked it first, see below -- and says what it answered: the plan, `Acc
 `paying.` or `not known.`, and the credit in minutes, for instance
 `Credit at auphonic.com: 80 min left, enough for the 12 min this
 production needs.` What a production needs is counted in whole minutes,
-rounded up and never below `1 min`, since auphonic.com charges no less:
-a 20-second sample needs `1 min`, not `0 min`.
+rounded up and never below `3 min`, since auphonic.com charges no less
+for a production: a 20-second sample needs `3 min`.
 
-Two things are said, and the run goes on either way:
+Two things are said. The first lets the run go on, the second stops it:
 
 * **Too little credit.** The credit line ends in `-- not enough.`, and a
   note beginning `Note:` says that the run tries anyway: auphonic.com
   decides whether the production starts.
 * **A free account and a Multitrack production longer than 21
-  minutes.** This one is a warning, in the warning colour: `Warning: this
-  Multitrack production is 25 min long, and on the free plan auphonic.com
-  takes one only up to about 21 min.` A note under it says why: a longer
-  one is refused at the start and nothing is charged, and the run tries
-  anyway. auphonic.com's own refusal speaks of 20 minutes; in a test on
-  a free account 21 minutes still went through, and 22, 25, 30 and an
-  hour were refused. Up to 21 minutes nothing is said.
+  minutes.** auphonic.com refuses such a production at its start, so
+  the run stops before anything goes up: `Processing failed: This
+  Multitrack production is 25 min long. On the free plan auphonic.com
+  takes one only up to about 21 min; a longer one needs a paid plan.`,
+  followed by the way out -- Singletrack, or work without Auphonic
+  (`--without-auphonic`). The account is asked again at this point, so
+  a plan upgraded since the preflight goes through. `--anyway` does not
+  take this stop away: the refusal would be certain. auphonic.com's own
+  refusal speaks of 20 minutes; in a test on a free account 21 minutes
+  still went through, and 22, 25, 30 and an hour were refused. Up to 21
+  minutes nothing is said.
 
 The same lines stand first in the preflight, before anything is measured
 at length: a run that sends to auphonic.com asks the account there, and
 so does **Dry run**, which uploads nothing. Where the account cannot be
 asked -- no key stored, no network -- the preflight says so in one line,
 `Account at auphonic.com: not known -- it could not be asked. The run
-goes on.`, and the run goes on. Nothing the account says stops a run.
+goes on.`, and the run goes on. The credit stops no run; the free
+Multitrack border stops it here already, before the first long step,
+and a **Dry run**, which sends nothing, is only warned. The tracks are
+counted as the run sends them: a recording set to **do not use** is
+none, recordings under one name are one track, and a camera whose own
+sound is used is one. Only cameras alone on the command line are not
+counted here -- how many tracks their sound holds is measured as it is
+taken out -- so for them the stop before the upload is the first to
+say it. Past this border the report's last line reads `Stopped before
+the first long step.` and offers no `--anyway`: it would only move the
+stop to the one before the upload.
 
-Where auphonic.com refuses, it does so at the start, after the upload,
-and charges nothing; the run ends with `Processing failed:` and
-auphonic.com's own message, for instance `Non-paying users can try our
-multitrack algorithms only for productions shorter than 20min!`
+Where auphonic.com refuses all the same, it does so at the start, after
+the upload, and charges nothing; the run ends with `Processing failed:`
+and auphonic.com's own message, for instance `Non-paying users can try
+our multitrack algorithms only for productions shorter than 20min!`
 
 A single track then goes through these steps:
 
-1. `Uploading <file>` with a bar. The file goes up together with the
-   preset.
+1. `Uploading <file>` with a bar. Before it, the production is made
+   from the preset's settings, without its intro and outro.
 2. With a stereo recording, `Two channels requested -- the recording is
    stereo`. The preset would fold the mix to one channel; this way two
    channels come back.
@@ -253,8 +316,9 @@ A single track then goes through these steps:
 4. A bar with the time gone by and the state auphonic.com reports, for
    instance `Audio Processing`, until it says `done`.
 5. `Downloading <name>`: one audio file, the lossless one where the
-   preset writes several, and beside it only what is text -- transcript,
-   subtitles, chapter marks.
+   preset writes several, and beside it only what is text -- chapter
+   marks, statistics. auphonic.com's own transcript and subtitles are
+   not among them.
 6. Where auphonic.com added something, `<name>: auphonic.com added 6.4 s
    at the end -- cut away`, and last `Result: <name> (1 MB) -- stays next
    to the video file`. It lies in the output folder itself, not in
@@ -267,7 +331,10 @@ Several tracks go through these:
    program's own mix should end up. Where one track is stereo, `Two
    channels, because one track is stereo` follows.
 2. `Production created (…)`, then `Uploading 2 tracks`: all tracks in
-   one upload. A track auphonic.com took no file for stops the run.
+   one upload. Where auphonic.com refuses the upload, or takes no file
+   for a track, the run stops before the production is started.
+   `These tracks got no file:` names the tracks concerned, and every
+   track that went up where auphonic.com names none.
 3. `Production running (…)` once the tracks are up and the production
    is started, then `Time limit:` and the same bar.
 4. `Downloading <title>.wav.zip`, the single tracks in one archive, then
@@ -287,11 +354,20 @@ a few per cent and jumps to 100 when auphonic.com reports it done.
 
 ### When the production already exists
 
-Only a multitrack production is looked for. A single track goes up anew
-on every run, and every upload costs credit.
-
-The program finds the production by name and asks what should happen to
-it:
+The program finds the production by name, a multitrack one and a single
+track alike, and asks what should happen to it. The name is the
+production's, in the window and on the command line alike: **Production
+name**, `--production`, or else the folder the material lies in. An
+episode whose folder has a name of its own therefore does not find last
+week's. Where that folder says nothing about the production -- the
+desktop, the downloads, the home folder, the top of a memory card -- a
+command-line run goes up under the name of its first track instead,
+which stays the same from one run to the next. Two episodes recorded
+under the same file names in such a folder therefore find each other: a
+folder of their own or `--production` keeps them apart. The program
+looks among the newest 50 productions at auphonic.com; one further back is not found, and the run makes a new
+production, which costs credit. For several tracks the answers are
+these:
 
 1. take the existing result: nothing computed, nothing uploaded
 2. recompute with the chosen preset, the files stay where they are:
@@ -300,7 +376,14 @@ it:
 4. cancel
 
 The upload alone spends credit. Answer 2 recomputes with the new preset
-and uploads nothing, so preset after preset can be tried. The program
+and uploads nothing, so preset after preset can be tried. It computes
+with the files that went up then, in that day's window. Where the In
+point, the Out point and the measured position now stay inside that
+window, the return check below measures the difference and moves the
+tracks into place; where they reach beyond it -- an earlier In point, a
+later Out point, a common window grown longer -- it refuses the tracks,
+and only answer 3 helps. Answer 1 takes the same files and is held the
+same way. The program
 uploads only when asked to. Answer 1 appears only if everything needed
 is there. If the tracks are named differently there, the program asks
 whether to adopt those names.
@@ -308,10 +391,19 @@ whether to adopt those names.
 On a recompute the program brings the track settings to the preset as
 well. Further tracks there go into the mix, and a warning names them.
 
+A single track is asked the same, less what only several tracks can do:
+take the existing result, upload everything again, or cancel. The
+result is offered once auphonic.com reports the production done; it is
+fetched and cut like a fresh one, and nothing is uploaded or charged.
+Uploading again makes a new production and costs credit. A multitrack
+production of the same name is passed over, since it holds tracks and
+not this recording -- and for several tracks a single-track production
+of the same name is passed over the same way, even one with an intro.
+
 A multitrack production is downloaded whole, the single tracks and every
 further output the preset itself makes: the finished mixdown, chapter
-marks, analyses, and a transcript of its own where the preset produces
-one. All of that is paid for with the production either way. It lands in
+marks, analyses -- all but auphonic.com's transcript, which stays
+there. All of that is paid for with the production either way. It lands in
 `auphonic-tracks/` next to the finished videos, later the `final_*.wav`
 too. A single track brings back its audio file and what is text, as
 described above, and nothing else. A name auphonic.com
@@ -326,10 +418,20 @@ up, and the log says how many seconds went at the start and at the end.
 Where the sent sound cannot be found in the return, the file is left as
 it came, and the log says that too.
 
+Then every returned track is held against what went up. Laid where its
+sound is measured, all of what went up has to be in it. A track that
+lacks more than a quarter of a second of it stops the run -- last week's
+production under this week's name, say, or a file cut short -- and its
+line in the log says how much is missing: `Caution: 12.0 s of what went
+up is not in it`. A track that is longer is taken: a jingle, or a
+recompute over files that went up for a wider window.
+
 The program handles a later In point or Out point here, not at Auphonic.
-It trims the returned tracks to the new window. If the length matches
-neither the window nor the whole measured range, the files belong to
-another run, and the message says so.
+It trims the returned tracks to the new window, and holds each file as
+it lies in the folder against what went up: one that ends before the
+window does is refused as well. If the length matches neither the window
+nor the whole measured range, the files belong to another run, and the
+message says so.
 
 ### When something goes wrong
 
@@ -344,15 +446,26 @@ another run, and the message says so.
   longer. **Stop** ends the waiting in the same way, not the
   production.
 * **auphonic.com reports an error.** The run ends with `Processing
-  failed:` and what auphonic.com said.
+  failed:` and what auphonic.com said. The waiting for a production
+  auphonic.com holds as incomplete ends the same way, at once rather
+  than at the time limit: `Auphonic reports 9: Incomplete`.
 * **The preset list holds only its first entry.** No key has been
   checked yet: press **Connect**.
 * **The returned tracks fit neither the time window nor the whole
   measured range.** They belong to another run. Use the folder that
   belongs to this run, or let the audio go through auphonic.com again.
-* **A run is about to cost credit that was not meant.** Only answer 3
-  uploads, and only the upload costs. Answers 1 and 2 leave the files
-  where they are.
+* **A returned track lacks part of what went up.** The track's line in
+  the log says `Caution: 12.0 s of what went up is not in it`, and under
+  the lines it is named: `Refused: Guest -- what came back does not
+  match what went up.` The run stops.
+  The production at auphonic.com holds other sound: most often an
+  earlier one of the same name, or this episode's own files from a
+  narrower window, recomputed or taken after the In point moved earlier
+  or the Out point later. Give another episode a name of its own under
+  **Production name**; otherwise upload everything again.
+* **A run is about to cost credit that was not meant.** Only the answer
+  that uploads everything again uploads, and only the upload costs. The
+  other answers leave the files where they are.
 
 The audio is now processed and lies in `auphonic-tracks/`. How the
 tracks are spread over several speakers and several cameras stands in
@@ -366,9 +479,10 @@ The window does not offer these.
   presets with numbers and asks for one, and a key without files lists
   them too.
 * `--auphonic-resume result|rerun|adopt|upload|abort` answers the
-  question about a production that already exists in advance. It
-  reaches only a run that uploads several tracks; a single track has no
-  per-track upload to take up again.
+  question about a production that already exists in advance. A single
+  track takes `result`, `upload` and `abort`; `rerun` and `adopt` mean
+  something only where several tracks go up, and for a single track the
+  program asks instead.
 * `--auphonic-done FOLDER` fetches nothing and takes the tracks lying
   there, named after the speakers. A recording handed to the run that
   lies in that folder itself is refused: the run stops before anything

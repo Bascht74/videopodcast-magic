@@ -179,10 +179,10 @@ tools_repaired = setup.tools_repaired
 TOOL_TROUBLE = ("", "")
 
 
-# The floor is what PySide6 builds on. The command line alone could go
-# lower, but one number is easier to state than two; the ceiling is
-# what the suite runs on, and between the two is untested.
-NEEDS_PYTHON = (3, 10)
+# The floor is what a release's tested package lists install on (numpy
+# and scipy want 3.12; under 3.10 PySide6 crashed the player on Linux).
+# The ceiling is what the suite runs on at home; the builder walks both.
+NEEDS_PYTHON = (3, 12)
 LIKES_PYTHON = "3.14.7"
 if sys.version_info < NEEDS_PYTHON:
     sys.exit("%s needs Python %d.%d or newer -- this is "
@@ -216,7 +216,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "3.0.0b28"
+VERSION = "3.0.0b29"
 PROJECT_PREFIX = FROZEN_NAME + "_"  # project file: prefix + production
 # It counts up whenever a stored key or value is renamed. An older
 # file is refused with a clear message rather than half-read.
@@ -546,6 +546,26 @@ def stopped_on_command_line(e):
     return 1
 
 
+def say_resolve_stopped(e, indent=""):
+    """Say why the Resolve part stopped, in one line, and return 1.
+
+    A RuntimeError is the build's own word -- what Resolve refused or
+    would not answer -- and an OSError or a handover file that is not
+    JSON, or not UTF-8, the system's; anything else is a fault in this
+    program, said as one, to be reported, its traceback into the log.
+    Called inside the except, by a whole run and the Resolve part alone.
+    """
+    if isinstance(e, (RuntimeError, OSError, json.JSONDecodeError,
+                      UnicodeDecodeError)):
+        print(indent + T('Resolve part stopped: %s') % e)
+        return 1
+    fault_into_log()
+    print(indent + T('Resolve part stopped on a fault in this program, not '
+                     'in Resolve: %s -- please report it. The details are '
+                     'in the log.') % ("%s: %s" % (type(e).__name__, e)))
+    return 1
+
+
 def run_from_command_line(args, ap):
     """The run a command line asks for: said, preflight, then the one door.
 
@@ -583,10 +603,9 @@ def run_from_command_line(args, ap):
             return build_resolve_project(args.resolve_json, args.resolve_project,
                                  )
         except Exception as e:
-            print(T('Resolve part stopped: %s') % e)
-            return 1
+            return say_resolve_stopped(e)
     for long in ("no_camera_audio", "no_follow_ups", "no_drift",
-                 "dry_run", "multitrack", "resolve"):
+                 "dry_run", "resolve"):
         setattr(args, long, getattr(args, long, False))
     args.name_camera = getattr(args, "name_camera", "Camera Original")
     # One word for the whole run. "sync" means no speakers, no speech
@@ -602,7 +621,7 @@ def run_from_command_line(args, ap):
     key_for_run(args)
     if args.auphonic_key and not args.files:
         try:
-            return print_presets(api_key_from_anywhere(args), args.multitrack)
+            return print_presets(api_key_from_anywhere(args))
         except Exception as e:
             print(T('Presets could not be loaded: %s') % e)
             return 1
@@ -652,18 +671,13 @@ def run_from_command_line(args, ap):
     # project type, so Sync refuses here what the window refuses.
     if run_preflight(args, audio_paths, video_paths, args.project_type):
         return 1
-    if args.multitrack and not audio_paths:
-        # Cameras only: their own audio becomes the track, and how many
-        # tracks that is has to be measured -- one camera with two
+    if not audio_paths and len(video_paths) > 1:
+        # Cameras only: each camera's own audio becomes a track, and how
+        # many tracks that is has to be measured -- one camera with two
         # microphones is two. So the plan is built before the decision.
         return multitrack_or_single(args, ap, audio_paths, video_paths)
     if not audio_paths:
-        # Picture only, no multitrack: the camera audio becomes the track.
-        if len(video_paths) > 1:
-            print(T('Several cameras but no audio file. Each camera would '
-                    'have its own audio --\nthat is what --multitrack is '
-                    'for. Otherwise one camera after another.'))
-            return 1
+        # One camera and nothing else: its audio becomes the track.
         args._camera_audio = tempfile.mkdtemp(prefix="vpm_camaudio_")
         atexit.register(shutil.rmtree, args._camera_audio, True)
         try:
@@ -672,13 +686,8 @@ def run_from_command_line(args, ap):
             print(T('Camera audio not usable: %s') % e)
             return 1
         print()
-    missing = check_mode_fits_input(audio_paths, args)
-    if missing:
-        print(missing)
-        return 1
-    # One way in, whatever --multitrack says: the switch decides how
-    # the recordings are grouped and nothing else -- not the time axis,
-    # not the arithmetic, not which code writes the files.
+    # One way in: whether the tracks go up as one Multitrack production
+    # follows from them, and from nothing typed on the line.
     return multitrack_or_single(args, ap, audio_paths, video_paths)
 
 
@@ -710,7 +719,6 @@ take_from(loudness)
 bearings = beside("bearings", program=PROGRAM)
 take_from(bearings)
 
-check_mode_fits_input = bearings.check_mode_fits_input
 guess_speaker_name = bearings.guess_speaker_name
 speaker_guesses = bearings.speaker_guesses
 split_audio_and_video = bearings.split_audio_and_video

@@ -5,11 +5,17 @@
 
 ## Das Programm installieren
 
-Ein Befehl installiert es, und einen zweiten Weg hinein gibt es nicht:
+Ein Befehl installiert es, und einen zweiten Weg hinein gibt es
+nicht. Er lautet auf jedem System gleich bis auf das letzte Wort der
+Liste, die er nennt — `macos`, `windows` oder `linux`:
 
 ```
-pip3 install git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-windows.txt git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-linux.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
+
+Eine der drei Zeilen, die für das eigene System.
 
 Zurück bleibt der Befehl `videopodcast-magic`, aufrufbar aus jedem
 Ordner. Alles, was das Programm an Python braucht, kommt in diesem
@@ -47,8 +53,11 @@ eingeschlossen.
 Sache von Sekunden:**
 
 ```
-pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -U -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
+
+— das ist die Zeile für den Mac; auf einem anderen System ändert sich
+der Name der Liste wie oben.
 
 Dazwischen steht kein Paketverzeichnis: die Adresse ist die Ablage
 selbst. pip liest sie jedes Mal neu, vergleicht die Versionsnummer
@@ -60,31 +69,37 @@ Verweigert `pip3 install` den Dienst mit dem Hinweis, diese Umgebung
 werde von außen verwaltet, dann gehört dieses Python einem
 Paketverwalter — dem von Homebrew oder dem der Linux-Distribution —,
 der pip aus dem heraushält, was er selbst pflegt, und die Meldung
-nennt den Weg daran vorbei: `pipx install` auf dieselbe Adresse legt
-das Programm in eine eigene Umgebung und den Befehl in den Suchpfad.
+nennt den Weg daran vorbei: `pipx install` auf dieselbe Adresse, die
+Liste mit `--pip-args="-c <Adresse der Liste>"` an pip weitergereicht,
+legt das Programm in eine eigene Umgebung und den Befehl in den
+Suchpfad.
 
-**Auf der Maschine, an der die Folgen geschnitten werden, die
-geprüften Fassungen statt der neuesten.** Jede Veröffentlichung trägt
-neben dem Archiv je System eine Liste der Paketfassungen, auf denen
-ihre Testreihe grün lief — `constraints-macos.txt`,
+**Die geprüften Fassungen, nicht die neuesten.** Dafür stehen das
+`-c` und die Adresse dahinter. Jede Veröffentlichung trägt neben dem
+Archiv je System eine Liste der Paketfassungen, auf denen ihre
+Testreihe grün lief — `constraints-macos.txt`,
 `constraints-windows.txt`, `constraints-linux.txt`, gebaut mit Python
-3.14 —, und wer mit der für sein System installiert, `pip3 install -c
-constraints-macos.txt
-git+https://github.com/Bascht74/videopodcast-magic@v<version>`, bekommt
-genau diese.
+3.14 —, und die Adresse im Befehl führt immer zur Liste der neuesten
+Veröffentlichung. pip nimmt also genau diese Fassungen und nicht, was
+an diesem Tag gerade das Neueste ist; ein Paket, das die Liste nicht
+nennt, wählt pip wie bisher selbst. Wer eine bestimmte
+Veröffentlichung statt der neuesten will, nennt sie zweimal, in der
+Adresse der Liste und hinter dem `@`: `pip3 install -c
+https://github.com/Bascht74/videopodcast-magic/releases/download/v<version>/constraints-macos.txt
+git+https://github.com/Bascht74/videopodcast-magic@v<version>`.
 
 Zweierlei muss vor diesem Befehl auf der Maschine liegen, denn beides
 kann pip nicht mitbringen:
 
-* **Python 3.10 oder neuer, und dessen pip.** Ein pip, das die
-  Projektdatei liest, hört unterhalb von 3.10 auf und nennt die
+* **Python 3.12 oder neuer, und dessen pip.** Ein pip, das die
+  Projektdatei liest, hört unterhalb von 3.12 auf und nennt die
   Version, die es erwartet hätte. **Das pip, das macOS mit seinem
   eigenen Python 3.9 mitbringt, liest sie gar nicht und meldet keinen
   Fehler**: am 4. September 2026 gemessen, antwortete `/usr/bin/pip3`
   — pip 21.2.4 — mit `Successfully installed UNKNOWN-0.0.0` und ließ
   einen leeren Ordner dieses Namens zurück. Kein Modul, kein Befehl,
   keine Fehlermeldung. **Wer `UNKNOWN` liest, hat das falsche pip
-  erwischt**, und die Antwort darauf ist, Python 3.10 oder neuer zu
+  erwischt**, und die Antwort darauf ist, Python 3.12 oder neuer zu
   installieren und dessen `pip3` zu nehmen.
 * **`ffmpeg` 9.0.1 oder neuer, samt `ffprobe`.** Sie sind kein Python,
   und keine Liste, die pip liest, hat einen Platz für sie. Das Programm
@@ -213,24 +228,27 @@ einer, den dieses Programm nicht geschrieben hat.
 
 ## Welches Python das Programm braucht
 
-3.10 oder neuer, darunter lehnt pip die Installation ab. Die
-Untergrenze ist das, was die Oberfläche braucht: PySide6 baut
-unterhalb von 3.10 nicht. Die Testsuite läuft auf 3.14.7, der Version,
-die hier täglich benutzt wird. Sie deckt nur 3.14.7 ab; was zwischen
-3.10 und 3.14.7 liegt, ist nicht gemessen. Für macOS und Windows
-liegt das Installationsprogramm unter
+3.12 oder neuer, darunter lehnt pip die Installation ab. Die
+Untergrenze ist das, was die geprüften Fassungen brauchen: Die Listen,
+die eine Veröffentlichung mitbringt, nennen `numpy` und `scipy` in
+Fassungen, die sich erst ab 3.12 installieren lassen, und unter Linux
+mit 3.10 stürzte der Abspieler im Fenster in `PySide6` ab. Die
+Testsuite läuft auf 3.14.7, der Version, die hier täglich benutzt
+wird, und auf dem Baurechner bei jedem Push auf 3.12 und 3.14 unter
+Linux, macOS und Windows; 3.13 dazwischen ist nicht gemessen. Für macOS
+und Windows liegt das Installationsprogramm unter
 <https://www.python.org/downloads/>; unter Linux kommt Python aus der
 Paketverwaltung der Distribution.
 
 `--version`, die Kopfzeile des Protokolls und die erste Zeile jedes
 Laufs sagen, welches Python läuft. Sie nennen die empfohlene Version,
-wenn es eine andere ist: `Python 3.11.15  (recommended version 3.14.7)`.
+wenn es eine andere ist: `Python 3.12.13  (recommended version 3.14.7)`.
 `--help` und `--version` antworten ohne `numpy`, `PySide6` und
 `ffmpeg`.
 
 ```text
 $ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
-    GuestCam_01011858_C003.mov --multitrack --lufs -16 --dry-run
+    GuestCam_01011858_C003.mov --lufs -16 --dry-run
 videopodcast-magic 3.0.0b25   Python 3.14.7
 /tmp/vpm_terminal/videopodcast_magic/__init__.py
 ...
@@ -331,11 +349,12 @@ Maschine hat:
 * **Windows: Es holt eines.** Windows bringt keine Paketverwaltung mit,
   also lädt das Programm einen Bau mit soxr und legt `ffmpeg.exe` und
   `ffprobe.exe` in einen eigenen Ordner unter den lokalen Daten des
-  Benutzers. Von Hand muss dafür nichts in PATH. Bevor etwas
-  ausgepackt wird, hält es den Download gegen `checksums.sha256`
-  derselben Veröffentlichung; lässt sich diese Liste nicht holen, nennt
-  sie das Archiv nicht oder steht dort eine andere Summe, wird nichts
-  ausgepackt, der Download gelöscht, und das Programm sagt, warum. Ein
+  Benutzers. Von Hand muss dafür nichts in PATH. Es ist immer derselbe
+  Bau: Das Programm nennt ihn und trägt seine Prüfsumme gleich daneben,
+  und bevor etwas ausgepackt wird, hält es den Download gegen diese
+  Summe. Weicht sie ab, wird nichts ausgepackt, der Download gelöscht,
+  und das Programm sagt, warum. Ein neueres ffmpeg kommt deshalb nur mit
+  einer neueren Fassung dieses Programms, nie hinter seinem Rücken. Ein
   Archiv, das eines der beiden Werkzeuge doppelt enthält, wird ebenso
   abgelehnt. Schlägt der Download fehl, bietet es stattdessen an,
   ffmpeg.org zu öffnen.
@@ -388,16 +407,16 @@ es ebenfalls, mit zwei Unterschieden:
 ## Wenn etwas klemmt
 
 * **pip lehnt ab und nennt eine Python-Version.** Dieses Python ist
-  älter als 3.10. Eine neuere installieren und denselben Befehl dieser
+  älter als 3.12. Eine neuere installieren und denselben Befehl dieser
   geben.
 * **pip antwortet `Successfully installed UNKNOWN-0.0.0`.**
   Installiert wurde nichts. Dieses pip ist zu alt, um die Projektdatei
   zu lesen; auf einem Mac ist das `/usr/bin/pip3`, und es gehört zu
-  Python 3.9. Python 3.10 oder neuer installieren und den Befehl
+  Python 3.9. Python 3.12 oder neuer installieren und den Befehl
   dessen `pip3` geben.
 * **pip sagt, die Umgebung werde von außen verwaltet.** Dieses Python
-  gehört einem Paketverwalter. `pipx install` auf dieselbe Adresse ist
-  der Weg daran vorbei.
+  gehört einem Paketverwalter. `pipx install` auf dieselbe Adresse,
+  mit `--pip-args="-c <Adresse der Liste>"`, ist der Weg daran vorbei.
 * **Die Installation bricht mittendrin ab.** Die letzten Zeilen von
   pip sagen, woran es liegt. Fast immer ist es einer der beiden großen
   Downloads, das Fenster oder der Unterbau der Sprechertrennung:

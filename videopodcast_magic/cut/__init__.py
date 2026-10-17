@@ -345,22 +345,33 @@ def sound_levels(path, step=DIP_STEP_S):
         return []
     if key in _LEVELS:
         return _LEVELS[key]
-    rate = int(round(1.0 / step))
     try:
         p = subprocess.run(
             ["ffmpeg", "-v", "error", "-i", path, "-map", "a:0", "-af",
-             "aresample=8000,aeval=abs(val(0)):c=same,aresample=%d" % rate,
-             "-ac", "1", "-f", "s16le", "-"], capture_output=True)
+             levels_filters(step), "-ac", "1", "-f", "s16le", "-"],
+            capture_output=True)
     except OSError:
         return []
-    data = p.stdout or b""
-    if p.returncode or len(data) < 4:
-        _LEVELS[key] = []
-        return []
-    out = list(struct.unpack("<%dh" % (len(data) // 2),
-                             data[:len(data) // 2 * 2]))
+    out = [] if p.returncode else levels_read(p.stdout or b"")
     _LEVELS[key] = out
     return out
+
+def levels_filters(step=DIP_STEP_S):
+    """The filters sound_levels measures with: one loudness every *step*.
+
+    Down to 8000 Hz, rectified, one value per step. A sum read off the
+    recordings at their place ends in the same, so its values are the
+    ones the summed file would give.
+    """
+    return ("aresample=8000,aeval=abs(val(0)):c=same,aresample=%d"
+            % int(round(1.0 / step)))
+
+def levels_read(data):
+    """The values levels_filters wrote as signed 16 bit; [] under two."""
+    if len(data or b"") < 4:
+        return []
+    return list(struct.unpack("<%dh" % (len(data) // 2),
+                              data[:len(data) // 2 * 2]))
 
 def sound_levels_for(d):
     """Return the level envelope belonging to a handover file.
@@ -973,10 +984,11 @@ def cut_basis_line(basis, speakers, length):
     a finished run too: auphonic.com makes the sound, not the speakers.
     """
     if basis in ("run", "auphonic"):
-        text = T('from the finished run -- %s speakers, %s')
+        text = T('from the finished run -- %s, %s')
     else:
-        text = T('measured from the recordings -- %s speakers, %s')
-    return (text % (number_text(speakers, 0), as_hms(length)),
+        text = T('measured from the recordings -- %s, %s')
+    return (text % (PROGRAM.TN(speakers, '%s speaker', '%s speakers')
+                    % number_text(speakers, 0), as_hms(length)),
             COLOURS["good" if basis in ("run", "auphonic") else "warning"])
 
 def choose_zero_point(audio_origin=(), camera_origin=(), length=0.0):
@@ -1462,21 +1474,20 @@ def camera_gets_from(names):
                              key=name_order))
             if names else T('the mix of all tracks'))
 
-def camera_name_suggestion(production, camera, values, multitrack=True,
-                           sync=False):
+def camera_name_suggestion(production, camera, values, sync=False):
     """The file name a camera is offered, out of the speakers on it.
 
     A speaker whose name is only suggested belongs in the camera's file
     name too, and that name travels to Resolve; sorted, as the handover
-    sorts them. A camera nobody is on carries the full mix under
-    Multitrack; without it, its own stem. Sync only knows nobody: there
-    every camera keeps its own stem, whatever its rows or its sound say.
+    sorts them. A camera nobody is on keeps its own stem, whatever kind
+    of production the tracks make. Sync only knows nobody: there every
+    camera keeps its own stem, whatever its rows or its sound say.
     """
     if sync:
         return camera_name_of(production, camera, [], False)
     return camera_name_of(production, camera,
                           sorted(speaker_names_of(values), key=name_order),
-                          multitrack)
+                          False)
 
 def camera_name_of(production, camera, names, multitrack):
     """A camera's file name out of these speaker names, in this order."""
@@ -1488,10 +1499,10 @@ def camera_name_of(production, camera, names, multitrack):
 def camera_names_offered(production, camera, values):
     """Every name the table can have offered this camera by itself.
 
-    Both ticks of Multitrack, and the speakers in the order of the rows,
-    plainly sorted and by name_order: a project file keeps every field,
-    and a name the table wrote there in an order it once used was never
-    typed. And the camera's own stem, which Sync only offers.
+    Both ticks of the Multitrack box older versions had, and the
+    speakers in row order, plainly sorted and by name_order: a project
+    file keeps every field, and a name the table wrote there once was
+    never typed. And the camera's own stem.
     """
     names = speaker_names_of(values)
     offered = set(camera_name_of(production, camera, order, tick)
@@ -1698,7 +1709,7 @@ def seated_in_handover(cameras):
 
 def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3,
                    after=WIDE_AFTER_S,
-                       holds=5.0, at_latest=120.0, edge=True,
+                       holds=5.0, at_latest=WIDE_LATEST_S, edge=True,
                        rules=None, cut=None):
     """Compute the camera cut without writing anything.
 
@@ -1849,7 +1860,7 @@ def wide_too_short(number):
 
 def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
                  camera_lines, voice_lines, cut_var, cut_parts, edge_on,
-                 start_var, end_var, multitrack, wide_cameras_now, band_show,
+                 start_var, end_var, wide_cameras_now, band_show,
                  speech_show, window_info_show, question_note, cut_column,
                  forecast_box, preview_label, speech_title, speech_table):
     """The preview: the cut a run of what is set now would make.
@@ -1928,7 +1939,7 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         # Empty table headers promise content that does not exist.
         forecast_empty(True)
         forecast_box.setTitle(T('%s -- preview') % cut_title_of(
-            voice_lines, multitrack.get(), assign_lines, len(camera_lines)))
+            voice_lines, assign_lines, len(camera_lines)))
         state["cut_numbers"] = None
         band_show(None)
         preview_set(T('No speakers are known yet -- they are worked '
@@ -2035,8 +2046,7 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         preview_label.setToolTip("")
         forecast_empty(False)
         forecast_box.setTitle(T('%s -- preview  (length %s)') % (
-            cut_title_of(voice_lines, multitrack.get(),
-                         assign_lines, len(camera_lines)),
+            cut_title_of(voice_lines, assign_lines, len(camera_lines)),
             as_hms(max(b for _a, b, _w in numbers["cut"]))))
         # Where the segments come from belongs with them: self-measured is
         # coarser than what auphonic.com delivers.
@@ -2893,14 +2903,16 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
                 print("  %s" % p)
     if js and getattr(args, "resolve", False):
         # The build's code goes up to whoever called this step; a track
-        # Resolve refused twice is not a finished build.
+        # Resolve refused twice is not a finished build, and one that
+        # stopped -- its project taken back -- is none at all.
         try:
             return build_resolve_project(handover, args.resolve_project,
                                          log=stem + "_resolve_log.txt")
         except Exception as e:
-            print(T('\n  Resolve part stopped: %s') % e)
+            PROGRAM.say_resolve_stopped(e, "\n  ")
             print(T('  %s is ready -- with --resolve-json it can be done '
                     'later.') % os.path.basename(js))
+            return 1
     return 0
 
 def cut_seating(args, tracks, cameras, gone):
@@ -3051,12 +3063,19 @@ def cut_list_of(args, segment_list, tracks, cameras, videos, tc_start,
     cut, detail = cut_split_where_one_camera(cut, segment_list, camera_of,
                                               args.min_edit_duration)
     if len(cut) > was:
-        print(T('  One camera for everybody: cut into %s shots at the '
-                'change of speaker, so Resolve can group them.')
+        print(PROGRAM.TN(len(cut), '  One camera for everybody: cut into %s '
+                         'shot at the change of speaker, so Resolve can '
+                         'group them.', '  One camera for everybody: cut '
+                         'into %s shots at the change of speaker, so '
+                         'Resolve can group them.')
               % number_text(len(cut), 0))
     # The numbers are in the interface and the files; the outcome is enough.
-    print(T('  %s speakers, %s shots, shortest %s s')
-          % (number_text(len(segment_list), 0), number_text(len(cut), 0),
+    # Each count picks its own wording: "1 speakers" was the English one.
+    print(T('  %s, %s, shortest %s s')
+          % (PROGRAM.TN(len(segment_list), '%s speaker', '%s speakers')
+             % number_text(len(segment_list), 0),
+             PROGRAM.TN(len(cut), '%s shot', '%s shots')
+             % number_text(len(cut), 0),
              number_text(min((b - a) for a, b, _ in cut)
                          if cut else 0)))
     return {"cut": cut, "segments": segment_list, "detail": detail,
@@ -3250,7 +3269,9 @@ def handover_refreshed(d, cut, segs):
     if d["cut"] == before_value:
         print(T('  The cut stays as it was.'))
     else:
-        print(T('  The cut has changed: %s shots instead of %s.')
+        print(PROGRAM.TN(len(d["cut"]),
+                         '  The cut has changed: %s shot instead of %s.',
+                         '  The cut has changed: %s shots instead of %s.')
               % (number_text(len(d["cut"]), 0),
                  number_text(len(before_value), 0)))
     d["speakers"] = [{"name": n, "sections": [[round(a, 3), round(b, 3)]

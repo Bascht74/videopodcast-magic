@@ -130,12 +130,6 @@ msgstr "Ingen egen Singletrack-forudindstilling -- opret en"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "Ingen egen forudindstilling -- opret en på auphonic.com"
 
-msgid "No Multitrack preset found in the account."
-msgstr "Ingen Multitrack-forudindstilling fundet i kontoen."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Ingen Singletrack-forudindstilling fundet i kontoen."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "Ingen Multitrack-forudindstilling i kontoen. Kun disse: %s"
 
@@ -273,6 +267,9 @@ msgstr "  Talegenkendelsen er bygget (%s s)."
 
 msgid "  The speech recognition reports: %s"
 msgstr "  Talegenkendelsen melder: %s"
+
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS kan ikke høre %s her, Whisper tager over"
 
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Genkendt på %s: klar efter %s s, hørt efter %s s"
@@ -619,6 +616,9 @@ msgstr "\nIngen forudindstilling valgt: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nStoppet før det første lange trin. Med --anyway kører det alligevel."
 
+msgid "\nStopped before the first long step."
+msgstr "\nStoppet før det første lange trin."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve genkender så måske ikke inputfarverummet."
 
@@ -700,12 +700,6 @@ msgstr "    %-24s ingen lyd indsat"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx kørte det tiltænkte kamera ikke -- der står et andet."
 
-msgid "    %s could not be imported."
-msgstr "    %s kunne ikke importeres."
-
-msgid "    %s could not be inserted."
-msgstr "    %s kunne ikke indsættes."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s-spor kunne ikke oprettes: %s"
 
@@ -714,6 +708,9 @@ msgstr "    %s: billede og lyd indsat hver for sig (lyd fra A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway er sat: det kører trods punkterne ovenfor."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway er sat: det kører trods punkterne ovenfor, men stopper før uploadet -- auphonic.com ville afvise denne produktion."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Alle spor ligger rigtigt -- intet at flytte."
@@ -862,8 +859,18 @@ msgstr "  %s blokke sat sammen via tidskode, start %s"
 msgid "  %s of %s files imported."
 msgstr "  %s af %s filer importeret."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s talere, %s klip, korteste %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, korteste %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s taler"
+msgstr[1] "%s talere"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s klip"
+msgstr[1] "%s klip"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s videospor, navngivet efter talerne:"
@@ -1117,8 +1124,8 @@ msgstr "  Start %s -- hvert klip placeres i forhold til den."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Der fandtes endnu ingen sådan Timeline -- den bygges bare."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Bemærkning: der beregnes med de filer, der blev uploadet dengang. De bærer\n  tidsvinduet og justeringen fra den dag. Hvor ind-punktet, ud-punktet\n  eller den målte position er anderledes nu, måler returtjekket\n  forskellen og flytter sporene på plads."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Bemærkning: der beregnes med de filer, der blev uploadet dengang. De bærer\n  tidsvinduet og justeringen fra den dag. Hvor ind-punktet, ud-punktet\n  og den målte position nu holder sig inden for det vindue, måler\n  returtjekket forskellen og flytter sporene på plads. Hvor de går ud over\n  det -- et tidligere ind-punkt, et senere ud-punkt -- afviser det sporene:\n  upload så alt igen."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Bemærkning: denne ffmpeg har ingen soxr -- klokkedrift kan kun fjernes i\n  trin på 21 ppm."
@@ -1129,8 +1136,8 @@ msgstr "  Uden betydning for lyden."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Forskydning:     %s   (fra kamerasammenligningen)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Kun %s af %s klip ligger på Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve tog kun %s af %s klip -- Timeline \"%s\" mangler resten af klipningen."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Toppe:             %s dB over %s dBTP -- limiteren fanger dem"
@@ -1177,8 +1184,8 @@ msgstr "  Reference: %s (%s, længste spilletid)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Tilbage:           %s dB på hvert spor, det er %s LUFS i stedet for %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve tog ikke et eneste billede -- Timeline er tom. Der\n  bygges ikke mere på den."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve tog slet intet billede -- Timeline \"%s\" mangler klipningen og dens lyd."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Resultat: %s (%s) -- bliver liggende ved siden af videofilen\n"
@@ -1210,11 +1217,17 @@ msgstr "  Mål:               %s LUFS  ->  %s dB på hvert spor"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline får %s: den højeste af dem, eller den næste hastighed Resolve\n  har over den. Opad gentager Resolve billeder, nedad smider det dem\n  væk. Hvert kamera beholder sin egen hastighed, og klipningen regner\n  i den."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix kunne ikke importeres."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve har ingen Full-Mix i sin Media Pool -- Timeline \"%s\" mangler sin lyd."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix kunne ikke indsættes."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve afviste Full-Mix -- Timeline \"%s\" mangler sin lyd."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve afviste Intro -- Timeline \"%s\" har ingen Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve afviste Outro -- Timeline \"%s\" har ingen Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kameraerne bærer tidsvinduet og et sekund i hver ende: %s skrevet for %s af de optagne %s."
@@ -1222,8 +1235,10 @@ msgstr "  Kameraerne bærer tidsvinduet og et sekund i hver ende: %s skrevet for
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Kameraerne ligger tæt på hinanden (højst %s trin lysstyrke)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Klipningen har ændret sig: %s klip i stedet for %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Klipningen har ændret sig: %s klip i stedet for %s."
+msgstr[1] "  Klipningen har ændret sig: %s klip i stedet for %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Optegnelsen over tidligere kørsler her kan ikke læses (%s), så alt, der allerede er på plads, rapporteres."
@@ -1357,9 +1372,6 @@ msgstr "Tildelingsfilen kan ikke læses: %s"
 msgid "Camera audio not usable: %s"
 msgstr "Kameralyden kan ikke bruges: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK IKKE MULIGT\n  Der skal mindst to indgangsspor til, og der blev kun fundet %s.\n  Et spor er en egen optagelse, en kanal fra en flerkanals\n  optager eller lyden fra et kamera -- den tæller med, så snart dets\n  Kameralyd siger \"brug intern lyd\". Uden to af dem er der\n  intet at skille ad, og den samme fil kører igennem som en\n  almindelig produktion."
-
 msgid "No preset is called %r."
 msgstr "Ingen forudindstilling hedder %r."
 
@@ -1471,9 +1483,6 @@ msgstr "PROJEKT GEMT\n  %s\n  Denne kørsel kan åbnes igen senere -- øverst ti
 msgid "Presets could not be loaded: %s"
 msgstr "Forudindstillingerne kunne ikke indlæses: %s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Flere kameraer, men ingen lydfil. Hvert kamera ville have sin egen lyd --\ndet er det, --multitrack er til. Ellers ét kamera ad gangen."
-
 msgid "The file is NOT recognised as HDR."
 msgstr "Filen genkendes IKKE som HDR."
 
@@ -1524,9 +1533,6 @@ msgstr "\n  OPDATER KLIPLISTEN"
 
 msgid "\n  Render job"
 msgstr "\n  Renderingsjob"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve-delen stoppet: %s"
 
 msgid "\n  STOPPED: %s"
 msgstr "\n  STOPPET: %s"
@@ -1593,9 +1599,6 @@ msgstr "  Vindue:              %s -- alt, hvad noget spor hørte"
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: stilhed i %s i starten og %s i slutningen"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nKun ét spor er tilbage, når blokkene er sat sammen, og Multitrack kræver ét pr. stemme. Hvor to personer blev taget for én optagelse, holder --apart en blok udenfor."
 
 msgid "RECOGNISED PLAN"
 msgstr "GENKENDT PLAN"
@@ -1834,6 +1837,9 @@ msgstr "RESULTAT"
 msgid "Resolve part stopped: %s"
 msgstr "Resolve-delen stoppet: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve-delen stoppede på en fejl i dette program, ikke i Resolve: %s -- meld den venligst. Detaljerne står i loggen."
+
 msgid "Stopped: %s"
 msgstr "Stoppet: %s"
 
@@ -1920,6 +1926,13 @@ msgstr "%s sat efter forudindstillingen"
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s kanaler -- deles op i spor, se rækkerne ovenfor."
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s kanaler -- kommandolinjen deler dem ikke op i spor og lægger filen "
+"sammen til én kanal, to personer til én stemme."
 
 msgid "%s checked"
 msgstr "%s tjekket"
@@ -2041,17 +2054,22 @@ msgstr "<span style='color:%(t)s'><b>%(n)s klip</b>, median %(med)s s, korteste 
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Hvert kanalpar bedømmes for sig: ét stereospor, eller to mikrofoner og dermed to spor. Stille indgange falder væk. Rækkerne under filen siger, hvad der blev målt, og fluebenet går forud."
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
+msgstr ""
+"Gem dens kanaler som separate filer, så hver bliver et spor, eller åbn den i "
+"vinduet, som deler den op efter kanalrækkerne. En kørsel, der sender den til "
+"auphonic.com, stopper før uploadet: auphonic.com tager højst to kanaler i én "
+"fil."
+
 msgid "Add files ..."
 msgstr "Tilføj filer ..."
 
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Justeringen går efter den målte forskydning; tidskoden er kun krydstjekket."
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Alle optagelser bærer samme navn -- det giver ét enkelt spor."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Alle rækker bærer samme navn -- det giver ét enkelt spor, og Multitrack kræver mindst to."
 
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Tildeling: hvilket lydspor hører til hvilket kamera"
@@ -2170,8 +2188,8 @@ msgstr "Ud-punktet ligger %s efter det sidste billede"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Ved levering bruges normalt det begrænsede område. Fuldt er ikke forkert, men nogle afspillere læser det forkert."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Bestemmer, hvordan auphonic.com behandler lyden.\n\n»%s« lader nøglen blive og går alligevel ikke derhen.\nLyden bliver så kun lagt sammen og normaliseret, ikke adskilt --\nog uden adskilte spor er der ingen kameraklipning."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Bestemmer, hvordan auphonic.com behandler lyden.\n\n»%s« lader nøglen blive og går alligevel ikke derhen.\nLyden bliver så kun lagt sammen og normaliseret, ikke adskilt --\nmen kameraklipningen er den samme som med en forudindstilling."
 
 msgid "Distance to mean"
 msgstr "Afstand til middel"
@@ -2205,9 +2223,6 @@ msgstr "Envelope mislykkedes: %s"
 
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "Envelopes og kameralyd forberedes i baggrunden."
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Hver række skal have et navn -- hos Auphonic bliver det til track ID."
 
 msgid "External preview -- the app does not know this format"
 msgstr "Ekstern forhåndsvisning -- appen kender ikke dette format"
@@ -2313,15 +2328,6 @@ msgstr "Manglende lyd %s fyldt med stilhed%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Modulet DaVinciResolveScript kan ikke indlæses: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Ét lydspor pr. person, holdt adskilt hele vejen til auphonic.com.\nVirker også uden -- så uden de-bleed og niveauudjævner.\nDet kræver to indgangsspor: en egen optagelse, en kanal fra en\nflerkanals optager eller lyden fra en videofil, der står på\n\"brug intern lyd\". Kameraklipningen har ikke brug for dette flueben."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (ét spor pr. taler)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack kræver mindst to inputspor. Et spor er en egen optagelse, en kanal fra en flerkanalsoptager eller lyden fra en videofil, der er sat til \"brug intern lyd\". Flere blokke af samme optagelse tæller som ét, spor lagt til side slet ikke."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Ingen lyd i brug endnu -- tilføj en lydoptagelse, eller sæt en videofils Kameralyd til \"brug intern lyd\" i fillisten."
@@ -2461,9 +2467,6 @@ msgstr "Det er ikke obligatorisk -- YouTube bruger så standardværdier (Sony BV
 msgid "Not ready yet:"
 msgstr "Ikke klar endnu:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "En lydoptagelse har intet talernavn endnu."
-
 msgid "One frame back."
 msgstr "Ét billede tilbage."
 
@@ -2472,9 +2475,6 @@ msgstr "Ét sekund tilbage."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Hver indstilling i sit kameras farve. Hold musen over for kamera og varighed, klik for at springe."
-
-msgid "Only one speaker"
-msgstr "Kun én taler"
 
 msgid "Open json project file"
 msgstr "Åbn json-projektfil"
@@ -2729,9 +2729,6 @@ msgstr "Ingen talere er kendt endnu -- de findes ud fra sporene, så snart denne
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "De tre tal er primærfarver, kurve og matrix. Forskellige mærkninger kræver forskellige input-farverum i Resolve -- ellers ser det ene kamera anderledes ud end det andet."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Der er ingen separate lydoptagelser. Så bruges lyden fra de %s kameraer -- hvert bliver et spor, og Auphonic fjerner overhøringen."
-
 msgid "There is no result yet."
 msgstr "Der er intet resultat endnu."
 
@@ -2846,8 +2843,22 @@ msgstr "Uden den må hver afspiller gætte, og alle gætter SDR. Sæt i Resolve 
 msgid "Without processing at auphonic.com"
 msgstr "Uden behandling hos auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Der er ingen kameraklipning endnu: den kræver to personer, hver med et navn og et kamera.\nSeparate optagelser giver det med fluebenet Multitrack, og det gør \"flere talere\" i feltet Talernavn for en optagelse også --\nstemmerne, der findes der, får deres kamera i tabellen under optagelserne.\nEt Resolve-projekt oprettes alligevel -- alle kameraer på deres målte pladser, klar til Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Der er ingen kameraklipning endnu: den kræver to personer, hver med et navn "
+"og et kamera.\n"
+"Separate optagelser giver det, hver under sit eget navn, og det gør \"flere "
+"talere\" i feltet Talernavn for en optagelse også --\n"
+"stemmerne, der findes der, får deres kamera i tabellen under optagelserne.\n"
+"Et Resolve-projekt oprettes alligevel -- alle kameraer på deres målte "
+"pladser, klar til Multicam."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Uden tidskode måles filernes placering."
@@ -3016,9 +3027,6 @@ msgstr "intet sted fundet, hvor præcis én person taler -- adskillelsen kan ikk
 msgid "no production id in the response"
 msgstr "intet produktions-id i svaret"
 
-msgid "no production id in the response: %s"
-msgstr "intet produktions-id i svaret: %s"
-
 msgid "no timecode"
 msgstr "ingen tidskode"
 
@@ -3166,6 +3174,21 @@ msgstr "kildemappen"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "sporskabelonen har intet slået til -- sporene ville komme tilbage præcis som uploadet."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "presettet har en intro -- den bruges ikke: intro og outro kommer fra videofilerne."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "presettet har en outro -- den bruges ikke: intro og outro kommer fra videofilerne."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "presettet har en intro og en outro -- ingen af dem bruges: intro og outro kommer fra videofilerne."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "De kommer fra videofiler, hvis Type står på Intro eller Outro i fillisten, eller fra --intro og --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "videofilerne er mærket forskelligt: %s"
 
@@ -3210,9 +3233,6 @@ msgstr "oversigtsbillede %s, mixet er dets første lydspor"
 
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s forekommer mere end én gang. Disse optagelser slås sammen til ét spor og lægges efter hinanden efter deres tidskode -- korrekt, hvis optagelsen blev stoppet ind imellem."
-
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Alle optagelser bærer det samme navn. Det giver ét spor -- Multitrack behøver mindst to."
 
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  To kameraer ville give den samme fil (%s). Det andet ville overskrive det første."
@@ -3280,9 +3300,6 @@ msgstr "en egen optagelse"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Lægger denne optagelse ind i en anden, med alle dens blokke.\nBrug det, hvor filnavnene ikke giver søgningen noget at gå efter."
 
-msgid "Cameras only"
-msgstr "Kun kameraer"
-
 msgid "Curve number %d"
 msgstr "Kurve nummer %d"
 
@@ -3331,9 +3348,6 @@ msgstr "Start %s"
 msgid "Take from source files"
 msgstr "Tag fra kildefilerne"
 
-msgid "Take the camera audio"
-msgstr "Brug kameralyden"
-
 msgid "Target: %s"
 msgstr "Mål: %s"
 
@@ -3349,11 +3363,11 @@ msgstr "%(name)s (%(prefix)s*.json);;JSON-filer (*.json);;Alle filer (*)"
 msgid "the voices below carry the cameras"
 msgstr "stemmerne nedenfor bærer kameraerne"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "målt fra optagelserne -- %s talere, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "målt fra optagelserne -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "fra den færdige kørsel -- %s talere, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "fra den færdige kørsel -- %s, %s"
 
 msgid "no text"
 msgstr "ingen tekst"
@@ -3363,6 +3377,15 @@ msgstr "unavngivet"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Advarsel: målingen ubrugelig"
+
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Advarsel: %s s af det, der blev sendt op, mangler i den"
+
+msgid "  -->  refused"
+msgstr "  -->  afvist"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Afvist: %s -- det, der kom tilbage, svarer ikke til det uploadede.\n  Bedre at stoppe end at skrive noget forkert."
 
 msgid "   NOT INSERTED"
 msgstr "   IKKE INDSAT"
@@ -3532,15 +3555,6 @@ msgstr "Slå dem sammen"
 msgid "Mixing %s"
 msgstr "Mixer %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack har brug for to spor i tabellen ovenfor -- et kamera tæller som ét, så snart dets Kameralyd står på \"brug intern lyd\"."
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Kun ét spor -- sæt Kameralyd for et kamera til \"brug intern lyd\" for at få et til."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Kun ét spor, og ingen kameralyd tilbage at tage."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Bruges den, deles de kanaler, der er målt under denne fil, op i spor, som for en optagelse.\nMålingen sker under alle omstændigheder: den dom er grundlaget for beslutningen, og synkroniseringen tager lyden uanset."
 
@@ -3549,9 +3563,6 @@ msgstr "Bruges den, bliver lyden i denne fil et spor som ethvert andet -- det du
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Ingen lyd at arbejde med -- sæt en videofils Kameralyd til \"brug intern lyd\", eller tilføj en lydoptagelse."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack kræver flere spor"
 
 msgid "Mute."
 msgstr "Slå lyden fra."
@@ -3633,9 +3644,6 @@ msgstr "Stilhed"
 
 msgid "Speaker name"
 msgstr "Talernavn"
-
-msgid "Speaker names"
-msgstr "Talernavne"
 
 msgid "Static metadata"
 msgstr "Statiske metadata"
@@ -3775,17 +3783,14 @@ msgstr "\nKLIPNING MED OVERSIGTSBILLEDET"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nFØRSTE KLIPNING EFTER TALER"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Mere end to kanaler går til auphonic.com som én: nedmixet slås kun fra for stereo.\n  Hvor kanalerne skal holdes adskilt, så del filen op i spor først."
-
 msgid "First cut by speaker"
 msgstr "Første klipning efter taler"
 
 msgid "\nTRANSCRIPT"
 msgstr "\nTRANSSKRIPTION"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s ord: %s %% til én stemme, %s %% til to, %s %% i et hul"
+msgid "  %s words"
+msgstr "  %s ord"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s ord, uden navne -- ingen blev adskilt"
@@ -3883,9 +3888,6 @@ msgstr "  Sporene bruges, som de blev optaget: rettet ind, mixet og bragt til\n 
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  --without-auphonic og --auphonic-done blev begge angivet. De færdige spor vinder: der er intet tilbage at sende nogen steder."
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK IKKE MULIGT\n  Uden API-nøgle er der intet at sende til auphonic.com.\n  Med --without-auphonic kører det lokalt i stedet: rettet ind,\n  mixet og klippet, men uden fjernelse af overhøring og niveauudjævner."
-
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Advarsel: kun %s af %s par kan måles. For de øvrige blev der ikke fundet noget øjeblik, hvor præcis én person taler, så deres overhøring bliver i -- talerdetekteringen er upålidelig her."
 
@@ -3943,9 +3945,6 @@ msgstr "Hele længden igen (tasten 0)"
 msgid "  Also fetched: %s"
 msgstr "  Også hentet: %s"
 
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic accepterer ikke indstillingerne: %s"
-
 msgid "      %s channels"
 msgstr "      %s kanaler"
 
@@ -4000,8 +3999,10 @@ msgstr "Skærer spor %d af %d ud"
 msgid "cutting failed: %s"
 msgstr "udskæring mislykkedes: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Ét kamera til alle: klippet i %s klip ved talerskiftet, så Resolve kan gruppere dem."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Ét kamera til alle: klippet i %s klip ved talerskiftet, så Resolve kan gruppere det."
+msgstr[1] "  Ét kamera til alle: klippet i %s klip ved talerskiftet, så Resolve kan gruppere dem."
 
 msgid "Wide shot %d"
 msgstr "Oversigtsbillede %d"
@@ -4071,6 +4072,9 @@ msgstr "Dette program kører som %s, og de pakker, der er installeret til det, e
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Denne overdragelse bærer ingen billedhastighed, så Timeline kan ikke bygges ud fra den. Lav kørslen igen."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Denne overdragelse angiver ingen fil til %s, så Timeline kan ikke bygges ud fra den. Lav kørslen igen."
 
 msgid ", %s file does not fit"
 msgid_plural ", %s files do not fit"
@@ -4473,8 +4477,8 @@ msgstr "Oversigtsbillede senest"
 msgid "and here it is cut, good moment or not"
 msgstr "og her klippes der, godt øjeblik eller ej"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Den hårde grænse af de to: er der ikke kommet nogen sætningsgrænse siden \"Oversigtsbillede efter\", træder den længste talepause i stedet, og på dette punkt klippes der, uanset hvad der bliver sagt."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Den hårde grænse af de to: et billede, der står længere end \"Oversigtsbillede efter\" og hverken byder på en sætningsgrænse eller en pause, brydes op efter uret, forudsat at det også står længere end dette. Det gælder, mens \"Oversigtsbillede efter\" er slået til, og \"Lang monolog\" skifter kamera. Oversigtsbilledet til velkomst og farvel står ikke længere end dette, uanset hvad de to siger."
 
 msgid "Wide shot at least"
 msgstr "Oversigtsbillede mindst"
@@ -4734,8 +4738,8 @@ msgstr "  Resolve afviste videospor V%d to gange -- Timeline \"%s\" mangler bill
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s forskydning %s, klokkedrift ikke målt%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Advarsel: dette projekt er ikke komplet -- det, Resolve afviste:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Advarsel: dette projekt er ikke komplet -- det, der mangler:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Klokkedrift:     ikke målt -- lyden gav for få punkter til en måling"
@@ -5022,9 +5026,6 @@ msgstr "Ud-punktet er ændret siden sidste kørsel: dengang %s, nu %s. Klipninge
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Produktionen er færdig, men ZIP'en med de enkelte spor har intet enkelt filnavn"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Flere kameraer, men ingen lydoptagelse. Hvert kamera ville have sin egen lyd -- det er det, Multitrack er til. Ellers ét kamera ad gangen."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Arkivet indeholder %s mere end én gang, så intet blev taget ud af det."
 
@@ -5033,9 +5034,6 @@ msgstr "Her navngiver tildelingsfilen optagelserne, så --speaker-name ville fal
 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Den færdige version stemmer ikke med sin kontrolsum, så den blev ikke pakket ud: %s på listen, %s ankom."
-
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Listen over kontrolsummer kunne ikke hentes, så den færdige version blev ikke pakket ud: %s"
 
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Listen over kontrolsummer nævner ikke %s, så den færdige version blev ikke pakket ud."
@@ -5112,14 +5110,11 @@ msgstr "Konto hos auphonic.com: ukendt -- den kunne ikke spørges. Kørslen fort
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Bemærkning: kørslen prøver alligevel. auphonic.com afgør, om produktionen starter, og siger det, hvis den ikke gør."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Advarsel: denne Multitrack-produktion varer %s, og på gratisabonnementet tager auphonic.com kun imod en sådan op til omkring %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Denne Multitrack-produktion varer %s. På gratisabonnementet tager auphonic.com kun imod en sådan op til omkring %s; en længere kræver et betalt abonnement."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Bemærkning: auphonic.com afviser en længere allerede ved starten og tager intet betalt for den. Kørslen prøver alligevel; afviser auphonic.com, følger dens egen besked."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "På gratisabonnementet tager auphonic.com kun imod en Multitrack-produktion op til omkring %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "For Singletrack, som gratisabonnementet tager imod i enhver længde, skal alle spor undtagen ét sættes til \"%s\" -- hvor ét spor rummer alle stemmer. Eller vælg \"%s\" under Forudindstilling (--without-auphonic): sporene mixes så her."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Projektet %r fra denne kørsel forbliver åbent -- der var intet åbent før,\n  som kunne åbnes igen. Slet det i Resolves projektstyring."
@@ -5198,3 +5193,70 @@ msgstr "det færdige mix -- ingen taler, intet kamera"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Tale: placeres alene efter lydstyrken. En optagelse, der intet har til fælles\nmed kameraerne, afvises. Blandet: musik eller et mix ligger under stemmerne,\nog hvor lydstyrken intet finder, må fasen placere den.\nFærdigt mix: et stereomix lavet et andet sted, placeret som blandet lyd. Det kommer\ni kamerafilerne og overdragelsen i stedet for kørslens eget mix --\ningen taler, ikke klippet, ikke sendt til auphonic.com.\nUnder ”%s” tilbydes Tale ikke."
+
+msgid "Cutting"
+msgstr "Klip"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "presettet klipper hos auphonic.com (%s) -- lyden ville komme kortere tilbage end billederne, og kameraerne ville forskyde sig."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Slå det fra i presettet på auphonic.com: Audio Algorithms, Automatic Cutting -- fjern fluebenet ved %s, eller sæt Cut Mode til Set Cuts To Silent, som bevarer længden."
+
+msgid "Speech recognition"
+msgstr "Talegenkendelse"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "slået til i presettet -- ikke bestilt, og intet af dens tekst hentes: transskriptionen laves her."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- som presettet har dem; programmet ændrer ingen af dem."
+
+msgid "Enough for the %s this production needs."
+msgstr "Nok til de %s, denne produktion kræver."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Ikke nok til de %s, denne produktion kræver."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s har %s kanaler, og auphonic.com tager højst to i én fil. Intet blev sendt.\n"
+"  Angiv hvilke kanaler der hører sammen: på fanen Filer & produktion folder filen sig ud i én række pr. kanal, og fluebenet på en række slår den sammen med den næste. Hvis filen ikke viser kanalrækker, så gem først dens kanaler som selvstændige filer."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, fordi %s spor ligger på én tidsakse. En anden "
+"Multitrack-forudindstilling kan vælges; for Singletrack skal alle spor "
+"undtagen ét sættes til \"brug ikke\"."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, fordi der er ét spor. En anden Singletrack-forudindstilling kan "
+"vælges; for Multitrack tilføjes et andet spor -- en optagelse eller et "
+"kamera sat til \"brug intern lyd\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> antallet af lydspor kan ikke læses ud af denne tildeling"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve svarer, men udleverer ingen projektmanager."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Kanalerne i %s er endnu ikke skåret ud i spor."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s og %s i %s lyder ens (lighed %s): adskillelsen kan have byttet rundt "
+"på de to -- tjek deres tildeling."

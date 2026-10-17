@@ -122,7 +122,7 @@ def stop_if_running(QtMultimedia, *players):
     stop() on a player that never started builds what lies behind it,
     as pause() does above, and waits for the same lock. Paused counts
     as running: a paused player still holds its file. tests/let_go.py
-    asks the same question before it stops a player.
+    asks the same question; nothing calls this at quit (ui/ clean_up).
     """
     for one in players:
         if (one.playbackState()
@@ -496,9 +496,28 @@ def audio_sink(QtMultimedia, parent):
     away 1.94 dB against a ceiling that cannot be raised.
     """
     out = QtMultimedia.QAudioOutput(parent)
+    # Against a deadlock in PySide6 itself: see primed().
+    primed(out)
     out.setVolume(loud(1.0))
     out.setMuted(hushed(False))
     return out
+
+
+def primed(out):
+    """Ask PySide once, here, what Qt's media thread would ask it later.
+
+    PySide6 6.12: the first disconnectNotify() of a QAudioOutput asks
+    Python whether it is overridden. From Qt's media thread, under Qt's
+    lock, that waits for Python while Python waits for the lock in
+    stop() or play(). Connecting and letting go here answers it once.
+    PYSIDE-3478, sent on as QTBUG-151644; drop this once it is fixed.
+    """
+    out.volumeChanged.connect(_nothing)
+    out.volumeChanged.disconnect(_nothing)
+
+
+def _nothing(*_args):
+    """Receives the one signal primed() connects and lets go again."""
 
 
 def readable_on(colour):
@@ -1590,6 +1609,15 @@ def mark_shown(p, text):
     return timecode_string(value, marks_fps_of(p)) if absolute else said
 
 
+def multimedia():
+    """Qt's two multimedia modules, or two Nones on a Qt built without."""
+    try:
+        from PySide6 import QtMultimedia, QtMultimediaWidgets
+    except ImportError:
+        return None, None
+    return QtMultimedia, QtMultimediaWidgets
+
+
 def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                      ffplay_preview, real_tc, state):
     """The building blocks of the preview: rail, video surface, player.
@@ -1598,7 +1626,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
     on the command line, and a class inheriting from a Qt widget could
     not even be defined then. What gui() supplies comes in as arguments.
     """
-    from PySide6 import QtMultimedia, QtMultimediaWidgets
+    QtMultimedia, QtMultimediaWidgets = multimedia()
     class WindowSlider(QtWidgets.QSlider):
         """A slider showing what is left of the material.
 
@@ -1688,7 +1716,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             return opt
 
     # Qt's own surface. Nothing is caught on it: no full screen to leave.
-    VideoSurface = QtMultimediaWidgets.QVideoWidget
+    VideoSurface = getattr(QtMultimediaWidgets, "QVideoWidget", None)
 
     class Player(QtWidgets.QWidget):
         """The viewer: a window inside the window that stays put.
@@ -3115,6 +3143,10 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
         Without *force* whatever is playing stays. With *force* the file
         is chosen again -- after opening a project, say.
         """
+        # The stand-in has no box to fill: a load opens ffplay, and a
+        # window opening unasked startles.
+        if not getattr(player, "plays", True):
+            return
         suggestion = player_suggestion()
         if suggestion is None:
             return

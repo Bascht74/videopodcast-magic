@@ -4,12 +4,15 @@
 Against auphonic.com itself, and it spends credit: twenty seconds of a
 different tone left and right through the account's first single-track
 preset, or the one VPM_LIVE_PRESET names. A preset folds to one channel,
-so the program creates the production, switches the fold off in a second
-call and starts it there -- the path no stand-in has shown to work. In
+so the program makes the production with the preset's outputs unfolded
+-- the path no stand-in has shown to work. In
 order -- the result arrives, it has two channels, and the production,
 found again by its title, is deleted.
 The title has the tests' own shape, so a run killed half way is cleared
 by the sweep auphonic.sh makes at both ends.
+Should a production of that title stand there all the same, the run
+is told in advance to upload anew: a question would stop it, with no
+terminal to answer it.
 
 A step that throws is a failed judgement and not a traceback, so the
 closing count is reached whatever happens.
@@ -58,7 +61,8 @@ try:
     try:
         result = vpm.run_single_production(
             audio, preset, "the account's preset", key,
-            os.path.join(folder, "back"), wait_s=900, title=title)
+            os.path.join(folder, "back"), wait_s=900, title=title,
+            carry_on="upload")
     except RuntimeError as e:
         why = said(e)
     check("the production comes back with a file",
@@ -80,7 +84,7 @@ try:
     print("\n3. The production is taken away again")
     found, why = None, ""
     try:
-        found = vpm.find_production_by_title(key, title)
+        found = vpm.single_production_found(key, title)
     except RuntimeError as e:
         why = said(e)
     check("the production stands at auphonic.com under the title given",

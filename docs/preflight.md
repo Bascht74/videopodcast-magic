@@ -40,11 +40,11 @@ The report holds for both modes.
 | Timecode | the clocks of the files against each other | note where a clock was not set |
 | Room | bleed per pair of speakers, against the 3:1 rule | note for the *next* recording |
 | System | free disk space against the estimated need | note where it is tight, **stop** where it is short; a dry run only notes it |
-| Auphonic | preset algorithms, loudness target, track template | **stop** on a contradiction |
+| Auphonic | preset algorithms, cutting, loudness target, track template | **stop** on a contradiction |
 | Project type | with **Sync only**, a second audio recording | **stop** |
 | Finished mix | a finished mix and no video file; one shorter than every camera | **stop**; note -- where it ends, the Full-Mix is silent |
 | Loudness | which target holds and where it comes from | -- |
-| Auphonic account | the plan, the minutes left, whether they carry the production | said, a warning where a free Multitrack production is longer than 21 minutes; never a stop |
+| Auphonic account | the plan, the minutes left, whether they carry the production | said; **stop** where a free Multitrack production is longer than 21 minutes -- it needs a paid plan; a dry run only warns |
 
 A stop halts the run before anything is written or uploaded.
 
@@ -144,13 +144,16 @@ fixed; no switch sets them. On short material the windows get shorter
 rather than the measurement being given up.
 
 The yardstick is the 3:1 rule. With the other microphone three times as
-far from the speaker as their own, the neighbouring voice is about 9.5 dB
-quieter. That mark is fixed too, and no switch moves it: the further a
-pair falls below it, the more of the neighbour is left in the track.
-That says something about the setup in the room. It also sets a
-limit on what comes after: the less the microphones are separated, the
-more cautiously De-Bleed at auphonic.com can work. It can only be changed
-next time, so it does not halt the run.
+far from the speaker as their own, the neighbouring voice is about
+9.5 dB quieter. That figure is set, not measured: it is the rule's
+arithmetic -- three times the distance, a third of the sound pressure --
+and no recording here has shown that a pair below it sounds worse. It is
+fixed too, and no switch moves it: the further a pair falls below it,
+the more of the neighbour is left in the track. That says something
+about the setup in the room. It also sets a limit on what comes after:
+the less the microphones are separated, the more cautiously De-Bleed at
+auphonic.com can work. It can only be changed next time, so it does not
+halt the run.
 
 One track alone leaves nothing to measure. The same holds for recordings
 that overlap too little, and for a recording with no passage in which
@@ -220,15 +223,15 @@ files, `--lufs source`, nothing is adjusted. In the Resolve project the loudness
 still needs a scale, so it is set to -16 LUFS, and the line above it in
 the log says that this is only what the meter measures against.
 
-**Every run is measured and adjusted the same way.** A run without
-Multitrack ([The simple path](simple-path.md)) applies the target just as
+**Every run is measured and adjusted the same way.** A run with
+one track ([The simple path](simple-path.md)) applies the target just as
 any other does, and so does a run with no picture at all, where the
 blocks of a recording are joined into one file. The log gives `Target:`
 and `Result:`; with **Take from source files** nothing is adjusted.
 
 One path is the exception: several recordings with no picture at all,
-where the tracks are laid against each other, with or without the
-Multitrack tick. Nothing is levelled there -- a gain
+where the tracks are laid against each other. Nothing is levelled
+there -- a gain
 per track would pull the voices out of the balance that path exists to
 keep -- and the run says so in one line
 ([Multitrack](multitrack.md)).
@@ -261,6 +264,11 @@ it. The hint names the channel, how many such runs there are, the
 longest of them in samples and in milliseconds, and where the first one
 sits. The hint holds nothing up: an overdriven recording is sometimes
 the only recording there is.
+
+It counts every audio recording, and the sound of a camera whose
+**Camera audio** says **use internal audio**: that sound is a track like
+a recording. The sound of every other camera only places its picture,
+and is not counted.
 
 The program counts in integer formats only. An integer format has a stop
 at full scale, and nothing above it ever reached the file. Float has no
@@ -328,9 +336,26 @@ for it.
   Both at once does not work: the tracks come back at one value and the
   mix goes to the other. A call without `--lufs` means -16, so a preset
   that masters to anything else stops the run before the upload.
+- **The preset cuts.** `Cutting` names what the preset lets
+  auphonic.com cut out -- **Cut Silence**, **Cut Fillers**, **Cut
+  Coughs** or **Cut Music** -- and the run stops before the upload: the
+  sound would come back shorter than the pictures, and every camera
+  after the first cut would slip. In the preset at auphonic.com, under
+  **Audio Algorithms**, **Automatic Cutting**, untick it, or set **Cut
+  Mode** to **Set Cuts To Silent**, which keeps the length
+  ([Processing at auphonic.com](auphonic.md), "What the preflight reads
+  in the preset").
 - **The multitrack preset holds no track.** Create one track in the
-  preset at auphonic.com. The first preset track sets the processing for
+  preset at auphonic.com; an intro or outro stored there does not count
+  as one. The first preset track sets the processing for
   all tracks; without it they come back as they were uploaded.
+- **The preset holds an intro or an outro.** Nothing to do: the note
+  `Intro / outro` only says that neither is used, for a single track as
+  for several. The production is made without them, and intro and outro
+  come from the video files ([Resolve](resolve.md), "Setting intro and
+  outro"). Where one belongs to the episode, set its video file to
+  **Intro** or **Outro** under **Kind** in the file list, or name it
+  with `--intro` and `--outro`.
 - **A channel stands against the stop.** If the same voice was recorded
   a second time, on a camera for instance, use that recording instead.
   There is nothing to repair here, so record the next session at a lower
@@ -351,3 +376,12 @@ The window does not offer these.
 
 `--anyway` runs despite a stop, `--no-preflight` skips the check entirely,
 `--preflight-again` measures everything again instead of only what changed.
+
+The command line has no channel rows, and it cuts no file into tracks.
+A file with more than two channels is folded to one channel there, two
+people into one voice, and the report says so as a note: `4 channels --
+the command line cuts none into tracks and folds the file to one
+channel, two people into one voice.` Sent to auphonic.com, alone or
+beside other recordings, such a file stops the run before the upload
+([Channels](channels.md), "More than two channels in one file"). Save
+its channels as files of their own first, or open it in the window.

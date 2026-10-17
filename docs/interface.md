@@ -146,7 +146,9 @@ Four tabs, in the order they are needed.
     camera the sound did place, and its own is set against that one --
     the longest camera where it carries a timecode, otherwise the next
     placed camera that does. The clock of an audio recording places no
-    camera, and a clock read once says nothing. Without such a camera
+    camera while any camera gives sound -- where none does, a recording
+    the sound placed takes that part, as in the run -- and a clock read
+    once says nothing. Without such a camera
     the camera stays out, and the file list and the log both say why.
     A jingle is both at once: no timecode, and nothing in its sound that
     the room also has, and it stands red in the list. A camera whose
@@ -230,11 +232,6 @@ Four tabs, in the order they are needed.
   saved project all the same, and a file put back later came up on the
   old answer without a word about it -- a recording with an empty name,
   a camera on **Intro**.
-
-  ![The file list](images/files.png)
-
-  *The list after a project was opened, with the marks from the
-  preflight and the strip underneath.*
 - **Assignment & time window**: tables on the left, player on the right,
   or under them where the window is too narrow for the two side by side.
   Appears with the files.
@@ -321,9 +318,8 @@ Four tabs, in the order they are needed.
   **Speaker name** and **Speakers** are gone, and with them the entry
   **several speakers**, the voice rows, the button **One more speaker
   in ...** and the line **Not on this machine**: nobody is asked who
-  speaks, because nothing will be cut. The line **Multitrack (one track
-  per speaker)** is gone as well, and the tick is off. So is **belongs
-  to**, and in the camera table **gets audio from**: without speakers
+  speaks, because nothing will be cut. So is **belongs to**, and in the
+  camera table **gets audio from**: without speakers
   there is nothing to assign, and the one recording goes into every
   camera file. What stays is the recording's row with its timecode, the
   camera table with **Camera**, **new file name**, **Kind** and
@@ -333,11 +329,6 @@ Four tabs, in the order they are needed.
   counts as on every path: the run writes the camera file under it, and the
   camera's track in Resolve carries it ([Multitrack](multitrack.md),
   "Setting the assignment").
-
-  ![Assignment table and player](images/assignment.png)
-
-  *Above which recording belongs to which camera, below what becomes
-  of each camera.*
 - **Resolve cut**: a line about Resolve only where Resolve does not
   answer -- **Resolve does not answer -- see Settings**, with the way to
   the settings beside it. Where it answers, nothing stands there: about
@@ -436,10 +427,9 @@ Four tabs, in the order they are needed.
   every change of speaker, and Resolve gets one clip per person. With
   one person and a second camera nobody is on it is called **Cut with
   the wide shot**: that person's camera stands, and the wide shot breaks
-  it up. With **Multitrack** ticked the name stays **Camera cut**.
+  it up.
 
-  The box appears as soon as **Multitrack** is ticked, or as soon as two
-  people carry a name and a camera. Where those two came from makes no
+  The box appears as soon as two people carry a name and a camera. Where those two came from makes no
   difference, and the two sources count together: a voice under a
   separated recording and a recording with a name of its own are two
   people, just as two voices are, or two recordings. One person is enough
@@ -450,10 +440,9 @@ Four tabs, in the order they are needed.
   place.
 
   Both rear tabs are there with or without separate tracks, and so is
-  the assignment: **belongs to** is asked with the tick and without it,
-  because which camera a recording belongs to is the same question
-  either way and the run makes the same answer of it. Clicking the tick
-  therefore costs nothing -- the cameras picked by hand stay picked.
+  the assignment: **belongs to** is asked whatever kind of production
+  the tracks make, because which camera a recording belongs to is the
+  same question either way and the run makes the same answer of it.
 
   With **Sync only** the tab stays, and one sentence at its top says
   what it is not: **Sync only: no cut. The handover carries the
@@ -495,23 +484,23 @@ Four tabs, in the order they are needed.
   file**, looks for a handover in the new place at once
   ([Resolve](resolve.md) says where it looks).
 
-**Multitrack (one track per speaker)** has a line of its own under the
-assignment table, above the Auphonic box. It works with auphonic.com and
-without; the program asks for the API key only on the way over
-auphonic.com. The camera cut does not need the tick. With the project
-type **Sync only** the line is not there and the tick is off: one track
-per speaker is a question for a cut by speaker.
+Under the assignment table stands the Auphonic box with the **Preset**
+list. Which kind of preset it offers follows from the tracks in the
+table, and nothing is ticked for it: two tracks or more on one time
+axis go up as one Multitrack production, a single track as a
+Singletrack one. A grey line under the list says which kind and why --
+`Multitrack, because 3 tracks lie on one time axis.` -- and what
+changes it: another preset of the same kind, or for Singletrack every
+track but one set to **do not use**, for Multitrack a second track
+added, a recording or a camera set to **use internal audio**. It works
+with auphonic.com and without; the program asks for the API key only on
+the way over auphonic.com.
 
-Multitrack needs two input tracks. An input track is a recording of its
-own, a channel of a multichannel recorder, or the audio of a video file
-set to **use internal audio**. Several blocks of one recording count as one
-track, and a track set aside counts as none.
-
-The tick stays clickable whatever the material. With one track only a
-grey line beside it says so, and it names the way to a second:
-**Camera audio** at a camera, set to **use internal audio**. If every camera
-already gives its audio away, that line says there is none left to
-take.
+An input track is a recording of its own, a channel of a multichannel
+recorder, or the audio of a video file set to **use internal audio**.
+Several blocks of one recording count as one track, rows under one name
+are one track, and a track set aside counts as none. The camera cut
+does not need two of them.
 
 Under the Auphonic box a second bar appears while the material is being
 measured, one line per file with how far each has got. A line goes as
@@ -590,11 +579,17 @@ the Resolve project, and what the log records.
 cut -- the time axis, who speaks when, the cut with its shots -- reports
 all of it in the log, and makes no edit. It is the run the preview makes
 quietly for itself: pressed once the preview stands, it takes the time
-axis and who speaks when from what the preview kept. One thing it does
-write: where the microphones hear each other too well
-to be told apart, it measures how far apart they stand and keeps the
-joined recording the separation needs, so the run that follows does not
-build it a second time. It
+axis and who speaks when from what the preview kept. It writes no
+track onto the time axis for its own use: the check against the bleed
+and the quiet moments the cut is placed at are read off the recordings
+where they lie, so it needs neither the time nor the room in the
+temporary folder that a copy of every track would cost. Two things
+still have the tracks written there, and they go again when the run
+ends: with an **API Key**, so the log can say how much would go up to
+auphonic.com, and where the microphones hear each other too well
+to be told apart -- it then measures how far apart they stand and keeps
+the joined recording the separation needs, so the run that follows does
+not build it a second time. It
 and **Start** stay locked while something is outstanding, and **what it
 is stands under the buttons**, with the tab it is on:
 
@@ -603,18 +598,10 @@ is stands under the buttons**, with the tab it is on:
   **use internal audio**,
 - no production name,
 - no project type chosen,
-- fewer than two tracks in the assignment table for multitrack,
-- with multitrack, a recording with no name at all: none typed, and
-  none the file name suggests -- the grey suggestion counts as the name
-  wherever nothing is typed over it,
-- with multitrack, all recordings under the same name,
 - a **Voice** under a name that is on somebody else: the cut puts a
   person on one camera, and one name on two voices would be that person
   in two places -- unless the two are the same voice heard in two
   recordings,
-- without multitrack, several cameras and no audio recording: each
-  camera would bring its own sound, and a track per camera is what
-  Multitrack is for,
 - two cameras with the same output file.
 
 The field or the row it means turns red. A tick behind a tab means
@@ -741,7 +728,7 @@ A step that reports a real percentage takes the bar with it. A step that
 reports nothing lets the bar creep on slowly and stop short of the end.
 
 For the run itself the line names the stage, by the same names on both
-paths, with Multitrack and without:
+paths:
 
 - **Reading the plan**
 - **Audio out of the cameras**: wherever a camera's sound is a track in
@@ -989,9 +976,10 @@ underneath. Two buttons:
 was installed with pip3, and pip keeps the record of which version is
 in place; writing over the file would leave that record standing and
 wrong. So **Update** runs the same command anybody would type --
-`pip3 install -U` on the address the program came from -- in the
-Python the program is running in, so the installation that gets the
-new version is the one that would start.
+`pip3 install -U` on the address the program came from, with the
+package list that release was tested with -- in the Python the
+program is running in, so the installation that gets the new version
+is the one that would start.
 
 **Every line pip writes goes into the fourth tab, Output, as it
 arrives.** That tab is where to watch, and the window stays usable
@@ -1063,7 +1051,11 @@ As soon as two files are in the list, the interface measures in the
 background where each of them sits, with the method of the run itself --
 whether they carry a timecode or not. The player then jumps between files
 to the same point in what is happening, and In point and Out point hold
-for all alike.
+for all alike. Without any picture it is the same: the recordings are
+laid against the longest of them, a recording in blocks joined first,
+and each takes the place and clock speed the run gives it -- a recorder
+running fast keeps that speed here too, and does not drift away from
+the run over an hour.
 
 **Where something was measured, the measurement decides, and the file's
 own clock only answers where nothing was.** A clock is set by hand and
@@ -1102,8 +1094,16 @@ of each file goes how fast its recorder ran, so that the second start
 does not have to measure the same minutes over again. Files that no
 longer fit it show red. A project file written before that speed was
 kept still opens: every recorder in it then counts as running even,
-which is what the program assumed all along. More about the project file
-stands in [camera-cut.md](camera-cut.md).
+which is what the program assumed all along.
+
+The project file also names the camera the run holds all the others
+against -- the longest camera whose sound was heard -- and a timecode
+typed into **In point** or **Out point** is read at that camera's frame
+rate. Because it is kept there, a reopened project reads a mark the way
+the run does, even where a longer camera without sound runs at another
+rate beside it. A project file that does not name that camera yet still
+opens; the window then counts by the longest camera, as it always did.
+More about the project file stands in [camera-cut.md](camera-cut.md).
 
 **Files dropped in while the measurement is running are measured too.**
 The measurement under way was started over the list as it stood and
@@ -1120,6 +1120,13 @@ stands on lines of its own, under what the row otherwise says rather
 than behind it: written on one line it was pushed out of the column by
 the folder in front of it, and the reader lost the half that mattered.
 
+**What the run places by its sound fits, whichever way placed it.** A
+recording laid by its loudness curve, by the frequency bands that move,
+or by the phase on a recording set to **Mixed** gets no note and is not
+counted, however weak its match: the run lays it at that very place,
+and where the bands or the phase placed it, the run's log says so. A
+note appears only where the run's sound found no place.
+
 A file whose sound was not recognised but whose timecode puts it among
 the others says **sound not recognised; placed by its timecode**. It
 lies on the axis to the frame, at the place its timecode gives and not
@@ -1127,8 +1134,9 @@ where the failed match of its sound would put it; what is missing is
 only the second opinion, and the measurement bars nothing for it. A
 camera with no sound track has nothing to be heard by and is judged
 the same way: its timecode places it, set against a camera the sound
-did place that carries one too, and without that it counts as a file
-with no place, below.
+did place that carries one too -- or, where no camera gives any sound,
+against a recording the sound placed, as the run does -- and without
+that it counts as a file with no place, below.
 
 A file with no place at all says **does not fit the other files: sound
 not recognised, no timecode.** and stands red -- unless it is set to
@@ -1186,7 +1194,9 @@ nothing are told apart.
   the question is not asked again in this version.
 - **Start** stays locked: the line under the buttons names what is
   missing, and the field or the row it means turns red. Fill that in
-  and the button frees itself.
+  and the button frees itself. One wait needs nothing from you: while
+  a file of several channels is being cut into its tracks, the line
+  says so, and the button frees itself when the tracks are in.
 - **The player shows no picture**: a button takes its place and hands the
   file to `ffplay`, which opens a window of its own.
 - **In point and Out point are locked**: the program is still measuring

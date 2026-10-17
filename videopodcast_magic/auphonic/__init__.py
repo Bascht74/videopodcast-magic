@@ -15,6 +15,7 @@ PROGRAM = PROGRAM
 # missing, and the two blocks under the list say which and why.
 
 COLOURS = PROGRAM.COLOURS
+IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 PRESET_NONE = PROGRAM.PRESET_NONE
 T = PROGRAM.T
 Value = PROGRAM.Value
@@ -404,9 +405,12 @@ def list_presets(key):
 
 
 # auphonic.com's free Multitrack border as measured 27.9.2026: 21 min
-# went through, 22 were refused ("shorter than 20min", it says). Warned
-# of past it, never enforced.
+# went through, 22 were refused ("shorter than 20min", it says). Past
+# it a run stops before the upload: auphonic.com would refuse it.
 FREE_MULTITRACK_S = 21 * 60
+# The least auphonic.com charges a production, as its pricing pages say
+# (read 9.10.2026, not measured): three minutes, however short it is.
+CHARGED_AT_LEAST_S = 3 * 60
 
 
 def account_credit(key):
@@ -445,24 +449,40 @@ def credit_time(seconds, needed=False):
     """A span of credit in whole minutes.
 
     What is left is rounded down. What a production *needed* is rounded
-    up and never below one minute: auphonic.com charges whole minutes,
-    so a twenty-second production is not free.
+    up and never below CHARGED_AT_LEAST_S: auphonic.com charges whole
+    minutes, and a twenty-second production as three.
     """
     return T('%d min') % credit_minutes(seconds, needed)
 
 
 def credit_minutes(seconds, needed=False):
-    """The whole minutes credit_time says: left down, needed up, at least 1."""
+    """The whole minutes credit_time says: left down, needed up, at least 3."""
     if needed:
-        return max(1, int(-(-max(0.0, seconds) // 60)))
+        return max(CHARGED_AT_LEAST_S // 60,
+                   int(-(-max(0.0, seconds) // 60)))
     return int(max(0.0, seconds) // 60)
+
+
+def charged_seconds(lengths, multitrack):
+    """What auphonic.com charges for productions of *lengths*, in seconds.
+
+    One Multitrack production is charged as its longest track. Lone
+    tracks are a production each, and each is charged its own whole
+    minutes, at least CHARGED_AT_LEAST_S. A length of 0 is not measured
+    and charges nothing; none measured gives 0.
+    """
+    lengths = [s for s in lengths if s > 0]
+    if multitrack and lengths:
+        lengths = [max(lengths)]
+    return sum(credit_minutes(s, needed=True) * 60 for s in lengths)
 
 
 def credit_short(hours, seconds):
     """Whether *hours* of credit fall short of *seconds* of production.
 
-    Held against the whole minutes it is charged, at least one, so no
-    credit at all is short even where the length is not known.
+    Held against the whole minutes it is charged, at least
+    CHARGED_AT_LEAST_S, so no credit at all is short even where the
+    length is not known.
     """
     return (hours is not None
             and hours * 3600 < credit_minutes(seconds, needed=True) * 60)
@@ -477,14 +497,36 @@ def free_too_long(account, seconds, multitrack):
             and multitrack and seconds > FREE_MULTITRACK_S)
 
 
+def free_border_said(account, seconds, multitrack):
+    """Why a free account cannot take this production, and the way out.
+
+    (text, advice) where free_too_long, else None: one wording for the
+    box, the preflight and the stop before the upload. auphonic.com
+    refuses such a production at its start, so it needs a paid plan;
+    the advice names what the free plan does take.
+    """
+    if not free_too_long(account, seconds, multitrack):
+        return None
+    return (T('This Multitrack production is %s long. On the free plan '
+              'auphonic.com takes one only up to about %s; a longer one '
+              'needs a paid plan.')
+            % (credit_time(seconds, needed=True),
+               credit_time(FREE_MULTITRACK_S)),
+            T('For Singletrack, which the free plan takes at any length, '
+              'set every track but one to "%s" -- where one track holds '
+              'every voice. Or choose "%s" under Preset '
+              '(--without-auphonic): the tracks are then mixed here.')
+            % (label_of(IGNORE_AUDIO), label_of(PRESET_NONE)))
+
+
 def credit_note(account, multitrack, seconds=0):
     """The line the Auphonic box shows about the account: (text, short).
 
     *seconds*: the production's length as the window knows it, 0, or
     None without a preset, which only says the plan and what is left.
     *short*, the line red: the credit is fewer than the production needs,
-    or a free Multitrack production longer than auphonic.com takes.
-    Without an answer there is no line.
+    or a free Multitrack production is too long, said with the way out.
+    A length adds a line saying whether it is enough; no answer, no line.
     """
     if not account:
         return "", False
@@ -498,10 +540,14 @@ def credit_note(account, multitrack, seconds=0):
     if seconds is None:
         return left, False
     short = credit_short(hours, seconds)
-    if free_too_long(account, seconds, multitrack):
-        left += "\n" + (T('On the free plan auphonic.com takes a Multitrack '
-                          'production only up to about %s.')
-                        % credit_time(FREE_MULTITRACK_S))
+    if seconds > 0 and hours is not None:
+        left += "\n" + ((T('Not enough for the %s this production needs.')
+                         if short else
+                         T('Enough for the %s this production needs.'))
+                        % credit_time(seconds, needed=True))
+    border = free_border_said(account, seconds, multitrack)
+    if border:
+        left += "\n" + "\n".join(border)
         short = True
     return left, short
 
@@ -510,9 +556,9 @@ def credit_verdict(account, seconds, multitrack):
     """What the account says to this production: the lines, as said.
 
     auphonic.com charges the length sent: *seconds*, the longest track,
-    0 where not known. A free Multitrack production longer than it takes
-    is a warning, marked so, with a note saying why. Nothing here stops:
-    auphonic.com decides at the start, and its refusal ends the run.
+    0 where not known. Nothing here stops: short credit is auphonic.com's
+    to judge at the start. A free Multitrack production past the border
+    is not said here but by free_border_said, where the run stops.
     """
     paying = (account or {}).get("paying")
     lines = [{True: T('  Account at auphonic.com: paying.'),
@@ -541,25 +587,17 @@ def credit_verdict(account, seconds, multitrack):
                        '%s this production needs.')
                      % (credit_time(hours * 3600),
                         credit_time(seconds, needed=True)))
-    if free_too_long(account, seconds, multitrack):
-        lines.append(as_warn(
-            T('  Warning: this Multitrack production is %s long, and on the '
-              'free plan auphonic.com takes one only up to about %s.')
-            % (credit_time(seconds, needed=True),
-               credit_time(FREE_MULTITRACK_S))))
-        lines.append(T('  Note: auphonic.com refuses a longer one at the '
-                       'start and charges nothing for it. The run tries '
-                       'anyway; if auphonic.com refuses, its own message '
-                       'follows.'))
     return lines
 
 
 def production_said(key, head, rows, dry_run, seconds, multitrack):
     """The head both productions print, and what the account says to it.
 
-    Returns True on a dry run, which ends there: it says nothing to
-    auphonic.com at all, so the account is only asked before an upload,
-    and *seconds*, which measures the files, is called only then.
+    True on a dry run, which ends there: the account is only asked, and
+    *seconds* only measured, before an upload. A free Multitrack
+    production past the border raises before anything goes up -- the
+    net under --anyway and --no-preflight, asked anew in case of a plan
+    changed since the preflight.
     """
     print(as_head(head))
     for row in rows:
@@ -567,8 +605,12 @@ def production_said(key, head, rows, dry_run, seconds, multitrack):
     if dry_run:
         print(T('  (dry run: nothing uploaded)\n'))
         return True
-    for line in credit_verdict(account_credit(key), seconds(), multitrack):
+    account, length = account_credit(key), seconds()
+    for line in credit_verdict(account, length, multitrack):
         print(line)
+    border = free_border_said(account, length, multitrack)
+    if border:
+        raise RuntimeError(" ".join(border))
     return False
 
 
@@ -593,6 +635,26 @@ def production_is_multitrack(tracks, together):
     return bool(together) and tracks >= 2
 
 
+def preset_kind_said(tracks, together):
+    """Which kind of preset the rows need, why, and how to change it.
+
+    One sentence beside the preset list, by production_is_multitrack's
+    rule: the list offers only that kind, and without the reason it
+    reads as presets gone missing. "" where no track is there yet.
+    """
+    if not tracks:
+        return ""
+    if production_is_multitrack(tracks, together):
+        return (T('Multitrack, because %s tracks lie on one time axis. '
+                  'Another Multitrack preset can be picked; for '
+                  'Singletrack, set every track but one to "do not use".')
+                % number_text(tracks, 0))
+    return T('Singletrack, because there is one track. Another '
+             'Singletrack preset can be picked; for Multitrack, add a '
+             'second track -- a recording, or a camera set to "use '
+             'internal audio".')
+
+
 def presets_for_mode(key, multitrack):
     """Return only the presets that match the mode.
 
@@ -603,17 +665,23 @@ def presets_for_mode(key, multitrack):
             if preset_fits_mode(m, multitrack)]
 
 
-def print_presets(key, multitrack=False):
-    """Print the account's presets for this mode, as --list-presets."""
-    items = presets_for_mode(key, multitrack)
+def print_presets(key):
+    """Print the account's presets, as --list-presets.
+
+    Every one, its kind behind it where the kind is known: a list asked
+    for without material has no tracks to say which kind it needs, and
+    the run picks from the kind its tracks make.
+    """
+    items = list_presets(key) or []
     if not items:
-        print(T('No Multitrack preset found in the account.') if multitrack
-              else T('No Singletrack preset found in the account.'))
+        print(T('No presets stored in the account. One can be '
+                'created in the web interface.'))
         return 0
     print(T('Presets:'))
     # The number in front is typed back below; %2d keeps a column.
-    for i, (name, _, _) in enumerate(items, 1):
-        print("  %2d  %s" % (i, name))
+    for i, (name, _, mark) in enumerate(items, 1):
+        print("  %2d  %s" % (i, name if mark is None else "%s  (%s)" % (
+            name, T('Multitrack mode') if mark else T('Singletrack mode'))))
     return 0
 
 
@@ -1010,15 +1078,14 @@ def credit_row(run_layout):
 
 
 def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
-                      settings_open, buttons_check, multi_button,
-                      out_folder, commonest_folder, report, tracks_now):
+                      settings_open, buttons_check, out_folder,
+                      commonest_folder, report, tracks_now):
     """The key for auphonic.com, and the preset a run is given.
 
     Here and not in the window because the two are one theme: the key is
     checked by fetching the presets, and what comes back is what the
     preset box offers -- of the kind *tracks_now*, (tracks, on one axis,
-    seconds), needs. gui() calls it below multi_button, which the preset
-    switches on when it says no processing is wanted.
+    seconds), needs, with a line under it saying which kind and why.
     """
     # --- In two places in the window: the key behind "Settings ...", set
     #     once; the preset under the assignment, chosen every time.
@@ -1079,8 +1146,8 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     second_line.addWidget(hint(preset_box,
         T('Determines how auphonic.com processes the audio.\n\n"%s" leaves '
           'the key in place and still does not go there.\nThe audio is then '
-          'only merged and normalised, not unmixed --\nand without separate '
-          'tracks there is no camera cut.') % label_of(PRESET_NONE)))
+          'only merged and normalised, not unmixed --\nbut the camera cut is '
+          'the same as with a preset.') % label_of(PRESET_NONE)))
     second_line.addSpacing(16)
     # Where the processed tracks are already there, nothing is uploaded. The
     # script finds that out itself; this only says so.
@@ -1088,6 +1155,11 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     done_label = label("", COLOURS["good"])
     second_line.addWidget(done_label)
     second_line.addStretch(1)
+    # Why the list holds the kind it holds, and what changes it.
+    kind_line = label("", COLOURS["quiet"])
+    kind_line.setWordWrap(True)
+    kind_line.setVisible(False)
+    run_layout.addWidget(kind_line)
     credit_show = credit_row(run_layout)
 
     def without_auphonic():
@@ -1095,12 +1167,11 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
         return preset_box.currentData() == PRESET_NONE
 
     def without_auphonic_toggled(*_):
-        """Multitrack no longer hangs off auphonic.com.
+        """Without a preset the run stays local, and Start is asked again.
 
-        Without a preset the run stays local: aligned, mixed, cut -- only
-        de-bleed, leveler and noise removal are missing.
+        Aligned, mixed, cut -- only de-bleed, leveler and noise removal
+        are missing.
         """
-        multi_button.setEnabled(True)
         buttons_check()
         # The account is said once it answered, preset or not; only a
         # preset chosen holds it against the rows.
@@ -1152,11 +1223,14 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     keep_button.toggled.connect(remember_toggled)
 
     def presets_filter():
-        """Offer only the presets of the kind the run needs."""
+        """Offer only the presets of the kind the run needs, and say why."""
         preset_box_fill(preset_box,
                         preset_entries(state["presets"], kind_needed(),
                                        label_of(PRESET_NONE), PRESET_NONE),
                         state, PRESET_NONE)
+        said = preset_kind_said(*tracks_now()[:2])
+        kind_line.setText(said)
+        kind_line.setVisible(bool(said))
         without_auphonic_toggled()
 
     def kind_needed():
@@ -1251,11 +1325,7 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     check_button.clicked.connect(lambda: presets_load(asked=True))
 
     def api_key_changed():
-        """A new key means unchecked until OK is pressed again.
-
-        Multitrack is not touched: it works without auphonic.com too, so a
-        key being retyped is no reason to switch it off.
-        """
+        """A new key means unchecked until OK is pressed again."""
         state["presets"] = None
         state["account"] = None
         button_green(False)
@@ -1275,9 +1345,9 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
 TRANSCRIPT_SUFFIXES = (".json", ".srt", ".vtt", ".txt", ".html", ".xml")
 
 
-# What may be sent back when a production is updated. A query answers
-# with more -- size, checksum, download address -- and sending those
-# back describes a file that does not exist yet.
+# What of an output file may be asked for. An answer carries more --
+# size, checksum, download address -- and asking for those describes a
+# file that does not exist yet.
 OUTPUT_FILE_KEYS = ("format", "ending", "bitrate", "mono_mixdown",
                     "split_on_chapters", "suffix", "filename",
                     "outgoing_services")
@@ -1288,40 +1358,33 @@ def output_file_wish(f):
     return {k: f[k] for k in OUTPUT_FILE_KEYS if f.get(k) is not None}
 
 
-def wishes_then_start(key, uuid, stereo=False):
-    """Set what the simple API cannot, then start the production.
+def build_single_request(preset, title, stereo=False):
+    """Build a Singletrack production request from the preset that was read.
 
-    The simple API takes a file and a preset and nothing else, so keeping
-    two channels is settled in one further call -- the one that starts
-    the production, which without "action=start" waits for exactly this.
+    Made as the Multitrack request is, so the preset's intro and outro
+    and its speech recognition stay behind. Its outputs are asked for as
+    it has them, less the text speech recognition writes, and with a
+    stereo recording none folds to one channel: what a preset folds
+    cannot be unfolded afterwards.
     """
-    if not stereo:
-        return
-    d = _parse_json(_curl_call(
-        key, [AUPHONIC + "/api/production/%s.json" % uuid]))
-    already = ((d.get("data") or {}).get("output_files") or [])
-    wish = [output_file_wish(f) for f in already]
-    request = {}
+    request = production_from_preset(preset, title)
+    request["output_files"] = [output_file_wish(f) for f in
+                               (preset.get("output_files") or [])
+                               if not auphonic_transcript(f)]
     if stereo:
-        # The preset folds the mixdown to one channel, and with a
-        # stereo recording that cannot be undone afterwards.
-        for f in wish:
+        for f in request["output_files"]:
             if f.get("mono_mixdown"):
                 f["mono_mixdown"] = False
-    request["output_files"] = wish
-    request["action"] = "start"
-    answer = _post_json(key, "/api/production/%s.json" % uuid, request)
-    if answer.get("status_code") not in (200, 201, None):
-        raise RuntimeError(T('Auphonic will not take the settings: '
-                             '%s') % (answer.get("error_message")
-                                      or answer.get("form_errors")))
-    if stereo:
-        print(T('  Two channels requested -- the recording is stereo'))
+    return request
 
 
 def run_single_production(audio, preset, presetname, key, target_folder,
-                  wait_s=7200, dry_run=False, title=None):
-    """Upload a file, start the production, wait, download the result."""
+                  wait_s=7200, dry_run=False, title=None, carry_on=None):
+    """Make the production, upload the file, start, wait, fetch the result.
+
+    A production of the same title found at auphonic.com is asked about
+    first, as a Multitrack one is; *carry_on* answers that in advance.
+    """
     step_begin("auphonic")
     title = title or os.path.splitext(os.path.basename(audio))[0]
     size = os.path.getsize(audio) / 1e6
@@ -1337,49 +1400,54 @@ def run_single_production(audio, preset, presetname, key, target_folder,
             T('  File:    %s (%s, %s)') % (os.path.basename(audio),
                                            as_data_size(size),
                                            channel_text(really))]
-    if really > 2:
-        rows.append(as_warn(T('  More than two channels go to auphonic.com '
-                              'as one: the fold is only switched off for '
-                              'stereo.\n  Where the channels are meant to '
-                              'stay apart, cut the file into tracks '
-                              'first.')))
     if production_said(key, T('PROCESSING AT AUPHONIC.COM:'), rows, dry_run,
                        lambda: PROGRAM.media_seconds(audio), False):
         return None
-    # With a stereo recording the production is created but not started:
-    # switching the mono fold off is a second call.
-    later = stereo
-    make = ["-X", "POST", AUPHONIC + "/api/simple/productions.json",
-            "-F", "preset=%s" % preset,
-            "-F", "title=%s" % title,
-            "-F", "input_file=@%s" % audio]
-    if not later:
-        make.insert(-2, "-F")
-        make.insert(-2, "action=start")
-    answer = _curl_call(key, make,
-                   progress=T('Uploading %s') % os.path.basename(audio))
-    d = _parse_json(answer)
+    # A second run finds the production the first one paid for, as a
+    # Multitrack run does, and is asked before it pays again.
+    existing = single_production_found(key, title)
+    if existing:
+        taken = reuse_single_production(key, existing, audio, title,
+                                        target_folder, carry_on)
+        if taken:
+            return taken
+    # Created, not yet running: the file goes up first, then the start.
+    uuid = production_created(key, build_single_request(
+        read_preset(key, preset), title, stereo))["uuid"]
+    d = _parse_json(_curl_call(
+        key, ["-X", "POST",
+              AUPHONIC + "/api/production/%s/upload.json" % uuid,
+              "-F", "input_file=@%s" % audio],
+        progress=T('Uploading %s') % os.path.basename(audio)))
     if d.get("status_code") not in (200, 201, None):
         raise RuntimeError(T('Auphonic reports %s: %s')
-                           % (d.get("status_code"), d.get("error_message") or
-                              d.get("form_errors") or answer[:300]))
-    data = d.get("data") or d
-    uuid = data.get("uuid")
-    if not uuid:
-        raise RuntimeError(T('no production id in the response: %s') % answer[:300])
-    wishes_then_start(key, uuid, stereo)
+                           % (d.get("status_code"), d.get("error_message")
+                              or d.get("form_errors")))
+    production_started(key, uuid)
+    if stereo:
+        print(T('  Two channels requested -- the recording is stereo'))
     print(T('  Production running (%s)') % uuid)
 
     # The same waiting the multitrack production does, in one function.
     p = wait_for_production(key, uuid, wait_s)
+    return single_result_fetched(key, p, audio, title, target_folder)
 
+
+def single_result_fetched(key, p, audio, title, target_folder):
+    """Fetch a finished Singletrack production's audio and its texts.
+
+    What auphonic.com put around the sound is cut against *audio*, the
+    recording this run would send -- the same one an earlier run sent,
+    since a lone recording is joined whole and cut to no window.
+    """
     files = p.get("output_files") or []
     if not files:
         raise RuntimeError(T('production finished, but no output file'))
     def rank(f):
-        # Lossless before lossy, in case the preset delivers several.
+        """Lossless before lossy, in case the preset delivers several."""
         nm = (f.get("filename") or "").lower()
-        return {".wav": 1, ".flac": 2, ".aiff": 3}.get(os.path.splitext(nm)[1], 9)
+        return {".wav": 1, ".flac": 2, ".aiff": 3}.get(
+            os.path.splitext(nm)[1], 9)
     best = sorted(files, key=rank)[0]
     name = plain_download_name(best.get("filename") or (title + ".wav"))
     if not name:
@@ -1396,21 +1464,145 @@ def run_single_production(audio, preset, presetname, key, target_folder,
                            % number_text(os.path.getsize(target), 0))
     cut_to_what_was_sent(audio, target)
     print(T('  Result: %s (%s) -- stays next to the video file\n')
-          % (os.path.basename(target), as_data_size(os.path.getsize(target) / 1e6)))
+          % (os.path.basename(target),
+             as_data_size(os.path.getsize(target) / 1e6)))
     fetch_text_outputs(key, files, target_folder, skip=best)
     return target
+
+
+def single_production_found(key, title):
+    """The Singletrack production auphonic.com holds under *title*, or None.
+
+    The title is the one a run gives its production, and a lone
+    recording is always one production, so the title finds it. A
+    Multitrack production of that title is passed over: its result is
+    tracks, not this recording. A list that is not one finds nothing.
+    """
+    wanted = (title or "").strip().lower()
+    for p in productions_listed(key):
+        if ((p.get("metadata") or {}).get("title") or "").strip().lower() \
+                != wanted:
+            continue
+        if made_as_multitrack(p):
+            continue
+        return p
+    return None
+
+
+# auphonic.com lists its productions ten at a time, whatever limit is
+# asked for: measured 16.10.2026, no parameter, limit=50, limit=100 and
+# page=2 gave ten of twelve, offset=10 the other two.
+PRODUCTIONS_PAGE = 10
+# How far back a production is looked for by its title.
+PRODUCTIONS_LOOKED_BACK = 50
+
+
+def productions_listed(key):
+    """The productions auphonic.com holds, newest first, as far as looked.
+
+    PRODUCTIONS_LOOKED_BACK of them at most, read a page at a time, each
+    from where the one before ended, so a lookup that finds its
+    production on the first page asks no more. A page that comes back
+    short is the last; an answer that is no list ends the reading, and
+    a row that is no production is passed over.
+    """
+    read = 0
+    while read < PRODUCTIONS_LOOKED_BACK:
+        d = _parse_json(_curl_call(key, [
+            AUPHONIC + "/api/productions.json?offset=%d" % read]))
+        page = d.get("data") if isinstance(d, dict) else None
+        if not isinstance(page, list):
+            return
+        for p in page:
+            if isinstance(p, dict):
+                yield p
+        read += len(page)
+        if len(page) < PRODUCTIONS_PAGE:
+            return
+
+
+def made_as_multitrack(p):
+    """Whether auphonic.com made production *p* as a Multitrack one.
+
+    Its own "is_multitrack" says so where the answer carries it. Where
+    not, its list does: a Singletrack production with an intro or an
+    outro has a list too, and only a Multitrack one has an entry of
+    the type "multitrack" -- an entry with no type is taken for a
+    track, as preset_track_template takes it.
+    """
+    mark = p.get("is_multitrack")
+    if isinstance(mark, bool):
+        return mark
+    return any(isinstance(entry, dict)
+               and (entry.get("type") or "multitrack") == "multitrack"
+               for entry in (p.get("multi_input_files") or []))
+
+
+def single_audio_ready(p):
+    """Whether a Singletrack production is done and holds audio to fetch."""
+    return p.get("status") == 3 and any(
+        f.get("download_url") and not (f.get("filename") or "").lower()
+        .endswith(TRANSCRIPT_SUFFIXES) for f in (p.get("output_files") or []))
+
+
+def reuse_single_production(key, existing, audio, title, target_folder,
+                            carry_on=None):
+    """Ask about a Singletrack production found by its title.
+
+    The same question a Multitrack production gets, less what a single
+    file cannot do: its result where one is there, a new upload, or
+    stop. Returns the fetched result, or None where the file goes up
+    anew -- the only answer that costs credit.
+    """
+    print(T('\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME'))
+    print(T('  Status:      %s') % (existing.get("status_string") or "?"))
+    print(T('  Created:     %s') % (existing.get("creation_time") or "?")[:19]
+          .replace("T", " "))
+    ready = single_audio_ready(existing)
+    if ready:
+        print(T('  Results:'))
+        for f in existing.get("output_files") or []:
+            if f.get("download_url"):
+                print("    %s" % (f.get("filename") or "?"))
+    else:
+        print(T('  Results:     none'))
+    choice = ask_reuse_production(False, ready, carry_on)
+    if choice == "abort":
+        raise RuntimeError(
+            T('Stopped. Choose another production name -- then a new '
+              'production\n  is created -- or pick one of the other options.'))
+    if choice != "result" or not ready:
+        print(T('  The files are uploaded again -- this costs credit.'))
+        return None
+    print(T('  Existing result adopted -- nothing computed, nothing paid.'))
+    p = read_production(key, existing.get("uuid"))
+    return single_result_fetched(key, p, audio, title, target_folder)
 
 
 def fetch_text_outputs(key, files, target_folder, skip=None):
     """Fetch what a production wrote about the audio, not the audio.
 
-    Transcript, subtitles, chapter marks: paid for either way.
+    Chapter marks, statistics: paid for either way. The transcript is
+    not among them -- it is made here, and auphonic.com's stays there.
     """
-    fetch_each(key, files, target_folder, skip,
+    fetch_each(key, [f for f in files or [] if not auphonic_transcript(f)],
+               target_folder, skip,
                lambda name: name.lower().endswith(TRANSCRIPT_SUFFIXES),
                lambda name: name,
                T('  %s is there already -- not fetched twice'),
                T('  Also fetched: %s'))
+
+
+def auphonic_transcript(f):
+    """True where an output file is auphonic.com's speech recognition.
+
+    Known by its format, one of the three auphonic.com's API description
+    names for it: "subtitle", "speech", "transcript". The transcript is
+    made here, and a second one beside it would be a second text of the
+    same words, differing in places.
+    """
+    return str((f or {}).get("format") or "").lower() in (
+        "subtitle", "speech", "transcript")
 
 
 def fetch_each(key, files, target_folder, skip, wanted, same, twice,
@@ -1464,11 +1656,20 @@ PRESET_READ_ONLY = (
 
 
 def read_preset(key, uuid):
-    """Fetch one preset in full."""
+    """Fetch one preset in full.
+
+    An answer that holds no preset stops here: taken for one, it would
+    make a production of none of the preset's settings, paid for all
+    the same.
+    """
     d = _parse_json(_curl_call(key, [AUPHONIC + "/api/preset/%s.json" % uuid]))
     if d.get("status_code") not in (200, None):
         raise RuntimeError(T('Preset not readable: %s') % d.get("error_message"))
-    return d.get("data") or d
+    preset = d.get("data")
+    if not isinstance(preset, dict) or not preset:
+        raise RuntimeError(T('Preset not readable: %s') % (
+            d.get("error_message") or T('no answer')))
+    return preset
 
 
 def find_output_format(key, find, avoid=()):
@@ -1558,19 +1759,63 @@ def master_output_format(key, stereo=False):
     return entry
 
 
-def build_multitrack_request(preset, title, names, base_name, key=None,
-                             stereo=False):
-    """Build the production request from the preset that was read.
+def preset_track_template(preset):
+    """The preset's first track, whose settings all our tracks take.
 
-    The preset cannot be sent along: Auphonic then merges its tracks
-    with ours and the production stays incomplete. So it is read and
-    adopted except what we set; its first track's settings apply to all.
+    A Multitrack preset's list holds intros and outros beside its
+    tracks, told apart by "type"; an intro's settings are no track's.
+    An entry with no type is taken for a track. None where none is one.
+    """
+    for entry in (preset.get("multi_input_files") or []):
+        if (entry.get("type") or "multitrack") == "multitrack":
+            return entry
+    return None
+
+
+def production_from_preset(preset, title):
+    """A production request holding what the preset holds, under *title*.
+
+    The preset cannot be sent along: Auphonic then merges its list with
+    the production's -- its tracks beside ours, and its intro and outro
+    with them, where intro and outro come from the video files here. So
+    it is read and adopted, less its list and its speech recognition --
+    the transcript is made here -- for either kind.
     """
     request = {k: v for k, v in preset.items() if k not in PRESET_READ_ONLY}
-    template = {}
-    for track in (preset.get("multi_input_files") or []):
-        template = dict(track.get("algorithms") or {})
-        break
+    request.pop("multi_input_files", None)
+    request.pop("speech_recognition", None)
+    request["metadata"] = dict(preset.get("metadata") or {})
+    request["metadata"]["title"] = title
+    return request
+
+
+def production_created(key, request):
+    """The production auphonic.com created from *request*, not started.
+
+    A refusal, or an answer without the production's id, stops the run
+    before anything goes up.
+    """
+    answer = _post_json(key, "/api/productions.json", request)
+    if answer.get("status_code") not in (200, 201, None):
+        raise RuntimeError(T('Auphonic reports %s: %s')
+                           % (answer.get("status_code"),
+                              answer.get("error_message")
+                              or answer.get("form_errors")))
+    p = answer.get("data") or {}
+    if not p.get("uuid"):
+        raise RuntimeError(T('no production id in the response'))
+    return p
+
+
+def build_multitrack_request(preset, title, names, base_name, key=None,
+                             stereo=False):
+    """Build the Multitrack production request from the preset that was read.
+
+    Adopted except what we set; its first track's settings apply to all.
+    """
+    request = production_from_preset(preset, title)
+    template = dict((preset_track_template(preset) or {}).get("algorithms")
+                    or {})
     request["is_multitrack"] = True
     request["multi_input_files"] = [
         {"type": "multitrack", "id": n, "algorithms": dict(template)}
@@ -1587,19 +1832,20 @@ def build_multitrack_request(preset, title, names, base_name, key=None,
                           % mst["format"]))
             if stereo:
                 print(T('  Two channels, because one track is stereo'))
-    request["metadata"] = dict(preset.get("metadata") or {})
-    request["metadata"]["title"] = title
     request["output_basename"] = base_name
     return request
 
 
 def find_production_by_title(key, title):
-    """Return the Auphonic production with this title, or None."""
-    d = _parse_json(_curl_call(key, [AUPHONIC + "/api/productions.json?limit=50"]))
+    """The Multitrack production auphonic.com holds under *title*, or None.
+
+    A Singletrack production of that title is passed over: it holds one
+    recording, not these tracks.
+    """
     wanted_name = (title or "").strip().lower()
-    for p in (d.get("data") or []):
+    for p in productions_listed(key):
         if ((p.get("metadata") or {}).get("title") or "").strip().lower()\
-                == wanted_name:
+                == wanted_name and made_as_multitrack(p):
             return p
     return None
 
@@ -1743,16 +1989,8 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
         return reuse_production(key, existing, request, preset,
                                           tracks, names, target_folder, base,
                                           wait_s, carry_on)
-    answer = _post_json(key, "/api/productions.json", request)
-    if answer.get("status_code") not in (200, 201, None):
-        raise RuntimeError(T('Auphonic reports %s: %s')
-                           % (answer.get("status_code"),
-                              answer.get("error_message")
-                              or answer.get("form_errors")))
-    p = answer.get("data") or {}
-    uuid = p.get("uuid")
-    if not uuid:
-        raise RuntimeError(T('no production id in the response'))
+    p = production_created(key, request)
+    uuid = p["uuid"]
     created = [x.get("id") for x in (p.get("multi_input_files") or [])]
     if sorted(created) != sorted(names):
         raise RuntimeError(T('Auphonic created different tracks than '
@@ -1762,8 +2000,7 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
 
     _upload_tracks(key, uuid, tracks)
 
-    _curl_call(key, ["-X", "POST",
-                AUPHONIC + "/api/production/%s/start.json" % uuid])
+    production_started(key, uuid)
     print(T('  Production running (%s)') % uuid)
     p = wait_for_production(key, uuid, wait_s)
 
@@ -1774,8 +2011,10 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
 def _upload_tracks(key, uuid, tracks):
     """Upload every track into the production, each under its name.
 
-    A track auphonic.com took no file for stops the run here: the mix
-    would go on without that voice.
+    A refused upload, or a track auphonic.com took no file for, stops
+    the run here, before the start: the mix would go on without that
+    voice. A refusal names the tracks its answer names, or else every
+    track of the upload, which went up in one.
     """
     upload_args = ["-X", "POST",
                    AUPHONIC + "/api/production/%s/upload.json" % uuid]
@@ -1785,11 +2024,35 @@ def _upload_tracks(key, uuid, tracks):
         key, upload_args,
         progress=T('Uploading %s tracks')
         % number_text(len(tracks), 0)))
+    if d.get("status_code") not in (200, 201, None):
+        errors = d.get("form_errors")
+        named = [track["name"] for track in tracks
+                 if isinstance(errors, dict) and track["name"] in errors]
+        raise RuntimeError("%s\n  %s" % (
+            T('These tracks got no file: %s')
+            % ", ".join(named or [track["name"] for track in tracks]),
+            T('Auphonic reports %s: %s')
+            % (d.get("status_code"), d.get("error_message") or errors)))
     absent = [x.get("id") for x in ((d.get("data") or {}).get(
         "multi_input_files") or []) if not x.get("input_file")]
     if absent:
         raise RuntimeError(T('These tracks got no file: %s')
                            % ", ".join(absent))
+
+
+def production_started(key, uuid):
+    """Start the production; a refused start stops the run here.
+
+    Refused, it never runs, and the waiting after it would sit out its
+    whole time limit and then blame the time. So the run ends on
+    auphonic.com's own answer, as it ends on a refused upload.
+    """
+    d = _parse_json(_curl_call(key, [
+        "-X", "POST", AUPHONIC + "/api/production/%s/start.json" % uuid]))
+    if d.get("status_code") not in (200, 201, None):
+        raise RuntimeError(T('Auphonic reports %s: %s')
+                           % (d.get("status_code"), d.get("error_message")
+                              or d.get("form_errors")))
 
 
 def cut_what_was_added(tracks, done):
@@ -1824,7 +2087,9 @@ def download_results(key, p, names, target_folder, base):
     target = os.path.join(cache, zip_name)
     _download(key, zip_file.get("download_url"), target, zip_name)
     # Whatever else the preset produces belongs here: it is paid for.
-    fetch_each(key, p.get("output_files"), cache, zip_file,
+    # Its transcript does not -- the transcript is made here.
+    fetch_each(key, [f for f in p.get("output_files") or []
+                     if not auphonic_transcript(f)], cache, zip_file,
                lambda name: True, lambda name: name.lower(),
                T('  %s is in the production twice -- fetched once.'))
     return match_zip_entries_to_tracks(target, names, target_folder)
@@ -1943,12 +2208,16 @@ def reuse_production(key, existing, request, preset, tracks,
         return download_results(key, p, names, target_folder, base)
 
     if not upload_again:
+        # The return check refuses a return lacking what goes up today
+        # (return_not_sent), so only a window inside that one is laid.
         print(T('  Note: this computes with the files uploaded at the '
                 'time. They carry\n  the time window and the alignment of '
-                'that day. Where the In point, the Out point\n  or the '
-                'measured '
-                'position differ now, the return check measures the\n  '
-                'difference and moves the tracks into place.'))
+                'that day. Where the In point, the\n  Out point and the '
+                'measured position now stay inside that window, the\n  '
+                'return check measures the difference and moves the tracks '
+                'into place.\n  Where they reach beyond it -- an earlier In '
+                'point, a later Out point --\n  it refuses the tracks: then '
+                'upload everything again.'))
     print(T('  Settings brought to preset %r')
           % (preset.get("preset_name") or "?"))
     change = dict(request)
@@ -2001,8 +2270,7 @@ def reuse_production(key, existing, request, preset, tracks,
         _upload_tracks(key, uuid, tracks)
     else:
         print(T('  The existing files are reused -- recomputing costs nothing.'))
-    _curl_call(key, ["-X", "POST",
-                AUPHONIC + "/api/production/%s/start.json" % uuid])
+    production_started(key, uuid)
     print(T('  Production running (%s)') % uuid)
     p = wait_for_production(key, uuid, wait_s)
     done = download_results(key, p, names, target_folder, base)
@@ -2010,7 +2278,14 @@ def reuse_production(key, existing, request, preset, tracks,
 
 
 def wait_for_production(key, uuid, wait_s):
-    """Wait for the production to finish, with a progress bar and a timeout."""
+    """Wait for the production to finish, with a progress bar and a timeout.
+
+    One auphonic.com holds as incomplete ends the waiting at once, on
+    auphonic.com's own status, as a refused start does: it waits for
+    something only auphonic.com can be given, and the time limit would
+    only blame the time. Waiting in the queue, processing, encoding are
+    slow, not stuck, and are waited for.
+    """
     started = time.time()
     end = started + wait_s
     horizon = 150.0
@@ -2026,6 +2301,11 @@ def wait_for_production(key, uuid, wait_s):
         if status == 2:
             raise RuntimeError(T('Auphonic reports an error: %s')
                                % (p.get("error_message") or text))
+        # 9 is "Incomplete" in auphonic.com's API list of production
+        # states, not measured here; 1, 4 and 5 -- waiting, processing,
+        # encoding -- are the slow ones and go on below.
+        if status == 9:
+            raise RuntimeError(T('Auphonic reports %s: %s') % (status, text))
         for _ in range(5):
             elapsed = time.time() - started
             while elapsed >= horizon:

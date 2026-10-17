@@ -5,8 +5,9 @@ The plain loudness curve can find a place its own sample points do
 not bear out: they scatter, or lie on a line no recorder runs at. In
 order -- those points speak against the answer, a right pair's do
 not, too few say nothing, and a clock speed alone speaks as well;
-the run then does not keep that answer; the preview names the file
-as not fitting. Synthetic material, one seed, cut out of one room.
+the run then does not keep that answer; on speech, where nothing
+else places it, the preview names the file as not fitting. Synthetic
+material, one seed, cut out of one room.
 """
 PLATFORM_BOUND = True
 import os
@@ -158,7 +159,10 @@ check("the run does not keep the contradicted answer",
 #------------------------------------------------- 3. The preview
 
 print("\n3. The preview names it as not fitting")
-data, text = vpm.measure_time_axis([REF, REC])
+# On speech, as every recording starts: the phase way stays off and
+# the run refuses it. On mixed sound the phase places it, as above,
+# and what the run's sound places fits -- time_sound_placed_fits.
+data, text = vpm.measure_time_axis([REF, REC], phase_of=lambda p: False)
 print("   %s" % text)
 KEY = vpm.path_key(REC)
 weak = [vpm.path_key(p) for p in data.get("weak") or ()]

@@ -130,12 +130,6 @@ msgstr "Ei omaa Singletrack-esiasetusta -- luo sellainen"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "Ei omaa esiasetusta -- luo sellainen auphonic.com-palvelussa"
 
-msgid "No Multitrack preset found in the account."
-msgstr "Tililtä ei löytynyt Multitrack-esiasetusta."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Tililtä ei löytynyt Singletrack-esiasetusta."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "Tilillä ei ole Multitrack-esiasetusta. Vain nämä: %s"
 
@@ -273,6 +267,9 @@ msgstr "  Puheentunnistin on rakennettu (%s s)."
 
 msgid "  The speech recognition reports: %s"
 msgstr "  Puheentunnistus ilmoittaa: %s"
+
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS ei tunnista tätä kieltä (%s) täällä, Whisper hoitaa sen"
 
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Tunnistus kielellä %s: valmis %s s kuluttua, kuultu %s s kuluttua"
@@ -619,6 +616,9 @@ msgstr "\nEsiasetusta ei ole valittu: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nPysäytetty ennen ensimmäistä pitkää vaihetta. Valitsimella --anyway se ajetaan silti."
 
+msgid "\nStopped before the first long step."
+msgstr "\nPysäytetty ennen ensimmäistä pitkää vaihetta."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve ei silloin ehkä tunnista syötteen väriavaruutta."
 
@@ -700,12 +700,6 @@ msgstr "    %-24s ääntä ei lisätty"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx aiottu kamera ei ollut käynnissä -- tilalla on toinen."
 
-msgid "    %s could not be imported."
-msgstr "    Leikettä %s ei voitu tuoda."
-
-msgid "    %s could not be inserted."
-msgstr "    Leikettä %s ei voitu lisätä."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s-raitaa ei voitu luoda: %s"
 
@@ -714,6 +708,9 @@ msgstr "    %s: kuva ja ääni lisätty erikseen (ääni raidalta A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway on asetettu: ajo jatkuu yllä olevista kohdista huolimatta."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway on asetettu: ajo jatkuu yllä olevista kohdista huolimatta, mutta pysähtyy ennen latausta -- auphonic.com hylkäisi tämän tuotannon."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Kaikki raidat ovat paikoillaan -- ei mitään siirrettävää."
@@ -862,8 +859,18 @@ msgstr "  %s osaa yhdistetty aikakoodin avulla, alku %s"
 msgid "  %s of %s files imported."
 msgstr "  %s / %s tiedostoa tuotu."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s puhujaa, %s otosta, lyhin %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, lyhin %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s puhuja"
+msgstr[1] "%s puhujaa"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s otos"
+msgstr[1] "%s otosta"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s videoraitaa, nimetty puhujien mukaan:"
@@ -1117,8 +1124,8 @@ msgstr "  Alku %s -- jokainen otos sijoitetaan sen mukaan."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Sellaista Timelinea ei vielä ollut -- se vain rakennetaan."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Huomautus: laskenta tehdään tuolloin lähetetyillä tiedostoilla. Niissä on\n  sen päivän aikaikkuna ja kohdistus. Jos in-piste, out-piste\n  tai mitattu sijainti on nyt toinen, paluutarkistus mittaa\n  eron ja siirtää raidat paikoilleen."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Huomautus: laskenta tehdään tuolloin lähetetyillä tiedostoilla. Niissä on\n  sen päivän aikaikkuna ja kohdistus. Jos in-piste, out-piste ja mitattu\n  sijainti pysyvät nyt sen ikkunan sisällä, paluutarkistus mittaa eron\n  ja siirtää raidat paikoilleen. Jos ne ulottuvat sen yli -- aiempi\n  in-piste, myöhempi out-piste --, se hylkää raidat:\n  lähetä silloin kaikki uudelleen."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Huomautus: tässä ffmpeg:ssä ei ole soxr:ää -- kellon ajautuman voi poistaa vain\n  21 ppm:n askelin."
@@ -1129,8 +1136,8 @@ msgstr "  Ei vaikuta ääneen."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Siirtymä:         %s   (kameravertailusta)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Timelinella on vain %s otosta, kaikkiaan %s."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve otti vain %s otosta, kaikkiaan %s -- Timelinesta \"%s\" puuttuu loput leikkauksesta."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Huiput:            %s dB yli %s dBTP -- rajoitin nappaa ne"
@@ -1177,8 +1184,8 @@ msgstr "  Referenssi: %s (%s, pisin kesto)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Jää:               %s dB jokaisella raidalla, eli %s LUFS eikä %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve ei ottanut yhtään kuvaa -- Timeline on tyhjä. Sen\n  päälle ei rakenneta mitään muuta."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve ei ottanut yhtään kuvaa -- Timelinesta \"%s\" puuttuvat leikkaus ja sen ääni."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Tulos: %s (%s) -- jää videotiedoston viereen\n"
@@ -1210,11 +1217,17 @@ msgstr "  Tavoite:           %s LUFS  ->  %s dB jokaisella raidalla"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline saa %s: korkeimman niistä tai seuraavan taajuuden, joka\n  Resolvella on sen yläpuolella. Ylöspäin muunnettaessa Resolve toistaa ruutuja,\n  alaspäin se hylkää niitä. Jokainen kamera säilyttää oman taajuutensa, ja\n  leikkaus laskee sillä."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mixiä ei voitu tuoda."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolven Media Poolissa ei ole Full-Mixiä -- Timelinesta \"%s\" puuttuu ääni."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mixiä ei voitu lisätä."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve hylkäsi Full-Mixin -- Timelinesta \"%s\" puuttuu ääni."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve hylkäsi Intron -- Timelinesta \"%s\" puuttuu Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve hylkäsi Outron -- Timelinesta \"%s\" puuttuu Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamerat sisältävät aikaikkunan ja sekunnin kummassakin päässä: kirjoitettu %s, joka kattaa %s tallennetusta %s."
@@ -1222,8 +1235,10 @@ msgstr "  Kamerat sisältävät aikaikkunan ja sekunnin kummassakin päässä: k
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Kamerat ovat lähellä toisiaan (enintään %s askelta kirkkaudessa)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Leikkaus on muuttunut: %s otosta aiemman %s sijaan."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Leikkaus on muuttunut: %s otos aiemman %s sijaan."
+msgstr[1] "  Leikkaus on muuttunut: %s otosta aiemman %s sijaan."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Merkintää aiemmista ajoista täällä ei voi lukea (%s), joten kaikki, mikä on jo paikallaan, raportoidaan."
@@ -1357,9 +1372,6 @@ msgstr "Määritystiedostoa ei voi lukea: %s"
 msgid "Camera audio not usable: %s"
 msgstr "Kameran ääni ei ole käyttökelpoinen: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK EI OLE MAHDOLLINEN\n  Tarvitaan vähintään kaksi tuloraitaa, ja vain %s löytyi.\n  Raita on oma tallenne, monikanavaisen tallentimen kanava\n  tai kameran ääni -- se lasketaan mukaan heti, kun sen\n  Kameran ääni sanoo \"käytä sisäistä ääntä\". Ilman kahta niistä\n  ei ole mitään eroteltavaa, ja sama tiedosto kulkee läpi\n  tavallisena tuotantona."
-
 msgid "No preset is called %r."
 msgstr "Millään esiasetuksella ei ole nimeä %r."
 
@@ -1471,9 +1483,6 @@ msgstr "PROJEKTI TALLENNETTU\n  %s\n  Tämän ajon voi avata myöhemmin uudellee
 msgid "Presets could not be loaded: %s"
 msgstr "Esiasetuksia ei voitu ladata: %s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Useita kameroita mutta ei äänitiedostoa. Jokaisella kameralla olisi oma äänensä --\nsitä varten on --multitrack. Muuten yksi kamera kerrallaan."
-
 msgid "The file is NOT recognised as HDR."
 msgstr "Tiedostoa EI tunnisteta HDR:ksi."
 
@@ -1524,9 +1533,6 @@ msgstr "\n  PÄIVITÄ LEIKKAUSLUETTELO"
 
 msgid "\n  Render job"
 msgstr "\n  Renderöintityö"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve-osuus pysähtyi: %s"
 
 msgid "\n  STOPPED: %s"
 msgstr "\n  PYSÄYTETTY: %s"
@@ -1593,9 +1599,6 @@ msgstr "  Ikkuna:              %s -- kaikki, mitä jokin raita kuuli"
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: hiljaisuutta %s alussa ja %s lopussa"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nKun osat on yhdistetty, jäljelle jää vain yksi raita, ja Multitrack tarvitsee yhden puheääntä kohden. Missä kaksi henkilöä luultiin yhdeksi tallenteeksi, --apart pitää yhden osan erillään."
 
 msgid "RECOGNISED PLAN"
 msgstr "TUNNISTETTU SUUNNITELMA"
@@ -1834,6 +1837,9 @@ msgstr "TULOS"
 msgid "Resolve part stopped: %s"
 msgstr "Resolve-osa pysäytetty: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve-osa pysäytetty tämän ohjelman virheen vuoksi, ei Resolven: %s -- ilmoitathan siitä. Yksityiskohdat ovat lokissa."
+
 msgid "Stopped: %s"
 msgstr "Pysäytetty: %s"
 
@@ -1920,6 +1926,13 @@ msgstr "%s tuotu esiasetukseen"
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s kanavaa -- jaetaan raidoiksi, katso yllä olevat rivit."
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s kanavaa -- komentorivi ei jaa niitä raidoiksi vaan yhdistää tiedoston "
+"yhdeksi kanavaksi, kaksi ihmistä yhdeksi ääneksi."
 
 msgid "%s checked"
 msgstr "%s tarkistettu"
@@ -2041,17 +2054,22 @@ msgstr "<span style='color:%(t)s'><b>%(n)s otosta</b>, mediaani %(med)s s, lyhin
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Jokainen kanavapari arvioidaan erikseen: yksi stereoraita tai kaksi mikrofonia ja siten kaksi raitaa. Hiljaiset tulot jäävät pois. Tiedoston alla olevat rivit kertovat, mitä mitattiin, ja valintamerkki ohittaa sen."
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
+msgstr ""
+"Tallenna sen kanavat omiksi tiedostoikseen, jolloin kustakin tulee raita, "
+"tai avaa se ikkunassa, joka jakaa sen kanavarivien mukaan. Ajo, joka "
+"lähettää sen auphonic.comiin, pysähtyy ennen latausta: auphonic.com ottaa "
+"yhdessä tiedostossa enintään kaksi kanavaa."
+
 msgid "Add files ..."
 msgstr "Lisää tiedostoja ..."
 
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Kohdistus tehdään mitatun siirtymän mukaan; aikakoodi on vain ristiintarkistus."
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Kaikilla tallenteilla on sama nimi -- siitä tulee yksi ainoa raita."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Kaikilla riveillä on sama nimi -- siitä tulee yksi ainoa raita, ja Multitrack tarvitsee vähintään kaksi."
 
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Määritys: mikä ääniraita kuuluu mihinkin kameraan"
@@ -2170,8 +2188,8 @@ msgstr "Out-piste on %s viimeisen ruudun jälkeen"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Toimituksessa käytetään yleensä rajoitettua aluetta. Täysi ei ole väärin, mutta jotkin soittimet tulkitsevat sen väärin."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Määrittää, miten auphonic.com käsittelee äänen.\n\n”%s” jättää avaimen paikalleen eikä silti mene sinne.\nÄäni vain yhdistetään ja normalisoidaan, ei erotella --\nja ilman erillisiä raitoja ei ole kameraleikkausta."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Määrittää, miten auphonic.com käsittelee äänen.\n\n”%s” jättää avaimen paikalleen eikä silti mene sinne.\nÄäni vain yhdistetään ja normalisoidaan, ei erotella --\nmutta kameraleikkaus on sama kuin esiasetuksella."
 
 msgid "Distance to mean"
 msgstr "Etäisyys keskiarvosta"
@@ -2205,9 +2223,6 @@ msgstr "Verhokäyrä epäonnistui: %s"
 
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "Verhokäyrät ja kameran ääni valmistellaan taustalla."
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Jokainen rivi tarvitsee nimen -- Auphonicissa siitä tulee track ID."
 
 msgid "External preview -- the app does not know this format"
 msgstr "Ulkoinen esikatselu -- sovellus ei tunne tätä muotoa"
@@ -2313,15 +2328,6 @@ msgstr "Puuttuva ääni (%s) täytetty hiljaisuudella%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Moduulia DaVinciResolveScript ei voi ladata: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Yksi ääniraita henkilöä kohden, pidetään erillään auphonic.com-palveluun asti.\nToimii myös ilman -- silloin ilman de-bleediä ja tasonsäädintä.\nSe tarvitsee kaksi tuloraitaa: oman tallenteen, monikanavaisen\ntallentimen kanavan tai videotiedoston äänen, joka on asetettu arvoon\n\"käytä sisäistä ääntä\". Kameraleikkaus ei tarvitse tätä valintaa."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (yksi raita puhujaa kohden)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack tarvitsee vähintään kaksi tuloraitaa. Raita on oma tallenne, monikanavaisen tallentimen kanava tai videotiedoston ääni, jolle on valittu \"käytä sisäistä ääntä\". Saman tallenteen useat osat lasketaan yhdeksi, sivuun jätetyt raidat eivät lainkaan."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Ääntä ei ole vielä käytössä -- lisää äänitallenne tai aseta jonkin videotiedoston Kameran ääni arvoon \"käytä sisäistä ääntä\" tiedostoluettelossa."
@@ -2461,9 +2467,6 @@ msgstr "Pakollista se ei ole -- YouTube käyttää silloin oletusarvoja (Sony BV
 msgid "Not ready yet:"
 msgstr "Ei vielä valmis:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "Yhdellä äänitallenteella ei ole vielä puhujan nimeä."
-
 msgid "One frame back."
 msgstr "Yksi ruutu taaksepäin."
 
@@ -2472,9 +2475,6 @@ msgstr "Yksi sekunti taaksepäin."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Jokainen otos kameransa värillä. Osoita nähdäksesi kameran ja keston, napsauta hypätäksesi."
-
-msgid "Only one speaker"
-msgstr "Vain yksi puhuja"
 
 msgid "Open json project file"
 msgstr "Avaa json-projektitiedosto"
@@ -2729,9 +2729,6 @@ msgstr "Puhujia ei vielä tunneta -- ne selvitetään raidoista heti, kun tämä
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "Kolme lukua ovat päävärit, käyrä ja matriisi. Eri tunnisteet tarvitsevat Resolvessa eri syötteen väriavaruudet -- muuten toinen kamera näyttää erilaiselta kuin toinen."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Erillisiä äänitallenteita ei ole. Silloin käytetään %s kameran ääntä -- jokaisesta tulee raita, ja Auphonic poistaa äänivuodon."
-
 msgid "There is no result yet."
 msgstr "Tulosta ei vielä ole."
 
@@ -2846,8 +2843,23 @@ msgstr "Ilman sitä jokaisen soittimen on arvattava, ja kaikki arvaavat SDR. Ase
 msgid "Without processing at auphonic.com"
 msgstr "Ilman käsittelyä auphonic.com-palvelussa"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Kameraleikkausta ei vielä ole: se tarvitsee kaksi henkilöä, kummallakin nimi ja kamera.\nErilliset tallenteet antavat sen Multitrack-valinnalla, ja samoin \"useita puhujia\" yhden tallenteen Puhujan nimi -kentässä --\nsieltä löydetyt puheäänet saavat kameransa tallenteiden alla olevasta taulukosta.\nResolve-projekti luodaan joka tapauksessa -- kaikki kamerat mitatuilla paikoillaan, valmiina Multicamia varten."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Kameraleikkausta ei vielä ole: se tarvitsee kaksi henkilöä, kummallakin nimi "
+"ja kamera.\n"
+"Erilliset tallenteet antavat sen, kukin omalla nimellään, ja samoin \"useita "
+"puhujia\" yhden tallenteen Puhujan nimi -kentässä --\n"
+"sieltä löydetyt puheäänet saavat kameransa tallenteiden alla olevasta "
+"taulukosta.\n"
+"Resolve-projekti luodaan joka tapauksessa -- kaikki kamerat mitatuilla "
+"paikoillaan, valmiina Multicamia varten."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Ilman aikakoodia tiedostojen sijainti mitataan."
@@ -3016,9 +3028,6 @@ msgstr "ei löytynyt kohtaa, jossa puhuu täsmälleen yksi henkilö -- erottumis
 msgid "no production id in the response"
 msgstr "vastauksessa ei ole tuotannon tunnusta"
 
-msgid "no production id in the response: %s"
-msgstr "vastauksessa ei ole tuotannon tunnusta: %s"
-
 msgid "no timecode"
 msgstr "ei aikakoodia"
 
@@ -3166,6 +3175,21 @@ msgstr "lähdekansio"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "raitamallissa ei ole mitään päällä -- raidat palaisivat täsmälleen sellaisina kuin ne lähetettiin."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "esiasetuksessa on intro -- sitä ei käytetä: intro ja outro tulevat videotiedostoista."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "esiasetuksessa on outro -- sitä ei käytetä: intro ja outro tulevat videotiedostoista."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "esiasetuksessa on intro ja outro -- kumpaakaan ei käytetä: intro ja outro tulevat videotiedostoista."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Ne tulevat videotiedostoista, joiden Tyyppi on tiedostoluettelossa Intro tai Outro, tai valinnoista --intro ja --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "videotiedostot on merkitty eri tavoin: %s"
 
@@ -3210,9 +3234,6 @@ msgstr "yleiskuva %s, miksaus on sen ensimmäinen ääniraita"
 
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s esiintyy useammin kuin kerran. Nämä tallenteet yhdistetään yhdeksi raidaksi ja asetetaan peräkkäin aikakoodinsa mukaan -- oikein, jos tallennus pysäytettiin välillä."
-
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Kaikilla tallenteilla on sama nimi. Siitä tulee yksi raita -- Multitrack tarvitsee vähintään kaksi."
 
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Kaksi kameraa tuottaisi saman tiedoston (%s). Toinen ylikirjoittaisi ensimmäisen."
@@ -3280,9 +3301,6 @@ msgstr "oma tallenne"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Liittää tämän tallenteen toiseen kaikkine osineen.\nKäytä sitä, kun tiedostonimet eivät anna haulle mitään johtolankaa."
 
-msgid "Cameras only"
-msgstr "Vain kamerat"
-
 msgid "Curve number %d"
 msgstr "Käyrä numero %d"
 
@@ -3331,9 +3349,6 @@ msgstr "Alku %s"
 msgid "Take from source files"
 msgstr "Ota lähdetiedostoista"
 
-msgid "Take the camera audio"
-msgstr "Käytä kameran ääntä"
-
 msgid "Target: %s"
 msgstr "Kohde: %s"
 
@@ -3349,11 +3364,11 @@ msgstr "%(name)s (%(prefix)s*.json);;JSON-tiedostot (*.json);;Kaikki tiedostot (
 msgid "the voices below carry the cameras"
 msgstr "alla olevat puheäänet kantavat kamerat"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "mitattu tallenteista -- %s puhujaa, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "mitattu tallenteista -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "valmiista ajosta -- %s puhujaa, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "valmiista ajosta -- %s, %s"
 
 msgid "no text"
 msgstr "ei tekstiä"
@@ -3363,6 +3378,15 @@ msgstr "nimetön"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Varoitus: mittaus käyttökelvoton"
+
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Varoitus: siitä puuttuu %s s lähetetystä"
+
+msgid "  -->  refused"
+msgstr "  -->  hylätty"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Hylätty: %s -- palautus ei vastaa lähetettyä.\n  Parempi pysähtyä kuin kirjoittaa jotakin väärää."
 
 msgid "   NOT INSERTED"
 msgstr "   EI LISÄTTY"
@@ -3532,15 +3556,6 @@ msgstr "Yhdistä ne"
 msgid "Mixing %s"
 msgstr "Miksataan %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack tarvitsee kaksi raitaa yllä olevaan taulukkoon -- kamera lasketaan yhdeksi, kun sen Kameran ääni on asetettu arvoon \"käytä sisäistä ääntä\"."
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Vain yksi raita -- aseta jonkin kameran Kameran ääni arvoon \"käytä sisäistä ääntä\", niin saat toisen."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Vain yksi raita, eikä kameran ääntä ole enää jäljellä otettavaksi."
-
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Jos sitä käytetään, tämän tiedoston alla mitatut kanavat jaetaan raidoiksi kuten tallenteessa.\nMittaus tehdään joka tapauksessa: siihen tulokseen päätös perustuu, ja synkronointi käyttää ääntä silti."
 
@@ -3549,9 +3564,6 @@ msgstr "Jos sitä käytetään, tämän tiedoston äänestä tulee raita kuten m
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Ei ääntä, jolla työskennellä -- aseta jonkin videotiedoston Kameran ääni arvoon \"käytä sisäistä ääntä\" tai lisää äänitallenne."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack tarvitsee useita raitoja"
 
 msgid "Mute."
 msgstr "Mykistä."
@@ -3633,9 +3645,6 @@ msgstr "Hiljaisuus"
 
 msgid "Speaker name"
 msgstr "Puhujan nimi"
-
-msgid "Speaker names"
-msgstr "Puhujien nimet"
 
 msgid "Static metadata"
 msgstr "Staattiset metatiedot"
@@ -3775,17 +3784,14 @@ msgstr "\nLEIKKAUS YLEISKUVAN KANSSA"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nENSIMMÄINEN LEIKKAUS PUHUJAN MUKAAN"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Yli kaksi kanavaa menee auphonic.com-palveluun yhtenä: kanavien yhdistäminen kytketään pois vain stereolle.\n  Jos kanavien pitää pysyä erillään, jaa tiedosto ensin raidoiksi."
-
 msgid "First cut by speaker"
 msgstr "Ensimmäinen leikkaus puhujan mukaan"
 
 msgid "\nTRANSCRIPT"
 msgstr "\nLITTEROINTI"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s sanaa: %s %% yhdelle puheäänelle, %s %% kahdelle, %s %% aukossa"
+msgid "  %s words"
+msgstr "  %s sanaa"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s sanaa, ilman nimiä -- ketään ei eroteltu"
@@ -3883,9 +3889,6 @@ msgstr "  Raidat käytetään sellaisina kuin ne tallennettiin: kohdistettuina, 
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  --without-auphonic ja --auphonic-done annettiin molemmat. Valmiit raidat voittavat: mitään ei ole enää lähetettävää minnekään."
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK EI OLE MAHDOLLINEN\n  Ilman API-avainta ei ole mitään lähetettävää auphonic.com-palveluun.\n  Valitsimella --without-auphonic se ajetaan sen sijaan paikallisesti: kohdistettuna,\n  miksattuna ja leikattuna, mutta ilman äänivuodon poistoa ja tasonsäädintä."
-
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Varoitus: mitattavissa vain %s paria, kaikkiaan %s. Muille ei löytynyt hetkeä, jolloin tasan yksi henkilö puhuu, joten niiden äänivuoto jää mukaan -- puhujan tunnistus on tässä epäluotettava."
 
@@ -3943,9 +3946,6 @@ msgstr "Koko pituus uudelleen (0-näppäin)"
 msgid "  Also fetched: %s"
 msgstr "  Haettiin myös: %s"
 
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic ei hyväksy asetuksia: %s"
-
 msgid "      %s channels"
 msgstr "      %s kanavaa"
 
@@ -4000,8 +4000,10 @@ msgstr "Leikataan irti raitaa %d / %d"
 msgid "cutting failed: %s"
 msgstr "irtileikkaus epäonnistui: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Yksi kamera kaikille: leikattu %s otokseen puhujan vaihtuessa, jotta Resolve voi ryhmitellä ne."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Yksi kamera kaikille: leikattu %s otokseen puhujan vaihtuessa, jotta Resolve voi ryhmitellä sen."
+msgstr[1] "  Yksi kamera kaikille: leikattu %s otokseen puhujan vaihtuessa, jotta Resolve voi ryhmitellä ne."
 
 msgid "Wide shot %d"
 msgstr "Yleiskuva %d"
@@ -4071,6 +4073,9 @@ msgstr "Tämä ohjelma toimii muodossa %s ja sille asennetut paketit ovat muotoa
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Tässä luovutuksessa ei ole kuvataajuutta, joten Timelinea ei voi rakentaa siitä. Tee ajo uudelleen."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Tämä luovutus ei nimeä tiedostoa kohteelle %s, joten Timelinea ei voi rakentaa siitä. Tee ajo uudelleen."
 
 msgid ", %s file does not fit"
 msgid_plural ", %s files do not fit"
@@ -4473,8 +4478,8 @@ msgstr "Yleiskuva viimeistään"
 msgid "and here it is cut, good moment or not"
 msgstr "ja tässä leikataan, oli hetki hyvä tai ei"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Parin kova raja: jos lauseen rajaa ei ole tullut kohdan \"Yleiskuva aikaisintaan\" jälkeen, pisin puhetauko toimii sen sijaisena, ja tässä kohdassa leikataan, puhuttiinpa mitä tahansa."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Parin kova raja: kuva, joka on pidempi kuin \"Yleiskuva aikaisintaan\" eikä tarjoa lauseen rajaa eikä taukoa, pilkotaan kellon mukaan, kunhan se seisoo myös tätä arvoa pidempään. Tämä pätee, kun \"Yleiskuva aikaisintaan\" on käytössä ja \"Pitkä monologi\" vaihtaa kameraa. Tervehdyksen ja hyvästelyn yleiskuva ei seiso tätä pidempään, sanoivatpa nuo kaksi mitä tahansa."
 
 msgid "Wide shot at least"
 msgstr "Yleiskuva vähintään"
@@ -4734,8 +4739,8 @@ msgstr "  Resolve hylkäsi videoraidan V%d kahdesti -- Timelinesta \"%s\" puuttu
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s siirtymä %s, kellon ajautumaa ei mitattu%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Varoitus: tämä projekti ei ole kokonainen -- mitä Resolve hylkäsi:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Varoitus: tämä projekti ei ole kokonainen -- mitä puuttuu:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Kellon ajautuma:  ei mitattu -- sen äänestä saatiin liian vähän pisteitä mittaukseen"
@@ -5022,9 +5027,6 @@ msgstr "Out-piste on muuttunut edellisen ajon jälkeen: silloin %s, nyt %s. Leik
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Tuotanto valmis, mutta yksittäiset raidat sisältävällä ZIP-tiedostolla ei ole pelkkää tiedostonimeä"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Useita kameroita mutta ei äänitallennetta. Jokaisella kameralla olisi oma äänensä -- sitä varten on Multitrack. Muuten kamera kerrallaan."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Arkisto sisältää kohteen %s useammin kuin kerran, joten siitä ei otettu mitään."
 
@@ -5033,9 +5035,6 @@ msgstr "Tässä määritystiedosto nimeää tallenteet, joten --speaker-name jä
 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Valmis paketti ei vastaa tarkistussummaansa, joten sitä ei purettu: luettelossa %s, saapui %s."
-
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Tarkistussummien luetteloa ei voitu hakea, joten valmista pakettia ei purettu: %s"
 
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Tarkistussummien luettelossa ei ole kohdetta %s, joten valmista pakettia ei purettu."
@@ -5112,14 +5111,11 @@ msgstr "Tili auphonic.com-palvelussa: tuntematon -- sitä ei voitu kysyä. Ajo j
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Huomautus: ajo yrittää silti. auphonic.com päättää, käynnistyykö tuotanto, ja kertoo, jos ei."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Varoitus: tämä Multitrack-tuotanto kestää %s, ja ilmaispaketissa auphonic.com ottaa sellaisen vastaan vain noin %s asti."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Tämä Multitrack-tuotanto kestää %s. Ilmaispaketissa auphonic.com ottaa sellaisen vastaan vain noin %s asti; pidempi vaatii maksullisen paketin."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Huomautus: pidemmän auphonic.com hylkää heti alussa eikä veloita siitä mitään. Ajo yrittää silti; jos auphonic.com kieltäytyy, sen oma viesti seuraa."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Ilmaispaketissa auphonic.com ottaa Multitrack-tuotannon vastaan vain noin %s asti."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Singletrackia varten, jonka ilmaispaketti ottaa vastaan minkä pituisena tahansa, aseta kaikki raidat yhtä lukuun ottamatta tilaan \"%s\" -- kun yksi raita sisältää kaikki äänet. Tai valitse Esiasetus-kohdasta \"%s\" (--without-auphonic): raidat miksataan silloin täällä."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Tämän ajon tekemä projekti %r jää auki -- aiemmin auki ei ollut mitään,\n  minkä voisi avata uudelleen. Poista se Resolven projektinhallinnassa."
@@ -5198,3 +5194,70 @@ msgstr "valmis miksaus -- ei puhujaa, ei kameraa"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Puhe: sijoitetaan pelkän äänekkyyden mukaan. Tallenne, jolla ei ole mitään yhteistä\nkameroiden kanssa, hylätään. Sekoitettu: äänten alla on musiikkia tai miksaus,\nja missä äänekkyys ei löydä mitään, vaihe saa sijoittaa sen.\nValmis miksaus: muualla tehty stereomiksaus, sijoitettu kuin sekoitettu ääni. Se menee\nkameratiedostoihin ja luovutukseen ajon oman miksauksen tilalle --\nei puhuja, ei leikata, ei lähetetä auphonic.comiin.\nKohdassa ”%s” Puhetta ei tarjota."
+
+msgid "Cutting"
+msgstr "Leikkaus"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "esiasetus leikkaa auphonic.comissa (%s) -- ääni palaisi kuvia lyhyempänä, ja kamerat siirtyisivät."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Kytke se pois esiasetuksesta auphonic.comissa: Audio Algorithms, Automatic Cutting -- poista valinta %s, tai aseta Cut Mode arvoon Set Cuts To Silent, joka säilyttää pituuden."
+
+msgid "Speech recognition"
+msgstr "Puheentunnistus"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "päällä esiasetuksessa -- sitä ei pyydetä, eikä sen tekstiä haeta: litterointi tehdään täällä."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- sellaisina kuin esiasetuksessa; ohjelma ei muuta yhtäkään."
+
+msgid "Enough for the %s this production needs."
+msgstr "Riittää tämän tuotannon tarvitsemaan %s."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Ei riitä tämän tuotannon tarvitsemaan %s."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"Tiedostossa %s on %s kanavaa, ja auphonic.com ottaa yhdessä tiedostossa enintään kaksi. Mitään ei lähetetty.\n"
+"  Kerro, mitkä kanavat kuuluvat yhteen: välilehdellä Tiedostot & tuotanto tiedosto avautuu yhdeksi riviksi kanavaa kohden, ja rivin valintamerkki yhdistää sen seuraavaan. Jos tiedosto ei näytä kanavarivejä, tallenna sen kanavat ensin omiksi tiedostoikseen."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, koska %s raitaa on yhdellä aika-akselilla. Toisen "
+"Multitrack-esiasetuksen voi valita; Singletrackia varten aseta kaikki raidat "
+"yhtä lukuun ottamatta tilaan \"älä käytä\"."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, koska raitoja on yksi. Toisen Singletrack-esiasetuksen voi "
+"valita; Multitrackia varten lisää toinen raita -- tallenne tai kamera "
+"tilassa \"käytä sisäistä ääntä\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> tästä määrityksestä ei voi lukea ääniraitojen määrää"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve vastaa, mutta ei anna projektinhallintaa."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Tiedoston %s kanavia ei ole vielä leikattu raidoiksi."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s ja %s tiedostossa %s kuulostavat samalta (samankaltaisuus %s): "
+"erottelu on ehkä sekoittanut ne -- tarkista niiden määritys."

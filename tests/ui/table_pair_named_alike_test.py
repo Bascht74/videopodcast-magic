@@ -169,7 +169,7 @@ def judge_plain():
           said == names and len(set(said)) == 2,
           "the dry run %r, the window %r; %s" % (said, names, tail))
     print("\n3. What the pair holds back")
-    held = vpm.missing_conditions(PAIR, "Pair", False, [], rows(names),
+    held = vpm.missing_conditions(PAIR, "Pair", [], rows(names),
                                   project_type="sync").get(22)
     check("the pair holds nothing back on the assignment sheet",
           held is None, "the sheet says %r" % (held,))

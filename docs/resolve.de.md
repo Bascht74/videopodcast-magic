@@ -84,7 +84,7 @@ bedienbar ist, steht der Grund an ihm:
   Worten ab, auch bei Material ohne Timecode.
 
 **Und auch eine Übergabe, die der Knopf annimmt, kann beim Öffnen noch
-abgewiesen werden.** Zweierlei macht eine unbrauchbar, und beides hält
+abgewiesen werden.** Dreierlei macht eine unbrauchbar, und alles hält
 die Arbeit an, bevor eine Zeitleiste entsteht — der Grund steht in der
 Zeile, die mit *Abbruch* beginnt:
 
@@ -95,6 +95,10 @@ Zeile, die mit *Abbruch* beginnt:
   schreibt, trägt eine — eine ohne kommt also von woanders her. Ohne die
   Rate entstünde die Zeitleiste mit einer geratenen Geschwindigkeit, und
   jeder Schnitt säße neben dem Bild. Den Lauf noch einmal machen.
+- **Sie nennt für Vorspann oder Abspann keine Datei.** Die Übergabe
+  dieses Programms nennt sie immer; der Eintrag wurde also anderswo
+  bearbeitet oder gekürzt. Die Zeile sagt, welchem der beiden die Datei
+  fehlt. Den Lauf noch einmal machen.
 
 Den Abgleich über die Kameras macht das Programm beim Öffnen, jedes
 Mal, wenn sich die Kameras in der Liste ändern, und jedes Mal, wenn der
@@ -181,7 +185,7 @@ springt. Der Mix kommt aus der abgelegten Einzeldatei, sonst aus dem
 Weitwinkel, wo er die erste Tonspur ist, und fehlt auch der, aus einer
 Kamera, die ihn unter ihren Tonspuren trägt. Woher er stammt, steht im
 Protokoll; findet sich keine der drei Quellen, meldet es `Kein Full-Mix
-gefunden`, und die Timeline bleibt stumm.
+gefunden`, die Timeline bleibt stumm, und der Lauf endet mit Fehlern.
 
 Aus dem gemessenen Versatz ergibt sich, welches Stück aus welcher
 Kameradatei in die Timeline kommt, nicht aus dem Timecode. Wenn eine
@@ -709,13 +713,24 @@ keine Sicherungskopie an.
   den übrigen Aufnahmen passt, und noch einmal laufen lassen -- oder
   sie von Hand nach Resolve holen.
 - **Der Lauf hat beim Bauen abgebrochen, und das Projekt ist weg.**
-  Resolve hat eine Datei nicht genommen, der Lauf hat angehalten. Das
-  Projekt, das er gerade angelegt hatte, hat er gelöscht und das vorher
-  offene wieder geöffnet; beides nennt er beim Namen. Ein Projekt, das
-  es vor dem Lauf schon gab, wird nie gelöscht. War vorher nichts offen,
+  Drei Dinge brechen den Bau ab, und welches es war, sagt die Zeile, die
+  mit `Resolve-Teil abgebrochen` beginnt: Resolve hat eine Datei nicht
+  genommen; Resolve antwortet, gibt aber keine Projektverwaltung heraus;
+  oder das Programm selbst ist bei einem seiner Schritte in Resolve an
+  einem eigenen Fehler gescheitert -- dann hat Resolve nichts
+  abgelehnt, die Zeile sagt `ein Fehler in diesem Programm, nicht in
+  Resolve` und bittet, ihn zu melden, und die Einzelheiten stehen im
+  Protokoll. War das Projekt schon angelegt, hat der Lauf es wieder
+  gelöscht und das vorher offene wieder geöffnet; beides nennt er beim
+  Namen. Ohne Projektverwaltung ist er gar nicht
+  so weit gekommen, eines anzulegen. Ein Projekt, das es vor dem Lauf
+  schon gab, wird nie gelöscht. War vorher nichts offen,
   das sich wieder laden lässt -- ein frisch gestartetes Resolve --,
   bleibt das neue Projekt offen, und der Lauf sagt es: in der
-  Projektverwaltung von Resolve löschen.
+  Projektverwaltung von Resolve löschen. Was es auch war, das Fenster
+  endet dann mit `Mit Fehlern beendet.` statt mit `Fertig.`, und ein
+  Lauf von der Kommandozeile endet mit einem Fehlercode: ein Bau, der
+  abgebrochen hat, hat nichts gebaut.
 - **Die letzten Zeilen des Laufs sagen, das Projekt sei nicht
   vollständig.** Resolve hat eine Spur abgelehnt, ist ein zweites Mal
   gefragt worden und hat wieder abgelehnt. Der Lauf hat es gesagt, als
@@ -723,9 +738,16 @@ keine Sicherungskopie an.
   fehlt: jede Kamera ab dieser Bildspur, der Ton einer Kamera, oder Bild
   oder Ton von Vorspann oder Abspann. Eine Kamera, die Resolve gar
   nicht auf ihre Spur legen wollte, zählt ebenso: Der Lauf sagt
-  `ACHTUNG: ... nicht eingefügt` und am Ende noch einmal. Alles andere
+  `ACHTUNG: ... nicht eingefügt` und am Ende noch einmal. Ebenso die
+  Timeline **… Cut**, wenn Resolve keine oder nur einen Teil ihrer
+  Einstellungen übernommen hat, keinen Full-Mix im Media Pool hat oder
+  ihn, den Vorspann oder den Abspann abgelehnt hat, und wenn die
+  Übergabe ihr nichts zu legen ließ -- keinen Full-Mix (`Kein Full-Mix
+  gefunden`) oder keine Einstellung, die in der Datei einer Kamera liegt
+  (`Kein Schnitt übrig`): Die Zeile sagt, was der Timeline fehlt -- der
+  Schnitt, sein Rest, ihr Ton, ihr Vorspann oder ihr Abspann. Alles andere
   hat er ohne sie gebaut, und in seinen letzten Zeilen, unter `ACHTUNG:
-  dieses Projekt ist nicht vollständig -- was Resolve abgelehnt hat:`,
+  dieses Projekt ist nicht vollständig -- was fehlt:`,
   sagt er es noch einmal; die Liste der Bildspuren im Protokoll und die
   Perspektiven im Schlusshinweis nennen nur die Kameras, die auf ihrer
   Bildspur liegen. Hat Resolve die Tonspur von Vorspann oder Abspann

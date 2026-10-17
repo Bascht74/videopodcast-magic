@@ -4,15 +4,12 @@
 [Inhalt](README.de.md).*
 
 `--help` gibt diese Liste auch aus, immer auf Englisch. Vorgaben in Klammern.
-Ein Schalter, der nur dort etwas bedeutet, wo mehrere Spuren gemeinsam
-zu auphonic.com gehen, trägt in den Tabellen hier `[multitrack only]`;
-`--help` kennzeichnet ihn ebenso, dazu `--multitrack` selbst, und die
-Marke bleibt englisch, in welcher Sprache der Lauf auch läuft. Alle
-anderen Schalter wirken mit dem Häkchen Multitrack wie ohne.
+Jeder Schalter wirkt gleich, welche Art von Produktion die Spuren
+ergeben.
 
 ```text
 $ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
-    GuestCam_01011858_C003.mov --multitrack --lufs -16 --dry-run
+    GuestCam_01011858_C003.mov --lufs -16 --dry-run
 videopodcast-magic 3.0.0b25   Python 3.14.7
 /tmp/vpm_terminal/videopodcast_magic/__init__.py
 
@@ -29,15 +26,11 @@ VORFLUG -- passt das Material zusammen?
     Plattenplatz             frei 109,9 GB, gebraucht etwa 326 MB (/private/tmp/vpm_terminal/interview)
     Lautheit                 -16 LUFS (Podcast-Verzeichnisse, stereo)
     8 geprüft, 1 Hinweis
-MULTITRACK NICHT MÖGLICH
-  Ohne API Key gibt es nichts, was zu auphonic.com ginge.
-  Mit --without-auphonic läuft es stattdessen örtlich: ausgerichtet,
-  gemischt und geschnitten, aber ohne De-Bleed und Leveler.
+...
 ```
 
-*`--multitrack --lufs -16 --dry-run` am Ende des Aufrufs, darunter die
-Version und das Python, dann der Vorflug mit acht Prüfungen und einem
-Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
+*`--lufs -16 --dry-run` am Ende des Aufrufs, darunter die Version und
+das Python, dann der Vorflug mit acht Prüfungen und einem Hinweis.*
 
 ## Grundlagen
 
@@ -47,12 +40,12 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--out ORDNER` | wohin die Ergebnisse kommen (neben jedes Video) |
 | `--project-type WAS` | wofür der Lauf da ist: `cut` legt die Kameras auf eine Zeitachse und schneidet nach Sprecher, im Fenster „Schnitt nach Sprecher“; `sync` legt nur den Ton auf jede Kamera und baut die Multicam-Timeline, „Nur synchronisieren“ -- ohne Sprecher, ohne Spracherkennung, ohne Transkript, ohne Schnittlisten (`cut`) |
 | `--suffix TEXT` | wird an den Dateinamen gehängt (`_audio`) |
-| `--production NAME` | der Name der Produktion, nach dem die Übergabe, die Listen und das Transkript heißen; neben `--assign` nicht gelesen, dessen Datei ihren eigenen trägt (der Ordner, in dem das Material liegt) |
+| `--production NAME` | der Name der Produktion, nach dem die Übergabe, die Listen und das Transkript heißen und unter dem sie bei auphonic.com hochgeht; neben `--assign` nicht gelesen, dessen Datei ihren eigenen trägt (der Ordner, in dem das Material liegt; in einem, der nichts über die Produktion sagt, etwa dem Schreibtisch, Datum und Uhrzeit, und bei auphonic.com der Name der ersten Spur) |
 | `--name-camera TEXT` | Name der Kameraspur (`Camera Original`) |
 | `--parallel ANZAHL` | so viele Videodateien gleichzeitig; 0 entscheidet selbst, 1 nacheinander (0) |
 | `--dry-run` | alles bis zum fertigen Schnitt ausrechnen und berichten, nichts schreiben |
 | `--version` | Nummer der Version, und auf welchem Python das läuft |
-| `--update` | `pip3 install -U` auf die Adresse ausführen, aus der das Programm kam, mit der neuesten Fassung hintendran, in dem Python, in dem es läuft, und schreiben, was pip sagt. Jeder andere Lauf sagt nur, dass eine neuere Version draußen ist |
+| `--update` | `pip3 install -U` auf die Adresse ausführen, aus der das Programm kam, mit der neuesten Fassung hintendran und deren Paketliste für dieses System (`-c`), in dem Python, in dem es läuft, und schreiben, was pip sagt. Jeder andere Lauf sagt nur, dass eine neuere Version draußen ist |
 
 ## Was mit Ton und Bild geschieht
 
@@ -85,17 +78,21 @@ Schlüsselbund, die Registry oder den Schlüsselbund des Desktops (Linux),
 nie auf die Kommandozeile: über das Fenster oder mit
 `--store-auphonic-key`. Ein abgelegter Schlüssel schaltet die
 Aufbereitung ein, und eine Kommandozeile mit Schaltern, aber ohne
-Dateien listet dann nur die Presets.
+Dateien listet dann nur die Presets -- alle, mit ihrer Art dahinter, wo
+auphonic.com sie nennt: ohne Dateien gibt es keine Spuren, die sagen
+könnten, welche Art ein Lauf braucht. Mit Dateien ergibt sich die Art
+aus ihnen: Zwei Spuren oder mehr auf einer Zeitachse gehen als eine
+Multitrack-Produktion hoch, eine einzelne Spur als Singletrack-Produktion,
+und das Preset muss von dieser Art sein ([Multitrack](multitrack.de.md)).
 
 | Schalter | Wirkung |
 |---|---|
 | `--store-auphonic-key` | den Schlüssel im Terminal abfragen, ohne ihn anzuzeigen, im Schlüsselbund (macOS), in der Registry (Windows) oder im Schlüsselbund des Desktops (Linux) ablegen und zurücklesen; hinter dem Schalter darf nichts stehen (aus) |
 | `--auphonic-preset NAME` | Name oder Kennung des Presets (das Programm fragt) |
 | `--auphonic-wait SEKUNDEN` | wie lange der Lauf darauf wartet, dass auphonic.com fertig wird; ist die Zeit um, bricht er ab und nennt die Adresse der Produktion, die dort weiterläuft; ist sie fertig, holt ein späterer Lauf ihr Ergebnis mit `--auphonic-resume result` ab. Höher wartet länger (7200, zwei Stunden) |
-| `--auphonic-resume WAS` | Produktion ist schon da: `result`, `rerun`, `adopt`, `upload`, `abort` (das Programm fragt)  `[multitrack only]` |
+| `--auphonic-resume WAS` | Produktion ist schon da: `result`, `rerun`, `adopt`, `upload`, `abort` (das Programm fragt) |
 | `--auphonic-done ORDNER` | schon aufbereitete Spuren, nach den Sprechern benannt. Der Lauf nimmt sie von dort, statt sie hochzuladen, und das Guthaben bleibt unangetastet |
-| `--multitrack` | jede Tondatei als eigene Spur, damit auphonic.com das Übersprechen herausnehmen kann. Wo zwei Spuren oder mehr gemeinsam hochgehen -- mit diesem Schalter oder ohne ihn --, muss das Preset ein Multitrack-Preset sein |
-| `--assign DATEI` | JSON, welcher Ton zu welcher Kamera gehört, unter welchem Sprechernamen und was nicht verwendet wird; die Oberfläche schreibt es für jeden Lauf, mit Multitrack wie ohne |
+| `--assign DATEI` | JSON, welcher Ton zu welcher Kamera gehört, unter welchem Sprechernamen und was nicht verwendet wird; die Oberfläche schreibt es für jeden Lauf |
 | `--without-auphonic` | auf diesem Rechner ausrichten, mischen und schreiben, Kameraschnitt aus eigener Spracherkennung |
 
 ## Das Zeitfenster setzen
@@ -122,13 +119,13 @@ Dateien listet dann nur die Presets.
 | `--on-uncertain WERT` | die Erkennung ist unsicher, und es redet jemand: `wide`, `listener`, `alternate`, `hold` -- beim Halten bleibt das Bild höchstens so lange stehen, wie `--silence-hold` erlaubt, danach kommt der Weitwinkel; gibt es keinen, bleibt es bis zum Ende der unsicheren Strecke stehen (wide) |
 | `--on-question WERT` | nach einer Frage: `off`, `answer`, `listener` (answer) |
 | `--wide-shot DATEI` | diese Videodatei ist ein Weitwinkel: eine Kamera, vor der niemand sitzt, sie nimmt keinen Sprecher; wiederholbar. Ohne ihn sind es die Kameras ohne zugeordneten Sprecher -- außer bei `--project-type sync`, wo nur eine hier genannte Kamera einer ist |
-| `--new-name DATEI NAME` | diese Videodatei wird als NAME geschrieben (die Endung kommt dahinter), und ihre Spur in der Übergabe trägt diesen Namen; wiederholbar. Ohne ihn der eigene Name der Datei. Wirksam ist er überall, wo jede Kamera nach ihrer Datei heißt, auch neben `--speakers-from` oder einer Zuordnungsdatei ohne Kameras. Neben einer Zuordnungsdatei, die die Kameras selbst benennt (`--assign`), und bei `--multitrack` mit Kameras allein, deren Dateien nach den Spuren aus ihrem Ton heißen, ginge er stillschweigend verloren; deshalb lehnt der Lauf ihn dort ab. Ebenso abgelehnt, bevor etwas geschrieben wird: ein NAME mit Ordner- oder Laufwerkstrenner (`/`, `\`, `:`), mit Punkt am Anfang oder leer, eine DATEI, die keine der Kameras ist oder zwei Namen bekommt, und zwei Kameras, die in derselben Datei landen würden, wobei Groß- und Kleinschreibung als gleich gilt |
+| `--new-name DATEI NAME` | diese Videodatei wird als NAME geschrieben (die Endung kommt dahinter), und ihre Spur in der Übergabe trägt diesen Namen; wiederholbar. Ohne ihn der eigene Name der Datei. Wirksam ist er überall, wo jede Kamera nach ihrer Datei heißt, auch neben `--speakers-from` oder einer Zuordnungsdatei ohne Kameras. Neben einer Zuordnungsdatei, die die Kameras selbst benennt (`--assign`), und bei Kameras allein, deren Dateien nach den Spuren aus ihrem Ton heißen, ginge er stillschweigend verloren; deshalb lehnt der Lauf ihn dort ab. Ebenso abgelehnt, bevor etwas geschrieben wird: ein NAME mit Ordner- oder Laufwerkstrenner (`/`, `\`, `:`), mit Punkt am Anfang oder leer, eine DATEI, die keine der Kameras ist oder zwei Namen bekommt, und zwei Kameras, die in derselben Datei landen würden, wobei Groß- und Kleinschreibung als gleich gilt |
 | `--speaker-name DATEI NAME` | die Aufnahme, zu der DATEI gehört, spricht NAME: ihre Spur, ihre Zeilen im Protokoll und der Schnitt tragen diesen Namen; DATEI darf jeder ihrer Blöcke sein; wiederholbar. Ohne ihn wird der Name aus dem Dateinamen geraten. Das Fenster schreibt die Namen stattdessen in seine Zuordnungsdatei. Abgelehnt, bevor etwas geschrieben wird: neben `--assign`, eine DATEI, die keine der Aufnahmen ist oder zwei Namen bekommt, ein leerer NAME |
 | `--camera-label DATEI NAME` | die Meldungen des Laufs nennen diese Videodatei NAME; wiederholbar. Ohne ihn der eigene Name der Datei. Das Fenster schickt ihn für die zweite von zwei gleichnamigen Dateien, „(2)“, wie es sie zeigt |
 | `--wide-after SEKUNDEN` | ab dieser Standzeit bricht das Programm die Einstellung an einer Satzgrenze auf, nicht nach der Uhr, 0 aus (70) |
 | `--wide-length SEKUNDEN` | wie lange die eingeschobene Einstellung mindestens steht; danach läuft sie bis zum Satzende (5) |
 | `--wide-most SEKUNDEN` | wie lange sie höchstens steht; wenn das Satzende darüber liegt, beendet die letzte Teilsatzgrenze davor die Einstellung (15) |
-| `--wide-latest SEKUNDEN` | wie lange eine Kamera höchstens ohne Schnitt stehen darf (120) |
+| `--wide-latest SEKUNDEN` | eine Einstellung, länger als `--wide-after` und ohne Satzgrenze und Pause, bricht die Uhr auf, sofern sie auch länger steht als dieser Wert -- solange `--wide-after` nicht 0 ist und `--on-monologue` nicht `hold`; der Weitwinkel am Anfang und am Ende steht nie länger als dieser Wert (120) |
 | `--no-wide-edges` | den Weitwinkel nicht über Begrüßung und Verabschiedung halten |
 
 ## Vorflug und Kennzahlen steuern
@@ -196,7 +193,7 @@ führt die Kapitel auf.
   setzen: `--auphonic-preset "<Name des Presets>"`. Ohne sie kommt das
   zweite Wort als Dateiname an.
 * **Kein Schlüssel abgelegt.** Ein Lauf, der zu auphonic.com senden
-  würde, hält an, bevor er beginnt, mit `--multitrack` wie ohne. Einmal
+  würde, hält an, bevor er beginnt. Einmal
   einen Schlüssel mit `--store-auphonic-key` ablegen, oder
   `--without-auphonic` auf diesem Rechner ausrichten, mischen und
   schneiden lassen. Ein Probelauf (`--dry-run`) braucht keinen Schlüssel

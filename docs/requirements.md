@@ -5,11 +5,17 @@
 
 ## Getting the program
 
-One command installs it, and there is no second way in:
+One command installs it, and there is no second way in. It is the
+same on every system but for the last word of the list it names --
+`macos`, `windows` or `linux`:
 
 ```
-pip3 install git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-windows.txt git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-linux.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
+
+One of the three lines, the one for your system.
 
 It leaves the command `videopodcast-magic` behind, callable out of any
 folder. Everything the program needs in Python comes with it in that
@@ -45,8 +51,11 @@ command puts everything back, the separation with it.
 seconds:**
 
 ```
-pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -U -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
+
+-- the line for a Mac; on another system the list's name changes as
+above.
 
 No package registry stands in between: the address is the repository
 itself, and pip reads it afresh each time, compares the version there
@@ -57,30 +66,36 @@ newer, and not one package touched.
 Where `pip3 install` refuses and says the environment is externally
 managed, this Python belongs to a package manager -- Homebrew's, or a
 Linux distribution's -- which keeps pip out of what it maintains, and
-the refusal names the way round it: `pipx install` on the same address
-puts the program in an environment of its own and the command on the
-path.
+the refusal names the way round it: `pipx install` on the same address,
+with the list handed on to pip as `--pip-args="-c <the list's
+address>"`, puts the program in an environment of its own and the
+command on the path.
 
-**On the machine the episodes are edited on, the versions that were
-tested rather than the newest.** Every release carries, beside the
-archive, one list per system of the package versions its suite ran
-green on -- `constraints-macos.txt`, `constraints-windows.txt`,
-`constraints-linux.txt`, made on Python 3.14 -- and installing with the
-one for your system, `pip3 install -c constraints-macos.txt
-git+https://github.com/Bascht74/videopodcast-magic@v<version>`, takes
-exactly those.
+**The versions that were tested, rather than the newest.** That is
+what the `-c` and the address after it are for. Every release carries,
+beside the archive, one list per system of the package versions its
+suite ran green on -- `constraints-macos.txt`,
+`constraints-windows.txt`, `constraints-linux.txt`, made on Python
+3.14 -- and the address in the command always leads to the list of the
+newest release, so pip takes exactly those versions instead of
+whatever is newest that day. A package the list does not name, pip
+chooses as before. Whoever wants one particular release rather than
+the newest names it twice, in the list's address and after the `@`:
+`pip3 install -c
+https://github.com/Bascht74/videopodcast-magic/releases/download/v<version>/constraints-macos.txt
+git+https://github.com/Bascht74/videopodcast-magic@v<version>`.
 
 Two things have to be on the machine before that command, because pip
 can bring neither:
 
-* **Python 3.10 or newer, and its pip.** A pip that reads the project
-  file stops below 3.10 and names the version it wanted. **The pip
+* **Python 3.12 or newer, and its pip.** A pip that reads the project
+  file stops below 3.12 and names the version it wanted. **The pip
   macOS brings with its own Python 3.9 reads nothing and says nothing
   is wrong**: measured on 4 September 2026, `/usr/bin/pip3` --
   pip 21.2.4 -- answered `Successfully installed UNKNOWN-0.0.0` and
   left behind an empty folder of that name. No module, no command, no
   error. **Reading `UNKNOWN` means the pip is the wrong one**, and the
-  answer is to install Python 3.10 or newer and use its `pip3`.
+  answer is to install Python 3.12 or newer and use its `pip3`.
 * **`ffmpeg` 9.0.1 or newer, and `ffprobe` beside it.** They are not
   Python and no list pip reads can name them. The program offers to
   get them, on all three systems.
@@ -203,22 +218,25 @@ hand, and one this program did not write.
 
 ## Which Python the program needs
 
-3.10 or newer, and pip refuses the install below that. The floor is
-what the interface needs: PySide6 does not build below 3.10. The
-test suite runs on 3.14.7, the version this is used on daily. It
-covers 3.14.7 only; anything between it and 3.10 is not measured.
+3.12 or newer, and pip refuses the install below that. The floor is
+what the tested versions need: the lists a release carries name
+`numpy` and `scipy` in versions that install on 3.12 and later only,
+and on Linux under 3.10 the window's player crashed in `PySide6`.
+The test suite runs on 3.14.7, the version this is used on daily,
+and on the builder, at every push, on 3.12 and 3.14 on Linux, macOS and
+Windows; 3.13 between them is not measured.
 The installers for macOS and Windows are at
 <https://www.python.org/downloads/>; on Linux the distribution's own
 package brings it.
 
 `--version`, the header of the log and the first line of every run say
 which Python is running. They name the recommended one when it is
-another: `Python 3.11.15  (recommended version 3.14.7)`. `--help` and
+another: `Python 3.12.13  (recommended version 3.14.7)`. `--help` and
 `--version` answer without `numpy`, `PySide6` and `ffmpeg`.
 
 ```text
 $ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
-    GuestCam_01011858_C003.mov --multitrack --lufs -16 --dry-run
+    GuestCam_01011858_C003.mov --lufs -16 --dry-run
 videopodcast-magic 3.0.0b25   Python 3.14.7
 /tmp/vpm_terminal/videopodcast_magic/__init__.py
 ...
@@ -313,12 +331,13 @@ machine has:
 * **Windows: it fetches one.** Windows brings no package manager, so
   the program downloads a build that has soxr and puts `ffmpeg.exe` and
   `ffprobe.exe` in a folder of its own, under the user's own local
-  data. Nothing has to go into PATH by hand. The download is held
-  against `checksums.sha256` of the same release before anything is
-  unpacked; where that list cannot be fetched, does not name the
-  archive or gives another sum, nothing is unpacked, the download is
-  deleted and the program says why. An archive holding either tool
-  twice is refused as well. Where the download fails it offers to open
+  data. Nothing has to go into PATH by hand. It is always the same
+  build, named in the program with its checksum beside it, and the
+  download is held against that checksum before anything is unpacked;
+  where it differs, nothing is unpacked, the download is deleted and
+  the program says why. A newer ffmpeg therefore comes only with a
+  newer version of this program, never behind its back. An archive
+  holding either tool twice is refused as well. Where the download fails it offers to open
   ffmpeg.org instead.
 * **Linux: the package manager first, then a download.** `apt-get`,
   `dnf`, `zypper` or `pacman`, with `sudo` in front where the run is
@@ -365,15 +384,15 @@ well, with two differences:
 ## When something goes wrong
 
 * **pip refuses and names a Python version.** This Python is older
-  than 3.10. Install a newer one and give the same command to that
+  than 3.12. Install a newer one and give the same command to that
   one.
 * **pip answers `Successfully installed UNKNOWN-0.0.0`.** Nothing was
   installed. This pip is too old to read the project file; on a Mac
   that is `/usr/bin/pip3`, which belongs to Python 3.9. Install
-  Python 3.10 or newer and give the command to its `pip3`.
+  Python 3.12 or newer and give the command to its `pip3`.
 * **pip says the environment is externally managed.** This Python
-  belongs to a package manager. `pipx install` on the same address is
-  the way round it.
+  belongs to a package manager. `pipx install` on the same address,
+  with `--pip-args="-c <the list's address>"`, is the way round it.
 * **The install breaks off part way.** The last lines of pip say why.
   It is almost always one of the two big downloads, the window or the
   machinery under the speaker separation: give the same command again.

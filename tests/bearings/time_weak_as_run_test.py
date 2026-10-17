@@ -7,8 +7,9 @@ recording does not place and the other cameras do stands where they
 put it. Sections: a weak recording where the run puts it, its clock
 ten seconds off, and so beside a longer recording; the same with clocks
 on weak recordings alone; one the run refuses, refused, and with a
-clock at that clock; the camera; recordings beside one longer than
-every camera, held against the camera as in the run.
+clock at that clock, beside a camera and without a picture; the camera;
+recordings beside one longer than every camera, held against the camera
+as in the run.
 """
 PLATFORM_BOUND = True
 import os
@@ -22,7 +23,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
-import subprocess, sys, tempfile, time, wave
+import contextlib, io, subprocess, sys, tempfile, time, wave
 import numpy as np
 
 vpm = the_program.load()
@@ -195,6 +196,33 @@ check("one no way measures stands at its clock, beside a camera's",
       and "hiss.wav" not in named(data, "no_place"),
       "hiss.wav at %s from the camera, wanted its clock's %+.1f s; no "
       "place %s" % (where(here), HISS_AT, named(data, "no_place")))
+# Without a picture the longest recording is the reference: the room,
+# and the hiss twenty seconds after it, each with its clock in the file
+# as a recorder writes it, so the run reads them as it reads any. The
+# phase way is off on both sides, as for speech.
+ROOM_TC, HISS_TC = D + "/Presenter_REC00001.wav", D + "/Guest_REC00002.wav"
+for source, target, clock_s in ((D + "/Cam.wav", ROOM_TC, 1000.0),
+                                (HISS, HISS_TC, 1000.0 + HISS_AT)):
+    subprocess.run(["ffmpeg", "-v", "error", "-i", source, "-c:a",
+                    "pcm_s16le", "-write_bext", "1", "-metadata",
+                    "time_reference=%d" % int(clock_s * RATE), "-y", target],
+                   check=True)
+with contextlib.redirect_stdout(io.StringIO()):
+    made = vpm.join_the_plan([{"audio": p, "blocks": [p]}
+                              for p in (ROOM_TC, HISS_TC)], D)
+    laid = vpm.measure_tracks_against_each_other(made, lambda blocks: False)
+run_at = [-t["a"] / t["b"] for t in laid if t["blocks"][0] == HISS_TC]
+data, text = vpm.measure_time_axis([ROOM_TC, HISS_TC],
+                                   tc_of=vpm.file_timecode,
+                                   phase_of=lambda p: False)
+print("   without a picture: %s; the run %s"
+      % (text, where(run_at[0] if run_at else None)))
+here = at(data, HISS_TC, ROOM_TC)
+check("and without a picture at its clock less the longest recording's",
+      here is not None and len(run_at) == 1
+      and abs(here - run_at[0]) < 0.001 and abs(here - HISS_AT) < 0.001,
+      "hiss at %s from the room, the run %s, wanted its clock's %+.1f s"
+      % (where(here), where(run_at[0] if run_at else None), HISS_AT))
 
 #------------------------------------------------------- 4. The camera
 

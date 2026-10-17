@@ -184,7 +184,7 @@ try:
             for n, p in (("A", A), ("B", B))]
     calls = []
 
-    def second_stops(tracks):
+    def second_stops(tracks, window=None):
         """The first measurement comes back empty, the cross-check stops."""
         calls.append(1)
         if len(calls) > 1:

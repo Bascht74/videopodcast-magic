@@ -766,7 +766,22 @@ jobs:
           fi
 
           url="git+https://github.com/$GITHUB_REPOSITORY@$TAG"
-          echo "   pip install $url"
+          # With the release's own known-good list for Linux, as the
+          # README tells somebody to install: section 5 above only asks
+          # that the list hangs and has the right shape, and a list pip
+          # cannot satisfy -- a version yanked from PyPI, one torch the
+          # others do not fit -- is found here and nowhere else. It is
+          # the copy section 5 fetched and held against the manifest.
+          known=/tmp/constraints-linux.txt
+          [ -s "$known" ] && ok=1 || ok=0
+          check "constraints-linux.txt is there to install with" "$ok" \
+            "$({ wc -l < "$known"; } 2>/dev/null || echo no) lines in $known"
+          if [ "$ok" = "0" ]; then
+            echo
+            echo "FAIL: $fails of these"
+            exit 1
+          fi
+          echo "   pip install -c constraints-linux.txt $url"
           # The dependencies are fetched with it and not skipped. They
           # are the slow half -- PySide6 and numpy are a few hundred
           # megabytes -- but a name in that list is spelled nowhere
@@ -779,11 +794,12 @@ jobs:
           ok=0
           for try in 1 2 3; do
             /tmp/package/bin/pip install --disable-pip-version-check \
-              "$url" && { ok=1; break; }
+              -c "$known" "$url" && { ok=1; break; }
             echo "  ... it did not install (try $try of 3)"
             sleep 10
           done
-          check "pip installs it from this tag" "$ok" "$url"
+          check "pip installs it from this tag with the known-good list" \
+            "$ok" "-c constraints-linux.txt $url"
           if [ "$ok" = "0" ]; then
             echo
             echo "FAIL: $fails of these"
@@ -855,27 +871,30 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          # Linux by its number, as in tests.yml: ubuntu-latest moves
+          # to 26.04 between 19 October and 19 November 2026, and the
+          # move is to happen in a commit of ours, not under a run.
+          - os: ubuntu-26.04
             python: '3.14'
           - os: windows-latest
             python: '3.14'
           - os: macos-latest
             python: '3.14'
           # The floor the program names for itself: NEEDS_PYTHON is
-          # (3, 10), and it says so in a line it prints before
+          # (3, 12), and it says so in a line it prints before
           # anything else. Somebody who has a Python at all mostly
           # has the one that came with the machine -- and that machine
           # is as often a Windows or a Mac as it is a Linux, so the
           # floor is walked on all three. This job fetches one file and
           # installs nothing, so the two extra runs cost about a minute
-          # each. On Windows and macOS '3.10' comes out as 3.10.11, the
+          # each. On Windows and macOS '3.12' comes out as 3.12.10, the
           # last one CPython released as a binary.
-          - os: ubuntu-latest
-            python: '3.10'
+          - os: ubuntu-26.04
+            python: '3.12'
           - os: windows-latest
-            python: '3.10'
+            python: '3.12'
           - os: macos-latest
-            python: '3.10'
+            python: '3.12'
     env:
       TAG: ${{ inputs.tag || github.event.release.tag_name
                || github.ref_name }}

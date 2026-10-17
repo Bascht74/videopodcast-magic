@@ -248,11 +248,6 @@ ORDINARY = {
     ('Speech', '  Who asks -- not said here: two of the tracks carry the '
      'same speech, so the questions would go to whichever recorder was '
      'turned up loudest.'),
-    # A pause in talking: Sprechpause.
-    ('Speech', 'The hard limit of the pair: where no sentence boundary has '
-     'turned up since "Wide shot after", the longest speech pause stands '
-     'in for one, and at this point the cut happens whatever is being '
-     'said.'),
     # Finding who speaks when, said as such in German.
     ('Speech', '  Bleed measured, %s in %s only %s dB quieter -- taken out '
      'of the speech detection'),

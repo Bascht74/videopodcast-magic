@@ -31,7 +31,6 @@ COLOURS = PROGRAM.COLOURS
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIX_ONLY = PROGRAM.MIX_ONLY
 OTHERS_FAINT_DB = PROGRAM.OTHERS_FAINT_DB
-PIP_SOURCE = PROGRAM.PIP_SOURCE
 SPEAKER_ROWS_SHOWN = PROGRAM.SPEAKER_ROWS_SHOWN
 SR = PROGRAM.SR
 T = PROGRAM.T
@@ -66,7 +65,6 @@ kept_in_use = PROGRAM.kept_in_use
 label_of = PROGRAM.label_of
 math = PROGRAM.math
 microphones_apart_db = PROGRAM.microphones_apart_db
-multitrack_state_note = PROGRAM.multitrack_state_note
 number_text = PROGRAM.number_text
 os = PROGRAM.os
 parallel_map = PROGRAM.parallel_map
@@ -414,10 +412,12 @@ def speaker_split_missing():
     """The one sentence for "it cannot run here", with the way back.
 
     One place, so the console, the window and the dry run cannot say
-    three different things about the same fault.
+    three different things about the same fault. The line is the one
+    the update runs, for the version running here: its own package
+    list, so the repair brings what that release was tested with.
     """
     return T('The speaker separation is not installed here. This puts '
-             'it back: %s') % ("pip3 install -U " + PIP_SOURCE)
+             'it back: %s') % PROGRAM.pip_command()
 
 
 def speaker_python():
@@ -1840,9 +1840,7 @@ def split_cells_write(cells, busy, running, by_source, note):
                 mark.setText(T('Separating ...'))
                 mark.setStyleSheet("color: %s" % COLOURS["quiet"])
             elif done:
-                mark.setText(TN(len(found), 'Separated: %s speaker',
-                                'Separated: %s speakers')
-                             % number_text(len(found), 0))
+                mark.setText(separated_said(len(found)))
                 mark.setStyleSheet("color: %s" % COLOURS["good"])
             else:
                 mark.setText("")
@@ -2122,9 +2120,10 @@ def unmix_levels(power, c, at_most=30.0):
 # The floor is where passages stop being "mhm" and start being breath.
 SPEECH_MIN_LEN_S = 0.2
 
-# The longest silence inside one passage that does not end it: a breath
-# between two words, not a turn handed over. Set, not measured.
-SPEECH_PAUSE_BRIDGED_S = 0.35
+# The longest silence inside one passage that does not end it: a breath,
+# not a turn handed over. Measured 17.10.2026 on seven excerpts of the
+# owner's interviews: 0.35 to 0.75 took the right camera 88.5 to 92.7 %.
+SPEECH_PAUSE_BRIDGED_S = 0.75
 
 
 def clock_on_axis(curve, clock):
@@ -3083,6 +3082,53 @@ def speaker_voices_alike(mine, theirs, least=SPEAKER_SAME_VOICE):
     return out
 
 
+def voices_alike_inside(prints):
+    """Which two voices of one separation lie at the line or above.
+
+    [(label, label, similarity)], each pair once, speaker_voices_alike
+    on the two alone. Measured 16.10.2026 on 15 say(1) talks: pairs at
+    0.92-0.99 had 15-58 % of the speech on the wrong person, pairs at
+    0.16-0.57 at most 17 %; nothing was measured in between.
+    """
+    labels = sorted(prints or {})
+    out = []
+    for i, one in enumerate(labels):
+        for other in labels[i + 1:]:
+            out += speaker_voices_alike({one: prints[one]},
+                                        {other: prints[other]})
+    return out
+
+
+def voices_alike_said(where, prints, names=None):
+    """The log's lines on two voices of one separation that sound alike.
+
+    *where* names the recording, *names* the voices by label where they
+    have one. A warning and no more: nothing is merged or renamed. The
+    caller prints them -- a run marks a warning, the window's own output
+    carries no marks -- and the window shows them too.
+    """
+    named = dict(names or {})
+    return [T('  %s and %s in %s sound alike (similarity %s): the '
+              'separation may have confused the two -- check their '
+              'assignment.')
+            % (named.get(one) or one, named.get(other) or other, where,
+               number_text(alike, 2))
+            for one, other, alike in voices_alike_inside(prints)]
+
+
+def separated_said(count, lines=()):
+    """What the row says of a separation: how many, and what to check.
+
+    The count is the first line, the one the cell has room for; *lines*
+    out of voices_alike_said stand under the table, as every note's
+    second line does.
+    """
+    return "\n".join([TN(count, 'Separated: %s speaker',
+                         'Separated: %s speakers')
+                      % number_text(count, 0)]
+                     + [line.strip() for line in lines or ()])
+
+
 def voice_prints_of(state, source):
     """The prints stored beside the window's separation of *source*."""
     return speaker_voices_stored(
@@ -3581,6 +3627,11 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         else:
             print(T('  In %s, on this machine.') % os.path.basename(source))
         count = int(getattr(args, "speakers_count", 0) or 0)
+        if not count and why == "microphones mixed":
+            # One person per microphone: counting for itself, the model
+            # found a voice too many in 1 of 15 mixes, and then none got a
+            # microphone -- 58 % right against 95.5 % with the count given.
+            count = int(getattr(args, "_speakers_mixed_count", 0) or 0)
         blocks = blocks_in_run(tracks, source)
         stored = speaker_split_stored(source, count, blocks)
         if stored:
@@ -3613,6 +3664,10 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         if trouble:
             print("  %s" % trouble)
             return [], ""
+        for line in voices_alike_said(
+                os.path.basename(source),
+                speaker_voices_stored(source, count, blocks)):
+            print(as_warn(line))
         given = {"source": source,
                  "segments": [[label, a, b] for label, parts in segments
                               for a, b in parts]}
@@ -3730,6 +3785,20 @@ def speakers_for_the_cut(args, tracks, window=None):
               % (where_from, number_text(len(voices), 0)))
         for line in named:
             print(line)
+        # One the run made warned as it was made; one handed over was
+        # warned of in the window, and the run's log says it again. A
+        # mix stands in for the one handed over, so that one is not used.
+        given = ({} if getattr(args, "_speakers_mixed", False)
+                 else handed_over(args)[0])
+        for one in ([given] + list(given.get("more") or ())
+                    if given else ()):
+            if one.get("source"):
+                for line in voices_alike_said(
+                        os.path.basename(one["source"]),
+                        speaker_voices_stored(
+                            one["source"], one.get("num_speakers") or 0,
+                            one.get("blocks") or ()), one.get("names")):
+                    print(as_warn(line))
     if left:
         print(as_head(T('\nSPEAKERS -- MEASURED HERE')))
         print(T('  From the tracks themselves, one voice per track: %s.')
@@ -3891,15 +3960,19 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
         # lent to its other voice, the one recording holds it twice.
         kept = [called[label] for label, _p in segments
                 if (called.get(label) or "").strip()]
-        known = voice_names_known(
-            source, speaker_voices_stored(source, count, blocks), others,
-            taken + kept)
-        speakers_keep(state, source, segments, count, dict(
-            speaker_label_names(segments, called, taken, known)), blocks)
+        prints = speaker_voices_stored(source, count, blocks)
+        known = voice_names_known(source, prints, others, taken + kept)
+        names = dict(speaker_label_names(segments, called, taken, known))
+        speakers_keep(state, source, segments, count, names, blocks)
         speaker_voices_said(state, source, count)
+        alike = voices_alike_said(os.path.basename(source), prints, names)
+        for line in alike:
+            print(line)
         axis_store(state.get("axis") or {})
         state["assignment_fresh"]()
-        speaker_split_show()
+        # After the table is built again, which clears every note.
+        speaker_split_show(separated_said(len(segments), alike)
+                           if alike else "", COLOURS["warning"], source)
         state["preview_soon"]()
 
     bridge.speakers_split.connect(speaker_split_done)
@@ -4041,8 +4114,7 @@ def speech_table_fill(Qt, QtGui, QtWidgets, table, d):
 
 
 def assignment_marks_show(audio_fields, assign_lines, video_fields,
-                          camera_lines, multitrack_on, state,
-                          voice_lines=()):
+                          camera_lines, state, voice_lines=()):
     """Mark the trouble spots red, and say beside the tables what they are.
 
     Three things are caught before they do damage: two recordings under
@@ -4082,12 +4154,7 @@ def assignment_marks_show(audio_fields, assign_lines, video_fields,
                   'a person, and the cut puts a person on one '
                   'camera -- please give this voice its own.'))
     if audio_reason is not None:
-        if duplicate and multitrack_on and len(set(names)) < 2:
-            audio_reason.setText(
-                T('✕  All recordings carry the same name. That makes '
-                  'one track -- Multitrack needs at least two.'))
-            audio_reason.setVisible(True)
-        elif duplicate:
+        if duplicate:
             audio_reason.setText(
                 T('✕  %s occurs more than once. These recordings are '
                   'merged into one track and placed in sequence by '
@@ -4121,7 +4188,7 @@ def assignment_marks_show(audio_fields, assign_lines, video_fields,
 
 
 def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
-                    files, remembered, state, tree_open, multitrack, player,
+                    files, remembered, state, tree_open, player,
                     assignment_check, player_load, speaker_split_kick_off,
                     voices_of):
     """The rows of the assignment tree, and the voices under them.
@@ -4133,7 +4200,7 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
     the module, not the widget.
     """
     def assignment_state_show():
-        """What the material allows: the cut box, and the tick's line.
+        """What the material allows: the cut box, and what Sync greys.
 
         The camera cut needs speakers told apart, and whether they came
         of separate tracks or of one recording taken apart is no part of
@@ -4145,8 +4212,8 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
         if boxes:
             pairs = assignment_pairs(voice_lines, assign_lines)
             seen = len(camera_lines)
-            on = bool(multitrack.get()) or cut_has_people(pairs, seen)
-            boxes[0].setTitle(cut_box_title(pairs, multitrack.get(), seen))
+            on = cut_has_people(pairs, seen)
+            boxes[0].setTitle(cut_box_title(pairs, seen))
             # Sync only: the boxes stand, greyed, under one sentence
             # saying why -- a tab gone empty says nothing.
             boxes[0].setVisible(on or sync_only)
@@ -4154,20 +4221,13 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
             boxes[2].setVisible(not on and not sync_only)
         parts = state.get("sync_parts")
         if parts:
-            note, speaker_box, multitrack_bar, split_line = parts
+            note, speaker_box, split_line = parts
             note.setVisible(sync_only)
             for box in (boxes[0], boxes[1], speaker_box):
                 box.setEnabled(not sync_only)
-            multitrack_bar.setVisible(not sync_only)
             # Shown again by the separation's own line, in cut.
             if sync_only:
                 split_line.setVisible(False)
-        note = state.get("multitrack_note")
-        if note is not None:
-            used = [r for r in assign_lines if r[2].get() != IGNORE_AUDIO]
-            note.setText(multitrack_state_note(
-                len(used), sum(1 for _b, _nv, own, _n in camera_lines
-                               if not own.get())))
 
     def voice_play(key):
         """Hand that voice to the player on the right.
@@ -4333,5 +4393,7 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
         if soon:
             soon()
 
+    # So the sheet can store an answer still waiting before it rebuilds.
+    state["voices_remember"] = voices_remember
     return (assignment_state_show, voice_play, assignment_row_show,
             folded_show, voice_add, voices_build, voices_remember)

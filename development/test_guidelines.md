@@ -406,6 +406,27 @@ use a callback or polling."* And flakiness is not wear: 78 percent of
 flaky tests were already flaky when they were written. It is built in,
 which is why this stands in the rules and not in a clean-up plan.
 
+**The suite waits for processor the same way, and only beside somebody
+who waits too.** `run.sh` starts its tests several at a time, up to
+`WORKERS`, and asks `tests/cpu_wait.sh` before each start: *while
+another suite or measurement that waits is running, a test starts only
+on a look that finds the machine under `VPM_CPU_BUSY_MOST` percent busy
+over the last half second (default 90), one start per look and each
+start of that half second counted as a busy processor, and after
+`VPM_CPU_WAIT_MOST` seconds (default 600) it starts anyway.* Measured
+17.10.2026 on 14 processors: three suites side by side took 527 s with
+the wait and 482 s without it, but without it every test took three
+times as long, the longest 77 s against 36; one after another they take
+about 590 s. A suite alone keeps the machine at 90 % or more for two
+thirds of its seconds, and held to the rule against itself it took 8 to
+12 % longer, so a run alone does not look. The look reads every
+processor's ticks against the last half second's, one Python start of
+20 ms, and sees a hog fill the machine within 0.8 s: `ps` needed a
+second, `top` 1.6 s a call, the load average 25 s, and `host_statistics`
+answers from a cache. Off on GitHub and with
+`VPM_CPU_BUSY_MOST=0`; a measurement outside `run.sh` goes through
+`bash tests/cpu_wait.sh <command>`.
+
 ## 7. A skipped test is not a green one
 
 **Skipping has to be visible or it is a lie.** A test that bows out
@@ -461,6 +482,89 @@ recognisable.
 **A coverage target.** Make a coverage figure a target and it will be
 reached, and the suite is no better for it. The number serves as a way
 of searching for unchecked paths and for nothing else.
+
+**A coverage floor is something else, and it is kept.** Every release
+measures, on its macOS py3.14 job and on both of `publish.yml`'s ways,
+which lines of the program the whole suite runs -- coverage.py across
+every process, the program the tests start included -- and
+`source_lines_stay_tested` holds it **per function**: red when a
+function has more untested lines than its floor, or when a function the
+state does not know runs not one line; a floor that falls is written
+down by itself. What it catches is a test that went away, and new code
+nobody ran. How it measures is in `tests/tested_lines.py`; the floors
+stand in `tests/state/tested_lines_state.json`; `VPM_COVERAGE=1
+VPM_ALL_LANGUAGES=1 bash run.sh` is the same measurement here (without
+every language `run.sh` refuses, because three functions read as rising
+that only the language slices run), and an ordinary run sets the guard
+aside at no cost. It wants coverage.py 7.13 or later installed for the
+suite's Python -- 7.10 to 7.12 put no `.pth` beside themselves and
+measure none of the programs the tests start, measured 17.10.2026 --
+and **a run that writes floors uses the version
+`.github/workflows/tests.yml` pins, 7.16.2**: another coverage.py may
+count a line differently, and the floor would then move under a tree
+that changed nothing. `run.sh` reads the pin there and says, at the
+start and in the summary, when its Python measures with another.
+A new function that cannot be run here is entered into the state by
+hand, with its count, so the diff shows that it was decided.
+
+**And under the floors one share, by the owner's order for 3.0.0b30**:
+the guard is red as well when the whole program's share of lines run
+falls below 95 %. That is the coverage target of the paragraph before
+last, taken on knowingly, and it stands under the floors, not instead
+of them -- a share lets a new untested function hide behind a test
+written elsewhere, a floor per function does not. Its line says how many
+lines are missing to 95 %, so what it asks for is counted, not guessed:
+the finished 3.0.0b29 ran 92.3 % of 25166 lines, 687 short of it, and
+92.2 % without the two tests the macOS builder sets aside (measured
+17.10.2026). Raising that is the work of 3.0.0b30's tests, not of the
+guard.
+
+**For 3.0.0b29 it measures and does not stop the release** (the owner,
+16.10.2026): what it would fail on, the share among it, is said as a
+`NOTED tested lines:` line under the summary, and the run stays green.
+From the version the test names in `JUDGED_FROM`, 3.0.0b30, it fails:
+the program's `VERSION` is ordered against it, so nobody has to switch
+it, and a release that skips that number is judged all the same.
+
+**A merge moves the floors, and they are written again, not argued.**
+New code nobody runs yet raises a count, and a floor only falls by
+itself. So after such merges, and before the version it judges from,
+the floors are measured afresh on the merged tree: `VPM_COVERAGE=1
+VPM_ALL_LANGUAGES=1 bash run.sh` three times with the pinned
+coverage.py, each with a `VPM_COVERAGE_TABLE` and a `VPM_FIXTURES` of
+its own, the third on a clone with the tests the macOS builder sets
+aside taken out -- `tests.yml` names them -- and the clone a `git
+worktree`, so the tests that ask git for a file set aside find it there
+as they do on the builder. Then `python3 tests/tested_lines.py --floors
+<table> <table> <table>`, the builder's table of the last release among
+them where it was measured on the same tree, writes each function's
+highest count and puts under `unsteady` every function whose count
+differed between them -- and only those: the list is written afresh out
+of the runs it is given, so an entry an older tree needed goes when this
+tree holds it steady. Raised that way, a floor is a decision the diff
+shows.
+
+**The count is not steady, and that was measured before the first
+floor was written** (16.10.2026): three runs of one tree on this Mac
+differed in ten functions by one to three lines -- a cache one test
+fills before another asks, a player quicker one time than the next --
+and a run without the two tests the macOS builder sets aside lost nine
+more. Measured again on the finished 3.0.0b29 (17.10.2026, two runs in
+the tree, two on a clone without those two tests): five functions moved
+between runs of one tree and eight only without the two tests -- the
+macOS speech recognition the German dictation test alone reaches, and
+the cache clean-up. Those stand under `unsteady` in the state with the
+highest count seen: their allowance is that count and no lucky run
+lowers it.
+**A function that rises without having been touched is not unsteady by
+that alone**: first the test that stopped reaching it is looked for, and
+given back. Found 17.10.2026: `envelope_cache_path` rose from 0 to 2
+because the time axis now lays files without a picture by the
+recordings and reads no curve for them, and its two paths into the void
+had been the only road to the missing-file branch; that branch has a
+check of its own now, tested rather than excused. Only a count that moves between runs of
+one tree, or between this machine and the builder, goes under
+`unsteady`.
 
 **A mutation-testing tool.** The idea yes, the tool no: one mutant costs
 a suite run, and for every site in this program that is days. By hand

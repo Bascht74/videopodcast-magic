@@ -11,8 +11,9 @@ counted, and held against the tone counted the same way in the camera
 the run was given. The sections: "use internal audio" on two cameras,
 the plan built the way the window builds it; one camera on a bare
 command line and no recording, where the camera's sound becomes the
-mix; two cameras and --multitrack with no recording; and cameras with
-no sound at all, where the run stops and says so.
+mix; two cameras and no recording, where each camera's sound becomes
+a track with no switch asked for; and cameras with no sound at all,
+where the run stops and says so.
 
 The limit of the method: a tone is one frequency, so this says the
 right camera's sound arrived, not that nothing else was mixed into it.
@@ -239,7 +240,7 @@ PLAN = os.path.join(OUT, "plan.json")
 # command line and the plan are built by the window's own builder.
 argv, plan, messages = vpm.run_argv({
     "files": [(GUEST, "video"), (PRESENTER, "video")], "clip_kinds": {},
-    "out_folder": OUT, "dry_run": False, "multitrack": True,
+    "out_folder": OUT, "dry_run": False,
     "camera_audio_only": True, "project_type": "sync",
     "rows": [{"blocks": [GUEST], "speakers": "Guest",
               "camera_choice": os.path.basename(GUEST)},
@@ -283,12 +284,11 @@ ok, said = carries(os.path.join(OUT, STEM + "_audio.mov"),
                    vpm.MIX_TRACK_NAME, PRESENTER)
 check("its sound becomes the mix track of its file", ok, said)
 
-print("\n3. Two cameras and --multitrack, no recording")
-OUT = os.path.join(HOME, "multitrack")
+print("\n3. Two cameras on the command line, no recording")
+OUT = os.path.join(HOME, "cameras")
 code, last, stuck, took = run([sys.executable, SCRIPT] + COMMON
-                              + ["--multitrack", "--out", OUT,
-                                 GUEST, PRESENTER])
-check("cameras alone with --multitrack go through",
+                              + ["--out", OUT, GUEST, PRESENTER])
+check("two cameras alone go through without any switch",
       code == 0 and not stuck,
       "returned %r after %.1f s, stood still %s, last line %r"
       % (code, took, stuck, last))
@@ -308,8 +308,8 @@ MUTE = [make(os.path.join(OUT, "Mute_C00%d.mp4" % n), [
     "-c:v", "libx264", "-preset", "ultrafast", "-pix_fmt", "yuv420p"])
     for n in (1, 2)]
 code, last, stuck, took = run([sys.executable, SCRIPT] + COMMON
-                              + ["--multitrack", "--out",
-                                 os.path.join(OUT, "out")] + MUTE)
+                              + ["--out", os.path.join(OUT, "out")]
+                              + MUTE)
 WANT = vpm.T('No sound in the cameras -- nothing to work with.')
 check("cameras without any sound stop the run, saying so",
       code == 1 and last == WANT,

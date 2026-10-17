@@ -133,12 +133,6 @@ msgstr "உங்கள் சொந்த Singletrack முன்னமைவ�
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "உங்கள் சொந்த முன்னமைவு இல்லை -- auphonic.com-இல் ஒன்றை உருவாக்கவும்"
 
-msgid "No Multitrack preset found in the account."
-msgstr "கணக்கில் Multitrack முன்னமைவு எதுவும் கிடைக்கவில்லை."
-
-msgid "No Singletrack preset found in the account."
-msgstr "கணக்கில் Singletrack முன்னமைவு எதுவும் கிடைக்கவில்லை."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "கணக்கில் Multitrack முன்னமைவு இல்லை. இவை மட்டுமே உள்ளன: %s"
 
@@ -276,6 +270,9 @@ msgstr "  பேச்சு அறிதல் கருவி உருவா�
 
 msgid "  The speech recognition reports: %s"
 msgstr "  பேச்சு அறிதல் தெரிவிக்கிறது: %s"
+
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS இங்கே %s ஐ அடையாளம் காணவில்லை, Whisper அதை எடுத்துக்கொள்கிறது"
 
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  அறிதல் (%s): தயாராக %s s, கேட்க %s s"
@@ -646,6 +643,9 @@ msgstr "\nமுன்னமைவு தேர்ந்தெடுக்கப
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nமுதல் நீண்ட படிக்கு முன்பே நிறுத்தப்பட்டது. --anyway உடன் எப்படியும் இயங்கும்."
 
+msgid "\nStopped before the first long step."
+msgstr "\nமுதல் நீண்ட படிக்கு முன்பே நிறுத்தப்பட்டது."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   அப்போது Resolve உள்ளீட்டு வண்ண வெளியை அடையாளம் காணாமல் போகலாம்."
 
@@ -727,12 +727,6 @@ msgstr "    %-24s ஆடியோ செருகப்படவில்லை"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s முறை திட்டமிட்ட கேமரா இயங்கவில்லை -- அங்கே வேறொரு கேமரா உள்ளது."
 
-msgid "    %s could not be imported."
-msgstr "    %s இறக்குமதி செய்ய முடியவில்லை."
-
-msgid "    %s could not be inserted."
-msgstr "    %s செருக முடியவில்லை."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s வகைத் தடத்தை உருவாக்க முடியவில்லை: %s"
 
@@ -741,6 +735,9 @@ msgstr "    %s: படமும் ஆடியோவும் தனித்�
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway அமைக்கப்பட்டுள்ளது: மேலே உள்ள விஷயங்கள் இருந்தும் இது இயங்கும்."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway அமைக்கப்பட்டுள்ளது: மேலே உள்ள விஷயங்கள் இருந்தும் இது இயங்கும், ஆனால் பதிவேற்றத்துக்கு முன்பே நிற்கும் -- auphonic.com இந்தத் தயாரிப்பை நிராகரிக்கும்."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    அனைத்துத் தடங்களும் சரியான இடத்தில் உள்ளன -- நகர்த்த எதுவும் இல்லை."
@@ -889,8 +886,18 @@ msgstr "  %s தொகுதிகள் டைம்கோடு மூலம�
 msgid "  %s of %s files imported."
 msgstr "  %s / %s கோப்புகள் இறக்குமதி செய்யப்பட்டன."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s பேச்சாளர்கள், %s ஷாட்கள், மிகக் குறுகியது %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, மிகக் குறுகியது %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s பேச்சாளர்"
+msgstr[1] "%s பேச்சாளர்கள்"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s ஷாட்"
+msgstr[1] "%s ஷாட்கள்"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s வீடியோ தடங்கள், பேச்சாளர்களின் பெயர்களில்:"
@@ -1144,8 +1151,8 @@ msgstr "  தொடக்கம் %s -- ஒவ்வொரு ஷாட்ட�
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  அத்தகைய Timeline இதுவரை இல்லை -- இப்போது புதிதாக உருவாக்கப்படுகிறது."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  குறிப்பு: இது அப்போது பதிவேற்றிய கோப்புகளைக் கொண்டு கணக்கிடுகிறது. அவற்றில்\n  அன்றைய நேர வரம்பும் சீரமைப்பும் உள்ளன. இன் புள்ளி, அவுட் புள்ளி\n  அல்லது அளவிட்ட நிலை இப்போது வேறுபட்டால், திரும்பும் சரிபார்ப்பு அந்த\n  வேறுபாட்டை அளந்து தடங்களைச் சரியான இடத்திற்கு நகர்த்தும்."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  குறிப்பு: இது அப்போது பதிவேற்றிய கோப்புகளைக் கொண்டு கணக்கிடுகிறது. அவற்றில்\n  அன்றைய நேர வரம்பும் சீரமைப்பும் உள்ளன. இன் புள்ளி, அவுட் புள்ளி\n  மற்றும் அளவிட்ட நிலை இப்போது அந்த வரம்புக்குள் இருந்தால், திரும்பும் சரிபார்ப்பு\n  வேறுபாட்டை அளந்து தடங்களைச் சரியான இடத்திற்கு நகர்த்தும். அதைத் தாண்டினால் --\n  முந்தைய இன் புள்ளி, பிந்தைய அவுட் புள்ளி -- அது தடங்களை நிராகரிக்கும்:\n  அப்போது அனைத்தையும் மீண்டும் பதிவேற்றவும்."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  குறிப்பு: இந்த ffmpeg-இல் soxr இல்லை -- கடிகார விலகலை 21 ppm\n  படிகளில் மட்டுமே நீக்க முடியும்."
@@ -1156,8 +1163,8 @@ msgstr "  ஆடியோவில் இதனால் பாதிப்ப�
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  ஆஃப்செட்:              %s   (கேமரா ஒப்பீட்டிலிருந்து)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Timeline-இல் %s / %s ஷாட்கள் மட்டுமே உள்ளன."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve %s / %s ஷாட்களை மட்டுமே ஏற்றது -- Timeline \"%s\"-இல் வெட்டின் மீதி இல்லை."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  உச்சங்கள்:            %s dB, %s dBTP-க்கு மேல் -- லிமிட்டர் அவற்றைப் பிடிக்கும்"
@@ -1204,8 +1211,8 @@ msgstr "  அடிப்படை: %s (%s, மிக நீளமானது)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  எஞ்சுவது:           ஒவ்வொரு தடத்திலும் %s dB, அதாவது %s LUFS, %s க்குப் பதிலாக"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve எந்தப் படத்தையும் ஏற்கவில்லை -- Timeline காலியாக உள்ளது. அதில்\n  வேறு எதுவும் உருவாக்கப்படாது."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve எந்தப் படத்தையும் ஏற்கவில்லை -- Timeline \"%s\"-இல் வெட்டும் அதன் ஆடியோவும் இல்லை."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  முடிவு: %s (%s) -- வீடியோ கோப்பின் அருகிலேயே இருக்கும்\n"
@@ -1237,11 +1244,17 @@ msgstr "  இலக்கு:             %s LUFS  ->  ஒவ்வொரு த
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline-க்கு %s கிடைக்கும்: அவற்றில் மிக உயர்ந்தது, அல்லது அதற்கு மேல் Resolve-இல்\n  உள்ள அடுத்த வீதம். மேலே மாற்றும்போது Resolve ஃப்ரேம்களை மீண்டும் இடுகிறது, கீழே\n  மாற்றும்போது அவற்றை நீக்குகிறது. ஒவ்வொரு கேமராவும் தன் வீதத்தை வைத்திருக்கும், கட்\n  அந்த வீதத்திலேயே கணக்கிடுகிறது."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix-ஐ இறக்குமதி செய்ய முடியவில்லை."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve-இன் Media Pool-இல் Full-Mix இல்லை -- Timeline \"%s\"-இல் ஆடியோ இல்லை."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix-ஐச் செருக முடியவில்லை."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve Full-Mix-ஐ மறுத்தது -- Timeline \"%s\"-இல் ஆடியோ இல்லை."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve அறிமுகத்தை மறுத்தது -- Timeline \"%s\"-இல் அறிமுகம் இல்லை."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve நிறைவை மறுத்தது -- Timeline \"%s\"-இல் நிறைவு இல்லை."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  கேமராக்களில் நேர வரம்பும் ஒவ்வொரு முனையிலும் ஒரு வினாடியும் உள்ளன: %s எழுதப்பட்டது, %s நீளத்திற்கு (பதிவானது %s)."
@@ -1249,8 +1262,10 @@ msgstr "  கேமராக்களில் நேர வரம்பும�
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  கேமராக்கள் நெருக்கமாக உள்ளன (அதிகபட்சம் %s படிகள் ஒளிர்வு வேறுபாடு)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  கட் மாறியுள்ளது: %s ஷாட்கள், %s க்குப் பதிலாக."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  கட் மாறியுள்ளது: %s ஷாட், %s க்குப் பதிலாக."
+msgstr[1] "  கட் மாறியுள்ளது: %s ஷாட்கள், %s க்குப் பதிலாக."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  இங்குள்ள முந்தைய இயக்கங்களின் குறிப்பைப் படிக்க முடியாது (%s), எனவே ஏற்கனவே உள்ள அனைத்தும் தெரிவிக்கப்படுகின்றன."
@@ -1384,9 +1399,6 @@ msgstr "ஒதுக்கீட்டுக் கோப்பைப் பட�
 msgid "Camera audio not usable: %s"
 msgstr "கேமரா ஆடியோவைப் பயன்படுத்த முடியாது: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK சாத்தியமில்லை\n  குறைந்தது இரண்டு உள்ளீட்டுத் தடங்கள் தேவை, ஆனால் %s மட்டுமே கிடைத்தது.\n  ஒரு தடம் என்பது தனிப் பதிவு, பல சேனல் ரெக்கார்டரின் ஒரு\n  சேனல், அல்லது ஒரு கேமராவின் ஆடியோ -- அதன் கேமரா ஆடியோ \"உள் ஆடியோவைப் பயன்படுத்து\"\n  என்று இருந்தவுடன் அது கணக்கில் சேரும். அப்படி இரண்டு இல்லையெனில் பிரிக்க\n  எதுவும் இல்லை, அதே கோப்பு ஒரு சாதாரணத் தயாரிப்பாக\n  இயங்கும்."
-
 msgid "No preset is called %r."
 msgstr "%r என்ற முன்னமைவு இல்லை."
 
@@ -1498,9 +1510,6 @@ msgstr "திட்டப்பணி சேமிக்கப்பட்ட�
 msgid "Presets could not be loaded: %s"
 msgstr "முன்னமைவுகளை ஏற்ற முடியவில்லை: %s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "பல கேமராக்கள் உள்ளன, ஆனால் ஆடியோ கோப்பு இல்லை. ஒவ்வொரு கேமராவுக்கும் தனி ஆடியோ இருக்கும் --\nஅதற்காகத்தான் --multitrack. இல்லையெனில் கேமராக்களை ஒன்றன் பின் ஒன்றாக."
-
 msgid "The file is NOT recognised as HDR."
 msgstr "இந்தக் கோப்பு HDR-ஆக அடையாளம் காணப்படவில்லை."
 
@@ -1551,9 +1560,6 @@ msgstr "\n  கட் பட்டியலைப் புதுப்பிக
 
 msgid "\n  Render job"
 msgstr "\n  ரெண்டர் பணி"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve பகுதி நிறுத்தப்பட்டது: %s"
 
 msgid "\n  STOPPED: %s"
 msgstr "\n  நிறுத்தப்பட்டது: %s"
@@ -1620,9 +1626,6 @@ msgstr "  நேர வரம்பு:           %s -- ஏதேனும் �
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: தொடக்கத்தில் %s, இறுதியில் %s அமைதி"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nதொகுதிகளை இணைத்த பின் ஒரே ஒரு தடம் மட்டுமே மீதமுள்ளது, ஆனால் Multitrack-க்கு ஒவ்வொரு குரலுக்கும் ஒரு தடம் தேவை. இருவர் ஒரே பதிவாகக் கருதப்பட்ட இடத்தில், --apart ஒரு தொகுதியை அதிலிருந்து தனியாக வைக்கிறது."
 
 msgid "RECOGNISED PLAN"
 msgstr "அடையாளம் காணப்பட்ட திட்டம்"
@@ -1861,6 +1864,9 @@ msgstr "முடிவு"
 msgid "Resolve part stopped: %s"
 msgstr "Resolve பகுதி நிறுத்தப்பட்டது: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "இந்த நிரலின் பிழையால் Resolve பகுதி நிறுத்தப்பட்டது, Resolve-ஆல் அல்ல: %s -- தயவுசெய்து இதைத் தெரிவிக்கவும். விவரங்கள் பதிவேட்டில் உள்ளன."
+
 msgid "Stopped: %s"
 msgstr "நிறுத்தப்பட்டது: %s"
 
@@ -1950,6 +1956,13 @@ msgstr "%s முன்னமைவுக்கு ஏற்ப மாற்ற�
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s சேனல்கள் -- தடங்களாகப் பிரிக்கப்படுகின்றன, மேலே உள்ள வரிசைகளைப் பார்க்கவும்."
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s சேனல்கள் -- கட்டளை வரி இவற்றைத் தடங்களாகப் பிரிக்காது; கோப்பை ஒரே சேனலாக "
+"இணைக்கிறது, இருவர் ஒரே குரலாக."
 
 msgid "%s checked"
 msgstr "%s சரிபார்க்கப்பட்டன"
@@ -2071,6 +2084,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)s ஷாட்கள்</b>, இடை�
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "ஒவ்வொரு சேனல் ஜோடியும் தனித்தனியாக மதிப்பிடப்படுகிறது: ஒரு ஸ்டீரியோ தடம், அல்லது இரண்டு மைக்ரோஃபோன்கள், எனவே இரண்டு தடங்கள். அமைதியான உள்ளீடுகள் விலகுகின்றன. கோப்பின் கீழுள்ள வரிசைகள் என்ன அளவிடப்பட்டது என்று கூறுகின்றன, டிக் அதை மீறுகிறது."
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
+msgstr ""
+"ஒவ்வொன்றும் தனித் தடமாக இருக்க அதன் சேனல்களைத் தனிக் கோப்புகளாகச் "
+"சேமிக்கவும், அல்லது சேனல் வரிசைகளின்படி பிரிக்கும் சாளரத்தில் திறக்கவும். "
+"அதை auphonic.com-க்கு அனுப்பும் ஓட்டம் பதிவேற்றத்துக்கு முன்பே நிற்கிறது: "
+"auphonic.com ஒரு கோப்பில் அதிகபட்சம் இரண்டு சேனல்களையே ஏற்கிறது."
+
 msgid "A negative value makes the picture lead the sound."
 msgstr "எதிர்மறை மதிப்பு படத்தை ஆடியோவுக்கு முன்னால் செல்லச் செய்கிறது."
 
@@ -2079,12 +2103,6 @@ msgstr "கோப்புகளைச் சேர் ..."
 
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "சீரமைப்பு அளவிடப்பட்ட ஆஃப்செட்டின் அடிப்படையில் நடக்கிறது; டைம்கோடு குறுக்குச் சரிபார்ப்பு மட்டுமே."
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "அனைத்துப் பதிவுகளுக்கும் ஒரே பெயர் உள்ளது -- அதனால் ஒரே ஒரு தடம் உருவாகிறது."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "அனைத்து வரிசைகளுக்கும் ஒரே பெயர் உள்ளது -- அதனால் ஒரே ஒரு தடம் உருவாகிறது, ஆனால் Multitrack-க்குக் குறைந்தது இரண்டு தேவை."
 
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "ஒதுக்கீடு: எந்த ஆடியோ தடம் எந்தக் கேமராவுக்கு உரியது"
@@ -2203,8 +2221,8 @@ msgstr "அவுட் புள்ளி கடைசி ஃப்ரேமு
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "டெலிவரிக்கு வழக்கமாகக் குறுகிய வரம்பே பயன்படுத்தப்படுகிறது. முழு வரம்பு தவறல்ல, ஆனால் சில பிளேயர்கள் அதைத் தவறாகப் புரிந்துகொள்கின்றன."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "auphonic.com ஆடியோவை எப்படிச் செயலாக்குகிறது என்பதை இது தீர்மானிக்கிறது.\n\n\"%s\" விசையை அப்படியே வைத்திருக்கும், ஆனாலும் அங்கே செல்லாது.\nஅப்போது ஆடியோ இணைக்கப்பட்டு நார்மலைஸ் மட்டுமே செய்யப்படும், பிரிக்கப்படாது --\nதனித் தடங்கள் இல்லாமல் கேமரா கட் இல்லை."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "auphonic.com ஆடியோவை எப்படிச் செயலாக்குகிறது என்பதை இது தீர்மானிக்கிறது.\n\n\"%s\" விசையை அப்படியே வைத்திருக்கும், ஆனாலும் அங்கே செல்லாது.\nஅப்போது ஆடியோ இணைக்கப்பட்டு நார்மலைஸ் மட்டுமே செய்யப்படும், பிரிக்கப்படாது --\nஆனால் கேமரா கட் முன்னமைவுடன் இருப்பது போலவே இருக்கும்."
 
 msgid "Distance to mean"
 msgstr "சராசரியிலிருந்து தூரம்"
@@ -2238,9 +2256,6 @@ msgstr "என்வலப் தோல்வியடைந்தது: %s"
 
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "என்வலப்களும் கேமரா ஆடியோவும் பின்னணியில் தயாரிக்கப்படுகின்றன."
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "ஒவ்வொரு வரிசைக்கும் ஒரு பெயர் தேவை -- Auphonic-இல் அது track ID ஆகிறது."
 
 msgid "External preview -- the app does not know this format"
 msgstr "வெளிப்புற முன்னோட்டம் -- இந்த வடிவம் செயலிக்குத் தெரியாது"
@@ -2346,15 +2361,6 @@ msgstr "இல்லாத ஆடியோ %s அமைதியால் நி
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "DaVinciResolveScript தொகுதியை ஏற்ற முடியவில்லை: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "ஒவ்வொரு நபருக்கும் ஒரு ஆடியோ தடம், auphonic.com வரை தனித்தனியாக.\nஇது இல்லாமலும் வேலை செய்யும் -- அப்போது கசிவு நீக்கமும் லெவலரும் இல்லாமல்.\nஇதற்கு இரண்டு உள்ளீட்டுத் தடங்கள் தேவை: தனிப் பதிவு, பல சேனல் ரெக்கார்டரின்\nஒரு சேனல், அல்லது \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைத்த வீடியோ கோப்பின் ஆடியோ.\nகேமரா கட்டுக்கு இந்த டிக் தேவையில்லை."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (பேச்சாளருக்கு ஒரு தடம்)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack-க்குக் குறைந்தது இரண்டு உள்ளீட்டுத் தடங்கள் தேவை. தடம் என்பது தனிப் பதிவு, பல சேனல் ரெக்கார்டரின் ஒரு சேனல், அல்லது \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைத்த வீடியோ கோப்பின் ஆடியோ. ஒரே பதிவின் பல தொகுதிகள் ஒன்றாகக் கணக்கிடப்படும், ஒதுக்கி வைத்த தடங்கள் கணக்கிலேயே வராது."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "இன்னும் எந்த ஒலியும் பயன்பாட்டில் இல்லை -- ஒரு ஆடியோ பதிவைச் சேர்க்கவும், அல்லது கோப்புப் பட்டியலில் ஒரு வீடியோ கோப்பின் கேமரா ஆடியோவை \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைக்கவும்."
@@ -2494,9 +2500,6 @@ msgstr "கட்டாயமில்லை -- அப்போது YouTube �
 msgid "Not ready yet:"
 msgstr "இன்னும் தயாராக இல்லை:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "ஒரு ஆடியோ பதிவுக்கு இன்னும் பேச்சாளர் பெயர் இல்லை."
-
 msgid "One frame back."
 msgstr "ஒரு ஃப்ரேம் பின்னால்."
 
@@ -2505,9 +2508,6 @@ msgstr "ஒரு வினாடி பின்னால்."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "ஒவ்வொரு ஷாட்டும் அதன் கேமராவின் நிறத்தில். கேமராவையும் நீளத்தையும் காண சுட்டியை மேலே வைக்கவும், தாவ கிளிக் செய்யவும்."
-
-msgid "Only one speaker"
-msgstr "ஒரே பேச்சாளர்"
 
 msgid "Open json project file"
 msgstr "json திட்டப்பணிக் கோப்பைத் திற"
@@ -2755,9 +2755,6 @@ msgstr "இன்னும் பேச்சாளர்கள் தெரி�
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "மூன்று எண்கள்: முதன்மை நிறங்கள், வளைவு, அணி. வெவ்வேறு குறிச்சொற்களுக்கு Resolve-இல் வெவ்வேறு உள்ளீட்டு வண்ண வெளிகள் தேவை -- இல்லையெனில் ஒரு கேமரா மற்றதைப் போலத் தெரியாது."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "தனி ஆடியோ பதிவுகள் இல்லை. அப்போது %s கேமராக்களின் ஆடியோ பயன்படுத்தப்படும் -- ஒவ்வொன்றும் ஒரு தடமாகும், Auphonic கசிவை நீக்கும்."
-
 msgid "There is no result yet."
 msgstr "இன்னும் முடிவு இல்லை."
 
@@ -2878,8 +2875,23 @@ msgstr "அது இல்லாமல் ஒவ்வொரு பிளேய
 msgid "Without processing at auphonic.com"
 msgstr "auphonic.com-இல் செயலாக்கம் இல்லாமல்"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "இன்னும் கேமரா கட் இல்லை: அதற்கு இரண்டு நபர்கள் தேவை, ஒவ்வொருவருக்கும் ஒரு பெயரும் ஒரு கேமராவும்.\nதனிப் பதிவுகள் Multitrack டிக்குடன் அதைத் தருகின்றன, ஒரு பதிவின் பேச்சாளர் பெயர் புலத்தில் \"பல பேச்சாளர்கள்\" என்பதும் தரும் --\nஅங்கே கண்டறியப்பட்ட குரல்களுக்குப் பதிவுகளுக்குக் கீழே உள்ள அட்டவணையில் கேமரா கிடைக்கும்.\nஎப்படியிருந்தாலும் Resolve திட்டப்பணி உருவாக்கப்படும் -- எல்லாக் கேமராக்களும் அளவிட்ட இடங்களில், Multicam-க்குத் தயாராக."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"இன்னும் கேமரா கட் இல்லை: அதற்கு இரண்டு நபர்கள் தேவை, ஒவ்வொருவருக்கும் ஒரு "
+"பெயரும் ஒரு கேமராவும்.\n"
+"தனிப் பதிவுகள், ஒவ்வொன்றும் தன் சொந்தப் பெயரில், அதைத் தருகின்றன, ஒரு "
+"பதிவின் பேச்சாளர் பெயர் புலத்தில் \"பல பேச்சாளர்கள்\" என்பதும் தரும் --\n"
+"அங்கே கண்டறியப்பட்ட குரல்களுக்குப் பதிவுகளுக்குக் கீழே உள்ள அட்டவணையில் "
+"கேமரா கிடைக்கும்.\n"
+"எப்படியிருந்தாலும் Resolve திட்டப்பணி உருவாக்கப்படும் -- எல்லாக் "
+"கேமராக்களும் அளவிட்ட இடங்களில், Multicam-க்குத் தயாராக."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "டைம்கோடு இல்லாமல் கோப்புகளின் நிலை அளவிடப்படுகிறது."
@@ -3052,9 +3064,6 @@ msgstr "சரியாக ஒருவர் மட்டும் பேசு
 msgid "no production id in the response"
 msgstr "பதிலில் தயாரிப்பு ID இல்லை"
 
-msgid "no production id in the response: %s"
-msgstr "பதிலில் தயாரிப்பு ID இல்லை: %s"
-
 msgid "no timecode"
 msgstr "டைம்கோடு இல்லை"
 
@@ -3208,6 +3217,21 @@ msgstr "மூலக் கோப்புறை"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "தட வார்ப்புருவில் எதுவும் இயக்கப்படவில்லை -- தடங்கள் பதிவேற்றியபடியே அப்படியே திரும்பி வரும்."
 
+msgid "Intro / outro"
+msgstr "அறிமுகம் / நிறைவு"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "முன்னமைவில் ஒரு அறிமுகம் உள்ளது -- அது பயன்படுத்தப்படாது: அறிமுகமும் நிறைவும் வீடியோ கோப்புகளிலிருந்து வருகின்றன."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "முன்னமைவில் ஒரு நிறைவு உள்ளது -- அது பயன்படுத்தப்படாது: அறிமுகமும் நிறைவும் வீடியோ கோப்புகளிலிருந்து வருகின்றன."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "முன்னமைவில் ஒரு அறிமுகமும் ஒரு நிறைவும் உள்ளன -- இரண்டுமே பயன்படுத்தப்படாது: அறிமுகமும் நிறைவும் வீடியோ கோப்புகளிலிருந்து வருகின்றன."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "கோப்புப் பட்டியலில் வகை அறிமுகம் அல்லது நிறைவு என அமைக்கப்பட்ட வீடியோ கோப்புகளிலிருந்து, அல்லது --intro மற்றும் --outro இலிருந்து அவை வருகின்றன."
+
 msgid "the video files are tagged differently: %s"
 msgstr "வீடியோ கோப்புகளுக்கு வெவ்வேறு நிறக் குறிகள் உள்ளன: %s"
 
@@ -3255,9 +3279,6 @@ msgstr "வைட் ஷாட் %s, அதன் முதல் ஆடிய�
 
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  ஒன்றுக்கு மேற்பட்ட முறை வருகிறது: %s. இந்தப் பதிவுகள் ஒரே தடமாக இணைக்கப்பட்டு, அவற்றின் டைம்கோடு வரிசையில் ஒன்றன்பின் ஒன்றாக வைக்கப்படும் -- இடையில் பதிவு நிறுத்தப்பட்டிருந்தால் இது சரி."
-
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  எல்லாப் பதிவுகளுக்கும் ஒரே பெயர் உள்ளது. அதனால் ஒரே தடம் உருவாகும் -- Multitrack-க்குக் குறைந்தது இரண்டு தேவை."
 
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  இரண்டு கேமராக்கள் ஒரே கோப்பை உருவாக்கும் (%s). இரண்டாவது முதலாவதை மேலெழுதும்."
@@ -3325,9 +3346,6 @@ msgstr "தனிப் பதிவு"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "இந்தப் பதிவை அதன் எல்லாத் தொகுதிகளுடனும் வேறொரு பதிவில் சேர்க்கிறது.\nகோப்புப் பெயர்கள் தேடலுக்கு எந்தத் துப்பும் தராதபோது இதைப் பயன்படுத்தவும்."
 
-msgid "Cameras only"
-msgstr "கேமராக்கள் மட்டும்"
-
 msgid "Curve number %d"
 msgstr "வளைவு எண் %d"
 
@@ -3379,9 +3397,6 @@ msgstr "தொடக்கம் %s"
 msgid "Take from source files"
 msgstr "மூலக் கோப்புகளிலிருந்து எடு"
 
-msgid "Take the camera audio"
-msgstr "கேமரா ஆடியோவை எடு"
-
 msgid "Target: %s"
 msgstr "இலக்கு: %s"
 
@@ -3400,11 +3415,11 @@ msgstr "வைட் ஷாட் இவ்வளவுக்குப் பி
 msgid "the voices below carry the cameras"
 msgstr "கேமராக்கள் கீழுள்ள குரல்களுடன் உள்ளன"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "பதிவுகளிலிருந்து அளவிடப்பட்டது -- %s பேச்சாளர்கள், %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "பதிவுகளிலிருந்து அளவிடப்பட்டது -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "முடிந்த இயக்கத்திலிருந்து -- %s பேச்சாளர்கள், %s"
+msgid "from the finished run -- %s, %s"
+msgstr "முடிந்த இயக்கத்திலிருந்து -- %s, %s"
 
 msgid "no text"
 msgstr "உரை இல்லை"
@@ -3414,6 +3429,15 @@ msgstr "பெயரில்லை"
 
 msgid "   Caution: measurement unusable"
 msgstr "   கவனம்: அளவீடு பயன்படாது"
+
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   கவனம்: பதிவேற்றியதில் %s s இதில் இல்லை"
+
+msgid "  -->  refused"
+msgstr "  -->  நிராகரிக்கப்பட்டது"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  நிராகரிக்கப்பட்டது: %s -- திரும்பி வந்தது பதிவேற்றியதுடன் பொருந்தவில்லை.\n  தவறாக எழுதுவதை விட நிறுத்துவதே நல்லது."
 
 msgid "   NOT INSERTED"
 msgstr "   சேர்க்கப்படவில்லை"
@@ -3589,15 +3613,6 @@ msgstr "ஒன்றாக்கு"
 msgid "Mixing %s"
 msgstr "மிக்ஸ் செய்யப்படுகிறது: %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack-க்கு மேலே உள்ள அட்டவணையில் இரண்டு தடங்கள் தேவை -- ஒரு கேமராவின் கேமரா ஆடியோ \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைக்கப்பட்டதும் அது ஒன்றாகக் கணக்கிடப்படும்."
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "ஒரே ஒரு தடம் -- இரண்டாவதற்கு ஒரு கேமராவின் கேமரா ஆடியோவை \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைக்கவும்."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "ஒரே ஒரு தடம், எடுப்பதற்குக் கேமரா ஆடியோ எதுவும் மீதமில்லை."
-
 msgid "do not use internal audio"
 msgstr "உள் ஆடியோ வேண்டாம்"
 
@@ -3612,9 +3627,6 @@ msgstr "பயன்படுத்தினால், இந்தக் கோ
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "வேலை செய்ய ஆடியோ இல்லை -- ஒரு வீடியோ கோப்பின் கேமரா ஆடியோவை \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைக்கவும், அல்லது ஒரு ஆடியோ பதிவைச் சேர்க்கவும்."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack-க்குப் பல தடங்கள் தேவை"
 
 msgid "Mute."
 msgstr "ஒலியடக்கு."
@@ -3685,8 +3697,8 @@ msgstr "இந்த இணையின் மென் வரம்பு: இ�
 msgid "and here it is cut, good moment or not"
 msgstr "இங்கே கட் செய்யப்படும், ஏற்ற தருணமோ இல்லையோ"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "இந்த இணையின் கடின வரம்பு: \"வைட் ஷாட் இவ்வளவுக்குப் பின்\" முதல் எந்த வாக்கிய எல்லையும் வரவில்லை என்றால், மிக நீண்ட பேச்சு இடைநிறுத்தம் அதன் இடத்தைப் பிடிக்கும், இந்தப் புள்ளியில் என்ன பேசப்பட்டாலும் கட் நடக்கும்."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "இந்த இணையின் கடின வரம்பு: \"வைட் ஷாட் இவ்வளவுக்குப் பின்\" ஐ விட நீளமான, வாக்கிய எல்லையோ இடைநிறுத்தமோ இல்லாத ஷாட், இதைவிடவும் நீண்ட நேரம் நின்றால் மட்டும், கடிகாரப்படி பிரிக்கப்படும். \"வைட் ஷாட் இவ்வளவுக்குப் பின்\" இயக்கத்தில் இருந்து \"நீண்ட தனிப்பேச்சு\" கேமராவை மாற்றும்போது இது பொருந்தும். வரவேற்புக்கும் விடைபெறுதலுக்குமான வைட் ஷாட் இதைவிட நீண்ட நேரம் நிற்காது, அந்த இரண்டும் எதைச் சொன்னாலும்."
 
 msgid "Why the question settings are grey"
 msgstr "கேள்வி அமைப்புகள் ஏன் சாம்பல் நிறத்தில் உள்ளன"
@@ -3720,9 +3732,6 @@ msgstr "அமைதி"
 
 msgid "Speaker name"
 msgstr "பேச்சாளர் பெயர்"
-
-msgid "Speaker names"
-msgstr "பேச்சாளர் பெயர்கள்"
 
 msgid "Static metadata"
 msgstr "நிலையான மெட்டாடேட்டா"
@@ -3868,17 +3877,14 @@ msgstr "\nவைட் ஷாட்டுடன் கட்"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nபேச்சாளர் வாரியாக முதல் கட்"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  இரண்டுக்கு மேற்பட்ட சேனல்கள் auphonic.com-க்கு ஒன்றாகச் செல்லும்: சேனல்களை ஒன்றாக்குதல் ஸ்டீரியோவுக்கு மட்டுமே அணைக்கப்படுகிறது.\n  சேனல்கள் தனித்தனியாக இருக்க வேண்டிய இடத்தில், முதலில் கோப்பைத் தடங்களாகப் பிரிக்கவும்."
-
 msgid "First cut by speaker"
 msgstr "பேச்சாளர் வாரியாக முதல் கட்"
 
 msgid "\nTRANSCRIPT"
 msgstr "\nஎழுத்துப்படி"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s சொற்கள்: %s %% ஒரு குரலுக்கு, %s %% இரண்டு குரல்களுக்கு, %s %% இடைவெளியில்"
+msgid "  %s words"
+msgstr "  %s சொற்கள்"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s சொற்கள், பெயர்கள் இல்லாமல் -- யாரும் பிரிக்கப்படவில்லை"
@@ -3976,9 +3982,6 @@ msgstr "  தடங்கள் பதிவானபடியே பயன்�
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  --without-auphonic, --auphonic-done இரண்டும் கொடுக்கப்பட்டன. முடிந்த தடங்களுக்கே முன்னுரிமை: இனி எங்கும் அனுப்ப எதுவும் இல்லை."
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK சாத்தியமில்லை\n  API விசை இல்லாமல் auphonic.com-க்கு அனுப்ப எதுவும் இல்லை.\n  --without-auphonic உடன் இது அதற்குப் பதிலாக உள்ளூரில் இயங்கும்: சீரமைக்கப்பட்டு,\n  மிக்ஸ் செய்யப்பட்டு, கட் செய்யப்படும், ஆனால் கசிவு நீக்கமும் லெவலரும் இல்லாமல்."
-
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  கவனம்: அளவிடக்கூடிய ஜோடிகள் %s மட்டுமே (மொத்தம் %s). மீதமுள்ளவற்றுக்குச் சரியாக ஒருவர் மட்டும் பேசும் தருணம் கிடைக்கவில்லை, எனவே அவற்றின் கசிவு அப்படியே இருக்கும் -- இங்கே பேச்சாளர் கண்டறிதல் நம்பகமானதல்ல."
 
@@ -4035,9 +4038,6 @@ msgstr "மீண்டும் முழு நீளம் (0 விசை)"
 
 msgid "  Also fetched: %s"
 msgstr "  இதுவும் பெறப்பட்டது: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic அமைப்புகளை ஏற்கவில்லை: %s"
 
 msgid "      %s channels"
 msgstr "      %s சேனல்கள்"
@@ -4168,8 +4168,10 @@ msgstr "தடம் %d பிரித்தெடுக்கப்படு�
 msgid "cutting failed: %s"
 msgstr "பிரித்தெடுத்தல் தோல்வியடைந்தது: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  அனைவருக்கும் ஒரே கேமரா: பேச்சாளர் மாறும் இடங்களில் %s ஷாட்களாக கட் செய்யப்பட்டது, அதனால் Resolve அவற்றைக் குழுவாக்க முடியும்."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  அனைவருக்கும் ஒரே கேமரா: பேச்சாளர் மாறும் இடங்களில் %s ஷாட்டாக கட் செய்யப்பட்டது, அதனால் Resolve அதைக் குழுவாக்க முடியும்."
+msgstr[1] "  அனைவருக்கும் ஒரே கேமரா: பேச்சாளர் மாறும் இடங்களில் %s ஷாட்களாக கட் செய்யப்பட்டது, அதனால் Resolve அவற்றைக் குழுவாக்க முடியும்."
 
 msgid "Shorter shots fall into the following one."
 msgstr "இதைவிடக் குறுகிய ஷாட்கள் அடுத்த ஷாட்டில் சேர்ந்துவிடும்."
@@ -4344,6 +4346,9 @@ msgstr "இந்த நிரல் %s கட்டமைப்பில் இ
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "இந்த ஒப்படைப்பில் ஃப்ரேம் வீதம் இல்லை, எனவே இதிலிருந்து Timeline-ஐ உருவாக்க முடியாது. தயவுசெய்து இயக்கத்தை மீண்டும் செய்யவும்."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "இந்த ஒப்படைப்பில் %s-க்கான கோப்பு குறிப்பிடப்படவில்லை, எனவே இதிலிருந்து Timeline-ஐ உருவாக்க முடியாது. தயவுசெய்து இயக்கத்தை மீண்டும் செய்யவும்."
 
 msgid "Cut by speaker"
 msgstr "பேச்சாளர் வாரியாக கட்"
@@ -4738,8 +4743,8 @@ msgstr "  Resolve வீடியோ தடம் V%d-ஐ இருமுறை 
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s ஆஃப்செட் %s, கடிகார விலகல் அளவிடப்படவில்லை%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  கவனம்: இந்தத் திட்டப்பணி முழுமையடையவில்லை -- Resolve மறுத்தவை:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  கவனம்: இந்தத் திட்டப்பணி முழுமையடையவில்லை -- இல்லாதவை:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  கடிகார விலகல்:        அளவிடப்படவில்லை -- அதன் ஆடியோவில் அதற்குப் போதுமான புள்ளிகள் கிடைக்கவில்லை"
@@ -5026,9 +5031,6 @@ msgstr "அவுட் புள்ளி கடந்த இயக்கத்
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "தயாரிப்பு முடிந்தது, ஆனால் தனித்தனித் தடங்களுடன் உள்ள ZIP க்கு எளிய கோப்புப் பெயர் இல்லை"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "பல கேமராக்கள், ஆனால் ஆடியோ பதிவு இல்லை. ஒவ்வொரு கேமராவுக்கும் அதன் சொந்த ஆடியோ இருக்கும் -- அதற்காகத்தான் Multitrack உள்ளது. இல்லையெனில் ஒன்றன்பின் ஒன்றாக ஒவ்வொரு கேமராவும்."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "காப்பகத்தில் %s ஒன்றுக்கு மேற்பட்ட முறை உள்ளது, எனவே அதிலிருந்து எதுவும் எடுக்கப்படவில்லை."
 
@@ -5037,9 +5039,6 @@ msgstr "இங்கே பதிவுகளுக்குப் பெயர�
 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "பில்ட் அதன் சரிபார்ப்புத் தொகையுடன் பொருந்தவில்லை, எனவே பிரித்தெடுக்கப்படவில்லை: பட்டியலில் %s, வந்தது %s."
-
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "சரிபார்ப்புத் தொகைகளின் பட்டியலைப் பெற முடியவில்லை, எனவே பில்ட் பிரித்தெடுக்கப்படவில்லை: %s"
 
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "சரிபார்ப்புத் தொகைகளின் பட்டியலில் %s இல்லை, எனவே பில்ட் பிரித்தெடுக்கப்படவில்லை."
@@ -5116,14 +5115,11 @@ msgstr "auphonic.com-இல் கணக்கு: தெரியவில்�
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  குறிப்பு: ஓட்டம் இருந்தாலும் முயல்கிறது. தயாரிப்பு தொடங்குமா என்பதை auphonic.com தீர்மானிக்கிறது, தொடங்காவிட்டால் அதைச் சொல்கிறது."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  எச்சரிக்கை: இந்த Multitrack தயாரிப்பு %s நீளம் கொண்டது, இலவசத் திட்டத்தில் auphonic.com இப்படிப்பட்டதை சுமார் %s வரை மட்டுமே ஏற்கிறது."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "இந்த Multitrack தயாரிப்பு %s நீளம். இலவசத் திட்டத்தில் auphonic.com இத்தகைய தயாரிப்பை சுமார் %s வரை மட்டுமே ஏற்கிறது; இதைவிட நீளமானதற்குக் கட்டணத் திட்டம் தேவை."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  குறிப்பு: இதைவிட நீளமானதை auphonic.com தொடக்கத்திலேயே மறுக்கிறது, அதற்கு எதையும் வசூலிப்பதில்லை. ஓட்டம் இருந்தாலும் முயல்கிறது; auphonic.com மறுத்தால் அதன் சொந்தச் செய்தி வரும்."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "இலவசத் திட்டத்தில் auphonic.com ஒரு Multitrack தயாரிப்பை சுமார் %s வரை மட்டுமே ஏற்கிறது."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "இலவசத் திட்டம் எந்த நீளத்திலும் ஏற்கும் Singletrack-க்கு, ஒன்றைத் தவிர எல்லா டிராக்குகளையும் \"%s\" என அமைக்கவும் -- ஒரே டிராக்கில் எல்லாக் குரல்களும் இருக்கும் இடத்தில். அல்லது முன்னமைவு என்பதன் கீழ் \"%s\" என்பதைத் தேர்வுசெய்யவும் (--without-auphonic): அப்போது டிராக்குகள் இங்கேயே கலக்கப்படும்."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  இந்த ஓட்டம் உருவாக்கிய திட்டப்பணி %r திறந்தே இருக்கும் -- முன்பு மீண்டும் திறக்கக்கூடிய\n  எதுவும் திறந்திருக்கவில்லை. அதை Resolve இன் திட்டப்பணி மேலாளரில் நீக்கவும்."
@@ -5202,3 +5198,70 @@ msgstr "முடிந்த மிக்ஸ் -- பேச்சாளர் 
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "பேச்சு: லவுட்னஸ் மூலம் மட்டுமே வைக்கப்படும். கேமராக்களுடன் எதையும்\nபகிராத பதிவு நிராகரிக்கப்படும். கலப்பு: குரல்களுக்குக் கீழே இசை அல்லது மிக்ஸ் உள்ளது,\nலவுட்னஸ் எதையும் காணாத இடத்தில் கட்டம் அதை வைக்கலாம்.\nமுடிந்த மிக்ஸ்: வேறு இடத்தில் செய்த ஸ்டீரியோ மிக்ஸ், கலப்பு ஒலியாக வைக்கப்படுகிறது. செயலாக்கத்தின் மிக்ஸுக்குப் பதில்\nகேமரா கோப்புகளிலும் ஒப்படைப்பிலும் செல்கிறது --\nபேச்சாளர் அல்ல, வெட்டப்படாது, auphonic.com-க்கு அனுப்பப்படாது.\n\"%s\" இல் பேச்சு தேர்வு இல்லை."
+
+msgid "Cutting"
+msgstr "வெட்டுதல்"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "முன்னமைவு auphonic.com இல் வெட்டுகிறது (%s) -- ஒலி படங்களை விடக் குறுகியதாகத் திரும்பும், கேமராக்கள் நகரும்."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "auphonic.com இல் முன்னமைவில் இதை அணைக்கவும்: Audio Algorithms, Automatic Cutting -- %s இன் தேர்வை நீக்கவும், அல்லது Cut Mode ஐ நீளத்தைக் காக்கும் Set Cuts To Silent ஆக அமைக்கவும்."
+
+msgid "Speech recognition"
+msgstr "பேச்சு அறிதல்"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "முன்னமைவில் இயக்கத்தில் -- கோரப்படவில்லை, அதன் உரை எதுவும் பெறப்படவில்லை: எழுத்துப்படி இங்கேயே உருவாக்கப்படுகிறது."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- முன்னமைவில் உள்ளபடியே; நிரல் எதையும் மாற்றுவதில்லை."
+
+msgid "Enough for the %s this production needs."
+msgstr "இந்தத் தயாரிப்புக்குத் தேவையான %s-க்குப் போதும்."
+
+msgid "Not enough for the %s this production needs."
+msgstr "இந்தத் தயாரிப்புக்குத் தேவையான %s-க்குப் போதாது."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s இல் %s சேனல்கள் உள்ளன, auphonic.com ஒரு கோப்பில் அதிகபட்சம் இரண்டை மட்டுமே ஏற்கும். எதுவும் அனுப்பப்படவில்லை.\n"
+"  எந்தச் சேனல்கள் ஒன்றாகச் செல்கின்றன என்று சொல்லுங்கள்: கோப்புகள் & தயாரிப்பு தாவலில் கோப்பு ஒவ்வொரு சேனலுக்கும் ஒரு வரிசையாகத் திறக்கும், ஒரு வரிசையின் டிக் அதை அடுத்ததுடன் இணைக்கும். கோப்பு சேனல் வரிசைகளைக் காட்டவில்லை என்றால், முதலில் அதன் சேனல்களைத் தனிக் கோப்புகளாகச் சேமிக்கவும்."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, ஏனெனில் %s டிராக்குகள் ஒரே நேர அச்சில் உள்ளன. வேறொரு Multitrack "
+"முன்னமைவைத் தேர்வுசெய்யலாம்; Singletrack-க்கு ஒன்றைத் தவிர எல்லா "
+"டிராக்குகளையும் \"பயன்படுத்த வேண்டாம்\" என அமைக்கவும்."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, ஏனெனில் ஒரே ஒரு டிராக் உள்ளது. வேறொரு Singletrack முன்னமைவைத் "
+"தேர்வுசெய்யலாம்; Multitrack-க்கு இரண்டாவது டிராக்கைச் சேர்க்கவும் -- ஒரு "
+"பதிவு, அல்லது \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைத்த கேமரா."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> இந்த மேப்பிங்கிலிருந்து ஆடியோ டிராக்குகளின் எண்ணிக்கையைப் படிக்க முடியாது"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve பதிலளிக்கிறது, ஆனால் திட்டப்பணி மேலாளரைத் தருவதில்லை."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "%s இன் சேனல்கள் இன்னும் தடங்களாகப் பிரிக்கப்படவில்லை."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s மற்றும் %s (%s இல்) ஒன்றுபோல் ஒலிக்கின்றன (ஒற்றுமை %s): பிரிப்பு "
+"இருவரையும் குழப்பியிருக்கலாம் -- அவற்றின் ஒதுக்கீட்டைச் சரிபார்க்கவும்."

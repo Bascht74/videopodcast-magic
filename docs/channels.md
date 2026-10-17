@@ -39,6 +39,15 @@ measurement proposes, the tick corrects:
 * Only a row that says something other than the measurement reads **set
   by hand -- overrides the measurement**.
 * Until the measurement is in, the row says so instead of guessing.
+* Until the file is cut into its tracks, **Start** and **Dry run** wait,
+  and the line under the buttons says **The channels of Rec.wav are not
+  cut into tracks yet.** They free themselves once the tracks are in --
+  a run started earlier would get the file whole. A file whose channels
+  cannot be read holds them only while it is being measured, and one
+  whose cutting fails -- a full disc, say -- only while it is being cut:
+  it then goes into the run whole. A tick changed after the tracks are
+  in, or after the cutting failed, cuts the file anew, and the two wait
+  again until that is done.
 * For a file whose channel count cannot be read at all, the run says
   that rather than leaving the row waiting.
 
@@ -129,6 +138,27 @@ goes up in stereo and comes back in one channel, the run says so and
 carries on. The mix keeps its two channels, and what is gone is the
 difference between the two microphones of that one track.
 
+### More than two channels in one file
+
+auphonic.com takes at most two channels in one file. A file with more
+than two never goes there -- not on its own, as a production of a
+single track, and not beside other recordings, as one track of a
+multitrack production, where it would arrive folded to one channel,
+every voice on it in one. The run stops before the time axis is
+measured, sends nothing and says why, one line per file:
+
+```
+Rec.wav has 4 channels, and auphonic.com takes at most two in one file. Nothing was sent.
+```
+
+The answer lies in the channel rows above: say which channels belong
+together, and each pair and each channel on its own becomes a track.
+With two tracks or more the run sends them as one multitrack production
+([Processing at auphonic.com](auphonic.md)). Where the file has no
+channel rows -- its channels cannot be read, or the run was started from
+the command line, which has none -- save its channels as files of their
+own first, as described under "When the channels cannot be read".
+
 ### When something goes wrong
 
 * **Two people landed in one track.** Clear the tick on the row of the
@@ -142,6 +172,9 @@ difference between the two microphones of that one track.
   as soon as the measurement is in.
 * **A stereo track came back from auphonic.com in one channel.** The run
   says so and carries on. The mix keeps its two channels.
+* **The run stops with `has 4 channels, and auphonic.com takes at most
+  two in one file`.** Say in the channel rows which channels belong
+  together, as described under "More than two channels in one file".
 
 Every channel now has its place: a track of its own, one half of a
 stereo pair, or out of the run. What becomes of those tracks is in [The

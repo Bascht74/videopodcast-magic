@@ -9,7 +9,7 @@ not fit -- before anything is written.*
 
 *Working on the program, or opening a pull request? [CONTRIBUTING.md](CONTRIBUTING.md) says how: the tests, the counter-proof every check owes, and what a pull request has to carry.*
 
-**Version 3.0.0b28.** It does the work it was written for, every week, on
+**Version 3.0.0b29.** It does the work it was written for, every week, on
 real material. The step to 3 is a break rather than a heap of new
 features: the program is installed now, with pip3, and it is a command
 called `videopodcast-magic`. Anything that still starts it as a file
@@ -47,18 +47,36 @@ is in **[docs/overview.md](docs/overview.md)**.
 
 ## Getting it
 
-One command, and there is no second way in:
+One command, and there is no second way in. It installs the package
+versions the newest release was tested with: every release carries one
+list of them per system, and the command names the one for yours. Copy
+the line for your system:
+
+On a Mac:
 
 ```
-pip3 install git+https://github.com/Bascht74/videopodcast-magic
-videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
+
+On Windows:
+
+```
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-windows.txt git+https://github.com/Bascht74/videopodcast-magic
+```
+
+On Linux:
+
+```
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-linux.txt git+https://github.com/Bascht74/videopodcast-magic
+```
+
+and then start the program with `videopodcast-magic`.
 
 The newer version comes on the same address and takes the place of the
-one installed:
+one installed -- the same line with `-U`, here the one for a Mac:
 
 ```
-pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -U -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
 
 **Wait for the first one. It takes minutes, and it is meant to.**
@@ -77,12 +95,19 @@ and stops where it is already the one installed.
 **Where `pip3 install` refuses**, saying the environment is externally
 managed, this Python belongs to a package manager -- Homebrew's, or a
 Linux distribution's -- which keeps pip out of what it maintains, and
-the refusal names the way round it:
-`pipx install git+https://github.com/Bascht74/videopodcast-magic` puts
-the program in an environment of its own and the command on the path.
+the refusal names the way round it, pipx, with the same list handed
+on to pip -- here the line for a Mac, `linux` in place of `macos` on
+Linux:
+
+```
+pipx install --pip-args="-c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt" git+https://github.com/Bascht74/videopodcast-magic
+```
+
+It puts the program in an environment of its own and the command on
+the path.
 
 Two things pip cannot bring, because neither is Python: **Python
-itself**, 3.10 or newer, and **`ffmpeg` 9.0.1 or newer, with
+itself**, 3.12 or newer, and **`ffmpeg` 9.0.1 or newer, with
 `ffprobe`**. For the two tools the program looks on the search path,
 offers the package manager of the machine and asks before it runs it,
 and otherwise says where to fetch them. Below 9.0.1 the window opens
@@ -94,11 +119,11 @@ curve, Dolby Vision, timecode -- through untouched beside the
 picture.
 
 **One trap, measured on 4 September 2026.** A pip that reads the
-project file stops below Python 3.10 and says which version it wanted.
+project file stops below Python 3.12 and says which version it wanted.
 The pip macOS brings with its own Python 3.9 -- `/usr/bin/pip3` --
 reads nothing: it answers `Successfully installed UNKNOWN-0.0.0` and
 leaves an empty folder of that name, no command and no error. Reading
-`UNKNOWN` means the pip is the wrong one; install Python 3.10 or newer
+`UNKNOWN` means the pip is the wrong one; install Python 3.12 or newer
 and use its `pip3`.
 
 Later, and only when somebody wants what they are for, two models come
@@ -147,7 +172,7 @@ camera.*
 
 ## What it needs
 
-Python 3.10 or newer, and `ffmpeg` 9.0.1 or newer with `ffprobe` on the
+Python 3.12 or newer, and `ffmpeg` 9.0.1 or newer with `ffprobe` on the
 search path. That is the whole list: everything else is a Python
 package, every one of them stands on the list pip reads, and the
 install brings them all. ffmpeg is the exception it cannot help being,

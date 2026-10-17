@@ -11,9 +11,8 @@ it comes down again when the mark is taken away -- a bar that never
 lifts would pass the first judgement and leave the field dead.
 A camera nobody is assigned to shows a wide shot it never stored, so
 this test asks the value behind a field, not its label. Last, asked of
-the check itself: two cameras with no recording and no Multitrack hold
-the start back with the run's own reason, which a recording beside
-them, the Multitrack tick or a single camera each lift. An entry it
+the check itself: two cameras with no recording hold nothing back, as
+the run takes each camera's own sound as a track. An entry it
 asks about is asked for first: a name that is not in the list would end
 the run with a traceback instead of a red line saying which entries
 there are.
@@ -433,12 +432,10 @@ QtCore.QTimer.singleShot(180000, app.quit)
 sys.argv = ["videopodcast_magic.py"]
 vpm.gui()
 
-print("\n8. Two cameras and no recording, without Multitrack")
+print("\n8. Two cameras and no recording")
 # Asked of the check the footer is filled from, on this test's files:
-# the run refuses this case, so the window must not let it start.
-CAMS_ALONE = vpm.T('Several cameras but no audio recording. Each camera '
-                   'would have its own audio -- that is what Multitrack '
-                   'is for. Otherwise one camera after another.')
+# the run takes each camera's own sound as a track, so the window must
+# not hold this case back.
 
 
 def camera_line(path):
@@ -452,29 +449,16 @@ def sound_line(path, name):
     return ([path], vpm.Value(name), vpm.Value(""))
 
 
-def held(files, multitrack, sounds, cameras):
+def held(files, sounds, cameras):
     """What the file tab says is missing, or None."""
-    return vpm.missing_conditions(files, "Reason", multitrack, sounds,
-                                  cameras).get(11)
+    return vpm.missing_conditions(files, "Reason", sounds, cameras).get(11)
 
 
 PAIR = [(one, "video"), (two, "video")]
 OWN = [sound_line(one, "Host"), sound_line(two, "Guest")]
-said = held(PAIR, False, OWN, [camera_line(one), camera_line(two)])
-check("two cameras with no recording hold the start back, and say why",
-      said == CAMS_ALONE, "the file tab says %r against %r"
-      % (said, CAMS_ALONE))
-said = held([(audio, "audio")] + PAIR, False,
-            OWN + [sound_line(audio, "Room")],
-            [camera_line(one), camera_line(two)])
-check("a recording beside the two cameras lets the start go",
-      said is None, "the file tab says %r" % (said,))
-said = held(PAIR, True, OWN, [camera_line(one), camera_line(two)])
-check("the Multitrack tick lets the two cameras start as well",
-      said is None, "the file tab says %r" % (said,))
-said = held([(one, "video")], False, OWN[:1], [camera_line(one)])
-check("one camera alone with its own sound holds nothing back",
-      said is None, "the file tab says %r" % (said,))
+said = held(PAIR, OWN, [camera_line(one), camera_line(two)])
+check("two cameras with no recording let the start go",
+      said is None, "the file tab says %r against None" % (said,))
 clean_up(folder)
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

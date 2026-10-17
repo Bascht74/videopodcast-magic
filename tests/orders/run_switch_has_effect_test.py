@@ -4,13 +4,10 @@
 Three of them once stood in the help: accepted, never read, the user
 believing they had an effect. Every other test asks whether what was
 wanted happens; none asks whether what is offered still does anything.
-The second question is the same one a step further out -- the mark
-"[multitrack only]" was set once and printed to nobody, because --help
-builds a parser of its own and never reached the place it was set in.
-And the mark stands where it means something: --multitrack itself does
-not carry it.
+Last, a switch retired is gone and not kept on without effect:
+--multitrack is refused as any word the parser does not know.
 """
-PLATFORM_BOUND = True
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -21,14 +18,12 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import ast
-import re
-import subprocess
+import contextlib
+import io
 import time
 import the_program
 
 began = time.time()
-ROOT = os.path.dirname(HERE)
-SCRIPT = the_program.SCRIPT
 
 vpm = the_program.load()
 
@@ -137,53 +132,23 @@ print("     %d read off the namespace, %d by name: %s"
       % (len(dests & read_by_name), len(by_key),
          ", ".join("%s %s" % (k, v) for k, v in sorted(by_key.items()))))
 
-print("\n2. The mark stands in the printed help")
-MARK = "[multitrack only]"
-# Printed, not formatted here. --help takes a way of its own through
-# main(), and the whole point of the check is that the mark survives it.
-help_run = subprocess.run([sys.executable, SCRIPT, "--help"],
-                          capture_output=True, text=True)
-help_text = (help_run.stdout or "") + (help_run.stderr or "")
-check("--help answers at all", help_run.returncode == 0 and len(help_text) > 500,
-      "rc=%d, %d characters" % (help_run.returncode, len(help_text)))
-
-# One block per switch: a line beginning at column three with a dash
-# opens it, everything indented further belongs to it. Folded into one
-# line, because argparse wraps and the mark may sit across a break.
-HEAD = re.compile(r"^ {2}(-\S+)")
-blocks = {}
-current = None
-for line in help_text.splitlines():
-    opening = HEAD.match(line)
-    if opening:
-        current = opening.group(1).rstrip(",")
-        blocks[current] = line
-    elif current and line.startswith("    "):
-        blocks[current] += " " + line.strip()
-    elif not line.strip():
-        current = None
-check("--help lists the switches one by one", len(blocks) > 20,
-      "%d blocks" % len(blocks))
-
-printed = {}
-for entry in switches:
-    said = [blocks[name] for name in entry.option_strings if name in blocks]
-    if said:
-        printed[entry.dest] = MARK in " ".join(said[0].split())
-should = list(vpm.ONLY_MULTITRACK)
-check("the program knows which switches need several recordings",
-      len(should) > 0, "%d" % len(should))
-found("every one of them carries %s in --help" % MARK,
-      [dest for dest in should if not printed.get(dest)])
-found("and no switch that does not need it carries %s" % MARK,
-      [dest for dest, has in sorted(printed.items())
-       if has and dest not in should])
-# Asked of the help and not of the list: marked, --multitrack would stand
-# in both, and the two checks above would agree with each other.
-check("--multitrack is not marked as needing itself",
-      printed.get("multitrack") is False,
-      "its block in --help: %r" % " ".join(
-          blocks.get("--multitrack", "(not printed)").split())[-120:])
+print("\n2. A switch retired is refused, not kept on without effect")
+# Whether the tracks go up as one Multitrack production follows from the
+# material, so the switch that once said it is gone: the parser answers
+# it as it answers any word it does not know, with its own complaint and
+# a return of 2, before a run begins.
+heard = io.StringIO()
+try:
+    with contextlib.redirect_stderr(heard):
+        parser.parse_args(["--multitrack"])
+    returned = None
+except SystemExit as stop:
+    returned = stop.code
+complaint = (heard.getvalue().strip().splitlines() or [""])[-1]
+check("--multitrack is refused as a word the parser does not know",
+      returned == 2 and "--multitrack" in complaint,
+      "parse_args returned %r against 2 and said %r"
+      % (returned, complaint))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

@@ -61,10 +61,28 @@ def queue_once(QtCore, pending, key, work):
     pending[mark] = True
 
     def run():
+        # Done already, by queue_flush: nothing is waiting any more.
+        if not pending.get(mark):
+            return
         pending[mark] = False
         work()
 
     QtCore.QTimer.singleShot(0, run)
+
+
+def queue_flush(pending, key, work):
+    """Do now what queue_once still holds back under *key*, if anything.
+
+    For whoever is about to throw away what that work reads: a rebuild
+    of the sheet arriving between a typed name and its storing built
+    the rows again from the store, and the name was gone.
+    """
+    mark = "queued " + key
+    if work is None or not pending.get(mark):
+        return False
+    pending[mark] = False
+    work()
+    return True
 
 
 # None of these reaches into gui(), so they stand out here where a test
@@ -1167,8 +1185,7 @@ def row_same_height(buttons):
     return tallest
 
 def make_footer(Qt, QtCore, QtWidgets, window, vertical, state, files,
-                plan, bridge, late, multitrack, without_auphonic,
-                settings_open):
+                plan, bridge, late, without_auphonic, settings_open):
     """The bottom row of the window: the one bar, and the four buttons.
 
     One strip answered end to end -- the bar, the plan behind it that
@@ -1217,7 +1234,7 @@ def make_footer(Qt, QtCore, QtWidgets, window, vertical, state, files,
         plan_wipe()
         cameras = len([1 for p, a in files if a == "video"])
         # The cameras the run pulls audio out of, as Start worked out
-        # from its plan -- the Multitrack tick does not decide that.
+        # from its plan.
         stages = run_stages(state.get("run_camera_audio") or 0, cameras,
                             not without_auphonic(),
                             sync=PROGRAM.sync_only(state))

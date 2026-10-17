@@ -25,6 +25,507 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b29] - 2026-10-17
+
+### Added
+
+- **The check before a run names the Auphonic preset's processing
+  switches in words**: each one that is on, with its setting, and that
+  the program changes none of them.
+- **A second run of a single recording now finds its Auphonic production
+  again**, as Multitrack already did, and asks: take the result, upload
+  anew, or stop. `--auphonic-resume` answers for a script, and `--help`
+  no longer marks it as Multitrack only.
+- **The Auphonic box now says before the run whether the credit is
+  enough** for what auphonic.com will charge, each production counted at
+  three minutes or more, as the price list says.
+- **The Python floor and the tested package versions are now one
+  command away**: the README gives one install line per system with the
+  versions the release's tests ran green on; the `pipx` line does the
+  same.
+- **The check before a run names an intro or outro stored in the
+  Auphonic preset as not used**, for Multitrack and Singletrack alike:
+  intro and outro come from the video files set to Intro or Outro.
+- **Two voices of one speaker separation that sound alike are named**:
+  the log says so in one line, also in a run the window hands its
+  separation to, and the row's **Separated** turns amber in the window.
+- **The check before a run counts clipping in a camera's own sound**
+  where that sound is a track of the production, and in no other
+  camera's.
+
+### Changed
+
+- **The program now needs Python 3.12 or newer**; 3.10 and 3.11 are
+  refused at start and by pip. The package versions a release is tested
+  with no longer install below 3.12.
+- **The "Multitrack" tick and `--multitrack` are gone.** The production
+  kind follows from the material, and a grey line under the preset list
+  says which kind and why. A command line with `--multitrack` is refused.
+- **A preset that lets auphonic.com cut silence, fillers, coughs or
+  music now stops the run before the upload**, because the sound would
+  come back shorter than the pictures. The advice names the place in the
+  preset; "Set Cuts To Silent" keeps the length and goes on.
+- **Transcripts, subtitles and speech data are no longer fetched from
+  auphonic.com**, and no request asks for speech recognition any more,
+  Multitrack or Singletrack. The manual's promise "no text from
+  auphonic.com" now holds.
+- **A file of more than two channels that would go to auphonic.com now
+  stops the run before anything is sent**, naming the file and its
+  channel count: auphonic.com takes at most two channels in one file.
+  The channel rows in the window cut such a file into tracks first.
+- **On the free auphonic.com plan, a Multitrack production longer than
+  about 21 minutes now stops the run**, in the check before the run and
+  again before the upload, with the ways out named. `--anyway` lifts only
+  the first stop, and the last line says so; a dry run only warns.
+- **A cut Timeline that lacks something now ends the run with errors**:
+  no picture, fewer shots than were sent, no Full-Mix, a refused intro or
+  outro, or an empty or silent cut. The window says "Finished with
+  errors." and the end of the log lists what is missing.
+- **A fault in the program's own code at a step in Resolve now stops the
+  run** and says it is a fault of the program, to be reported, with the
+  details in the log. It used to pass for a refusal by Resolve.
+- **A single recording sent to auphonic.com is now made from the preset's
+  settings without its intro and outro**, the way a Multitrack production
+  is made.
+- **A dry run no longer writes the tracks onto the time axis for its own
+  use**: a 68-minute interview needs about 2.4 GB less room, and the cut
+  stays the same. With an API Key, or with microphones that hear each
+  other too well, the tracks are still written.
+- **Without a picture, the window and a run measure the time axis only
+  once**: each takes what the other measured over the same recordings, as
+  they already did beside a picture.
+- **A camera that gives no sound at all no longer stops the run when no
+  other camera is heard**: the recordings are laid against each other as
+  without a picture, and each camera stands at its timecode. The window
+  lays every file at the same place.
+- **A recording without a picture whose level is adjusted is now always
+  written at 48 kHz**, as the check before the run announces.
+- **Pauses inside a turn are now bridged up to 0.75 s instead of 0.35 s**
+  where the program reads from the tracks who speaks: on real interviews
+  the camera stood on the speaker more often, 92.7 instead of 88.5 % of
+  the time, with as many cuts.
+- **The transcript line in the log now gives only the number of words**;
+  its three shares followed how right the names were only weakly.
+- **"Wide shot at the latest" now says what it does**: the clock breaks
+  up a shot only when it is longer than both this and "Wide shot after",
+  and the greeting and farewell wide shot ends there either way; the
+  manual and `--help` say the same. The cut is unchanged.
+- **`--update` now installs a release with that release's own list of
+  package versions**, so going back to an earlier version brings that
+  version's packages too. Releases before 3.0.0b28 carry no list and are
+  installed without one.
+- **ffmpeg is now fetched from one named build and checked against a
+  checksum kept in the program**, no longer from whatever the build host
+  calls "latest". A newer ffmpeg comes only with a newer program.
+- **On a Mac, recognition now hears a language in one fixed variant**:
+  the one asked for, the Mac's own region (de-CH on a Swiss Mac), then a
+  fixed one per language such as en-US. English on a German Mac used to
+  land on a different variant run after run.
+- **A language the Mac has no recogniser for now goes to Whisper**, and
+  the log says so, for example "macOS hears no Dutch here, Whisper takes
+  it". Before, the file was heard in the system language.
+- **A recording in blocks is now heard once for the window's
+  transcript**: the window takes the words of the voice separation
+  instead of listening a second time.
+- **The project file now keeps the reference camera**, so a reopened
+  project reads a typed timecode mark at the rate of the camera the run
+  used.
+- **German now says "Transkript" everywhere**, in the window and the
+  manual, no longer also "Niederschrift".
+
+### Fixed
+
+- **A voice name typed just before the assignment sheet is rebuilt now
+  stays.** When a file's tracks finished cutting in the background at
+  that moment, the name silently went back to "Speaker N".
+- **Quitting the window no longer hangs.** Stopping the players at quit
+  could deadlock inside Qt's media backend, about one quit in 75 under
+  load; the players are now left to the system as the program ends.
+- **The window no longer hangs while playing**: a deadlock between
+  PySide 6.12 and Qt's media thread is now avoided when each sound output
+  is made. It is reported to Qt as `QTBUG-151644`.
+- **The window now opens on a Qt without its multimedia modules**, and no
+  longer opens ffplay by itself there; a file handed to the player still
+  goes to ffplay.
+- **The window now lays a recording's later blocks where the run puts
+  them.** After a gap in the timecode the preview played a block 1.5 s
+  too early; it now matches the run to the millisecond.
+- **A Multitrack preset that starts with an intro now sends the speaker
+  tracks with the preset's track settings**, no longer with the intro's.
+- **Each Auphonic production lookup now takes only its own kind**: a
+  Multitrack run no longer finds a Singletrack production of its title.
+- **A second run now finds its production at auphonic.com even when more
+  than ten newer ones lie before it**: the list is read back to the
+  newest 50. Before, a production further back was uploaded and paid for
+  again.
+- **A command-line run now goes up to auphonic.com under its
+  production's name**, from `--production` or else the folder, so this
+  week's run no longer finds last week's production titled "Production".
+- **A start auphonic.com refuses, or a production it holds as
+  "Incomplete", now stops the run at once** with auphonic.com's answer,
+  instead of waiting until the time limit, two hours by default.
+- **A refused upload of a Multitrack track now stops before the production
+  is started**, and a preset read that comes back without a preset stops
+  before anything is created.
+- **A returned Auphonic track that lacks part of what went up is now
+  refused**: its line says "refused" and how many seconds are missing, and
+  the run stops. Before, a return a few seconds shorter than what went
+  up passed as aligned.
+- **With `--auphonic-done`, a file trimmed to a later window is now judged
+  as it lies in the folder**; padded with silence, a file up to a minute
+  short at its end used to pass the return check.
+- **On the free plan, the check before a run now counts tracks as the run
+  sends them**: a recording set to "do not use" counts as none, two
+  recordings of one name as one, a camera whose sound is used as one.
+- **Microphones joined into one recording are now separated for one
+  person per microphone**, unless `--speakers-count` gives a number: one
+  voice too many used to leave every voice without its microphone, 58
+  instead of 95 % of the cut right.
+- **A Sync run whose second recording is set to "do not use" is no longer
+  stopped by its own check**, and in the window no stop suggests
+  `--anyway`, which the window cannot pass.
+- **The check before a run leaves a recording set to "do not use" out of
+  the disk space and the loudness line**, and a finding about a file that
+  takes no part no longer stops the run.
+- **German and Greek no longer put two full stops after a length** ("30
+  Min..") in the free-plan sentence and the credit line.
+- **A whole run with `--resolve` whose Resolve part stops now ends with
+  errors**: the window says "Finished with errors." instead of "Done.",
+  and the command line returns 1.
+- **The hint under the preset list no longer says there is no camera cut
+  without Auphonic**: the cut is the same with a preset and without one.
+- **Without a picture, the window now lays recordings where the run
+  does**, at the run's clock speed: a recorder 68 ppm fast stood up to
+  0.24 s off over an hour.
+- **The window calls a recording "does not fit" only where the run's
+  sound left it without a place**, no longer where the run placed it by
+  the moving bands, by the phase or at a weak match.
+- **Start and Dry run now wait until a file of several channels is cut
+  into its tracks**, also after a channel tick, and the line under the buttons
+  says so; the preset list then offers the kind the tracks need. If the
+  cut fails, they let go, and the file goes into the run whole.
+- **Recordings at 16, 22.05, 44.1 or 96 kHz now land in their place and
+  as long as the window**: a 16 kHz recording came out three times as
+  long. Blocks of one recording at different rates are joined whole.
+- **A recording joined from several blocks without a picture now keeps
+  its timecode** at every sample rate; it used to land at zero.
+- **The cut's closing count now says "1 speaker, 1 shot"**, and every
+  language uses its own singular and plural there, on the third tab and
+  when the cut changes.
+- **On a Mac, recognition no longer refuses a language with "Too many
+  allocated locales"** once five variants have been used; it lets go of
+  the oldest one.
+- **On the command line, the check before a run now says that a file of
+  more than two channels is folded to one channel**, instead of pointing
+  to channel rows only the window has.
+- **A QuickTime file whose last box is only eight bytes long is now read
+  to its end**, so the check after a timecode edit no longer mistakes
+  where the movie data ends.
+
+- **A command-line run with its files straight on the desktop or in the
+  home folder now goes up to auphonic.com under its first recording's
+  name**, so the next run finds it and is not charged again.
+
+- **A recompute of an existing Auphonic production now says beforehand
+  that an earlier In point or a later Out point is refused by the return
+  check**, and that uploading everything again is the way out.
+
+- **A returned track whose measurement is unusable is no longer called
+  aligned in the log**: its line says the measurement is unusable, and
+  the run stops.
+
+- **`--resolve-json` with an intro or outro that names no file now stops
+  before Resolve is asked**, with a line naming it, instead of a program
+  fault at the import.
+
+- **A handover that is not UTF-8 is now reported as the file's
+  problem**, as before 3.0.0b29, no longer as a fault in the program to
+  report: one saved again as UTF-16, or a video handed to `--resolve-
+  json`.
+
+- **Start and Dry run now wait for every block of a recording** being
+  cut into tracks, not only its first, and a recording set to "do not
+  use" no longer holds them.
+
+- **A file whose cut into tracks fails now says why in its row of the
+  file list**, in ffmpeg's words, until it is cut again or taken out.
+
+### Documentation
+
+- **The requirements chapter now explains the Python 3.12 floor** and
+  which systems and Python versions the builder tests on.
+- **The manual marks three numbers as set, not measured**: the wide
+  shot's two minutes, the 3:1 rule's 9.5 dB and the phase floor.
+- **The German manual names the "Probelauf" button** as the window does,
+  no longer "Trockenlauf".
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Die Prüfung vor einem Lauf nennt die Bearbeitungsschalter des
+  Auphonic-Presets in Worten**: jeden eingeschalteten mit seiner
+  Einstellung, und dass das Programm keinen davon ändert.
+- **Ein zweiter Lauf einer einzelnen Aufnahme findet seine
+  Auphonic-Produktion jetzt wieder**, wie schon bei Multitrack, und
+  fragt: Ergebnis übernehmen, neu hochladen oder anhalten.
+  `--auphonic-resume` antwortet für ein Skript, und `--help` kennzeichnet
+  den Schalter nicht mehr als nur für Multitrack.
+- **Der Auphonic-Kasten sagt jetzt vor dem Lauf, ob das Guthaben
+  reicht** für das, was auphonic.com berechnet; jede Produktion zählt
+  mit mindestens drei Minuten, wie in der Preisliste.
+- **Python-Untergrenze und getestete Paketversionen sind jetzt einen
+  Befehl entfernt**: Die README nennt je System eine Installationszeile
+  mit genau den Versionen, mit denen die Tests der Version grün liefen;
+  die `pipx`-Zeile ebenso.
+- **Die Prüfung vor einem Lauf nennt einen im Auphonic-Preset
+  gespeicherten Vor- oder Abspann als nicht verwendet**, bei Multitrack
+  wie bei Singletrack: Vor- und Abspann kommen aus den Videodateien, die
+  auf Vorspann oder Abspann stehen.
+- **Zwei ähnlich klingende Stimmen einer Sprechertrennung werden
+  genannt**: Das Protokoll sagt es in einer Zeile, auch in einem Lauf,
+  dem das Fenster seine Trennung übergibt, und **Getrennt** wird in der
+  Zeile des Fensters bernsteinfarben.
+- **Die Prüfung vor einem Lauf zählt Übersteuerung auch im eigenen Ton
+  einer Kamera**, deren Ton eine Spur der Produktion ist, und bei keiner
+  anderen Kamera.
+
+### Geändert
+
+- **Das Programm braucht jetzt Python 3.12 oder neuer**; Programmstart
+  und pip weisen 3.10 und 3.11 ab. Die Paketversionen, mit denen eine
+  Version getestet wird, lassen sich unter 3.12 nicht mehr installieren.
+- **Das Häkchen „Multitrack“ und `--multitrack` sind weg.** Die Art der
+  Produktion ergibt sich aus dem Material, und eine graue Zeile unter der
+  Preset-Liste sagt, welche und warum. Eine Kommandozeile mit
+  `--multitrack` wird abgewiesen.
+- **Ein Preset, mit dem auphonic.com Stille, Füllwörter, Husten oder
+  Musik herausschneidet, hält den Lauf jetzt vor dem Hochladen an**,
+  denn der Ton käme kürzer zurück als die Bilder. Der Hinweis nennt die
+  Stelle im Preset; „Set Cuts To Silent“ behält die Länge und läuft
+  weiter.
+- **Transkript, Untertitel und Sprachdaten holt das Programm nicht mehr
+  von auphonic.com**, und keine Anfrage verlangt mehr Spracherkennung,
+  weder Multitrack noch Singletrack. Das Versprechen des Handbuchs „kein
+  Text von auphonic.com“ stimmt jetzt.
+- **Eine Datei mit mehr als zwei Kanälen, die zu auphonic.com ginge, hält
+  den Lauf jetzt an, bevor etwas gesendet wird**, mit Datei und
+  Kanalzahl: auphonic.com nimmt höchstens zwei Kanäle in einer Datei.
+  Die Kanalzeilen im Fenster zerlegen eine solche Datei vorher in Spuren.
+- **Im kostenlosen Tarif von auphonic.com hält eine Multitrack-Produktion
+  über etwa 21 Minuten den Lauf jetzt an**, in der Prüfung vor dem Lauf
+  und noch einmal vor dem Hochladen, mit den Auswegen. `--anyway` hebt
+  nur den ersten Halt auf, und die letzte Zeile sagt das; ein Probelauf
+  warnt nur.
+- **Eine Cut-Timeline, der etwas fehlt, beendet den Lauf jetzt mit
+  Fehlern**: kein Bild, weniger Einstellungen als gesendet, kein
+  Full-Mix, ein abgelehnter Vor- oder Abspann oder ein leerer oder
+  stummer Schnitt. Das Fenster sagt „Mit Fehlern beendet.“, das Ende des
+  Protokolls nennt, was fehlt.
+- **Ein Fehler im Programm selbst bei einem Schritt in Resolve hält den
+  Lauf jetzt an** und sagt, dass es ein Fehler des Programms ist, der
+  gemeldet werden soll; die Einzelheiten stehen im Protokoll. Bisher
+  ging er als Ablehnung durch Resolve durch.
+- **Eine einzelne Aufnahme für auphonic.com entsteht jetzt aus den
+  Einstellungen des Presets ohne dessen Vor- und Abspann**, so wie eine
+  Multitrack-Produktion entsteht.
+- **Ein Probelauf legt die Spuren nicht mehr für sich selbst auf die
+  Zeitachse**: Ein 68-Minuten-Interview braucht in der Vorschau rund 2,4
+  GB weniger Platz, der Schnitt bleibt gleich. Mit API Key oder bei
+  Mikrofonen, die einander zu gut hören, werden die Spuren noch
+  geschrieben.
+- **Ohne Bild messen Fenster und Lauf die Zeitachse nur noch einmal**:
+  Jeder übernimmt, was der andere über dieselben Aufnahmen gemessen hat,
+  wie schon neben einem Bild.
+- **Eine Kamera ganz ohne Ton hält den Lauf nicht mehr an, wenn auch
+  sonst keine Kamera zu hören ist**: Die Aufnahmen werden wie ohne Bild
+  gegeneinander gelegt, und jede Kamera steht an ihrem Timecode. Das
+  Fenster legt jede Datei an dieselbe Stelle.
+- **Eine Aufnahme ohne Bild, deren Pegel angepasst wird, wird jetzt
+  immer mit 48 kHz geschrieben**, wie die Prüfung vor dem Lauf ankündigt.
+- **Pausen innerhalb einer Rede werden jetzt bis 0,75 s statt 0,35 s
+  überbrückt**, wo das Programm aus den Spuren liest, wer spricht: An
+  echten Interviews stand die Kamera öfter auf der Person, die redete,
+  92,7 statt 88,5 % der Zeit, bei gleich vielen Schnitten.
+- **Die Transkript-Zeile im Protokoll nennt jetzt nur noch die Zahl der
+  Wörter**; ihre drei Anteile folgten der Richtigkeit der Namen nur
+  schwach.
+- **„Weitwinkel spätestens“ sagt jetzt, was es tut**: Die Uhr bricht
+  eine Einstellung nur auf, wenn sie länger ist als dieser Wert und als
+  „Weitwinkel nach“, und der Weitwinkel für Begrüßung und Abschied endet
+  dort so oder so; Handbuch und `--help` sagen dasselbe. Der Schnitt
+  bleibt gleich.
+- **`--update` installiert eine Version jetzt mit ihrer eigenen Liste
+  von Paketversionen**; wer zu einer früheren Version zurückgeht,
+  bekommt deren Pakete. Versionen vor 3.0.0b28 haben keine Liste und
+  werden ohne installiert.
+- **ffmpeg kommt jetzt aus einem benannten Build und wird gegen eine
+  Prüfsumme im Programm geprüft**, nicht mehr aus dem, was der Anbieter
+  gerade „latest“ nennt. Ein neueres ffmpeg kommt nur mit einem neueren
+  Programm.
+- **Auf dem Mac hört die Erkennung eine Sprache jetzt in einer festen
+  Variante**: der verlangten, dann der Region des Mac (de-CH auf einem
+  Schweizer Mac), dann einer festen je Sprache wie en-US. Englisch
+  landete auf einem deutschen Mac bisher bei jedem Lauf in einer anderen
+  Variante.
+- **Eine Sprache, für die der Mac keine Erkennung hat, geht jetzt an
+  Whisper**, und das Protokoll sagt es, etwa „macOS hört hier kein
+  Niederländisch, Whisper übernimmt“. Bisher wurde die Datei in der
+  Systemsprache gehört.
+- **Eine Aufnahme in Blöcken wird für das Transkript des Fensters jetzt
+  einmal gehört**: Das Fenster übernimmt die Wörter der Stimmtrennung,
+  statt ein zweites Mal hinzuhören.
+- **Die Projektdatei behält jetzt die Bezugskamera**: Ein wieder
+  geöffnetes Projekt liest eine getippte Timecode-Marke in der Bildrate
+  der Kamera, die der Lauf benutzt hat.
+- **Auf Deutsch heißt es jetzt überall „Transkript“**, im Fenster und
+  im Handbuch, nicht mehr daneben auch „Niederschrift“.
+
+### Behoben
+
+- **Ein Stimmenname, der kurz vor dem Neuaufbau der Zuordnung getippt
+  wird, bleibt jetzt stehen.** War gerade im Hintergrund das Zerlegen
+  einer Datei fertig, fiel der Name still auf „Sprecher N“ zurück.
+- **Das Beenden des Fensters hängt nicht mehr.** Das Anhalten der Player
+  beim Beenden konnte sich in Qts Medien-Unterbau verklemmen, unter Last
+  etwa einmal in 75 Fällen; jetzt räumt das System die Player beim
+  Programmende ab.
+- **Das Fenster hängt beim Abspielen nicht mehr**: Eine Verklemmung
+  zwischen PySide 6.12 und Qts Medien-Thread wird jetzt schon beim
+  Anlegen jeder Tonausgabe umgangen. Bei Qt ist sie als `QTBUG-151644`
+  gemeldet.
+- **Das Fenster öffnet jetzt auch mit einem Qt ohne Multimedia-Module**
+  und startet dort kein ffplay mehr von selbst; eine Datei, die man dem
+  Player gibt, geht weiter an ffplay.
+- **Das Fenster legt die späteren Blöcke einer Aufnahme jetzt dorthin,
+  wo der Lauf sie hinlegt.** Nach einer Lücke im Timecode spielte die
+  Vorschau einen Block 1,5 s zu früh; jetzt stimmt sie mit dem Lauf auf
+  die Millisekunde überein.
+- **Beginnt ein Multitrack-Preset mit einem Intro, gehen die
+  Sprecherspuren jetzt mit den Spureinstellungen des Presets hoch**,
+  nicht mehr mit denen des Intros.
+- **Jede Suche nach einer Auphonic-Produktion nimmt jetzt nur ihre eigene
+  Art**: Ein Multitrack-Lauf findet keine Einspur-Produktion gleichen
+  Titels mehr.
+- **Ein zweiter Lauf findet seine Produktion bei auphonic.com jetzt auch,
+  wenn mehr als zehn neuere davor liegen**: Die Liste wird bis zu den
+  neuesten 50 gelesen. Bisher wurde eine weiter zurückliegende Produktion
+  neu hochgeladen und noch einmal bezahlt.
+- **Ein Lauf von der Kommandozeile geht jetzt unter dem Namen seiner
+  Produktion zu auphonic.com**, aus `--production` oder sonst dem Ordner;
+  der Lauf dieser Woche findet also nicht mehr die Produktion der
+  Vorwoche namens „Production“.
+- **Lehnt auphonic.com den Start ab oder führt eine Produktion als
+  „Incomplete“, hält der Lauf jetzt sofort an** mit der Antwort von
+  auphonic.com, statt bis zur Zeitgrenze zu warten, die zwei Stunden
+  beträgt, wenn nichts anderes gesetzt ist.
+- **Wird das Hochladen einer Multitrack-Spur abgelehnt, hält der Lauf
+  jetzt vor dem Start der Produktion an**, und liefert das Lesen des
+  Presets kein Preset, hält er an, bevor etwas angelegt wird.
+- **Eine von Auphonic zurückgekommene Spur, der ein Teil des Hochgeladenen
+  fehlt, wird jetzt abgelehnt**: Ihre Zeile sagt „abgelehnt“ und wie
+  viele Sekunden fehlen, und der Lauf hält an. Bisher kam eine Rückgabe,
+  die ein paar Sekunden kürzer war als das Hochgeladene, als
+  ausgerichtet durch.
+- **Mit `--auphonic-done` wird eine auf ein späteres Fenster beschnittene
+  Datei jetzt so geprüft, wie sie im Ordner liegt**; mit Stille
+  aufgefüllt kam eine bis zu einer Minute zu kurze Datei bisher durch.
+- **Im kostenlosen Tarif zählt die Prüfung vor einem Lauf die Spuren
+  jetzt so, wie der Lauf sie schickt**: Eine Aufnahme auf „nicht
+  verwenden“ zählt nicht, zwei Aufnahmen eines Namens als eine, eine
+  Kamera, deren Ton verwendet wird, als eine.
+- **Zusammengelegte Mikrofone werden jetzt nach einer Person je Mikrofon
+  getrennt**, sofern `--speakers-count` keine Zahl angibt: Eine Stimme zu
+  viel ließ bisher jede Stimme ohne ihr Mikrofon, 58 statt 95 % des
+  Schnitts richtig.
+- **Ein Sync-Lauf, dessen zweite Aufnahme auf „nicht verwenden“ steht,
+  wird nicht mehr von seiner eigenen Prüfung angehalten**, und im
+  Fenster schlägt kein Halt mehr `--anyway` vor, das das Fenster gar
+  nicht übergeben kann.
+- **Die Prüfung vor einem Lauf lässt eine Aufnahme auf „nicht verwenden“
+  bei Speicherplatz und Lautheitszeile weg**, und ein Befund zu einer
+  Datei, die nicht teilnimmt, hält den Lauf nicht mehr an.
+- **Deutsch und Griechisch setzen hinter eine Länge nicht mehr zwei
+  Punkte** („30 Min..“), im Satz zum kostenlosen Tarif und in der
+  Guthabenzeile.
+- **Ein ganzer Lauf mit `--resolve`, dessen Resolve-Teil abbricht, endet
+  jetzt mit Fehlern**: Das Fenster sagt „Mit Fehlern beendet.“ statt
+  „Fertig.“, die Kommandozeile gibt 1 zurück.
+- **Der Hinweis unter der Preset-Liste sagt nicht mehr, ohne Auphonic
+  gebe es keinen Kameraschnitt**: Der Schnitt ist mit und ohne Preset
+  derselbe.
+- **Ohne Bild legt das Fenster Aufnahmen jetzt dorthin, wo der Lauf sie
+  hinlegt**, im Uhrengang des Laufs: Ein Rekorder, der 68 ppm vorging,
+  stand über eine Stunde bis zu 0,24 s daneben.
+- **Das Fenster nennt eine Aufnahme nur noch „passt nicht“, wo der Ton
+  des Laufs sie ohne Platz ließ**, nicht mehr, wo der Lauf sie über die
+  wandernden Bänder, die Phase oder bei schwacher Übereinstimmung
+  eingeordnet hat.
+- **Start und Probelauf warten jetzt, bis eine Datei mit mehreren
+  Kanälen in ihre Spuren zerlegt ist**, auch nach einem Kanal-Häkchen,
+  und die Zeile darunter sagt das; danach bietet die Preset-Liste die
+  passende Art an. Scheitert das Zerlegen, werden sie frei, und die
+  Datei geht ganz in den Lauf.
+- **Aufnahmen mit 16, 22,05, 44,1 oder 96 kHz liegen jetzt an ihrer
+  Stelle und sind so lang wie das Zeitfenster**: Eine 16-kHz-Aufnahme kam
+  dreimal so lang heraus. Blöcke einer Aufnahme mit verschiedenen Raten
+  werden ganz zusammengefügt.
+- **Eine ohne Bild aus mehreren Blöcken zusammengefügte Aufnahme behält
+  jetzt ihren Timecode** bei jeder Abtastrate; bisher landete sie bei
+  null.
+- **Die Schlusszählung des Schnitts sagt jetzt „1 Sprecher, 1 Einstellung“**,
+  und jede Sprache nimmt dort ihre eigene Einzahl und Mehrzahl, auch auf
+  dem dritten Reiter und wenn sich der Schnitt ändert.
+- **Auf dem Mac lehnt die Erkennung eine Sprache nicht mehr mit „Too many
+  allocated locales“ ab**, sobald fünf Varianten benutzt wurden; sie gibt
+  jetzt die älteste frei.
+- **Auf der Kommandozeile sagt die Prüfung vor dem Lauf jetzt, dass eine
+  Datei mit mehr als zwei Kanälen auf einen Kanal gefaltet wird**, statt
+  auf Kanalzeilen zu verweisen, die nur das Fenster hat.
+- **Eine QuickTime-Datei, deren letzter Block nur acht Byte lang ist,
+  wird jetzt bis zum Ende gelesen**; die Prüfung nach einer
+  Timecode-Änderung verkennt nicht mehr, wo die Filmdaten enden.
+
+- **Ein Kommandozeilenlauf mit Dateien direkt auf dem Schreibtisch oder
+  im Benutzerordner geht jetzt unter dem Namen seiner ersten Aufnahme zu
+  auphonic.com**; der nächste Lauf findet ihn und zahlt nicht noch
+  einmal.
+
+- **Ein Neurechnen einer vorhandenen Auphonic-Produktion sagt jetzt
+  vorher, dass ein früherer In-Punkt oder ein späterer Out-Punkt an der
+  Rückgabeprüfung scheitert**, und dass nur alles neu Hochladen hilft.
+
+- **Eine zurückgekommene Spur mit unbrauchbarer Messung heißt im
+  Protokoll nicht mehr ausgerichtet**: Ihre Zeile nennt die Messung
+  unbrauchbar, und der Lauf hält an.
+
+- **`--resolve-json` mit Vorspann oder Abspann ohne Datei hält jetzt an,
+  bevor Resolve gefragt wird**, und nennt ihn, statt beim Import an
+  einem Programmfehler zu scheitern.
+
+- **Eine Übergabedatei, die nicht UTF-8 ist, wird jetzt wieder als
+  Problem der Datei gemeldet**, nicht mehr als Fehler im Programm: etwa
+  eine als UTF-16 neu gespeicherte oder ein Video an `--resolve-json`.
+
+- **Start und Probelauf warten jetzt auf jeden Block einer Aufnahme**,
+  die in Spuren zerlegt wird, nicht nur auf den ersten; eine auf „nicht
+  verwenden“ gestellte hält sie nicht mehr auf.
+
+- **Scheitert das Zerlegen in Spuren, sagt die Zeile der Datei jetzt,
+  warum**, in ffmpegs Worten, bis sie neu zerlegt oder herausgenommen
+  wird.
+
+### Dokumentation
+
+- **Das Kapitel zu den Voraussetzungen erklärt jetzt die Untergrenze
+  Python 3.12** und auf welchen Systemen und Python-Versionen getestet
+  wird.
+- **Das Handbuch kennzeichnet drei Zahlen als gesetzt, nicht gemessen**:
+  die zwei Minuten des Weitwinkels, die 9,5 dB der 3:1-Regel und die
+  Untergrenze der Phase.
+- **Das deutsche Handbuch nennt den Knopf „Probelauf“** wie das Fenster,
+  nicht mehr „Trockenlauf“.
+
 ## [3.0.0b28] - 2026-09-27
 
 ### Added

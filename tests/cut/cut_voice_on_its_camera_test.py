@@ -165,7 +165,7 @@ OUT = D + "/out"
 # Started the way a person starts it. --no-wide-edges keeps the wide
 # shot out of the first and last shot, so every shot in the list belongs
 # to whoever is speaking in it.
-call = [sys.executable, SCRIPT, "--multitrack", "--without-auphonic",
+call = [sys.executable, SCRIPT, "--without-auphonic",
         "--assign", D + "/assign.json", "--out", OUT, "--no-metrics",
         "--no-speech-recognition", "--no-transcript-file",
         "--no-wide-edges", D + "/Mic_A.wav", D + "/Mic_B.wav"] \

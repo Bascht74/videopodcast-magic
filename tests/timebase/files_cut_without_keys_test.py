@@ -6,7 +6,8 @@ taken from between two of them. Where that query fails there is no key
 frame to start on and the front stays whole -- but the end is cut all
 the same, and the line the run prints has to say so. "Both ends" is the
 control with the query working, "no key frames" the same call with it
-failing, and "what it says" the line itself.
+failing, and "what it says" the line itself. Last, an answer to the
+query with no time in it leaves the front whole too.
 """
 PLATFORM_BOUND = True
 import os
@@ -114,6 +115,25 @@ check("the run names the camera whose key frames it could not read",
       os.path.basename(CAMERA) in spoken,
       "looked for %r in the %d characters printed: %r"
       % (os.path.basename(CAMERA), len(spoken), spoken[:120]))
+
+print("\n4. An answer with no time in it")
+
+
+def timeless_run(cmd, *a, **k):
+    """ffprobe answers the key-frame query with no time on any line."""
+    if isinstance(cmd, (list, tuple)) and "-skip_frame" in cmd:
+        return subprocess.CompletedProcess(cmd, 0, b"N/A\n,\n", b"")
+    return real_run(cmd, *a, **k)
+
+
+vpm.subprocess.run = timeless_run
+try:
+    with contextlib.redirect_stdout(io.StringIO()):
+        timeless = vpm.key_frame_at_or_before(CAMERA, 7.4)
+finally:
+    vpm.subprocess.run = real_run
+check("lines with no time in them leave the front whole",
+      timeless == 0.0, "starts at %r s, wanted 0.0" % (timeless,))
 
 vpm.shutil.rmtree(D, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

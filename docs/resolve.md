@@ -76,7 +76,7 @@ at once. Where the button is not usable, the reason stands at it:
   step refuses in the same words, on material without timecode too.
 
 **And a handover the button does take can still be turned away when it
-is opened.** Two things make one unusable, and both stop the work
+is opened.** Three things make one unusable, and all three stop the work
 before a timeline is built, with the reason on the line beginning
 *Abort*:
 
@@ -87,6 +87,9 @@ before a timeline is built, with the reason on the line beginning
   carries one, so a file without it came from somewhere else. Without
   the rate the timeline would be built at a guessed speed and every cut
   would sit beside the picture. Make the run again.
+- **It names no file for its intro or outro.** The program's own
+  handover always does, so the entry was edited or cut short elsewhere;
+  the line says which of the two lacks its file. Make the run again.
 
 The match over the cameras is asked on opening, again whenever the
 cameras in the list change, and whenever the output folder does. A
@@ -165,8 +168,8 @@ the Full-Mix runs through in one piece, so the sound does not jump at
 the cuts. The mix comes from the separate file, otherwise from the wide
 shot, where it is the first audio track, otherwise from a camera that
 carries it as one of its audio tracks. The log names the source; with
-none of the three it says `No Full-Mix found` and the timeline stays
-silent.
+none of the three it says `No Full-Mix found`, the timeline stays
+silent, and the run ends with errors.
 
 The measured offset decides which part of each camera file the timeline
 uses, not the timecode. If a camera was not running, another steps in,
@@ -654,13 +657,21 @@ backup copy.
   left it out of the handover file; it names it as it writes.
   Give the file a timecode that fits the other recordings and run
   again, or bring it into Resolve by hand.
-- **The run stopped while building, and the project is gone.** Resolve
-  would not take a file, so the run stopped. It deleted the project it
-  had just made and opened the one you had open before; it says both by
-  name. A project that existed before the run is never deleted. Where
+- **The run stopped while building, and the project is gone.** Three
+  things stop the build, and the line beginning `Resolve part stopped`
+  says which: Resolve would not take a file; Resolve answers, but hands
+  out no project manager; or the program itself went wrong at one of
+  its steps in Resolve -- then Resolve refused nothing, the line says
+  `on a fault in this program, not in Resolve` and asks you to report
+  it, and the log holds the details. Where the project was already
+  made, the run deleted it again and opened the one you had open
+  before; it says both by name. Without a project manager it never got as far as making one. A
+  project that existed before the run is never deleted. Where
   nothing that can be opened again was open before -- a freshly started
   Resolve -- the made project stays open and the run says so: delete it
-  in Resolve's project manager.
+  in Resolve's project manager. Whichever it was, the window ends on
+  `Finished with errors.` instead of `Done.`, and a run from the command
+  line ends with an error code: a build that stopped built nothing.
 - **The last lines of the run say the project is not complete.**
   Resolve refused a track, was asked a second time, and refused again.
   The run named it the moment it happened -- the track, the timeline,
@@ -668,9 +679,15 @@ backup copy.
   on, a camera's sound, or the picture or sound of the intro or outro.
   A camera Resolve would not lay on its track at all counts the same:
   the run says `Caution: ... not inserted` and says it again at the end.
-  It built everything else without it and says it once more in its last
-  lines, under `Caution: this project is not complete -- what Resolve
-  refused:`; the list of video tracks in the log and the list of angles
+  So does the **… Cut** timeline where Resolve took none of its shots or
+  only some of them, has no Full-Mix in its media pool, or refused it,
+  the intro or the outro, and where the handover left it nothing to
+  lay -- no Full-Mix (`No Full-Mix found`) or no shot inside a camera's
+  file (`No cut left`): the line says what the timeline lacks -- the
+  cut, the rest of it, its sound, its intro or its outro. It built
+  everything else without it and says it once more in its last lines,
+  under `Caution: this project is not
+  complete -- what is missing:`; the list of video tracks in the log and the list of angles
   in the closing note name only the cameras that lie on their video
   track. Where the sound track of the intro or outro was refused, the
   line naming that clip ends in `, its sound track refused` -- the file

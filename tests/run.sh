@@ -2,7 +2,11 @@
 # The suite. Success = return code 0, no traceback, no "FAIL".
 # The tests run several at a time, each with its own fixture directory:
 # most of the time goes on starting Python and ffmpeg rather than on the
-# processor. WORKERS=1 runs them one after another.
+# processor. WORKERS=1 runs them one after another. While another suite
+# or measurement that waits is running, each test waits to start until
+# the machine has processor to spare (cpu_wait.sh): VPM_CPU_BUSY_MOST,
+# default 90 percent busy, and 0 turns it off; VPM_CPU_WAIT_MOST,
+# default 600 seconds, after which it starts anyway.
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$HERE"
 # The suite runs on the version the program recommends, or it proves
@@ -208,6 +212,7 @@ export RESOLVE_SCRIPT_LIB="$RUN_TEMP_SETTINGS/no-resolve-here/fusionscript"
 # cache and settings behind; this takes them with it.
 fixtures_out() {
   fixtures_let_go
+  cpu_wait_let_go
   [ -n "$KEEP_TEMP" ] || rm -rf "$RUN_TEMP_CACHE" "$RUN_TEMP_SETTINGS"
   rm -f "$RUN_STARTED"
 }
@@ -216,6 +221,9 @@ trap 'exit 130' INT TERM
 # What counts as red in a test's output: one function, in a file of its
 # own so a test can ask it without starting a whole run.
 . "$HERE/verdict.sh"
+# And the wait for processor before each test, machine-wide. Read before
+# fixtures_share names this run to the suites a test starts inside it.
+. "$HERE/cpu_wait.sh"
 fixtures_hold
 
 # The shared fixture folders are read-only. Building them here, before
@@ -252,6 +260,9 @@ OUT=$(mktemp -d "${TMPDIR:-/tmp}/suite_XXXXXX")
 STARTS="$RUN_TEMP/starts"
 mkdir -p "$STARTS"
 export STARTS
+# And one per test that had to wait for processor before it started.
+CPU_WAITS="$RUN_TEMP/waits"
+mkdir -p "$CPU_WAITS"
 # One file per test again, holding the number of judgements it printed.
 # The summary reads them back and carries state/checks forward, and a
 # worker cannot hand a number up any other way: it runs in a shell of
@@ -262,6 +273,7 @@ export COUNTS
 export TMPDIR="$RUN_TEMP"
 clean_up() {
   fixtures_let_go
+  cpu_wait_let_go
   if [ -n "$KEEP_TEMP" ]; then
     echo "temporary material kept in $RUN_TEMP"
     echo "cache of this run kept in $RUN_TEMP_CACHE"
@@ -393,10 +405,100 @@ case "${VPM_CUT_OFF:-}" in
      exit 2 ;;
 esac
 export VPM_CUT_OFF
+# Tested lines, measured: VPM_COVERAGE=1 has coverage.py measure every
+# process the suite starts, and source_lines_stay_tested judges the lot
+# once the rest has finished -- per function, a floor that may only rise
+# (tests/tested_lines.py says how). A release turns it on, on one job;
+# tests.yml says which. Off, it costs one name taken out of the list:
+# no process, no package, nothing measured. The guard is set aside then,
+# as a *_langsN test is without its switch, and never counted as
+# skipped: this run was not asked for it.
+LINES_GUARD=source_lines_stay_tested
+GUARD_ASIDE=""
+GUARD_RUNS=""
+GUARD_NOTED=""
+COVERAGE_OTHER=""
+if printf '%s\n' $TESTS | grep -qx "$LINES_GUARD"; then
+  GUARD_ASIDE=1
+  TESTS=$(printf '%s\n' $TESTS | grep -vx "$LINES_GUARD")
+fi
+case "${VPM_COVERAGE:-}" in
+  "")
+    unset COVERAGE_PROCESS_START COVERAGE_PROCESS_CONFIG ;;
+  1)
+    # The floors are a claim about the release's suite, and a release
+    # runs every language: measured without the slices, three functions
+    # read as rising that no fault touched (16.10.2026).
+    if [ "${VPM_ALL_LANGUAGES:-}" != 1 ]; then
+      echo "VPM_COVERAGE=1 measures what a release runs, and a release" \
+           "runs every language: set VPM_ALL_LANGUAGES=1 beside it" >&2
+      exit 2
+    fi
+    # The version the builder measures with, read where it is pinned:
+    # a floor is a count of lines, and another coverage.py may count a
+    # line differently, so the floors are written with that one.
+    COVERAGE_PIN=$(sed -n 's/.*pip install coverage==\([0-9][0-9.]*\).*/\1/p' \
+      "$(dirname "$HERE")/.github/workflows/tests.yml" 2> /dev/null | head -1)
+    # The .pth coverage.py has put beside itself since 7.13 is what
+    # starts it in every process -- 7.10 to 7.12 install none on Python
+    # 3.14, measured 17.10.2026 -- and a coverage.py without it measures
+    # the tests and none of the programs they start, and says nothing.
+    if ! "$PY" -c 'import coverage, os, site, sys
+dirs = site.getsitepackages() + [site.getusersitepackages()]
+sys.exit(0 if any(os.path.exists(os.path.join(d, "a1_coverage.pth"))
+                  for d in dirs) else 1)' 2> /dev/null; then
+      echo "VPM_COVERAGE=1 wants coverage.py installed for $PY, 7.13 or" \
+           "later, whose .pth starts it in every process -- and the" \
+           "floors are written with the one tests.yml pins:" \
+           "$PY -m pip install coverage${COVERAGE_PIN:+==$COVERAGE_PIN}" >&2
+      exit 2
+    fi
+    COVERAGE_DATA="$RUN_TEMP/coverage"
+    MEASURED=$(cd "$(dirname "${VPM_SCRIPT:-$(dirname "$HERE")/videopodcast_magic/__init__.py}")" && pwd)
+    mkdir -p "$COVERAGE_DATA"
+    "$PY" "$HERE/tested_lines.py" "$COVERAGE_DATA" "$MEASURED" \
+      > "$RUN_TEMP/coverage.rc"
+    export COVERAGE_PROCESS_START="$RUN_TEMP/coverage.rc"
+    # Judged only over the whole folder: a floor per function measured
+    # over three tests would call most of the program untested.
+    [ -n "$GUARD_ASIDE" ] && [ "$WHOLE" = 1 ] && GUARD_RUNS=1
+    COVERAGE_VERSION=$("$PY" -c 'import coverage; print(coverage.__version__)')
+    echo "tested lines: measured with coverage.py $COVERAGE_VERSION"
+    # Said at the start and again in the summary: the floors this run
+    # writes, and the table it leaves, count as this version counts.
+    if [ -z "$COVERAGE_PIN" ]; then
+      COVERAGE_OTHER="tested lines: no coverage.py pin found in"\
+" .github/workflows/tests.yml -- the floors are written with the"\
+" version the builder measures with"
+    elif [ "$COVERAGE_VERSION" != "$COVERAGE_PIN" ]; then
+      COVERAGE_OTHER="tested lines: coverage.py $COVERAGE_VERSION, not"\
+" the $COVERAGE_PIN tests.yml pins -- the floors and the table this run"\
+" writes count lines as $COVERAGE_VERSION does, the builder's as"\
+" $COVERAGE_PIN does; floors are written with $PY -m pip install"\
+" coverage==$COVERAGE_PIN"
+    fi
+    if [ -n "$COVERAGE_OTHER" ]; then echo "$COVERAGE_OTHER"; fi ;;
+  *) echo "VPM_COVERAGE is '$VPM_COVERAGE'; it takes 1 or nothing" >&2
+     exit 2 ;;
+esac
+if [ -z "$TESTS" ] && [ -n "$GUARD_ASIDE" ]; then
+  echo "only $LINES_GUARD was named, and it judges what the whole suite" \
+       "ran: VPM_COVERAGE=1 VPM_ALL_LANGUAGES=1 bash run.sh" >&2
+  exit 2
+fi
 # One file per test holding its NOTED lines, for the summary's block.
 NOTED="$RUN_TEMP/noted"
 mkdir -p "$NOTED"
 export NOTED
+# One file per test holding what it printed, written as it prints. The
+# time the file was last written is the test's last sign of life: a test
+# the time limit killed is run again alone only if it was still printing
+# in its last HUNG_AFTER seconds (the owner's decision for 3.0.0b29).
+# One that went quiet that long has hung, and a second go hangs again.
+SAID="$RUN_TEMP/said"
+mkdir -p "$SAID"
+HUNG_AFTER=60
+export SAID HUNG_AFTER
 
 # The long ones first. xargs hands the list out in the order it is
 # given, so a slow test named late in the alphabet starts last and its
@@ -502,7 +604,10 @@ if [ "$FLOORS$SILENT" = "||" ]; then
     echo "      One run of the whole suite sets them."
   fi
 fi
-export CHECKS FLOORS SILENT CHECKS_FRESH
+# FLOORS and SILENT reach the workers through the file of functions
+# below, not the environment: FLOORS holds a row per test, 12 KB on
+# 9.10.2026, and grows with every test added.
+export CHECKS CHECKS_FRESH
 
 crash_block() {
   # Everything from where the ground gave way to the end of the output.
@@ -512,6 +617,28 @@ crash_block() {
   at=$(echo "$1" | grep -n -E -m1 "Fatal Python error|fatal exception" \
        | cut -d: -f1)
   [ -n "$at" ] && echo "$1" | tail -n +"$at"
+}
+
+# A test that faulthandler's timer stopped (dump_traceback_later): its
+# "Timeout (0:02:00)!" and the stack of every thread under it. Not to the
+# end of the output, as above -- a test that runs its windows one after
+# another prints the next window's lines below, and on 28.9.2026 those
+# pushed the stacks out of the last lines and left only "FAIL: make".
+# The block is the heading line and every line after it that is a
+# thread's heading, a frame ('  File "...'), one of faulthandler's own
+# '  <no Python frame>' or '  ...', or empty; the first other line ends
+# it -- a test's own indented line too.
+# Empty lines are kept only between two of its lines, never at its end.
+timeout_block() {
+  echo "$1" | awk '
+    !on && /^Timeout \([0-9]+:[0-9]+:[0-9]+(\.[0-9]+)?\)!/ {
+      on = 1; print; next }
+    !on { next }
+    /^$/ { gap++; next }
+    /^(Current thread|Thread) 0x/ || /^  (File "|<|\.\.\.)/ {
+      for (; gap > 0; gap--) print ""
+      print; next }
+    { exit }'
 }
 
 # A crash named as one: its code, and whether the test had already printed
@@ -536,6 +663,7 @@ test_file() {
 
 run_one() {
   t="$1"
+  cpu_wait "$t"
   began=$SECONDS
   test_file "$t"
   # A test that crashed is run again before the whole run is called red.
@@ -547,8 +675,19 @@ run_one() {
   fell_text=""
   fell_count=0
   while :; do
-    out=$(VPM_COUNT_STARTS="$STARTS/$t" \
-          $LIMIT "$PY" "$file" 2>&1); rc=$?
+    # Into a file and not straight into $(...): its time of last writing
+    # is read below when the limit killed the test. PYTHONUNBUFFERED
+    # puts every line there as it is printed.
+    VPM_COUNT_STARTS="$STARTS/$t" \
+      $LIMIT "$PY" "$file" > "$SAID/$t" 2>&1; rc=$?
+    out=$(< "$SAID/$t")
+    quiet=""
+    if [ -n "$LIMIT" ] && { [ $rc -eq 124 ] || [ $rc -eq 137 ]; }; then
+      # Asked only of a test the limit killed, so it costs no process
+      # anywhere else. Python, because stat(1) differs between systems.
+      quiet=$("$PY" -c 'import os, sys, time
+print(int(time.time() - os.path.getmtime(sys.argv[1])))' "$SAID/$t")
+    fi
     fell=0
     if [ $rc -ne 0 ] || said_red "$out"; then
       fell=1
@@ -621,6 +760,15 @@ $short"
       # a polite TERM was not enough and it had to go further.
       if [ -n "$LIMIT" ] && { [ $rc -eq 124 ] || [ $rc -eq 137 ]; }; then
         echo "      killed by the ${LIMIT##* } s time limit -- it never finished"
+        # Right under it, where the pass that runs a red test again
+        # alone looks: only "still working" goes again.
+        if said_red "$out"; then
+          echo "      it had said FAIL or a traceback, so it does not go again"
+        elif [ "${quiet:-0}" -ge "$HUNG_AFTER" ]; then
+          echo "      hung: nothing printed in its last $quiet s"
+        else
+          echo "      still working: last line $quiet s before the limit"
+        fi
       elif [ $rc -gt 128 ]; then
         # Right under the name, where wobbly.sh looks for it.
         echo "      crashed ($(crash_said "$rc" "$out")), go $try of $TRIES"
@@ -638,33 +786,68 @@ $short"
                  echo "$out" | grep -E "$real" | grep -vE "$says"
                  echo "$out" | grep -E "[Ee]rror" | grep -vE "$says|$real"
                } | grep -v "^[[:space:]]*\$" )
-      # A test can be red and never say FAIL -- killed by the time limit,
-      # or exiting non-zero after a sentence of its own -- and then the
-      # end of its output is all there is.
-      [ -z "$lines" ] && lines=$(echo "$out" | grep -v "^[[:space:]]*\$" | tail -6)
-      [ -z "$lines" ] && lines="(the test printed nothing)"
       # A crash report is one block and must not be sampled. Python names
       # every thread and the lines it was on, and picking single lines
       # out of that by pattern keeps the thread with no Python in it and
-      # drops the one that says where the ground gave way.
+      # drops the one that says where the ground gave way. The same holds
+      # for the stacks faulthandler's timer writes, shown further down.
       crash=$(crash_block "$out")
+      hung=""
+      [ -z "$crash" ] && hung=$(timeout_block "$out")
+      # A test can be red and never say FAIL -- killed by the time limit,
+      # or exiting non-zero after a sentence of its own -- and then the
+      # end of its output is all there is. Not where faulthandler's
+      # stacks stand below: those are the better end.
+      if [ -z "$hung" ]; then
+        [ -z "$lines" ] \
+          && lines=$(echo "$out" | grep -v "^[[:space:]]*\$" | tail -6)
+        [ -z "$lines" ] && lines="(the test printed nothing)"
+      fi
       SHOW=12
       [ -n "$crash" ] && { lines="$crash"; SHOW=44; }
       # Twelve, not four: a red test prints one line per failed check and
       # one summing them up, and four leaves no room beside a traceback.
-      echo "$lines" | head -"${SHOW:-12}" | sed 's/^/      /'
-      rest=$(( $(echo "$lines" | wc -l) - ${SHOW:-12} ))
-      if [ "$rest" -gt 0 ]; then
-        echo "      ($rest more such lines -- run this test on its own)"
+      if [ -n "$lines" ]; then
+        echo "$lines" | head -"${SHOW:-12}" | sed 's/^/      /'
+        rest=$(( $(echo "$lines" | wc -l) - ${SHOW:-12} ))
+        if [ "$rest" -gt 0 ]; then
+          echo "      ($rest more such lines -- run this test on its own)"
+        fi
+      fi
+      # Where every thread stood when faulthandler's timer ran out, whole
+      # and under the lines above, which still name what fell. Capped at
+      # 44 lines as a crash report is, and the cut said -- but cut in the
+      # middle: faulthandler names the main thread last, and in a window
+      # that is the one waiting. What the test printed after the block is
+      # all that is left for the last lines below: the block itself would
+      # stand there a second time.
+      tail_of="$out"
+      if [ -n "$hung" ]; then
+        echo "      -- faulthandler's timer ran out; where its threads stood:"
+        rest=$(( $(echo "$hung" | wc -l) - 44 ))
+        if [ "$rest" -gt 0 ]; then
+          echo "$hung" | head -30 | sed 's/^/        /'
+          echo "        ($rest lines left out here -- run this test on its own)"
+          echo "$hung" | tail -14 | sed 's/^/        /'
+        else
+          echo "$hung" | sed 's/^/        /'
+        fi
+        # The same heading timeout_block starts on.
+        at=$(echo "$out" | grep -n -E -m1 \
+             '^Timeout \([0-9]+:[0-9]+:[0-9]+(\.[0-9]+)?\)!' | cut -d: -f1)
+        tail_of=$(echo "$out" \
+          | tail -n +"$(( at + $(echo "$hung" | wc -l) ))")
+        echo "$tail_of" | grep -q "[^[:space:]]" || tail_of=""
       fi
       # And the end of what it printed, whatever it looked like: the
       # ranking above drops every line that matches no pattern, so a test
       # that prints its own diagnosis would lose it. Left out where the
       # output is short enough to stand above already, and where the
       # block is a crash report, which is whole.
-      if [ -z "$crash" ] && [ "$(echo "$out" | wc -l)" -gt 14 ]; then
+      if [ -z "$crash" ] && [ -n "$tail_of" ] \
+         && { [ -n "$hung" ] || [ "$(echo "$out" | wc -l)" -gt 14 ]; }; then
         echo "      -- and the last lines it printed:"
-        echo "$out" | tail -14 | sed 's/^/        /'
+        echo "$tail_of" | tail -14 | sed 's/^/        /'
       fi
       # Red and skipped at once, said out loud, or the count of skips
       # further down does not add up and the part that was left out
@@ -718,8 +901,18 @@ $short"
     "$(head -1 "$OUT/$t")" "$((SECONDS - began))" \
     "$( [ -s "$STARTS/$t" ] && wc -l < "$STARTS/$t" | tr -d ' ' || echo 0)"
 }
-export -f run_one crash_block crash_said test_file said_red
-export OUT HERE LIMIT TOTAL TRIES PY
+# The workers read the functions, and the floors they hold each test
+# to, from a file and not from the environment. An exported function is
+# an environment variable, and Git Bash's xargs refuses to start once
+# the environment leaves it less than 2 KB of its 32000-byte argument
+# space: it aborts on "assertion bc_ctl.arg_max >= LINE_MAX" and runs
+# nothing. On 9.10.2026 run_one grew by 700 bytes and both Windows jobs
+# went red with 353 tests never started. The six functions are 8 KB
+# and FLOORS 12 KB; in a file they cost the environment one path.
+FUNCS="$RUN_TEMP/functions.sh"
+{ declare -f run_one crash_block timeout_block crash_said test_file said_red
+  declare -p FLOORS SILENT; cpu_wait_carry; } > "$FUNCS"
+export FUNCS OUT HERE LIMIT TOTAL TRIES PY
 
 # A test that measures real time cannot share the machine. Playing a
 # second of sound takes a second; beside eleven others it took sixteen
@@ -741,11 +934,12 @@ if [ -n "$LANGS_CHAIN" ]; then
           | grep -v -E '_langs[0-9]' || true)
 fi
 TOTAL=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -cv '^$')
+[ -n "$GUARD_RUNS" ] && TOTAL=$((TOTAL + 1))
 # Each line is a list of tests run one after another; most hold one.
 # -L and not -I: macOS's xargs builds an -I line of at most 255 bytes,
 # and on the chain of sixteen *_langsN names it ran nothing (26.9.2026).
 echo "$CROWD" | grep -v '^$' \
-  | xargs -P "$WORKERS" -L 1 bash -c 'for t in "$@"; do run_one "$t"; done' _
+  | xargs -P "$WORKERS" -L 1 bash -c '. "$FUNCS"; for t in "$@"; do run_one "$t"; done' _
 for t in $ALONE_ONLY; do
   echo "$TESTS" | tr ' \n' '\n\n' | grep -qx "$t" && run_one "$t"
 done
@@ -754,13 +948,20 @@ done
 # between a fault and a crowd. A test that is red beside eleven others
 # and green by itself has found nothing, but it has proved nothing
 # either, so it lands under "unsteady" rather than being counted green.
-# Not a test the time limit killed: run again it cost a second 300 s,
-# and on 26.9.2026 those reruns made most of the builder's red runs.
+# A test the time limit killed goes again only if it was still working
+# -- it printed in its last HUNG_AFTER seconds and had said no FAIL --
+# because a crowd slows a test down as surely as it upsets one (the
+# owner's decision for 3.0.0b29). One that had gone quiet has hung and
+# would cost a second 300 s to hang again; one that had said FAIL has
+# its verdict.
 ALONE=${ALONE:-1}
 if [ "$ALONE" = 1 ] && [ "$WORKERS" -gt 1 ]; then
   for t in $TESTS; do
     case "$(head -1 "$OUT/$t")" in RED*) ;; *) continue ;; esac
-    grep -q "^      killed by the .* time limit" "$OUT/$t" && continue
+    if grep -q "^      killed by the .* time limit" "$OUT/$t" \
+       && ! grep -q "^      still working: " "$OUT/$t"; then
+      continue
+    fi
     was=$(cat "$OUT/$t")
     began=$SECONDS
     printf '  %s  again, alone: %-24s' "$(date '+%H:%M:%S')" "$t"
@@ -776,6 +977,23 @@ if [ "$ALONE" = 1 ] && [ "$WORKERS" -gt 1 ]; then
       echo " red again"
     fi
   done
+fi
+
+# The tested lines, judged once everything else has run -- the second
+# goes included -- and not measured themselves. The data goes as soon
+# as the numbers are written: it runs to hundreds of megabytes.
+if [ -n "$GUARD_RUNS" ]; then
+  unset COVERAGE_PROCESS_START
+  export VPM_COVERAGE_DATA="$COVERAGE_DATA" VPM_COVERAGE_SOURCE="$MEASURED"
+  run_one "$LINES_GUARD"
+  # What it noted rather than failed, before the version it judges from
+  # (the owner's decision for 3.0.0b29): said in the summary, where a
+  # green test's own lines never stand.
+  GUARD_NOTED=$(grep '^NOTED tested lines: ' "$SAID/$LINES_GUARD" 2> /dev/null)
+  [ -n "$KEEP_TEMP" ] || rm -rf "$COVERAGE_DATA"
+  TESTS="$TESTS
+$LINES_GUARD"
+  GUARD_ASIDE=""
 fi
 
 good=0; bad=0; past=0; shaky=0; names=""; left_out=""; unsteady=""
@@ -861,6 +1079,20 @@ else
   echo "languages: English and German; every catalogue with" \
        "VPM_ALL_LANGUAGES=1, as a release does"
 fi
+# The tested lines: said where the guard lay in the folder and did not
+# run, and where it ran and noted what it does not fail on yet.
+if [ -n "$GUARD_ASIDE" ] && [ -n "${COVERAGE_PROCESS_START:-}" ]; then
+  echo "tested lines: measured, not judged -- $LINES_GUARD judges a run" \
+       "of the whole folder"
+elif [ -n "$GUARD_ASIDE" ]; then
+  echo "tested lines: not measured; $LINES_GUARD set aside -- it runs" \
+       "with VPM_COVERAGE=1 VPM_ALL_LANGUAGES=1, as a release does"
+elif [ -n "$GUARD_NOTED" ]; then
+  echo "tested lines: noted, not failed -- $LINES_GUARD fails from the" \
+       "version it names on:"
+  printf '%s\n' "$GUARD_NOTED" | sed 's/^/  /'
+fi
+if [ -n "$COVERAGE_OTHER" ]; then echo "$COVERAGE_OTHER"; fi
 # The release run's texts cut off, one line each, said even when there
 # are none; tests.yml lifts the block into the job's summary by these
 # first words, and the owner's next release gets a card for each line.
@@ -877,6 +1109,8 @@ case "$VPM_TESTS" in
                 "the neutral half runs once, on a job of its own" ;;
   *)       echo "platform: both halves, every test once" ;;
 esac
+# How long the tests waited for processor, or why they did not.
+cpu_wait_said
 # state/checks carried forward. The count of judgements rises with every
 # check anybody adds, so a floor kept by hand would be behind within the
 # day and then be raised in a hurry, which is how a floor stops meaning

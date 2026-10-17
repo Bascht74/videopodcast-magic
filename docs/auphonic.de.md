@@ -95,33 +95,84 @@ Aus diesem Preset baut das Programm die Produktion neu.
 Ist der Schlüssel geprüft, zeigt eine Zeile unter dem Preset, wie viele
 Minuten Guthaben bei auphonic.com noch übrig sind und in welchem Tarif
 das Konto ist, kostenlos oder bezahlt -- ob ein Preset gewählt ist oder
-nicht, und auch bei **ohne Auphonic arbeiten**. Ist ein Preset gewählt, wird
-die Zeile rot, wenn das Guthaben nicht für die Produktion reicht.
-Gerechnet wird bei Multitrack mit der längsten Spur, sonst mit allen
-Spuren zusammen, und zwar bevor der Lauf sie auf eine Zeitachse legt --
-das kann sie nur länger machen. Ist das Konto im kostenlosen Tarif und
-die Multitrack-Produktion länger als 21 Minuten, kommt eine zweite,
-ebenfalls rote Zeile dazu: **Im kostenlosen Tarif nimmt auphonic.com
-eine Multitrack-Produktion nur bis etwa 21 Min. an.** Ohne Preset wird
-die Zeile nie rot, denn dann gibt es keine Produktion, an der sich das
-Guthaben messen ließe. Der Kasten fragt das Konto zusammen mit den
+nicht, und auch bei **ohne Auphonic arbeiten**. Ist ein Preset gewählt und
+sind die Aufnahmen vermessen, beurteilt eine zweite Zeile den Lauf, bevor
+er beginnt: **Reicht für die 40 Min., die diese Produktion braucht.**
+oder, mit roter Zeile, **Reicht nicht für die 40 Min., die diese
+Produktion braucht.** Was eine Produktion braucht, ist das, was
+auphonic.com dafür abrechnet: eine Multitrack-Produktion so lang wie
+ihre längste Spur, einzelne Spuren als je eigene Produktion, jede in
+ganzen Minuten und mit mindestens drei, zusammengezählt -- und das alles,
+bevor der Lauf die Spuren auf eine Zeitachse legt, was sie nur länger
+machen kann. Ist das Konto im kostenlosen Tarif und die
+Multitrack-Produktion länger als 21 Minuten, kommen zwei weitere, ebenfalls
+rote Zeilen dazu: **Diese Multitrack-Produktion dauert 25 Min. -- im
+kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa 21 Min. an;
+eine längere braucht einen bezahlten Tarif.** Darunter steht, was ohne
+bezahlten Tarif bleibt: Singletrack, das der kostenlose Tarif in jeder
+Länge annimmt -- dafür alle Spuren bis auf eine auf **nicht verwenden**,
+wo eine Spur alle Stimmen trägt --, oder **ohne Auphonic arbeiten** unter
+**Preset:**. Ein so gestarteter Lauf hält vor dem Hochladen an, siehe
+unten. Für eine einzelne Spur
+gibt es im kostenlosen Tarif keine solche Grenze; dort zählt allein das
+Guthaben. Ohne Preset wird die Zeile nie rot, denn dann gibt es keine
+Produktion, an der sich das Guthaben messen ließe. Der Kasten fragt das Konto zusammen mit den
 Presets und sonst nie.
 
-Das Häkchen **Multitrack (je Sprecher eine Spur)** steht nicht im
-Auphonic-Kasten und braucht keinen Schlüssel. Es entscheidet hier, ob
-jede Person eine eigene Spur behält: nur getrennte Spuren kann
-auphonic.com einzeln aufbereiten und vom Übersprechen der anderen
-befreien. Wo alle in einer Spur stehen, gibt es nichts, was der De-Bleed
-auseinandernehmen könnte.
+Ob jede Person eine eigene Spur behält, entscheiden die Tabellen auf dem
+Reiter **Zuordnung & Zeitfenster**, nicht dieser Kasten, und dafür
+braucht es keinen Schlüssel. Nur getrennte Spuren kann auphonic.com
+einzeln aufbereiten und vom Übersprechen der anderen befreien. Wo alle
+in einer Spur stehen, gibt es nichts, was der De-Bleed auseinandernehmen
+könnte.
 
 Über die Art der Produktion entscheidet die Zahl der Spuren. Eine
-einzelne Spur geht als gewöhnliche Produktion hoch, zwei oder mehr als
-Multitrack-Produktion, und das Preset muss dazu passen: ein gewöhnliches
-für die eine, ein Multitrack-Preset für die anderen. Das Häkchen hat
-dabei nicht mitzureden: Zwei Aufnahmen mit Bild, oder zwei ganz ohne,
-gehen gemeinsam hoch, ob es gesetzt ist oder nicht, und die Liste der
-Presets bietet die Art an, die der Lauf brauchen wird. Ein Preset der
+einzelne Spur geht als gewöhnliche Produktion hoch, zwei oder mehr auf
+einer Zeitachse als Multitrack-Produktion, und das Preset muss dazu
+passen: ein gewöhnliches für die eine, ein Multitrack-Preset für die
+anderen. Angehakt wird dafür nichts. Die Liste der Presets bietet nur
+die Art an, die der Lauf brauchen wird, und eine graue Zeile darunter
+sagt, welche Art und warum -- `Multitrack, weil 3 Spuren auf einer
+Zeitachse liegen.` -- und was daran etwas ändern würde. Ein Preset der
 falschen Art hält den Lauf an, bevor die Zeitachse gemessen wird.
+
+### Was der Vorflug im Preset liest
+
+Bevor die Zeitachse gemessen wird, liest das Programm das Preset aus,
+und der Vorflug sagt unter `VORFLUG -- passt das Preset zum Lauf?`, was
+er darin gefunden hat. Wie der Ton aufbereitet wird, entscheidet das
+Preset; das Programm schaltet darin nichts ein und nichts aus.
+
+* `Algorithmen` nennt jeden Schalter, den das Preset eingeschaltet hat,
+  mit seiner Einstellung in Klammern: `leveler, normloudness (-16 LUFS),
+  filtering (autoeq) -- so, wie das Preset sie hat; das Programm ändert
+  keinen.` Ein Multitrack-Preset hat eine zweite Zeile, `je Spur`, für
+  die Einstellungen, die seine erste Spur jeder Spur mitgibt. Ein im
+  Preset hinterlegtes Intro oder Outro ist keine Spur und zählt hier
+  nicht mit.
+* `Schnitt` **hält den Lauf an**, wenn das Preset auphonic.com schneiden
+  lässt -- **Cut Silence**, **Cut Fillers**, **Cut Coughs** oder **Cut
+  Music**. Der Ton käme kürzer zurück als die Bilder, und jede Kamera
+  verrutschte ab dem ersten Schnitt. Die Zeile darunter sagt, wo es
+  auszuschalten ist: auf auphonic.com im Preset, unter **Audio
+  Algorithms**, **Automatic Cutting**. Steht **Cut Mode** auf **Set Cuts
+  To Silent** oder **Export Uncut Audio**, bleibt die Länge erhalten,
+  und der Lauf geht weiter.
+* `Spracherkennung` sagt in einer Zeile, wenn im Preset die
+  Spracherkennung von auphonic.com eingeschaltet ist. Sie hält nichts
+  an. Das Transkript entsteht ohnehin hier (siehe unten); deshalb
+  fordert keine der beiden Arten von Produktion sie an, und keine holt
+  ihren Text.
+* `Vorspann / Abspann` sagt in einer Zeile, wenn das Preset ein Intro
+  oder ein Outro enthält -- bei einer einzelnen Spur wie bei mehreren.
+  Keins von beiden wird verwendet: Die Produktion übernimmt die
+  Einstellungen des Presets ohne sie, und Vorspann und Abspann kommen
+  aus den Videodateien. Es hält nichts an.
+
+Zwei weitere halten den Lauf an: ein Preset, das auf eine andere
+Lautheit mastert als der Lauf, und ein Multitrack-Preset, in dem keine
+Spur hinterlegt ist. Was dann zu tun ist, steht im
+[Vorflug](preflight.de.md).
 
 ### Den Schlüssel ohne Fenster ablegen
 
@@ -153,6 +204,12 @@ Mix auf diesem Rechner ab und schreibt jedes Wort mit der Zeit mit, zu
 der es gesagt wurde: eine json-Datei mit Zeiten, eine srt-Datei für
 Untertitel und eine txt-Datei zum Lesen, in der Form, in der
 auphonic.com seine eigenen liefert.
+
+Ein Preset, in dem die Spracherkennung von auphonic.com eingeschaltet
+ist, ändert daran nichts. Die Produktion wird ohne sie angelegt, bei
+einer einzelnen Spur wie bei mehreren, und auphonic.com transkribiert
+nichts. Untertitel, Sprachdaten und Transkript werden weder angefordert
+noch geholt: Es gibt ein Transkript, und es ist das, das hier entsteht.
 
 Das kostet Rechenzeit, kein Guthaben. Es braucht weder Schlüssel noch
 Preset noch Upload, und ein Lauf ohne Auphonic schreibt dieselben drei
@@ -231,23 +288,28 @@ unten -- und sagt, was es geantwortet hat: den Tarif, etwa
 `Das Konto bei auphonic.com ist im kostenlosen Tarif.`, und das Guthaben
 in Minuten, etwa `Guthaben bei auphonic.com: noch 80 Min., genug für die
 12 Min., die diese Produktion braucht.` Was eine Produktion braucht, wird
-in ganzen Minuten gezählt, aufgerundet und nie unter `1 Min.`, weil
-auphonic.com nicht weniger abrechnet: Eine Probe von 20 Sekunden braucht
-`1 Min.`, nicht `0 Min.`
+in ganzen Minuten gezählt, aufgerundet und nie unter `3 Min.`, weil
+auphonic.com für eine Produktion nicht weniger abrechnet: Eine Probe von
+20 Sekunden braucht `3 Min.`
 
-Zwei Dinge sagt der Lauf, und in beiden Fällen geht er weiter:
+Zwei Dinge sagt der Lauf. Beim ersten geht er weiter, beim zweiten hält
+er an:
 
 * **Das Guthaben reicht nicht.** Die Zeile zum Guthaben endet auf `-- das
   reicht nicht.`, und ein Hinweis, der mit `Hinweis:` beginnt, sagt, dass
   der Lauf es trotzdem versucht: Ob die Produktion startet, entscheidet
   auphonic.com.
 * **Ein kostenloses Konto und eine Multitrack-Produktion, die länger
-  als 21 Minuten ist.** Das ist eine Warnung, in der Warnfarbe:
-  `Warnung: Diese Multitrack-Produktion dauert 25 Min., und im
-  kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa 21 Min.
-  an.` Ein Hinweis darunter sagt, warum: Eine längere lehnt auphonic.com
-  gleich am Anfang ab und berechnet nichts dafür, und der Lauf versucht
-  es trotzdem. In der Ablehnung von auphonic.com selbst ist von 20
+  als 21 Minuten ist.** Eine solche Produktion lehnt auphonic.com gleich
+  beim Start ab, deshalb hält der Lauf an, bevor etwas hochgeladen wird:
+  `Aufbereitung fehlgeschlagen: Diese Multitrack-Produktion dauert 25
+  Min. -- im kostenlosen Tarif nimmt auphonic.com eine solche nur bis etwa
+  21 Min. an; eine längere braucht einen bezahlten Tarif.` Dahinter steht
+  der Ausweg: Singletrack oder ohne Auphonic arbeiten
+  (`--without-auphonic`). Das Konto wird an dieser Stelle noch einmal
+  gefragt; wer den Tarif seit dem Vorflug gewechselt hat, kommt also
+  durch. `--anyway` hebt diesen Halt nicht auf, denn die Ablehnung wäre
+  sicher. In der Ablehnung von auphonic.com selbst ist von 20
   Minuten die Rede; in einem Versuch mit einem kostenlosen Konto gingen
   21 Minuten noch durch, 22, 25, 30 Minuten und eine Stunde wurden
   abgelehnt. Bis 21 Minuten sagt der Lauf dazu nichts.
@@ -258,9 +320,20 @@ Konto, und ebenso der **Probelauf**, der nichts hochlädt. Lässt sich das
 Konto nicht fragen -- kein Schlüssel gespeichert, kein Netz --, sagt der
 Vorflug das in einer Zeile, `Das Konto bei auphonic.com ist nicht
 bekannt, denn es ließ sich nicht fragen. Der Lauf geht weiter.`, und der
-Lauf geht weiter. Nichts, was das Konto sagt, hält einen Lauf an.
+Lauf geht weiter. Das Guthaben hält keinen Lauf an; die Grenze für
+Multitrack im kostenlosen Tarif hält ihn schon hier an, vor dem ersten
+langen Schritt, und der **Probelauf**, der nichts schickt, wird nur
+gewarnt. Die Spuren werden gezählt, wie der Lauf sie schickt: Eine
+Aufnahme auf **nicht verwenden** ist keine, Aufnahmen unter einem Namen
+sind eine Spur, und eine Kamera, deren eigener Ton verwendet wird, ist
+eine. Nur Kameras allein auf der Kommandozeile zählt der Vorflug
+nicht -- wie viele Spuren ihr Ton hält, wird erst beim Herausholen
+gemessen --, bei ihnen sagt es deshalb erst der Halt vor dem Hochladen.
+An dieser Grenze lautet die letzte Zeile des Berichts `Abbruch vor dem
+ersten langen Schritt.` und bietet kein `--anyway` an: Es verschöbe den
+Halt nur bis vor das Hochladen.
 
-Lehnt auphonic.com ab, dann beim Start, nach dem Hochladen, und es
+Lehnt auphonic.com trotzdem ab, dann beim Start, nach dem Hochladen, und es
 berechnet nichts. Der Lauf endet dann mit `Aufbereitung fehlgeschlagen:`
 und der Meldung von auphonic.com selbst, etwa `Non-paying users can try
 our multitrack algorithms only for productions shorter than 20min!` --
@@ -268,8 +341,8 @@ sie kommt auf Englisch, so wie auphonic.com sie schickt.
 
 Eine einzelne Spur geht dann diese Schritte:
 
-1. `Lade <Datei> hoch` mit einem Balken. Die Datei geht zusammen mit dem
-   Preset hoch.
+1. `Lade <Datei> hoch` mit einem Balken. Vorher wird die Produktion aus
+   den Einstellungen des Presets angelegt, ohne sein Intro und Outro.
 2. Bei einer Stereoaufnahme `Zwei Kanäle angefordert -- die Aufnahme ist
    Stereo`. Das Preset würde den Mix auf einen Kanal falten; so kommen
    zwei Kanäle zurück.
@@ -278,8 +351,9 @@ Eine einzelne Spur geht dann diese Schritte:
 4. Ein Balken mit der vergangenen Zeit und dem Stand, den auphonic.com
    meldet, etwa `Audio Processing`, bis dort `fertig` steht.
 5. `Lade <Name> herunter`: eine Tondatei, die verlustfreie, wenn das
-   Preset mehrere schreibt, und daneben nur, was Text ist -- Transkript,
-   Untertitel, Kapitelmarken.
+   Preset mehrere schreibt, und daneben nur, was Text ist --
+   Kapitelmarken, Auswertungen. Transkript und Untertitel von
+   auphonic.com sind nicht darunter.
 6. Hat auphonic.com etwas angefügt, `<Name>: auphonic.com hat am Ende
    6,4 s angefügt -- weggeschnitten`, und zuletzt `Ergebnis: <Name> (1
    MB) -- bleibt neben der Videodatei liegen`. Sie liegt im
@@ -292,8 +366,10 @@ Mehrere Spuren gehen diese:
    eigene Mix des Programms werden soll. Ist eine Spur Stereo, folgt
    `Zwei Kanäle, weil eine Spur Stereo ist`.
 2. `Produktion angelegt (…)`, dann `Lade 2 Spuren hoch`: alle Spuren in
-   einem Zug. Eine Spur, für die auphonic.com keine Datei angenommen
-   hat, hält den Lauf an.
+   einem Zug. Lehnt auphonic.com das Hochladen ab oder nimmt es für eine
+   Spur keine Datei an, hält der Lauf an, bevor die Produktion startet.
+   `Diese Spuren bekamen keine Datei:` nennt die betroffenen Spuren;
+   nennt auphonic.com selbst keine, stehen dort alle, die hochgingen.
 3. `Produktion läuft (…)`, sobald die Spuren oben sind und die
    Produktion gestartet ist, dann `Zeitgrenze:` und derselbe Balken.
 4. `Lade <Titel>.wav.zip herunter`, die Einzelspuren in einem Archiv,
@@ -313,11 +389,23 @@ sobald auphonic.com fertig meldet.
 
 ### Wenn es die Produktion schon gibt
 
-Gesucht wird nur nach einer Multitrack-Produktion. Eine einzelne Spur
-geht bei jedem Lauf neu hoch, und jedes Hochladen kostet Guthaben.
-
-Das Programm erkennt die Produktion am Namen und fragt, was mit ihr
-geschehen soll:
+Das Programm erkennt die Produktion am Namen, eine Multitrack-Produktion
+ebenso wie eine einzelne Spur, und fragt, was mit ihr geschehen soll.
+Gemeint ist der Name der Produktion, im Fenster wie auf der
+Kommandozeile: **Name der Produktion**, `--production` oder sonst der
+Ordner, in dem das Material liegt. Eine Folge, deren Ordner einen
+eigenen Namen trägt, stößt deshalb nicht auf die der Vorwoche. Sagt
+dieser Ordner nichts über die Produktion -- der Schreibtisch, die
+Downloads, der Benutzerordner, die oberste Ebene einer Speicherkarte --,
+geht ein Lauf von der Kommandozeile stattdessen unter dem Namen seiner
+ersten Spur hoch, und der bleibt von einem Lauf zum nächsten derselbe.
+Zwei Folgen mit denselben Dateinamen in einem solchen Ordner stoßen
+deshalb aufeinander: ein eigener Ordner oder `--production` hält sie
+auseinander. Gesucht
+wird unter den neuesten 50 Produktionen bei auphonic.com; eine, die
+weiter zurückliegt, findet das Programm nicht, und der Lauf legt eine
+neue an, die Guthaben kostet. Bei
+mehreren Spuren sind das die Antworten:
 
 1. vorhandenes Ergebnis übernehmen: nichts rechnen, nichts hochladen
 2. mit dem gewählten Preset neu rechnen, Dateien bleiben stehen: kostet
@@ -327,17 +415,35 @@ geschehen soll:
 
 Guthaben verbraucht allein das Hochladen. Punkt 2 rechnet mit dem neuen
 Preset und lädt nichts hoch, also lässt sich ein Preset nach dem anderen
-durchgehen. Das Programm lädt erst hoch, wenn es dazu aufgefordert wird.
+durchgehen. Gerechnet wird dabei mit den Dateien, die damals hochgingen,
+im Fenster von damals. Bleiben In-Punkt, Out-Punkt und gemessene Lage
+heute innerhalb dieses Fensters, misst die Rückgabeprüfung unten den
+Unterschied und rückt die Spuren zurecht; reichen sie darüber hinaus --
+ein früherer In-Punkt, ein späterer Out-Punkt, ein länger gewordenes
+gemeinsames Fenster --, lehnt sie die Spuren ab, und nur Punkt 3 hilft.
+Punkt 1 nimmt dieselben Dateien und wird ebenso geprüft. Das Programm
+lädt erst hoch, wenn es dazu aufgefordert wird.
 Punkt 1 erscheint nur, wenn alles Nötige da ist. Bei anderen Spurnamen
 dort fragt das Programm, ob es sie übernimmt.
 
 Beim Neurechnen bringt das Programm auch die Spureinstellungen auf das
 Preset. Weitere Spuren dort gehen in den Mix, eine Warnung nennt sie.
 
+Bei einer einzelnen Spur fragt es dasselbe, nur ohne das, was allein
+mehrere Spuren können: das vorhandene Ergebnis übernehmen, alles neu
+hochladen oder abbrechen. Das Ergebnis wird angeboten, sobald
+auphonic.com die Produktion als fertig meldet; es wird geholt und
+zugeschnitten wie ein frisches, hochgeladen und abgerechnet wird nichts.
+Neu hochladen legt eine neue Produktion an und kostet Guthaben. Eine
+Multitrack-Produktion gleichen Namens übergeht das Programm, denn sie
+enthält Spuren und nicht diese Aufnahme. Umgekehrt übergeht es bei
+mehreren Spuren eine Einzelspur-Produktion gleichen Namens, auch eine
+mit Intro.
+
 Eine Multitrack-Produktion wird ganz heruntergeladen, die Einzelspuren
 und jede weitere Ausgabe, die das Preset selbst erzeugt: der fertige
-Mixdown, Kapitelmarken, Auswertungen und ein eigenes Transkript, wo das
-Preset eines herstellt. Bezahlt ist das alles ohnehin mit der
+Mixdown, Kapitelmarken, Auswertungen -- alles außer dem Transkript von
+auphonic.com, das dort bleibt. Bezahlt ist das alles ohnehin mit der
 Produktion. Es landet in `auphonic-tracks/` neben den fertigen Videos,
 später auch die `final_*.wav`. Eine einzelne Spur bringt ihre Tondatei
 und das, was Text ist, zurück, wie oben beschrieben, und sonst nichts.
@@ -356,11 +462,23 @@ Sekunden vorne und hinten weggefallen sind. Lässt sich der
 hochgeschickte Ton in der Rückgabe nicht finden, bleibt die Datei, wie
 sie kam, und auch das steht im Protokoll.
 
+Danach wird jede zurückgekommene Spur gegen das gehalten, was
+hochging. Legt man sie dorthin, wo ihr Ton gemessen wird, muss alles
+Hochgeschickte in ihr stecken. Fehlt einer Spur mehr als eine
+Viertelsekunde davon, hält der Lauf an -- etwa weil die Produktion der
+Vorwoche unter dem Namen dieser Woche zurückkam, oder weil die Datei
+gekürzt ist --, und ihre Zeile im Protokoll sagt, wie viel fehlt:
+`ACHTUNG: Von dem, was hochging, fehlen darin 12,0 s`. Eine längere
+Spur wird genommen: ein Jingle, oder eine Neuberechnung über Dateien,
+die für ein weiteres Fenster hochgegangen sind.
+
 Einen nachträglich gesetzten In- oder Out-Punkt verrechnet das Programm
 hier, nicht bei Auphonic. Es beschneidet die zurückgekommenen Spuren auf
-das neue Fenster. Wenn die Länge weder zum Fenster noch zum ganzen
-gemessenen Bereich passt, gehören die Dateien zu einem anderen Lauf, und
-die Meldung sagt das.
+das neue Fenster und hält dabei jede Datei so, wie sie im Ordner liegt,
+gegen das, was hochging: Endet sie vor dem Fenster, wird auch sie
+abgelehnt. Wenn die Länge weder zum Fenster noch zum ganzen gemessenen
+Bereich passt, gehören die Dateien zu einem anderen Lauf, und die Meldung
+sagt das.
 
 ### Wenn etwas klemmt
 
@@ -377,15 +495,28 @@ die Meldung sagt das.
   die Produktion.
 * **auphonic.com meldet einen Fehler.** Der Lauf endet mit
   `Aufbereitung fehlgeschlagen:` und dem, was auphonic.com gesagt hat.
+  Ebenso, und sofort statt nach der Zeitgrenze, endet das Warten auf
+  eine Produktion, die auphonic.com als unvollständig führt: `Auphonic
+  meldet 9: Incomplete`.
 * **In der Presetliste steht nur ihr erster Eintrag.** Es ist noch kein
   Schlüssel geprüft: **Verbinden** drücken.
 * **Die zurückgekommenen Spuren passen weder zum Zeitfenster noch zum
   ganzen gemessenen Bereich.** Sie gehören zu einem anderen Lauf. Den
   Ordner dieses Laufs nehmen, oder den Ton noch einmal über
   auphonic.com schicken.
-* **Der Lauf soll Guthaben kosten, das nicht gemeint war.** Nur Punkt 3
-  lädt hoch, und nur das Hochladen kostet. Punkt 1 und Punkt 2 lassen
-  die Dateien stehen, wo sie sind.
+* **Einer zurückgekommenen Spur fehlt ein Teil dessen, was hochging.**
+  In ihrer Zeile im Protokoll steht `ACHTUNG: Von dem, was hochging,
+  fehlen darin 12,0 s`, und unter den Zeilen wird sie genannt:
+  `Abgelehnt: Guest -- die Rückgabe passt nicht zum Hochgeladenen.` Der
+  Lauf hält an. Die Produktion bei auphonic.com enthält
+  anderen Ton: meist eine frühere gleichen Namens, oder die eigenen
+  Dateien dieser Folge aus einem engeren Fenster, neu gerechnet oder
+  übernommen, nachdem der In-Punkt früher oder der Out-Punkt später
+  gerückt ist. Einer anderen Folge unter **Name der Produktion** einen
+  eigenen Namen geben, sonst alles neu hochladen.
+* **Der Lauf soll Guthaben kosten, das nicht gemeint war.** Nur die
+  Antwort, die alles neu hochlädt, lädt hoch, und nur das Hochladen
+  kostet. Die anderen Antworten lassen die Dateien stehen, wo sie sind.
 
 Der Ton ist jetzt aufbereitet und liegt in `auphonic-tracks/`. Wie die
 Spuren über mehrere Sprecher und mehrere Kameras verteilt werden, steht
@@ -398,9 +529,10 @@ Im Fenster gibt es diese Optionen nicht.
 * `--auphonic-preset` ohne Namen: das Programm fragt die vorhandenen
   Presets nummeriert ab, der Schlüssel ohne Dateien listet sie auf.
 * `--auphonic-resume result|rerun|adopt|upload|abort` beantwortet die
-  Frage nach einer schon vorhandenen Produktion im Voraus. Er erreicht
-  nur einen Lauf, der mehrere Spuren hochlädt; bei einer einzelnen Spur
-  gibt es keinen Upload je Spur, den man wieder aufnehmen könnte.
+  Frage nach einer schon vorhandenen Produktion im Voraus. Eine einzelne
+  Spur nimmt `result`, `upload` und `abort`; `rerun` und `adopt` haben
+  nur Sinn, wo mehrere Spuren hochgehen, und bei einer einzelnen Spur
+  fragt das Programm stattdessen.
 * `--auphonic-done ORDNER` holt nichts, sondern nimmt die dort
   liegenden Spuren, benannt nach den Sprechern. Liegt eine der
   Aufnahmen, die der Lauf bekommt, selbst in diesem Ordner, lehnt er sie

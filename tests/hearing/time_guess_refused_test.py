@@ -9,7 +9,7 @@ alignment admits, the rule itself, the sample points that are its
 second opinion, camera against camera, a whole run, what the window
 offers, the same question on the recording side, where another caller
 reads the same verdict and a clock sets the place, and last the same
-rule with no picture at all, where the tick changes nothing.
+rule with no picture at all.
 """
 PLATFORM_BOUND = True
 import os
@@ -39,6 +39,18 @@ source = the_program.whole()
 os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
            VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1")
+# A fault inside a run prints no traceback any more: the command line
+# ends it in one line, "Stopped: <reason>", and the trace goes into the
+# log beside the program -- one file for every run of that copy, written
+# by the tests beside this one too. So a run is read for both, on what
+# it printed itself.
+STOPPED = vpm.T('Stopped: %s').split("%s")[0]
+
+
+def fault_in(log):
+    """The first line saying a run ended on a fault, or ''."""
+    return next((line.strip()[:90] for line in log.splitlines()
+                 if "Traceback" in line or STOPPED in line), "")
 
 began = time.time()
 done = 0
@@ -325,8 +337,8 @@ p = subprocess.run(
      "--out", D + "/run", REC, GOOD, LOST, CLOCK],
     capture_output=True, text=True, timeout=RUN_LIMIT_S, env=ENV)
 log = (p.stdout or "") + (p.stderr or "")
-check("no traceback", "Traceback" not in log,
-      log[log.find("Traceback"):][:90] if "Traceback" in log else "")
+check("the run is not stopped by a fault of its own", not fault_in(log),
+      fault_in(log))
 went_out = [line.strip()[:70] for line in log.splitlines()
             if "auphonic.com/api" in line or "Uploading" in line]
 check("nothing was sent to auphonic.com", not went_out,
@@ -478,8 +490,8 @@ NOTHING_LEFT = vpm.T('\nNo audio track could be aligned -- there is nothing '
 alone_rc, alone_log = run_with("refused", STRAY)
 both_rc, both_log = run_with("placed", TIMED, FITS)
 whole = alone_log + both_log
-check("neither run threw", "Traceback" not in whole,
-      whole[whole.find("Traceback"):][:90] if "Traceback" in whole else "")
+check("neither run is stopped by a fault of its own",
+      not fault_in(whole), fault_in(whole))
 turned_away = [line.strip() for line in alone_log.splitlines()
                if SAYS_NO in line]
 print("   %s" % (turned_away[0][:150] if turned_away
@@ -530,7 +542,7 @@ check("that run carries both through to the end",
 
 #------------------------------------------ 7. No picture, one rule
 
-print("\n7. No picture: the clock places, with the tick or without")
+print("\n7. No picture: the clock places")
 
 
 def without_picture(folder, *words):
@@ -545,13 +557,11 @@ def without_picture(folder, *words):
             sorted(os.listdir(out)) if os.path.isdir(out) else [])
 
 
-multi_rc, multi_log, multi_made = without_picture(
-    "nopic_multi", "--multitrack", REC, TIMED)
-plain_rc, plain_log, plain_made = without_picture("nopic_plain", REC, TIMED)
+multi_rc, multi_log, multi_made = without_picture("nopic_multi", REC, TIMED)
 lost_rc, lost_log, lost_made = without_picture("nopic_lost", REC, STRAY)
-nopic = multi_log + plain_log + lost_log
-check("none of the runs without a picture threw", "Traceback" not in nopic,
-      nopic[nopic.find("Traceback"):][:90] if "Traceback" in nopic else "")
+nopic = multi_log + lost_log
+check("no run without a picture is stopped by a fault of its own",
+      not fault_in(nopic), fault_in(nopic))
 by_clock = [line.strip()[:90] for line in multi_log.splitlines()
             if BY_CLOCK in line]
 check("without a picture a sound nothing matches stands at its clock",
@@ -560,23 +570,6 @@ check("without a picture a sound nothing matches stands at its clock",
       "returned %d, %d lines placed by the clock %s, wrote %s"
       % (multi_rc, len(by_clock), by_clock[:1], multi_made))
 
-
-def same_file(name):
-    """Whether both runs wrote *name*, byte for byte the same."""
-    try:
-        with open(D + "/nopic_multi/" + name, "rb") as a, \
-                open(D + "/nopic_plain/" + name, "rb") as b:
-            return a.read() == b.read()
-    except OSError:
-        return False
-
-
-differ = [n for n in multi_made if not same_file(n)]
-check("and without the tick the same files come out, to the byte",
-      plain_rc == multi_rc and plain_made == multi_made
-      and bool(multi_made) and not differ,
-      "returned %d and %d, wrote %s and %s, %d differ: %s"
-      % (plain_rc, multi_rc, plain_made, multi_made, len(differ), differ))
 refused = [line.strip()[:60] for line in lost_log.splitlines()
            if SAYS_NO in line]
 check("while one with neither a match nor a clock is refused there too",

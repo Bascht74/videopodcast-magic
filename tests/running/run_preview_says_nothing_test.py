@@ -93,8 +93,8 @@ vpm.recognise_speech = lambda *a, **k: ([], "")
 # A dry run with cameras says this last; the preview's run is one.
 SAID_LAST = vpm.T('\n  (dry run: worked out and kept, output folder '
                   'untouched)').strip()
-# The second preview's run is held this long in its levels mix, by a
-# real child the run's own stop has to reach.
+# The second preview's run is held this long where it reads its levels,
+# by a real child the run's own stop has to reach.
 SLOW_S = 120
 
 WORK = ground.own_folder("quiet")
@@ -106,7 +106,7 @@ seen = {"n": 0, "ran": None, "pressed_while": False, "at_start": None,
         "heard_before_start": None, "slow": "", "slow_took": None,
         "pressed_at": None, "began_at": None, "keys": [], "told": {}}
 real_loop = vpm.gui_run_loop
-real_mix = vpm.timebase.mix_tracks
+real_levels = vpm.timebase.levels_at_their_place
 
 
 def loop(argv, state, *rest):
@@ -117,8 +117,8 @@ def loop(argv, state, *rest):
     return real_loop(argv, state, *rest)
 
 
-def mix_slowly(*a, **k):
-    """The levels mix, once held SLOW_S s by a child the stop can end."""
+def levels_slowly(*a, **k):
+    """The level reading, once held SLOW_S s by a child the stop can end."""
     if seen["slow"] == "wanted":
         seen["slow"], began_here = "going", time.time()
         try:
@@ -132,11 +132,11 @@ def mix_slowly(*a, **k):
             raise
         finally:
             seen["slow_took"] = time.time() - began_here
-    return real_mix(*a, **k)
+    return real_levels(*a, **k)
 
 
 vpm.gui_run_loop = loop
-vpm.timebase.mix_tracks = mix_slowly
+vpm.timebase.levels_at_their_place = levels_slowly
 
 
 def runs_watched(st):

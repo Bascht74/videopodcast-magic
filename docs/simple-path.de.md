@@ -3,27 +3,25 @@
 *In English: [simple-path.md](simple-path.md). Zurück zum
 [Inhalt](README.de.md).*
 
-## Der Lauf ohne Multitrack
+## Der Lauf mit einer Spur
 
-Der einfache Weg ist der Lauf ohne das Häkchen **Multitrack (je Sprecher
-eine Spur)**. Das Häkchen steht auf dem Reiter **Zuordnung &
-Zeitfenster** über dem Kasten **Aufbereitung bei auphonic.com
-(optional)**.
-
-Das Häkchen wählt keinen anderen Weg durch den Lauf. Mit ihm besteht
-das Fenster auf einer Spur je Person -- mindestens zwei, jede mit
-Namen --, und Kameras ohne Tonaufnahme geben ihren Ton je als eigene
-Spur. Ohne das Häkchen nimmt der Lauf die Aufnahmen, wie sie kommen,
-unter den Namen und Kameras, die ihnen die Tabelle gibt. Alles Weitere
-ist dieselbe Maschine: eine gemeinsame Zeitachse, ein Schreiber.
+Der einfache Weg ist ein Lauf mit einer Spur: eine Tonaufnahme neben den
+Kameras, oder eine einzelne Kamera, deren eigener Ton die Spur wird.
+Angehakt wird dafür nichts. Der Lauf nimmt die Aufnahmen, wie sie
+kommen, unter den Namen und Kameras, die ihnen die Tabelle gibt, und
+den Rest entscheidet das Material: Zwei Spuren oder mehr auf einer
+Zeitachse sind der Weg über [Multitrack](multitrack.de.md), und alles
+Weitere ist dieselbe Maschine -- eine gemeinsame Zeitachse, ein
+Schreiber. Frühere Versionen hatten dafür ein Häkchen **Multitrack (je
+Sprecher eine Spur)**; es ist weggefallen.
 
 Der Projekttyp ist eine andere Frage, und die beiden vertreten einander
-nicht. **Nur synchronisieren** läuft immer ohne das Häkchen -- die Zeile
-fehlt auf dem Reiter, und das Häkchen ist aus --, aber ein Lauf ohne
-Häkchen ist nicht Nur synchronisieren: mit **Schnitt nach Sprecher**
-hält er die Sprecher weiterhin auseinander, schreibt den Text mit und
-schneidet. Das Häkchen handelt von Spuren, der Typ von Sprechern und
-Schnitt. Alles auf dieser Seite gilt für Schnitt nach Sprecher; was Nur
+nicht. **Nur synchronisieren** nimmt eine Tonaufnahme, aber ein Lauf
+mit einer Spur ist deshalb noch nicht Nur synchronisieren: Mit
+**Schnitt nach Sprecher** hält er die Sprecher weiterhin auseinander,
+schreibt den Text mit und schneidet. Die Zahl der Spuren entscheidet,
+was zu auphonic.com geht; der Typ handelt von Sprechern und Schnitt.
+Alles auf dieser Seite gilt für Schnitt nach Sprecher; was Nur
 synchronisieren weglässt, steht dort, wo es fehlt.
 
 Beide Wege schreiben dieselbe Art Datei: MOV, Bild umkopiert, Ton
@@ -33,7 +31,7 @@ Spur in Resolve heißen so, wie es in der Kameratabelle auf dem Reiter
 **Zuordnung & Zeitfenster** unter **neue Datei heißt** steht; das Feld
 ist mit einem Vorschlag vorbelegt. Wie dieser Vorschlag entsteht und
 warum `_audio` angehängt wird, steht in [Multitrack](multitrack.de.md),
-Abschnitt „Die Zuordnung setzen“. Früher behielt der Lauf ohne Häkchen
+Abschnitt „Die Zuordnung setzen“. Früher behielt der einfache Weg
 den Namen der Kameradatei bei, und eine Kamera, auf der niemand spricht,
 bekommt ihn weiter vorgeschlagen; eine Kamera mit einem Sprecher darauf
 bekommt jetzt einen Namen mit dem Sprecher vorgeschlagen, und eine
@@ -60,7 +58,7 @@ Was der einfache Weg genauso kann wie Multitrack:
   sich ein Fenster legen ließe: In-Punkt und Out-Punkt tun dort nichts,
   und der Lauf sagt das in einer Zeile.
 - **Die Zuordnung.** Die unter **gehört zu** gewählte Kamera und **nicht
-  verwenden** gelten hier genauso wie mit dem Häkchen: Der Lauf setzt
+  verwenden** gelten hier genauso wie bei mehreren Spuren: Der Lauf setzt
   jede Aufnahme auf ihre Kamera, lässt weg, was nicht verwendet wird,
   und schneidet dieselben Kameras. Der Name, der für eine Aufnahme
   getippt wurde, ist der, unter dem der Lauf mit ihr arbeitet -- im
@@ -80,17 +78,20 @@ Was der einfache Weg genauso kann wie Multitrack:
   nebeneinander, fertig für Multicam. Eine Kamera gibt eine gerade
   Timeline, oder eine geschnittene, sobald die Sprecher getrennt sind.
 
-Was zu auphonic.com geht, hängt ebenfalls nicht am Häkchen: Zwei
-Aufnahmen oder mehr auf einer Zeitachse gehen als eine
-Multitrack-Produktion hoch, jede als eigene Spur, ob das Häkchen gesetzt
-ist oder nicht ([Aufbereitung bei auphonic.com](auphonic.de.md)).
+Was zu auphonic.com geht, ergibt sich aus den Spuren: Zwei Aufnahmen
+oder mehr auf einer Zeitachse gehen als eine Multitrack-Produktion hoch,
+jede als eigene Spur ([Aufbereitung bei auphonic.com](auphonic.de.md)).
 
 Was herauskommt, hängt am Material:
 
 - **Nur Ton.** Eine einzelne Aufnahme wird aus ihren Blöcken zu einer
   Datei `<Name>_joined.wav` zusammengelegt oder geht allein zu
-  auphonic.com; das Ziel gilt hier. Mehrere Aufnahmen kommen auf eine
-  Zeitachse, mit Häkchen wie ohne, genau wie
+  auphonic.com; das Ziel gilt hier. Läuft sie noch einmal, findet das
+  Programm ihre Produktion bei auphonic.com am Namen wieder und fragt,
+  bevor es ein zweites Mal hochlädt und bezahlt
+  ([Aufbereitung bei auphonic.com](auphonic.de.md), „Wenn es die
+  Produktion schon gibt“). Mehrere Aufnahmen kommen auf eine
+  Zeitachse, genau wie
   [Multitrack](multitrack.de.md), „Multitrack ganz ohne Kamera“, es
   beschreibt, und gehen als eine Multitrack-Produktion zu auphonic.com.
   Die Spuren behalten dort das Verhältnis, mit dem sie aufgenommen
@@ -164,7 +165,7 @@ Protokoll wie im Fenster.
 
 ### Was neben dem Mix ins Video kommt
 
-Die Kameradateien bekommen dieselben Spuren wie mit dem Häkchen
+Die Kameradateien bekommen dieselben Spuren wie bei mehreren
 ([Multitrack](multitrack.de.md), „Was in die Kameradateien kommt“).
 Gibt es mehrere Aufnahmen und sitzt keine davon auf einer Kamera, trägt
 jede Kameradatei zuerst
@@ -259,8 +260,12 @@ anderen erreichen muss, liegt um ein Vielfaches höher als das, was eine
 Aufnahme gegenüber einer Kamera erreichen muss. Eine Kamera, die das
 nicht erreicht, ordnet ihr Timecode ein, gemessen an einer Kamera, die
 der Ton eingeordnet hat und die ebenfalls einen trägt -- die Uhr einer
-Tonaufnahme ordnet keine Kamera ein. Fehlt einer der beiden Timecodes,
-bleibt die Kamera genauso draußen.
+Tonaufnahme ordnet keine Kamera ein, solange überhaupt eine Kamera Ton
+gibt. Gibt keine welchen, tragen die Aufnahmen die Achse, und jede
+Kamera wird über ihren Timecode an ihnen gemessen, wie es
+[Multitrack](multitrack.de.md) unter *Multitrack ganz ohne Kamera*
+beschreibt. Fehlt einer der beiden Timecodes, bleibt die Kamera genauso
+draußen.
 
 Eine Kamera, die zwar eine Tonspur meldet, aus der sich aber nichts
 lesen lässt -- der Ton brach nach einem Augenblick ab, oder die Spur ging
@@ -380,6 +385,11 @@ nicht.
   die Sprecher in diesem Bild trägt ([Multitrack](multitrack.de.md),
   „Was in die Kameradateien kommt“). Jede Aufnahme steht außerdem in
   `auphonic-tracks/`, je eine Datei.
+- **Der Lauf hält vor der Zeitachse an, mit `hat 4 Kanäle, und
+  auphonic.com nimmt höchstens zwei in einer Datei`.** Eine Aufnahme mit
+  mehr als zwei Kanälen sollte allein hochgehen, und es wurde nichts
+  gesendet. Festlegen, welche Kanäle zusammengehören
+  ([Kanäle](channels.de.md), „Mehr als zwei Kanäle in einer Datei“).
 - **Eine Videodatei fehlt im Ergebnis.** Der Lauf konnte sie nicht
   einordnen: Ihr Ton hat mit dem übrigen Material nichts gemeinsam, und
   sie trägt keinen Timecode, oder keine Kamera, die der Ton eingeordnet
@@ -405,7 +415,3 @@ Diese Optionen gibt es im Fenster nicht.
   erhalten bleiben.
 - `--no-camera-audio` lässt die eigene Spur der Kamera aus der neuen
   Datei weg.
-- `--help` setzt `[multitrack only]` an den einen Schalter, der nur dort
-  etwas bedeutet, wo mehrere Spuren gemeinsam hochgehen: `--auphonic-resume`. Die Kennzeichnung bleibt englisch, auch bei
-  `--lang de`. [Alle Schalter](command-line.de.md) sagt zu jedem
-  Schalter, auf welchem Weg er wirkt.

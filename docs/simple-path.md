@@ -3,27 +3,24 @@
 *Auf Deutsch: [simple-path.de.md](simple-path.de.md). Back to the
 [contents](README.md).*
 
-## The run without Multitrack
+## The run with one track
 
-The simple path is the run with the tick **Multitrack (one track per
-speaker)** left off. The tick sits on the **Assignment & time window**
-tab, above the box **Processing at auphonic.com (optional)**.
-
-The tick does not choose another way through the run. With it the
-window insists on one track per person -- two tracks at least, each
-with a name -- and cameras without an audio recording give their sound
-as a track each. Without it the run takes the recordings as they come,
-under the names and cameras the table gives them. Everything after that
-is the same machine: one common time axis, one writer.
+The simple path is a run with one track: one audio recording beside the
+cameras, or a single camera whose own sound becomes the track. Nothing
+is ticked for it. The run takes the recordings as they come, under the
+names and cameras the table gives them, and the material decides the
+rest: two tracks or more on one time axis are the
+[Multitrack](multitrack.md) way, and everything after that is the same
+machine -- one common time axis, one writer. Earlier versions had a
+tick **Multitrack (one track per speaker)** for it; it is gone.
 
 The project type is another question, and the two do not stand in for
-each other. **Sync only** always runs without the tick -- the line is
-gone from the tab and the tick is off -- but a run without the tick is
-not Sync only: with **Cut by speaker** it still tells the speakers
-apart, writes the words down and cuts. The tick is about tracks; the
-type is about speakers and the cut. Everything on this page holds for
-Cut by speaker; what Sync only leaves out is said where it leaves it
-out.
+each other. **Sync only** takes one audio recording, but a run with one
+track is not Sync only: with **Cut by speaker** it still tells the
+speakers apart, writes the words down and cuts. The number of tracks is
+about what goes to auphonic.com; the type is about speakers and the
+cut. Everything on this page holds for Cut by speaker; what Sync only
+leaves out is said where it leaves it out.
 
 Both paths write the same kind of file: MOV, picture copied over, audio
 uncompressed, the `colr` box and the camera's QuickTime keys carried
@@ -32,7 +29,7 @@ in Resolve, after the field **new file name** in the camera table on
 the **Assignment & time window** tab, which comes filled in with a
 proposal. How that proposal is built and why `_audio` is hung on stands
 in [Multitrack](multitrack.md), section "Setting the assignment". The
-run without the tick used to keep the camera file's own name, and a
+simple path used to keep the camera file's own name, and a
 camera nobody speaks on still gets it as its proposal; a camera with a
 speaker on it is now proposed a name with the speaker in it, so such a
 production comes out under new file names when it is run again.
@@ -56,7 +53,7 @@ What the simple path does just like multitrack:
   window over: In point and Out point do nothing there, and the run
   says so in one line.
 - **The assignment.** The camera picked under **belongs to** and **do
-  not use** count here as they do with the tick: the run seats each
+  not use** count here as they do with several tracks: the run seats each
   recording on its camera, leaves out what is not used and makes the
   same camera cut. The name typed for a recording is the name the run
   works under -- in the log, in the track names and in the written
@@ -75,17 +72,18 @@ What the simple path does just like multitrack:
   side by side, ready for multicam. One camera gives a straight timeline,
   or a cut one as soon as the speakers are told apart.
 
-What goes to auphonic.com does not hang on the tick either: two
-recordings or more on one time axis go up as one multitrack production,
-one track each, whether the tick is set or not
-([Processing at auphonic.com](auphonic.md)).
+What goes to auphonic.com follows from the tracks: two recordings or
+more on one time axis go up as one multitrack production, one track
+each ([Processing at auphonic.com](auphonic.md)).
 
 What comes out depends on the material:
 
 - **Audio only.** A single recording is joined from its blocks into one
   file `<name>_joined.wav`, or sent on its own to auphonic.com; the
-  target holds here. Several recordings are laid on one time axis, with
-  the tick or without it, exactly as [Multitrack](multitrack.md),
+  target holds here. Run again, it finds that production at
+  auphonic.com by its name and asks before it uploads and pays a second
+  time ([Processing at auphonic.com](auphonic.md), "When the production
+  already exists"). Several recordings are laid on one time axis, exactly as [Multitrack](multitrack.md),
   "Multitrack with no camera at all", describes, and go to auphonic.com
   as one multitrack production. The tracks keep the balance they were
   recorded with there, and no target moves them.
@@ -156,7 +154,7 @@ log and in the window.
 
 ### What goes into the video beside the mix
 
-The camera files get the same tracks as with the tick
+The camera files get the same tracks as with several
 ([Multitrack](multitrack.md), "What goes into the camera files"). Where
 there are several recordings and none sits on a camera, every camera
 file carries the
@@ -246,9 +244,12 @@ phase to fall back on there, so the first way is the whole measurement,
 and what one camera has to reach against another is many times what a
 recording has to reach against a camera. A camera that does not reach it
 is placed by its timecode, set against a camera the sound did place that
-carries one too -- the clock of an audio recording places no camera.
-Where either of the two timecodes is missing, it stays out in the same
-way.
+carries one too -- the clock of an audio recording places no camera,
+as long as any camera gives sound at all. Where none does, the
+recordings carry the axis and each camera is set against them by its
+timecode, as [Multitrack](multitrack.md) describes under *Multitrack
+with no camera at all*. Where either of the two timecodes is missing,
+it stays out in the same way.
 
 A camera that reports a sound track but gives nothing readable out of
 it -- the sound broke off after a moment, or the track was lost in a
@@ -364,6 +365,11 @@ exist.
   speakers in that picture ([Multitrack](multitrack.md), "What goes into
   the camera files"). Every recording is in `auphonic-tracks/` as well,
   one file each.
+- **The run stops before the time axis, with `has 4 channels, and
+  auphonic.com takes at most two in one file`.** One recording of more
+  than two channels was to go up on its own, and nothing was sent. Say
+  which channels belong together ([Channels](channels.md), "More than
+  two channels in one file").
 - **A video file is missing from the result.** The run could not place
   it: its sound has nothing in common with the rest of the material, and
   it carries no timecode, or no camera the sound placed carries one to
@@ -386,7 +392,3 @@ These options are not in the window.
   recordings beside it; in a run entirely without picture it decides
   whether the blocks are kept singly.
 - `--no-camera-audio` leaves the camera's own track out of the new file.
-- `--help` puts `[multitrack only]` on the one switch that only means
-  something where several tracks go up together, `--auphonic-resume`. The marker stays English, even with
-  `--lang de`. [All switches](command-line.md) says of every switch
-  which path it works on.

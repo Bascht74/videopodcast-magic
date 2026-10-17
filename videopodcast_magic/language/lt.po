@@ -135,12 +135,6 @@ msgstr "Nėra jūsų Singletrack išankstinio nustatymo -- sukurkite jį"
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "Nėra jūsų išankstinio nustatymo -- sukurkite jį auphonic.com"
 
-msgid "No Multitrack preset found in the account."
-msgstr "Paskyroje nerasta Multitrack išankstinio nustatymo."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Paskyroje nerasta Singletrack išankstinio nustatymo."
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "Paskyroje nėra Multitrack išankstinio nustatymo. Yra tik šie: %s"
 
@@ -278,6 +272,9 @@ msgstr "  Kalbos atpažintuvas sukurtas (%s s)."
 
 msgid "  The speech recognition reports: %s"
 msgstr "  Kalbos atpažinimas praneša: %s"
+
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS čia neatpažįsta šios kalbos (%s), ją perima Whisper"
 
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  Atpažinta kalba %s: paruošta per %s s, išklausyta per %s s"
@@ -648,6 +645,9 @@ msgstr "\nNepasirinktas išankstinis nustatymas: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nSustabdyta prieš pirmąjį ilgą žingsnį. Su --anyway vykdoma vis tiek."
 
+msgid "\nStopped before the first long step."
+msgstr "\nSustabdyta prieš pirmąjį ilgą žingsnį."
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Tada Resolve gali neatpažinti įvesties spalvų erdvės."
 
@@ -729,12 +729,6 @@ msgstr "    %-24s garsas neįterptas"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s× numatytoji kamera nefilmavo -- ten yra kita."
 
-msgid "    %s could not be imported."
-msgstr "    %s nepavyko importuoti."
-
-msgid "    %s could not be inserted."
-msgstr "    %s nepavyko įterpti."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Takelio nepavyko sukurti (%s): %s"
 
@@ -743,6 +737,9 @@ msgstr "    %s: vaizdas ir garsas įterpti atskirai (garsas iš A%d)."
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    Nustatytas --anyway: vykdoma nepaisant aukščiau nurodytų punktų."
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    Nustatytas --anyway: vykdoma nepaisant aukščiau nurodytų punktų, bet sustojama prieš įkėlimą -- auphonic.com atmestų šią produkciją."
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    Visi takeliai savo vietose -- nėra ką perkelti."
@@ -891,8 +888,20 @@ msgstr "  Sujungta blokų pagal laiko kodą: %s, pradžia %s"
 msgid "  %s of %s files imported."
 msgstr "  Importuota failų: %s iš %s."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  Kalbėtojų: %s, planų: %s, trumpiausias %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, trumpiausias %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s kalbėtojas"
+msgstr[1] "%s kalbėtojai"
+msgstr[2] "%s kalbėtojų"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s planas"
+msgstr[1] "%s planai"
+msgstr[2] "%s planų"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  Vaizdo takeliai (%s), pavadinti pagal kalbėtojus:"
@@ -1146,8 +1155,8 @@ msgstr "  Pradžia %s -- pagal ją išdėstomas kiekvienas planas."
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Tokio Timeline dar nebuvo -- jis tik kuriamas."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Pastaba: skaičiuojama su tuo metu įkeltais failais. Juose yra\n  tos dienos laiko langas ir sulygiavimas. Jei pradžios taškas, pabaigos taškas\n  ar išmatuota padėtis dabar skiriasi, grąžinimo patikra išmatuoja\n  skirtumą ir perkelia takelius į vietą."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Pastaba: skaičiuojama su tuo metu įkeltais failais. Juose yra\n  tos dienos laiko langas ir sulygiavimas. Jei pradžios taškas, pabaigos taškas\n  ir išmatuota padėtis dabar lieka to lango viduje, grąžinimo patikra\n  išmatuoja skirtumą ir perkelia takelius į vietą. Jei jie išeina už jo --\n  ankstesnis pradžios taškas, vėlesnis pabaigos taškas -- ji takelius atmeta:\n  tada įkelkite viską iš naujo."
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  Pastaba: šis ffmpeg neturi soxr -- laikrodžio dreifą galima pašalinti tik\n  21 ppm žingsniais."
@@ -1158,8 +1167,8 @@ msgstr "  Garsui tai neturi reikšmės."
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Poslinkis:          %s   (pagal kamerų palyginimą)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Timeline yra tik %s iš %s planų."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve priėmė tik %s iš %s planų -- Timeline „%s“ trūksta likusio montažo."
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  Smailės:           %s dB virš %s dBTP -- ribotuvas jas sulaiko"
@@ -1206,8 +1215,8 @@ msgstr "  Atskaita: %s (%s, ilgiausia trukmė)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  Lieka:             %s dB kiekviename takelyje, t. y. %s LUFS vietoj %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve nepriėmė jokio vaizdo -- Timeline tuščias. Nieko\n  daugiau ant jo nekuriama."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve nepriėmė nė vieno vaizdo -- Timeline „%s“ trūksta montažo ir jo garso."
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  Rezultatas: %s (%s) -- lieka šalia vaizdo įrašo failo\n"
@@ -1239,11 +1248,17 @@ msgstr "  Tikslas:           %s LUFS  ->  %s dB kiekviename takelyje"
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline gauna %s: didžiausią iš jų arba artimiausią didesnį dažnį,\n  kurį turi Resolve. Konvertuodamas aukštyn Resolve kartoja kadrus, žemyn --\n  juos išmeta. Kiekviena kamera išlaiko savo dažnį, ir montažas skaičiuoja\n  pagal jį."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix nepavyko importuoti."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve Media Pool nėra Full-Mix -- Timeline „%s“ trūksta garso."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix nepavyko įterpti."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve atmetė Full-Mix -- Timeline „%s“ trūksta garso."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve atmetė Intro -- Timeline „%s“ trūksta Intro."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve atmetė Outro -- Timeline „%s“ trūksta Outro."
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  Kamerose lieka laiko langas ir po sekundę kiekviename gale: įrašyta %s, tai %s iš %s įrašytos trukmės."
@@ -1251,8 +1266,11 @@ msgstr "  Kamerose lieka laiko langas ir po sekundę kiekviename gale: įrašyta
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Kameros artimos viena kitai (ryškumo pakopų skirtumas ne didesnis kaip %s)."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Montažas pasikeitė: planų %s vietoj %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Montažas pasikeitė: %s planas vietoj %s."
+msgstr[1] "  Montažas pasikeitė: %s planai vietoj %s."
+msgstr[2] "  Montažas pasikeitė: %s planų vietoj %s."
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  Įrašo apie ankstesnius vykdymus čia perskaityti neįmanoma (%s), todėl pranešama apie viską, kas jau yra."
@@ -1386,9 +1404,6 @@ msgstr "Priskyrimo failo perskaityti neįmanoma: %s"
 msgid "Camera audio not usable: %s"
 msgstr "Kameros garso naudoti neįmanoma: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK NEĮMANOMAS\n  Reikia bent dviejų įvesties takelių, o rasta tik: %s.\n  Takelis yra atskiras įrašas, daugiakanalio įrašytuvo\n  kanalas arba kameros garsas -- pastarasis skaičiuojamas, kai tik jo\n  lauke „Kameros garsas“ nurodyta „naudoti vidinį garsą“. Be dviejų\n  tokių nėra ką atskirti, ir tas pats failas apdorojamas kaip\n  įprasta produkcija."
-
 msgid "No preset is called %r."
 msgstr "Nėra išankstinio nustatymo, pavadinto %r."
 
@@ -1500,9 +1515,6 @@ msgstr "PROJEKTAS IŠSAUGOTAS\n  %s\n  Šį vykdymą vėliau galima vėl atidary
 msgid "Presets could not be loaded: %s"
 msgstr "Išankstinių nustatymų įkelti nepavyko: %s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Kelios kameros, bet nėra garso failo. Kiekviena kamera turėtų savo garsą --\ntam skirtas --multitrack. Kitaip -- po vieną kamerą."
-
 msgid "The file is NOT recognised as HDR."
 msgstr "Failas NEATPAŽĮSTAMAS kaip HDR."
 
@@ -1553,9 +1565,6 @@ msgstr "\n  ATNAUJINTI MONTAŽO SĄRAŠĄ"
 
 msgid "\n  Render job"
 msgstr "\n  Renderinimo užduotis"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve dalis sustabdyta: %s"
 
 msgid "\n  STOPPED: %s"
 msgstr "\n  SUSTABDYTA: %s"
@@ -1622,9 +1631,6 @@ msgstr "  Langas:              %s -- viskas, ką girdėjo bet kuris takelis"
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: tyla %s pradžioje ir %s pabaigoje"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nSujungus blokus lieka tik vienas takelis, o Multitrack reikia po vieną kiekvienam balsui. Kur du žmonės buvo palaikyti vienu įrašu, --apart išskiria iš jo bloką."
 
 msgid "RECOGNISED PLAN"
 msgstr "ATPAŽINTA SCHEMA"
@@ -1863,6 +1869,9 @@ msgstr "REZULTATAS"
 msgid "Resolve part stopped: %s"
 msgstr "Resolve dalis sustabdyta: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve dalis sustabdyta dėl šios programos klaidos, ne dėl Resolve: %s -- prašome apie ją pranešti. Išsami informacija – žurnale."
+
 msgid "Stopped: %s"
 msgstr "Sustabdyta: %s"
 
@@ -1952,6 +1961,13 @@ msgstr "pritaikyti išankstiniam nustatymui: %s"
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "Kanalų: %s -- išskaidoma į takelius, žr. eilutes aukščiau."
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"Kanalų: %s -- komandinė eilutė jų neskaido į takelius ir sulieja failą į "
+"vieną kanalą: du žmonės tampa vienu balsu."
 
 msgid "%s checked"
 msgstr "patikrinta: %s"
@@ -2073,6 +2089,17 @@ msgstr "<span style='color:%(t)s'><b>Planų: %(n)s</b>, mediana %(med)s s, trump
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Kiekviena kanalų pora vertinama atskirai: vienas stereo takelis arba du mikrofonai, taigi du takeliai. Tylūs įėjimai atmetami. Eilutės po failu nurodo, kas išmatuota, o varnelė tai nustelbia."
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
+msgstr ""
+"Išsaugokite jo kanalus kaip atskirus failus, kad kiekvienas taptų takeliu, "
+"arba atidarykite jį lange, kuris jį skaido pagal kanalų eilutes. Vykdymas, "
+"siunčiantis jį į auphonic.com, sustoja prieš įkėlimą: auphonic.com viename "
+"faile priima daugiausia du kanalus."
+
 msgid "A negative value makes the picture lead the sound."
 msgstr "Esant neigiamai reikšmei vaizdas eina prieš garsą."
 
@@ -2081,12 +2108,6 @@ msgstr "Pridėti failus ..."
 
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "Sulygiuojama pagal išmatuotą poslinkį; laiko kodas naudojamas tik kryžminei patikrai."
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Visi įrašai turi tą patį vardą -- iš to gaunamas vienas takelis."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Visos eilutės turi tą patį vardą -- iš to gaunamas vienas takelis, o Multitrack reikia bent dviejų."
 
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "Priskyrimas: kuris garso takelis kuriai kamerai"
@@ -2205,8 +2226,8 @@ msgstr "Pabaigos taškas yra %s po paskutinio kadro"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Galutiniam failui paprastai naudojamas ribotas diapazonas. Pilnas diapazonas nėra klaida, tačiau kai kurie grotuvai jį interpretuoja neteisingai."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Nustato, kaip auphonic.com apdoroja garsą.\n\n„%s“ palieka raktą vietoje, bet ten vis tiek nesikreipia.\nTada garsas tik sujungiamas ir normalizuojamas, bet neatskiriamas --\no be atskirų takelių nėra kamerų montažo."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Nustato, kaip auphonic.com apdoroja garsą.\n\n„%s“ palieka raktą vietoje, bet ten vis tiek nesikreipia.\nTada garsas tik sujungiamas ir normalizuojamas, bet neatskiriamas --\nbet kamerų montažas toks pat kaip su išankstiniu nustatymu."
 
 msgid "Distance to mean"
 msgstr "Atstumas iki vidurkio"
@@ -2240,9 +2261,6 @@ msgstr "Gaubtinės sudaryti nepavyko: %s"
 
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "Gaubtinės ir kameros garsas ruošiami fone."
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Kiekvienai eilutei reikia vardo -- Auphonic sistemoje jis tampa track ID."
 
 msgid "External preview -- the app does not know this format"
 msgstr "Išorinė peržiūra -- programa nepažįsta šio formato"
@@ -2348,15 +2366,6 @@ msgstr "Trūkstamas garsas %s užpildytas tyla%s"
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Modulio DaVinciResolveScript įkelti nepavyksta: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Po vieną garso takelį kiekvienam asmeniui, atskirai iki pat auphonic.com.\nVeikia ir be to -- tada be De-Bleed ir Leveler.\nReikia dviejų įvesties takelių: atskiro įrašo, daugiakanalio\nįrašytuvo kanalo arba vaizdo įrašo failo garso, kai nustatyta\n„naudoti vidinį garsą“. Kamerų montažui šios varnelės nereikia."
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (po takelį kalbėtojui)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack reikia bent dviejų įvesties takelių. Takelis yra atskiras įrašas, daugiakanalio įrašytuvo kanalas arba vaizdo įrašo failo garsas, kai nustatyta „naudoti vidinį garsą“. Keli to paties įrašo blokai skaičiuojami kaip vienas, atidėti takeliai visai neskaičiuojami."
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Dar nenaudojamas joks garsas -- pridėkite garso įrašą arba failų sąraše vaizdo įrašo failo lauke „Kameros garsas“ pasirinkite „naudoti vidinį garsą“."
@@ -2496,9 +2505,6 @@ msgstr "Neprivaloma -- tada YouTube taiko numatytąsias vertes (Sony BVM-X300). 
 msgid "Not ready yet:"
 msgstr "Dar neparengta:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "Vienas garso įrašas dar neturi kalbėtojo vardo."
-
 msgid "One frame back."
 msgstr "Vienas kadras atgal."
 
@@ -2507,9 +2513,6 @@ msgstr "Viena sekundė atgal."
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "Kiekvienas planas savo kameros spalva. Užveskite pelę, kad matytumėte kamerą ir trukmę, spustelėkite, kad peršoktumėte."
-
-msgid "Only one speaker"
-msgstr "Tik vienas kalbėtojas"
 
 msgid "Open json project file"
 msgstr "Atidaryti json projekto failą"
@@ -2757,9 +2760,6 @@ msgstr "Kalbėtojų dar nežinoma -- jie nustatomi iš takelių, kai tik atidaro
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "Trys skaičiai yra pirminės spalvos, kreivė ir matrica. Skirtingoms žymoms programoje Resolve reikia skirtingų įvesties spalvų erdvių -- kitaip viena kamera atrodo kitaip nei kita."
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Atskirų garso įrašų nėra. Tada naudojamas kamerų garsas (%s) -- kiekviena tampa takeliu, o Auphonic pašalina garso nuotėkį."
-
 msgid "There is no result yet."
 msgstr "Rezultato dar nėra."
 
@@ -2880,8 +2880,22 @@ msgstr "Be šios žymos kiekvienas grotuvas turi spėti, ir visi spėja SDR. Pro
 msgid "Without processing at auphonic.com"
 msgstr "Be apdorojimo auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Kamerų montažo dar nėra: reikia dviejų asmenų, kiekvienas su vardu ir kamera.\nAtskiri įrašai tai užtikrina su pažymėtu Multitrack, taip pat ir „keli kalbėtojai“ vieno įrašo lauke „Kalbėtojo vardas“ --\nten rasti balsai gauna savo kamerą lentelėje po įrašais.\nResolve projektas vis tiek sukuriamas -- visos kameros išmatuotose vietose, paruoštos Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Kamerų montažo dar nėra: reikia dviejų asmenų, kiekvienas su vardu ir "
+"kamera.\n"
+"Atskiri įrašai tai užtikrina, kiekvienas savo vardu, taip pat ir „keli "
+"kalbėtojai“ vieno įrašo lauke „Kalbėtojo vardas“ --\n"
+"ten rasti balsai gauna savo kamerą lentelėje po įrašais.\n"
+"Resolve projektas vis tiek sukuriamas -- visos kameros išmatuotose vietose, "
+"paruoštos Multicam."
 
 msgid "Without timecode the position of the files is measured."
 msgstr "Be laiko kodo failų padėtis išmatuojama."
@@ -3053,9 +3067,6 @@ msgstr "nerasta vietos, kur kalbėtų lygiai vienas žmogus -- atskyrimo išmatu
 msgid "no production id in the response"
 msgstr "atsakyme nėra produkcijos ID"
 
-msgid "no production id in the response: %s"
-msgstr "atsakyme nėra produkcijos ID: %s"
-
 msgid "no timecode"
 msgstr "nėra laiko kodo"
 
@@ -3209,6 +3220,21 @@ msgstr "šaltinio aplankas"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "takelių šablone niekas neįjungta -- takeliai grįžtų tiksliai tokie, kokie buvo įkelti."
 
+msgid "Intro / outro"
+msgstr "Intro / Outro"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "išankstiniame nustatyme yra intro -- jis nenaudojamas: intro ir outro ateina iš vaizdo failų."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "išankstiniame nustatyme yra outro -- jis nenaudojamas: intro ir outro ateina iš vaizdo failų."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "išankstiniame nustatyme yra intro ir outro -- nė vienas nenaudojamas: intro ir outro ateina iš vaizdo failų."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Jie ateina iš vaizdo failų, kurių Tipas failų sąraše yra Intro arba Outro, arba iš --intro ir --outro."
+
 msgid "the video files are tagged differently: %s"
 msgstr "vaizdo įrašai pažymėti skirtingai: %s"
 
@@ -3256,9 +3282,6 @@ msgstr "bendrasis planas %s, miksas yra jo pirmasis garso takelis"
 
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s pasitaiko daugiau nei kartą. Šie įrašai sujungiami į vieną takelį ir pagal laiko kodą sudedami vienas po kito -- teisinga, jei įrašymas tarpe buvo sustabdytas."
-
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Visi įrašai turi tą patį vardą. Tai sudaro vieną takelį -- Multitrack reikia bent dviejų."
 
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Dvi kameros sukurtų tą patį failą (%s). Antroji perrašytų pirmąją."
@@ -3326,9 +3349,6 @@ msgstr "atskiras įrašas"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "Įdeda šį įrašą į kitą su visais jo blokais.\nNaudokite, kai failų pavadinimai paieškai nieko nepasako."
 
-msgid "Cameras only"
-msgstr "Tik kameros"
-
 msgid "Curve number %d"
 msgstr "Kreivės numeris %d"
 
@@ -3380,9 +3400,6 @@ msgstr "Pradžia %s"
 msgid "Take from source files"
 msgstr "Imti iš šaltinio failų"
 
-msgid "Take the camera audio"
-msgstr "Imti kamerų garsą"
-
 msgid "Target: %s"
 msgstr "Paskirties vieta: %s"
 
@@ -3401,11 +3418,11 @@ msgstr "Bendrasis planas anksčiausiai"
 msgid "the voices below carry the cameras"
 msgstr "kameras lemia žemiau esantys balsai"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "išmatuota iš įrašų -- kalbėtojų: %s, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "išmatuota iš įrašų -- %s, %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "iš baigto vykdymo -- kalbėtojų: %s, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "iš baigto vykdymo -- %s, %s"
 
 msgid "no text"
 msgstr "be teksto"
@@ -3415,6 +3432,15 @@ msgstr "be pavadinimo"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Dėmesio: matavimas netinkamas"
+
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Dėmesio: jame trūksta %s s įkelto garso"
+
+msgid "  -->  refused"
+msgstr "  -->  atmesta"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Atmesta: %s -- grąžintas rezultatas neatitinka įkėlimo.\n  Geriau sustoti, nei įrašyti ką nors neteisingo."
 
 msgid "   NOT INSERTED"
 msgstr "   NEĮTERPTA"
@@ -3590,15 +3616,6 @@ msgstr "Sujungti"
 msgid "Mixing %s"
 msgstr "Miksavimas: %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack reikia dviejų takelių aukščiau esančioje lentelėje -- kamera įskaičiuojama, kai jos lauke „Kameros garsas“ nustatyta „naudoti vidinį garsą“."
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Tik vienas takelis -- antram kurios nors kameros lauke „Kameros garsas“ nustatykite „naudoti vidinį garsą“."
-
-msgid "One track only, and no camera audio left to take."
-msgstr "Tik vienas takelis, ir kameros garso paimti nebeliko."
-
 msgid "do not use internal audio"
 msgstr "nenaudoti vidinio garso"
 
@@ -3613,9 +3630,6 @@ msgstr "Naudojant, šio failo garsas tampa takeliu, kaip ir bet kuris kitas -- j
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Nėra garso, su kuriuo būtų galima dirbti -- vaizdo įrašo lauke „Kameros garsas“ nustatykite „naudoti vidinį garsą“ arba pridėkite garso įrašą."
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack reikia kelių takelių"
 
 msgid "Mute."
 msgstr "Išjungti garsą."
@@ -3686,8 +3700,8 @@ msgstr "Poros švelnioji riba: nuo čia programa laukia sakinio ribos ir ten įs
 msgid "and here it is cut, good moment or not"
 msgstr "o čia kerpama, tinkamas momentas ar ne"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Poros griežtoji riba: jei nuo „Bendrasis planas anksčiausiai“ neatsirado sakinio ribos, jos vietą užima ilgiausia kalbos pauzė, o šioje vietoje kerpama, kad ir kas tuo metu būtų sakoma."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Poros griežtoji riba: kadras, ilgesnis už „Bendrasis planas anksčiausiai“, kuriame nėra nei sakinio ribos, nei pauzės, suskaidomas pagal laikrodį, jei jis trunka ir ilgiau už šią reikšmę. Tai galioja, kol „Bendrasis planas anksčiausiai“ įjungta, o „Ilgas monologas“ keičia kamerą. Pasisveikinimo ir atsisveikinimo bendrasis planas netrunka ilgiau už šią reikšmę, kad ir ką sakytų tie du."
 
 msgid "Why the question settings are grey"
 msgstr "Kodėl klausimo nustatymai pilki"
@@ -3721,9 +3735,6 @@ msgstr "Tyla"
 
 msgid "Speaker name"
 msgstr "Kalbėtojo vardas"
-
-msgid "Speaker names"
-msgstr "Kalbėtojų vardai"
 
 msgid "Static metadata"
 msgstr "Statiniai metaduomenys"
@@ -3869,17 +3880,14 @@ msgstr "\nMONTAŽAS SU BENDRUOJU PLANU"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nPIRMASIS MONTAŽAS PAGAL KALBĖTOJĄ"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Daugiau nei du kanalai į auphonic.com siunčiami kaip vienas: sujungimas išjungiamas tik stereo atveju.\n  Jei kanalai turi likti atskiri, pirmiausia supjaustykite failą į takelius."
-
 msgid "First cut by speaker"
 msgstr "Pirmasis montažas pagal kalbėtoją"
 
 msgid "\nTRANSCRIPT"
 msgstr "\nTRANSKRIPCIJA"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  Žodžiai: %s -- %s %% vienam balsui, %s %% dviem, %s %% pauzėje"
+msgid "  %s words"
+msgstr "  Žodžiai: %s"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  Žodžiai: %s, be vardų -- niekas nebuvo atskirtas"
@@ -3977,9 +3985,6 @@ msgstr "  Takeliai naudojami taip, kaip buvo įrašyti: sulygiuojami, sumiksuoja
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  Nurodyti abu: --without-auphonic ir --auphonic-done. Pirmenybė baigtiems takeliams: nebėra ko kur nors siųsti."
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK NEĮMANOMAS\n  Be API rakto nėra ko siųsti į auphonic.com.\n  Su --without-auphonic viskas vykdoma vietoje: sulygiuojama,\n  sumiksuojama ir sumontuojama, bet be De-Bleed ir Leveler."
-
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Dėmesio: išmatuojamos tik %s iš %s porų. Likusioms nerasta akimirkos, kai kalba lygiai vienas žmogus, todėl jų garso nuotėkis lieka -- kalbėtojų aptikimas čia nepatikimas."
 
@@ -4036,9 +4041,6 @@ msgstr "Vėl visa trukmė (klavišas 0)"
 
 msgid "  Also fetched: %s"
 msgstr "  Taip pat atsisiųsta: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic nepriima nustatymų: %s"
 
 msgid "      %s channels"
 msgstr "      Kanalų: %s"
@@ -4169,8 +4171,11 @@ msgstr "Takelio %d iš %d iškirpimas"
 msgid "cutting failed: %s"
 msgstr "iškirpti nepavyko: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Viena kamera visiems: ties kalbėtojo pasikeitimu supjaustyta į planus (%s), kad Resolve galėtų juos sugrupuoti."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Viena kamera visiems: ties kalbėtojo pasikeitimu supjaustyta į planus (%s), kad Resolve galėtų juos sugrupuoti."
+msgstr[1] "  Viena kamera visiems: ties kalbėtojo pasikeitimu supjaustyta į planus (%s), kad Resolve galėtų juos sugrupuoti."
+msgstr[2] "  Viena kamera visiems: ties kalbėtojo pasikeitimu supjaustyta į planus (%s), kad Resolve galėtų juos sugrupuoti."
 
 msgid "Shorter shots fall into the following one."
 msgstr "Trumpesni planai prijungiami prie kito."
@@ -4345,6 +4350,9 @@ msgstr "Ši programa veikia kaip %s, o jai įdiegti paketai yra %s, todėl nė v
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Šiame perdavime nėra kadrų dažnio, todėl iš jo negalima sukurti Timeline. Paleiskite vykdymą dar kartą."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Šiame perdavime nenurodytas %s failas, todėl iš jo negalima sukurti Timeline. Paleiskite vykdymą dar kartą."
 
 msgid "Cut by speaker"
 msgstr "Montažas pagal kalbėtoją"
@@ -4781,8 +4789,8 @@ msgstr "  Resolve du kartus atmetė vaizdo takelį V%d -- Timeline „%s“ trū
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s poslinkis %s, laikrodžio dreifas neišmatuotas%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Dėmesio: šis projektas neužbaigtas -- ką atmetė Resolve:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Dėmesio: šis projektas neužbaigtas -- ko trūksta:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Laikrodžio dreifas: neišmatuotas -- jos garsas tam davė per mažai taškų"
@@ -5070,9 +5078,6 @@ msgstr "Pabaigos taškas pasikeitė nuo paskutinio vykdymo: tada %s, dabar %s. M
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Produkcija baigta, bet ZIP su atskirais takeliais neturi paprasto failo pavadinimo"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Kelios kameros, bet nėra garso įrašo. Kiekviena kamera turėtų savo garsą -- tam ir skirtas Multitrack. Priešingu atveju viena kamera po kitos."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Archyve %s yra daugiau nei kartą, todėl iš jo nieko nebuvo išpakuota."
 
@@ -5081,9 +5086,6 @@ msgstr "Priskyrimo failas čia pavadina įrašus, todėl --speaker-name būtų i
 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Sukompiliuota versija neatitinka savo kontrolinės sumos, todėl nebuvo išpakuota: sąraše %s, atėjo %s."
-
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Nepavyko atsisiųsti kontrolinių sumų sąrašo, todėl sukompiliuota versija nebuvo išpakuota: %s"
 
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Kontrolinių sumų sąraše nėra %s, todėl sukompiliuota versija nebuvo išpakuota."
@@ -5160,14 +5162,11 @@ msgstr "Paskyra auphonic.com: nežinoma -- jos nepavyko paklausti. Paleidimas t�
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Pastaba: paleidimas vis tiek bando. auphonic.com sprendžia, ar produkcija prasidės, ir praneša, jei ne."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Įspėjimas: ši Multitrack produkcija trunka %s, o nemokamame plane auphonic.com tokią priima tik iki maždaug %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Ši Multitrack produkcija trunka %s. Nemokamame plane auphonic.com tokią priima tik iki maždaug %s; ilgesnei reikia mokamo plano."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Pastaba: ilgesnę auphonic.com atmeta jau pradžioje ir už ją nieko neima. Paleidimas vis tiek bando; jei auphonic.com atsisako, seka jo paties pranešimas."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Nemokamame plane auphonic.com priima Multitrack produkciją tik iki maždaug %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Singletrack atveju, kurį nemokamas planas priima bet kokios trukmės, visus takelius, išskyrus vieną, nustatykite į „%s“ -- kai viename takelyje yra visi balsai. Arba ties Išankstinis nustatymas pasirinkite „%s“ (--without-auphonic): tada takeliai sumaišomi čia."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Šio paleidimo projektas %r lieka atidarytas -- anksčiau nebuvo atidaryta nieko,\n  ką būtų galima vėl atidaryti. Ištrinkite jį Resolve projektų tvarkyklėje."
@@ -5246,3 +5245,70 @@ msgstr "baigtas miksas -- ne kalbėtojas, be kameros"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Kalbėjimas: išdėstoma tik pagal garsumą. Įrašas, neturintis nieko bendra\nsu kameromis, atmetamas. Mišrus: po balsais yra muzika arba miksas,\nir kur garsumas nieko neranda, jį gali išdėstyti fazė.\nBaigtas miksas: kitur padarytas stereo miksas, dedamas kaip mišrus garsas. Jis patenka\ní kamerų failus ir perdavimą vietoj apdorojimo sukurto miksavimo --\nne kalbėtojas, nekarpomas, nesiunčiamas į auphonic.com.\nSu „%s“ Kalbėjimas nesiūlomas."
+
+msgid "Cutting"
+msgstr "Karpymas"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "išankstinis nustatymas karpo auphonic.com (%s) -- garsas grįžtų trumpesnis už vaizdą, ir kameros pasislinktų."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Išjunkite tai išankstiniame nustatyme auphonic.com: Audio Algorithms, Automatic Cutting -- nuimkite žymę nuo %s, arba nustatykite Cut Mode į Set Cuts To Silent, kuris išlaiko trukmę."
+
+msgid "Speech recognition"
+msgstr "Kalbos atpažinimas"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "įjungtas išankstiniame nustatyme -- neprašomas, ir nieko iš jo teksto neatsisiunčiama: transkripcija daroma čia."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- taip, kaip juos turi išankstinis nustatymas; programa nekeičia nė vieno."
+
+msgid "Enough for the %s this production needs."
+msgstr "Pakanka šiai produkcijai reikalingoms %s."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Nepakanka šiai produkcijai reikalingoms %s."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s turi %s kanalus, o auphonic.com viename faile priima ne daugiau kaip du. Nieko neišsiųsta.\n"
+"  Nurodykite, kurie kanalai priklauso kartu: kortelėje Failai & produkcija failas išsiskleidžia po vieną eilutę kiekvienam kanalui, o varnelė eilutėje sujungia ją su kita. Jei failas kanalų eilučių nerodo, pirmiausia išsaugokite jo kanalus kaip atskirus failus."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, nes %s takeliai yra vienoje laiko ašyje. Galima pasirinkti kitą "
+"Multitrack išankstinį nustatymą; Singletrack atveju visus takelius, išskyrus "
+"vieną, nustatykite į „nenaudoti“."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack, nes yra vienas takelis. Galima pasirinkti kitą Singletrack "
+"išankstinį nustatymą; Multitrack atveju pridėkite antrą takelį -- įrašą arba "
+"kamerą su nustatymu „naudoti vidinį garsą“."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> iš šio priskyrimo neįmanoma nuskaityti garso takelių skaičiaus"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve atsako, bet nepateikia projektų tvarkytuvo."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Failo %s kanalai dar nesukarpyti į takelius."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s ir %s įraše %s skamba panašiai (panašumas %s): atskyrimas galėjo "
+"juos sumaišyti -- patikrinkite jų priskyrimą."

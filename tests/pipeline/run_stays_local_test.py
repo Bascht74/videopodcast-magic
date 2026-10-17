@@ -57,7 +57,7 @@ START = (local_ground.keyed("not-a-key-only-a-test") if WATCHED
 OUT = D + "/out"
 print("1. The run goes through, and nothing leaves the house")
 p = subprocess.run(
-    START + ["--multitrack", "--without-auphonic",
+    START + ["--without-auphonic",
      "--assign", ASSIGN, "--out", OUT, "--no-metrics",
      "--no-speech-recognition", "--no-transcript-file",
      "--no-wide-edges", D + "/Host.wav", D + "/Guest.wav",

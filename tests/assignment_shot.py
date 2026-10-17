@@ -381,17 +381,10 @@ def step():
                     "the Open project button"): return
             button(vpm.T('Open project ...')[:8]).click()
         elif i == 2:
-            # The tick only wakes up once the project is loaded.
-            multitrack = vpm.T('Multitrack (one track per speaker)')
-            boxes = [cb for cb in win().findChildren(QtWidgets.QCheckBox)
-                     if cb.text().startswith(multitrack)]
-            if hold(any(cb.isEnabled() for cb in boxes),
-                    "the Multitrack tick", stirring,
-                    lambda: "%d such tick(s), not one of them awake"
-                            % len(boxes)): return
-            for cb in boxes:
-                if cb.isEnabled():
-                    cb.setChecked(True)
+            # Once the Multitrack tick was set here; the kind of
+            # production follows from the tracks now, and the next step
+            # waits for the sheet the project builds.
+            pass
         elif i == 3:
             if hold(built(), "the assignment sheet", stirring,
                     lambda: "the sheets there are: %s" % sheet_names()):

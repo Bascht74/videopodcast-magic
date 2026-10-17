@@ -101,9 +101,9 @@ np = LateNumpy()
 # hour run that fails at the end over a detail costs more than a minute
 # of checking, and a wrong upload to auphonic.com costs credit on top.
 
-# How much separation the 3:1 rule asks for: with the other microphone
-# three times as far away as the speaker's own, the neighbouring voice
-# is about 9.5 dB quieter -- 20*log10(3). Below that it combs the mix.
+# The 3:1 rule: the other microphone three times as far off as the
+# speaker's own leaves the neighbour 9.5 dB quieter, 20*log10(3). Set,
+# not measured: the rule's own arithmetic, never held against a recording.
 THREE_TO_ONE_DB = 9.5
 
 # How many columns a file's name gets in the report, and so how wide its
@@ -131,6 +131,9 @@ class Finding(object):
         # A file that does not take part is checked anyway -- a row with
         # no mark looks forgotten -- but its finding holds nothing up.
         self.set_aside = False
+        # A stop the one before the upload holds again (check_account):
+        # --anyway would only move it there, so it is not offered.
+        self.stops_at_upload = False
 
     def line(self, width=None):
         # A warning's own words say so; it only wears the marker.
@@ -185,7 +188,7 @@ MEASUREMENT_VERSION = 3
 def preflight_recipe_mark():
     """The mark for a stored measurement, so a changed check lets go."""
     return recipe_mark("preflight", check_camera_file, check_audio_file,
-                       check_crosstalk)
+                       check_crosstalk, check_camera_heard, clipping_found)
 
 
 def _fingerprint(paths):
@@ -480,6 +483,18 @@ def check_camera_file(file_path):
                   "logs": log_curve_from_atom(_logs_atom_text(file_path))}
 
 
+def check_camera_heard(file_path):
+    """check_camera_file for a camera whose own sound is a track.
+
+    That sound is counted for clipping as a recording is; other cameras
+    are not, and a format with no stop to count is left out as there.
+    """
+    out, data = check_camera_file(file_path)
+    if data:
+        out += clipping_found(file_path)
+    return out, data
+
+
 def compare_cameras(data):
     """What only shows when several cameras are compared."""
     out = []
@@ -677,16 +692,25 @@ def check_audio_file(file_path):
                number_text(SR / 1000.0, None))))
     if channels > 2:
         out.append(Finding(
-            "good", "",
-            T('%s channels -- cut into tracks, see the rows above.')
-            % number_text(channels, 0),
+            "good", "", channels_cut_by_rows(channels),
             T('Every pair of channels is judged on its own: one stereo '
               'track, or two microphones and therefore two tracks. Silent '
               'inputs drop out. The rows under the file say what was '
               'measured, and the tick overrules it.')))
-    # Otherwise invisible: the master is measured as a sum and a limiter
-    # pulls it under -1 dBTP, so a microphone against the stop all
-    # evening looks clean. A hint, never a stop.
+    out += clipping_found(file_path)
+    return out, {"name": name, "duration": duration, "rate": rate,
+                  "channel_count": channels, "path": os.path.abspath(file_path),
+                  "tc": file_timecode(file_path)}
+
+
+def clipping_found(file_path):
+    """One hint per channel of the file's first sound against the stop.
+
+    Otherwise invisible: the master is measured as a sum and a limiter
+    pulls it under -1 dBTP, so a microphone against the stop all evening
+    looks clean. A hint, never a stop.
+    """
+    out = []
     for channel, facts_ in sorted(clipping_facts(file_path).items()):
         runs, longest, milliseconds, first = facts_
         out.append(Finding(
@@ -704,9 +728,47 @@ def check_audio_file(file_path):
               'are counted. 32 bit float has no stop at full scale, so '
               'there is nothing there to count.'),
             os.path.abspath(file_path)))
-    return out, {"name": name, "duration": duration, "rate": rate,
-                  "channel_count": channels, "path": os.path.abspath(file_path),
-                  "tc": file_timecode(file_path)}
+    return out
+
+
+def channels_cut_by_rows(channels):
+    """The window's line for a file of more than two channels."""
+    return (T('%s channels -- cut into tracks, see the rows above.')
+            % number_text(channels, 0))
+
+
+def channels_as_a_run_has_them(findings, audio_paths):
+    """A file of more than two channels, said as the run itself treats it.
+
+    The window cuts such a file by its channel rows and hands the run
+    the pieces; a run cuts none, has no rows, and folds what it is given
+    to one channel. So the window's line is swapped for the run's.
+    """
+    wide = {}
+    for p in audio_paths:
+        try:
+            n = PROGRAM.channel_count(p)
+        except Exception:
+            continue
+        if n > 2:
+            wide[channels_cut_by_rows(n)] = n
+    out = []
+    for b in findings:
+        if b.text in wide:
+            said = Finding(
+                "hint", b.field,
+                T('%s channels -- the command line cuts none into tracks '
+                  'and folds the file to one channel, two people into one '
+                  'voice.') % number_text(wide[b.text], 0),
+                T('Save its channels as files of their own for a track '
+                  'each, or open it in the window, which cuts it by its '
+                  'channel rows. A run that sends it to auphonic.com stops '
+                  'before the upload: auphonic.com takes at most two '
+                  'channels in one file.'), b.file)
+            said.set_aside = b.set_aside
+            b = said
+        out.append(b)
+    return out
 
 
 def recording_name(head_name, blocks):
@@ -1034,7 +1096,7 @@ def space_needed_mb(audio_paths, video_paths, window_s=None,
     Erring upward: every camera is copied and gets audio tracks added,
     plus the processed tracks and the mix. With a window each camera
     shrinks by its own share, not by the longest one's. In megabytes.
-    One reckoning whatever --multitrack says. *recordings*: how many
+    One reckoning whatever the kind of production. *recordings*: how many
     *audio_paths* make, grouped here where not given.
     """
     video_mb, delivered = 0.0, 0.0
@@ -1333,13 +1395,35 @@ def production_length(chains, multitrack, window_s=None):
     return max(lengths) if multitrack else sum(lengths)
 
 
+def plan_rows(args):
+    """The rows of the --assign plan, or None where the run has none.
+
+    The window writes one for every run: a recording set to "do not
+    use" is in no row of it, a camera whose own sound is used is one.
+    An empty plan is none, as the run reads it: it then names the
+    recordings itself.
+    """
+    try:
+        with open(getattr(args, "assign", None) or "",
+                  encoding="utf-8") as f:
+            plan = json.load(f)
+    except (OSError, ValueError):
+        return None
+    if isinstance(plan, dict):
+        plan = plan.get("tracks_of")
+    rows = ([e for e in plan if isinstance(e, dict)]
+            if isinstance(plan, list) else [])
+    return rows or None
+
+
 def check_account(args, chains, videos_n):
     """What the account at auphonic.com says to this run, said first.
 
-    In the lines the Auphonic step prints later, a warning there one
-    here. Asked once, and only of a run that sends; an account that
-    cannot be asked is one line. Nothing here stops the run: auphonic.com
-    decides at the start, and says so itself.
+    Asked once, of a run that sends; short credit stops nothing. A free
+    Multitrack production past the border stops the run -- a dry run is
+    only warned, and --anyway only moves the stop to before the upload.
+    Tracks count as the run sends them: rows of one name are one -- the
+    plan's rows, else the chains, named as the run names them.
     """
     if not PROGRAM.run_uploads(args):
         return []
@@ -1349,6 +1433,38 @@ def check_account(args, chains, videos_n):
         return [Finding("good", "auphonic.com",
                         T('Account at auphonic.com: not known -- it could '
                           'not be asked. The run goes on.'))]
+    # Cameras alone on the line are not counted: their tracks are
+    # measured only as the sound is taken out.
+    plan = plan_rows(args)
+    if plan is None:
+        # As the run names a chain where no plan does: the name typed
+        # for any of its blocks, else the guess, which joins only
+        # within one folder.
+        typed = ByFile()
+        for file_path, name in getattr(args, "speaker_name", None) or ():
+            typed.setdefault(file_path, (name or "").strip())
+        guessed = PROGRAM.speaker_guesses(
+            [b for row, _rest in chains for b in row])
+        kept_apart = {path_key(x) for x in getattr(args, "apart", ()) or ()}
+        plan = [{"speakers": next((typed[b] for b in row if b in typed),
+                                  "") or guessed.get(row[0])
+                 or PROGRAM.guess_speaker_name(row[0]),
+                 "blocks": list(row),
+                 "apart": any(path_key(b) in kept_apart for b in row)}
+                for row, _rest in chains]
+    chains, of_name = [], {}
+    for e in plan:
+        name = (e.get("speakers") or "").strip()
+        blocks = [b for b in e.get("blocks") or [e.get("audio")]
+                  if isinstance(b, str) and os.path.isfile(b)]
+        if not blocks:
+            continue
+        if name in of_name and not e.get("apart"):
+            of_name[name].extend(blocks)
+            continue
+        chains.append((blocks, []))
+        if name and not e.get("apart"):
+            of_name[name] = blocks
     count = len(chains)
     multitrack = PROGRAM.production_is_multitrack(
         count, bool(videos_n) or count >= 2)
@@ -1358,6 +1474,13 @@ def check_account(args, chains, videos_n):
         kind, text = PROGRAM.split_kind(line)
         found.append(Finding("warning" if kind == "warning" else "good",
                              "" if found else "auphonic.com", text.strip()))
+    border = PROGRAM.free_border_said(account, seconds, multitrack)
+    if border:
+        found.append(Finding("warning" if getattr(args, "dry_run", False)
+                             else "abort", "", border[0], border[1]))
+        # The stop before the upload asks the account again, whatever
+        # --anyway says: --anyway moves this stop there, never lifts it.
+        found[-1].stops_at_upload = True
     return found
 
 
@@ -1377,10 +1500,27 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
                        T('not readable (%s) -- unchecked.') % str(e)[:60])]
     alg = dict(p.get("algorithms") or {})
     out = [Finding("good", T('Preset'), "%s" % presetname)]
-    switched_on = sorted("%s=%s" % (k, v) for k, v in alg.items()
-                if v not in (False, None, "", 0))
-    out.append(Finding("good", T('Algorithms'),
-                       ", ".join(switched_on)[:300] or T('none switched on')))
+    out.append(Finding("good", T('Algorithms'), preset_switches(alg)))
+    template = PROGRAM.preset_track_template(p)
+    track_alg = dict((template or {}).get("algorithms") or {})
+    # Cutting is the production's, but a track's switch is read too.
+    cuts = preset_cuts(alg)
+    cuts += [c for c in preset_cuts(track_alg) if c not in cuts]
+    if cuts:
+        out.append(Finding(
+            "abort", T('Cutting'),
+            T('the preset cuts at auphonic.com (%s) -- the sound would come '
+              'back shorter than the pictures, and the cameras would slip.')
+            % ", ".join(cuts),
+            T('Switch it off in the preset on auphonic.com: Audio '
+              'Algorithms, Automatic Cutting -- untick %s, or set Cut Mode '
+              'to Set Cuts To Silent, which keeps the length.')
+            % ", ".join(cuts)))
+    if preset_listens(p):
+        out.append(Finding(
+            "good", T('Speech recognition'),
+            T('switched on in the preset -- not asked for, and nothing of '
+              'its text is fetched: the transcript is made here.')))
     target = alg.get("loudnesstarget")
     try:
         target = float(target) if target is not None else None
@@ -1405,8 +1545,7 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
               '%.0f or change the preset.')
             % target))
     if multitrack:
-        template = p.get("multi_input_files") or []
-        if not template:
+        if template is None:
             out.append(Finding(
                 "abort", T('Track template'),
                 T('the Multitrack preset has no track stored.'),
@@ -1414,17 +1553,100 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
                   'tracks. Otherwise they come back unprocessed. Create a '
                   'track in the preset in the web interface.')))
         else:
-            track_alg = dict((template[0].get("algorithms") or {}))
-            switched_on = sorted("%s=%s" % (k, v) for k, v in track_alg.items()
-                        if v not in (False, None, "", 0))
             out.append(Finding("good", T('per track'),
-                               ", ".join(switched_on)[:300] or T('none switched on')))
-            if not switched_on:
+                               preset_switches(track_alg)))
+            if not [v for v in track_alg.values() if v is True]:
                 out.append(Finding(
                     "hint", "",
                     T('the track template has nothing switched on -- the '
                       'tracks would come back exactly as uploaded.')))
+    ends = preset_intro_outro(p)
+    if ends:
+        out.append(Finding(
+            "hint", T('Intro / outro'), ends,
+            T('They come from video files set to Intro or Outro under '
+              'Kind in the file list, or from --intro and --outro.')))
     return out
+
+
+def preset_intro_outro(p):
+    """What the preflight says of an intro or outro a preset has.
+
+    auphonic.com keeps them in the preset's list, a Multitrack one's
+    beside the tracks, told apart by "type". The production is made
+    without that list, of either kind, so neither is used. None where
+    the preset has neither.
+    """
+    kinds = [e.get("type") for e in (p.get("multi_input_files") or [])]
+    if "intro" in kinds and "outro" in kinds:
+        return T('the preset has an intro and an outro -- neither is used: '
+                 'intro and outro come from the video files.')
+    if "intro" in kinds:
+        return T('the preset has an intro -- it is not used: intro and '
+                 'outro come from the video files.')
+    if "outro" in kinds:
+        return T('the preset has an outro -- it is not used: intro and '
+                 'outro come from the video files.')
+    return None
+
+
+def preset_switches(alg):
+    """The processing switches a preset has on, as one line.
+
+    A switch is a key auphonic.com answers true; where it has a setting
+    beside it -- the loudness, the method -- that stands in brackets.
+    Shown, never changed: the preset decides what is processed.
+    """
+    beside = {"normloudness": "loudnesstarget", "denoise": "denoisemethod",
+              "filtering": "filtermethod"}
+    on = []
+    for k in sorted(alg):
+        if alg[k] is not True:
+            continue
+        setting = alg.get(beside.get(k, ""))
+        if k == "normloudness" and isinstance(setting, (int, float)):
+            on.append("%s (%s LUFS)" % (k, number_text(setting, 0)))
+        elif setting not in (None, "", False):
+            on.append("%s (%s)" % (k, setting))
+        else:
+            on.append(k)
+    if not on:
+        return T('none switched on')
+    return T('%s -- as the preset has them, the program changes none.') \
+        % ", ".join(on)[:300]
+
+
+def preset_cuts(alg):
+    """What a preset cuts out of the sound, by the names its page shows.
+
+    Empty where nothing is cut, or where the Cut Mode keeps the length:
+    "set_cuts_to_silence" fades to silence, "export_uncut_audio" leaves
+    the sound whole. Cutting moves everything after the cut, and the
+    pictures do not move with it. "cutter" is the older single switch,
+    seen in auphonic.com's own answers.
+    """
+    if alg.get("cut_mode") in ("set_cuts_to_silence", "export_uncut_audio"):
+        return []
+    names = (("silence_cutter", "Cut Silence"), ("filler_cutter", "Cut Fillers"),
+             ("cough_cutter", "Cut Coughs"), ("music_cutter", "Cut Music"),
+             ("cutter", "Automatic Cutting"))
+    found = []
+    for k, shown in names:
+        if alg.get(k) is True and shown not in found:
+            found.append(shown)
+    return found
+
+
+def preset_listens(p):
+    """True where a preset has auphonic.com's speech recognition on.
+
+    It is on where the preset carries a speech_recognition block with
+    anything in it: a service's id for an outside service, a language
+    alone for auphonic.com's own. Absent, None or empty is off.
+    """
+    said = p.get("speech_recognition")
+    return isinstance(said, dict) and any(v not in (None, "", [], {}, False)
+                                          for v in said.values())
 
 
 def report_findings(findings, heading, anyway=False):
@@ -1439,9 +1661,12 @@ def report_findings(findings, heading, anyway=False):
         if b.advice and not PROGRAM.GUI_RUNNING:
             for line in textwrap.wrap(b.advice, 70):
                 print("      %s" % line)
-    abort = [b for b in findings if b.kind == "abort"]
-    hints = [b for b in findings if b.kind == "hint"]
-    fixed = [b for b in findings if b.kind == "fixed"]
+    # What belongs to a file that does not take part is said above and
+    # counted nowhere, as in the window's line under the list.
+    counts = [b for b in findings if not b.set_aside]
+    abort = [b for b in counts if b.kind == "abort"]
+    hints = [b for b in counts if b.kind == "hint"]
+    fixed = [b for b in counts if b.kind == "fixed"]
     parts = [T('%s checked') % number_text(len(findings), 0)]
     if fixed:
         parts.append(TN(len(fixed), '%s fixed on its own',
@@ -1453,12 +1678,21 @@ def report_findings(findings, heading, anyway=False):
         parts.append(TN(len(abort), '%s reason to stop',
                         '%s reasons to stop') % number_text(len(abort), 0))
     print("    %s" % ", ".join(parts))
+    # --anyway is offered only where it gets the run through, so not
+    # past a point the stop before the upload holds again -- and not in
+    # the window, which never passes it.
+    held = [b for b in abort if b.stops_at_upload]
     if abort and not anyway:
-        print(as_bad(T('\nStopped before the first long step. With --anyway '
+        print(as_bad(T('\nStopped before the first long step.')
+                     if held or PROGRAM.GUI_RUNNING else
+                     T('\nStopped before the first long step. With --anyway '
                        'it runs regardless.')))
         return True
     if abort:
-        print(T('    --anyway is set: it runs despite the points above.'))
+        print(T('    --anyway is set: it runs despite the points above, but '
+                'stops before the upload -- auphonic.com would refuse this '
+                'production.') if held else
+              T('    --anyway is set: it runs despite the points above.'))
     return False
 
 
@@ -1501,7 +1735,7 @@ def named_as(name, findings_, data, shown):
 
 def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
                     set_aside=(), apart=(), together=(), project_type="cut",
-                    labels=None, finished=()):
+                    labels=None, finished=(), heard=()):
     """Collect all findings about the material.
 
     Each file is measured and cached on its own, so adding one measures only
@@ -1523,11 +1757,15 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
         return findings_
 
     findings, video_data, audio_data = [], [], []
+    # A *heard* camera's own sound is a track: counted for clipping too.
+    heard = {path_key(x) for x in heard or ()}
     # All at once: each has its own cache entry and knows nothing of the
     # others, so there is nothing to wait for.
     for p, (b, d) in zip(video_paths, parallel_map(
             video_paths,
-            lambda x: measure_cached(x, "video", check_camera_file, fresh))):
+            lambda x: measure_cached(x, "heard", check_camera_heard, fresh)
+            if path_key(x) in heard else
+            measure_cached(x, "video", check_camera_file, fresh))):
         b, d = camera_named(p, b, d, labels)
         findings += counts_not(b, p)
         if d and path_key(p) not in set_aside:
@@ -1625,22 +1863,41 @@ def run_preflight(args, audio_paths, video_paths, project_type=None):
     """
     if getattr(args, "no_preflight", False):
         return 0
-    # Bleed and room are asked of the material, never of --multitrack:
-    # the run makes a track per recording whatever the tick says.
+    # What the plan names in no row -- set to "do not use" in the
+    # window -- takes no part here either, as in the window's check.
+    plan = plan_rows(args)
+    named = {path_key(b) for e in plan or ()
+             for b in e.get("blocks") or [e.get("audio")]
+             if isinstance(b, str)}
+    set_aside = [p for p in audio_paths
+                 if plan is not None and path_key(p) not in named]
+    # A camera's own sound the plan makes a track, or every camera's where
+    # there is neither a plan nor a recording, as the run then does.
+    heard = ([e["from_camera"] for e in plan
+              if e.get("camera_audio") and e.get("from_camera")]
+             if plan is not None else
+             [] if audio_paths else list(video_paths))
+    # Bleed and room are asked of the material, never of the kind of
+    # production: the run makes a track per recording either way.
     findings = collect_findings(audio_paths, video_paths,
                               bool(getattr(args, "preflight_again", False)),
+                              set_aside=set_aside,
                               apart=getattr(args, "apart", ()),
                               together=getattr(args, "together", ()),
                               project_type=project_type or "cut",
-                              finished=getattr(args, "finished_mix", ()))
-    # Counted as the run counts them: blocks of one recording are one.
+                              finished=getattr(args, "finished_mix", ()),
+                              heard=heard)
+    findings = channels_as_a_run_has_them(findings, audio_paths)
+    # Counted as the run counts them: blocks of one recording are one,
+    # and one set to "do not use" is none -- the run sends it nowhere.
+    sent = [p for p in audio_paths if p not in set_aside]
     chains = (group_recording_parts(
-        audio_paths, getattr(args, "no_follow_ups", False),
+        sent, getattr(args, "no_follow_ups", False),
         getattr(args, "apart", ()), getattr(args, "together", ()))
-        if audio_paths else [])
+        if sent else [])
     recordings = len(chains)
     # These two depend on the call and the machine, not the material.
-    findings += check_disk_space(getattr(args, "out", None), audio_paths, video_paths,
+    findings += check_disk_space(getattr(args, "out", None), sent, video_paths,
                              window_from_points(args),
                              bool(getattr(args, "dry_run", False)),
                              recordings)
@@ -1804,13 +2061,14 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
 
     def preflight_work_loop(audio_files, videos_p, label_run,
                          set_aside=(), apart=(), together=(),
-                         project_type="cut", labels=None, finished=()):
+                         project_type="cut", labels=None, finished=(),
+                         heard=()):
         """Measure in the background so the interface does not freeze."""
         try:
             findings = collect_findings(audio_files, videos_p, False,
                                         True, set_aside, apart,
                                         together, project_type, labels,
-                                        finished)
+                                        finished, heard)
         except Exception as e:
             # An empty list would read as "nothing to fault", and the run
             # would start on material nobody looked at.
@@ -1863,7 +2121,8 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
                                state.get("project_type") or "cut",
                                # Named as the window names them: the
                                # run's camera_shown knows no labels here.
-                               PROGRAM.camera_labels(videos_p), finished),
+                               PROGRAM.camera_labels(videos_p), finished,
+                               list(state.get("own_cameras") or ())),
                          daemon=True).start()
 
     return preflight_fill_in, preflight_kick_off

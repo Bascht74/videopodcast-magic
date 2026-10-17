@@ -41,11 +41,11 @@ Der Bericht gilt für beide Betriebsarten.
 | Timecode | die Uhren der Dateien gegeneinander | Hinweis, wo eine Uhr nicht gestellt war |
 | Raum | Übersprechen je Sprecherpaar, gegen die 3:1-Regel | Hinweis für die *nächste* Aufnahme |
 | System | freier Plattenplatz gegen den geschätzten Bedarf | Hinweis, wenn es knapp wird, **Abbruch**, wenn es nicht reicht; ein Probelauf gibt nur den Hinweis |
-| Auphonic | Algorithmen des Presets, Lautheitsziel, Spurvorlage | **Abbruch** bei Widerspruch |
+| Auphonic | Algorithmen des Presets, Schnitt, Lautheitsziel, Spurvorlage | **Abbruch** bei Widerspruch |
 | Projekttyp | bei **Nur synchronisieren** eine zweite Tonaufnahme | **Abbruch** |
 | Fertige Mischung | eine fertige Mischung und keine Videodatei; eine, die kürzer ist als jede Kamera | **Abbruch**; Hinweis -- wo sie endet, ist der Full-Mix still |
 | Lautheit | welches Ziel gilt und woher es kommt | — |
-| Auphonic-Konto | der Tarif, die übrigen Minuten, ob sie für die Produktion reichen | wird gesagt, eine Warnung, wenn eine kostenlose Multitrack-Produktion länger als 21 Minuten ist; nie ein Abbruch |
+| Auphonic-Konto | der Tarif, die übrigen Minuten, ob sie für die Produktion reichen | wird gesagt; **Abbruch**, wenn eine kostenlose Multitrack-Produktion länger als 21 Minuten ist -- sie braucht einen bezahlten Tarif; ein Probelauf wird nur gewarnt |
 
 Ein Abbruch hält den Lauf an, bevor etwas geschrieben oder hochgeladen
 wird.
@@ -155,12 +155,15 @@ statt dass die Messung aufgegeben wird.
 
 Der Maßstab ist die 3:1-Regel. Steht das fremde Mikrofon dreimal so weit
 vom Sprecher weg wie sein eigenes, ist die Nachbarstimme rund 9,5 dB
-leiser. Auch diese Marke steht fest, kein Schalter verschiebt sie: je
-weiter ein Paar darunter liegt, desto mehr vom Nachbarn bleibt in der
-Spur. Das sagt etwas über den Aufbau im Raum. Es setzt zugleich eine
-Grenze für das, was danach kommt: je weniger die Mikrofone getrennt
-sind, desto vorsichtiger kann De-Bleed auf auphonic.com arbeiten. Ändern
-lässt es sich nur beim nächsten Mal, deshalb hält es den Lauf nicht an.
+leiser. Diese Zahl ist gesetzt, nicht gemessen: Sie ist die Rechnung der
+Regel -- dreifacher Abstand, ein Drittel des Schalldrucks --, und keine
+Aufnahme hier hat gezeigt, dass ein Paar darunter schlechter klingt.
+Auch sie steht fest, kein Schalter verschiebt sie: je weiter ein Paar
+darunter liegt, desto mehr vom Nachbarn bleibt in der Spur. Das sagt
+etwas über den Aufbau im Raum. Es setzt zugleich eine Grenze für das,
+was danach kommt: je weniger die Mikrofone getrennt sind, desto
+vorsichtiger kann De-Bleed auf auphonic.com arbeiten. Ändern lässt es
+sich nur beim nächsten Mal, deshalb hält es den Lauf nicht an.
 
 Bei einer einzigen Spur gibt es nichts zu messen. Dasselbe gilt für
 Aufnahmen, die zu wenig überlappen, und für eine Aufnahme ohne Stelle, an
@@ -238,15 +241,14 @@ Skala, sie wird auf −16 LUFS gesetzt, und die Zeile darüber im Protokoll
 sagt, dass das nur der Bezug der Anzeige ist.
 
 **Jeder Lauf wird gemessen und angepasst, und zwar gleich.** Ein Lauf
-ohne Multitrack ([Der einfache Weg](simple-path.de.md)) wendet das Ziel
+mit einer Spur ([Der einfache Weg](simple-path.de.md)) wendet das Ziel
 an wie jeder andere, und ein Lauf ganz ohne Bild auch, bei dem die
 Blöcke einer Aufnahme zu einer Datei zusammengefügt werden. Im Protokoll
 stehen `Ziel:` und `Ergebnis:`; mit **Aus Quelldateien übernehmen** wird
 nichts angepasst.
 
 Ein Weg ist die Ausnahme: mehrere Aufnahmen ganz ohne Bild, wo die
-Spuren gegeneinander gelegt werden, ob das Häkchen Multitrack gesetzt
-ist oder nicht. Dort wird nichts ausgesteuert -- ein Gewinn
+Spuren gegeneinander gelegt werden. Dort wird nichts ausgesteuert -- ein Gewinn
 je Spur brächte die Stimmen um das Gleichgewicht, für das dieser Weg da
 ist --, und der Lauf sagt es in einer Zeile
 ([Multitrack](multitrack.de.md)).
@@ -279,6 +281,11 @@ steht fest, kein Schalter setzt sie. Der Hinweis nennt den Kanal, wie
 viele solcher Reihen es gibt, die längste davon in Abtastwerten und in
 Millisekunden und wo die erste liegt. Der Hinweis hält nichts auf: eine
 übersteuerte Aufnahme ist manchmal die einzige, die es gibt.
+
+Gezählt wird jede Tonaufnahme und der Ton einer Kamera, deren
+**Kameraton** auf **Ton verwenden** steht: Dieser Ton ist eine Spur wie
+eine Aufnahme. Der Ton jeder anderen Kamera legt nur ihr Bild an seinen
+Platz und wird nicht gezählt.
 
 Das Programm zählt nur bei Ganzzahlformaten. Ein Ganzzahlformat hat bei
 Vollausschlag einen Anschlag, und was darüber lag, ist nie in die Datei
@@ -349,10 +356,28 @@ die Datei einen Platz, und es wird nichts vorgeschlagen.
   Wert zurück, der Mix geht auf den anderen. Ohne `--lufs` gilt −16;
   mastert das Preset auf etwas anderes, hält der Lauf deshalb vor dem
   Hochladen an.
+- **Das Preset schneidet.** `Schnitt` nennt, was das Preset
+  auphonic.com herausschneiden lässt -- **Cut Silence**, **Cut
+  Fillers**, **Cut Coughs** oder **Cut Music** --, und der Lauf hält vor
+  dem Hochladen an: Der Ton käme kürzer zurück als die Bilder, und jede
+  Kamera verrutschte ab dem ersten Schnitt. Auf auphonic.com im Preset
+  unter **Audio Algorithms**, **Automatic Cutting** den Haken
+  herausnehmen, oder **Cut Mode** auf **Set Cuts To Silent** stellen;
+  dann bleibt die Länge erhalten ([Aufbereitung über
+  auphonic.com](auphonic.de.md), „Was der Vorflug im Preset liest“).
 - **Das Multitrack-Preset enthält keine Spur.** Auf auphonic.com eine
-  Spur im Preset anlegen. Die erste Spur des Presets bestimmt die
+  Spur im Preset anlegen; ein dort hinterlegtes Intro oder Outro zählt
+  nicht als Spur. Die erste Spur des Presets bestimmt die
   Bearbeitung aller Spuren; ohne sie kommen sie so zurück, wie sie
   hochgeladen wurden.
+- **Das Preset enthält ein Intro oder ein Outro.** Nichts zu tun: Der
+  Hinweis `Vorspann / Abspann` sagt nur, dass keins von beiden verwendet
+  wird -- bei einer einzelnen Spur wie bei mehreren. Die Produktion wird
+  ohne sie angelegt, und Vorspann und Abspann kommen aus den
+  Videodateien ([Resolve](resolve.de.md), „Vorspann und Abspann
+  setzen“). Gehört einer zur Folge, die Videodatei dafür in der
+  Dateiliste unter **Typ** auf **Vorspann** oder **Abspann** stellen
+  oder mit `--intro` und `--outro` angeben.
 - **Ein Kanal liegt am Anschlag.** Wenn dieselbe Stimme ein zweites Mal
   aufgenommen wurde, etwa von einer Kamera, diese Aufnahme nehmen. Hier
   lässt sich nichts reparieren, also bei der nächsten Aufnahme niedriger
@@ -373,3 +398,13 @@ Im Fenster gibt es diese Optionen nicht.
 
 `--anyway` läuft trotz eines Abbruchs, `--no-preflight` überspringt die
 Prüfung ganz, `--preflight-again` misst alles neu statt nur das Geänderte.
+
+Die Kommandozeile kennt keine Kanalzeilen und zerlegt keine Datei in
+Spuren. Eine Datei mit mehr als zwei Kanälen legt sie auf einen Kanal
+zusammen, aus zwei Menschen wird eine Stimme, und der Bericht sagt das
+als Hinweis: `4 Kanäle -- die Kommandozeile zerlegt keine in Spuren und
+legt die Datei auf einen Kanal zusammen, zwei Menschen zu einer Stimme.`
+Geht eine solche Datei zu auphonic.com, allein oder neben anderen
+Aufnahmen, hält der Lauf vor dem Hochladen an ([Kanäle](channels.de.md),
+„Mehr als zwei Kanäle in einer Datei“). Deshalb ihre Kanäle zuerst als
+eigene Dateien speichern oder die Datei im Fenster öffnen.

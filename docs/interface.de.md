@@ -162,8 +162,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
     Kamera, die der Ton sehr wohl eingeordnet hat; an dieser wird der
     eigene gemessen — an der längsten Kamera, wenn sie einen trägt,
     sonst an der nächsten eingeordneten, die einen hat. Die Uhr einer
-    Tonaufnahme ordnet keine Kamera ein, und eine einmal abgelesene Uhr
-    sagt nichts. Gibt es keine solche Kamera, bleibt die Kamera draußen,
+    Tonaufnahme ordnet keine Kamera ein, solange überhaupt eine Kamera
+    Ton gibt -- gibt keine welchen, übernimmt das wie im Lauf eine
+    Aufnahme, die der Ton eingeordnet hat --, und eine einmal abgelesene
+    Uhr sagt nichts. Gibt es keine solche Kamera, bleibt die Kamera draußen,
     und Dateiliste wie Protokoll sagen, warum. Ein Jingle ist beides auf
     einmal: kein Timecode, und im Ton nichts, was der Raum auch hat — er
     steht rot in der Liste. Eine Kamera, deren Mikrofon vom Raum nichts
@@ -255,11 +257,6 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   blieb das Entfernte in der gespeicherten Projektdatei stehen, und wer
   eine Datei später wieder hinzunahm, bekam wortlos die alte Antwort --
   eine Aufnahme mit leerem Namen, eine Kamera auf **Vorspann**.
-
-  ![Die Dateiliste](images/files.de.png)
-
-  *Die Liste nach dem Öffnen eines Projekts, mit den Prüfzeichen aus
-  dem Vorflug und dem Streifen darunter.*
 - **Zuordnung & Zeitfenster**: links die Tabellen, rechts der Player;
   ist das Fenster für beide nebeneinander zu schmal, rückt der Player
   unter die Tabellen. Erscheint mit den Dateien.
@@ -352,9 +349,8 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Die Spalten **Sprechername** und **Sprecher** fehlen, und mit ihnen
   der Eintrag **mehrere Sprecher**, die Stimmzeilen, der Knopf **Ein
   Sprecher mehr in ...** und die Zeile **Auf diesem Rechner nicht**:
-  wer spricht, fragt niemand, weil nichts geschnitten wird. Auch die
-  Zeile **Multitrack (je Sprecher eine Spur)** fehlt, und das Häkchen
-  ist aus. Auch **gehört zu** fehlt, und in der Kameratabelle
+  wer spricht, fragt niemand, weil nichts geschnitten wird. Auch
+  **gehört zu** fehlt, und in der Kameratabelle
   **bekommt Audio von**: ohne Sprecher gibt es nichts zuzuordnen, die
   eine Aufnahme kommt in jede Kameradatei. Geblieben sind die Zeile der
   Aufnahme mit ihrem Timecode, die Kameratabelle mit **Kamera**, **neue
@@ -366,11 +362,6 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   diesem Namen schreibt der Lauf die Kameradatei, und die Spur der
   Kamera in Resolve trägt ihn ebenfalls ([Multitrack](multitrack.de.md),
   „Die Zuordnung setzen“).
-
-  ![Zuordnungstabelle und Player](images/assignment.de.png)
-
-  *Oben, welche Aufnahme zu welcher Kamera gehört, unten, was aus
-  jeder Kamera wird.*
 - **Resolve-Schnitt**: eine Zeile über Resolve nur dort, wo Resolve
   nicht antwortet -- **Resolve antwortet nicht -- siehe Einstellungen**,
   mit dem Weg zu den Einstellungen daneben. Antwortet Resolve, steht
@@ -476,11 +467,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Schnitt fällt bei jedem Sprecherwechsel, und Resolve bekommt je Person
   einen Clip. Bei einer Person und einer zweiten Kamera, auf der niemand
   ist, heißt er **Schnitt mit dem Weitwinkel**: die Kamera dieser Person
-  steht, und der Weitwinkel bricht sie auf. Mit gesetztem **Multitrack**
-  bleibt der Name **Kameraschnitt**.
+  steht, und der Weitwinkel bricht sie auf.
 
-  Der Kasten erscheint, sobald **Multitrack** gesetzt ist oder zwei
-  Personen einen Namen und eine Kamera tragen. Woher die beiden kommen,
+  Der Kasten erscheint, sobald zwei Personen einen Namen und eine Kamera
+  tragen. Woher die beiden kommen,
   macht keinen Unterschied, und beide Herkünfte zählen zusammen: eine
   Stimme unter einer getrennten Aufnahme und eine Aufnahme mit eigenem
   Namen sind zwei Personen, ebenso zwei Stimmen oder zwei Aufnahmen. Eine
@@ -492,11 +482,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Platz.
 
   Beide hinteren Reiter stehen mit und ohne getrennte Spuren da, und die
-  Zuordnung ebenso: **gehört zu** wird mit dem Häkchen gefragt und ohne
-  es, denn zu welcher Kamera eine Aufnahme gehört, ist ohnehin
-  dieselbe Frage, und der Lauf macht dieselbe Antwort daraus. Das
-  Häkchen anzuklicken kostet deshalb nichts — von Hand gewählte Kameras
-  bleiben stehen.
+  Zuordnung ebenso: **gehört zu** wird gefragt, gleich, welche Art von
+  Produktion die Spuren ergeben, denn zu welcher Kamera eine Aufnahme
+  gehört, ist ohnehin dieselbe Frage, und der Lauf macht dieselbe
+  Antwort daraus.
 
   Mit **Nur synchronisieren** bleibt der Reiter, und ein Satz ganz oben
   sagt, was er nicht ist: **Nur synchronisieren: kein Schnitt. Die
@@ -543,24 +532,24 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   neuen Ort nach einer Übergabe suchen ([Resolve](resolve.de.md) sagt,
   wo es sucht).
 
-**Multitrack (je Sprecher eine Spur)** hat eine eigene Zeile unter der
-Zuordnungstabelle, über dem Auphonic-Kasten. Es geht mit auphonic.com
-und ohne; nach dem API Key fragt das Programm erst auf dem Weg über
-auphonic.com. Der Kameraschnitt braucht das Häkchen nicht. Beim
-Projekttyp **Nur synchronisieren** fehlt die Zeile, und das Häkchen ist
-aus: je Sprecher eine Spur ist eine Frage für den Schnitt nach Sprecher.
+Unter der Zuordnungstabelle steht der Auphonic-Kasten mit der Liste
+**Preset**. Welche Art von Preset sie anbietet, folgt aus den Spuren in
+der Tabelle, angekreuzt wird dafür nichts: zwei Spuren oder mehr auf
+einer Zeitachse gehen als eine Multitrack-Produktion hoch, eine
+einzelne Spur als Singletrack-Produktion. Eine graue Zeile unter der
+Liste sagt, welche Art und warum -- `Multitrack, weil 3 Spuren auf
+einer Zeitachse liegen.` --, und was daran etwas ändert: ein anderes
+Preset derselben Art, oder für Singletrack alle Spuren bis auf eine auf
+**nicht verwenden**, für Multitrack eine zweite Spur dazu, eine
+Aufnahme oder eine Kamera auf **Ton verwenden**. Es geht mit
+auphonic.com und ohne; nach dem API Key fragt das Programm erst auf dem
+Weg über auphonic.com.
 
-Multitrack braucht zwei Eingangsspuren. Eine Eingangsspur ist eine
-eigene Aufnahme, ein Kanal eines mehrkanaligen Aufnahmegeräts oder der
-Ton einer Videodatei, die auf **Ton verwenden** steht. Mehrere Blöcke
-derselben Aufnahme zählen als eine Spur, eine beiseitegelegte Spur gar
-nicht.
-
-Das Häkchen bleibt anklickbar, was auch immer im Projekt liegt. Bei nur
-einer Spur sagt das eine graue Zeile daneben, und sie nennt den Weg zur
-zweiten: **Kameraton** bei einer Kamera, gestellt auf
-**Ton verwenden**. Wenn jede Kamera ihren Ton schon hergibt, sagt diese
-Zeile, dass keiner mehr übrig ist.
+Eine Eingangsspur ist eine eigene Aufnahme, ein Kanal eines
+mehrkanaligen Aufnahmegeräts oder der Ton einer Videodatei, die auf
+**Ton verwenden** steht. Mehrere Blöcke derselben Aufnahme zählen als
+eine Spur, Zeilen unter einem Namen ebenso, eine beiseitegelegte Spur
+gar nicht. Der Kameraschnitt braucht keine zwei davon.
 
 Unter dem Auphonic-Kasten erscheint ein zweiter Balken, solange das
 Material vermessen wird, mit einer Zeile je Datei und dem Stand jeder
@@ -568,7 +557,7 @@ einzelnen. Eine Zeile verschwindet, sobald ihre Datei fertig ist, der
 Balken selbst kurz nach der letzten. Er zeigt die Vorarbeit -- Ton
 lesen und Hüllkurven rechnen --, also dieselbe Arbeit, die der Balken
 neben **Start** mitträgt, hier Datei für Datei. Steht die Zeitachse,
-kommt eine weitere Zeile hinzu, **Niederschrift**: das Fenster schreibt
+kommt eine weitere Zeile hinzu, **Transkript**: das Fenster schreibt
 auf, was gesagt wird, und auf diese Wörter warten die vier Einstellungen
 des Kameraschnitts, die sie brauchen ([Kameraschnitt](camera-cut.de.md)).
 
@@ -646,10 +635,18 @@ ausrechnet -- die Zeitachse, wer wann spricht, den Schnitt mit seinen
 Einstellungen --, das alles ins Protokoll schreibt und doch keinen
 Schnitt erzeugt. Es ist derselbe Lauf, den die Vorschau still für sich
 macht: Gedrückt, sobald die Vorschau steht, nimmt er Zeitachse und
-Sprecher aus dem, was sie aufbewahrt hat. Eines schreibt er doch: Hören die Mikrofone einander zu gut,
-um auseinandergehalten zu werden, misst er ihren Abstand und bewahrt
-die zusammengelegte Aufnahme auf, die die Trennung braucht -- der
-richtige Lauf muss sie dann nicht ein zweites Mal bauen.
+Sprecher aus dem, was sie aufbewahrt hat. Für sich selbst legt er
+keine Spur auf die Zeitachse: Die Probe gegen das Übersprechen und die
+leisen Stellen, an die der Schnitt gesetzt wird, liest er aus den
+Aufnahmen dort, wo sie liegen. Die Zeit und den Platz im
+temporären Ordner, die eine Kopie jeder Spur kosten würde, braucht er
+also nicht. Zweierlei lässt die Spuren dort doch noch schreiben, und mit
+dem Ende des Laufs sind sie wieder fort: ein **API Key**, damit das
+Protokoll sagen kann, wie viel zu auphonic.com hochginge, und Mikrofone,
+die einander zu gut hören, um auseinandergehalten zu werden. Dann misst
+er ihren Abstand und bewahrt die zusammengelegte Aufnahme auf, die die
+Trennung braucht -- der richtige Lauf muss sie nicht ein zweites Mal
+bauen.
 Er und **Start** bleiben gesperrt, solange etwas offen ist, und
 **unter den Knöpfen steht, was**, mitsamt dem Reiter, auf dem es steht:
 
@@ -658,18 +655,10 @@ Er und **Start** bleiben gesperrt, solange etwas offen ist, und
   **Ton verwenden**,
 - kein Produktionsname,
 - kein Projekttyp gewählt,
-- weniger als zwei Spuren in der Zuordnungstabelle für Multitrack,
-- bei Multitrack eine Aufnahme ganz ohne Namen: keiner getippt, und
-  keiner, den der Dateiname nahelegt -- der graue Vorschlag gilt als
-  Name, wo nichts darüber getippt wird,
-- bei Multitrack alle Aufnahmen unter demselben Namen,
 - eine **Stimme** unter einem Namen, den schon jemand anderes trägt: der
   Schnitt setzt eine Person auf eine Kamera, und ein Name auf zwei
   Stimmen wäre diese Person an zwei Stellen -- es sei denn, es ist
   dieselbe Stimme, in zwei Aufnahmen gehört,
-- ohne Multitrack mehrere Kameras und keine Tonaufnahme: jede Kamera
-  brächte ihren eigenen Ton mit, und eine Spur je Kamera ist das, wofür
-  Multitrack da ist,
 - zwei Kameras mit derselben Ausgabedatei.
 
 Das Feld oder die Zeile, die gemeint ist, wird rot. Ein Häkchen hinter
@@ -805,7 +794,7 @@ Abschnitt, der nichts meldet, kriecht er langsam weiter und bleibt vor
 dem Ende stehen.
 
 Für den Lauf selbst nennt die Zeile den Abschnitt, auf beiden Wegen mit
-denselben Namen, mit Multitrack und ohne:
+denselben Namen:
 
 - **Plan wird gelesen**
 - **Ton aus den Kameras**: überall dort, wo der Ton einer Kamera eine
@@ -1068,7 +1057,8 @@ Es wurde mit pip3 installiert, und pip führt Buch darüber, welche
 Fassung liegt; die Datei zu überschreiben ließe diesen Nachweis stehen
 und falsch werden. **Aktualisieren** führt deshalb denselben Befehl
 aus, den man auch selbst tippen würde — `pip3 install -U` auf die
-Adresse, aus der das Programm kam —, und zwar in dem Python, in dem
+Adresse, aus der das Programm kam, mit der Paketliste, mit der diese
+Fassung geprüft wurde —, und zwar in dem Python, in dem
 das Programm läuft: die Installation, die die neue Fassung bekommt,
 ist die, die auch starten würde.
 
@@ -1146,7 +1136,12 @@ Sobald zwei Dateien in der Liste stehen, misst die Oberfläche im
 Hintergrund, wo jede von ihnen liegt, mit dem Verfahren des Laufs selbst
 -- ob sie einen Timecode tragen oder nicht. Danach springt der Player
 zwischen den Dateien auf dieselbe Stelle im Geschehen, und In-Punkt und
-Out-Punkt gelten für alle gleich.
+Out-Punkt gelten für alle gleich. Ganz ohne Bild ist es nicht anders:
+die Aufnahmen werden gegen die längste von ihnen gelegt, eine Aufnahme
+in Blöcken zuerst zusammengesetzt, und jede bekommt den Platz und die
+Uhrgeschwindigkeit, die der Lauf ihr gibt -- ein Recorder, der zu schnell
+läuft, behält das auch hier und läuft dem Lauf über eine Stunde nicht
+davon.
 
 **Wo gemessen wurde, gilt die Messung; die Uhr einer Datei antwortet nur
 dort, wo nichts zu messen war.** Eine Uhr wird von Hand gestellt und wird
@@ -1187,8 +1182,17 @@ Start dieselben Minuten nicht noch einmal messen muss. Dateien, die
 nicht dazu passen, erscheinen rot. Eine Projektdatei aus der Zeit, bevor
 dieser Gang mitgeschrieben wurde, lässt sich weiterhin öffnen: dann gilt
 jeder Recorder als gleichmäßig laufend, wovon das Programm vorher
-ohnehin ausgegangen ist. Mehr über die Projektdatei steht in
-[camera-cut.de.md](camera-cut.de.md).
+ohnehin ausgegangen ist.
+
+Außerdem nennt die Projektdatei die Kamera, an der der Lauf alle anderen
+ausrichtet -- die längste Kamera, deren Ton gehört wurde --, und ein
+Timecode, den man als **In-Punkt** oder **Out-Punkt** eintippt, gilt in
+deren Bildrate. Weil diese Kamera dort festgehalten ist, liest ein wieder
+geöffnetes Projekt eine Marke genauso wie der Lauf, auch wenn daneben
+eine längere Kamera ohne Ton mit einer anderen Bildrate läuft. Eine
+Projektdatei, in der diese Kamera noch nicht steht, lässt sich weiterhin
+öffnen; das Fenster rechnet dann wie bisher mit der längsten Kamera.
+Mehr über die Projektdatei steht in [camera-cut.de.md](camera-cut.de.md).
 
 **Wer eine Datei hineinzieht, während gemessen wird, bekommt sie
 mitgemessen.** Die laufende Messung wurde über die Liste angestoßen,
@@ -1206,6 +1210,14 @@ steht in eigenen Zeilen unter dem, was die Zeile sonst sagt, und nicht
 mehr dahinter: in einer Zeile geschrieben schob ihn der Ordnername
 davor aus der Spalte, und gerade die Hälfte, auf die es ankam, war fort.
 
+**Was der Lauf über den Ton einordnet, passt, gleich auf welchem Weg.**
+Eine Aufnahme, die ihre Lautheitskurve gesetzt hat, die Frequenzbänder,
+die sich bewegen, oder bei einer Aufnahme auf **Gemischt** die Phase,
+bekommt keinen Vermerk und wird nicht gezählt, wie schwach ihr Abgleich
+auch ist: Der Lauf legt sie an genau diese Stelle, und wo die Bänder
+oder die Phase sie gesetzt haben, sagt es sein Protokoll. Ein Vermerk
+steht nur dort, wo der Ton des Laufs keinen Platz gefunden hat.
+
 Eine Datei, deren Ton nicht erkannt wurde, die ihr Timecode aber zwischen
 die anderen setzt, trägt den Vermerk **Ton nicht erkannt; über den
 Timecode platziert**. Sie liegt framegenau auf der Achse, an der Stelle,
@@ -1214,8 +1226,9 @@ ihres Tons sie legen würde; es fehlt allein die Gegenprobe, und die
 Messung sperrt für sie nichts. Eine Kamera ohne Tonspur hat nichts, woran
 man sie hören könnte, und wird ebenso beurteilt: ihr Timecode setzt sie,
 gemessen an einer Kamera, die der Ton eingeordnet hat und die ebenfalls
-einen trägt, und ohne eine solche gilt sie als Datei ohne Platz, wie
-gleich darunter.
+einen trägt -- oder, wo keine Kamera Ton gibt, an einer Aufnahme, die
+der Ton eingeordnet hat, wie im Lauf --, und ohne eine solche gilt sie
+als Datei ohne Platz, wie gleich darunter.
 
 Eine Datei, die überhaupt keinen Platz hat, trägt den Vermerk **passt
 nicht zu den anderen Dateien: Ton nicht erkannt, kein Timecode.** und
@@ -1280,7 +1293,10 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
   in dieser Version wird nicht noch einmal gefragt.
 - **Start** bleibt gesperrt: die Zeile unter den Knöpfen nennt, was
   fehlt, und das gemeinte Feld oder die gemeinte Zeile wird rot. Ist
-  das nachgetragen, gibt der Knopf sich frei.
+  das nachgetragen, gibt der Knopf sich frei. Ein Warten braucht nichts
+  von Dir: Solange eine Datei mit mehreren Kanälen in ihre Spuren
+  zerlegt wird, sagt die Zeile das, und der Knopf gibt sich frei, sobald
+  die Spuren da sind.
 - **Der Player zeigt kein Bild**: an seine Stelle tritt ein Knopf, der
   die Datei an `ffplay` übergibt; das öffnet ein eigenes Fenster.
 - **In-Punkt und Out-Punkt sind gesperrt**: das Programm misst die

@@ -424,9 +424,6 @@ msgstr "Зв'язка ключів"
 msgid "Measuring time axis ..."
 msgstr "Вимірювання осі часу ..."
 
-msgid "Multitrack (one track per speaker)"
-msgstr "Багатодоріжково (по доріжці на мовця)"
-
 msgid "No files or project opened yet."
 msgstr "Поки не відкрито ні файлу, ні проєкту."
 
@@ -441,9 +438,6 @@ msgstr "На кадр назад."
 
 msgid "One second back."
 msgstr "На секунду назад."
-
-msgid "Only one speaker"
-msgstr "Лише один мовець"
 
 msgid "Open result folder"
 msgstr "Відкрити теку з результатом"
@@ -598,9 +592,6 @@ msgstr "не знайдено"
 msgid "a recording of its own"
 msgstr "власний запис"
 
-msgid "Cameras only"
-msgstr "Лише камери"
-
 msgid "End %s"
 msgstr "Кінець %s"
 
@@ -627,9 +618,6 @@ msgstr "Початок %s"
 
 msgid "Take from source files"
 msgstr "Взяти з вихідних файлів"
-
-msgid "Take the camera audio"
-msgstr "Взяти звук камери"
 
 msgid "Transfer"
 msgstr "Передавання"
@@ -780,9 +768,6 @@ msgstr "Тиша"
 
 msgid "Speaker name"
 msgstr "Ім'я мовця"
-
-msgid "Speaker names"
-msgstr "Імена мовців"
 
 msgid "Ten seconds forward."
 msgstr "На десять секунд вперед."
@@ -1066,9 +1051,6 @@ msgstr "Звуковий файл не вказано."
 msgid "Unknown extension, skipped: %s"
 msgstr "Невідоме розширення, пропущено: %s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Кілька камер, але жодного звукового файлу. Кожна камера мала б власний звук --\nсаме для цього є --multitrack. Інакше одна камера за іншою."
-
 msgid "Not found: %s"
 msgstr "Не знайдено: %s"
 
@@ -1077,6 +1059,9 @@ msgstr "Перервано: %s"
 
 msgid "Resolve part stopped: %s"
 msgstr "Частину Resolve перервано: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Частину Resolve перервано через помилку в цій програмі, а не в Resolve: %s -- будь ласка, повідомте про неї. Подробиці в журналі."
 
 msgid "Presets could not be loaded: %s"
 msgstr "Не вдалося завантажити пресети: %s"
@@ -1228,8 +1213,8 @@ msgstr "Там бракує файлів -- без нового вивантаж
 msgid "  Existing result adopted -- nothing computed, nothing paid."
 msgstr "  Наявний результат прийнято -- нічого не пораховано, нічого не сплачено."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Зауваження: рахується з файлами, вивантаженими тоді. Вони несуть\n  часове вікно й вирівнювання того дня. Якщо точка входу, точка виходу\n  чи виміряне положення тепер інші, перевірка повернення вимірює\n  різницю й ставить доріжки на місце."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Зауваження: рахується з файлами, вивантаженими тоді. Вони несуть\n  часове вікно й вирівнювання того дня. Якщо точка входу, точка виходу\n  й виміряне положення тепер лишаються всередині цього вікна, перевірка\n  повернення вимірює різницю й ставить доріжки на місце. Якщо вони виходять\n  за нього -- раніша точка входу, пізніша точка виходу, -- вона відхиляє доріжки:\n  тоді вивантажте все знову."
 
 msgid "  Settings brought to preset %r"
 msgstr "  Налаштування приведено до пресета %r"
@@ -1251,12 +1236,6 @@ msgstr "  В архіві: %s"
 
 msgid "Auphonic reports %s: %s"
 msgstr "Auphonic повідомляє %s: %s"
-
-msgid "No Multitrack preset found in the account."
-msgstr "В обліковому записі не знайдено пресета Multitrack."
-
-msgid "No Singletrack preset found in the account."
-msgstr "В обліковому записі не знайдено пресета Singletrack."
 
 msgid "preset does not fit the run"
 msgstr "пресет не пасує до запуску"
@@ -1282,20 +1261,11 @@ msgstr "сховище системи"
 msgid "The key is then in the %s, never in a file."
 msgstr "Тоді ключ зберігається не у файлі, а тут: %s."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "Визначає, як auphonic.com обробляє звук.\n\n«%s» лишає ключ на місці й усе одно туди не звертається.\nЗвук тоді лише зводиться й нормалізується, а не розділяється --\nі без окремих доріжок монтажу камер немає."
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic не приймає налаштування: %s"
-
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Понад два канали йдуть на auphonic.com як один: зведення вимикається лише для стерео.\n  Якщо канали мають лишатися окремо, спершу розріжте файл на доріжки."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "Визначає, як auphonic.com обробляє звук.\n\n«%s» лишає ключ на місці й усе одно туди не звертається.\nЗвук тоді лише зводиться й нормалізується, а не розділяється --\nале монтаж камер той самий, що й із пресетом."
 
 msgid "Uploading %s"
 msgstr "Вивантаження %s"
-
-msgid "no production id in the response: %s"
-msgstr "у відповіді немає ідентифікатора випуску: %s"
 
 msgid "no download address for %s"
 msgstr "немає адреси завантаження для %s"
@@ -1450,9 +1420,6 @@ msgstr "-- нічого --"
 msgid " and "
 msgstr " і "
 
-msgid "One track only, and no camera audio left to take."
-msgstr "Лише одна доріжка, і звуку камер, який можна взяти, не лишилося."
-
 msgid "    Cross-check:"
 msgstr "    Перехресна перевірка:"
 
@@ -1464,9 +1431,6 @@ msgstr "вісь часу виміряно -- переходи потрапля�
 
 msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
 msgstr "%s не лежить на осі епізоду: його ставлять перед матеріалом або після нього, а не вмонтовують усередину. Точка входу й точка виходу належать до того, що між ними."
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Лише одна доріжка -- для другої встановіть у якоїсь камери Звук камери на «використовувати звук»."
 
 msgid "\nCAMERA COLOUR COMPARISON"
 msgstr "\nПОРІВНЯННЯ КОЛЬОРІВ КАМЕР"
@@ -1495,9 +1459,6 @@ msgstr "Без власної камери: %s"
 msgid "   -- that is everybody, so every shot goes to the same camera."
 msgstr "   -- це всі, тож кожен план іде на ту саму камеру."
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK НЕМОЖЛИВИЙ\n  Без ключа API на auphonic.com нема чого надсилати.\n  З --without-auphonic усе працює локально: вирівняно,\n  зведено й змонтовано, але без de-bleed і leveler."
-
 msgid "\nCAMERA CUT"
 msgstr "\nМОНТАЖ КАМЕР"
 
@@ -1521,9 +1482,6 @@ msgstr "Відстань до середнього"
 
 msgid "    %-20s shifted by %s ms%s"
 msgstr "    %-20s зсунуто на %s мс%s"
-
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "MULTITRACK НЕМОЖЛИВИЙ\n  Потрібно щонайменше дві вхідні доріжки, а знайдено лише %s.\n  Доріжка -- це окремий запис, канал багатоканального\n  рекордера або звук камери -- він рахується, щойно його\n  Звук камери каже «використовувати звук». Без двох таких\n  нема чого розділяти, і той самий файл проходить як звичайний\n  випуск."
 
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Камери близькі між собою (щонайбільше %s ступенів яскравості)."
@@ -1645,11 +1603,11 @@ msgstr "відповідь не втримала слово"
 msgid "nobody was speaking at the question"
 msgstr "під час запитання ніхто не говорив"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "з завершеного запуску -- мовців: %s, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "з завершеного запуску -- %s, %s"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "виміряно із записів -- мовців: %s, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "виміряно із записів -- %s, %s"
 
 msgid "In point or Out point cannot be read here."
 msgstr "Точку входу або точку виходу тут прочитати не вдається."
@@ -1681,8 +1639,20 @@ msgstr "  Не вдалося записати файл передачі."
 msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
 msgstr "  Кожна камера має мовця, тож загального плану немає: чотири налаштування загального плану й позначка для країв тут нічого не дають."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  мовців: %s, планів: %s, найкоротший %s с"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, найкоротший %s с"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s мовець"
+msgstr[1] "%s мовці"
+msgstr[2] "%s мовців"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s план"
+msgstr[1] "%s плани"
+msgstr[2] "%s планів"
 
 msgid "  The cut stays as it was."
 msgstr "  Монтаж лишається таким, як був."
@@ -1711,11 +1681,17 @@ msgstr "\nМОВЦІ\n  Нікого не було чути -- монтажу к
 msgid "  %sx away from the speaker because a shot ran longer than %s s"
 msgstr "  %sx убік від мовця, бо план тривав довше за %s с"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Одна камера для всіх: розрізано на %s планів на зміні мовця, щоб Resolve міг їх згрупувати."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Одна камера для всіх: розрізано на %s план на зміні мовця, щоб Resolve міг його згрупувати."
+msgstr[1] "  Одна камера для всіх: розрізано на %s плани на зміні мовця, щоб Resolve міг їх згрупувати."
+msgstr[2] "  Одна камера для всіх: розрізано на %s планів на зміні мовця, щоб Resolve міг їх згрупувати."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Монтаж змінився: планів %s замість %s."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Монтаж змінився: %s план замість %s."
+msgstr[1] "  Монтаж змінився: %s плани замість %s."
+msgstr[2] "  Монтаж змінився: %s планів замість %s."
 
 msgid "the cut uses %s"
 msgstr "монтаж бере %s"
@@ -1776,9 +1752,6 @@ msgstr "Попередній перегляд неможливий: %s"
 
 msgid "    %-26s the camera in one piece, the mix below"
 msgstr "    %-26s камера цілим шматком, мікс під нею"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Частину Resolve перервано: %s"
 
 msgid "  %s is ready -- with --resolve-json it can be done later."
 msgstr "  %s готовий -- з --resolve-json це можна зробити пізніше."
@@ -2059,6 +2032,15 @@ msgstr "  -->  вирівняно, дрейф годинника %s ppm приб
 msgid "   Caution: measurement unusable"
 msgstr "   Увага: вимірювання непридатне"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Увага: у ньому бракує %s с надісланого"
+
+msgid "  -->  refused"
+msgstr "  -->  відхилено"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Відхилено: %s -- повернене не відповідає вивантаженому.\n  Краще зупинитися, ніж записати щось неправильне."
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  Mixdown з auphonic.com: %s LUFS, пік %s dBTP (%s)"
 
@@ -2236,18 +2218,6 @@ msgstr "%s і %s обидва мають значення %s. Таким мож�
 msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
 msgstr "%s стоїть на кількох голосах. Ім'я -- це людина, а монтаж ставить людину на одну камеру -- два голоси з одним ім'ям були б однією людиною у двох місцях."
 
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack потребує кількох доріжок"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack потребує щонайменше двох вхідних доріжок. Доріжка -- це окремий запис, канал багатоканального рекордера або звук відеофайлу, для якого вибрано \"використовувати звук\". Кілька блоків одного запису рахуються як одна доріжка, відкладені доріжки не рахуються зовсім."
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Кожен рядок потребує імені -- в Auphonic воно стає track ID."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Усі рядки мають однакове ім'я -- це дає одну доріжку, а Multitrack потребує щонайменше двох."
-
 msgid "File names"
 msgstr "Імена файлів"
 
@@ -2262,9 +2232,6 @@ msgstr "Завантажте пресети й виберіть один або 
 
 msgid "Names used more than once"
 msgstr "Імена, використані кілька разів"
-
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Окремих звукових записів немає. Тоді використовується звук камер (%s) -- кожна стає доріжкою, а Auphonic прибирає просочування."
 
 msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
 msgstr "Ці імена трапляються кілька разів:\n\n  %s\n\nЗаписи об'єднуються в одну доріжку й розташовуються один за одним за своїм таймкодом. Це правильно, якщо запис між тим зупиняли."
@@ -2415,9 +2382,6 @@ msgstr "\nЗавершилося без результату: %s"
 
 msgid "\nNo usable video file -- without camera audio there is no common time axis."
 msgstr "\nНемає придатного відеофайлу -- без звуку камер немає спільної осі часу."
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nПісля об'єднання блоків залишається лише одна доріжка, а режим Multitrack потребує по одній на голос. Там, де двох людей прийнято за один запис, --apart тримає блок окремо."
 
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline отримує %s: найвищу з них або наступну частоту, яку Resolve\n  має над нею. Угору Resolve повторює кадри, униз -- відкидає\n  їх. Кожна камера зберігає власну частоту, і монтаж рахує\n  в ній."
@@ -2785,6 +2749,9 @@ msgstr "перевірено: %s"
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway задано: запуск іде попри пункти вище."
 
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway задано: запуск іде попри пункти вище, але зупиняється перед завантаженням -- auphonic.com відхилив би цю продукцію."
+
 msgid "does the material fit together?"
 msgstr "чи пасує матеріал між собою?"
 
@@ -2839,6 +2806,17 @@ msgstr "Resolve масштабує до роздільності Timeline. Ус�
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Кожну пару каналів оцінюють окремо: одна стереодоріжка або два мікрофони, а отже, дві доріжки. Тихі входи відкидаються. Рядки під файлом кажуть, що виміряно, а позначка має перевагу."
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
+msgstr ""
+"Збережіть його канали як окремі файли, щоб кожен став доріжкою, або "
+"відкрийте його у вікні, яке розрізає його за рядками каналів. Запуск, який "
+"надсилає його на auphonic.com, зупиняється перед завантаженням: auphonic.com "
+"приймає в одному файлі не більше двох каналів."
+
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Тут рахується відлік за відліком, із частотою, з якою записано файл: серія з трьох і більше відліків на найвищому значенні, яке може вмістити цілочисельний формат. Один або два -- це округлення, про них не повідомляється. Те, що там обрізано, втрачено, і жодна обробка його не поверне -- але запис лишається записом, і це нічого не зупиняє. Рахуються лише цілочисельні формати. 32-бітне число з рухомою комою не має упору на повній шкалі, тож там нічого рахувати."
 
@@ -2875,6 +2853,9 @@ msgstr "\nПОПЕРЕДНЯ ПЕРЕВІРКА -- %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nЗупинено перед першим довгим кроком. З --anyway працює попри все."
 
+msgid "\nStopped before the first long step."
+msgstr "\nЗупинено перед першим довгим кроком."
+
 msgid "no video track"
 msgstr "немає відеодоріжки"
 
@@ -2901,6 +2882,13 @@ msgstr "%s кГц замість %s кГц -- перетворюється пі�
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "Каналів: %s -- розрізаються на доріжки, див. рядки вище."
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"Каналів: %s -- командний рядок не розрізає їх на доріжки і зводить файл в "
+"один канал: дві людини в один голос."
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Канал %d упирається в межу: %s разів по три й більше відліки поспіль, найдовша серія %s (%s мс), перша на %s."
@@ -2979,6 +2967,21 @@ msgstr "Обидва одночасно не вийде: доріжки, що п
 
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "у шаблоні доріжки нічого не ввімкнено -- доріжки повернулися б точно такими, як їх вивантажено."
+
+msgid "Intro / outro"
+msgstr "Заставка / Кінцівка"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "у пресеті є заставка -- вона не використовується: заставка і кінцівка беруться з відеофайлів."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "у пресеті є кінцівка -- вона не використовується: заставка і кінцівка беруться з відеофайлів."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "у пресеті є заставка і кінцівка -- жодна не використовується: заставка і кінцівка беруться з відеофайлів."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Вони беруться з відеофайлів, у яких у списку файлів Вид стоїть на Заставка або Кінцівка, або з --intro і --outro."
 
 msgid "Check"
 msgstr "Перевірка"
@@ -3087,6 +3090,9 @@ msgstr "%(name)s (%(prefix)s*.json);;Файли JSON (*.json);;Усі файли
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Ця передача не містить частоти кадрів, тож Timeline з неї не побудувати. Будь ласка, зробіть запуск ще раз."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "У цій передачі для пункту «%s» не вказано файлу, тож Timeline з неї не побудувати. Будь ласка, зробіть запуск ще раз."
 
 msgid "This Resolve project already exists"
 msgstr "Цей проєкт Resolve уже існує"
@@ -3223,11 +3229,17 @@ msgstr "  Планів: %s, разом %s с, без їхнього звуку."
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  Full-Mix не знайдено -- Timeline лишається без звуку."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Не вдалося імпортувати Full-Mix."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  У Media Pool Resolve немає Full-Mix -- у Timeline «%s» бракує звуку."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Не вдалося вставити Full-Mix."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve відхилив Full-Mix -- у Timeline «%s» бракує звуку."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve відхилив заставку -- у Timeline «%s» немає заставки."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve відхилив кінцівку -- у Timeline «%s» немає кінцівки."
 
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  Звук: Full-Mix одним шматком на A1 (%s)."
@@ -3379,8 +3391,8 @@ msgstr "    %sx запланована камера не працювала -- �
 msgid "    Left without picture: %s"
 msgstr "    Лишилося без зображення: %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve не взяв жодного зображення -- Timeline порожня. Нічого\n  більше на ній не будується."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve не прийняв жодного кадру -- у Timeline «%s» бракує монтажу та його звуку."
 
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Такої Timeline ще не було -- її лише будують."
@@ -3508,12 +3520,6 @@ msgstr "загальний план %s, мікс -- його перша звук
 msgid "%s, audio track %d"
 msgstr "%s, звукова доріжка %d"
 
-msgid "    %s could not be imported."
-msgstr "    Не вдалося імпортувати %s."
-
-msgid "    %s could not be inserted."
-msgstr "    Не вдалося вставити %s."
-
 msgid "    V2 could not be read back: %s"
 msgstr "    Не вдалося перечитати V2: %s"
 
@@ -3523,8 +3529,8 @@ msgstr "               Звук %s на %s -- там він зустрічає %
 msgid "%s (%s to %s)"
 msgstr "%s (від %s до %s)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Лише %s з %s планів є на Timeline."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve прийняв лише %s з %s планів -- у Timeline «%s» бракує решти монтажу."
 
 msgid "  Transcript: %s"
 msgstr "  Протокол: %s"
@@ -3943,9 +3949,6 @@ msgstr "  Не вдалося визначити, який голос належ
 msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
 msgstr "Це ім'я вже має хтось інший. Ім'я -- це людина, а монтаж ставить людину на одну камеру -- дайте цьому голосу власне ім'я."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Усі записи мають однакове ім'я. Це дає одну доріжку -- Multitrack потребує принаймні двох."
-
 msgid "The model could not be written: %s"
 msgstr "Не вдалося записати модель: %s"
 
@@ -4009,6 +4012,9 @@ msgstr "  Збирання розпізнавача мовлення ..."
 msgid "  The speech recognition reports: %s"
 msgstr "  Розпізнавання мовлення повідомляє: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS тут не розпізнає цю мову (%s), її бере Whisper"
+
 msgid "  The speech recogniser is built (%s s)."
 msgstr "  Розпізнавач мовлення зібрано (%s с)."
 
@@ -4021,8 +4027,8 @@ msgstr "  На цьому комп'ютері немає розпізнаван�
 msgid "  Speech recognition (%s): %s words in %s s"
 msgstr "  Розпізнавання мовлення (%s): %s слів за %s с"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s слів: %s %% до одного голосу, %s %% до двох, %s %% у паузі"
+msgid "  %s words"
+msgstr "  %s слів"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s слів, без імен -- нікого не розділено"
@@ -4078,8 +4084,21 @@ msgstr "Без таймкоду положення файлів вимірюєт
 msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
 msgstr "Залишає розділення вимкненим для цього проєкту. Монтаж тоді надходить, як і раніше, з доріжок або з auphonic.com."
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Монтажу камер ще немає: потрібні дві особи, кожна з ім'ям і камерою.\nОкремі записи дають це з позначкою Multitrack, а також \"кілька мовців\" у полі Ім'я мовця одного запису --\nзнайдені там голоси отримують свою камеру в таблиці під записами.\nПроєкт Resolve створюється все одно -- усі камери на виміряних місцях, готові до Multicam."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Монтажу камер ще немає: потрібні дві особи, кожна з ім'ям і камерою.\n"
+"Окремі записи дають це, кожен під власним ім'ям, а також \"кілька мовців\" у "
+"полі Ім'я мовця одного запису --\n"
+"знайдені там голоси отримують свою камеру в таблиці під записами.\n"
+"Проєкт Resolve створюється все одно -- усі камери на виміряних місцях, "
+"готові до Multicam."
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Для цього потрібен файл передавання з запуску, а його немає."
@@ -4113,9 +4132,6 @@ msgstr "Перезапуск не вдався. Закрийте вікно й �
 
 msgid "No newer version found. This one is %s."
 msgstr "Новішої версії не знайдено. Ця версія -- %s."
-
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack потребує двох доріжок у таблиці вище -- камера рахується як одна, щойно її Звук камери встановлено на \"використовувати звук\"."
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s стоїть на більш ніж одному мовці -- ім'я -- це особа, і кожній особі потрібне своє."
@@ -4168,9 +4184,6 @@ msgstr "Переходить на початок вікна."
 msgid "Jumps to the end of the window."
 msgstr "Переходить у кінець вікна."
 
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Одна звукова доріжка на особу, окремо аж до auphonic.com.\nПрацює й без цього -- тоді без de-bleed і leveler.\nПотрібні дві вхідні доріжки: власний запис, канал багатоканального\nрекордера або звук відеофайлу, встановленого на \"використовувати\nзвук\". Монтажу камер ця позначка не потрібна."
-
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Під час привітання й прощання зображення залишається загальним планом."
 
@@ -4188,9 +4201,6 @@ msgstr "Перезапустіть програму, щоб вона це під
 
 msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
 msgstr "Ліцензія MIT, Copyright (c) 2026 Sebastian Lotz. Надається як є, без жодних гарантій."
-
-msgid "One audio recording has no speaker name yet."
-msgstr "Один звукозапис ще не має імені мовця."
 
 msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
 msgstr "%s уже встановлено як %s, а в епізоді такий буває один. Відповідайте тут інакше або спершу зніміть позначку з того файлу."
@@ -4242,9 +4252,6 @@ msgstr "Нічого не записано -- матеріалу ще немає
 
 msgid "The text for %s could not be fetched."
 msgstr "Не вдалося отримати текст для %s."
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Усі записи мають однакову назву -- з цього виходить одна доріжка."
 
 msgid "stays out"
 msgstr "залишається осторонь"
@@ -4648,8 +4655,8 @@ msgstr "Нуль -- там, де той, хто питає, замовкає, а
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "М'яка межа пари: звідси програма чекає на межу речення і ставить загальний план туди, а не за годинником. 0 вимикає. «Загальний план не пізніше» -- жорстка межа, там ріжеться і без межі речення."
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Жорстка межа пари: якщо після «Загальний план після» не трапилося жодної межі речення, її замінює найдовша пауза в мовленні, і в цій точці ріжеться, хоч би що саме говорилося."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Жорстка межа пари: план, довший за «Загальний план після», у якому немає ні межі речення, ні паузи, ріжеться за годинником, якщо він стоїть і довше за це значення. Це діє, поки «Загальний план після» увімкнено і «Довгий монолог» змінює камеру. Загальний план для привітання і прощання не стоїть довше за це значення, хоч би що казали ці два."
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "Потім він триває до кінця речення. Коротший за п'ять секунд, такий погляд виглядає як смикання."
@@ -4794,8 +4801,8 @@ msgstr "  Resolve двічі відхилив відеодоріжку V%d -- у
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s зсув %s, дрейф годинника не виміряно%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Увага: цей проєкт не завершений -- що Resolve відхилив:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Увага: цей проєкт не завершений -- чого бракує:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Дрейф годинника:     не виміряно -- її звук дав замало точок для вимірювання"
@@ -5083,9 +5090,6 @@ msgstr "Точка виходу змінилася після останньог
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Випуск завершено, але ZIP з окремими доріжками не має простої назви файлу"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Кілька камер, але жодного звукозапису. Кожна камера мала б власний звук -- саме для цього є Multitrack. Інакше одна камера за іншою."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Архів містить %s більше одного разу, тому з нього нічого не взято."
 
@@ -5094,9 +5098,6 @@ msgstr "Тут записи називає файл призначення, то
 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Збірка не збігається зі своєю контрольною сумою, тому її не розпаковано: у списку %s, надійшло %s."
-
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Не вдалося завантажити список контрольних сум, тому збірку не розпаковано: %s"
 
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Список контрольних сум не називає %s, тому збірку не розпаковано."
@@ -5173,14 +5174,11 @@ msgstr "Обліковий запис на auphonic.com: невідомо -- й�
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Зауваження: запуск однаково спробує. Чи почнеться продукція, вирішує auphonic.com, і якщо ні, він сам це скаже."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Попередження: ця Multitrack-продукція триває %s, а на безкоштовному тарифі auphonic.com приймає таку лише приблизно до %s."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Ця Multitrack-продукція триває %s. На безкоштовному тарифі auphonic.com приймає таку лише приблизно до %s; для довшої потрібен платний тариф."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Зауваження: довшу auphonic.com відхиляє вже на початку й нічого за неї не списує. Запуск однаково спробує; якщо auphonic.com відмовить, буде його власне повідомлення."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "На безкоштовному тарифі auphonic.com приймає Multitrack-продукцію лише приблизно до %s."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Для однієї доріжки, яку безкоштовний тариф приймає будь-якої довжини, встановіть усі доріжки, крім однієї, на \"%s\" -- якщо на одній доріжці всі голоси. Або виберіть \"%s\" у полі Пресет (--without-auphonic): тоді доріжки зводяться тут."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Проєкт %r, створений цим запуском, лишається відкритим -- раніше не було відкрито нічого,\n  що можна відкрити знову. Видаліть його в менеджері проєктів Resolve."
@@ -5259,3 +5257,70 @@ msgstr "готовий мікс -- не мовець, без камери"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Мовлення: розміщується лише за гучністю. Запис, що не має нічого спільного\nз камерами, відхиляється. Змішаний: під голосами лежить музика чи мікс,\nі де гучність нічого не знаходить, його може розмістити фаза.\nГотовий мікс: стереомікс, зроблений деінде, розміщується як змішаний звук. Він іде\nу файли камер і в передачу замість міксу, який будує обробка --\nне мовець, не ріжеться, не надсилається на auphonic.com.\nЗа «%s» «Мовлення» не пропонується."
+
+msgid "Cutting"
+msgstr "Вирізання"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "пресет вирізає на auphonic.com (%s) -- звук повернувся б коротшим за зображення, і камери б з'їхали."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Вимкніть це в пресеті на auphonic.com: Audio Algorithms, Automatic Cutting -- зніміть позначку %s, або встановіть Cut Mode у Set Cuts To Silent, що зберігає довжину."
+
+msgid "Speech recognition"
+msgstr "Розпізнавання мовлення"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "увімкнено в пресеті -- не запитується, і нічого з його тексту не завантажується: транскрипт створюється тут."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- як вони задані в пресеті; програма не змінює жодного."
+
+msgid "Enough for the %s this production needs."
+msgstr "Вистачає на %s, потрібні цій продукції."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Не вистачає на %s, потрібні цій продукції."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s має %s канали, а auphonic.com приймає в одному файлі не більше двох. Нічого не надіслано.\n"
+"  Вкажіть, які канали йдуть разом: на вкладці Файли & випуск файл розгортається в один рядок на канал, а позначка в рядку об'єднує його з наступним. Якщо файл не показує рядків каналів, спершу збережіть його канали як окремі файли."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack, бо %s доріжок лежать на одній осі часу. Можна вибрати інший "
+"пресет Multitrack; для однієї доріжки встановіть усі доріжки, крім однієї, "
+"на \"не використовувати\"."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Одна доріжка, бо доріжка одна. Можна вибрати інший пресет для однієї "
+"доріжки; для Multitrack додайте другу доріжку -- запис або камеру з "
+"\"використовувати звук\"."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> з цього зіставлення не можна прочитати кількість звукових доріжок"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve відповідає, але не видає менеджера проєктів."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "Канали файлу %s ще не розрізано на доріжки."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s і %s у %s звучать схоже (схожість %s): розділення могло їх "
+"переплутати -- перевірте їхнє призначення."

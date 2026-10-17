@@ -61,10 +61,13 @@ keiner von beiden etwas und steht die Aufnahme im Feld **Im Ton** auf
 und ein zweites Mikrofon übersteht. Die Phase sagt, wo der Ton liegt.
 Der Uhrengang bleibt unbekannt, und auf diesem Weg rechnet ihn das
 Programm nicht heraus. Auch diese Zeile ist gekennzeichnet: `per Phase
-platziert`. Eine Aufnahme auf **Sprache** -- so steht jede zu Beginn --
-kommt nie zur Phase: Bei Sprache legt sie eine Aufnahme von anderswo
-weit daneben. Eine solche Aufnahme steht deshalb an ihrem Timecode, oder
-sie bleibt draußen.
+platziert`, mit der Schärfe der Antwort gegen einen Boden von 8. Dieser
+Boden ist gesetzt, nicht gemessen: Die eine Aufnahme, an der die Phase
+je erprobt wurde, kam auf 28,7, und noch keine hat gezeigt, wo eine
+richtige Antwort in eine falsche umschlägt. Eine Aufnahme auf
+**Sprache** -- so steht jede zu Beginn -- kommt nie zur Phase: Bei
+Sprache legt sie eine Aufnahme von anderswo weit daneben. Eine solche
+Aufnahme steht deshalb an ihrem Timecode, oder sie bleibt draußen.
 
 Die Kameras untereinander setzt das Programm über ihre eigenen
 Mikrofone an, jede an der längsten von ihnen -- aber nur mit dem ersten

@@ -129,7 +129,7 @@ for path, kind in sorted(KIND_OF.items()):
 WRITTEN = {"format": vpm.FILE_FORMAT, "version": vpm.VERSION,
            "files": [{"path": p, "kind": a} for p, a in FILES],
            "production": PRODUCTION, "out_folder": out_folder,
-           "multitrack": True, "wide_at_edges": False,
+           "wide_at_edges": False,
            "camera_cut": dict(CUT), "in_point": IN_POINT,
            "out_point": OUT_POINT, "assignment": ASSIGNMENT,
            "preset": vpm.PRESET_NONE, "speech_language": LANGUAGE_TAG,
@@ -178,7 +178,6 @@ back = {
     "clip_kinds": dict((p, assignment["kind:" + p]) for p, _a in present
                        if "kind:" + p in assignment),
     "out_folder": d.get("out_folder") or "",
-    "multitrack": bool(d.get("multitrack")),
     "project_type": d.get("project_type") or "cut",
     "camera_audio_only": False,
     "dry_run": False,
@@ -313,9 +312,9 @@ check("the recordings and the content cameras are the run's file list",
 
 print("\n4. Who speaks on which camera")
 check("the run is handed an assignment file, and the line names it",
-      got("multitrack") is True and got("assign") == assign_path,
-      "--multitrack is %r, --assign is %r, wanted %r"
-      % (got("multitrack"), os.path.basename(got("assign") or ""),
+      got("assign") == assign_path,
+      "--assign is %r, wanted %r"
+      % (os.path.basename(got("assign") or ""),
          os.path.basename(assign_path)))
 pairs = dict((t.get("speakers"), t.get("camera"))
              for t in ((plan or {}).get("tracks_of") or []))
@@ -419,7 +418,6 @@ for _piece, _body in the_program.pieces():
 # setting in the file -> the switch it becomes, what a run reads it as,
 # and the answer that has to arrive.
 CENSUS = (("out_folder", "--out", "out", out_folder),
-          ("multitrack", "--multitrack", "multitrack", True),
           ("wide_at_edges", "--no-wide-edges", "no_wide_edges", True),
           ("in_point", "--in-point", "in_point", IN_POINT),
           ("out_point", "--out-point", "out_point", OUT_POINT),

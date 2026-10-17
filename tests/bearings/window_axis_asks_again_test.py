@@ -72,7 +72,8 @@ running = threading.Event()
 let_go = threading.Event()
 
 
-def measure_stand_in(paths, tc_of=None, HOP=5.0, phase_of=None, raw=None):
+def measure_stand_in(paths, tc_of=None, HOP=5.0, phase_of=None, raw=None,
+                     rows=None):
     measured.append([os.path.basename(p) for p in paths])
     running.set()
     let_go.wait(PATIENCE)

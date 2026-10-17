@@ -7,7 +7,18 @@ never spoken to: `_curl_call` is replaced by a stand-in that answers
 from a table, which makes checkable what is sent, in what order, and
 what is not. What is sent is read whole -- the arguments and the files
 an @ points at -- because a key travels in a body as easily as in an
-argument. Every claim has its counter-check with a wrong input.
+argument. Every claim has its counter-check with a wrong input, and a
+refusal at any step -- the preset read, the creation, the upload --
+stops the run before the start; a refused start stops it before any
+waiting, for either kind and for a production found again. While it
+runs the production is waited for, through waiting, processing and
+encoding; one auphonic.com holds as incomplete ends the waiting at
+once, on its own status, and not at the time limit. A single
+file's production is made from its preset as a Multitrack one is: the
+settings and outputs adopted, the preset's intro and outro not.
+Last, a Multitrack run's lookup by title takes the Multitrack
+production of that title and passes over a Singletrack one with an
+intro, and finds one further back than the list's first page.
 """
 PLATFORM_BOUND = True
 import os
@@ -120,10 +131,32 @@ PRESET = {
     "is_multitrack": True, "status": 3, "status_string": "Done",
     "algorithms": {"leveler": True, "denoise": True},
     "metadata": {"title": "from the preset", "artist": "somebody"},
+    # An intro before the track, as the API description allows: its
+    # settings are no track's.
     "multi_input_files": [
+        {"type": "intro", "id": "", "input_file": "intro.mp3",
+         "algorithms": {"backforeground": "foreground"}},
         {"type": "multitrack", "id": "PresetTrack",
          "algorithms": {"leveler": True, "backforeground": "auto"}}],
     "output_files": [{"format": "mp3", "ending": "mp3"}],
+}
+
+# A Singletrack preset: its intro and outro stand in its list, by type,
+# as a Singletrack production lists them, and its output folds to one
+# channel, as a preset's does.
+SINGLE = {
+    "uuid": "SINGLEUUID", "preset_name": "Podcast", "is_multitrack": False,
+    "status": 3, "status_string": "Done",
+    "algorithms": {"leveler": True, "normloudness": True,
+                   "loudnesstarget": -16},
+    "metadata": {"title": "from the preset", "artist": "somebody"},
+    "multi_input_files": [
+        {"type": "intro", "id": "", "input_file": "intro.mp3",
+         "algorithms": {"backforeground": "foreground"}},
+        {"type": "outro", "id": "", "input_file": "outro.mp3",
+         "algorithms": {"backforeground": "foreground"}}],
+    "output_files": [{"format": "wav", "ending": "wav",
+                      "mono_mixdown": True}],
 }
 
 FORMATS = {"data": {
@@ -171,6 +204,7 @@ class Auphonic(object):
         self.bodies = []
         self.downloads = []
         self.preset = dict(PRESET)
+        self.single_preset = dict(SINGLE)
         self.listed = []         # what /api/productions.json answers
         self.status = 3
         self.status_string = "Done"
@@ -180,9 +214,12 @@ class Auphonic(object):
         self.outputs = None      # None: the usual ZIP and mixdown
         self.zip_entries = GOOD_ZIP
         self.create_answer = None
+        self.upload_answer = None
+        self.start_answer = None
         self.broken_urls = set()
         self.uuid = "PRODUUID"
         self.pending = 0         # how often it answers "still running"
+        self.states = []         # (status, text) answered first, in turn
         # The account before an upload: paid for, and plenty left, so
         # nothing here turns on it.
         self.account = {"credits": 100.0, "is_paying_user": True}
@@ -248,12 +285,20 @@ class Auphonic(object):
     def answer(self, method, path, body):
         if path == "/api/user.json":
             return {"status_code": 200, "data": self.account}
+        if path.startswith("/api/preset/SINGLEUUID"):
+            return {"status_code": 200, "data": self.single_preset}
         if path.startswith("/api/preset/"):
             return {"status_code": 200, "data": self.preset}
         if path.startswith("/api/info/output_files"):
             return FORMATS
         if path.startswith("/api/productions.json?"):
-            return {"status_code": 200, "data": self.listed}
+            # Ten from the offset the call names, as auphonic.com
+            # answers its list whatever limit is asked for.
+            query = dict(part.split("=", 1) for part in
+                         path.split("?", 1)[1].split("&") if "=" in part)
+            start = int(query.get("offset") or 0)
+            return {"status_code": 200,
+                    "data": self.listed[start:start + 10]}
         if path == "/api/productions.json" and method == "POST":
             if self.create_answer is not None:
                 return self.create_answer
@@ -264,14 +309,19 @@ class Auphonic(object):
             return {"status_code": 201,
                     "data": dict(self.production(),
                                  multi_input_files=[{"id": i} for i in ids])}
-        if path.startswith("/api/simple/productions.json"):
-            if self.create_answer is not None:
-                return self.create_answer
-            return {"status_code": 201, "data": self.production()}
         if path.endswith("/upload.json"):
+            if self.upload_answer is not None:
+                return self.upload_answer
             return {"status_code": 200, "data": self.production()}
         if path.endswith("/start.json"):
+            if self.start_answer is not None:
+                return self.start_answer
             return {"status_code": 200, "data": self.production()}
+        if method == "GET" and self.states:
+            status, text = self.states.pop(0)
+            return {"status_code": 200,
+                    "data": dict(self.production(), status=status,
+                                 status_string=text)}
         if method == "GET" and self.pending:
             self.pending -= 1
             return {"status_code": 200,
@@ -307,6 +357,19 @@ def without_waiting(what):
         vpm.time.sleep = old
 
 
+# A start auphonic.com turns down, in the shape of its other refusals.
+REFUSED_START = {"status_code": 402,
+                 "error_message": "not enough credits to start"}
+
+
+def polled_after_start(server):
+    """How often the production was asked after once its start went out."""
+    paths = [(m, p) for m, p in server.calls]
+    sent = [i for i, (_m, p) in enumerate(paths) if p.endswith("/start.json")]
+    return sum(1 for m, p in paths[sent[0] + 1:] if m == "GET"
+               and p == "/api/production/PRODUUID.json") if sent else 0
+
+
 def fresh(tag):
     """A server and an empty output folder for one case."""
     folder = os.path.join(D, tag)
@@ -323,7 +386,7 @@ def multitrack(server, folder, **rest):
 
 def single(server, folder, audio, **rest):
     return with_server(server, lambda: vpm.run_single_production(
-        audio, "PRESETUUID", "Podcast", KEY, folder,
+        audio, "SINGLEUUID", "Podcast", KEY, folder,
         rest.pop("wait_s", 600), rest.pop("dry_run", False), **rest))
 
 
@@ -492,6 +555,43 @@ check("and nothing was started for it",
       not any("start" in p for _m, p in server.calls),
       str(server.calls))
 
+server, folder = fresh("uploadrefused")
+server.upload_answer = {"status_code": 413,
+                        "error_message": "file too large"}
+said = raises(lambda: multitrack(server, folder), "413")
+starts = [p for _m, p in server.calls if p.endswith("/start.json")]
+check("a refused track upload stops the run, starting nothing",
+      bool(said) and not starts,
+      "raised %r, %d start calls" % (said[:70], len(starts)))
+check("a refusal that names no track names every one sent",
+      all(n in said for n in NAMES),
+      "raised %r, wanted %s in it" % (said[:90], NAMES))
+# The form errors keyed by the upload's field, which is the track's
+# name: the shape the API gives a refused form, not one seen in an
+# answer to an upload.
+server, folder = fresh("uploadguest")
+server.upload_answer = {"status_code": 400, "error_message": "",
+                        "form_errors": {"Guest": ["not an audio file"]},
+                        "data": {}}
+said = raises(lambda: multitrack(server, folder), "400")
+check("a refusal that names a track names that one alone",
+      "Guest" in said and "Host" not in said and "Third" not in said,
+      "raised %r, wanted Guest and neither Host nor Third" % said[:90])
+
+# Left alone, the production is asked after while it waits, and it
+# answers "running" once and then done: a refused start that is not
+# noticed goes on into that waiting and comes back with tracks.
+server, folder = fresh("startrefused")
+server.start_answer = REFUSED_START
+server.pending = 2
+said, _slept = without_waiting(lambda: raises(lambda: multitrack(server,
+                                                                  folder)))
+check("a refused start stops the run, waiting for nothing",
+      "402" in said and REFUSED_START["error_message"] in said
+      and not polled_after_start(server),
+      "raised %r, the production asked after %d times past the start"
+      % (said[:90], polled_after_start(server)))
+
 server, folder = fresh("rejected")
 server.create_answer = {"status_code": 400,
                         "error_message": "preset does not exist"}
@@ -533,16 +633,20 @@ print("\n7. What is paid for is fetched, and fetched once")
 server, folder = fresh("extras")
 # Whatever else the preset produces beside the tracks -- chapter marks,
 # an analysis. The transcript is not among them: the program writes
-# that itself and never asks auphonic.com for it.
-twice = {"filename": "chapters.txt", "format": "txt",
+# that itself, and one a preset has auphonic.com write stays there.
+twice = {"filename": "chapters.txt", "format": "chaps",
          "download_url": "https://auphonic.com/dl/chapters.txt"}
-server.outputs = server.output_files() + [twice, dict(twice)]
+theirs = {"filename": "Episode.txt", "format": "transcript",
+          "download_url": "https://auphonic.com/dl/Episode.txt"}
+server.outputs = server.output_files() + [twice, dict(twice), theirs]
 result = multitrack(server, folder)
 check("the extra output came along", "chapters.txt" in server.downloads,
       repr(server.downloads))
 check("and it was fetched once, not twice",
       server.downloads.count("chapters.txt") == 1,
       "%d times" % server.downloads.count("chapters.txt"))
+check("auphonic.com's transcript stays at auphonic.com",
+      "Episode.txt" not in server.downloads, repr(server.downloads))
 check("the tracks are there all the same", sorted(result) == sorted(NAMES),
       repr(sorted(result)))
 
@@ -565,28 +669,56 @@ master = next((f for f in create.get("output_files") or []
 check("one stereo track: the yardstick keeps two channels",
       master.get("mono_mixdown") is False, repr(master))
 
-print("\n9. The single file: created and started in one call")
+print("\n9. The single file: made from the preset, its intro and outro not")
 server, folder = fresh("simple")
 got = single(server, folder, mono)
-create = next(a for a in server.arguments
-              if any("simple/productions" in str(x) for x in a))
-check("mono starts straight away, in the one call",
-      "action=start" in create, repr(create))
-check("no second call was needed",
-      len([p for _m, p in server.calls
-           if p == "/api/production/PRODUUID.json" and _m == "POST"]) == 0,
-      str(server.calls))
+paths = [p for _m, p in server.calls]
+create = next((b for p, b in server.bodies
+               if p == "/api/productions.json"), None)
+named = [x for a in server.arguments for x in a if str(x).startswith(
+    "preset=")]
+# Named, auphonic.com merges the preset's list into the production, and
+# its intro and outro with it: the preset is read and adopted instead.
+check("the single file's production does not name the preset",
+      create is not None and "preset" not in create and not named,
+      "made in a body of its own: %s, preset in it: %r, preset= in %d "
+      "arguments" % (create is not None, (create or {}).get("preset"),
+                     len(named)))
+kinds = [t.get("type") for t in (create or {}).get("multi_input_files")
+         or []]
+check("the preset's intro and outro are not sent with the single file",
+      create is not None and kinds == [],
+      "made in a body of its own: %s, its list holds %r"
+      % (create is not None, kinds))
+check("the preset's settings reach the single file's production",
+      (create or {}).get("algorithms") == SINGLE["algorithms"],
+      "%r against %r" % ((create or {}).get("algorithms"),
+                         SINGLE["algorithms"]))
+asked = [(f.get("format"), f.get("ending"))
+         for f in (create or {}).get("output_files") or []]
+check("the preset's own output is asked for",
+      asked == [("wav", "wav")], "asked for %r" % asked)
+check("the single file's production carries the episode's title",
+      ((create or {}).get("metadata") or {}).get("title") == "single_mono",
+      "title %r" % ((create or {}).get("metadata") or {}).get("title"))
+upload = next((a for a in server.arguments
+               if any("upload.json" in str(x) for x in a)), [])
 check("the file itself went up",
-      "input_file=@" + mono in create, repr(create))
+      "input_file=@" + mono in upload, repr(upload))
+check("the single file is started only once it is up",
+      "/api/production/PRODUUID/upload.json" in paths
+      and "/api/production/PRODUUID/start.json" in paths
+      and paths.index("/api/production/PRODUUID/upload.json")
+      < paths.index("/api/production/PRODUUID/start.json"), str(paths))
 check("the result lies in the folder that was named",
       got and os.path.dirname(got) == folder, repr(got))
 check("and it is a real file", got and os.path.getsize(got) > 1000,
       repr(got and os.path.getsize(got)))
 
-print("\n10. Stereo needs the second call")
+print("\n10. Stereo keeps its two channels")
 stereo = wav_file("single_stereo.wav", channels=2)
-# The preset folds its mixdown to one channel: without that state an
-# output that clears nothing would pass. The answer carries besides
+# The preset folds its output to one channel: without that state an
+# output that clears nothing would pass. What is read carries besides
 # that what only an answer has -- a size, a checksum, an address --
 # and none of it describes a file that has still to be made.
 FOLDED = [{"filename": "Episode.wav", "format": "wav",
@@ -594,20 +726,11 @@ FOLDED = [{"filename": "Episode.wav", "format": "wav",
            "size_string": "12 MB",
            "download_url": "https://auphonic.com/dl/Episode.wav"}]
 server, folder = fresh("simplestereo")
-server.outputs = [dict(f) for f in FOLDED]
+server.single_preset = dict(SINGLE, output_files=[dict(f) for f in FOLDED])
 single(server, folder, stereo)
-create = next(a for a in server.arguments
-              if any("simple/productions" in str(x) for x in a))
-check("stereo is not started before the settings are in",
-      "action=start" not in create, repr(create))
-posted = [b for p, b in server.bodies
-          if p == "/api/production/PRODUUID.json"]
-check("the settings call starts it",
-      bool(posted) and posted[-1].get("action") == "start",
-      repr(posted[-1].get("action") if posted else None))
-wished = (posted[-1].get("output_files") or []) if posted else []
-check("the preset's own output is sent back with it",
-      len(wished) == 1 and wished[0].get("format") == "wav", repr(wished))
+create = next((b for p, b in server.bodies
+               if p == "/api/productions.json"), {})
+wished = create.get("output_files") or []
 check("and the fold to one channel is cleared",
       bool(wished) and wished[0].get("mono_mixdown") is False,
       repr(wished))
@@ -620,17 +743,23 @@ check("what only an answer can carry does not go back with it",
 
 print("\n11. What the production wrote about the audio comes along")
 # The program writes the transcript itself; what a preset produces
-# beside the audio -- subtitles, chapter marks -- is paid for either
-# way and is useless left on the server.
+# beside the audio -- chapter marks, an analysis -- is paid for either
+# way and is useless left on the server. Subtitles are speech
+# recognition's, and stay there with the rest of its text.
 server, folder = fresh("simpletext")
 server.outputs = [
     {"filename": "Episode.wav", "format": "wav",
      "download_url": "https://auphonic.com/dl/Episode.wav"},
-    {"filename": "Episode.srt", "format": "srt",
+    {"filename": "Episode.chapters.txt", "format": "chaps",
+     "download_url": "https://auphonic.com/dl/Episode.chapters.txt"},
+    {"filename": "Episode.srt", "format": "subtitle",
      "download_url": "https://auphonic.com/dl/Episode.srt"}]
 single(server, folder, mono)
-check("the subtitles landed beside the audio",
-      os.path.exists(os.path.join(folder, "Episode.srt")),
+check("the chapter marks landed beside the audio",
+      os.path.exists(os.path.join(folder, "Episode.chapters.txt")),
+      repr(sorted(os.listdir(folder))))
+check("auphonic.com's subtitles stay at auphonic.com",
+      not os.path.exists(os.path.join(folder, "Episode.srt")),
       repr(sorted(os.listdir(folder))))
 
 print("\n12. The counter-checks for the single file")
@@ -641,6 +770,37 @@ said = raises(lambda: single(server, folder, mono), "402")
 check("a refusal stops the run and says why", bool(said), said[:60])
 check("and nothing was downloaded", not server.downloads,
       repr(server.downloads))
+
+server, folder = fresh("simpleupload")
+server.upload_answer = {"status_code": 413,
+                        "error_message": "file too large"}
+said = raises(lambda: single(server, folder, mono), "413")
+starts = [p for _m, p in server.calls if p.endswith("/start.json")]
+check("a refused upload stops the run, starting nothing",
+      bool(said) and not starts,
+      "raised %r, %d start calls" % (said[:60], len(starts)))
+
+server, folder = fresh("simplestart")
+server.start_answer = REFUSED_START
+server.pending = 2
+said, _slept = without_waiting(lambda: raises(lambda: single(server, folder,
+                                                              mono)))
+check("a refused start stops the single file's run, waiting for nothing",
+      "402" in said and REFUSED_START["error_message"] in said
+      and not polled_after_start(server) and not server.downloads,
+      "raised %r, the production asked after %d times past the start, "
+      "%d downloads" % (said[:90], polled_after_start(server),
+                        len(server.downloads)))
+
+server, folder = fresh("simplepresetempty")
+server.single_preset = {}
+said = raises(lambda: single(server, folder, mono), "not readable")
+made = [p for m, p in server.calls
+        if m == "POST" and p == "/api/productions.json"]
+check("a preset answer that holds no preset stops the run first",
+      bool(said) and not made and not server.downloads,
+      "raised %r, %d productions made, %d downloads"
+      % (said[:60], len(made), len(server.downloads)))
 
 server, folder = fresh("simplenouuid")
 server.create_answer = {"status_code": 201, "data": {}}
@@ -688,6 +848,21 @@ check("it paused between the tries", len(slept) >= 5,
 check("and the tracks came back all the same",
       sorted(result) == sorted(NAMES), repr(sorted(result)))
 
+# The states auphonic.com passes on its way to done are slow, not
+# stuck: each is waited through.
+server, folder = fresh("slowstates")
+server.states = [(1, "Waiting"), (4, "Audio Processing"),
+                 (5, "Audio Encoding")]
+said = ""
+try:
+    (result, slept) = without_waiting(lambda: multitrack(server, folder))
+except Exception as e:
+    result, said = {}, str(e)
+check("waiting, processing and encoding are waited through",
+      sorted(result) == sorted(NAMES) and not server.states,
+      "came back %r, raised %r, states never answered %r"
+      % (sorted(result), said[:90], server.states))
+
 server, folder = fresh("waitingsingle")
 server.pending = 1
 (got, slept) = without_waiting(lambda: single(server, folder, mono))
@@ -724,6 +899,65 @@ server.outputs = [
 got = single(server, folder, mono)
 check("with only an MP3 that one is taken",
       got and got.endswith("Episode.mp3"), repr(got))
+
+print("\n15. A Multitrack run looks up a Multitrack production")
+# Neither carries "is_multitrack", so only the list tells them apart:
+# a Singletrack production with an intro has a list too, by type.
+server, folder = fresh("lookup")
+server.listed = [
+    {"uuid": "SINGLEUUID", "metadata": {"title": TITLE},
+     "multi_input_files": [{"type": "intro", "id": "Jingle"}]},
+    {"uuid": "MULTIUUID", "metadata": {"title": TITLE},
+     "multi_input_files": [{"id": n} for n in NAMES]}]
+found = with_server(server, lambda: vpm.find_production_by_title(KEY, TITLE))
+check("the Multitrack one of its title is found, the Singletrack one not",
+      (found or {}).get("uuid") == "MULTIUUID",
+      "found %r" % (found or {}).get("uuid"))
+# Ten newer productions of other titles before it: only a second page
+# of the list reaches it.
+server, folder = fresh("lookupfar")
+server.listed = [{"uuid": "NEWER%d" % n, "metadata": {"title": "Episode %d"
+                                                       % n},
+                  "multi_input_files": [{"id": "Host"}]}
+                 for n in range(20, 30)] + [
+    {"uuid": "MULTIUUID", "metadata": {"title": TITLE},
+     "multi_input_files": [{"id": n} for n in NAMES]}]
+found = with_server(server, lambda: vpm.find_production_by_title(KEY, TITLE))
+listed = [p for _m, p in server.calls if p.startswith("/api/productions.json?")]
+check("a Multitrack production eleventh back in the list is found",
+      (found or {}).get("uuid") == "MULTIUUID",
+      "found %r after %d list calls: %s"
+      % ((found or {}).get("uuid"), len(listed), listed))
+
+print("\n16. A production found again starts only where auphonic.com agrees")
+# It holds every track and its result; recomputing it uploads nothing
+# and goes straight on to the start.
+server, folder = fresh("reusestart")
+server.listed = [server.production()]
+server.start_answer = REFUSED_START
+server.pending = 2
+said, _slept = without_waiting(lambda: raises(lambda: multitrack(
+    server, folder, carry_on="rerun")))
+reached = any(p.endswith("/start.json") for _m, p in server.calls)
+check("a refused start of a production found again stops the run",
+      reached and "402" in said and REFUSED_START["error_message"] in said
+      and not polled_after_start(server),
+      "start sent: %s, raised %r, the production asked after %d times "
+      "past the start" % (reached, said[:90], polled_after_start(server)))
+
+print("\n17. A production that stands incomplete is not waited for")
+# Nothing comes of waiting for it: the run ends on the first look, on
+# auphonic.com's own status, as a refused start does. The clock runs
+# here, so a wait that went on would sit out the twelve seconds.
+server, folder = fresh("incomplete")
+server.status, server.status_string = 9, "Incomplete"
+began_waiting = time.time()
+said = raises(lambda: multitrack(server, folder, wait_s=12))
+check("a production held as incomplete stops the waiting at once",
+      vpm.T('Auphonic reports %s: %s') % (9, "Incomplete") in said
+      and polled_after_start(server) == 1,
+      "raised %r after %.1f s and %d looks past the start"
+      % (said[:90], time.time() - began_waiting, polled_after_start(server)))
 
 shutil.rmtree(D, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

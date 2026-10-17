@@ -158,18 +158,16 @@ def corrected_words(words, start_by, end_by):
 SENTENCE_MINORITY_SHARE = 0.2
 
 
-def words_by_speaker(words, segments, tally=None):
+def words_by_speaker(words, segments):
     """Give every word the speaker whose segments cover most of it.
 
     A word touching nobody goes to the nearest segment; where two
     cover it equally, the one speaking more wins -- the order
-    *segments*, [(name, [(from, to), ...])], arrives in. *tally* counts
-    clear, shared and gap words. No segments, no "speaker" on a word.
+    *segments*, [(name, [(from, to), ...])], arrives in. No segments,
+    no "speaker" on a word.
     """
     out = [dict(w) for w in sorted(words or (),
                                    key=lambda w: (w["start"], w["end"]))]
-    if tally is not None:
-        tally.update({"clear": 0, "shared": 0, "gap": 0})
     if not out or not segments:
         return out
     covered_by = [0.0] * len(out)
@@ -206,10 +204,6 @@ def words_by_speaker(words, segments, tally=None):
     for k, w in enumerate(out):
         if not touching[k] and nearest_name[k]:
             w["speaker"] = nearest_name[k]
-    if tally is not None:
-        tally["clear"] = sum(1 for n in touching if n == 1)
-        tally["shared"] = sum(1 for n in touching if n > 1)
-        tally["gap"] = sum(1 for n in touching if not n)
     return out
 
 
@@ -234,10 +228,9 @@ def sentence_speakers(words, limit=SENTENCE_MINORITY_SHARE):
     return out
 
 
-def words_with_speakers(words, segments, tally=None,
-                        limit=SENTENCE_MINORITY_SHARE):
+def words_with_speakers(words, segments, limit=SENTENCE_MINORITY_SHARE):
     """Say who spoke each word: covered most, then agreed per sentence."""
-    return sentence_speakers(words_by_speaker(words, segments, tally), limit)
+    return sentence_speakers(words_by_speaker(words, segments), limit)
 
 
 def speech_passages(words):
@@ -391,18 +384,15 @@ def write_transcript_files(folder, base, words, segments=()):
     origins apart. Without speaker segments the files carry no names:
     a guess is worse than a gap. Returns the files written.
     """
-    tally = {}
-    said = words_with_speakers(words, segments, tally)
+    said = words_with_speakers(words, segments)
     if not said:
         return []
     total = len(said)
     if segments:
-        print(T('  %s words: %s %% to one voice, %s %% to two, '
-                '%s %% in a gap')
-              % (number_text(total, 0),
-                 number_text(100.0 * tally["clear"] / total, 1),
-                 number_text(100.0 * tally["shared"] / total, 1),
-                 number_text(100.0 * tally["gap"] / total, 1)))
+        # The count alone. The share on one voice (94-98 % on 18 real
+        # separations) measured word edges against turns, not who was
+        # right (90.6-99.1 %), and followed that only weakly.
+        print(T('  %s words') % number_text(total, 0))
     else:
         print(T('  %s words, without names -- nobody was separated')
               % number_text(total, 0))
@@ -514,9 +504,9 @@ def read_words(path):
 
 #------------------------------------------------ The recognition of macOS
 
-# Compiled once and kept: audio in, one line per word out. Without
-# -parse-as-library a single file with @main does not build, and the
-# locale must come from supportedLocales -- de-DE, de-AT, de-CH exist.
+# Compiled once and kept: audio in, one line per word out; @main needs
+# -parse-as-library. The locale is chosen in speech_locale_choice out
+# of what --locales lists, and only taken here.
 SPEECH_SWIFT = r'''import Foundation
 import Speech
 import AVFoundation
@@ -524,25 +514,29 @@ import AVFoundation
 @main struct Recogniser {
   static func pick(_ want: String) async -> Locale? {
     if want.isEmpty { return nil }
-    let all = await SpeechTranscriber.supportedLocales
-    let asked = want.replacingOccurrences(of: "_", with: "-")
-    for l in all where l.identifier
+    let asked = want.replacingOccurrences(of: "_", with: "-").lowercased()
+    for l in await SpeechTranscriber.supportedLocales where l.identifier
         .replacingOccurrences(of: "_", with: "-")
-        .lowercased() == asked.lowercased() { return l }
-    let head = asked.split(separator: "-")[0].lowercased()
-    let same = all.filter {
-      ($0.language.languageCode?.identifier ?? "").lowercased()
-        == head }
-    let here = Locale.current.region?.identifier ?? ""
-    for l in same where (l.region?.identifier ?? "") == here {
-      return l
+        .lowercased() == asked { return l }
+    return nil
+  }
+  // Every locale the recognition is used in is reserved for this
+  // program, the reservation outlives the process, and the sixth is
+  // refused: "Too many allocated locales, 5 maximum". So the oldest
+  // name in the alphabet is let go when the list is full.
+  static func makeRoom(for loc: Locale) async {
+    let held = await AssetInventory.reservedLocales
+    if held.contains(where: { $0.identifier == loc.identifier }) { return }
+    if held.count < AssetInventory.maximumReservedLocales { return }
+    if let away = held.sorted(by: { $0.identifier < $1.identifier }).first {
+      _ = await AssetInventory.release(reservedLocale: away)
     }
-    return same.first
   }
   static func main() async {
     let t0 = Date()
     let args = CommandLine.arguments
     if args.count > 1 && args[1] == "--locales" {
+      print("REGION", Locale.current.region?.identifier ?? "")
       for l in await SpeechTranscriber.supportedLocales {
         print(l.identifier)
       }
@@ -554,6 +548,7 @@ import AVFoundation
     let tr = SpeechTranscriber(locale: loc, transcriptionOptions: [],
                                reportingOptions: [],
                                attributeOptions: [.audioTimeRange])
+    await makeRoom(for: loc)
     do {
       let url = URL(fileURLWithPath: args[1])
       let file = try AVAudioFile(forReading: url)
@@ -763,6 +758,74 @@ def speech_locale(language):
     return SPEECH_CODES.get(tag.lower(), tag)
 
 
+# The locale a language is heard in where the machine's own region has
+# none of it: CLDR's likely region. Without it English wandered between en_NZ,
+# en_GB and en_IN from one call to the next on the same file.
+SPEECH_DEFAULT_LOCALES = {
+    "de": "de-DE", "en": "en-US", "fr": "fr-FR", "es": "es-ES",
+    "it": "it-IT", "nl": "nl-NL", "pt": "pt-BR", "pl": "pl-PL",
+    "ru": "ru-RU", "sv": "sv-SE", "da": "da-DK", "no": "nb-NO",
+    "fi": "fi-FI", "cs": "cs-CZ", "tr": "tr-TR", "el": "el-GR",
+    "hu": "hu-HU", "ro": "ro-RO", "uk": "uk-UA", "ca": "ca-ES",
+    "ar": "ar-EG", "he": "he-IL", "ja": "ja-JP", "zh": "zh-CN",
+    "ko": "ko-KR",
+}
+
+
+def speech_locale_choice(code, supported, region):
+    """The locale out of *supported* to hear *code* in, or "" for none.
+
+    In this order: the locale asked for exactly, the language in the
+    machine's *region*, the fixed one for the language, then the first
+    of that language by name -- never by where the list put it, which
+    changes from call to call.
+    """
+    by_plain = {str(l).replace("_", "-").lower(): l
+                for l in supported or ()}
+    asked = str(code or "").replace("_", "-").lower()
+    if not asked:
+        return ""
+    head = asked.split("-")[0]
+    fixed = SPEECH_DEFAULT_LOCALES.get(head, "").lower()
+    heads = {head, fixed.split("-")[0]} - {""}
+    for wanted in (asked,
+                   "%s-%s" % (head, region.lower()) if region else "",
+                   fixed):
+        if wanted and wanted in by_plain:
+            return by_plain[wanted]
+    same = sorted(p for p in by_plain if p.split("-")[0] in heads)
+    return by_plain[same[0]] if same else ""
+
+
+def recogniser_locales(program):
+    """What the recogniser offers on this machine: (region, locales).
+
+    Asked once per program and kept for as long as this process runs:
+    46 ms a time, and the window recognises block after block.
+    ("", []) where it will not say.
+    """
+    kept = recogniser_locales.__dict__.setdefault("kept", {})
+    if program in kept:
+        return kept[program]
+    region, found = "", []
+    try:
+        p = subprocess.run([program, "--locales"],
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.STDOUT)
+        said = (p.stdout or b"").decode("utf-8", "replace") \
+            if p.returncode == 0 else ""
+    except OSError:
+        said = ""
+    for line in said.splitlines():
+        parts = line.split()
+        if len(parts) == 2 and parts[0] == "REGION":
+            region = parts[1]
+        elif len(parts) == 1 and parts[0] != "REGION":
+            found.append(parts[0])
+    kept[program] = (region, found)
+    return kept[program]
+
+
 def macos_words(audio_path, language=""):
     """Let the recognition macOS brings with it write the words.
 
@@ -773,6 +836,19 @@ def macos_words(audio_path, language=""):
     if not program:
         return None
     language = speech_locale(language)
+    if language:
+        region, offered = recogniser_locales(program)
+        chosen = speech_locale_choice(language, offered, region)
+        # A list without the language means this Mac cannot hear it, and
+        # the system's own language would write wrong words; no list at
+        # all says nothing about the language, so the code goes on.
+        if offered and not chosen:
+            print(T('  macOS hears no %s here, Whisper takes it')
+                  % next((T(name) for tag, name in SPOKEN_LANGUAGES
+                          if SPEECH_CODES.get(tag) == language.split("-")[0]),
+                         language))
+            return None
+        language = chosen or language
     handle, out = tempfile.mkstemp(suffix=".tsv", prefix="vpm_words_")
     os.close(handle)
     try:
@@ -917,9 +993,11 @@ def words_recipe_mark():
     listens through stand outside any function, so they go in by value.
     """
     return recipe_mark("words", macos_words, whisper_words, corrected_words,
-                       read_word_tsv, speech_word) + hashlib.sha1(
-        ("%s|%s|%s|%s|%s" % (MACOS_START_S, MACOS_END_S, WHISPER_START_S,
-                             WHISPER_END_S, SPEECH_SWIFT)
+                       read_word_tsv, speech_word,
+                       speech_locale_choice) + hashlib.sha1(
+        ("%s|%s|%s|%s|%s|%s" % (MACOS_START_S, MACOS_END_S, WHISPER_START_S,
+                                WHISPER_END_S, SPEECH_SWIFT,
+                                sorted(SPEECH_DEFAULT_LOCALES.items()))
          ).encode("utf-8")).hexdigest()[:12]
 
 
@@ -1260,6 +1338,46 @@ def window_words_recordings(state, assign_lines):
     return sorted((p, round(s - begin, 4), c) for p, s, c in rows)
 
 
+def window_words_blocks(assign_lines):
+    """The blocks of the one recording the transcript is heard from, or [].
+
+    A recorder that split one take wrote several files, and the
+    separation hears them joined, on the whole one's time. Where they
+    are all the window hears, they are one recording here too. [] where
+    the rows in use hold several recordings, or one in a single file.
+    """
+    rows = []
+    for row, _nv, cv in assign_lines or ():
+        if cv.get() == PROGRAM.IGNORE_AUDIO:
+            continue
+        here = [p for p in row if os.path.exists(p)]
+        if here and here not in rows:
+            rows.append(here)
+    return list(rows[0]) if len(rows) == 1 and len(rows[0]) > 1 else []
+
+
+def window_words_one(recordings, blocks=()):
+    """The one recording these are, as (path, offset, clock, blocks), or None.
+
+    A file alone, or every block of one recording and nothing beside
+    them: then it is heard once, joined as the separation hears it, and
+    its words lie on the axis from where its first block lies -- the
+    window lays every further block end to end behind it, with its
+    clock. *blocks* empty for a file alone.
+    """
+    recordings = list(recordings or ())
+    whole = list(blocks or ())
+    keys = sorted(PROGRAM.path_key(p) for p, _o, _c in recordings)
+    if len(whole) > 1 and keys == sorted(PROGRAM.path_key(p) for p in whole):
+        head = [r for r in recordings
+                if PROGRAM.path_key(r[0]) == PROGRAM.path_key(whole[0])][0]
+        return head[0], head[1], head[2], whole
+    if len(recordings) == 1:
+        path, offset, clock = recordings[0]
+        return path, offset, clock, []
+    return None
+
+
 def window_words_mark(recordings, language=""):
     """What a mix of these recordings is stored under.
 
@@ -1312,18 +1430,22 @@ def window_words_placed(words, offset, clock):
             for w in (words or ())]
 
 
-def window_words_kept(recordings, language=""):
+def window_words_kept(recordings, language="", blocks=()):
     """The window's transcript of these recordings as stored: (words, way).
 
     Read, never heard: where window_words_heard leaves it, on the
-    window's axis -- one recording under what it holds, placed; several
-    under the mark of their mix. (None, "") where nothing is stored.
-    The run reads the window's words through here too (words_of).
+    window's axis -- one recording under what it holds, placed, its
+    *blocks* under what they hold joined; several under the mark of
+    their mix. (None, "") where nothing is stored. The run reads the
+    window's words through here too (words_of).
     """
     ways = [name for _wanted, name in WORD_WAYS]
-    if len(recordings or ()) == 1:
-        path, offset, clock = recordings[0]
-        words, way = words_stored(file_content_mark(path), language, ways)
+    one = window_words_one(recordings, blocks)
+    if one:
+        path, offset, clock, whole = one
+        words, way = words_stored(
+            blocks_content_mark(whole) if whole else file_content_mark(path),
+            language, ways)
         return ((None, "") if words is None
                 else (window_words_placed(words, offset, clock), way))
     if not recordings:
@@ -1332,17 +1454,20 @@ def window_words_kept(recordings, language=""):
                         ways)
 
 
-def window_words_heard(recordings, language, mark, report):
+def window_words_heard(recordings, language, mark, report, blocks=()):
     """The transcript of these recordings, on the axis, or [].
 
-    One recording is heard as it is, so the separation's recognition of
-    it and this one are the same stored answer. Several are mixed, but
-    only once nothing is stored under *mark*.
+    One recording is heard as it is, its *blocks* joined, so the
+    separation's recognition of it and this one are the same stored
+    answer. Several are mixed, but only once nothing is stored under
+    *mark*.
     """
-    if len(recordings) == 1:
-        path, offset, clock = recordings[0]
+    one = window_words_one(recordings, blocks)
+    if one:
+        path, offset, clock, whole = one
         report(T('Writing down what is said ...'), 0.1)
-        return window_words_placed(words_at_hand(path, language),
+        return window_words_placed(words_at_hand(path, language,
+                                                 blocks=whole),
                                    offset, clock)
     words, _way = window_words_kept(recordings, language)
     if words is not None:
@@ -1357,7 +1482,8 @@ def window_words_heard(recordings, language, mark, report):
         PROGRAM.shutil.rmtree(folder, True)
 
 
-def window_words_work(recordings, language, mark, held, report=None):
+def window_words_work(recordings, language, mark, held, report=None,
+                      blocks=()):
     """Hear the recordings in a thread of its own, and leave the words.
 
     Nothing here touches a widget: *report* crosses over on a signal,
@@ -1373,7 +1499,8 @@ def window_words_work(recordings, language, mark, held, report=None):
             report(text, share)
 
     try:
-        words = window_words_heard(recordings, language, mark, tell)
+        words = window_words_heard(recordings, language, mark, tell,
+                                   blocks)
     except Exception as e:
         print(T('  The speech recognition reports: %s') % str(e)[:140])
         words = []
@@ -1389,8 +1516,9 @@ def window_words_round(state, assign_lines, report=None):
 
     One at a time; a changed set of recordings or language is heard
     after it. The separation's words of the one recording are taken as
-    they are, and waited for while being written. True where the preview
-    has news: a transcript begun, or one arrived.
+    they are, and waited for while being written -- of one in blocks
+    too. True where the preview has news: a transcript begun, or one
+    arrived.
     """
     if not window_words_may(state):
         return False
@@ -1404,8 +1532,10 @@ def window_words_round(state, assign_lines, report=None):
     if held.get("mark") == mark:
         fresh, held["fresh"] = held.get("fresh"), False
         return bool(fresh)
-    if len(recordings) == 1:
-        path, offset, clock = recordings[0]
+    blocks = window_words_blocks(assign_lines)
+    one = window_words_one(recordings, blocks)
+    if one:
+        path, offset, clock, _whole = one
         if path in (state.get("speakers_words_now") or ()):
             return False
         heard = (state.get("speakers_words_by") or {}).get(path)
@@ -1418,7 +1548,7 @@ def window_words_round(state, assign_lines, report=None):
     held.update(mark=mark, busy=True, fresh=False, words=None)
     threading.Thread(target=window_words_work,
                      args=(recordings, window_words_language(state), mark,
-                           held, report), daemon=True).start()
+                           held, report, blocks), daemon=True).start()
     return True
 
 
@@ -1437,10 +1567,11 @@ def window_words_listening(state, d):
 def window_words_reference(state, assign_lines):
     """Where the window's transcript is kept, for its run's plan, or None.
 
-    Its language and recordings as window_words_kept reads them, and
-    only once the words for exactly these recordings are there: the dry
-    run and the run then cut by the same words (E-554). While they are
-    being written, or where none were, nothing.
+    Its language, recordings and the blocks of one recording as
+    window_words_kept reads them, and only once the words for exactly
+    these recordings are there: the dry run and the run then cut by the
+    same words (E-554). While they are being written, or where none
+    were, nothing.
     """
     # While they are written the words are None: busy says no more.
     held = state.get("window_words") or {}
@@ -1451,5 +1582,9 @@ def window_words_reference(state, assign_lines):
     if not recordings or held.get("mark") != window_words_mark(
             recordings, language):
         return None
-    return {"language": language,
+    told = {"language": language,
             "recordings": [[p, o, c] for p, o, c in recordings]}
+    blocks = window_words_blocks(assign_lines)
+    if blocks:
+        told["blocks"] = blocks
+    return told

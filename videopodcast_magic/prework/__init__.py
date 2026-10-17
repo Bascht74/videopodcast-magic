@@ -309,9 +309,22 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
         """Cut a multichannel file into the tracks it will contribute.
 
         Written as real files, because everything after this point works
-        with files. A track that stays whole is not written.
+        with files. A track that stays whole is not written. A failed cut
+        leaves None in split_files, which every reader takes as whole: the
+        buttons let the file go, and a tick or the file coming back to the
+        list takes the None away and cuts it anew.
         """
         api_key = os.path.abspath(file_path)
+
+        def failed(said):
+            """The cut is off: *said* is its last word; the window hears."""
+            # Kept for the file list, which builds its rows anew.
+            state.setdefault("split_failed", PROGRAM.ByFile())[api_key] = said
+            split_files[api_key] = None
+            prework_report(file_path, said, 1.0, "split")
+            bridge_emit(bridge.split_done, api_key)
+            return False
+
         # The decision belongs to the recording, the cutting to the block:
         # every block is cut the same way and regrouped afterwards.
         head = recording_of.get(api_key, api_key)
@@ -320,9 +333,8 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
             want = tracks_to_split(file_path, facts,
                                    channel_choice.get(head))
         except Exception as e:
-            prework_report(file_path, T('channels not readable: %s')
-                           % str(e).strip()[:40], 1.0, "split")
-            return False
+            return failed(T('channels not readable: %s')
+                          % str(e).strip()[:40])
         if not want:
             split_files[api_key] = []
             prework_report(file_path, "", 1.0, "split")
@@ -345,9 +357,12 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
                 if not os.path.exists(target) or not os.path.getsize(target):
                     split_channels(file_path, chs, target, rate=rate)
             except Exception as e:
-                prework_report(file_path, T('cutting failed: %s')
-                               % str(e).strip()[:40], 1.0, "split")
-                return False
+                # On a full disc ffmpeg leaves the track half written, and
+                # the next cut would take it for done: it asks the size.
+                PROGRAM.remove_quietly(target)
+                # ffmpeg's own words, without the address it puts first.
+                return failed(T('cutting failed: %s') % PROGRAM.ffprobe_reason(
+                    str(e).encode("utf-8"), file_path))
             out.append((target, label))
         split_files[api_key] = out
         prework_report(file_path, "", 1.0, "split")
@@ -358,11 +373,13 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
         """Take a task out of the count and off the bar.
 
         Counted as finished, because nobody else will finish it: a share
-        stuck at zero holds the bar back for good.
+        stuck at zero holds the bar back for good. A cut that failed said
+        so at its full share already, and an empty line would wipe why.
         """
         with prework_lock:
             prework_pending[entry[0]] = prework_pending.get(entry[0], 1) - 1
-        prework_report(entry[0], "", 1.0, entry[1])
+        if entry[1] != "split" or split_files.get(entry[0], ()) is not None:
+            prework_report(entry[0], "", 1.0, entry[1])
 
     def prework_work_loop():
         """One of several threads; takes whatever is still pending."""
@@ -418,6 +435,11 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
     def prework_kick_off(paths, having_audio=()):
         """Queue the prework: envelopes for all, audio for some."""
         for p in paths:
+            # Back after leaving the list: a cut that failed is tried
+            # anew, as after a tick -- prework_split_make's None.
+            if path_key(p) in prework_discarded \
+                    and split_files.get(p, ()) is None:
+                split_files.pop(p, None)
             prework_discarded.discard(path_key(p))
 
         def audio_present(a):

@@ -7,8 +7,13 @@ where the run takes the drift out, unstretched where the drift stays in.
 Sections: the interview fixture, whose two recordings of three blocks
 the run places by sound and whose one drift stays in; a synthetic
 camera with a recording in two blocks whose drift the run takes out;
-and that recording once more, its join answering that it cannot be
-placed. The run's side is read off the run's own functions.
+that recording once more, its join answering that it cannot be placed,
+with and without a clock to lay it at;
+recordings whose blocks' timecodes leave a hole and overlap, each
+block where the run's joined file holds its first sample; and that
+recording of two blocks with no picture at all, laid against the room
+as the run lays recordings alone. The run's side is read off the run's
+own functions.
 """
 PLATFORM_BOUND = True
 import os
@@ -23,7 +28,6 @@ sys.path.insert(0, HERE)
 import the_program
 import contextlib
 import io
-import json
 import shutil
 import subprocess
 import tempfile
@@ -255,24 +259,31 @@ check("its second block follows at the head's length on the run's clock",
 print("\n3. A recording whose joined sound the run cannot place")
 # The join's measurement as the run keeps it, by head: None where it
 # found nothing, a place marked unplaceable where the sound gave none.
-# The run refuses such a head (tracks_placed): it lies nowhere, and the
-# window's axis says so too instead of keeping what the head alone got.
+# The run refuses such a head (tracks_placed), or lays it at its clock
+# where a camera's clock is there to set it against; the window's axis
+# takes the kept answer as the run's own and does the same.
 HEAD_KEY = vpm.path_key(HEAD)
+# The head's clock five seconds after the camera's, where a clock
+# places it: nowhere near where its sound put it in section 2.
+CLOCKS3 = {CAM: 1000.0, HEAD: 1005.0}
 
 
-def joined_as(got, weak=()):
-    """The window's axis of section 2, the join answering *got*."""
-    data = json.loads(json.dumps(data2))
-    data["weak"] = list(weak)
-    vpm.head_by_the_whole(data, [CAM, HEAD, TAIL], {HEAD: [HEAD, TAIL]},
-                          raw={"joined": {HEAD_KEY: got}})
+def joined_as(got, clocks=None):
+    """The window's axis over section 2's files, the join answering *got*."""
+    with contextlib.redirect_stdout(io.StringIO()):
+        data, _text = vpm.axis_with_blocks(
+            [CAM, HEAD, TAIL], lambda p: (clocks or {}).get(p), 5.0,
+            {HEAD: [HEAD, TAIL]}, phase_of=lambda p: False,
+            raw={"joined": {HEAD_KEY: got}})
     return data
 
 
 def nowhere_line(data):
     """Where the head stands in *data*, and whether it is said to."""
-    return "head at %s, among those with no place: %s" % (
-        figure((data.get("axis") or {}).get(HEAD_KEY)),
+    axis = data.get("axis") or {}
+    return "head at %s from the camera, among those with no place: %s" % (
+        figure(axis[HEAD_KEY] - axis[vpm.path_key(CAM)]
+               if HEAD_KEY in axis and vpm.path_key(CAM) in axis else None),
         HEAD_KEY in set(vpm.path_key(p) for p in data.get("no_place") or ()))
 
 
@@ -289,9 +300,128 @@ unplaced = joined_as([0.0, 1.0, {"unplaceable": True}])
 check("a head its join cannot place stands nowhere, though it alone did",
       HEAD_KEY not in (unplaced.get("axis") or {})
       and HEAD in (unplaced.get("no_place") or ()), nowhere_line(unplaced))
-by_clock = joined_as([0.0, 1.0, {"unplaceable": True}], weak=[HEAD])
+by_clock = joined_as([0.0, 1.0, {"unplaceable": True}], CLOCKS3)
+axis3 = by_clock.get("axis") or {}
 check("a head its clock placed keeps that place",
-      HEAD_KEY in (by_clock.get("axis") or {}), nowhere_line(by_clock))
+      HEAD_KEY in axis3 and vpm.path_key(CAM) in axis3
+      and abs(axis3[HEAD_KEY] - axis3[vpm.path_key(CAM)] - 5.0) <= SAME,
+      nowhere_line(by_clock) + ", wanted +5.0000 by the clocks")
+
+#------------------------------- 4. Blocks a timecode hole or overlap parts
+
+print("\n4. Blocks whose timecodes leave a hole or overlap")
+TC_RATE = 48000
+# Odd lengths, so a place by length and one by stamp cannot meet by luck.
+SIZES = [1234567, 987653, 500001]
+HEAD_PLACE, HEAD_CLOCK = 100.0, 1.0001
+# A frame is 40 ms; this is the click's own sample and the rounding.
+NEAR = 0.002
+
+
+def clicked(name, samples, stamp):
+    """One block: quiet noise, a loud click on its first samples, a bext."""
+    x = np.random.default_rng(samples).normal(0, 0.01, samples)
+    x[:40] = 0.9
+    path = os.path.join(WORK, name)
+    subprocess.run(["ffmpeg", "-v", "error", "-f", "s16le", "-ar",
+                    str(TC_RATE), "-ac", "1", "-i", "pipe:0", "-c:a",
+                    "pcm_s24le", "-write_bext", "1", "-metadata",
+                    "time_reference=%d" % stamp, "-y", path],
+                   input=(x * 32767).astype("<i2").tobytes(), check=True)
+    return path
+
+
+def run_and_window(row):
+    """[(name, window, run, by length)] for the blocks after the head.
+
+    The run: where each click stands in the file join_the_plan writes,
+    on the head's clock. The window: blocks_after_their_head, the head
+    at HEAD_PLACE. By length: where the blocks end to end would lie.
+    """
+    with contextlib.redirect_stdout(io.StringIO()):
+        made = vpm.join_the_plan([{"audio": row[0], "blocks": row}], WORK)
+    x = vpm.decode_audio(made[0]["source"], rate=TC_RATE)
+    loud = np.flatnonzero(np.abs(x) > 0.5)
+    firsts = [loud[0]] + [b for a, b in zip(loud, loud[1:]) if b - a > 100]
+    data = vpm.blocks_after_their_head(
+        {"axis": {vpm.path_key(row[0]): HEAD_PLACE},
+         "clock": {vpm.path_key(row[0]): HEAD_CLOCK}}, {row[0]: row})
+    axis = data.get("axis") or {}
+    out, ahead = [], 0.0
+    for i, p in enumerate(row[1:]):
+        ahead += SIZES[i] / float(TC_RATE) / HEAD_CLOCK
+        w = axis.get(vpm.path_key(p))
+        out.append((name_of(p), None if w is None else w - HEAD_PLACE,
+                    firsts[i + 1] / float(TC_RATE) / HEAD_CLOCK
+                    if len(firsts) == len(row) else None, ahead))
+    return out
+
+
+def lines(placed):
+    return "; ".join("%s window %s, run %s, end to end %+.4f"
+                     % (n, figure(w), figure(r), e) for n, w, r, e in placed)
+
+
+def agree(placed):
+    return bool(placed) and all(w is not None and r is not None
+                                and abs(w - r) <= NEAR
+                                for _n, w, r, _e in placed)
+
+
+START = TC_RATE * 10
+HOLE = [clicked("CoPresenter_REC%05d.wav" % (i + 1), n, at) for i, (n, at)
+        in enumerate(zip(SIZES, [START, START + SIZES[0],
+                                 START + SIZES[0] + SIZES[1]
+                                 + int(1.5 * TC_RATE)]))]
+OVER = [clicked("Guest_REC%05d.wav" % (i + 1), n, at) for i, (n, at)
+        in enumerate(zip(SIZES, [START, START + SIZES[0]
+                                 - int(0.3 * TC_RATE),
+                                 START + SIZES[0] + SIZES[1]
+                                 - int(0.3 * TC_RATE)]))]
+hole = run_and_window(HOLE)
+over = run_and_window(OVER)
+print("   " + lines(hole))
+print("   " + lines(over))
+check("after a timecode hole, a block lies where the run's join has it",
+      agree(hole), lines(hole))
+check("after a timecode overlap, a block lies where the run's join has it",
+      agree(over), lines(over))
+
+#----------------------------------------------- 5. With no picture at all
+
+print("\n5. The recording of section 2 with no picture, against the room")
+ROOM = os.path.join(WORK, "room.wav")
+with contextlib.redirect_stdout(io.StringIO()):
+    made = vpm.join_the_plan([{"audio": ROOM, "blocks": [ROOM]},
+                              {"audio": HEAD, "blocks": [HEAD, TAIL]}],
+                             WORK)
+    placed = vpm.measure_tracks_against_each_other(made, lambda paths: False)
+    data5, _text = vpm.axis_with_blocks([ROOM, HEAD, TAIL], lambda p: None,
+                                        5.0, {HEAD: [HEAD, TAIL]},
+                                        phase_of=lambda p: False)
+run5 = {}
+for track in placed:
+    track["drift"] = vpm.drift_clear(track["b"], track.get("st"))
+    _n, _s, start5, speed5 = vpm.recordings_on_axis([track], (0.0, 1.0))[0]
+    run5[track["blocks"][0]] = (start5, speed5)
+axis5, clock5 = data5.get("axis") or {}, data5.get("clock") or {}
+here5 = (axis5[vpm.path_key(HEAD)] - axis5[vpm.path_key(ROOM)]
+         if vpm.path_key(HEAD) in axis5 and vpm.path_key(ROOM) in axis5
+         else None)
+start5, speed5 = run5.get(HEAD, (None, None))
+print("   run: head %s at clock %.9f; window head %s at clock %.9f"
+      % (figure(start5), speed5 or 0.0, figure(here5),
+         clock5.get(vpm.path_key(HEAD)) or 0.0))
+check("with no picture the window lays a recording where the run does",
+      start5 is not None and here5 is not None
+      and abs(here5 - start5) <= SAME,
+      "window %s against the run's %s, from the room"
+      % (figure(here5), figure(start5)))
+check("and runs it at the clock the run gives it",
+      speed5 is not None
+      and abs((clock5.get(vpm.path_key(HEAD)) or 0.0) - speed5) <= 1e-9,
+      "window %.9f against the run's %.9f"
+      % (clock5.get(vpm.path_key(HEAD)) or 0.0, speed5 or 0.0))
 
 shutil.rmtree(WORK, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

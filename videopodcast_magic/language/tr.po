@@ -413,9 +413,6 @@ msgstr "Anahtar Zinciri"
 msgid "Measuring time axis ..."
 msgstr "Zaman ekseni ölçülüyor ..."
 
-msgid "Multitrack (one track per speaker)"
-msgstr "Çok izli (konuşmacı başına bir iz)"
-
 msgid "No files or project opened yet."
 msgstr "Henüz dosya ya da proje açılmadı."
 
@@ -430,9 +427,6 @@ msgstr "Bir kare geri."
 
 msgid "One second back."
 msgstr "Bir saniye geri."
-
-msgid "Only one speaker"
-msgstr "Yalnızca bir konuşmacı"
 
 msgid "Open result folder"
 msgstr "Sonuç klasörünü aç"
@@ -587,9 +581,6 @@ msgstr "bulunamadı"
 msgid "a recording of its own"
 msgstr "kendine ait bir kayıt"
 
-msgid "Cameras only"
-msgstr "Yalnızca kameralar"
-
 msgid "End %s"
 msgstr "Bitiş %s"
 
@@ -616,9 +607,6 @@ msgstr "Başlangıç %s"
 
 msgid "Take from source files"
 msgstr "Kaynak dosyalardan al"
-
-msgid "Take the camera audio"
-msgstr "Kamera sesini al"
 
 msgid "Transfer"
 msgstr "Aktarım"
@@ -769,9 +757,6 @@ msgstr "Sessizlik"
 
 msgid "Speaker name"
 msgstr "Konuşmacı adı"
-
-msgid "Speaker names"
-msgstr "Konuşmacı adları"
 
 msgid "Ten seconds forward."
 msgstr "On saniye ileri."
@@ -1052,9 +1037,6 @@ msgstr "Ses dosyası belirtilmedi."
 msgid "Unknown extension, skipped: %s"
 msgstr "Bilinmeyen uzantı, atlandı: %s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Birkaç kamera var ama ses dosyası yok. Her kameranın kendi sesi olurdu --\n--multitrack bunun için var. Aksi halde kameraları tek tek verin."
-
 msgid "Not found: %s"
 msgstr "Bulunamadı: %s"
 
@@ -1063,6 +1045,9 @@ msgstr "Durduruldu: %s"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve bölümü durduruldu: %s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve bölümü bu programdaki bir hata yüzünden durduruldu, Resolve yüzünden değil: %s -- lütfen bildirin. Ayrıntılar günlükte."
 
 msgid "Presets could not be loaded: %s"
 msgstr "Hazır ayarlar yüklenemedi: %s"
@@ -1214,8 +1199,8 @@ msgstr "Orada dosyalar eksik -- yeniden yüklemeden hiçbir şey hesaplanamaz.\n
 msgid "  Existing result adopted -- nothing computed, nothing paid."
 msgstr "  Mevcut sonuç alındı -- hiçbir şey hesaplanmadı, hiçbir şey ödenmedi."
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Not: hesaplama o zaman yüklenen dosyalarla yapılır. Onlar o günün\n  zaman aralığını ve hizalamasını taşır. Giriş noktası, çıkış noktası\n  ya da ölçülen konum şimdi farklıysa, dönüş denetimi farkı\n  ölçer ve izleri yerine kaydırır."
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  Not: hesaplama o zaman yüklenen dosyalarla yapılır. Onlar o günün\n  zaman aralığını ve hizalamasını taşır. Giriş noktası, çıkış noktası\n  ve ölçülen konum şimdi o aralığın içinde kalıyorsa, dönüş denetimi farkı\n  ölçer ve izleri yerine kaydırır. Dışına taşıyorlarsa -- daha erken bir\n  giriş noktası, daha geç bir çıkış noktası -- izleri reddeder:\n  o zaman her şeyi yeniden yükleyin."
 
 msgid "  Settings brought to preset %r"
 msgstr "  Ayarlar %r hazır ayarına getirildi"
@@ -1237,12 +1222,6 @@ msgstr "  Arşivde: %s"
 
 msgid "Auphonic reports %s: %s"
 msgstr "Auphonic bildiriyor %s: %s"
-
-msgid "No Multitrack preset found in the account."
-msgstr "Hesapta Multitrack hazır ayarı bulunamadı."
-
-msgid "No Singletrack preset found in the account."
-msgstr "Hesapta Singletrack hazır ayarı bulunamadı."
 
 msgid "preset does not fit the run"
 msgstr "hazır ayar bu çalıştırmaya uymuyor"
@@ -1268,20 +1247,11 @@ msgstr "sistem deposu"
 msgid "The key is then in the %s, never in a file."
 msgstr "Anahtar o zaman bir dosyada değil, şurada durur: %s."
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "auphonic.com’un sesi nasıl işleyeceğini belirler.\n\n“%s” anahtarı yerinde bırakır ve yine de oraya gitmez.\nSes o zaman yalnızca birleştirilir ve normalleştirilir, ayrıştırılmaz --\nve ayrı izler olmadan kamera kurgusu olmaz."
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic ayarları kabul etmiyor: %s"
-
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  İkiden fazla kanal auphonic.com’a tek kanal olarak gider: birleştirme yalnızca stereo için kapatılır.\n  Kanallar ayrı kalacaksa dosyayı önce izlere bölün."
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "auphonic.com’un sesi nasıl işleyeceğini belirler.\n\n“%s” anahtarı yerinde bırakır ve yine de oraya gitmez.\nSes o zaman yalnızca birleştirilir ve normalleştirilir, ayrıştırılmaz --\nama kamera kurgusu hazır ayarla olanla aynıdır."
 
 msgid "Uploading %s"
 msgstr "%s yükleniyor"
-
-msgid "no production id in the response: %s"
-msgstr "yanıtta prodüksiyon kimliği yok: %s"
 
 msgid "no download address for %s"
 msgstr "%s için indirme adresi yok"
@@ -1436,9 +1406,6 @@ msgstr "-- hiçbir şey --"
 msgid " and "
 msgstr " ve "
 
-msgid "One track only, and no camera audio left to take."
-msgstr "Yalnızca bir iz var ve alınacak kamera sesi kalmadı."
-
 msgid "    Cross-check:"
 msgstr "    Çapraz kontrol:"
 
@@ -1450,9 +1417,6 @@ msgstr "zaman ekseni ölçüldü -- atlamalar aynı noktaya düşer"
 
 msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
 msgstr "%s bölümün zaman ekseninde değil: malzemenin önüne ya da arkasına konur, içine kesilmez. Giriş noktası ve çıkış noktası aradaki kısma aittir."
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "Yalnızca bir iz -- ikincisi için bir kameranın Kamera sesi ayarını “sesi kullan” yapın."
 
 msgid "\nCAMERA COLOUR COMPARISON"
 msgstr "\nKAMERA RENK KARŞILAŞTIRMASI"
@@ -1481,9 +1445,6 @@ msgstr "Kendi kamerası olmayanlar: %s"
 msgid "   -- that is everybody, so every shot goes to the same camera."
 msgstr "   -- bu herkes demek, dolayısıyla her çekim aynı kameraya gider."
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "ÇOK İZLİ OLMUYOR\n  API anahtarı olmadan auphonic.com’a gönderilecek bir şey yok.\n  --without-auphonic ile bunun yerine yerel çalışır: hizalanır,\n  karıştırılır ve kurgulanır, ama de-bleed ve leveler olmadan."
-
 msgid "\nCAMERA CUT"
 msgstr "\nKAMERA KURGUSU"
 
@@ -1507,9 +1468,6 @@ msgstr "Ortalamaya uzaklık"
 
 msgid "    %-20s shifted by %s ms%s"
 msgstr "    %-20s %s ms kaydırıldı%s"
-
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "ÇOK İZLİ OLMUYOR\n  En az iki giriş izi gerekli, yalnızca %s bulundu.\n  Bir iz; ayrı bir kayıt, çok kanallı bir kayıt cihazının bir kanalı\n  ya da bir kameranın sesidir -- kamera sesi, Kamera sesi ayarı\n  “sesi kullan” dediği anda sayılır. İkisi olmadan\n  ayrıştırılacak bir şey yoktur ve aynı dosya sıradan bir\n  prodüksiyon olarak geçer."
 
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  Kameralar birbirine yakın (parlaklıkta en çok %s adım)."
@@ -1631,11 +1589,11 @@ msgstr "yanıt sözü elinde tutmadı"
 msgid "nobody was speaking at the question"
 msgstr "soru anında kimse konuşmuyordu"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "tamamlanan çalıştırmadan -- %s konuşmacı, %s"
+msgid "from the finished run -- %s, %s"
+msgstr "tamamlanan çalıştırmadan -- %s, %s"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "kayıtlardan ölçüldü -- %s konuşmacı, %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "kayıtlardan ölçüldü -- %s, %s"
 
 msgid "In point or Out point cannot be read here."
 msgstr "Giriş noktası veya çıkış noktası burada okunamıyor."
@@ -1667,8 +1625,18 @@ msgstr "  Teslim dosyası yazılamadı."
 msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
 msgstr "  Her kamerada bir konuşmacı var, bu yüzden geniş çekim yok: dört geniş çekim ayarı ve kenarlar için işaret burada hiçbir şey yapmaz."
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s konuşmacı, %s çekim, en kısası %s sn"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, en kısası %s sn"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s konuşmacı"
+msgstr[1] "%s konuşmacı"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s çekim"
+msgstr[1] "%s çekim"
 
 msgid "  The cut stays as it was."
 msgstr "  Kurgu olduğu gibi kalıyor."
@@ -1697,11 +1665,15 @@ msgstr "\nKONUŞMACILAR\n  Kimse duyulmadı -- bundan kamera kurgusu çıkmaz."
 msgid "  %sx away from the speaker because a shot ran longer than %s s"
 msgstr "  %sx konuşmacıdan uzaklaşıldı, çünkü bir çekim %s sn'den uzun sürdü"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Herkes için tek kamera: konuşmacı değişiminde %s çekime bölündü, böylece Resolve onları gruplayabilir."
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  Herkes için tek kamera: konuşmacı değişiminde %s çekime bölündü, böylece Resolve onu gruplayabilir."
+msgstr[1] "  Herkes için tek kamera: konuşmacı değişiminde %s çekime bölündü, böylece Resolve onları gruplayabilir."
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Kurgu değişti: %s çekim, önceki %s yerine."
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  Kurgu değişti: %s çekim, önceki %s yerine."
+msgstr[1] "  Kurgu değişti: %s çekim, önceki %s yerine."
 
 msgid "the cut uses %s"
 msgstr "kurgu %s kullanıyor"
@@ -1762,9 +1734,6 @@ msgstr "Önizleme mümkün değil: %s"
 
 msgid "    %-26s the camera in one piece, the mix below"
 msgstr "    %-26s kamera tek parça, miks altında"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve bölümü durduruldu: %s"
 
 msgid "  %s is ready -- with --resolve-json it can be done later."
 msgstr "  %s hazır -- --resolve-json ile daha sonra yapılabilir."
@@ -2043,6 +2012,15 @@ msgstr "  -->  hizalandı, %s ppm saat sürüklenmesi giderildi"
 msgid "   Caution: measurement unusable"
 msgstr "   Dikkat: ölçüm kullanılamaz"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   Dikkat: yüklenenin %s s'si içinde yok"
+
+msgid "  -->  refused"
+msgstr "  -->  reddedildi"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  Reddedildi: %s -- dönüş yüklenenle eşleşmiyor.\n  Yanlış bir şey yazmaktansa durmak daha iyi."
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  auphonic.com mixdown'ı: %s LUFS, tepe %s dBTP (%s)"
 
@@ -2220,18 +2198,6 @@ msgstr "%s ve %s ikisi de %s olarak ayarlı. Bu yalnızca bir dosya olabilir -- 
 msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
 msgstr "%s birden fazla seste duruyor. Bir ad bir kişidir ve kurgu bir kişiyi tek bir kameraya koyar -- aynı adı taşıyan iki ses, iki yerde bulunan tek bir kişi olurdu."
 
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack birden çok iz gerektirir"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack en az iki giriş izi gerektirir. Bir iz; ayrı bir kayıt, çok kanallı bir kayıt cihazının bir kanalı ya da \"sesi kullan\" olarak ayarlanmış bir video dosyasının sesidir. Aynı kaydın birden çok bloğu tek iz sayılır, kenara ayrılmış izler hiç sayılmaz."
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "Her satırın bir adı olmalı -- Auphonic'te bu, track ID olur."
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "Tüm satırlar aynı adı taşıyor -- bu tek bir iz eder, Multitrack ise en az iki iz gerektirir."
-
 msgid "File names"
 msgstr "Dosya adları"
 
@@ -2246,9 +2212,6 @@ msgstr "Hazır ayarları yükleyip birini seçin ya da API Key alanını boş b�
 
 msgid "Names used more than once"
 msgstr "Birden çok kez kullanılan adlar"
-
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "Ayrı ses kaydı yok. O zaman %s kameranın sesi kullanılır -- her biri bir iz olur ve Auphonic sızmayı giderir."
 
 msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
 msgstr "Bu adlar birden çok kez geçiyor:\n\n  %s\n\nKayıtlar tek bir izde birleştirilir ve Timecode'larına göre art arda dizilir. Arada kayıt durdurulduysa bu doğrudur."
@@ -2399,9 +2362,6 @@ msgstr "\nSonuçsuz kaldı: %s"
 
 msgid "\nNo usable video file -- without camera audio there is no common time axis."
 msgstr "\nKullanılabilir video dosyası yok -- kamera sesi olmadan ortak zaman ekseni olmaz."
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nBloklar birleştirildikten sonra yalnızca bir iz kalıyor, çok izli mod ise ses başına bir iz ister. İki kişinin tek bir kayıt sanıldığı yerde --apart bir bloğu dışarıda tutar."
 
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline %s alır: aralarındaki en yüksek hız ya da Resolve'un bunun\n  üstündeki bir sonraki hızı. Yukarı dönüştürürken Resolve kareleri tekrarlar,\n  aşağı dönüştürürken atar. Her kamera kendi hızını korur ve kurgu\n  o hızla sayar."
@@ -2769,6 +2729,9 @@ msgstr "%s denetlendi"
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway verildi: yukarıdaki noktalara rağmen çalışır."
 
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    --anyway verildi: yukarıdaki noktalara rağmen çalışır, ama yüklemeden önce durur -- auphonic.com bu prodüksiyonu reddederdi."
+
 msgid "does the material fit together?"
 msgstr "malzeme birbirine uyuyor mu?"
 
@@ -2823,6 +2786,17 @@ msgstr "Resolve, Timeline çözünürlüğüne ölçekler. Daha küçük olan b�
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "Her kanal çifti ayrı değerlendirilir: bir stereo iz ya da iki mikrofon ve dolayısıyla iki iz. Sessiz girişler düşer. Dosyanın altındaki satırlar neyin ölçüldüğünü söyler; onay işareti bunu geçersiz kılar."
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
+msgstr ""
+"Her biri bir iz olsun diye kanallarını ayrı dosyalar olarak kaydedin ya da "
+"onu kanal satırlarına göre bölen pencerede açın. Onu auphonic.com'a gönderen "
+"bir çalıştırma yüklemeden önce durur: auphonic.com bir dosyada en fazla iki "
+"kanal alır."
+
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Burada, dosyanın kaydedildiği örnekleme hızında, örnek örnek sayılır: bir tamsayı biçiminin tutabileceği en yüksek değerde art arda üç veya daha fazla örnek. Bir ya da iki örnek yuvarlamadır ve bildirilmez. Orada kesilen kaybolmuştur ve hiçbir işlem onu geri getirmez -- ama kayıt yine kayıttır ve bu hiçbir şeyi durdurmaz. Yalnızca tamsayı biçimleri sayılır. 32 bit kayan noktada tam ölçekte bir sınır yoktur, orada sayılacak bir şey yoktur."
 
@@ -2859,6 +2833,9 @@ msgstr "\nÖN KONTROL -- %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nİlk uzun adımdan önce durduruldu. --anyway ile yine de çalışır."
 
+msgid "\nStopped before the first long step."
+msgstr "\nİlk uzun adımdan önce durduruldu."
+
 msgid "no video track"
 msgstr "video izi yok"
 
@@ -2885,6 +2862,13 @@ msgstr "%s kHz yerine %s kHz -- işleme sırasında dönüştürülür."
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s kanal -- izlere bölünür, yukarıdaki satırlara bakın."
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s kanal -- komut satırı bunları izlere bölmez, dosyayı tek kanala indirir: "
+"iki kişi tek ses olur."
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanal %d sınıra dayanıyor: %s kez art arda üç veya daha fazla örnek, en uzunu %s (%s ms), ilki %s konumunda."
@@ -2963,6 +2947,21 @@ msgstr "İkisi birden olmaz: geri gelen izler bir değere, kendi miksimiz diğer
 
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "iz şablonunda hiçbir şey açık değil -- izler tam yüklendikleri gibi geri gelirdi."
+
+msgid "Intro / outro"
+msgstr "Giriş / Kapanış"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "ön ayarda bir giriş var -- kullanılmaz: giriş ve kapanış video dosyalarından gelir."
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "ön ayarda bir kapanış var -- kullanılmaz: giriş ve kapanış video dosyalarından gelir."
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "ön ayarda bir giriş ve bir kapanış var -- hiçbiri kullanılmaz: giriş ve kapanış video dosyalarından gelir."
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "Dosya listesinde Türü Giriş ya da Kapanış olan video dosyalarından veya --intro ve --outro seçeneklerinden gelirler."
 
 msgid "Check"
 msgstr "Denetim"
@@ -3071,6 +3070,9 @@ msgstr "%(name)s (%(prefix)s*.json);;JSON dosyaları (*.json);;Tüm dosyalar (*)
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Bu aktarımda kare hızı yok, bu yüzden Timeline ondan oluşturulamaz. Lütfen çalıştırmayı yeniden yapın."
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "Bu aktarım %s için bir dosya belirtmiyor, bu yüzden Timeline ondan oluşturulamaz. Lütfen çalıştırmayı yeniden yapın."
 
 msgid "This Resolve project already exists"
 msgstr "Bu Resolve projesi zaten var"
@@ -3207,11 +3209,17 @@ msgstr "  %s çekim, toplam %s s, kendi sesleri olmadan."
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  Full-Mix bulunamadı -- Timeline sessiz kalıyor."
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  Full-Mix içe aktarılamadı."
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve'un Media Pool'unda Full-Mix yok -- “%s” Timeline'ında ses eksik."
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  Full-Mix eklenemedi."
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve Full-Mix'i reddetti -- “%s” Timeline'ında ses eksik."
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve Girişi reddetti -- “%s” Timeline'ında Giriş yok."
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve Kapanışı reddetti -- “%s” Timeline'ında Kapanış yok."
 
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  Ses: Full-Mix tek parça halinde A1'de (%s)."
@@ -3363,8 +3371,8 @@ msgstr "    %sx öngörülen kamera çalışmıyordu -- yerinde başka biri var.
 msgid "    Left without picture: %s"
 msgstr "    Görüntüsüz kaldı: %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve hiç görüntü almadı -- Timeline boş. Üzerine\n  başka bir şey kurulmuyor."
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve hiç görüntü almadı -- “%s” Timeline'ında kurgu ve sesi eksik."
 
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  Bu Timeline'lardan henüz hiç yoktu -- yalnızca oluşturuluyor."
@@ -3492,12 +3500,6 @@ msgstr "geniş çekim %s, mix onun ilk ses izi"
 msgid "%s, audio track %d"
 msgstr "%s, ses izi %d"
 
-msgid "    %s could not be imported."
-msgstr "    %s içe aktarılamadı."
-
-msgid "    %s could not be inserted."
-msgstr "    %s eklenemedi."
-
 msgid "    V2 could not be read back: %s"
 msgstr "    V2 geri okunamadı: %s"
 
@@ -3507,8 +3509,8 @@ msgstr "               Sesin %s %s konumunda -- orada %s sözcükle buluşur."
 msgid "%s (%s to %s)"
 msgstr "%s (%s ile %s arası)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  Yalnızca %s / %s çekim Timeline üzerinde."
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve yalnızca %s / %s çekimi aldı -- “%s” Timeline'ında kurgunun geri kalanı eksik."
 
 msgid "  Transcript: %s"
 msgstr "  Döküm: %s"
@@ -3927,9 +3929,6 @@ msgstr "  Hangi sesin hangi mikrofona ait olduğu anlaşılamadı, bu yüzden bu
 msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
 msgstr "Bu ad zaten başka birinde. Bir ad bir kişidir ve kurgu bir kişiyi bir kameraya koyar -- lütfen bu sese kendi adını verin."
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  Tüm kayıtlar aynı adı taşıyor. Bu tek bir iz eder -- Multitrack en az iki ister."
-
 msgid "The model could not be written: %s"
 msgstr "Model yazılamadı: %s"
 
@@ -3993,6 +3992,9 @@ msgstr "  Konuşma tanıyıcı derleniyor ..."
 msgid "  The speech recognition reports: %s"
 msgstr "  Konuşma tanıma bildiriyor: %s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS burada bu dili (%s) tanımıyor, Whisper devralıyor"
+
 msgid "  The speech recogniser is built (%s s)."
 msgstr "  Konuşma tanıyıcı derlendi (%s sn)."
 
@@ -4005,8 +4007,8 @@ msgstr "  Bu makinede konuşma tanıma yok: macOS 26 bir tane getiriyor, aksi ha
 msgid "  Speech recognition (%s): %s words in %s s"
 msgstr "  Konuşma tanıma (%s): %s sözcük, %s sn"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s sözcük: %s %% tek sese, %s %% iki sese, %s %% bir boşlukta"
+msgid "  %s words"
+msgstr "  %s sözcük"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s sözcük, adsız -- kimse ayrılmadı"
@@ -4062,8 +4064,22 @@ msgstr "Timecode yoksa dosyaların konumu ölçülür."
 msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
 msgstr "Bu proje için ayırmayı kapalı bırakır. Kurgu o zaman eskisi gibi izlerden ya da auphonic.com'dan gelir."
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Henüz kamera kurgusu yok: her birinin bir adı ve bir kamerası olan iki kişi gerekiyor.\nAyrı kayıtlar bunu Çok izli işaretiyle sağlar, bir kaydın Konuşmacı adı alanındaki \"birden çok konuşmacı\" da öyle --\norada bulunan sesler kameralarını kayıtların altındaki tabloda alır.\nYine de bir Resolve projesi oluşturulur -- tüm kameralar ölçülen yerlerinde, Multicam için hazır."
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"Henüz kamera kurgusu yok: her birinin bir adı ve bir kamerası olan iki kişi "
+"gerekiyor.\n"
+"Ayrı kayıtlar, her biri kendi adıyla, bunu sağlar, bir kaydın Konuşmacı adı "
+"alanındaki \"birden çok konuşmacı\" da öyle --\n"
+"orada bulunan sesler kameralarını kayıtların altındaki tabloda alır.\n"
+"Yine de bir Resolve projesi oluşturulur -- tüm kameralar ölçülen yerlerinde, "
+"Multicam için hazır."
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Bunun için bir çalıştırmanın devir dosyası gerekiyor, ama hiç yok."
@@ -4097,9 +4113,6 @@ msgstr "Yeniden başlatma olmadı. Pencereyi kapatın ve programı daha önce ya
 
 msgid "No newer version found. This one is %s."
 msgstr "Daha yeni bir sürüm bulunamadı. Bu sürüm %s."
-
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Çok izli, yukarıdaki tabloda iki iz gerektirir -- bir kamera, Kamera sesi \"sesi kullan\" olarak ayarlandığında bir iz sayılır."
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s birden fazla konuşmacıda var -- bir ad bir kişidir ve her kişinin kendi adı olmalı."
@@ -4152,9 +4165,6 @@ msgstr "Pencerenin başına atlar."
 msgid "Jumps to the end of the window."
 msgstr "Pencerenin sonuna atlar."
 
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Kişi başına bir ses izi, auphonic.com'a kadar ayrı tutulur.\nOnsuz da çalışır -- o zaman de-bleed ve leveler olmadan.\nİki giriş izi gerekir: kendine ait bir kayıt, çok kanallı bir kayıt cihazının\nbir kanalı ya da \"sesi kullan\" olarak ayarlanmış bir video dosyasının\nsesi. Kamera kurgusunun bu işarete ihtiyacı yok."
-
 msgid "During greeting and farewell the picture stays wide."
 msgstr "Selamlama ve veda sırasında görüntü geniş kalır."
 
@@ -4172,9 +4182,6 @@ msgstr "Bunu algılaması için programı yeniden başlatın."
 
 msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
 msgstr "MIT lisansı, Copyright (c) 2026 Sebastian Lotz. Olduğu gibi, hiçbir türde garanti olmadan verilir."
-
-msgid "One audio recording has no speaker name yet."
-msgstr "Bir ses kaydının henüz konuşmacı adı yok."
 
 msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
 msgstr "%s zaten %s olarak ayarlı ve bir bölümde bundan bir tane olur. Burada farklı yanıt verin ya da önce o dosyadaki işareti kaldırın."
@@ -4226,9 +4233,6 @@ msgstr "Hiçbir şey yazılmadı -- henüz malzeme yok."
 
 msgid "The text for %s could not be fetched."
 msgstr "%s için metin alınamadı."
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "Tüm kayıtlar aynı adı taşıyor -- bu tek bir iz eder."
 
 msgid "stays out"
 msgstr "dışarıda kalır"
@@ -4601,8 +4605,8 @@ msgstr "Sıfır, soranın sustuğu yerdir, yanıtın başladığı yer değil: a
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "Çiftin yumuşak sınırı: buradan sonra program bir cümle sınırını bekler ve geniş çekimi saate göre değil, oraya koyar. 0 bunu kapatır. “Geniş çekim en geç” sert sınırdır; orada cümle sınırı olmadan da kesilir."
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "Çiftin sert sınırı: “Şu süreden sonra geniş çekim”den bu yana hiçbir cümle sınırı çıkmadıysa en uzun konuşma duraklaması onun yerini tutar ve bu noktada, o an ne söylenirse söylensin kesilir."
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "Çiftin sert sınırı: “Şu süreden sonra geniş çekim”den uzun olup ne cümle sınırı ne de duraklama sunan bir çekim saate göre bölünür, yeter ki bu değerden de uzun kalsın. Bu, “Şu süreden sonra geniş çekim” açıkken ve “Uzun monolog” kamerayı değiştirirken geçerlidir. Selamlama ve vedanın geniş çekimi bu değerden uzun kalmaz, o ikisi ne derse desin."
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "Ardından cümlenin sonuna kadar sürer. Beş saniyenin altında bu bakış bir seğirme gibi görünür."
@@ -4747,8 +4751,8 @@ msgstr "  Resolve V%d video izini iki kez reddetti -- “%s” Timeline'ında %s
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s kayma %s, saat sürüklenmesi ölçülmedi%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  Dikkat: bu proje tamamlanmamış -- Resolve'un reddettikleri:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  Dikkat: bu proje tamamlanmamış -- eksik olanlar:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  Saat sürüklenmesi: ölçülmedi -- sesi bunun için çok az nokta verdi"
@@ -5035,9 +5039,6 @@ msgstr "Çıkış noktası son çalıştırmadan beri değişti: o zaman %s, şi
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "Prodüksiyon bitti ama tek tek izleri içeren ZIP'in düz bir dosya adı yok"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "Birden fazla kamera var ama ses kaydı yok. Her kameranın kendi sesi olurdu -- Çok izli bunun için var. Aksi halde kameralar birer birer."
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "Arşiv %s dosyasını birden fazla kez içeriyor, bu yüzden içinden hiçbir şey çıkarılmadı."
 
@@ -5046,9 +5047,6 @@ msgstr "Burada kayıtları atama dosyası adlandırıyor, bu yüzden --speaker-n
 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "Derleme sağlama toplamıyla uyuşmuyor, bu yüzden açılmadı: listede %s, gelen %s."
-
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "Sağlama toplamları listesi indirilemedi, bu yüzden derleme açılmadı: %s"
 
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "Sağlama toplamları listesi %s dosyasını içermiyor, bu yüzden derleme açılmadı."
@@ -5125,14 +5123,11 @@ msgstr "auphonic.com hesabı: bilinmiyor -- sorgulanamadı. Çalıştırma devam
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  Not: çalıştırma yine de dener. Prodüksiyonun başlayıp başlamayacağına auphonic.com karar verir ve başlamazsa bunu söyler."
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  Uyarı: bu Multitrack prodüksiyonu %s sürüyor ve ücretsiz planda auphonic.com böyle bir prodüksiyonu yalnızca yaklaşık %s süresine kadar kabul eder."
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "Bu Multitrack prodüksiyonu %s sürüyor. Ücretsiz planda auphonic.com böyle bir prodüksiyonu yalnızca yaklaşık %s süresine kadar kabul eder; daha uzunu ücretli plan gerektirir."
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  Not: auphonic.com daha uzun olanı daha başlangıçta reddeder ve bunun için hiçbir ücret almaz. Çalıştırma yine de dener; auphonic.com reddederse kendi mesajı gelir."
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "Ücretsiz planda auphonic.com bir Multitrack prodüksiyonunu yalnızca yaklaşık %s süresine kadar kabul eder."
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "Ücretsiz planın her uzunlukta kabul ettiği tek iz için, biri dışındaki tüm izleri \"%s\" olarak ayarlayın -- tek bir izin tüm sesleri taşıdığı yerde. Ya da Hazır ayar altında \"%s\" seçin (--without-auphonic): izler o zaman burada karıştırılır."
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  Bu çalıştırmanın oluşturduğu %r projesi açık kalıyor -- önceden yeniden açılabilecek\n  hiçbir şey açık değildi. Onu Resolve'un proje yöneticisinde silin."
@@ -5211,3 +5206,70 @@ msgstr "hazır miks -- konuşmacı yok, kamera yok"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "Konuşma: yalnızca ses yüksekliğine göre yerleştirilir. Kameralarla hiçbir ortak\nyanı olmayan kayıt reddedilir. Karışık: seslerin altında müzik ya da bir miks vardır,\nve ses yüksekliğinin bir şey bulamadığı yerde faz onu yerleştirebilir.\nHazır miks: başka yerde yapılmış stereo miks, karışık ses gibi yerleştirilir. İşlemin kurduğu\nmiksin yerine kamera dosyalarına ve teslime girer --\nkonuşmacı değil, kesilmez, auphonic.com'a gönderilmez.\n\"%s\" altında Konuşma sunulmaz."
+
+msgid "Cutting"
+msgstr "Kesme"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "ön ayar auphonic.com'da kesiyor (%s) -- ses görüntüden kısa dönerdi ve kameralar kayardı."
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "Bunu auphonic.com'daki ön ayarda kapatın: Audio Algorithms, Automatic Cutting -- %s işaretini kaldırın, ya da Cut Mode'u uzunluğu koruyan Set Cuts To Silent olarak ayarlayın."
+
+msgid "Speech recognition"
+msgstr "Konuşma tanıma"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "ön ayarda açık -- istenmiyor ve metninden hiçbir şey indirilmiyor: transkript burada yapılır."
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- ön ayarda olduğu gibi; program hiçbirini değiştirmez."
+
+msgid "Enough for the %s this production needs."
+msgstr "Bu prodüksiyonun gerektirdiği %s için yeterli."
+
+msgid "Not enough for the %s this production needs."
+msgstr "Bu prodüksiyonun gerektirdiği %s için yetersiz."
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s dosyasında %s kanal var, auphonic.com ise bir dosyada en fazla iki kanal kabul ediyor. Hiçbir şey gönderilmedi.\n"
+"  Hangi kanalların birlikte olduğunu belirtin: Dosyalar & prodüksiyon sekmesinde dosya her kanal için bir satıra açılır ve bir satırdaki işaret onu bir sonrakiyle birleştirir. Dosya kanal satırı göstermiyorsa, önce kanallarını ayrı dosyalar olarak kaydedin."
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Çok izli, çünkü %s iz tek bir zaman ekseninde. Başka bir çok izli hazır ayar "
+"seçilebilir; tek iz için biri dışındaki tüm izleri \"kullanma\" olarak "
+"ayarlayın."
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Tek izli, çünkü tek bir iz var. Başka bir tek izli hazır ayar seçilebilir; "
+"çok iz için ikinci bir iz ekleyin -- bir kayıt ya da \"sesi kullan\" olarak "
+"ayarlanmış bir kamera."
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> bu eşlemeden ses izi sayısı okunamıyor"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve yanıt veriyor, ancak proje yöneticisi vermiyor."
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "%s dosyasının kanalları henüz izlere bölünmedi."
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s ve %s (%s içinde) birbirine benziyor (benzerlik %s): ayırma ikisini "
+"karıştırmış olabilir -- atamalarını kontrol edin."

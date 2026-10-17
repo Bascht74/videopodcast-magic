@@ -9,7 +9,7 @@ The cut needs two people, each with a name and a camera. One person is
 enough as well, as long as a second camera is there that nobody is on.
 Separate recordings give two people, and so do the voices told apart on
 one recording whose **Speaker name** was answered with **several
-speakers**; the **Multitrack** tick is no part of it. Both ways are in
+speakers**. Both ways are in
 [Speech recognition and speaker separation](speech.md).
 
 **Who is in the cut does not depend on where they came from.** A file of
@@ -70,8 +70,7 @@ with, and a smaller camera sits in that frame at its own size.
 
 The interface takes every value on the **Resolve cut** tab, in the box
 **Camera cut**. One field per value, with the unit and a short line
-beside it. The box is there once **Multitrack** is ticked, or once the
-cut has its people -- two of them, or one with a second camera nobody is
+beside it. The box is there once the cut has its people -- two of them, or one with a second camera nobody is
 on; until then a line stands in its place and says what is missing.
 
 Inside the box the settings stand in three groups: **Timing**, **Wide
@@ -84,11 +83,11 @@ once one has been opened or shut by hand; until then all of them open,
 and a group holding a value off its default is the last to be shut for
 room.
 
-![The knobs for the camera cut](images/resolve-cut.png)
+![The finished cut with its band and legend](images/cut-band.png)
 
-*Tab Resolve cut: the values on the left in three groups that fold
-away, the preview on the right. Words are written down here, so every
-setting is active.*
+*The preview on the tab Resolve cut once the cut is worked out: its
+numbers over the player, the band of shots under it, and the legend
+with each camera's share.*
 
 All nine fields take seconds, and the number in each line is the
 default. An empty field means the default, a comma counts as the decimal
@@ -138,12 +137,20 @@ a soft limit and a hard one.
   seconds the picture leaves that guest 77 times, every 39 seconds; at
   70 it leaves them 37 times, every 104. Both place the shot on a
   sentence boundary, so this is rhythm and not correctness.
-* **Wide shot at the latest**: 120 s, the hard limit. Where no sentence
-  boundary has turned up since **Wide shot after**, the longest speech
-  pause nearby stands in for one, and there the cut happens whatever is
-  being said; where not even a usable pause is there, it falls by the
-  clock. Smaller breaks a standing camera up sooner (on the command
-  line `--wide-latest`)
+* **Wide shot at the latest**: 120 s, the hard limit. The two minutes
+  are set, not measured: unlike the soft limit, no recording has shown
+  where they ought to lie. Where no sentence boundary has turned up
+  since **Wide shot after**, the longest speech pause nearby stands in
+  for one, and there the cut happens whatever is being said; where not
+  even a usable pause is there, the clock breaks the shot up, provided
+  it stands longer than this too. That part holds only together with
+  **Wide shot after**: with that at 0, or **Long monologue** on **No
+  camera change**, it breaks nothing up, however long a camera stands.
+  The wide shot for greeting and farewell holds no longer than this all
+  the same, whatever those two say (the tick below). Smaller lets the
+  clock in on shorter shots, down to **Wide shot after**, and shortens
+  the wide shot over a long greeting or farewell (on the command line
+  `--wide-latest`)
 * **Wide shot at least**: 5 s, the inserted wide shot stands at least
   this long and then runs on to the end of the sentence; higher makes
   every look away longer (on the command line `--wide-length`)
@@ -664,7 +671,11 @@ How the script reads the tracks:
 * It cuts each track into blocks of 100 milliseconds.
 * It measures each block against that track's own noise floor, the
   quietest fifth of its blocks; 10 dB above that counts as speech.
-* Pauses under 0.35 seconds are not speaker changes.
+* Pauses under 0.75 seconds are not speaker changes. Measured on seven
+  excerpts of real interviews against who really spoke: at 0.75 rather
+  than 0.35 seconds the camera was on the person speaking more often in
+  all seven, on average 92.7 per cent of the time against 88.5, with as
+  many cuts as before.
 * Passages under 0.2 seconds do not count. Measured on 31 minutes
   of three-microphone material: below that the passages that come
   back average two tenths of a second, which is breath rather than
@@ -687,8 +698,10 @@ undone: the levels stay as measured, and the log says why and names the
 worst pair.
 
 Down to 5 dB of separation the detection is exact, well below the 9.5 dB
-the 3:1 rule asks for; the measurements behind that number are in
-[What was measured](../development/measurements.md).
+the 3:1 rule asks for. The 5 dB are measured, and the measurements are
+in [What was measured](../development/measurements.md); the 9.5 dB are
+set, not measured: the rule's own arithmetic, which no recording here
+has tested.
 
 The log says how strong the bleed was, and under it the speech time and
 the number of passages per speaker. If nothing was audible, there is
@@ -739,8 +752,9 @@ everything set by hand that cannot be guessed again. That is the file
 list, the production name, the project type and the output folder, the
 time window, every
 value of the camera cut, who belongs to which camera, the Auphonic
-preset, the stereo ticks, the measured position of every file and how
-fast its recorder ran; the
+preset, the stereo ticks, the measured position of every file, how
+fast its recorder ran and which camera the others were measured
+against; the
 API key is **not** in there.
 
 It keeps what somebody answered, and nothing else. A preset picked by
@@ -758,7 +772,10 @@ about it, so that adding it again later starts from nothing rather than
 from an answer nobody can see any more.
 
 On opening, the program checks the format of the file and refuses a file
-in another format. It can no longer open older project files.
+in another format. It can no longer open older project files. A file
+that only lacks something added later -- how fast a recorder ran, which
+camera the others were measured against -- is in the same format and
+opens; what is missing is then worked out the way it was before.
 
 The file appears as soon as the program has measured the time axis, then
 still next to the material, because there is no output folder yet. If
@@ -809,11 +826,12 @@ clause break before it ends the shot.
 **Wide shot at the latest** is the rip cord. Where no sentence boundary
 turns up, the longest speech pause nearby takes its place, and there the
 cut happens whatever is being said; where there is no usable pause
-either, one camera is broken up by the clock so that no piece of it
-stands longer than this. Without a transcript there are no sentence
-boundaries at all: the wide shot then goes to the longest pause nearby
-and stands the set minimum -- which is why the soft limit is shut until
-the words are there and the hard one is not.
+either, one camera is broken up by the clock, provided it stands
+longer than this too -- as long as **Wide shot after** is on and **Long
+monologue** changes the camera, see above. Without a transcript there
+are no sentence boundaries at all: the wide shot then goes to the
+longest pause nearby and stands the set minimum -- which is why the
+soft limit is shut until the words are there and the hard one is not.
 
 ### What the metrics and the colour comparison measure
 
@@ -864,8 +882,8 @@ loudness measurement runs through each track twice.
   separation found a single voice and there is only one camera. The log
   says so, under `SPEAKERS -- MEASURED HERE` or
   `SPEAKERS -- SEPARATED BY VOICE`.
-* **No box for the cut on the Resolve cut tab.** **Multitrack** is not
-  ticked, and nobody carries a name and a camera -- or one person does
+* **No box for the cut on the Resolve cut tab.** Nobody carries a name
+  and a camera -- or one person does
   and there is no second camera. On the **Assignment & time window** tab
   give each voice a name and a camera.
 * **Four settings are grey and take nothing.** No transcript is written

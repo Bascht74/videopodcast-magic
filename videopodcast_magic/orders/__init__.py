@@ -38,16 +38,10 @@ argparse = PROGRAM.argparse
 camera_labels = PROGRAM.camera_labels
 label_of = PROGRAM.label_of
 languages = PROGRAM.languages
-number_text = PROGRAM.number_text
 os = PROGRAM.os
 path_key = PROGRAM.path_key
 python_note = PROGRAM.python_note
 separation_has_voices = PROGRAM.separation_has_voices
-
-# The switches that need several recordings. Everything else works on
-# any run since the two paths became one -- the assignment file too.
-# Not --multitrack itself: a switch marked as needing itself says nothing.
-ONLY_MULTITRACK = ("auphonic_resume",)
 
 
 #--------------------------------------- Out of the window into an order
@@ -276,33 +270,6 @@ def run_argv(values, assignment_file_path=""):
     # either path, so both ask first; a name left empty merges nothing.
     names = [(r.get("speakers") or "").strip() for r in lines]
     duplicate = sorted(set(n for n in names if n and names.count(n) > 1))
-    if values.get("multitrack"):
-        if only_video:
-            messages.append((
-                "question", T('Cameras only'),
-                T('There are no separate audio recordings. Then the audio '
-                  'of the %s cameras is used -- each becomes a track, and '
-                  'Auphonic removes the bleed.')
-                % number_text(len(values.get("rows") or []), 0),
-                T('Take the camera audio')))
-        if len(lines) < 2:
-            return error(
-                T('Multitrack needs several tracks'),
-                T('Multitrack needs at least two input tracks. A track is '
-                  'a recording of its own, a channel of a multichannel '
-                  'recorder, or the audio of a video file set to "use '
-                  'internal audio". Several blocks of the same recording '
-                  'count as one, tracks set aside not at all.'))
-        if not all(names):
-            return error(
-                T('Speaker names'),
-                T('Every row needs a name -- at Auphonic it becomes the '
-                  'track ID.'))
-        if duplicate and len(set(names)) < 2:
-            return error(
-                T('Only one speaker'),
-                T('All rows carry the same name -- that makes a single '
-                  'track, and Multitrack needs at least two.'))
     if duplicate:
         messages.append((
             "question", T('Names used more than once'),
@@ -319,10 +286,6 @@ def run_argv(values, assignment_file_path=""):
             T('File names'),
             T('Two cameras would produce the same new file. Please '
               'give different names.'))
-    # One plan on both paths: the tick only groups the recordings, so
-    # the chosen cameras and "do not use" reach every run alike.
-    if values.get("multitrack"):
-        argv += ["--multitrack"]
     if assignment_file_path:
         argv += ["--assign", assignment_file_path]
     if values.get("speakers_wanted") is False:
@@ -755,9 +718,14 @@ def build_argument_parser():
                          "before it ends the shot. (default: 15)")
     ap.add_argument("--wide-latest", dest="wide_latest", type=float,
                     default=WIDE_LATEST_S, metavar="SECONDS",
-                    help="upper limit: longest one camera may stand without "
-                         "a cut. Where no good pause turns up, it cuts "
-                         "anyway. (default: %g)" % WIDE_LATEST_S)
+                    help="hard limit: a shot longer than --wide-after "
+                         "that offers neither a sentence boundary nor a "
+                         "pause is broken up by the clock, provided it "
+                         "stands longer than this too -- while "
+                         "--wide-after is not 0 and --on-monologue not "
+                         "hold. The wide shot at the beginning and the "
+                         "end holds no longer than this, whatever those "
+                         "two say. (default: %g)" % WIDE_LATEST_S)
     ap.add_argument("--no-wide-edges", dest="no_wide_edges",
                     action="store_true",
                     help="do NOT hold the wide shot at the beginning and the "
@@ -826,17 +794,18 @@ def build_argument_parser():
                          "shows it.")
     ap.add_argument("--production", default="", metavar="NAME",
                     help="the production's name, which the handover, the "
-                         "lists and the transcript are named after. "
+                         "lists and the transcript are named after, and "
+                         "the title it goes up under at auphonic.com. "
                          "Without it the folder the material lies in. "
                          "Not read beside --assign: the assignment file "
                          "carries its own.")
     ap.add_argument("--no-single-tracks", dest="no_single_tracks",
                     action="store_true",
                     help="put only the mix into the video, not the single "
-                         "recordings beside it. Without Multitrack several "
-                         "recordings running at the same time are mixed "
-                         "into one track; by default each also goes in on "
-                         "its own, unprocessed, so the edit can reach for "
+                         "recordings beside it. Several recordings running "
+                         "at the same time are mixed into one track; by "
+                         "default each also goes in on its own, "
+                         "unprocessed, so the edit can reach for "
                          "one voice. That costs about 520 MB per track and "
                          "hour.")
     ap.add_argument("--together", action="append", nargs="+",
@@ -876,18 +845,9 @@ def build_argument_parser():
     ap.add_argument("--without-auphonic", dest="without_auphonic",
                     action="store_true",
                     help="run without auphonic.com: align, mix and write "
-                         "locally. The camera cut then comes from a speech "
-                         "detection of our own. No de-bleed, no leveler, no "
-                         "noise removal.")
-    ap.add_argument("--multitrack", action="store_true",
-                    help="send every audio file to Auphonic as its own "
-                         "track, so the bleed between the microphones can be "
-                         "removed. Needs two input tracks -- a recording "
-                         "of its own, a channel of a multichannel "
-                         "recorder, or the audio of a camera -- and a "
-                         "multitrack preset. Which audio belongs to which "
-                         "camera comes from --assign; the interface writes "
-                         "that file.")
+                         "locally. The camera cut is the same as with a "
+                         "preset: who speaks when is measured here. No "
+                         "de-bleed, no leveler, no noise removal.")
     ap.add_argument("--speech-language-camera", dest="speech_language_camera",
                     default="", metavar="CODE",
                     type=PROGRAM.spoken_language_offered,
@@ -934,12 +894,6 @@ def build_argument_parser():
     ap.add_argument("--dry-run", action="store_true",
                     help="work everything out up to the finished cut and report it, "
                          "write nothing")
-    # A switch that needs several recordings says so, or it would be
-    # taken and do nothing. Marked here rather than at the call site:
-    # --help builds its own parser and never reaches that one.
-    for entry in ap._actions:
-        if entry.dest in ONLY_MULTITRACK:
-            entry.help = (entry.help or "") + "  [multitrack only]"
     return ap
 
 

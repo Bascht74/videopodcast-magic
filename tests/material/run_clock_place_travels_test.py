@@ -188,7 +188,7 @@ OUT = os.path.join(HOME, "out")
 
 print("1. Two quiet cameras, Sync only, cameras alone")
 code, said, stuck, took = run([sys.executable, SCRIPT, "--project-type",
-                               "sync", "--without-auphonic", "--multitrack",
+                               "sync", "--without-auphonic",
                                "--out", OUT, GUEST, PRESENTER])
 lines = [line.strip() for line in said.splitlines() if line.strip()]
 check("a run over two quiet cameras goes through",

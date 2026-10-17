@@ -9,28 +9,34 @@ Mehrere Leute am Tisch, jeder mit einem Mikrofon, auf dem alle zu hören
 sind. Dieses Übersprechen aus dem Ton zu nehmen ist das Einzige, was nur
 auphonic.com kann.
 
-Multitrack ist das Häkchen für eine Spur je Person. Alle auf einer
-Aufnahme bleiben eine Spur. Die Sprechertrennung hält die Stimmen darin
-auseinander und liefert den Schnitt, nicht je eine Spur
+Multitrack heißt: je Person eine Spur, als eine Produktion zu
+auphonic.com geschickt. Angekreuzt wird dafür nichts, das Material
+entscheidet. Zwei Spuren oder mehr auf einer Zeitachse ergeben eine
+Multitrack-Produktion, eine einzelne Spur eine Singletrack-Produktion.
+Alle auf einer Aufnahme bleiben eine Spur. Die Sprechertrennung hält die
+Stimmen darin auseinander und liefert den Schnitt, nicht je eine Spur
 ([Spracherkennung und Sprechertrennung](speech.de.md)).
 
-Das Häkchen verlangt eine Spur je Person, und sonst nichts: mit ihm
-wartet **Start**, bis die Tabelle mindestens zwei Spuren hält, jede mit
-Namen, und Kameras ganz ohne Tonaufnahme geben ihren Ton je als eigene
-Spur. Die gemeinsame Zeitachse, die Namen und Kameras in der Tabelle,
-der Kameraschnitt, die Dateien am Ende und die Art der Produktion, die
-zu auphonic.com geht, sind mit Häkchen dieselben wie ohne. Auch wer im Schnitt landet, hängt
-nicht daran, woher er kommt: eine eigene Aufnahme, der Ton einer Kamera,
-ein Kanal eines Recorders und eine Stimme, die die Trennung gefunden
-hat, zählen gleich -- draußen bleibt nur, wer auf **nicht verwenden**
-steht.
+Kameras ganz ohne Tonaufnahme geben ihren Ton je als eigene Spur. Auch
+wer im Schnitt landet, hängt nicht daran, woher er kommt: eine eigene
+Aufnahme, der Ton einer Kamera, ein Kanal eines Recorders und eine
+Stimme, die die Trennung gefunden hat, zählen gleich -- draußen bleibt
+nur, wer auf **nicht verwenden** steht.
 
-Das Häkchen gehört zum **Schnitt nach Sprecher**. Beim Projekttyp **Nur
-synchronisieren** fehlt die Zeile auf dem Reiter, und das Häkchen ist
-aus: je Person eine Spur ist eine Frage danach, wer spricht, und dieser
-Typ fragt niemanden. Er nimmt eine Tonaufnahme und legt sie als
-`Full-Mix` in jede Kameradatei ([Der einfache Weg](simple-path.de.md)
-sagt, wie die beiden Fragen zueinander stehen).
+Unter der Preset-Liste sagt eine Zeile, welche Art es wird und warum --
+`Multitrack, weil 3 Spuren auf einer Zeitachse liegen.` --, und die
+Liste bietet nur Presets dieser Art an. Dieselbe Zeile sagt, was daran
+etwas ändert: ein anderes Preset derselben Art, oder Spuren, die auf
+**nicht verwenden** gestellt oder hinzugenommen werden
+([Aufbereitung über auphonic.com](auphonic.de.md)). Frühere Versionen
+hatten unter den Tabellen ein Häkchen **Multitrack (je Sprecher eine
+Spur)**; ein damit gespeichertes Projekt öffnet sich wie jedes andere,
+und das gespeicherte Häkchen wird nicht mehr gelesen.
+
+Beim Projekttyp **Nur synchronisieren** fragt niemand, wer spricht.
+Dieser Typ nimmt eine Tonaufnahme und legt sie als `Full-Mix` in jede
+Kameradatei ([Der einfache Weg](simple-path.de.md) sagt, wie die beiden
+Fragen zueinander stehen).
 
 Alles andere läuft lokal. [Aufbereitung über auphonic.com](auphonic.de.md)
 beschreibt den Weg dahin (auf der Kommandozeile `--without-auphonic`). Das
@@ -84,11 +90,8 @@ listet die Kameras, danach zwei Sonderfälle:
   grau, und im Feld steht **ungenutzt**. Für eine Aufnahme, deren Video
   noch fehlt.
 
-Das Auswahlfeld steht mit dem Häkchen **Multitrack** da und ohne es: zu
-welcher Kamera eine Aufnahme gehört, ist so oder so dieselbe Frage, und
-der Kameraschnitt stellt sie mit gesetztem Häkchen wie ohne. Das Häkchen
-anzuklicken nimmt darum nichts weg -- eine von Hand gewählte Kamera
-bleibt stehen. Nur wo eine Aufnahme ihre Stimmen als eigene Zeilen
+Eine von Hand gewählte Kamera bleibt stehen, gleich, welche Art von
+Produktion die Spuren ergeben. Nur wo eine Aufnahme ihre Stimmen als eigene Zeilen
 zeigt, weicht das Feld: dann tragen die Zeilen darunter die Kameras, und
 die Zelle der Aufnahme sagt das grau.
 
@@ -120,7 +123,7 @@ und sagt **kommt mehrfach vor. Die Aufnahmen werden zu einer Spur
 zusammengefasst und nach Timecode hintereinandergelegt -- richtig, wenn
 zwischendurch gestoppt wurde**, und genau dafür ist dieses
 Zusammenfassen da. Vor dem Lauf wird das noch einmal gefragt, unter
-**Mehrfach vergebene Namen**, mit dem Häkchen Multitrack wie ohne.
+**Mehrfach vergebene Namen**.
 
 Eine Stimme dagegen lässt sich nur mit sich selbst zusammenfassen.
 Klingt eine getrennte Stimme wie eine, die in einer anderen Aufnahme
@@ -141,7 +144,7 @@ die Spalte **bekommt Audio von**: zugeordnet wird dort niemand, sie
 hätte also nichts zu sagen.
 
 **neue Datei heißt** ist das, was aus dieser Kamera herauskommen wird --
-mit Häkchen wie ohne, und auch bei **Nur synchronisieren**: unter
+auch bei **Nur synchronisieren**: unter
 diesem Namen schreibt der Lauf die Kameradatei. Bis jemand
 darüberschreibt, ist es ein Vorschlag, und ein getippter Name -- hier
 wie bei einer Stimme -- bleibt genau so, wie er getippt wurde, auch
@@ -161,10 +164,11 @@ aller Regel neben dem Material, und in einem Ordner, in dem jede Datei
 mit demselben Wort beginnt, sagt dieses Wort niemandem etwas.
 
 Steht auf einer Kamera kein Sprechername -- kein Sprecher, und ihr
-eigener Ton nicht als Spur behalten --, tritt mit Häkchen
-`Audio-Full-Mix` an die Stelle der Sprecher: diese Kamera trägt den
-ganzen Ton. Ohne Häkchen bekommt sie ihren eigenen Dateinamen
-vorgeschlagen, `CAM_B.mov` also `CAM_B`. Bei **Nur synchronisieren**
+eigener Ton nicht als Spur behalten --, bekommt sie ihren eigenen
+Dateinamen vorgeschlagen, `CAM_B.mov` also `CAM_B`, gleich, welche Art
+von Produktion die Spuren ergeben. Ein Projekt aus einer früheren
+Version kann für eine solche Kamera `CAM_B_Audio-Full-Mix` enthalten;
+getippt hat das niemand, also weicht es `CAM_B`. Bei **Nur synchronisieren**
 bekommt jede Kamera ihren eigenen Dateinamen vorgeschlagen, gleich wer
 auf ihr stehen mag: dieser Typ fragt niemanden, wer spricht, und so
 gibt es niemanden, nach dem sie heißen könnte.
@@ -227,10 +231,6 @@ Feld steht die eigene Antwort des Programms -- **Vorspann**, oder
 oder wenn an der Datei überhaupt nichts zu messen war
 ([Die Oberfläche](interface.de.md)).
 
-Das Häkchen **Multitrack** steht unter den Tabellen, auf der eigenen
-Zeile, die [Die Oberfläche](interface.de.md) beschreibt, und sonst
-nirgends. Auf der Kommandozeile heißt es `--multitrack`.
-
 Multitrack braucht zwei Eingangsspuren. Drei Dinge zählen als Spur:
 
 - eine eigene Aufnahme,
@@ -239,13 +239,14 @@ Multitrack braucht zwei Eingangsspuren. Drei Dinge zählen als Spur:
   steht.
 
 Das Programm zählt die Zeilen der oberen Tabelle, ohne die auf **nicht
-verwenden**. Der Kameraschnitt braucht dieses Feld nicht.
+verwenden**; Zeilen mit demselben Namen sind eine Spur. Der
+Kameraschnitt braucht keine zwei davon.
 
 ![Die beiden Tabellen der Zuordnung](images/assignment.de.png)
 
 *Reiter Zuordnung & Zeitfenster: die Aufnahmen mit ihrer Kamera, die
-Kameras mit der Spalte Kameraton, und unter beiden Tabellen das
-Häkchen Multitrack und der Kasten für auphonic.com.*
+Kameras mit der Spalte Kameraton, und unter beiden Tabellen der Kasten
+für auphonic.com.*
 
 ### Kameraton zur Spur machen
 
@@ -376,9 +377,10 @@ Beide Grenzen nehmen diese Angaben:
 Die Knöpfe bleiben gesperrt, solange die gemeinsame Zeitachse fehlt.
 Danach gelten sie für alle Dateien gleich, auch für die ohne Timecode.
 
-**Eine Uhrzeit geht auch dann, wenn die längste Kamera keine Uhr
-trägt.** In ihr wird das Fenster gezählt, aber sie muss nicht die sein,
-die die Tageszeit kennt: die Achse hängt dann an den Uhren der übrigen
+**Eine Uhrzeit geht auch dann, wenn die Referenzkamera keine Uhr
+trägt.** Das Fenster wird in der längsten Kamera gezählt, die gehört
+wurde -- eine längere, deren Ton nichts hergibt, wird übergangen --, und
+sie muss nicht die sein, die die Tageszeit kennt: die Achse hängt dann an den Uhren der übrigen
 Dateien, und der Lauf sagt, an welchen er sie gehängt hat und worauf ihr
 erstes Bild damit steht. Erst wenn keine einzige Datei auf der Achse
 eine Uhr trägt, hat eine Uhrzeit nichts, worüber sie sich umrechnen
@@ -420,7 +422,8 @@ Im selben Block meldet jede Kamera ihren Versatz und ihren Uhrengang.
 Wo keine Messung einen Uhrengang ergeben hat, steht statt einer Zahl,
 dass keiner gemessen ist. Die Referenz sagt `Uhrengang: nichts gemessen
 -- das ist die Referenz, gegen die die anderen gehalten werden`: Es ist
-die längste Kamera, die, gegen die alle anderen gemessen wurden, und an
+die längste Kamera, die gehört wurde, die, gegen die alle anderen
+gemessen wurden, und an
 ihr hat also keine Messung etwas ergeben. Hat der Ton eine Kamera zwar
 platziert, aber auf zu wenigen Punkten, um daraus einen Gang zu
 bestimmen, heißt es `Uhrengang: nicht gemessen -- sein Ton gab zu
@@ -464,8 +467,7 @@ bext-Block, dazu iXML für Premiere und Media Composer.
 Manchmal gibt es gar kein Bild: mehrere Mikrofone an einem Tisch, und
 nichts filmt. Bei mehreren Aufnahmen ohne Videodatei baut das Programm
 die Achse aus den Spuren selbst -- sie werden gegeneinander gelegt statt
-gegen eine Kamera --, und das mit dem Häkchen Multitrack ebenso wie
-ohne.
+gegen eine Kamera.
 
 Referenz ist die längste Aufnahme, aus demselben Grund wie sonst die
 längste Kamera: sie überschneidet sich am meisten mit den übrigen. Jede
@@ -473,7 +475,27 @@ andere Spur wird dagegen gemessen, Versatz und Uhrengang in einem Zug,
 und das Protokoll nennt die Referenz mit ihrer Laufzeit und jede Spur
 mit dem, was gefunden wurde. Eine Spur, deren Ton zu nichts passt,
 steht an ihrem Timecode, so wie sie es neben einem Bild täte; eine Spur
-ohne beides wird genannt und bleibt draußen.
+ohne beides wird genannt und bleibt draußen. Gemessen wird das für
+dieselben Dateien nur einmal: **Start** und **Probelauf** übernehmen,
+was das Fenster gemessen hat, und das Fenster übernimmt, was ein Lauf
+gemessen hat -- genau wie neben einem Bild. Das Protokoll sagt dann
+`Aus der auf diesem Rechner gespeicherten Messung übernommen`.
+
+Dasselbe gilt neben Kameras, die keinen Ton geben. Gibt keine einzige
+Kamera Ton -- keine hat eine Tonspur, oder aus keiner lässt sich etwas
+lesen --, dann gibt es nichts, wogegen sich die Aufnahmen legen ließen;
+sie tragen die Achse also auch hier und werden genau wie oben
+gegeneinander gelegt. Jede Kamera steht dann dort, wohin ihr Timecode
+sie setzt, gemessen an der ersten Aufnahme, die der Ton eingeordnet hat
+und die einen Timecode trägt, die Referenz zuerst. Das Protokoll sagt
+von ihr, sie gebe keinen messbaren Ton und sei allein nach ihrer Uhr
+eingeordnet, und das Fenster legt sie an dieselbe Stelle, mit dem
+Vermerk **Ton nicht erkannt; über den Timecode platziert**. Eine Kamera
+ohne Timecode, oder ohne eine solche Aufnahme, an der er sich messen
+ließe, bleibt draußen, und ist keine Kamera mehr übrig, hält der Lauf
+an. Von da an geht alles wie mit Bild: Die längste Kamera, die einen
+Platz hat, gibt die Zeitachse vor, und die Spuren kommen in die
+Kameradateien.
 
 Das Fenster fasst alles, was irgendeine Spur gehört hat. Eine Aufnahme,
 die später eingeschaltet wurde, bekommt Stille davor, eine früher
@@ -509,11 +531,11 @@ mastert
 
 ### Wenn etwas klemmt
 
-- **Multitrack, kein Bild, und der Lauf hält sofort an.** Nach dem
-  Zusammenfassen bleibt nur eine Spur übrig, und Multitrack heißt eine
-  Spur je Stimme. Statt zwei Menschen in eine Datei zu kleben, hält der
-  Lauf an, bevor er etwas zusammenfügt. Wo zwei Menschen für eine
-  Aufnahme genommen wurden, hält `--apart` einen Block heraus.
+- **Kein Bild, und zwei Menschen landen in einer Datei.** Nach dem
+  Zusammenfassen bleibt nur eine Spur übrig, und die Blöcke einer
+  Aufnahme werden einfach aneinandergefügt -- eine einzelne Spur ist
+  keine Multitrack-Produktion. Wo zwei Menschen für eine Aufnahme
+  genommen wurden, hält `--apart` einen Block heraus.
 - **Nur eine Spur hat einen Platz gefunden.** Die übrigen ließen sich
   nicht gegen die Referenz messen, und eine Spur allein hat nichts mehr,
   wogegen sie liegen könnte. Die Zeilen darüber nennen jede einzelne und
@@ -537,7 +559,8 @@ mastert
   gemeinsam -- oder sie hat gar keine Tonspur, und ihr **Kameraton**
   sagt **keine Tonspur** --, und auch kein Timecode ordnet sie ein: Sie
   trägt keinen, oder keine Kamera, die der Ton eingeordnet hat, trägt
-  einen, mit dem sich ihrer abgleichen ließe. Das Programm schlägt vor,
+  einen, mit dem sich ihrer abgleichen ließe (keine Aufnahme, wo keine
+  Kamera Ton gibt). Das Programm schlägt vor,
   sie wegzulassen, statt sie auf gut Glück irgendwohin zu legen; das
   Protokoll nennt die Datei und sagt, welcher der beiden Fälle es ist.
   Sie braucht einen Timecode, der zu den anderen Aufnahmen passt -- den
@@ -576,12 +599,6 @@ mastert
   eine Spur. Von selbst werden sie es nicht mehr: einer Kamera, die eine
   brauchbare Spur aufnimmt, sieht man das nicht an -- sie kann ebenso
   nur im selben Raum filmen.
-- **Mehrere Kameras, keine Tonaufnahme, Multitrack aus, und Start
-  bleibt gesperrt.** Unter **Start** steht, dass es mehrere Kameras,
-  aber keine Tonaufnahme gibt. Jede Kamera brächte ihren eigenen Ton
-  mit, und eine Spur je Kamera ist genau das, wofür Multitrack da ist.
-  **Multitrack** ankreuzen, eine Tonaufnahme hinzufügen oder die Kameras
-  nacheinander verarbeiten.
 - **Eine Stimme trägt einen Namen, den schon jemand anderes hat, und
   Start bleibt gesperrt.** Ein Name ist eine Person, und der Schnitt
   setzt eine Person auf eine Kamera; derselbe Name zweimal wäre eine

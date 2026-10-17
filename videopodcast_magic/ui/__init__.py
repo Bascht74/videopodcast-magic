@@ -106,7 +106,6 @@ soxr_available = PROGRAM.soxr_available
 soxr_note = PROGRAM.soxr_note
 speakers_project_block = PROGRAM.speakers_project_block
 start_again = PROGRAM.start_again
-stop_if_running = PROGRAM.stop_if_running
 strip_marks = PROGRAM.strip_marks
 styles_follow_scheme = PROGRAM.styles_follow_scheme
 subprocess = PROGRAM.subprocess
@@ -494,8 +493,8 @@ def run_tracks_of(model):
     As the run takes them: a recording set to "do not use" is none, and
     rows of one name are one track -- an unnamed row counts alone. A
     video not intro, outro or ignored is a picture, and lays the tracks
-    on one axis; so do two or more without one, whatever the Multitrack
-    tick says. The length is run_seconds_of's.
+    on one axis; so do two or more without one. The length is
+    run_seconds_of's.
     """
     names = [v.get().strip() for _r, v, choice in model.assign_lines
              if choice.get() != IGNORE_AUDIO]
@@ -509,11 +508,10 @@ def run_tracks_of(model):
 
 
 def run_seconds_of(model, multitrack):
-    """How long the rows' productions at auphonic.com last, in seconds.
+    """What the rows' productions at auphonic.com are charged, in seconds.
 
     A row lasts as long as its blocks end to end, a track as its
-    longest row. One Multitrack production lasts as long as its longest
-    track; Singletrack productions are charged each, so they add up. The
+    longest row; charged_seconds says what the tracks are charged. The
     run lays the tracks on one axis first, which only lengthens them, so
     this is the least it needs. 0 where nothing is measured.
     """
@@ -525,13 +523,11 @@ def run_seconds_of(model, multitrack):
                   ) / float(PROGRAM.SR)
         track = name.get().strip() or i
         tracks[track] = max(tracks.get(track, 0.0), row)
-    lengths = list(tracks.values()) or [0.0]
-    return max(lengths) if multitrack else sum(lengths)
+    return PROGRAM.charged_seconds(list(tracks.values()), multitrack)
 
 
-def missing_conditions(files, production, multitrack, assign_lines,
-                       camera_lines, voice_lines=(), voiced=(),
-                       project_type="cut"):
+def missing_conditions(files, production, assign_lines, camera_lines,
+                       voice_lines=(), voiced=(), project_type="cut"):
     """Report what is still missing, and where it is missing.
 
     Returns {key: reason}; empty means everything is there. Reasons go
@@ -547,34 +543,11 @@ def missing_conditions(files, production, multitrack, assign_lines,
         pending[21] = T('The production has no name yet.')
     if not project_type:
         pending[23] = T('No project type chosen yet.')
-    if multitrack:
-        used = [r for r in assign_lines if r[2].get() != IGNORE_AUDIO]
-        if len(used) < 2:
-            pending[22] = (T('Multitrack needs two tracks in the table '
-                             'above -- a camera counts as one once its '
-                             'Camera audio is set to "use internal audio".'))
-        elif not all(v.get() for _r, v, _k in used):
-            pending[22] = T('One audio recording has no speaker name yet.')
-        else:
-            names = [v.get() for _r, v, _k in used]
-            if len(set(names)) < 2:
-                pending[22] = (T('All recordings carry the same name '
-                                 '-- that makes a single track.'))
     # A voice whose name is on somebody else: to the cut two voices of
     # one name are one person, and no answer makes that right.
     clash = voice_names_clashing(assign_lines, voice_lines, voiced)
     if clash:
         pending[22] = PROGRAM.names_clash_said(clash)
-    # Two cameras and not one recording, without Multitrack: each camera
-    # would be a track of its own, and the run refuses that. Told apart
-    # by the ending, as the run splits its files.
-    heard, _seen, _other = PROGRAM.split_audio_and_video(
-        [f if isinstance(f, str) else f[0] for f in files])
-    if not multitrack and not heard and len(camera_lines or ()) >= 2:
-        pending[11] = T('Several cameras but no audio recording. Each '
-                        'camera would have its own audio -- that is what '
-                        'Multitrack is for. Otherwise one camera after '
-                        'another.')
     # No sound at all: a video file whose Camera audio is not in use
     # contributes none, and a run with nothing to hear has no first step.
     if files and not assign_lines:
@@ -590,6 +563,62 @@ def missing_conditions(files, production, multitrack, assign_lines,
         pending[22] = (T('Two cameras would produce the same file: %s')
                      % ", ".join(duplicate))
     return pending
+
+
+def tracks_awaited(pending, model, owed, again):
+    """*pending* with the recordings whose tracks have not arrived yet.
+
+    Until then files_for_run hands an audio file over whole. Every block
+    counts, and a recording set to "do not use" none. Held while *owed*,
+    the prework's open tasks by file, has work for a block, or its channels
+    are measured and its cut not tried; one not measurable, or whose cut
+    failed (None in split_files), goes whole. *again*: (owner, buttons look).
+    """
+    split_files = model.split_files
+    unused = FileSet(x for chain, _name, choice in model.assign_lines
+                     if choice.get() == IGNORE_AUDIO for x in chain)
+    waiting, working = [], False
+    for p, kind in model.files:
+        if kind != "audio" or p in unused:
+            continue
+        for b in model.blocks_of.get(p) or [p]:
+            tried = b in split_files
+            if tried and split_files[b] is not None:
+                continue
+            try:
+                wide = PROGRAM.channel_count(b) > 1
+            except Exception:
+                continue    # not countable: the run says so, nothing waits
+            busy = owed.get(b, 0) > 0
+            if wide and (busy or not tried and PROGRAM.probe_has(
+                    PROGRAM.channel_facts_name(), b)):
+                if os.path.basename(p) not in waiting:
+                    waiting.append(os.path.basename(p))
+                working = working or busy
+    if working:
+        ask_again_soon(*again)
+    if waiting:
+        pending.setdefault(11, T('The channels of %s are not cut into '
+                                 'tracks yet.') % ", ".join(waiting))
+    return pending
+
+
+def ask_again_soon(owner, look, ms=500):
+    """Have *look* called once, *ms* from now, however often this is asked.
+
+    No report follows a measurement the prework gives up on, so the
+    buttons are asked again while it works rather than never. One timer,
+    kept on *owner* by its name: a timer per look would pile up.
+    """
+    timer = owner.findChild(QtCore.QTimer, "ask_again",
+                            QtCore.Qt.FindDirectChildrenOnly)
+    if timer is None:
+        timer = QtCore.QTimer(owner)
+        timer.setObjectName("ask_again")
+        timer.setSingleShot(True)
+        timer.timeout.connect(look)
+    if not timer.isActive():
+        timer.start(ms)
 
 
 def edge_kind_barred(path, kinds, labels=None):
@@ -1098,23 +1127,19 @@ def strip_choice_build(QtWidgets, bar, value, caption, choices, tip):
     return box
 
 
-def project_type_wire(state, tabs, tab2, project_type, multitrack,
-                      mode_toggled):
+def project_type_wire(state, tabs, tab2, project_type, mode_toggled):
     """Wire the project type to the tabs: the shape, and the question.
 
     Whatever is needed from gui() comes in as an argument and keeps its
-    name inside. A change of type rebuilds the later tabs the way the
-    Multitrack tick does; the first look at the assignment tab with no
-    type chosen asks once, through PROJECT_TYPE_ASK.
+    name inside. A change of type rebuilds the later tabs; the first
+    look at the assignment tab with no type chosen asks once, through
+    PROJECT_TYPE_ASK.
     """
     def project_type_changed():
         state["project_type"] = project_type.get()
         sound_cells_follow(state)
         (state.get("axis_sound_again") or (lambda: None))()
-        if project_type.get() == "sync" and multitrack.get():
-            multitrack.set(False)       # the tick's own handler rebuilds
-        else:
-            mode_toggled()
+        mode_toggled()
 
     def project_type_asked(*_):
         if (tabs.currentWidget() is not tab2 or project_type.get()
@@ -1519,7 +1544,6 @@ def log_entry(act, where, window):
 #---------------------------------------------------------- The fittings
 # A piece of its own, in "fittings", read in above this file: the names
 # no code here reads have gone, and take_from() puts them on the program.
-checkbox_bind = PROGRAM.checkbox_bind
 hint = PROGRAM.hint
 label = PROGRAM.label
 mac_menu_name = PROGRAM.mac_menu_name
@@ -2033,7 +2057,6 @@ class MainWindow(QtWidgets.QWidget):
     material_leaving = QtCore.Signal(object)
     folder_changed = QtCore.Signal()
     folder_wanted = QtCore.Signal()
-    mode_changed = QtCore.Signal()
     presets_wanted = QtCore.Signal()
     assignment_due = QtCore.Signal()
     run_starting = QtCore.Signal()
@@ -2122,15 +2145,15 @@ class MainWindow(QtWidgets.QWidget):
                 self.tabs.setTabText(i, base_title if pending_here
                                      else base_title + "  \u2713")
 
-    def footer_build(self, state, plan, bridge, late, multitrack,
-                     without_auphonic, settings_open):
+    def footer_build(self, state, plan, bridge, late, without_auphonic,
+                     settings_open):
         """The bottom row under the tabs: what make_footer hands back.
 
         Its three buttons are kept on the window too, where the run
         start reaches for them.
         """
         parts = make_footer(QtCore.Qt, QtCore, QtWidgets, self, self.vertical,
-                            state, self.files, plan, bridge, late, multitrack,
+                            state, self.files, plan, bridge, late,
                             without_auphonic, settings_open)
         self.start_run, self.preview_button, self.break_off = (
             parts[0], parts[2], parts[3])
@@ -2191,14 +2214,14 @@ def gui():
     app_style_set(app)
 
     model = ProjectModel(loudness_last(), language_of_system())
-    files, multitrack = model.files, model.multitrack
+    files = model.files
     state = {"running": False, "results": [], "presets": None,
                "resolve_json": None, "result_folder": None,
                "camera_audio": False, "waiting": False, "without_tc": False,
                "assignment_content": None, "statistics": False,
                "in_point": "", "out_point": "", "axis": {}, "tc_there": False,
                "weak": set(), "tables": [], "axis_absolute": False,
-               "axis_clock": {}, "project_type": "", "multitrack": multitrack}
+               "axis_clock": {}, "project_type": ""}
     post = queue.Queue()
     window = MainWindow(app, files, state)
     tab2, tab3 = window.assignment_sheet, window.resolve_sheet
@@ -2278,7 +2301,7 @@ def gui():
 
     def split_arrived(path):
         """One file has been cut into its tracks: rebuild the tables."""
-        assignment_fresh()
+        window.assignment_due.emit()        # the presets follow the kind
         buttons_check()
 
     bridge.split_done.connect(split_arrived)
@@ -2290,11 +2313,10 @@ def gui():
 
     def what_missing():
         """What is still missing, in plain words, keyed by tab."""
-        return missing_conditions(files, production_var.get(),
-                                  multitrack.get(), assign_lines,
-                                  camera_lines, voice_lines,
-                                  state.get("voiced") or set(),
-                                  project_type.get())
+        return tracks_awaited(missing_conditions(
+            files, production_var.get(), assign_lines, camera_lines,
+            voice_lines, state.get("voiced") or set(), project_type.get()),
+            model, prework_pending, (window, buttons_check))
 
     def buttons_check():
         """Enable start and dry run only once nothing is missing.
@@ -2517,7 +2539,6 @@ def gui():
         try:
             d["production"] = production_var.get().strip()
             d["out_folder"] = out_folder.get()
-            d["multitrack"] = bool(multitrack.get())
             d["project_type"] = project_type.get()
             d["wide_at_edges"] = bool(edge_on.get())
             d["camera_cut"] = {s: cut_var[s].get() for s in cut_var}
@@ -2694,7 +2715,7 @@ def gui():
     (assignment_state_show, voice_play, assignment_row_show, folded_show,
      voice_add, voices_build, voices_remember) = make_voice_rows(
          Qt, QtCore, assign_lines, camera_lines, voice_lines, files,
-         remembered, state, tree_open, multitrack, player,
+         remembered, state, tree_open, player,
          assignment_check, player_load, speaker_split_kick_off,
          voices_of)
 
@@ -2707,18 +2728,15 @@ def gui():
         (speaker_split_kick_off, split_stop, voices_of, several_set))
 
     def mode_toggled():
-        """The checkbox changed: what the later tabs show changes with it.
+        """The project type changed: what the later tabs show follows.
 
-        The tabs themselves stay, and so does the assignment: which camera
-        a recording belongs to is asked with the tick and without it, and
-        the same answer comes out of the run either way. So nothing here
-        throws a camera away -- that would delete real handiwork.
+        The tabs themselves stay, and so does the assignment: nothing
+        here throws a camera away -- that would delete real handiwork.
         """
         assignment_fresh()
         if files:
             window.table_show(tab2, T('Assignment && time window'), 1)
             window.table_show(tab3, T('Resolve cut'), 2)
-        # Checked again, though nothing the check asks hangs on the tick.
         preflight_kick_off()
         presets_filter()
         # Camera cut and forecast live off the speakers being told apart,
@@ -2729,27 +2747,6 @@ def gui():
         except NameError:
             pass            # the button does not exist during setup
 
-    # --- Multitrack, under the assignment table: what it needs is
-    #     decided in that table, so no earlier sheet can ask it.
-    multitrack_value = multitrack
-    multi_button = QtWidgets.QCheckBox(T('Multitrack (one track per speaker)'))
-    checkbox_bind(multi_button, multitrack_value)
-    multi_button.toggled.connect(lambda *_: mode_toggled())
-    multitrack_row = tab2.multitrack_row
-    multitrack_row.addWidget(hint(
-        multi_button, T('One audio track per person, kept apart all the '
-                        'way to auphonic.com.\nWorks without it as well -- '
-                        'then without de-bleed and leveler.\nIt needs two '
-                        'input tracks: a recording of its own, a channel '
-                        'of a\nmultichannel recorder, or the audio of a '
-                        'video file set to "use\nthe audio". The camera '
-                        'cut does not need this tick.')))
-    # Why it is not on offer. The tick stays clickable either way.
-    multitrack_note = label("", COLOURS["quiet"])
-    multitrack_row.addSpacing(10)
-    multitrack_row.addWidget(multitrack_note)
-    multitrack_row.addStretch(1)
-    state["multitrack_note"] = multitrack_note
     assignment_state_show()
 
     # --- Spoken language: the tag of the written audio track, and
@@ -2770,17 +2767,16 @@ def gui():
     #     Empty until somebody answers; the assignment tab asks once.
     strip_choice_build(QtWidgets, name_bar, project_type, T('Project type'),
                        project_type_choices(), project_type_explained())
-    project_type_wire(state, window.tabs, tab2, project_type, multitrack,
-                      mode_toggled)
+    project_type_wire(state, window.tabs, tab2, project_type, mode_toggled)
 
     # The key for auphonic.com and the preset a run is given stand in
-    # make_auphonic_box(). Below multi_button, which its handler switches.
+    # make_auphonic_box().
     (access_box, keep_where, model.key, model.done_folder,
      without_auphonic, preset_plaintext, presets_filter,
      presets_wanted_now, finished_tracks_check) = make_auphonic_box(
          QtWidgets, state, bridge, bridge_emit, tab2.run_layout,
-         settings_open, buttons_check, multi_button, out_folder,
-         commonest_folder, report, lambda: run_tracks_of(model))
+         settings_open, buttons_check, out_folder, commonest_folder,
+         report, lambda: run_tracks_of(model))
 
     # Tab 3: the Resolve check, the camera cut and its preview stand in
     # ResolveSheet. Below settings_open, which its Resolve line reaches.
@@ -2809,7 +2805,7 @@ def gui():
     # the timer that has to be stopped when the window goes.
     (start_run, start_run_env_curve, preview_button, break_off,
      plan_wipe, run_plan_build, run_step_order,
-     total_clock) = window.footer_build(state, plan, bridge, late, multitrack,
+     total_clock) = window.footer_build(state, plan, bridge, late,
                                         without_auphonic, settings_open)
 
     # ------------------------------------------------------------------
@@ -2877,7 +2873,6 @@ def gui():
          preview_compute, lambda: player_follow_up(spot_also=True))
     wire(window.folder_changed, folder_show)
     wire(window.folder_wanted, folder_pick)
-    wire(window.mode_changed, mode_toggled)
     wire(window.presets_wanted, lambda: PROGRAM.preset_list_bring(
         state, presets_wanted_now, presets_filter))
     (project_write, project_new, project_open) = make_project_file(
@@ -2915,16 +2910,19 @@ def gui():
     window.screen_fit(app)
 
     def clean_up():
-        """Write the work down first, then stop the timers and the player."""
+        """Write the work down first, then stop the timers.
+
+        Not the media players: the process ends and the system frees
+        their files. stop() keeps Python while it waits for a lock in
+        Qt's media backend, whose thread holding it can wait for Python
+        -- measured on Linux under load, about one quit in 75 hung.
+        """
         state["closing"] = True
         try:
             axis_store(state.get("axis") or {})
             watchdog.stop()
             total_clock.stop()
             output_timer.stop()
-            if getattr(player, "player", None) is not None:
-                stop_if_running(QtMultimedia, player.player,
-                                player.track)
         except Exception:
             pass
 

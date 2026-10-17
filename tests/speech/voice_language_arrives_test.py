@@ -93,6 +93,11 @@ class MacDoor(object):
 
     An empty wish is not a refusal: the Swift program takes it as "work
     it out yourself", and so does this.
+
+    Asked for its list of locales, it names none, so the program has
+    nothing to choose from and hands on the code itself -- which is
+    what this test reads. Which locale is chosen out of a real list is
+    voice_locale_fixed's.
     """
 
     PIPE = subprocess.PIPE
@@ -102,6 +107,8 @@ class MacDoor(object):
         self.asked = []
 
     def run(self, cmd, **_ignored):
+        if list(cmd[1:]) == ["--locales"]:
+            return Ran(0, b"REGION DE\n")
         self.asked.append(list(cmd))
         if len(cmd) < 4:
             return Ran(2, b"ERR arguments")

@@ -396,9 +396,6 @@ msgstr "钥匙串"
 msgid "Measuring time axis ..."
 msgstr "正在测量时间轴 ..."
 
-msgid "Multitrack (one track per speaker)"
-msgstr "多轨（每位说话人一轨）"
-
 msgid "No files or project opened yet."
 msgstr "尚未打开文件或项目。"
 
@@ -413,9 +410,6 @@ msgstr "后退一帧。"
 
 msgid "One second back."
 msgstr "后退一秒。"
-
-msgid "Only one speaker"
-msgstr "只有一位说话人"
 
 msgid "Open result folder"
 msgstr "打开结果文件夹"
@@ -570,9 +564,6 @@ msgstr "未找到"
 msgid "a recording of its own"
 msgstr "独立的录音"
 
-msgid "Cameras only"
-msgstr "仅摄像机"
-
 msgid "End %s"
 msgstr "结束 %s"
 
@@ -599,9 +590,6 @@ msgstr "开始 %s"
 
 msgid "Take from source files"
 msgstr "取自源文件"
-
-msgid "Take the camera audio"
-msgstr "采用摄像机声音"
 
 msgid "Transfer"
 msgstr "传输"
@@ -751,9 +739,6 @@ msgid "Silence"
 msgstr "静音段"
 
 msgid "Speaker name"
-msgstr "说话人姓名"
-
-msgid "Speaker names"
 msgstr "说话人姓名"
 
 msgid "Ten seconds forward."
@@ -1032,9 +1017,6 @@ msgstr "未指定音频文件。"
 msgid "Unknown extension, skipped: %s"
 msgstr "未知扩展名，已跳过：%s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "多台摄像机，却没有音频文件。每台摄像机都会有自己的声音——\n这正是 --multitrack 的用途。否则请一台接一台地处理。"
-
 msgid "Not found: %s"
 msgstr "未找到：%s"
 
@@ -1043,6 +1025,9 @@ msgstr "已中止：%s"
 
 msgid "Resolve part stopped: %s"
 msgstr "Resolve 部分已中止：%s"
+
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "Resolve 部分因本程序自身的错误而中止，并非 Resolve 的问题：%s——请报告此问题。详细信息见日志。"
 
 msgid "Presets could not be loaded: %s"
 msgstr "无法加载预设：%s"
@@ -1194,8 +1179,8 @@ msgstr "那边缺少文件——不重新上传就无法计算。\n  使用 --au
 msgid "  Existing result adopted -- nothing computed, nothing paid."
 msgstr "  采用现有结果——未计算，未付费。"
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  提示：计算使用的是当时上传的文件。它们带有\n  当天的时间窗和对齐。如果入点、出点\n  或测得的位置现在有所不同，返回检查会测量\n  差值并把音轨移到正确位置。"
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  提示：计算使用的是当时上传的文件。它们带有\n  当天的时间窗和对齐。如果入点、出点\n  和测得的位置现在仍在那个时间窗之内，返回检查会测量\n  差值并把音轨移到正确位置。如果超出它——\n  更早的入点、更晚的出点——返回检查会拒绝这些音轨：\n  此时请重新上传全部。"
 
 msgid "  Settings brought to preset %r"
 msgstr "  设置已调整为预设 %r"
@@ -1217,12 +1202,6 @@ msgstr "  压缩包内：%s"
 
 msgid "Auphonic reports %s: %s"
 msgstr "Auphonic 报告 %s：%s"
-
-msgid "No Multitrack preset found in the account."
-msgstr "账户中未找到 Multitrack 预设。"
-
-msgid "No Singletrack preset found in the account."
-msgstr "账户中未找到 Singletrack 预设。"
 
 msgid "preset does not fit the run"
 msgstr "预设不适合本次运行"
@@ -1248,20 +1227,11 @@ msgstr "系统存储"
 msgid "The key is then in the %s, never in a file."
 msgstr "密钥随后存入%s，绝不写入文件。"
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "决定 auphonic.com 如何处理音频。\n\n“%s”保留密钥，但仍不发送到那里。\n此时音频只会合并并归一化，不会分离——\n没有分开的音轨就没有镜头切换。"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic 不接受这些设置：%s"
-
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  超过两个声道时会合为一个发往 auphonic.com：只有立体声才会关闭合并。\n  如需保持声道分开，请先把文件切分成音轨。"
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "决定 auphonic.com 如何处理音频。\n\n“%s”保留密钥，但仍不发送到那里。\n此时音频只会合并并归一化，不会分离——\n但镜头切换与使用预设时相同。"
 
 msgid "Uploading %s"
 msgstr "正在上传 %s"
-
-msgid "no production id in the response: %s"
-msgstr "响应中没有制作 ID：%s"
 
 msgid "no download address for %s"
 msgstr "%s 没有下载地址"
@@ -1416,9 +1386,6 @@ msgstr "-- 无 --"
 msgid " and "
 msgstr " 和 "
 
-msgid "One track only, and no camera audio left to take."
-msgstr "只有一条音轨，也没有剩余的摄像机声音可用。"
-
 msgid "    Cross-check:"
 msgstr "    交叉核对："
 
@@ -1430,9 +1397,6 @@ msgstr "已测量时间轴——跳转落在同一位置"
 
 msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
 msgstr "%s 不在本集的时间轴上：它放在素材之前或之后，而不是剪进素材中。入点和出点属于两者之间的内容。"
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "只有一条音轨——如需第二条，请把某台摄像机的“摄像机声音”设为“使用其音频”。"
 
 msgid "\nCAMERA COLOUR COMPARISON"
 msgstr "\n摄像机色彩比较"
@@ -1461,9 +1425,6 @@ msgstr "没有自己的摄像机：%s"
 msgid "   -- that is everybody, so every shot goes to the same camera."
 msgstr "   ——也就是所有人，因此每个镜头都用同一台摄像机。"
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "无法使用多轨\n  没有 API 密钥，就没有可发送到 auphonic.com 的内容。\n  使用 --without-auphonic 时改为本地运行：对齐、\n  混音并剪辑，但没有 De-Bleed 和 Leveler。"
-
 msgid "\nCAMERA CUT"
 msgstr "\n镜头切换"
 
@@ -1487,9 +1448,6 @@ msgstr "与平均值的距离"
 
 msgid "    %-20s shifted by %s ms%s"
 msgstr "    %-20s 移动了 %s ms%s"
-
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "无法使用多轨\n  至少需要两条输入音轨，但只找到了 %s 条。\n  一条音轨可以是一段单独的录音、多声道录音机的\n  一个声道，或一台摄像机的声音——只要其“摄像机声音”\n  设为“使用其音频”就算在内。没有其中两条，\n  就没有可以分离的内容，同一个文件会作为\n  普通制作处理。"
 
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  各摄像机彼此接近（亮度最多相差 %s 级）。"
@@ -1611,11 +1569,11 @@ msgstr "回答未能持续"
 msgid "nobody was speaking at the question"
 msgstr "提问时没有人在说话"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "来自已完成的运行 -- %s 位说话人，%s"
+msgid "from the finished run -- %s, %s"
+msgstr "来自已完成的运行 -- %s，%s"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "从录音测得 -- %s 位说话人，%s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "从录音测得 -- %s，%s"
 
 msgid "In point or Out point cannot be read here."
 msgstr "此处无法读取入点或出点。"
@@ -1647,8 +1605,16 @@ msgstr "  无法写入交接文件。"
 msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
 msgstr "  每台摄像机都对应一位说话人，因此没有全景：四项全景设置和首尾勾选在此都不起作用。"
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s 位说话人，%s 个镜头，最短 %s 秒"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s，%s，最短 %s 秒"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "%s 位说话人"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s 个镜头"
 
 msgid "  The cut stays as it was."
 msgstr "  剪辑保持不变。"
@@ -1677,11 +1643,13 @@ msgstr "\n说话人\n  没有听到任何人 -- 无法由此生成镜头切换�
 msgid "  %sx away from the speaker because a shot ran longer than %s s"
 msgstr "  %s 次离开说话人，因为某个镜头超过了 %s 秒"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  所有人共用一台摄像机：在说话人切换处切成 %s 个镜头，以便 Resolve 将其编组。"
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  所有人共用一台摄像机：在说话人切换处切成 %s 个镜头，以便 Resolve 将其编组。"
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  剪辑已改变：%s 个镜头，而不是 %s 个。"
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  剪辑已改变：%s 个镜头，而不是 %s 个。"
 
 msgid "the cut uses %s"
 msgstr "剪辑使用 %s"
@@ -1742,9 +1710,6 @@ msgstr "无法预览：%s"
 
 msgid "    %-26s the camera in one piece, the mix below"
 msgstr "    %-26s 摄像机完整连续，混音在其下方"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  Resolve 部分已中止：%s"
 
 msgid "  %s is ready -- with --resolve-json it can be done later."
 msgstr "  %s 已就绪 -- 可用 --resolve-json 稍后完成。"
@@ -2021,6 +1986,15 @@ msgstr "  -->  已对齐，已消除 %s ppm 时钟漂移"
 msgid "   Caution: measurement unusable"
 msgstr "   注意：测量结果不可用"
 
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   注意：上传的内容中有 %s 秒不在其中"
+
+msgid "  -->  refused"
+msgstr "  -->  已拒绝"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  已拒绝：%s -- 返回结果与上传内容不符。\n  与其写入错误内容，不如中止。"
+
 msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
 msgstr "  来自 auphonic.com 的缩混：%s LUFS，峰值 %s dBTP (%s)"
 
@@ -2198,18 +2172,6 @@ msgstr "%s 和 %s 都设为 %s。只能有一个文件是它 —— 请把另一
 msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
 msgstr "%s 用在了不止一个声音上。一个名字就是一个人，镜头切换把一个人放在一台摄像机上 —— 同名的两个声音就等于一个人同时在两处。"
 
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack 需要多条音轨"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack 至少需要两条输入音轨。一条音轨是一段独立的录音、多声道录音机的一个声道，或设为“使用其音频”的视频文件的音频。同一录音的多个片段算作一条，搁置的音轨不计。"
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "每一行都需要一个名字 —— 在 Auphonic 中它会成为 track ID。"
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "所有行都是同一个名字 —— 这样只得到一条音轨，而 Multitrack 至少需要两条。"
-
 msgid "File names"
 msgstr "文件名"
 
@@ -2224,9 +2186,6 @@ msgstr "加载预设并选择一个，或将 API Key 留空。"
 
 msgid "Names used more than once"
 msgstr "重复使用的名字"
-
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "没有单独的录音。那就使用这 %s 台摄像机的声音 —— 每台成为一条音轨，由 Auphonic 去除串音。"
 
 msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
 msgstr "以下名字出现了不止一次：\n\n  %s\n\n这些录音会合并为一条音轨，并按时间码首尾相接。如果中途停止过录制，这样是对的。"
@@ -2377,9 +2336,6 @@ msgstr "\n没有结果：%s"
 
 msgid "\nNo usable video file -- without camera audio there is no common time axis."
 msgstr "\n没有可用的视频文件 —— 没有摄像机声音就没有共同的时间轴。"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\n合并片段后只剩一条音轨，而 Multitrack 需要每个声音一条。若两个人被当成了同一段录音，--apart 可将一个片段排除在外。"
 
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline 采用 %s：其中最高的一个，或 Resolve 在其之上的\n  下一个帧率。向上转换时 Resolve 会重复帧，向下时\n  会丢弃帧。每台摄像机保留自己的帧率，镜头切换也\n  按它计算。"
@@ -2747,6 +2703,9 @@ msgstr "已检查 %s 项"
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    已设置 --anyway：尽管有上述问题仍会运行。"
 
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    已设置 --anyway：尽管有上述问题仍会运行，但会在上传前停下——auphonic.com 会拒绝这次制作。"
+
 msgid "does the material fit together?"
 msgstr "素材是否相互匹配？"
 
@@ -2801,6 +2760,15 @@ msgstr "Resolve 会缩放到 Timeline 的分辨率。更小的画面会被放大
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "每一对声道都单独判断：一条立体声音轨，或两支麦克风因而两条音轨。无声的输入会被舍弃。文件下方的行显示测量结果，勾选可覆盖它。"
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
+msgstr ""
+"把它的声道另存为各自的文件，每个就成为一条音轨；或者在窗口中打开它，窗口会按声道行拆分。把它发送到 auphonic.com "
+"的运行会在上传前停止：auphonic.com 一个文件最多接受两个声道。"
+
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "这里按文件录制时的采样率逐个采样计数：在整数格式所能容纳的最大值上连续出现三个或更多采样。一两个属于舍入，不予报告。在那里被削掉的部分已经丢失，任何处理都无法恢复 -- 但录音仍然是录音，这不会阻挡任何事情。只统计整数格式。32 bit float 在满刻度处没有上限，因此那里无可计数。"
 
@@ -2837,6 +2805,9 @@ msgstr "\n预检 -- %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\n在第一个耗时步骤之前停止。加上 --anyway 则照样运行。"
 
+msgid "\nStopped before the first long step."
+msgstr "\n在第一个耗时步骤之前停止。"
+
 msgid "no video track"
 msgstr "无视频轨道"
 
@@ -2863,6 +2834,11 @@ msgstr "%s kHz 而非 %s kHz -- 处理时会转换。"
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s 个声道 -- 拆分为音轨，见上面的行。"
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr "%s 个声道 -- 命令行不会把它们拆分为音轨，而是把文件合成一个声道，两个人变成一个声音。"
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "声道 %d 触顶：连续三个或更多采样共 %s 次，最长 %s（%s ms），首次在 %s。"
@@ -2941,6 +2917,21 @@ msgstr "两者不能同时成立：返回的音轨会达到一个值，我们自
 
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "轨道模板中没有开启任何功能 -- 音轨会按上传时的原样返回。"
+
+msgid "Intro / outro"
+msgstr "片头 / 片尾"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "预设中有片头 -- 不会使用: 片头和片尾来自视频文件。"
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "预设中有片尾 -- 不会使用: 片头和片尾来自视频文件。"
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "预设中有片头和片尾 -- 都不会使用: 片头和片尾来自视频文件。"
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "它们来自在文件列表中类型设为片头或片尾的视频文件，或来自 --intro 和 --outro。"
 
 msgid "Check"
 msgstr "检查"
@@ -3049,6 +3040,9 @@ msgstr "%(name)s (%(prefix)s*.json);;JSON 文件 (*.json);;所有文件 (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "此交接文件没有帧率，因此无法据此构建 Timeline。请重新运行一次。"
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "此交接文件没有为 %s 指定文件，因此无法据此构建 Timeline。请重新运行一次。"
 
 msgid "This Resolve project already exists"
 msgstr "此 Resolve 项目已存在"
@@ -3185,11 +3179,17 @@ msgstr "  %s 个镜头，共 %s 秒，不含其声音。"
 msgid "  No Full-Mix found -- the Timeline stays silent."
 msgstr "  未找到 Full-Mix -- Timeline 保持无声。"
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  无法导入 Full-Mix。"
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve 的 Media Pool 中没有 Full-Mix -- Timeline \"%s\" 缺少声音。"
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  无法插入 Full-Mix。"
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve 拒绝了 Full-Mix -- Timeline \"%s\" 缺少声音。"
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve 拒绝了片头 -- Timeline \"%s\" 没有片头。"
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve 拒绝了片尾 -- Timeline \"%s\" 没有片尾。"
 
 msgid "  Audio: Full-Mix in one piece on A1 (%s)."
 msgstr "  音频：Full-Mix 整段放在 A1 上（%s）。"
@@ -3341,8 +3341,8 @@ msgstr "    有 %s 次预定的摄像机没有在录 -- 该处换成了另一台
 msgid "    Left without picture: %s"
 msgstr "    仍无画面：%s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve 没有接收任何画面 -- Timeline 为空。不会在其上\n  继续构建。"
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve 没有接收任何画面 -- Timeline \"%s\" 缺少剪辑及其声音。"
 
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  尚无此类 Timeline -- 仅新建。"
@@ -3470,12 +3470,6 @@ msgstr "全景 %s，混音是其第一条音轨"
 msgid "%s, audio track %d"
 msgstr "%s，音轨 %d"
 
-msgid "    %s could not be imported."
-msgstr "    无法导入%s。"
-
-msgid "    %s could not be inserted."
-msgstr "    无法插入%s。"
-
 msgid "    V2 could not be read back: %s"
 msgstr "    无法回读 V2：%s"
 
@@ -3485,8 +3479,8 @@ msgstr "               音频%s于 %s -- 此处与%s词相接。"
 msgid "%s (%s to %s)"
 msgstr "%s（%s 至 %s）"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  仅有 %s / %s 个镜头在 Timeline 上。"
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve 只接收了 %s / %s 个镜头 -- Timeline \"%s\" 缺少其余的剪辑。"
 
 msgid "  Transcript: %s"
 msgstr "  转录：%s"
@@ -3905,9 +3899,6 @@ msgstr "  无法判断哪个声音属于哪支麦克风，因此改为测量各�
 msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
 msgstr "该名称已被其他人使用。一个名称代表一个人，而剪辑会把一个人放到一台摄像机上 -- 请为这个声音另起名称。"
 
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  所有录音名称相同。这样只会得到一条音轨 -- Multitrack 至少需要两条。"
-
 msgid "The model could not be written: %s"
 msgstr "无法写入模型：%s"
 
@@ -3971,6 +3962,9 @@ msgstr "  正在构建语音识别器 ..."
 msgid "  The speech recognition reports: %s"
 msgstr "  语音识别报告：%s"
 
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  此处 macOS 无法识别%s，由 Whisper 接手"
+
 msgid "  The speech recogniser is built (%s s)."
 msgstr "  语音识别器已构建（%s 秒）。"
 
@@ -3983,8 +3977,8 @@ msgstr "  此计算机上没有语音识别：macOS 26 自带一个，否则会�
 msgid "  Speech recognition (%s): %s words in %s s"
 msgstr "  语音识别（%s）：%s 个词，%s 秒"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s 个词：%s %% 归于一个声音，%s %% 归于两个，%s %% 落在间隙中"
+msgid "  %s words"
+msgstr "  %s 个词"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s 个词，没有姓名——没有分离出任何人"
@@ -4040,8 +4034,19 @@ msgstr "没有时间码时，会测量文件的位置。"
 msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
 msgstr "本项目保持说话人分离关闭。剪辑照旧来自音轨或 auphonic.com。"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "还没有镜头切换：需要两个人，每人有一个名字和一台摄像机。\n分开的录音勾选 Multitrack 即可做到，单段录音在说话人姓名栏中填“多位说话人”也可以——\n在那里找到的声音会在录音下方的表格中获得各自的摄像机。\n无论如何都会创建 Resolve 项目——所有摄像机都在测得的位置上，可直接用于 Multicam。"
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"还没有镜头切换：需要两个人，每人有一个名字和一台摄像机。\n"
+"分开的录音各用自己的名字即可做到，单段录音在说话人姓名栏中填“多位说话人”也可以——\n"
+"在那里找到的声音会在录音下方的表格中获得各自的摄像机。\n"
+"无论如何都会创建 Resolve 项目——所有摄像机都在测得的位置上，可直接用于 Multicam。"
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "这需要某次运行的交接文件，而现在没有。"
@@ -4075,9 +4080,6 @@ msgstr "重新启动失败。请关闭窗口，并按之前的方式启动程序
 
 msgid "No newer version found. This one is %s."
 msgstr "没有找到更新的版本。当前是 %s。"
-
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack 需要上方表格中有两条音轨——摄像机的摄像机声音设为“使用其音频”后，就算作一条。"
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s 用在了不止一个说话人上——一个名字就是一个人，每个人都需要自己的名字。"
@@ -4130,9 +4132,6 @@ msgstr "跳到时间窗的开头。"
 msgid "Jumps to the end of the window."
 msgstr "跳到时间窗的结尾。"
 
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "每人一条音轨，一直分开保持到 auphonic.com。\n不勾选也能工作——但就没有 De-Bleed 和 Leveler。\n需要两条输入音轨：单独的录音、多声道录音机的\n一个声道，或设为“使用其音频”的\n视频文件的音频。镜头切换不需要这个勾选。"
-
 msgid "During greeting and farewell the picture stays wide."
 msgstr "在开场问候和结尾道别时，画面保持全景。"
 
@@ -4150,9 +4149,6 @@ msgstr "请重新启动程序以使其生效。"
 
 msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
 msgstr "MIT 许可证，Copyright (c) 2026 Sebastian Lotz。按原样提供，不附带任何形式的担保。"
-
-msgid "One audio recording has no speaker name yet."
-msgstr "有一段音频录音还没有说话人姓名。"
 
 msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
 msgstr "%s 已设为 %s，而一期节目只有一个。请在这里选择其他答案，或先去掉那个文件上的标记。"
@@ -4204,9 +4200,6 @@ msgstr "没有写入任何内容——还没有素材。"
 
 msgid "The text for %s could not be fetched."
 msgstr "无法获取 %s 的说明文字。"
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "所有录音都用同一个名字——这样只会得到一条音轨。"
 
 msgid "stays out"
 msgstr "不使用"
@@ -4548,8 +4541,8 @@ msgstr "零点是提问者停下的地方，而不是回答开始的地方：两
 msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
 msgstr "这一对设置中的软上限：从此处起，程序等待句子边界并把全景放在那里，而不是按时钟放。0 表示关闭。“全景最迟”是硬上限，到那里即使没有句子边界也会切。"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "这一对设置中的硬上限：如果自“全景在”以来没有出现句子边界，就以最长的说话停顿代替，而到了这个时间点，无论正在说什么都会切。"
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "这一对设置中的硬上限：比“全景在”更长、既没有句子边界也没有停顿的镜头，只要它也长于此值，就会按时钟切开。仅当“全景在”开启且“长时间独白”会切换镜头时才生效。开头问候与结尾道别的全景不会超过此值，无论那两项如何设置。"
 
 msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
 msgstr "之后它会持续到句子结束。短于五秒时，这一瞥看起来像是抽搐。"
@@ -4690,8 +4683,8 @@ msgstr "  Resolve 两次拒绝了视频轨道 V%d -- Timeline \"%s\" 缺少 %s �
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s 偏移 %s，时钟漂移未测量%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  注意：此项目不完整 -- Resolve 拒绝了以下内容："
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  注意：此项目不完整 -- 缺少以下内容："
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  时钟漂移：     未测量 —— 其声音中可用的点太少"
@@ -4977,9 +4970,6 @@ msgstr "出点自上次运行以来已改变：当时 %s，现在 %s。视频中
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "制作已完成，但包含各条单独音轨的 ZIP 没有简单的文件名"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "多台摄像机，却没有录音。每台摄像机都会有自己的声音 -- 这正是多轨的用途。否则请一台接一台地处理。"
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "压缩包中 %s 出现了不止一次，因此没有从中取出任何内容。"
 
@@ -4988,9 +4978,6 @@ msgstr "这里由分配文件为录音命名，因此 --speaker-name 会被丢�
 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "预编译版本与其校验和不符，因此未解压：列表中为 %s，收到的是 %s。"
-
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "无法获取校验和列表，因此未解压预编译版本：%s"
 
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "校验和列表中没有 %s，因此未解压预编译版本。"
@@ -5067,14 +5054,11 @@ msgstr "auphonic.com 账户：未知——无法查询。运行继续。"
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  提示：运行仍会尝试。制作是否开始由 auphonic.com 决定，若不开始它会说明。"
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  警告：此 Multitrack 制作长 %s，而免费方案下 auphonic.com 只接受约 %s 以内的此类制作。"
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "这个 Multitrack 制作时长 %s。免费方案下，auphonic.com 只接受约 %s 以内的这类制作；更长的需要付费方案。"
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  提示：更长的制作会在开始时被 auphonic.com 拒绝，且不收取任何费用。运行仍会尝试；若 auphonic.com 拒绝，随后会显示它自己的消息。"
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "免费方案下，auphonic.com 只接受约 %s 以内的 Multitrack 制作。"
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "若要单轨（免费方案接受任意长度），请把除一条以外的所有音轨设为“%s”——前提是有一条音轨包含所有人的声音。或者在预设中选择“%s”（--without-auphonic）：音轨随后在这里混音。"
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  本次运行创建的项目 %r 保持打开 -- 之前没有可以重新打开的项目\n  处于打开状态。请在 Resolve 的项目管理器中删除它。"
@@ -5153,3 +5137,62 @@ msgstr "成品混音 -- 不是说话人，没有摄像机"
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "语音：仅按响度放置。与摄像机毫无共同之处的\n录音会被拒绝。混合：人声下面有音乐或混音，\n在响度找不到任何东西的地方，可以按相位放置。\n成品混音：在别处制作的立体声混音，按混合声音放置。它进入\n摄像机文件和交接文件，代替本次运行生成的混音 --\n不是说话人，不剪切，不发送到 auphonic.com。\n在“%s”下不提供语音。"
+
+msgid "Cutting"
+msgstr "剪切"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "预设在 auphonic.com 上剪切 (%s) -- 声音返回时会比画面短，摄像机会错位。"
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "请在 auphonic.com 的预设中关闭: Audio Algorithms, Automatic Cutting -- 取消勾选 %s，或将 Cut Mode 设为保持长度的 Set Cuts To Silent。"
+
+msgid "Speech recognition"
+msgstr "语音识别"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "预设中已开启 -- 不会请求，其文本也不会下载: 转录在这里完成。"
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- 按预设原样，程序一个都不改。"
+
+msgid "Enough for the %s this production needs."
+msgstr "足够此次制作所需的 %s。"
+
+msgid "Not enough for the %s this production needs."
+msgstr "不足以支付此次制作所需的 %s。"
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s 有 %s 个声道，而 auphonic.com 每个文件最多只接受两个。没有发送任何内容。\n"
+"  请指明哪些声道属于一组：在“文件 & 制作”标签页中，该文件按声道展开为每个声道一行，勾选某一行会将其与下一行合并。如果文件没有显示声道行，请先将其各声道另存为单独的文件。"
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr "多轨，因为有 %s 条音轨在同一时间轴上。可以选择另一个多轨预设；若要单轨，请把除一条以外的所有音轨设为“不使用”。"
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr "单轨，因为只有一条音轨。可以选择另一个单轨预设；若要多轨，请加入第二条音轨——一段录音，或设为“使用其音频”的摄像机。"
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> 无法从此映射中读出音轨数量"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve 有回应，但不提供项目管理器。"
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "%s 的声道尚未切分成音轨。"
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr "  %s 和 %s（%s 中）听起来很像（相似度 %s）：分离可能把两人弄混了 -- 请检查他们的分配。"

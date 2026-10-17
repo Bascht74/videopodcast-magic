@@ -46,6 +46,39 @@ trennen nimmt der ersten nichts weg, beide Zellen sagen ihre eigene
 Zahl, und die Stimmen beider bleiben in ihren Zeilen stehen. Die
 Projektdatei behält sie alle.
 
+Klingen zwei Stimmen einer Trennung ähnlich, hat die Trennung die beiden
+Menschen vielleicht verwechselt, und das Programm sagt es. Ähnlich heißt
+hier: ab der Linie, ab der es eine in zwei Aufnahmen gehörte Stimme für
+dieselbe Person hält („Die Stimmen benennen“ weiter unten), also ab
+einer Ähnlichkeit von 0,70. Das Protokoll sagt es in einer Zeile, die
+beide Stimmen nennt -- mit den Namen, die sie tragen, sonst mit den
+Bezeichnungen des Modells -- und wie ähnlich sie sind, und rät, ihre
+Zuordnung zu prüfen: beide Zeilen nacheinander anklicken und hinhören.
+Das Fenster sagt dasselbe dort, wo es die Trennung zeigt:
+**Getrennt: 2 Sprecher** wird in der Zeile bernsteinfarben, und die
+Zeile unter der Tabelle trägt den Satz aus dem Protokoll, bis die
+Tabelle das nächste Mal neu aufgebaut wird. Ein Lauf, dem das Fenster
+die Trennung übergibt, sagt es in seinem Protokoll noch einmal. Nichts
+wird zusammengelegt oder umbenannt. Gemessen am 16.10.2026 an Gesprächen aus Stimmen, die
+say(1) gesprochen hat: Die Warnung kam bei allen sieben Trennungen,
+deren zwei Stimmen bei 0,92 bis 0,99 lagen -- fünf davon hatten etwa die
+Hälfte des Gesprochenen der falschen Person gegeben, die anderen beiden
+ein Viertel und ein Sechstel --, und sie blieb bei allen sechzehn aus,
+deren Stimmen bei 0,16 bis 0,57 lagen und die 83 bis 98 % des
+Gesprochenen der richtigen Person gaben. Echte Interviews sind noch
+nicht gemessen.
+
+Zwei Dinge sieht die Warnung nicht. Zwei Menschen, die die Trennung
+schon zu einer Stimme gemacht hat, lassen nichts zum Vergleichen übrig:
+Wo das Programm die Zahl selbst ermittelt, wurde das aus sieben der acht
+gemessenen Paare ähnlicher Stimmen -- fast alles Gesprochene auf einer
+Stimme und daneben höchstens ein Rest von einer Zehntelsekunde ohne
+Abdruck. **Ein Sprecher mehr** geht die Aufnahme mit vorgegebener Zahl
+noch einmal durch, und dann kann die Warnung die beiden beurteilen. Und
+Stimmen von getrennten Mikrofonen tragen gar keinen Stimmabdruck: Wo
+jede Person eine eigene Spur hat, sagen die Spuren, wer spricht, und von
+ihnen kommt keine Warnung.
+
 Unter den Aufnahmen bietet eine Zeile die Trennung an, und nur dort,
 wo sie gebraucht wird. Ein Mac rechnet sie von selbst und bekommt gar
 keine Zeile. Überall sonst steht sie beim ersten Mal da, mit **Auf
@@ -68,10 +101,17 @@ aus allen Blöcken, auf der Zeit der ganzen Aufnahme; Wörter, die eine
 frühere Version nur im ersten Block gehört hat, werden einmal neu
 gehört.
 
+Das eigene Transkript des Fensters nimmt diese Wörter, wie sie sind. Wo
+die eine Aufnahme in Blöcken alles ist, was das Fenster hört, wird sie
+einmal gehört, für die Trennung, und für das Transkript kein zweites
+Mal. Die Wörter liegen auf der Zeitachse ab dort, wo der erste Block
+liegt, der Rest der Aufnahme dahinter, so wie der Lauf sie
+zusammensetzt -- auch dort, wo der Timecode des Rekorders zwischen zwei
+Blöcken eine Lücke lässt.
+
 Die Trennung ist der Weg für **eine gemeinsame Aufnahme**, auf der alle
-zu hören sind. Sie braucht das Häkchen **Multitrack (je Sprecher eine
-Spur)** nicht: die Spalte steht auf beiden Wegen da, auch bei einer
-einzigen Kamera. Wo eine Person ein eigenes Mikrofon hat und die
+zu hören sind. Angehakt werden muss dafür nichts: Die Spalte steht da, wie viele Spuren
+es auch sind, auch bei einer einzigen Kamera. Wo eine Person ein eigenes Mikrofon hat und die
 Mikrofone auseinanderzuhalten sind, ist diese Spur die Wahrheit, und es
 gibt nichts zu trennen; hören sie einander dafür zu gut, legt der Lauf
 sie zusammen und trennt sie gemeinsam, mit auphonic.com genauso wie ohne
@@ -128,11 +168,12 @@ wirklich gesprochen hat, steht in der Antwort nicht mehr drin.
 
 Wo das so ist, fragt das Programm die Mikrofone nicht mehr einzeln ab.
 Es legt die ausgerichteten Aufnahmen zu einer einzigen zusammen, lässt
-die Trennung diese eine abhören und gibt jeder gefundenen Stimme den
-Namen des Mikrofons, zu dem sie gehört. Auf diesen Namen kommt alles an:
-eine Stimme aus einer zusammengelegten Aufnahme hieße sonst Sprecher 1,
-und hinter diesem Namen steht niemand -- also auch keine Kamera, und der
-Schnitt stünde von Anfang bis Ende im Weitwinkel.
+die Trennung darin eine Person je Mikrofon suchen und gibt jeder
+gefundenen Stimme den Namen des Mikrofons, zu dem sie gehört. Auf diesen
+Namen kommt alles an: eine Stimme aus einer zusammengelegten Aufnahme
+hieße sonst Sprecher 1, und hinter diesem Namen steht niemand -- also
+auch keine Kamera, und der Schnitt stünde von Anfang bis Ende im
+Weitwinkel.
 
 **Zu gut** ist gemessen und nicht angenommen. Jede Aufnahme wird gegen
 jede andere gehalten, in beide Richtungen, an den Stellen, an denen
@@ -185,10 +226,14 @@ Stimme, vor der kein Mikrofon weit genug steht, behält ihre Bezeichnung
 und bekommt keine Kamera, und zwei Stimmen, die auf dasselbe Mikrofon
 zeigen, heben einander auf, denn ein Mikrofon ist eine Person. Mehr
 Stimmen als Mikrofone -- jemand im Raum ohne eigenes, oder eine Stimme
-aus dem Vorlauf -- und keine einzige wird zugeordnet. Lässt sich am Ende
-keiner Stimme ein Mikrofon geben, sagt das Protokoll, dass stattdessen
-die Spuren gemessen werden, und der Schnitt ist der, der er immer war:
-eine Stimme je Spur.
+aus dem Vorlauf -- und keine einzige wird zugeordnet. Deshalb bekommt
+die Trennung gesagt, wie viele Personen sie finden soll: eine je
+Mikrofon, oder so viele, wie `--speakers-count` angibt. Zählte sie
+selbst, fand sie unter fünfzehn gemessenen zusammengelegten Aufnahmen
+einmal eine Stimme zu viel, und dann war die Rede nur zu 58 statt zu 95
+Prozent richtig benannt. Lässt sich am Ende keiner Stimme ein Mikrofon
+geben, sagt das Protokoll, dass stattdessen die Spuren gemessen werden,
+und der Schnitt ist der, der er immer war: eine Stimme je Spur.
 
 ### Die Stimmen benennen
 
@@ -464,7 +509,14 @@ measured](../development/measurements.md) (englisch).
 Das Programm sieht nach, welchen Weg es hat, und sagt im Protokoll,
 welchen es genommen hat. Die Erkennung nimmt die Spracheinstellung des
 Laufs. Bleibt sie leer, arbeitet macOS mit der Systemsprache und Whisper
-errät sie aus dem Ton. Der Lauf schreibt den Text neben dem
+errät sie aus dem Ton. Auf dem macOS-Weg wird eine Sprache jedes Mal
+in derselben Spielart gehört: in der Spielart der Region des Macs, wo
+es eine gibt (de-CH auf einem Schweizer Mac, en-GB auf einem
+britischen), sonst in einer festen -- Englisch in en-US, Deutsch in
+de-DE, Französisch in fr-FR --, sonst in der alphabetisch ersten.
+Bietet der Mac für die Sprache gar keine Spielart an, hört macOS sie
+nicht in der Systemsprache: Das Protokoll sagt es, und Whisper
+übernimmt -- im Fenster nur, wo faster-whisper schon installiert ist. Der Lauf schreibt den Text neben dem
 Kameraschnitt mit, nicht davor.
 
 Auf dem macOS-Weg meldet die Erkennung hinterher, wie es ihr ergangen
@@ -484,13 +536,23 @@ den Text trotzdem nicht taugen.
 Was einmal abgehört wurde, wird nicht wieder abgehört, was immer es
 gekostet hat. Was aufgehoben wird und was neu gerechnet wird, steht
 weiter oben unter „Was aufgehoben wird und was neu gerechnet wird“.
-Startet das Fenster einen Lauf, wenn seine eigene Niederschrift schon
+Startet das Fenster einen Lauf, wenn sein eigenes Transkript schon
 steht, hört dieser nichts mehr ab: Er übernimmt die Wörter des
-Fensters, genau wie sein Trockenlauf, und so stehen der Schnitt und die
+Fensters, genau wie sein Probelauf, und so stehen der Schnitt und die
 drei Dateien unten auf denselben Wörtern, die schon die Vorschau
 gezeigt hat. Nur ein Lauf ohne sie -- von der Kommandozeile, oder
 gestartet, bevor das Fenster fertig war -- hört den Mix ab, den er
 selbst gemacht hat.
+
+Der Schnitt leidet darunter nicht. Gemessen an zwei Interviews von zwölf
+und vierzehn Minuten mit je zwei Mikrofonen: Der Schnitt nach den
+Wörtern des Fensters und der nach dem eigenen Abhören des Laufs zeigten
+mehr als 99 % der Zeit dieselbe Kamera, beim englischen mit
+faster-whisper waren sie sogar bildgenau gleich. Die paar Sekunden
+Unterschied waren Fragen, die eines der beiden Transkripte gehört
+hatte und das andere nicht -- in beide Richtungen. Gespart wird das
+Abhören selbst: mit der Erkennung, die macOS mitbringt, weit unter einer
+Minute je Stunde Material, mit faster-whisper zehn bis fünfzehn Minuten.
 
 ### Die drei Dateien des Transkripts
 
@@ -498,8 +560,7 @@ Was gehört wurde, landet neben dem Ergebnis im Ausgabeordner, in drei
 Dateien, benannt nach dem **Namen der Produktion**: `<Name>.json`,
 `<Name>.srt` und `<Name>.txt`. Das Protokoll nennt ihre Pfade unter
 der Überschrift `TRANSKRIPT`, und darüber, wie viele Wörter gehört
-wurden und wie viele davon einer Stimme, zweien oder einer Lücke
-zwischen den Stimmen zufielen.
+wurden.
 
 * **Die json-Datei** hält für jede Strecke einer Stimme eine Passage:
   wann sie anfängt und endet, den Text am Stück, den Sprecher, und je
@@ -586,13 +647,14 @@ Diese Optionen gibt es im Fenster nicht.
   Trennung von einem anderen Modell --, wird sie nicht verwendet: Der
   Lauf warnt und macht ohne sie weiter.
 * `--speakers-count <ZAHL>` gibt an, wie viele Personen zu finden
-  sind; ohne die Angabe rechnet das Programm die Zahl selbst aus.
+  sind; ohne die Angabe rechnet das Programm die Zahl selbst aus, und
+  bei zusammengelegten Mikrofonen nimmt es eine Person je Mikrofon.
 * `--no-speakers-local` nimmt in diesem Lauf keine Aufnahme nach Stimmen
   auseinander, gleich was sonst danach verlangt.
 * `--no-speech-recognition` lässt den Text weg.
 * `VPM_NO_SPEAKER_SPLIT=1` vor dem Aufruf: keine Spalte **Sprecher**,
-  kein Knopf, und die Trennung startet nie von selbst. Auch die
-  Niederschrift schreibt das Fenster dann nicht im Hintergrund; die vier
+  kein Knopf, und die Trennung startet nie von selbst. Auch das
+  Transkript schreibt das Fenster dann nicht im Hintergrund; die vier
   Einstellungen des Kameraschnitts, die die Wörter brauchen, warten
   dann auf einen Lauf.
 * `--project-type sync` schaltet alles davon auf einmal ab: keine

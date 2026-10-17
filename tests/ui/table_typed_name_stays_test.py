@@ -79,9 +79,13 @@ PROJECT = os.path.join(OUT, "videopodcast-magic_Typed.json")
 with open(PROJECT, "w", encoding="utf-8") as f:
     json.dump({"format": vpm.FILE_FORMAT, "version": "test",
                "timeline": [], "preset": "", "production": "Typed",
-               "multitrack": False, "project_type": "cut",
+               "project_type": "cut",
                "out_folder": OUT,
-               "assignment": {"video:" + CAMS[0]: "C0001",
+               # The recording's speaker on the first camera: the table
+               # offers that camera a name of its own, and the file
+               # holds another one, typed.
+               "assignment": {"audio:" + ROOM: ["Host", CAMS[0]],
+                              "video:" + CAMS[0]: "C0001",
                               "videotyped:" + CAMS[0]: True,
                               "video:" + CAMS[1]: "C0002 2",
                               "video:" + CAMS[2]: "C0003 2",
@@ -135,14 +139,6 @@ def action_named(text):
         for a in w.actions():
             if a.text().replace("&", "").strip() == text:
                 return a
-    return None
-
-
-def multitrack_box():
-    """The Multitrack tick itself, by its wording."""
-    for w in win().findChildren(QtWidgets.QCheckBox):
-        if w.text() == vpm.T('Multitrack (one track per speaker)'):
-            return w
     return None
 
 
@@ -221,9 +217,9 @@ def drive():
     field = name_fields().get("C0003.MP4")
     if field is not None:
         field.setText("C0003 7")
-    box = multitrack_box()
-    if box is not None:
-        box.setChecked(True)
+    # The window's own signal for "the assignment is due again", which
+    # the file list sends: the table is built anew.
+    win().assignment_due.emit()
     took = waited_for(lambda: name_fields().get("C0003.MP4")
                       not in (None, field), "the table rebuilt")
     now = names()

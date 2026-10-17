@@ -135,22 +135,27 @@ four patterns, written once in the step itself. The version is not
 asked: the short way starts a languages job of its own
 (`all_languages` in `tests.yml`), so every language runs either way --
 and since 27.9.2026 with the separation installed, so that the package
-lists below carry it on that way too.
+lists below carry it on that way too. Since 16.10.2026 that job's
+macOS py3.14 runs the whole suite, measured (`tested_lines`, below), so
+the short way leaves the table of tested lines as the long way does.
 
 **What the short way gives up, and it is written here rather than
 found later.** A push runs the everyday suite, separation off;
-`publish.yml` turns it on. The one test that really runs the
-separation, `voice_split_hears_two`, therefore runs for a release only
-on the long way. A check run's name does not say which of the two
-suites made it, so the evidence job cannot tell and does not pretend
-to. **The owner settled it on 24.9.2026:** the short way is given up
+`publish.yml` turns it on. The two tests that really run the
+separation, `voice_split_hears_two` and `voice_split_hears_blocks`,
+therefore run for a release on all six jobs only on the long way; on the
+short way, since 16.10.2026, on one -- the macOS py3.14 job that
+measures the tested lines runs the whole suite. A check run's name does
+not say which of the two suites made it, so the evidence job cannot tell
+and does not pretend to. **The owner settled it on 24.9.2026:** the short way is given up
 where the merge touches anything of the separation, and the line
 names the file that sent it the long way. On 24.9.2026 that was
 `videopodcast_magic/speakers/`; **on 25.9.2026 he widened it to four
 places** -- that folder, the model under
 `videopodcast_magic/models/speaker-diarization-*/`, `requirements.txt`,
-which installs what it runs on, and `voice_split_hears_two_test.py`,
-matched by its file name anywhere under `tests/`, because the tests
+which installs what it runs on, and `voice_split_hears_two_test.py`
+-- with `voice_split_hears_blocks_test.py` since the two were split --
+matched by file name anywhere under `tests/`, because the tests
 are moving into folders of their own. `pyproject.toml` is deliberately
 not one of them: every release changes its version, so counting it
 would send every release the long way. The compare API lists at most
@@ -208,8 +213,10 @@ because the whole tree is in it. The program's own files came to
 593 059 (measured 4.9.2026, after the move to a folder; 588 141 the
 same day, before it). That small one is what "the state of the
 program" means, and it is the reason to attach anything at all --
-**installing is `pip3 install git+...` and nothing else**, so the
-attachment documents a state rather than offering a way in. The owner,
+**installing is the README's pip3 line and nothing else** -- on a Mac
+`pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic`,
+the release's package list handed in with `-c` -- so the attachment
+documents a state rather than offering a way in. The owner,
 4.9.2026: the newest release comes over pip3; the archive writes the
 state of the work down once, cleanly.
 
@@ -276,7 +283,7 @@ with `pip3 install -c`.
 Windows freeze carries what only Windows installs, Linux carries the
 CPU torch from PyTorch's own index. **Python 3.14**, the newest the
 suite runs, the one it runs on at home, and the one python.org hands
-somebody installing today; a pin is a wheel for one Python. The 3.10
+somebody installing today; a pin is a wheel for one Python. The 3.12
 lists stay in the run as artifacts for whoever needs them.
 
 **Where they come from, on both ways, is this run.** Every bound job of
@@ -304,6 +311,28 @@ release create`.
 each hangs, is named in the manifest with the sum of what came down,
 and is `name==version` lines only. `tests/source/source_freeze_attached_test.py`
 holds the text of all three workflows and both manuals to this.
+
+## The tested lines
+
+**Every release run measures which lines of the program the whole suite
+runs, on both ways** -- the owner, 16.10.2026. Both calls of `tests.yml`
+pass `tested_lines: true`; on the macOS py3.14 job that drops the names
+the short way hands in and runs the whole suite in every language under
+coverage.py, and `source_lines_stay_tested` judges it per function
+against `tests/state/tested_lines_state.json`. Whatever its verdict, the
+job keeps the table as the artifact `tested-lines-macOS-py3.14`.
+
+**For 3.0.0b29 it measures and does not stop the release**: what it would
+fail on is said as `NOTED tested lines:` lines under the suite's
+summary. From 3.0.0b30 on it fails like any test -- on a function over
+its floor, on a function nobody runs, and, by the owner's order for
+3.0.0b30, on the whole program's share of lines run under 95 % -- and a
+red guard is no tag. Nobody switches that: the test names the version it
+judges from and orders the program's `VERSION` against it, so a release
+that skips that number is judged as well. **So the same measured run is
+made here before the release push** (`cd tests && VPM_COVERAGE=1
+VPM_ALL_LANGUAGES=1 bash run.sh`, with the coverage.py `tests.yml`
+pins): what it would stop on is found before the one push, not after.
 
 ## What it does not ask, on purpose
 

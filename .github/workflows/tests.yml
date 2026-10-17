@@ -27,6 +27,7 @@ on:
   push:
     branches:
       - '**'
+      - '!stress/**'
   # A pull request runs the suite only when it comes from a fork. Our
   # own branches are answered by their push, above, and a second run on
   # the merged branch cost twelve jobs where six answer -- measured
@@ -92,6 +93,21 @@ on:
           default; a release turns it on.
         type: boolean
         default: false
+      # Which lines of the program the whole suite runs, measured on the
+      # macOS py3.14 job and held per function (VPM_COVERAGE below says
+      # how). Only a release turns it on, on both its ways (the owner,
+      # 16.10.2026): on the short way publish.yml names the language
+      # slices, and the job that measures runs the whole suite all the
+      # same, so every release leaves the table. The same lines under
+      # workflow_call, for the reason written above the first switch.
+      tested_lines:
+        description: >
+          Measure which lines of the program the whole suite runs, on
+          the macOS py3.14 job, which then runs the whole suite whatever
+          tests are named. Only with all_languages, as a release has it.
+          Off by default; a release turns it on.
+        type: boolean
+        default: false
       # A few tests by name, on one system or on all three, instead of
       # the whole suite -- to ask the builder again about one red test
       # without paying for 270. Empty is the whole suite, as a push.
@@ -130,6 +146,14 @@ on:
         description: >
           Test every language, not only English and German.
           publish.yml passes true; why, see the same input above.
+        type: boolean
+        required: false
+        default: false
+      tested_lines:
+        description: >
+          Measure the tested lines on the macOS py3.14 job, over the
+          whole suite. publish.yml passes true on both its ways; why,
+          see the same input above.
         type: boolean
         required: false
         default: false
@@ -257,17 +281,23 @@ jobs:
       fail-fast: false
       matrix:
         # Two versions on all three systems. 3.14 is the one the suite
-        # runs on at home; 3.10 is the floor the program names for
+        # runs on at home; 3.12 is the floor the program names for
         # itself in NEEDS_PYTHON, and a floor that is only ever walked
-        # on Linux is not a floor. What breaks between 3.10 and 3.14
+        # on Linux is not a floor. What breaks between 3.12 and 3.14
         # -- a path, an encoding, a Qt plugin -- breaks on Windows and
         # macOS, so that is where it has to be walked.
         #
-        # On Windows and macOS '3.10' comes out as 3.10.11: that is the
-        # last 3.10 CPython released as a binary, and setup-python
+        # On Windows and macOS '3.12' comes out as 3.12.10: that is the
+        # last 3.12 CPython released as a binary, and setup-python
         # builds newer ones from source for Linux only. Linux therefore
-        # runs a later 3.10 than the other two. That is the truth of the
-        # matter for anyone out there on 3.10 as well.
+        # runs a later 3.12 than the other two (3.12.15 in setup-python's
+        # list on 9.10.2026). That is the truth of the matter for anyone
+        # out there on 3.12 as well.
+        #
+        # Linux by its number, not as ubuntu-latest: GitHub moves that
+        # name from 24.04 to 26.04 between 19 October and 19 November
+        # 2026, and a runner that changes under a run is a red nobody
+        # can place. Named, the move happens in a commit of our own.
         #
         # And a seventh, the owner's rule of 26.9.2026: a test whose
         # verdict cannot differ between systems or Pythons says so in its
@@ -277,13 +307,13 @@ jobs:
         # against 597 to 1067). A release changes nothing about this --
         # it differs from a push by its languages and the separation.
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             label: Linux
             python: '3.14'
             tests: bound
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             label: Linux
-            python: '3.10'
+            python: '3.12'
             tests: bound
           - os: windows-latest
             label: Windows
@@ -291,7 +321,7 @@ jobs:
             tests: bound
           - os: windows-latest
             label: Windows
-            python: '3.10'
+            python: '3.12'
             tests: bound
           - os: macos-latest
             label: macOS
@@ -299,9 +329,9 @@ jobs:
             tests: bound
           - os: macos-latest
             label: macOS
-            python: '3.10'
+            python: '3.12'
             tests: bound
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             label: Neutral
             python: '3.14'
             tests: neutral
@@ -358,17 +388,37 @@ jobs:
       # Never on the neutral job: the one test that runs the separation
       # is bound, so there it would be two minutes of torch for nothing.
       SPEAKER_SPLIT: ${{ matrix.tests != 'neutral' && (inputs.speaker_split == true || inputs.speaker_split == 'true') }}
-      # Which half of the suite this job runs; run.sh reads it.
-      VPM_TESTS: ${{ matrix.tests }}
+      # Which half of the suite this job runs; run.sh reads it. Both on
+      # the one job that measures the tested lines (VPM_COVERAGE below):
+      # a floor per function is a claim about the whole suite.
+      VPM_TESTS: ${{ (matrix.label == 'macOS' && matrix.python == '3.14' && (inputs.tested_lines == true || inputs.tested_lines == 'true')) && 'all' || matrix.tests }}
       # The second switch, read the same way. A push has no input, so a
       # push tests English and German, whatever its branch changes.
       ALL_LANGUAGES: ${{ inputs.all_languages == true || inputs.all_languages == 'true' }}
+      # The third switch, its own input, read the same way: the release
+      # run measures which lines of the program the suite runs, and
+      # source_lines_stay_tested holds every function to its floor
+      # (tests/tested_lines.py). On one job, macOS py3.14 -- the system
+      # and the Python the suite runs on at home, where the floor in
+      # tests/state/tested_lines_state.json was measured; a floor per
+      # function moves with the system and the Python, so a second job
+      # would need a second state. And always over the whole suite: a
+      # part of it measures a part of the program, so on this job the
+      # names below are dropped and it is chosen whatever system they
+      # were meant for -- which is how the short way measures too.
+      VPM_COVERAGE: ${{ (matrix.label == 'macOS' && matrix.python == '3.14' && (inputs.tested_lines == true || inputs.tested_lines == 'true') && (inputs.all_languages == true || inputs.all_languages == 'true')) && '1' || '' }}
+      # Where the guard leaves the table it measured, kept as a file of
+      # the run whatever its verdict: the builder's floor can differ
+      # from the one measured at home, and a red run has to show it.
+      VPM_COVERAGE_TABLE: /tmp/vpm-tested-lines.json
       # The tests named by hand, if any, and whether this job runs them.
       # A job's if: cannot see its matrix entry, so every step below
       # asks CHOSEN instead. Without names every job is chosen: a push,
-      # a release, the weekly run are unchanged.
-      ONLY: ${{ inputs.tests }}
-      CHOSEN: ${{ !inputs.tests || (matrix.tests != 'neutral' && (!inputs.os || inputs.os == 'all' || inputs.os == matrix.label)) }}
+      # a release, the weekly run are unchanged. The job that measures
+      # the tested lines is chosen whatever the names, and runs none of
+      # them alone: VPM_COVERAGE above says why.
+      ONLY: ${{ !(matrix.label == 'macOS' && matrix.python == '3.14' && (inputs.tested_lines == true || inputs.tested_lines == 'true')) && inputs.tests || '' }}
+      CHOSEN: ${{ !inputs.tests || (matrix.label == 'macOS' && matrix.python == '3.14' && (inputs.tested_lines == true || inputs.tested_lines == 'true')) || (matrix.tests != 'neutral' && (!inputs.os || inputs.os == 'all' || inputs.os == matrix.label)) }}
 
     steps:
       - uses: actions/checkout@v7
@@ -509,8 +559,8 @@ jobs:
           PY
 
       # apt is the bottleneck here, not the platform: Ubuntu 24.04
-      # carries ffmpeg 6.1.1, under the floor this program names, and
-      # nothing newer is in its archive. A static build settles it in
+      # carried ffmpeg 6.1.1 and 26.04 carries 8.0.1, both under the
+      # floor this program names, and nothing newer is in the archive. A static build settles it in
       # half a minute -- and it is the one of the three runners that
       # carries soxr, so the fine clock correction is exercised
       # somewhere. macOS takes what brew gives once its own formula
@@ -520,13 +570,40 @@ jobs:
       # Not on the neutral job, and not the Qt libraries below either: its
       # tests start no ffmpeg and open no window, and run.sh neither asks
       # for ffmpeg nor builds fixtures for that half.
+      #
+      # The build is the one the program itself fetches for a Linux user,
+      # read out of videopodcast_magic/setup/__init__.py with its sum:
+      # FFMPEG_BUILD_PLACE and FFMPEG_BUILD_SUMS. Not the moving latest
+      # tag, which BtbN keeps for days, and not a copy written here --
+      # the suite then runs against what a user gets, and a newer build
+      # comes with a newer program, here as there.
       - name: "Install: ffmpeg (Linux)"
         if: (runner.os == 'Linux' && matrix.tests != 'neutral') && env.CHOSEN == 'true'
         run: |
           set -e
-          base=https://github.com/BtbN/FFmpeg-Builds/releases/download/latest
-          name=ffmpeg-n9.0-latest-linux64-gpl-9.0
-          curl -fsSL --retry 3 -o /tmp/ff.tar.xz "$base/$name.tar.xz"
+          held=$(python3 - <<'PY'
+          import ast
+          held = {}
+          with open("videopodcast_magic/setup/__init__.py", encoding="utf-8") as f:
+              for node in ast.parse(f.read()).body:
+                  if isinstance(node, ast.Assign) and len(node.targets) == 1 \
+                          and getattr(node.targets[0], "id", "") in (
+                              "FFMPEG_BUILD_PLACE", "FFMPEG_BUILD_SUMS"):
+                      held[node.targets[0].id] = ast.literal_eval(node.value)
+          url = held["FFMPEG_BUILD_PLACE"] % ("linux64", "tar.xz")
+          print(url, held["FFMPEG_BUILD_SUMS"].get(url.rsplit("/", 1)[-1], ""))
+          PY
+          )
+          url=${held% *}
+          sum=${held##* }
+          name=$(basename "$url" .tar.xz)
+          if [ -z "$sum" ] || [ "$sum" = "$url" ]; then
+            echo "FAIL: the program names $url and carries no sum for it."
+            exit 1
+          fi
+          echo "build: $url"
+          curl -fsSL --retry 3 -o /tmp/ff.tar.xz "$url"
+          echo "$sum  /tmp/ff.tar.xz" | sha256sum -c -
           tar -xJf /tmp/ff.tar.xz -C /tmp
           sudo install -m755 "/tmp/$name/bin/ffmpeg" "/tmp/$name/bin/ffprobe" \
                              /usr/local/bin/
@@ -954,6 +1031,19 @@ jobs:
                        torch.__version__, where, time.time() - began))
           PY
 
+      # coverage.py for the tested lines, on the job that measures them
+      # and on no other. Not in requirements-dev.txt: every job would
+      # install it and none but this one reads it. Pinned, because a
+      # new coverage.py may count a line differently, and the floor
+      # would move under a release that changed nothing. Its .pth file
+      # starts it in every process once run.sh names the configuration.
+      - name: "Install: coverage.py, for the tested lines (release, macOS py3.14)"
+        if: env.CHOSEN == 'true' && env.VPM_COVERAGE == '1'
+        shell: bash
+        run: |
+          python -m pip install coverage==7.16.2
+          python -c "import coverage; print('coverage.py', coverage.__version__)"
+
       # Only the input turns every language on; a push never does, by
       # the owner's rule of 26.9.2026 -- why, beside the input at the top.
       - name: "Record: which languages this run tests"
@@ -1012,12 +1102,13 @@ jobs:
           # The switch first, because it holds on all six and the
           # systems below it do not.
           #
-          # voice_split_hears_two is the only test that really runs the
+          # voice_split_hears_two and voice_split_hears_blocks (split
+          # from it for 3.0.0b29) are the only tests that really run the
           # separation. The two others that name pyannote work with
           # stand-ins and say so in their own first lines, and the rest
           # of the suite only ever sets VPM_NO_SPEAKER_SPLIT -- so with
           # the switch off, pyannote and torch were never installed and
-          # this one test is the whole of what cannot run.
+          # these two tests are the whole of what cannot run.
           #
           # Taken out, not left to skip, and that is the rule of this
           # step rather than a preference: run.sh allows one skipped
@@ -1030,10 +1121,14 @@ jobs:
             aside voice_split_hears_two \
               "this run was started with speaker_split off, so pyannote
                and torch were not installed -- 828 MB and about two
-               minutes on each of the six jobs, for the one test that
-               uses them. Every release runs it: publish.yml calls this
+               minutes on each of the six jobs, for the two tests that
+               use them. Every release runs it: publish.yml calls this
                workflow with speaker_split true. To run it here, start
                this workflow by hand and turn the switch on."
+            aside voice_split_hears_blocks \
+              "the same as voice_split_hears_two, split from it: this run
+               was started with speaker_split off, so pyannote and torch
+               were not installed. Every release runs it."
           fi
           # voice_split_hears_two is no longer in the list below, and
           # the reason it was there has run out rather than been argued
@@ -1084,6 +1179,12 @@ jobs:
                    what the separation costs on a Windows CPU has not been
                    measured. Linux runs it; measure this one and it can
                    run here too."
+              fi
+              if where voice_split_hears_blocks > /dev/null; then
+                aside voice_split_hears_blocks \
+                  "the same price as voice_split_hears_two, split from it:
+                   the separation on a Windows CPU, unmeasured. Linux runs
+                   it; measure that one and both can run here."
               fi
               aside source_resolve_recalled \
                 "it starts run.sh twice as a child and reads the closing
@@ -1177,6 +1278,14 @@ jobs:
           rc=${PIPESTATUS[0]}
           echo "the suite took $(( SECONDS - start )) s"
           exit $rc
+
+      # coverage.py out again before anything writes down what this run
+      # stood on: constraints-macos.txt is read off this very job, and a
+      # test tool has no business in what users install against.
+      - name: "Measure: coverage.py taken out again"
+        if: always() && env.CHOSEN == 'true' && env.VPM_COVERAGE == '1'
+        shell: bash
+        run: python -m pip uninstall -y coverage
 
       # What a reader wants at a glance: which ffmpeg, how many ran, how
       # many were taken out and which, how many checked nothing, and what
@@ -1376,3 +1485,14 @@ jobs:
           path: ${{ runner.temp }}/freeze/freeze.txt
           if-no-files-found: error
           retention-days: 7
+
+      # The table the tested-lines guard measured, as a file of the run
+      # whatever its verdict. Last, and after the freeze's upload, which
+      # source_freeze_attached reads as this job's first.
+      - uses: actions/upload-artifact@v7
+        if: always() && env.CHOSEN == 'true' && env.VPM_COVERAGE == '1'
+        with:
+          name: tested-lines-${{ matrix.label }}-py${{ matrix.python }}
+          path: /tmp/vpm-tested-lines.json
+          if-no-files-found: warn
+          retention-days: 30

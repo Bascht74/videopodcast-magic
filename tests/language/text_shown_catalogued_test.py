@@ -390,9 +390,9 @@ def drive():
     print("\n5. The preset list --list-presets prints")
     out = io.StringIO()
     with contextlib.redirect_stdout(out):
-        vpm.print_presets("not-a-real-key", False)
+        vpm.print_presets("not-a-real-key")
         vpm.list_presets = lambda key: []
-        vpm.print_presets("not-a-real-key", False)
+        vpm.print_presets("not-a-real-key")
     text = out.getvalue()
     listed = all(n in text for n in PRESETS)
     for n in PRESETS:

@@ -132,12 +132,6 @@ msgstr "ไม่มีพรีเซ็ต Singletrack ของคุณเ�
 msgid "No preset of your own -- create one on auphonic.com"
 msgstr "ไม่มีพรีเซ็ตของคุณเอง -- โปรดสร้างที่ auphonic.com"
 
-msgid "No Multitrack preset found in the account."
-msgstr "ไม่พบพรีเซ็ต Multitrack ในบัญชี"
-
-msgid "No Singletrack preset found in the account."
-msgstr "ไม่พบพรีเซ็ต Singletrack ในบัญชี"
-
 msgid "No Multitrack preset in the account. Only these: %s"
 msgstr "ไม่มีพรีเซ็ต Multitrack ในบัญชี มีเพียงรายการเหล่านี้: %s"
 
@@ -275,6 +269,9 @@ msgstr "  สร้างตัวรู้จำเสียงพูดแล�
 
 msgid "  The speech recognition reports: %s"
 msgstr "  การรู้จำเสียงพูดรายงาน: %s"
+
+msgid "  macOS hears no %s here, Whisper takes it"
+msgstr "  macOS ที่นี่ไม่รู้จักภาษา%s Whisper จะรับช่วงแทน"
 
 msgid "  Recognised in %s: ready in %s s, heard in %s s"
 msgstr "  รู้จำในภาษา %s: พร้อมใน %s s, ฟังใน %s s"
@@ -645,6 +642,9 @@ msgstr "\nไม่ได้เลือกพรีเซ็ต: %s"
 msgid "\nStopped before the first long step. With --anyway it runs regardless."
 msgstr "\nหยุดก่อนขั้นตอนยาวขั้นแรก ใช้ --anyway เพื่อให้ทำงานต่อไม่ว่าอย่างไร"
 
+msgid "\nStopped before the first long step."
+msgstr "\nหยุดก่อนขั้นตอนยาวขั้นแรก"
+
 msgid "                   Resolve may then not recognise the input colour space."
 msgstr "                   Resolve อาจไม่รู้จักปริภูมิสีขาเข้า"
 
@@ -726,12 +726,6 @@ msgstr "    %-24s ไม่ได้แทรกเสียง"
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %s ครั้งที่กล้องที่กำหนดไม่ได้ทำงานอยู่ -- จึงมีกล้องอื่นอยู่ตรงนั้นแทน"
 
-msgid "    %s could not be imported."
-msgstr "    นำเข้า %s ไม่ได้"
-
-msgid "    %s could not be inserted."
-msgstr "    แทรก %s ไม่ได้"
-
 msgid "    %s track could not be created: %s"
 msgstr "    สร้างแทร็กประเภท %s ไม่ได้: %s"
 
@@ -740,6 +734,9 @@ msgstr "    %s: แทรกภาพและเสียงแยกกัน 
 
 msgid "    --anyway is set: it runs despite the points above."
 msgstr "    ตั้ง --anyway ไว้: จะทำงานแม้มีประเด็นด้านบน"
+
+msgid "    --anyway is set: it runs despite the points above, but stops before the upload -- auphonic.com would refuse this production."
+msgstr "    ตั้ง --anyway ไว้: จะทำงานแม้มีประเด็นด้านบน แต่จะหยุดก่อนอัปโหลด -- auphonic.com จะปฏิเสธงานนี้"
 
 msgid "    All tracks are in place -- nothing to move."
 msgstr "    แทร็กทั้งหมดอยู่ในตำแหน่งแล้ว -- ไม่ต้องเลื่อนอะไร"
@@ -888,8 +885,16 @@ msgstr "  ต่อ %s บล็อกด้วยไทม์โค้ด เ�
 msgid "  %s of %s files imported."
 msgstr "  นำเข้าแล้ว %s จาก %s ไฟล์"
 
-msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  ผู้พูด %s คน, %s ช็อต, สั้นสุด %s s"
+msgid "  %s, %s, shortest %s s"
+msgstr "  %s, %s, สั้นสุด %s s"
+
+msgid "%s speaker"
+msgid_plural "%s speakers"
+msgstr[0] "ผู้พูด %s คน"
+
+msgid "%s shot"
+msgid_plural "%s shots"
+msgstr[0] "%s ช็อต"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  แทร็กวิดีโอ %s แทร็ก ตั้งชื่อตามผู้พูด:"
@@ -1143,8 +1148,8 @@ msgstr "  เริ่มต้น %s -- ทุกช็อตวางโดย
 msgid "  No such Timeline existed yet -- it is only built."
 msgstr "  ยังไม่มี Timeline นี้ -- จึงสร้างใหม่เท่านั้น"
 
-msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  หมายเหตุ: ส่วนนี้คำนวณด้วยไฟล์ที่อัปโหลดในตอนนั้น ซึ่งมี\n  ช่วงเวลาและการจัดตำแหน่งของวันนั้น หากจุดเข้า จุดออก\n  หรือตำแหน่งที่วัดได้ต่างไปจากเดิม การตรวจสอบขากลับจะวัด\n  ส่วนต่างและเลื่อนแทร็กให้เข้าที่"
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the\n  Out point and the measured position now stay inside that window, the\n  return check measures the difference and moves the tracks into place.\n  Where they reach beyond it -- an earlier In point, a later Out point --\n  it refuses the tracks: then upload everything again."
+msgstr "  หมายเหตุ: ส่วนนี้คำนวณด้วยไฟล์ที่อัปโหลดในตอนนั้น ซึ่งมี\n  ช่วงเวลาและการจัดตำแหน่งของวันนั้น หากจุดเข้า จุดออก\n  และตำแหน่งที่วัดได้ยังอยู่ภายในช่วงนั้น การตรวจสอบขากลับจะวัด\n  ส่วนต่างและเลื่อนแทร็กให้เข้าที่ หากเกินออกไป --\n  จุดเข้าที่เร็วขึ้น จุดออกที่ช้าลง -- จะปฏิเสธแทร็ก:\n  เมื่อนั้นให้อัปโหลดทั้งหมดใหม่"
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
 msgstr "  หมายเหตุ: ffmpeg ตัวนี้ไม่มี soxr -- ลบการคลาดของนาฬิกาได้\n  ทีละ 21 ppm เท่านั้น"
@@ -1155,8 +1160,8 @@ msgstr "  ไม่มีผลต่อเสียง"
 msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  ออฟเซ็ต:           %s   (จากการเทียบกล้อง)"
 
-msgid "  Only %s of %s shots are on the Timeline."
-msgstr "  มีเพียง %s จาก %s ช็อตอยู่บน Timeline"
+msgid "  Resolve took only %s of %s shots -- the Timeline \"%s\" lacks the rest of the cut."
+msgstr "  Resolve รับเพียง %s จาก %s ช็อต -- Timeline \"%s\" ขาดส่วนที่เหลือของการตัดต่อ"
 
 msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
 msgstr "  พีก:                %s dB เหนือ %s dBTP -- ลิมิตเตอร์จะจัดการ"
@@ -1203,8 +1208,8 @@ msgstr "  ตัวอ้างอิง: %s (%s ยาวที่สุด)"
 msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
 msgstr "  คงเหลือ:            %s dB ทุกแทร็ก คือ %s LUFS แทนที่จะเป็น %s"
 
-msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
-msgstr "  Resolve ไม่รับภาพเลย -- Timeline ว่างเปล่า จะไม่สร้าง\n  สิ่งอื่นบนนั้นอีก"
+msgid "  Resolve took no picture at all -- the Timeline \"%s\" lacks the cut and its sound."
+msgstr "  Resolve ไม่รับภาพเลย -- Timeline \"%s\" ขาดการตัดต่อและเสียงของมัน"
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
 msgstr "  ผลลัพธ์: %s (%s) -- เก็บไว้ข้างไฟล์วิดีโอ\n"
@@ -1236,11 +1241,17 @@ msgstr "  เป้าหมาย:           %s LUFS  ->  %s dB ทุกแท
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline ได้ %s: ค่าสูงสุดในนั้น หรืออัตราถัดไปที่ Resolve\n  มีสูงกว่านั้น เมื่อแปลงขึ้น Resolve จะซ้ำเฟรม เมื่อแปลงลง\n  จะทิ้งเฟรม ทุกกล้องคงอัตราของตัวเอง และการตัดต่อนับ\n  ตามอัตรานั้น"
 
-msgid "  The Full-Mix could not be imported."
-msgstr "  นำเข้า Full-Mix ไม่ได้"
+msgid "  Resolve has no Full-Mix in its media pool -- the Timeline \"%s\" lacks its sound."
+msgstr "  ไม่มี Full-Mix ใน Media Pool ของ Resolve -- Timeline \"%s\" ขาดเสียง"
 
-msgid "  The Full-Mix could not be inserted."
-msgstr "  แทรก Full-Mix ไม่ได้"
+msgid "  Resolve refused the Full-Mix -- the Timeline \"%s\" lacks its sound."
+msgstr "  Resolve ปฏิเสธ Full-Mix -- Timeline \"%s\" ขาดเสียง"
+
+msgid "  Resolve refused the Intro -- the Timeline \"%s\" has no Intro."
+msgstr "  Resolve ปฏิเสธอินโทร -- Timeline \"%s\" ไม่มีอินโทร"
+
+msgid "  Resolve refused the Outro -- the Timeline \"%s\" has no Outro."
+msgstr "  Resolve ปฏิเสธเอาต์โทร -- Timeline \"%s\" ไม่มีเอาต์โทร"
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
 msgstr "  กล้องเก็บช่วงเวลาและเผื่อหัวท้ายอีกด้านละหนึ่งวินาที: เขียน %s สำหรับ %s จาก %s ที่บันทึกไว้"
@@ -1248,8 +1259,9 @@ msgstr "  กล้องเก็บช่วงเวลาและเผื�
 msgid "  The cameras lie close together (at most %s steps of brightness)."
 msgstr "  กล้องต่าง ๆ ใกล้เคียงกัน (ความสว่างต่างกันไม่เกิน %s ขั้น)"
 
-msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  การตัดต่อเปลี่ยนไป: %s ช็อต แทนที่จะเป็น %s"
+msgid "  The cut has changed: %s shot instead of %s."
+msgid_plural "  The cut has changed: %s shots instead of %s."
+msgstr[0] "  การตัดต่อเปลี่ยนไป: %s ช็อต แทนที่จะเป็น %s"
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  อ่านบันทึกของรอบการทำงานก่อนหน้าที่นี่ไม่ได้ (%s) จึงรายงานทุกอย่างที่มีอยู่แล้ว"
@@ -1383,9 +1395,6 @@ msgstr "อ่านไฟล์การกำหนดไม่ได้: %s"
 msgid "Camera audio not usable: %s"
 msgstr "ใช้เสียงจากกล้องไม่ได้: %s"
 
-msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
-msgstr "ใช้ MULTITRACK ไม่ได้\n  ต้องมีแทร็กขาเข้าอย่างน้อยสองแทร็ก แต่พบเพียง %s\n  แทร็กหนึ่งคือการบันทึกแยกต่างหาก ช่องสัญญาณหนึ่งของเครื่องบันทึก\n  หลายช่อง หรือเสียงของกล้อง -- ซึ่งนับทันทีที่ช่อง\n  เสียงจากกล้องตั้งเป็น \"ใช้เสียงในตัว\" ถ้าไม่มีสองแทร็กแบบนี้ ก็ไม่มี\n  อะไรให้แยก และไฟล์เดียวกันจะทำงานเป็น\n  โปรดักชันธรรมดา"
-
 msgid "No preset is called %r."
 msgstr "ไม่มีพรีเซ็ตชื่อ %r"
 
@@ -1497,9 +1506,6 @@ msgstr "บันทึกโปรเจกต์แล้ว\n  %s\n  เป�
 msgid "Presets could not be loaded: %s"
 msgstr "โหลดพรีเซ็ตไม่ได้: %s"
 
-msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "มีกล้องหลายตัวแต่ไม่มีไฟล์เสียง กล้องแต่ละตัวจะมีเสียงของตัวเอง --\nนั่นคือหน้าที่ของ --multitrack ไม่เช่นนั้นก็ทีละกล้อง"
-
 msgid "The file is NOT recognised as HDR."
 msgstr "ไฟล์นี้ไม่ได้รับการระบุว่าเป็น HDR"
 
@@ -1550,9 +1556,6 @@ msgstr "\n  รีเฟรชรายการตัดต่อ"
 
 msgid "\n  Render job"
 msgstr "\n  งานเรนเดอร์"
-
-msgid "\n  Resolve part stopped: %s"
-msgstr "\n  ส่วนของ Resolve หยุดทำงาน: %s"
 
 msgid "\n  STOPPED: %s"
 msgstr "\n  หยุดแล้ว: %s"
@@ -1619,9 +1622,6 @@ msgstr "  ช่วงเวลา:             %s -- ทุกอย่าง�
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: ความเงียบ %s ที่ต้น และ %s ที่ท้าย"
-
-msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nเมื่อรวมบล็อกแล้วเหลือแทร็กเดียว แต่ Multitrack ต้องมีหนึ่งแทร็กต่อหนึ่งเสียงพูด ในกรณีที่คนสองคนถูกนับเป็นการบันทึกเดียว --apart จะแยกบล็อกหนึ่งออกมา"
 
 msgid "RECOGNISED PLAN"
 msgstr "แผนที่ตรวจพบ"
@@ -1860,6 +1860,9 @@ msgstr "ผลลัพธ์"
 msgid "Resolve part stopped: %s"
 msgstr "ส่วนของ Resolve หยุดทำงาน: %s"
 
+msgid "Resolve part stopped on a fault in this program, not in Resolve: %s -- please report it. The details are in the log."
+msgstr "ส่วนของ Resolve หยุดทำงานเพราะข้อผิดพลาดในโปรแกรมนี้ ไม่ใช่ใน Resolve: %s -- โปรดแจ้งปัญหานี้ รายละเอียดอยู่ในล็อก"
+
 msgid "Stopped: %s"
 msgstr "หยุดแล้ว: %s"
 
@@ -1949,6 +1952,13 @@ msgstr "%s แทร็กปรับตามพรีเซ็ตแล้ว
 
 msgid "%s channels -- cut into tracks, see the rows above."
 msgstr "%s ช่องสัญญาณ -- ถูกแยกเป็นแทร็ก ดูแถวด้านบน"
+
+msgid ""
+"%s channels -- the command line cuts none into tracks and folds the file to "
+"one channel, two people into one voice."
+msgstr ""
+"%s ช่องสัญญาณ -- บรรทัดคำสั่งไม่แยกเป็นแทร็ก และรวมไฟล์เป็นช่องสัญญาณเดียว "
+"สองคนกลายเป็นเสียงเดียว"
 
 msgid "%s checked"
 msgstr "ตรวจสอบแล้ว %s รายการ"
@@ -2070,6 +2080,17 @@ msgstr "<span style='color:%(t)s'><b>%(n)s ช็อต</b>, มัธยฐา�
 msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
 msgstr "แต่ละคู่ช่องสัญญาณจะถูกประเมินแยกกัน: เป็นแทร็กสเตอริโอหนึ่งแทร็ก หรือไมโครโฟนสองตัวจึงเป็นสองแทร็ก อินพุตที่เงียบจะถูกตัดออก แถวใต้ไฟล์บอกสิ่งที่วัดได้ และเครื่องหมายถูกมีผลเหนือกว่าค่าที่วัดได้"
 
+msgid ""
+"Save its channels as files of their own for a track each, or open it in the "
+"window, which cuts it by its channel rows. A run that sends it to "
+"auphonic.com stops before the upload: auphonic.com takes at most two "
+"channels in one file."
+msgstr ""
+"บันทึกช่องสัญญาณของไฟล์เป็นไฟล์แยกเพื่อให้แต่ละช่องเป็นแทร็ก "
+"หรือเปิดไฟล์ในหน้าต่าง ซึ่งแยกตามแถวของช่องสัญญาณ การรันที่ส่งไฟล์นี้ไปยัง "
+"auphonic.com จะหยุดก่อนอัปโหลด: auphonic.com "
+"รับได้ไม่เกินสองช่องสัญญาณในไฟล์เดียว"
+
 msgid "A negative value makes the picture lead the sound."
 msgstr "ค่าติดลบทำให้ภาพนำหน้าเสียง"
 
@@ -2078,12 +2099,6 @@ msgstr "เพิ่มไฟล์ ..."
 
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
 msgstr "การจัดตำแหน่งใช้ออฟเซ็ตที่วัดได้; ไทม์โค้ดใช้เพียงเพื่อการตรวจสอบไขว้"
-
-msgid "All recordings carry the same name -- that makes a single track."
-msgstr "การบันทึกทั้งหมดมีชื่อเดียวกัน -- จึงได้แทร็กเดียว"
-
-msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
-msgstr "ทุกแถวมีชื่อเดียวกัน -- จึงได้แทร็กเดียว แต่ Multitrack ต้องมีอย่างน้อยสองแทร็ก"
 
 msgid "Assignment: which audio track belongs to which camera"
 msgstr "การกำหนด: แทร็กเสียงใดเป็นของกล้องใด"
@@ -2202,8 +2217,8 @@ msgstr "จุดออกอยู่หลังเฟรมสุดท้า
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "ไฟล์ส่งออกมักใช้ช่วงสัญญาณแบบจำกัด ช่วงแบบเต็มไม่ผิด แต่เครื่องเล่นบางตัวตีความผิด"
 
-msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
-msgstr "กำหนดว่า auphonic.com จะประมวลผลเสียงอย่างไร\n\n\"%s\" จะเก็บคีย์ไว้ตามเดิมแต่ไม่ส่งไปที่นั่น\nเสียงจะถูกรวมและนอร์มัลไลซ์เท่านั้น ไม่ถูกแยก --\nและหากไม่มีแทร็กแยกก็ไม่มีการตัดสลับกล้อง"
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nbut the camera cut is the same as with a preset."
+msgstr "กำหนดว่า auphonic.com จะประมวลผลเสียงอย่างไร\n\n\"%s\" จะเก็บคีย์ไว้ตามเดิมแต่ไม่ส่งไปที่นั่น\nเสียงจะถูกรวมและนอร์มัลไลซ์เท่านั้น ไม่ถูกแยก --\nแต่การตัดสลับกล้องยังเหมือนกับเมื่อใช้พรีเซ็ต"
 
 msgid "Distance to mean"
 msgstr "ระยะห่างจากค่าเฉลี่ย"
@@ -2237,9 +2252,6 @@ msgstr "เอนเวโลปล้มเหลว: %s"
 
 msgid "Envelopes and camera audio are prepared in the background."
 msgstr "เอนเวโลปและเสียงจากกล้องจะถูกเตรียมอยู่เบื้องหลัง"
-
-msgid "Every row needs a name -- at Auphonic it becomes the track ID."
-msgstr "ทุกแถวต้องมีชื่อ -- ที่ Auphonic ชื่อนี้จะกลายเป็น track ID"
 
 msgid "External preview -- the app does not know this format"
 msgstr "ตัวอย่างภายนอก -- แอปไม่รู้จักรูปแบบนี้"
@@ -2345,15 +2357,6 @@ msgstr "เสียงที่ขาดหาย %s เติมด้วย�
 
 msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "โหลดโมดูล DaVinciResolveScript ไม่ได้: %s"
-
-msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "หนึ่งแทร็กเสียงต่อหนึ่งคน แยกกันไปจนถึง auphonic.com\nไม่มีก็ใช้ได้ -- แต่จะไม่มีการลบเสียงรั่วและเลเวลเลอร์\nต้องมีแทร็กขาเข้าสองแทร็ก: การบันทึกของตัวเอง ช่องสัญญาณหนึ่งของเครื่องบันทึก\nหลายช่อง หรือเสียงของไฟล์วิดีโอที่ตั้งเป็น \"ใช้เสียงในตัว\"\nการตัดสลับกล้องไม่ต้องใช้ช่องทำเครื่องหมายนี้"
-
-msgid "Multitrack (one track per speaker)"
-msgstr "Multitrack (หนึ่งแทร็กต่อผู้พูด)"
-
-msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack ต้องมีแทร็กขาเข้าอย่างน้อยสองแทร็ก แทร็กคือการบันทึกของตัวเอง ช่องสัญญาณหนึ่งของเครื่องบันทึกหลายช่อง หรือเสียงของไฟล์วิดีโอที่ตั้งเป็น \"ใช้เสียงในตัว\" หลายบล็อกของการบันทึกเดียวกันนับเป็นหนึ่ง แทร็กที่พักไว้ไม่นับเลย"
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "ยังไม่มีเสียงที่ใช้งาน -- เพิ่มการบันทึกเสียง หรือตั้งเสียงจากกล้องของไฟล์วิดีโอเป็น \"ใช้เสียงในตัว\" ในรายการไฟล์"
@@ -2493,9 +2496,6 @@ msgstr "ไม่บังคับ -- ถ้าไม่มี YouTube จะ�
 msgid "Not ready yet:"
 msgstr "ยังไม่พร้อม:"
 
-msgid "One audio recording has no speaker name yet."
-msgstr "การบันทึกเสียงหนึ่งรายการยังไม่มีชื่อผู้พูด"
-
 msgid "One frame back."
 msgstr "ถอยหลังหนึ่งเฟรม"
 
@@ -2504,9 +2504,6 @@ msgstr "ถอยหลังหนึ่งวินาที"
 
 msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
 msgstr "แต่ละช็อตแสดงด้วยสีของกล้อง ชี้เมาส์เพื่อดูกล้องและความยาว คลิกเพื่อข้ามไป"
-
-msgid "Only one speaker"
-msgstr "ผู้พูดคนเดียว"
 
 msgid "Open json project file"
 msgstr "เปิดไฟล์โปรเจกต์ json"
@@ -2754,9 +2751,6 @@ msgstr "ยังไม่รู้จักผู้พูด -- จะหา�
 msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
 msgstr "ตัวเลขสามตัวคือ สีปฐมภูมิ เส้นโค้ง และเมทริกซ์ แท็กที่ต่างกันต้องใช้ปริภูมิสีขาเข้าต่างกันใน Resolve -- ไม่อย่างนั้นกล้องหนึ่งจะดูไม่เหมือนอีกกล้อง"
 
-msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
-msgstr "ไม่มีการบันทึกเสียงแยก จึงใช้เสียงของกล้อง %s ตัว -- แต่ละตัวเป็นหนึ่งแทร็ก และ Auphonic จะลบเสียงรั่ว"
-
 msgid "There is no result yet."
 msgstr "ยังไม่มีผลลัพธ์"
 
@@ -2877,8 +2871,21 @@ msgstr "ถ้าไม่มี เครื่องเล่นทุกต�
 msgid "Without processing at auphonic.com"
 msgstr "ไม่ประมวลผลที่ auphonic.com"
 
-msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "ยังไม่มีการตัดสลับกล้อง: ต้องมีสองคน แต่ละคนมีชื่อและกล้อง\nการบันทึกแยกกันทำได้ด้วยช่องทำเครื่องหมาย Multitrack และ \"ผู้พูดหลายคน\" ในช่องชื่อผู้พูดของการบันทึกเดียวก็ทำได้เช่นกัน --\nเสียงพูดที่พบในนั้นจะได้กล้องในตารางใต้รายการการบันทึก\nอย่างไรก็ตามจะสร้างโปรเจกต์ Resolve -- กล้องทั้งหมดอยู่ในตำแหน่งที่วัดได้ พร้อมสำหรับ Multicam"
+msgid ""
+"There is no camera cut yet: it needs two people, each with a name and a "
+"camera.\n"
+"Separate recordings give that, each under its own name, and so does "
+"\"several speakers\" in the Speaker name field of one recording --\n"
+"the voices found there get their camera in the table under the recordings.\n"
+"A Resolve project is created anyway -- all cameras at their measured places, "
+"ready for Multicam."
+msgstr ""
+"ยังไม่มีการตัดสลับกล้อง: ต้องมีสองคน แต่ละคนมีชื่อและกล้อง\n"
+"การบันทึกแยกกันทำได้ โดยแต่ละรายการมีชื่อของตัวเอง และ \"ผู้พูดหลายคน\" "
+"ในช่องชื่อผู้พูดของการบันทึกเดียวก็ทำได้เช่นกัน --\n"
+"เสียงพูดที่พบในนั้นจะได้กล้องในตารางใต้รายการการบันทึก\n"
+"อย่างไรก็ตามจะสร้างโปรเจกต์ Resolve -- กล้องทั้งหมดอยู่ในตำแหน่งที่วัดได้ "
+"พร้อมสำหรับ Multicam"
 
 msgid "Without timecode the position of the files is measured."
 msgstr "ถ้าไม่มีไทม์โค้ด จะวัดตำแหน่งของไฟล์เอา"
@@ -3050,9 +3057,6 @@ msgstr "ไม่พบช่วงที่มีคนพูดเพียง
 msgid "no production id in the response"
 msgstr "ไม่มี ID โปรดักชันในการตอบกลับ"
 
-msgid "no production id in the response: %s"
-msgstr "ไม่มี ID โปรดักชันในการตอบกลับ: %s"
-
 msgid "no timecode"
 msgstr "ไม่มีไทม์โค้ด"
 
@@ -3206,6 +3210,21 @@ msgstr "โฟลเดอร์ต้นทาง"
 msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
 msgstr "เทมเพลตแทร็กไม่ได้เปิดใช้อะไรเลย -- แทร็กจะกลับมาเหมือนตอนอัปโหลดทุกประการ"
 
+msgid "Intro / outro"
+msgstr "อินโทร / เอาต์โทร"
+
+msgid "the preset has an intro -- it is not used: intro and outro come from the video files."
+msgstr "พรีเซ็ตมีอินโทร -- ไม่ได้ใช้: อินโทรและเอาต์โทรมาจากไฟล์วิดีโอ"
+
+msgid "the preset has an outro -- it is not used: intro and outro come from the video files."
+msgstr "พรีเซ็ตมีเอาต์โทร -- ไม่ได้ใช้: อินโทรและเอาต์โทรมาจากไฟล์วิดีโอ"
+
+msgid "the preset has an intro and an outro -- neither is used: intro and outro come from the video files."
+msgstr "พรีเซ็ตมีอินโทรและเอาต์โทร -- ไม่ได้ใช้ทั้งคู่: อินโทรและเอาต์โทรมาจากไฟล์วิดีโอ"
+
+msgid "They come from video files set to Intro or Outro under Kind in the file list, or from --intro and --outro."
+msgstr "มาจากไฟล์วิดีโอที่ตั้งประเภทเป็นอินโทรหรือเอาต์โทรในรายการไฟล์ หรือจาก --intro และ --outro"
+
 msgid "the video files are tagged differently: %s"
 msgstr "ไฟล์วิดีโอมีแท็กสีต่างกัน: %s"
 
@@ -3253,9 +3272,6 @@ msgstr "ภาพมุมกว้าง %s ซึ่งมีมิกซ์�
 
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
 msgstr "✕  %s ปรากฏมากกว่าหนึ่งครั้ง การบันทึกเหล่านี้จะถูกรวมเป็นแทร็กเดียวและเรียงต่อกันตามไทม์โค้ด -- ถูกต้องหากมีการหยุดบันทึกระหว่างทาง"
-
-msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  การบันทึกทั้งหมดใช้ชื่อเดียวกัน จึงได้แทร็กเดียว -- Multitrack ต้องมีอย่างน้อยสองแทร็ก"
 
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  กล้องสองตัวจะสร้างไฟล์เดียวกัน (%s) ไฟล์ที่สองจะเขียนทับไฟล์แรก"
@@ -3323,9 +3339,6 @@ msgstr "การบันทึกของตัวเอง"
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
 msgstr "ย้ายการบันทึกนี้พร้อมทุกบล็อกไปรวมในการบันทึกอื่น\nใช้เมื่อชื่อไฟล์ไม่ให้เบาะแสใดๆ แก่การค้นหา"
 
-msgid "Cameras only"
-msgstr "กล้องเท่านั้น"
-
 msgid "Curve number %d"
 msgstr "เส้นโค้งหมายเลข %d"
 
@@ -3377,9 +3390,6 @@ msgstr "เริ่มต้น %s"
 msgid "Take from source files"
 msgstr "ใช้ค่าจากไฟล์ต้นฉบับ"
 
-msgid "Take the camera audio"
-msgstr "ใช้เสียงจากกล้อง"
-
 msgid "Target: %s"
 msgstr "ปลายทาง: %s"
 
@@ -3398,11 +3408,11 @@ msgstr "ภาพมุมกว้างหลังจาก"
 msgid "the voices below carry the cameras"
 msgstr "กล้องอยู่กับเสียงพูดด้านล่าง"
 
-msgid "measured from the recordings -- %s speakers, %s"
-msgstr "วัดจากการบันทึก -- ผู้พูด %s คน ความยาว %s"
+msgid "measured from the recordings -- %s, %s"
+msgstr "วัดจากการบันทึก -- %s ความยาว %s"
 
-msgid "from the finished run -- %s speakers, %s"
-msgstr "จากรอบการทำงานที่เสร็จแล้ว -- ผู้พูด %s คน ความยาว %s"
+msgid "from the finished run -- %s, %s"
+msgstr "จากรอบการทำงานที่เสร็จแล้ว -- %s ความยาว %s"
 
 msgid "no text"
 msgstr "ไม่มีข้อความ"
@@ -3412,6 +3422,15 @@ msgstr "ไม่มีชื่อ"
 
 msgid "   Caution: measurement unusable"
 msgstr "   ข้อควรระวัง: การวัดใช้ไม่ได้"
+
+msgid "   Caution: %s s of what went up is not in it"
+msgstr "   ข้อควรระวัง: ขาดเสียงที่อัปโหลดไป %s s"
+
+msgid "  -->  refused"
+msgstr "  -->  ปฏิเสธแล้ว"
+
+msgid "\n  Refused: %s -- what came back does not match what went up. Better to\n  stop than to write something wrong."
+msgstr "\n  ปฏิเสธ: %s -- สิ่งที่ได้กลับมาไม่ตรงกับสิ่งที่อัปโหลด\n  หยุดดีกว่าเขียนสิ่งที่ผิด"
 
 msgid "   NOT INSERTED"
 msgstr "   ไม่ได้แทรก"
@@ -3587,15 +3606,6 @@ msgstr "รวมเข้าด้วยกัน"
 msgid "Mixing %s"
 msgstr "กำลังมิกซ์ %s"
 
-msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack ต้องมีสองแทร็กในตารางด้านบน -- กล้องจะนับเป็นหนึ่งแทร็กเมื่อตั้งค่า เสียงจากกล้อง ของกล้องนั้นเป็น \"ใช้เสียงในตัว\""
-
-msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
-msgstr "มีแทร็กเดียว -- หากต้องการแทร็กที่สอง โปรดตั้งค่า เสียงจากกล้อง ของกล้องตัวหนึ่งเป็น \"ใช้เสียงในตัว\""
-
-msgid "One track only, and no camera audio left to take."
-msgstr "มีแทร็กเดียว และไม่มีเสียงจากกล้องเหลือให้ใช้"
-
 msgid "do not use internal audio"
 msgstr "ไม่ใช้เสียงในตัว"
 
@@ -3610,9 +3620,6 @@ msgstr "เมื่อใช้ เสียงของไฟล์นี้�
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "ไม่มีเสียงให้ใช้งาน -- โปรดตั้งค่า เสียงจากกล้อง ของไฟล์วิดีโอเป็น \"ใช้เสียงในตัว\" หรือเพิ่มการบันทึกเสียง"
-
-msgid "Multitrack needs several tracks"
-msgstr "Multitrack ต้องมีหลายแทร็ก"
 
 msgid "Mute."
 msgstr "ปิดเสียง"
@@ -3683,8 +3690,8 @@ msgstr "ขีดจำกัดแบบยืดหยุ่นของคู
 msgid "and here it is cut, good moment or not"
 msgstr "และตรงนี้จะตัด ไม่ว่าจังหวะจะดีหรือไม่"
 
-msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
-msgstr "ขีดจำกัดแบบตายตัวของคู่นี้: หากไม่มีขอบเขตประโยคเกิดขึ้นเลยตั้งแต่ \"ภาพมุมกว้างหลังจาก\" ช่วงหยุดพูดที่ยาวที่สุดจะใช้แทน และ ณ จุดนี้จะตัดไม่ว่ากำลังพูดอะไรอยู่"
+msgid "The hard limit of the pair: a shot longer than \"Wide shot after\" that offers neither a sentence boundary nor a pause is broken up by the clock, provided it stands longer than this too. This holds while \"Wide shot after\" is on and \"Long monologue\" changes the camera. The wide shot for greeting and farewell holds no longer than this, whatever those two say."
+msgstr "ขีดจำกัดแบบตายตัวของคู่นี้: ช็อตที่ยาวกว่า \"ภาพมุมกว้างหลังจาก\" และไม่มีทั้งขอบเขตประโยคและช่วงหยุด จะถูกแบ่งตามนาฬิกา หากช็อตนั้นค้างนานกว่าค่านี้ด้วย ข้อนี้ใช้ได้เมื่อ \"ภาพมุมกว้างหลังจาก\" เปิดอยู่และ \"การพูดคนเดียวยาว\" เปลี่ยนกล้อง ภาพมุมกว้างตอนทักทายและบอกลาไม่ค้างนานกว่าค่านี้ ไม่ว่าสองค่านั้นจะเป็นอย่างไร"
 
 msgid "Why the question settings are grey"
 msgstr "ทำไมการตั้งค่าคำถามจึงเป็นสีเทา"
@@ -3717,9 +3724,6 @@ msgid "Silence"
 msgstr "ความเงียบ"
 
 msgid "Speaker name"
-msgstr "ชื่อผู้พูด"
-
-msgid "Speaker names"
 msgstr "ชื่อผู้พูด"
 
 msgid "Static metadata"
@@ -3866,17 +3870,14 @@ msgstr "\nตัดต่อพร้อมภาพมุมกว้าง"
 msgid "\nFIRST CUT BY SPEAKER"
 msgstr "\nการตัดต่อแรกตามผู้พูด"
 
-msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  ช่องสัญญาณที่มากกว่าสองช่องจะถูกส่งไปยัง auphonic.com รวมเป็นช่องเดียว: การรวมช่องจะปิดเฉพาะกับสเตอริโอเท่านั้น\n  หากต้องการให้ช่องสัญญาณแยกกัน ให้ตัดไฟล์เป็นแทร็กก่อน"
-
 msgid "First cut by speaker"
 msgstr "การตัดต่อแรกตามผู้พูด"
 
 msgid "\nTRANSCRIPT"
 msgstr "\nบทถอดความ"
 
-msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
-msgstr "  %s คำ: %s %% เป็นของเสียงพูดเดียว, %s %% ของสองเสียงพูด, %s %% อยู่ในช่องว่าง"
+msgid "  %s words"
+msgstr "  %s คำ"
 
 msgid "  %s words, without names -- nobody was separated"
 msgstr "  %s คำ ไม่มีชื่อ -- ไม่ได้แยกผู้พูดคนใดเลย"
@@ -3974,9 +3975,6 @@ msgstr "  ใช้แทร็กตามที่บันทึกมา: �
 msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
 msgstr "  ระบุทั้ง --without-auphonic และ --auphonic-done แทร็กที่เสร็จแล้วมีผลเหนือกว่า: ไม่มีอะไรต้องส่งไปที่ใดอีก"
 
-msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACK ใช้ไม่ได้\n  หากไม่มีคีย์ API ก็ไม่มีอะไรจะส่งไปยัง auphonic.com\n  เมื่อใช้ --without-auphonic จะทำงานในเครื่องแทน: จัดตำแหน่ง\n  มิกซ์ และตัดต่อ แต่ไม่มีการลบเสียงรั่วและเลเวลเลอร์"
-
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  ข้อควรระวัง: วัดได้เพียง %s จาก %s คู่ ส่วนที่เหลือไม่พบช่วงที่มีคนพูดเพียงคนเดียว เสียงรั่วของคู่เหล่านั้นจึงยังอยู่ -- การตรวจจับผู้พูดตรงนี้เชื่อถือไม่ได้"
 
@@ -4033,9 +4031,6 @@ msgstr "กลับไปแสดงทั้งความยาว (ปุ�
 
 msgid "  Also fetched: %s"
 msgstr "  ดึงมาด้วย: %s"
-
-msgid "Auphonic will not take the settings: %s"
-msgstr "Auphonic ไม่รับการตั้งค่า: %s"
 
 msgid "      %s channels"
 msgstr "      %s ช่องสัญญาณ"
@@ -4166,8 +4161,9 @@ msgstr "กำลังตัดแทร็ก %d จาก %d ออกมา"
 msgid "cutting failed: %s"
 msgstr "ตัดออกไม่สำเร็จ: %s"
 
-msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  กล้องเดียวสำหรับทุกคน: ตัดเป็น %s ช็อตตรงจุดที่ผู้พูดเปลี่ยน เพื่อให้ Resolve จัดกลุ่มได้"
+msgid "  One camera for everybody: cut into %s shot at the change of speaker, so Resolve can group them."
+msgid_plural "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr[0] "  กล้องเดียวสำหรับทุกคน: ตัดเป็น %s ช็อตตรงจุดที่ผู้พูดเปลี่ยน เพื่อให้ Resolve จัดกลุ่มได้"
 
 msgid "Shorter shots fall into the following one."
 msgstr "ช็อตที่สั้นกว่านี้จะรวมเข้ากับช็อตถัดไป"
@@ -4342,6 +4338,9 @@ msgstr "โปรแกรมนี้ทำงานเป็น %s แต่�
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "การส่งมอบนี้ไม่มีอัตราเฟรม จึงสร้าง Timeline จากข้อมูลนี้ไม่ได้ โปรดทำรอบการทำงานใหม่อีกครั้ง"
+
+msgid "This handover names no file for the %s, so the timeline cannot be built from it. Please make the run again."
+msgstr "การส่งมอบนี้ไม่ได้ระบุไฟล์สำหรับ %s จึงสร้าง Timeline จากข้อมูลนี้ไม่ได้ โปรดทำรอบการทำงานใหม่อีกครั้ง"
 
 msgid "Cut by speaker"
 msgstr "ตัดต่อตามผู้พูด"
@@ -4694,8 +4693,8 @@ msgstr "  Resolve ปฏิเสธแทร็กวิดีโอ V%d สอ
 msgid "  %-20s offset %s, clock drift not measured%s"
 msgstr "  %-20s ออฟเซ็ต %s, ไม่ได้วัดการคลาดของนาฬิกา%s"
 
-msgid "  Caution: this project is not complete -- what Resolve refused:"
-msgstr "  ข้อควรระวัง: โปรเจกต์นี้ไม่สมบูรณ์ -- สิ่งที่ Resolve ปฏิเสธ:"
+msgid "  Caution: this project is not complete -- what is missing:"
+msgstr "  ข้อควรระวัง: โปรเจกต์นี้ไม่สมบูรณ์ -- สิ่งที่ขาดไป:"
 
 msgid "  Clock drift:     not measured -- too few points of its sound held for one"
 msgstr "  การคลาดของนาฬิกา:  ไม่ได้วัด -- เสียงของกล้องนี้มีจุดที่ใช้วัดได้น้อยเกินไป"
@@ -4981,9 +4980,6 @@ msgstr "จุดออกเปลี่ยนไปตั้งแต่รอ
 msgid "Production finished, but the ZIP with the individual tracks has no plain file name"
 msgstr "โปรดักชันเสร็จแล้ว แต่ ZIP ที่มีแทร็กแยกแต่ละแทร็กไม่มีชื่อไฟล์ธรรมดา"
 
-msgid "Several cameras but no audio recording. Each camera would have its own audio -- that is what Multitrack is for. Otherwise one camera after another."
-msgstr "มีกล้องหลายตัวแต่ไม่มีการบันทึกเสียง กล้องแต่ละตัวจะมีเสียงของตัวเอง -- นั่นคือหน้าที่ของ Multitrack ไม่เช่นนั้นก็ทีละกล้อง"
-
 msgid "The archive holds %s more than once, so nothing was taken out of it."
 msgstr "ไฟล์เก็บถาวรมี %s มากกว่าหนึ่งครั้ง จึงไม่ได้แตกอะไรออกมา"
 
@@ -4992,9 +4988,6 @@ msgstr "ไฟล์การกำหนดเป็นตัวตั้งช
 
 msgid "The build does not match its checksum, so it was not unpacked: %s listed, %s arrived."
 msgstr "บิลด์ไม่ตรงกับค่าตรวจสอบ จึงไม่ได้แตกไฟล์: ในรายการคือ %s ที่ได้รับคือ %s"
-
-msgid "The list of checksums could not be fetched, so the build was not unpacked: %s"
-msgstr "ดึงรายการค่าตรวจสอบไม่ได้ จึงไม่ได้แตกไฟล์บิลด์: %s"
 
 msgid "The list of checksums does not name %s, so the build was not unpacked."
 msgstr "รายการค่าตรวจสอบไม่มี %s จึงไม่ได้แตกไฟล์บิลด์"
@@ -5071,14 +5064,11 @@ msgstr "บัญชีที่ auphonic.com: ไม่ทราบ -- สอ�
 msgid "  Note: the run tries anyway. auphonic.com decides whether the production starts, and says so if it does not."
 msgstr "  หมายเหตุ: การรันยังคงลองต่อไป auphonic.com เป็นผู้ตัดสินว่างานจะเริ่มหรือไม่ และจะบอกหากไม่เริ่ม"
 
-msgid "  Warning: this Multitrack production is %s long, and on the free plan auphonic.com takes one only up to about %s."
-msgstr "  คำเตือน: งาน Multitrack นี้ยาว %s และในแผนฟรี auphonic.com รับงานแบบนี้ได้ไม่เกินประมาณ %s เท่านั้น"
+msgid "This Multitrack production is %s long. On the free plan auphonic.com takes one only up to about %s; a longer one needs a paid plan."
+msgstr "งาน Multitrack นี้ยาว %s ในแผนฟรี auphonic.com รับงานแบบนี้ได้ไม่เกินประมาณ %s เท่านั้น งานที่ยาวกว่านั้นต้องใช้แผนแบบชำระเงิน"
 
-msgid "  Note: auphonic.com refuses a longer one at the start and charges nothing for it. The run tries anyway; if auphonic.com refuses, its own message follows."
-msgstr "  หมายเหตุ: auphonic.com ปฏิเสธงานที่ยาวกว่านี้ตั้งแต่เริ่มและไม่คิดค่าใช้จ่ายใด ๆ การรันยังคงลองต่อไป หาก auphonic.com ปฏิเสธ ข้อความของ auphonic.com เองจะตามมา"
-
-msgid "On the free plan auphonic.com takes a Multitrack production only up to about %s."
-msgstr "ในแผนฟรี auphonic.com รับงาน Multitrack ได้ไม่เกินประมาณ %s เท่านั้น"
+msgid "For Singletrack, which the free plan takes at any length, set every track but one to \"%s\" -- where one track holds every voice. Or choose \"%s\" under Preset (--without-auphonic): the tracks are then mixed here."
+msgstr "หากต้องการ Singletrack ซึ่งแผนฟรีรับได้ทุกความยาว ให้ตั้งทุกแทร็กยกเว้นหนึ่งแทร็กเป็น \"%s\" -- ในกรณีที่แทร็กเดียวมีเสียงของทุกคน หรือเลือก \"%s\" ใต้พรีเซ็ต (--without-auphonic) แล้วแทร็กจะถูกมิกซ์ที่นี่"
 
 msgid "  The project %r this run made stays open -- nothing was open before\n  that could be opened again. Delete it in Resolve's project manager."
 msgstr "  โปรเจกต์ %r ที่การรันนี้สร้างยังคงเปิดอยู่ -- ก่อนหน้านี้ไม่มีอะไรเปิดอยู่\n  ที่จะเปิดกลับได้ ให้ลบในตัวจัดการโปรเจกต์ของ Resolve"
@@ -5157,3 +5147,69 @@ msgstr "มิกซ์สำเร็จ -- ไม่ใช่ผู้พู�
 
 msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nFinished mix: a stereo mix made elsewhere, placed as mixed sound. It goes into\nthe camera files and the handover in place of the mix the run builds --\nno speaker, not cut, not sent to auphonic.com.\nUnder \"%s\" speech is not offered."
 msgstr "เสียงพูด: วางตามความดังเท่านั้น ไฟล์บันทึกที่ไม่มีอะไรร่วมกับกล้อง\nจะถูกปฏิเสธ ผสม: มีเพลงหรือมิกซ์อยู่ใต้เสียงพูด\nและตรงที่ความดังหาอะไรไม่พบ เฟสอาจวางให้ได้\nมิกซ์สำเร็จ: มิกซ์สเตอริโอที่ทำจากที่อื่น วางเหมือนเสียงผสม มันเข้าไป\nในไฟล์กล้องและการส่งมอบแทนมิกซ์ของการประมวลผล --\nไม่ใช่ผู้พูด ไม่ตัด ไม่ส่งไป auphonic.com\nภายใต้ \"%s\" จะไม่มีตัวเลือกเสียงพูด"
+
+msgid "Cutting"
+msgstr "การตัด"
+
+msgid "the preset cuts at auphonic.com (%s) -- the sound would come back shorter than the pictures, and the cameras would slip."
+msgstr "พรีเซ็ตตัดที่ auphonic.com (%s) -- เสียงจะกลับมาสั้นกว่าภาพ และกล้องจะเลื่อน"
+
+msgid "Switch it off in the preset on auphonic.com: Audio Algorithms, Automatic Cutting -- untick %s, or set Cut Mode to Set Cuts To Silent, which keeps the length."
+msgstr "ปิดในพรีเซ็ตบน auphonic.com: Audio Algorithms, Automatic Cutting -- เอาเครื่องหมายออกจาก %s หรือตั้ง Cut Mode เป็น Set Cuts To Silent ซึ่งคงความยาวไว้"
+
+msgid "Speech recognition"
+msgstr "การรู้จำเสียงพูด"
+
+msgid "switched on in the preset -- not asked for, and nothing of its text is fetched: the transcript is made here."
+msgstr "เปิดอยู่ในพรีเซ็ต -- ไม่ได้ขอ และไม่ดึงข้อความใดของมันมา: ทรานสคริปต์ทำที่นี่"
+
+msgid "%s -- as the preset has them, the program changes none."
+msgstr "%s -- ตามที่พรีเซ็ตมี โปรแกรมไม่เปลี่ยนสักอย่าง"
+
+msgid "Enough for the %s this production needs."
+msgstr "พอสำหรับ %s ที่งานนี้ต้องใช้"
+
+msgid "Not enough for the %s this production needs."
+msgstr "ไม่พอสำหรับ %s ที่งานนี้ต้องใช้"
+
+msgid ""
+"\n"
+"%s has %s channels, and auphonic.com takes at most two in one file. Nothing was sent.\n"
+"  Say which channels belong together: on the Files & production tab the file opens into one row per channel, and the tick on a row joins it with the next. Where the file shows no channel rows, save its channels as files of their own first."
+msgstr ""
+"\n"
+"%s มี %s ช่องสัญญาณ แต่ auphonic.com รับได้ไม่เกินสองช่องต่อไฟล์ ไม่ได้ส่งอะไรออกไป\n"
+"  ระบุว่าช่องสัญญาณใดอยู่ด้วยกัน: ในแท็บ ไฟล์ & โปรดักชัน ไฟล์จะแยกเป็นหนึ่งแถวต่อช่องสัญญาณ และเครื่องหมายถูกในแถวจะรวมแถวนั้นกับแถวถัดไป หากไฟล์ไม่แสดงแถวช่องสัญญาณ ให้บันทึกช่องสัญญาณของไฟล์เป็นไฟล์แยกกันก่อน"
+
+msgid ""
+"Multitrack, because %s tracks lie on one time axis. Another Multitrack "
+"preset can be picked; for Singletrack, set every track but one to \"do not "
+"use\"."
+msgstr ""
+"Multitrack เพราะมี %s แทร็กอยู่บนแกนเวลาเดียวกัน เลือกพรีเซ็ต Multitrack "
+"อื่นได้ หากต้องการ Singletrack ให้ตั้งทุกแทร็กยกเว้นหนึ่งแทร็กเป็น \"ไม่ใช้\""
+
+msgid ""
+"Singletrack, because there is one track. Another Singletrack preset can be "
+"picked; for Multitrack, add a second track -- a recording, or a camera set "
+"to \"use internal audio\"."
+msgstr ""
+"Singletrack เพราะมีเพียงหนึ่งแทร็ก เลือกพรีเซ็ต Singletrack อื่นได้ "
+"หากต้องการ Multitrack ให้เพิ่มแทร็กที่สอง -- การบันทึก หรือกล้องที่ตั้งเป็น "
+"\"ใช้เสียงในตัว\""
+
+msgid "      --> no count of audio tracks can be read from this mapping"
+msgstr "      --> อ่านจำนวนแทร็กเสียงจากการแมปนี้ไม่ได้"
+
+msgid "Resolve answers, but hands out no project manager."
+msgstr "Resolve ตอบกลับ แต่ไม่ให้ตัวจัดการโปรเจกต์"
+
+msgid "The channels of %s are not cut into tracks yet."
+msgstr "ช่องสัญญาณของ %s ยังไม่ได้ถูกตัดออกเป็นแทร็ก"
+
+msgid ""
+"  %s and %s in %s sound alike (similarity %s): the separation may have "
+"confused the two -- check their assignment."
+msgstr ""
+"  %s และ %s ใน %s ฟังดูคล้ายกัน (ความคล้าย %s): การแยกอาจสลับทั้งสองคน -- "
+"ตรวจสอบการกำหนดของทั้งคู่"

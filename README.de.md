@@ -9,7 +9,7 @@ zusammenpasst — bevor irgendetwas geschrieben wird.*
 
 *Am Programm arbeiten oder einen Pull Request stellen? [CONTRIBUTING.md](CONTRIBUTING.md) sagt wie: die Tests, der Gegenbeweis, den jede Prüfung schuldet, und was ein Pull Request tragen muss.*
 
-**Version 3.0.0b28.** Es macht die Arbeit, für die es geschrieben wurde,
+**Version 3.0.0b29.** Es macht die Arbeit, für die es geschrieben wurde,
 jede Woche, an echtem Material. Der Schritt auf 3 ist ein Bruch und
 kein Haufen neuer Funktionen: das Programm wird jetzt installiert, mit
 pip3, und ist danach ein Befehl namens `videopodcast-magic`. Wer es
@@ -49,18 +49,36 @@ auf der Platte bis zum fertigen Resolve-Projekt, steht in
 
 ## Installieren
 
-Ein Befehl, und einen zweiten Weg hinein gibt es nicht:
+Ein Befehl, und einen zweiten Weg hinein gibt es nicht. Er installiert
+die Paketfassungen, mit denen die neueste Veröffentlichung geprüft
+wurde: Jede Veröffentlichung trägt je System eine Liste davon, und der
+Befehl nennt die für deines. Kopiere die Zeile für dein System:
+
+Auf dem Mac:
 
 ```
-pip3 install git+https://github.com/Bascht74/videopodcast-magic
-videopodcast-magic
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
+
+Unter Windows:
+
+```
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-windows.txt git+https://github.com/Bascht74/videopodcast-magic
+```
+
+Unter Linux:
+
+```
+pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-linux.txt git+https://github.com/Bascht74/videopodcast-magic
+```
+
+und starte das Programm danach mit `videopodcast-magic`.
 
 Die neuere Fassung kommt über dieselbe Adresse und tritt an die Stelle
-der installierten:
+der installierten — dieselbe Zeile mit `-U`, hier die für den Mac:
 
 ```
-pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
+pip3 install -U -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic
 ```
 
 **Beim ersten Befehl heißt es warten. Er dauert Minuten, und das soll
@@ -82,12 +100,19 @@ steht.
 Umgebung werde von außen verwaltet, dann gehört dieses Python einem
 Paketverwalter — dem von Homebrew oder dem der Linux-Distribution —,
 der pip aus dem heraushält, was er selbst pflegt, und die Meldung
-nennt den Weg daran vorbei:
-`pipx install git+https://github.com/Bascht74/videopodcast-magic` legt
-das Programm in eine eigene Umgebung und den Befehl in den Suchpfad.
+nennt den Weg daran vorbei, pipx, das dieselbe Liste an pip
+weiterreicht — hier die Zeile für den Mac, unter Linux `linux` statt
+`macos`:
+
+```
+pipx install --pip-args="-c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt" git+https://github.com/Bascht74/videopodcast-magic
+```
+
+Es legt das Programm in eine eigene Umgebung und den Befehl in den
+Suchpfad.
 
 Zweierlei kann pip nicht mitbringen, weil beides kein Python ist:
-**Python selbst**, 3.10 oder neuer, und **`ffmpeg` 9.0.1 oder neuer,
+**Python selbst**, 3.12 oder neuer, und **`ffmpeg` 9.0.1 oder neuer,
 samt `ffprobe`**. Die beiden Werkzeuge sucht das Programm im Suchpfad,
 bietet die Paketverwaltung der Maschine an und fragt, bevor es sie
 ausführt, und sonst sagt es, woher man sie bekommt. Unter 9.0.1 geht
@@ -98,12 +123,12 @@ Bild auch die Angaben der Kamera unverändert durch — Farbkasten,
 Aufnahmekurve, Dolby Vision, Zeitcode.
 
 **Eine Falle, am 4. September 2026 gemessen.** Ein pip, das die
-Projektdatei liest, hört unterhalb von Python 3.10 auf und sagt,
+Projektdatei liest, hört unterhalb von Python 3.12 auf und sagt,
 welche Version es erwartet hätte. Das pip, das macOS mit seinem
 eigenen Python 3.9 mitbringt — `/usr/bin/pip3` —, liest sie nicht: es
 antwortet `Successfully installed UNKNOWN-0.0.0` und hinterlässt einen
 leeren Ordner dieses Namens, keinen Befehl und keine Fehlermeldung.
-Wer `UNKNOWN` liest, hat das falsche pip erwischt; dann Python 3.10
+Wer `UNKNOWN` liest, hat das falsche pip erwischt; dann Python 3.12
 oder neuer installieren und dessen `pip3` nehmen.
 
 Später, und nur wenn jemand will, wofür sie da sind, kommen zwei
@@ -154,7 +179,7 @@ wird.*
 
 ## Was gebraucht wird
 
-Python 3.10 oder neuer, dazu `ffmpeg` 9.0.1 oder neuer samt `ffprobe`
+Python 3.12 oder neuer, dazu `ffmpeg` 9.0.1 oder neuer samt `ffprobe`
 im Suchpfad. Mehr steht nicht auf der Liste: alles andere ist ein
 Python-Paket, jedes davon steht auf der Liste, die pip liest, und die
 Installation bringt sie alle mit. ffmpeg ist die Ausnahme, die es nicht

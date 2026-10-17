@@ -10,9 +10,9 @@ forward is alive on both because both players do it; that a command set
 off from the menu lands in the player of the tab showing and nowhere
 else; that the space bar typed at a player reaches that same one; and
 that a player whose box is folded away counts as no player at all --
-the Multitrack tick is taken off, which takes the Resolve preview off
-the screen, and the transport has to go grey with it while the other
-tab keeps its own.
+the one recording is set to "do not use", which leaves nobody to cut
+and takes the Resolve preview off the screen, and the transport has to
+go grey with it while the other tab keeps its own.
 
 Two traps. The transport is switched at currentChanged and aboutToShow
 and nowhere else, so an isEnabled() read without a tab change before it
@@ -131,10 +131,13 @@ with open(project, "w", encoding="utf-8") as f:
                          {"path": one, "kind": "video"},
                          {"path": two, "kind": "video"}],
                "out_folder": out_folder, "production": "Play",
-               # Multitrack, because that is what puts the preview box on
-               # the Resolve tab: without it the box stays away, the cut
-               # player is on no screen, and a key typed at it cannot fire.
-               "multitrack": True, "assignment": {}, "preset": ""}, f)
+               # A named speaker on one camera and a second camera: that
+               # is what puts the preview box on the Resolve tab. Without
+               # it the box stays away, the cut player is on no screen,
+               # and a key typed at it cannot fire.
+               "project_type": "cut",
+               "assignment": {"audio:" + audio: ["Host", one]},
+               "preset": ""}, f)
 QtWidgets.QFileDialog.getOpenFileName = staticmethod(
     lambda *a, **k: (project, ""))
 QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
@@ -213,10 +216,10 @@ def tab_bar():
             return tw
 
 
-def tick(text):
-    """The checkbox with this caption."""
-    for w in win().findChildren(QtWidgets.QCheckBox):
-        if w.text().strip() == text:
+def not_used_box():
+    """The recording's chooser, the one that offers "do not use"."""
+    for w in win().findChildren(QtWidgets.QComboBox):
+        if w.findData(vpm.IGNORE_AUDIO) >= 0:
             return w
 
 
@@ -279,9 +282,18 @@ def quiet():
     """Both players at a standstill, and nothing written down.
 
     A running player is stopped by the other one starting, and that
-    stop would land in the record as a command nobody gave.
+    stop would land in the record as a command nobody gave. So would
+    the pause a fresh cut hands the cut player: the preview is worked
+    out again 400 ms after a change, by a single shot of its own, and
+    that timer is let run out first -- on a condition, with a bound.
     """
     watch[0] = False
+    timers = [t for t in win().findChildren(QtCore.QTimer)
+              if t.isSingleShot() and t.interval() == 400]
+    clock = time.time()
+    while any(t.isActive() for t in timers) and time.time() - clock < 30:
+        app.processEvents()
+        QtCore.QThread.msleep(20)
     for tag in ("preview", "cut"):
         w = player(tag)
         if w is not None:
@@ -530,13 +542,13 @@ def step():
             print("\n5. A player folded away is no player")
             show_tab(FILES_TAB)
             quiet()
-            # The Multitrack tick off takes the Resolve preview box off
-            # the screen, and the cut player sits inside it.
-            needed("the Multitrack tick",
-                   tick(vpm.T('Multitrack (one track per speaker)'))).click()
+            # The one recording on "do not use" leaves nobody to cut:
+            # the Resolve preview box goes, and the cut player with it.
+            box = needed("the recording's chooser", not_used_box())
+            box.setCurrentIndex(box.findData(vpm.IGNORE_AUDIO))
             app.processEvents()
         elif i == 6:
-            # Waited for is the rebuild the tick sets off, seen on the tab
+            # Waited for is the rebuild the choice sets off, seen on the tab
             # captions -- never on the visibility a check below reads.
             marks = tab_names()
             if marks != named[0]:
@@ -547,13 +559,15 @@ def step():
                 raise NotYet("the tabs to stop being renamed, %r for %d "
                              "rounds" % (marks, named_still[0]))
             show_tab(CUT_TAB)
-            check("the Multitrack tick is off and the cut player off the "
+            chooser = not_used_box()
+            check("the recording is set aside and the cut player off the "
                   "screen before the transport is read",
-                  not tick(vpm.T('Multitrack (one track per speaker)')
-                           ).isChecked() and not found["cut"].isVisible(),
-                  "the tick is %s and the cut player is %s, on tab %d"
-                  % ("on" if tick(vpm.T('Multitrack (one track per '
-                                        'speaker)')).isChecked() else "off",
+                  chooser is not None
+                  and chooser.currentData() == vpm.IGNORE_AUDIO
+                  and not found["cut"].isVisible(),
+                  "the recording stands on %r and the cut player is %s, on "
+                  "tab %d"
+                  % (chooser.currentData() if chooser else "no chooser",
                      "on the screen" if found["cut"].isVisible()
                      else "not on the screen", tab_bar().currentIndex()))
             check("on the Resolve tab with the cut player folded away all "

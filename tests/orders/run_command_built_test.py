@@ -10,10 +10,10 @@ assembly of its own, since two builders of one command line drift
 apart. The window is gui(), every make_* function beside it and
 every class, collected out of the program rather than listed here, and
 held against a plain search for their definitions. The last two
-sections: one plan, ticked or not -- names, production, each
-recording's camera and "do not use" in it, the same word for word, and
-one question for a name typed twice -- and the window's name for the
-second of two files of one name."""
+sections: one plan -- names, production, each recording's camera and
+"do not use" in it -- and the window's name for the second of two files
+of one name. --multitrack, which the run no longer takes, is never
+written onto the line."""
 PLATFORM_BOUND = False
 import os
 import sys
@@ -43,7 +43,7 @@ def check(name, ok, extra=""):
     if not ok:
         error.append("%s [%s]" % (name, extra or "no numbers"))
 
-# Six judgements are called "rejected" and three "gets through", once per
+# Several judgements are called "rejected" and "gets through", once per
 # section. So every failure line starts with the number of the section it
 # belongs to, or a red run names a check that stands seven times.
 
@@ -88,7 +88,7 @@ def brief(value):
 
 def values(**k):
     state = {"files": [], "clip_kinds": {}, "out_folder": "",
-             "dry_run": False, "multitrack": False,
+             "dry_run": False,
              "camera_audio_only": False, "rows": [], "cameras": [],
              "production": "", "in_point": "", "out_point": "", "cut": {},
              "wide_at_edges": True, "key": "", "preset": "",
@@ -173,37 +173,8 @@ a, _p, _m = vpm.run_argv(values(dry_run=True))
 check("--dry-run there", "--dry-run" in a,
         "3. wanted --dry-run on the line, the line is %s" % shown(a))
 
-print("\n4. Multitrack needs at least two recordings")
-a, plan, m = vpm.run_argv(values(multitrack=True, key="k", preset="p",
-    rows=[{"blocks": ["/x/a.wav"], "speakers": "A",
-           "camera_choice": "G.mov"}]))
-check("rejected", a is None,
-        "4. 1 row where 2 are needed gave %s, wanted None" % shown(a))
-check("error named", m and m[0][0] == "error" and "at least two"
-        in m[0][2],
-        "4. first message %s, wanted one of kind error saying "
-        "'at least two'" % (m[:1],))
-
-print("\n5. Names missing")
-a, _p, m = vpm.run_argv(values(multitrack=True, key="k", preset="p", rows=[
-    {"blocks": ["/x/a.wav"], "speakers": "A", "camera_choice": "G.mov"},
-    {"blocks": ["/x/b.wav"], "speakers": " ", "camera_choice": "H.mov"}]))
-check("rejected", a is None,
-        "5. 2 rows, one of them nameless, gave %s, wanted None" % shown(a))
-check("speaker names", m[-1][1] == "Speaker names",
-        "5. last title is %r, wanted 'Speaker names'" % (m[-1][1],))
-
-print("\n6. Every row the same name -> only one speaker")
-a, _p, m = vpm.run_argv(values(multitrack=True, key="k", preset="p", rows=[
-    {"blocks": ["/x/a.wav"], "speakers": "A", "camera_choice": "G.mov"},
-    {"blocks": ["/x/b.wav"], "speakers": "A", "camera_choice": "H.mov"}]))
-check("rejected", a is None,
-        "6. 2 rows both named A gave %s, wanted None" % shown(a))
-check("only one speaker", m[-1][1] == "Only one speaker",
-        "6. last title is %r, wanted 'Only one speaker'" % (m[-1][1],))
-
 print("\n7. Duplicate name among several -> a question, not an error")
-a, plan, m = vpm.run_argv(values(multitrack=True, key="k", preset="p", rows=[
+a, plan, m = vpm.run_argv(values(key="k", preset="p", rows=[
     {"blocks": ["/x/a.wav"], "speakers": "A", "camera_choice": "G.mov"},
     {"blocks": ["/x/b.wav"], "speakers": "A", "camera_choice": "G.mov"},
     {"blocks": ["/x/c.wav"], "speakers": "B", "camera_choice": "H.mov"}],
@@ -221,7 +192,7 @@ check("button labelled", m[0][3] == "Merge them",
         "7. button is %r, wanted 'Merge them'" % (m[0][3],))
 
 print("\n8. Ignored rows do not count")
-a, _p, m = vpm.run_argv(values(multitrack=True, key="k", preset="p", rows=[
+a, _p, m = vpm.run_argv(values(key="k", preset="p", rows=[
     {"blocks": ["/x/a.wav"], "speakers": "A", "camera_choice": "G.mov"},
     {"blocks": ["/x/b.wav"], "speakers": "B", "camera_choice": "H.mov"},
     {"blocks": ["/x/c.wav"], "speakers": "C",
@@ -241,7 +212,7 @@ print("\n9. The full multitrack run")
 a, plan, m = vpm.run_argv(values(
     files=[("/x/a.wav", "audio"), ("/x/b.wav", "audio"),
              ("/x/G.mov", "video"), ("/x/H.mov", "video")],
-    out_folder="/out", multitrack=True, key="secret", preset="Preset 1",
+    out_folder="/out", key="secret", preset="Preset 1",
     done_folder="/out/auphonic-tracks", production="Interview",
     in_point="17:00:00:00", out_point="18:00:00:00", wide_at_edges=False,
     cut={"min-edit-duration": "1,5"},
@@ -250,8 +221,8 @@ a, plan, m = vpm.run_argv(values(
     cameras=[{"path": "/x/G.mov", "name": "Cam1"},
              {"path": "/x/H.mov", "name": "Cam2"}]), "/tmp/assignment.json")
 print("   ", " ".join(a))
-check("--multitrack there", "--multitrack" in a,
-        "9. wanted --multitrack on the line, the line is %s" % shown(a))
+check("--multitrack no longer on the line", "--multitrack" not in a,
+        "9. wanted no --multitrack on the line, the line is %s" % shown(a))
 check("--assign with path",
         a[a.index("--assign") + 1] == "/tmp/assignment.json",
         "9. --assign carries %r, wanted '/tmp/assignment.json'"
@@ -297,7 +268,7 @@ check("camera resolved for the track",
         % (plan["tracks_of"][0]["camera"],))
 
 print("\n10. No number in the slider field")
-a, _p, m = vpm.run_argv(values(multitrack=True, key="k", preset="p",
+a, _p, m = vpm.run_argv(values(key="k", preset="p",
     cut={"min-edit-duration": "lots"},
     rows=[{"blocks": ["/x/a.wav"], "speakers": "A", "camera_choice": "G.mov"},
           {"blocks": ["/x/b.wav"], "speakers": "B", "camera_choice": "H.mov"}],
@@ -309,7 +280,7 @@ check("says which value", "'lots'" in m[-1][2],
         "10. last text is %r, wanted 'lots' named in it" % (m[-1][2],))
 
 print("\n11. Two cameras, one target name")
-a, _p, m = vpm.run_argv(values(multitrack=True, key="k", preset="p",
+a, _p, m = vpm.run_argv(values(key="k", preset="p",
     rows=[{"blocks": ["/x/a.wav"], "speakers": "A", "camera_choice": "G.mov"},
           {"blocks": ["/x/b.wav"], "speakers": "B", "camera_choice": "H.mov"}],
     cameras=[{"path": "/x/G.mov", "name": "same"},
@@ -327,8 +298,7 @@ check("preset missing", m[-1][1] == "Preset missing",
         "12. last title is %r, wanted 'Preset missing'" % (m[-1][1],))
 
 print("\n13. Multitrack without a key runs locally")
-a, plan, m = vpm.run_argv(values(multitrack=True,
-    rows=[{"blocks": ["/x/a.wav"], "speakers": "A", "camera_choice": "G.mov"},
+a, plan, m = vpm.run_argv(values(rows=[{"blocks": ["/x/a.wav"], "speakers": "A", "camera_choice": "G.mov"},
           {"blocks": ["/x/b.wav"], "speakers": "B", "camera_choice": "H.mov"}],
     cameras=[{"path": "/x/G.mov", "name": "G"},
              {"path": "/x/H.mov", "name": "H"}]))
@@ -345,17 +315,14 @@ check("nothing goes to auphonic.com",
 check("the assignment is still written", plan is not None,
         "13. plan is %s, wanted an assignment" % brief(plan))
 
-print("\n14. Camera audio only: question first, tracks as camera")
-a, plan, m = vpm.run_argv(values(multitrack=True, key="k", preset="p",
+print("\n14. Camera audio only: tracks as camera")
+a, plan, m = vpm.run_argv(values(key="k", preset="p",
     camera_audio_only=True,
     files=[("/x/G.mov", "video"), ("/x/H.mov", "video")],
     rows=[{"blocks": ["/x/G.mov"], "speakers": "A", "camera_choice": "G.mov"},
           {"blocks": ["/x/H.mov"], "speakers": "B", "camera_choice": "H.mov"}],
     cameras=[{"path": "/x/G.mov", "name": "G"},
              {"path": "/x/H.mov", "name": "H"}]))
-check("the question comes first", m and m[0][1] == "Cameras only",
-        "14. the first of %d messages is %s, wanted the title "
-        "'Cameras only'" % (len(m), m[:1]))
 check("gets through", a is not None,
         "14. camera audio only gave %s, wanted a line" % shown(a))
 check("every track is its own camera",
@@ -369,7 +336,7 @@ check("camera points at the audio file",
         % (plan["tracks_of"][0]["camera"],))
 
 print("\n15. An own-audio row carries its finished file along")
-a, plan, m = vpm.run_argv(values(multitrack=True, key="k", preset="p",
+a, plan, m = vpm.run_argv(values(key="k", preset="p",
     files=[("/x/G.mov", "video"), ("/x/H.mov", "video")],
     rows=[{"blocks": ["/x/G.mov"], "speakers": "A", "camera_choice": "G.mov",
              "own_audio": True, "audio_done": "/tmp/done.wav"},
@@ -523,9 +490,9 @@ check("a key and a preset keep it off the line",
         "18. a key and a preset gave %s, wanted no --without-auphonic"
         % shown(a))
 
-print("\n19. One plan, ticked or not")
-# The window writes one assignment file on both paths; the tick only
-# groups the recordings. So the camera's typed name, the production,
+print("\n19. One plan")
+# The window writes one assignment file for every run. So the camera's
+# typed name, the production,
 # each recording's camera and a recording set to "do not use" all ride
 # in the plan, never as switch pairs the plain run would half read.
 NAMED = [{"path": "/x/G.mov", "name": " Presenter "},
@@ -552,12 +519,10 @@ check("the typed camera name travels in the plan with the tick off",
         % ((plan or {}).get("cameras"), pair_switches(a), shown(a)))
 space, rest = vpm.build_argument_parser().parse_known_args(a[1:])
 check("and the run's parser reads the plan's file off the line",
-        getattr(space, "assign", None) == ASSIGN and rest == []
-        and not getattr(space, "multitrack", True),
-        "19. assign read back as %r, multitrack %r, %d words left over "
-        "%s, wanted %r, False and none"
-        % (getattr(space, "assign", None), getattr(space, "multitrack", None),
-           len(rest), rest[:4], ASSIGN))
+        getattr(space, "assign", None) == ASSIGN and rest == [],
+        "19. assign read back as %r, %d words left over %s, wanted %r "
+        "and none"
+        % (getattr(space, "assign", None), len(rest), rest[:4], ASSIGN))
 a, plan, m = vpm.run_argv(values(files=THREE, cameras=NAMED,
                                  project_type="sync"), ASSIGN)
 a = a or []
@@ -595,9 +560,6 @@ FIVE = [("/x/a.wav", "audio"), ("/x/b.wav", "audio"), ("/x/c.wav", "audio"),
         ("/x/G.mov", "video"), ("/x/H.mov", "video")]
 _a, plain, _m = vpm.run_argv(values(files=FIVE, rows=ROWS, cameras=NAMED,
                                     production=" Pilot "), ASSIGN)
-_a, ticked, _m = vpm.run_argv(values(files=FIVE, rows=ROWS, cameras=NAMED,
-                                     production=" Pilot ",
-                                     multitrack=True), ASSIGN)
 seats = [(e["audio"], e["speakers"], e["camera"])
          for e in (plain or {}).get("tracks_of", [])]
 check("without the tick each recording goes to its chosen camera",
@@ -605,28 +567,6 @@ check("without the tick each recording goes to its chosen camera",
                   ("/x/b.wav", "Presenter", "/x/H.mov")],
         "19. the plan seats %s, wanted a.wav as Guest on G.mov and b.wav "
         "as Presenter on H.mov, c.wav (do not use) left out" % seats)
-check("and the plan is the one Multitrack writes, word for word",
-        plain is not None and plain == ticked,
-        "19. keys %s against %s, tracks %d against %d"
-        % (brief(plain), brief(ticked),
-           len((plain or {}).get("tracks_of", [])),
-           len((ticked or {}).get("tracks_of", []))))
-
-TWICE = [{"blocks": ["/x/a.wav"], "speakers": "Guest",
-          "camera_choice": "/x/G.mov"},
-         {"blocks": ["/x/b.wav"], "speakers": "Guest",
-          "camera_choice": "/x/G.mov"},
-         {"blocks": ["/x/c.wav"], "speakers": "Presenter",
-          "camera_choice": "/x/H.mov"}]
-_a, _p, plain = vpm.run_argv(values(files=FIVE, rows=TWICE, cameras=NAMED))
-_a, _p, ticked = vpm.run_argv(values(files=FIVE, rows=TWICE, cameras=NAMED,
-                                     multitrack=True))
-check("a name typed twice is asked about without the tick, as with it",
-      [x[1] for x in plain] == ["Names used more than once"]
-      and plain == ticked,
-      "19. titles %s without the tick against %s with it, wanted "
-      "['Names used more than once'] on both"
-      % ([x[1] for x in plain], [x[1] for x in ticked]))
 
 print("\n20. The production's name and a camera's window name ride along")
 # The production field travels in the plan on both paths. Two cameras

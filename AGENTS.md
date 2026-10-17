@@ -146,10 +146,13 @@ mkdir -p /tmp/snap && cp -R videopodcast_magic /tmp/snap/vpm_sNN
 * **A demo name still has to teach.** It carries the shape a recorder
   really writes and keeps the length of what it replaces. **A picture
   that shows the program prettier than it is, is no picture.**
-* **Installing is pip3, and nothing else.**
-  `pip3 install git+https://github.com/Bascht74/videopodcast-magic`,
+* **Installing is pip3, and nothing else.** The README's line, here
+  the one for a Mac (`windows` or `linux` in place of `macos`):
+  `pip3 install -c https://github.com/Bascht74/videopodcast-magic/releases/latest/download/constraints-macos.txt git+https://github.com/Bascht74/videopodcast-magic`,
   with `-U` to update. Everything the program needs stands in
-  `requirements.txt` and `pyproject.toml`.
+  `requirements.txt` and `pyproject.toml`; the versions a release was
+  tested with stand in its `constraints-<system>.txt`, and `--update`
+  hands pip the list of the release it installs.
 * **Nothing is ever said before the window.** A run that finds something
   missing opens the window and says it in the fourth tab. **ffmpeg is
   the exception it cannot be**, because it is not Python: it is fetched

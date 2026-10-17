@@ -43,6 +43,34 @@ second one takes nothing from the first, both cells say their own
 number, and both sets of voices stay in their rows. The project file
 keeps them all.
 
+Where two voices of one separation sound alike, the separation may have
+confused the two people, and the program says so. Alike means at or over
+the line at which it takes a voice heard in two recordings for the same
+person ("Naming the voices" below): a similarity of 0.70. The log says
+it in one line that names both voices -- by the names they carry, else
+by the model's labels -- and how alike they are, and advises checking
+their assignment: click each of the two rows and listen. The window says
+the same where it shows the separation: **Separated: 2 speakers** turns
+amber in the row, and the line under the table carries the log's
+sentence until the table is next built anew. A run the window hands
+the separation to says it again in its own log. Nothing is merged or
+renamed. Measured on 16.10.2026 on conversations of voices made with
+say(1): the warning appeared on all seven separations whose two voices
+lay at 0.92 to 0.99 -- five of them had put about half the speech on the
+wrong person, the other two a quarter and a sixth of it -- and on none
+of the sixteen whose voices lay at 0.16 to 0.57, which had 83 to 98 % of
+the speech on the right person. Real interviews are not measured yet.
+
+The warning cannot see two things. Two people the separation has already
+put into one voice leave nothing to compare: with the count left to the
+program, that is what became of seven of the eight pairs of similar
+voices measured, nearly all of the speech on one voice and beside it at
+most a scrap of a tenth of a second that carries no print.
+**One more speaker** goes through the recording again with the count
+given, and then the warning can judge the two. And voices from separate
+microphones carry no voice print at all: where each person has a track
+of their own, the tracks say who speaks, and no warning comes from them.
+
 Under the recordings one line offers the separation, and only where
 it is needed. A Mac works it out by itself and gets no line at all.
 Anywhere else the line stands there the first time, with **Not on this
@@ -63,10 +91,16 @@ come from every block as well, on the time of the whole recording;
 words an earlier version heard in the first block alone are heard once
 more.
 
+The window's own transcript takes those words as they are. Where the
+one recording in blocks is all the window hears, it is heard once, for
+the separation, and not a second time for the transcript. The words lie
+on the time axis from where the first block lies, the rest of the
+recording behind it as the run joins it -- also where the recorder's
+timecode leaves a gap between two blocks.
+
 Separation is the way for **one common recording** that everybody is
-audible on. It does not need the tick **Multitrack (one track per
-speaker)**: the column stands there on both paths, with a single camera
-as well. Where a person has a microphone of their own and the
+audible on. It needs nothing ticked: the column stands there however many tracks
+there are, with a single camera as well. Where a person has a microphone of their own and the
 microphones can be told apart, that track is the truth and there is
 nothing to separate; where they hear each other too well for that, the
 run joins them and separates them together, with auphonic.com as
@@ -120,11 +154,12 @@ spoke is no longer in the answer.
 
 Where that is the case, the program stops asking the microphones one at
 a time. It adds the aligned recordings into a single recording, lets the
-separation listen to that one, and gives every voice it finds the name of
-the microphone it belongs to. That name is the whole point: a voice out
-of a joined recording would otherwise be Speaker 1, a name with nobody
-behind it, and a name with nobody behind it has no camera -- the cut
-would stand on the wide shot from beginning to end.
+separation listen to that one for one person per microphone, and gives
+every voice it finds the name of the microphone it belongs to. That name
+is the whole point: a voice out of a joined recording would otherwise be
+Speaker 1, a name with nobody behind it, and a name with nobody behind
+it has no camera -- the cut would stand on the wide shot from beginning
+to end.
 
 **Too well** is measured, not assumed. Every recording is held against
 every other, in both directions, in the passages where one person is
@@ -175,9 +210,14 @@ A voice that no microphone is far enough ahead of keeps its label and
 gets no camera, and two voices pointing at the same microphone cancel
 each other out, because one microphone is one person. More voices than
 microphones -- somebody in the room without one, or a voice out of the
-run-up -- and not one of them is placed. Where in the end no voice can
-be given a microphone, the log says that the tracks are measured
-instead, and the cut is the one it always was: one voice per track.
+run-up -- and not one of them is placed. That is why the separation is
+told how many people to find: one per microphone, or the number given
+with `--speakers-count`. Left to count for itself, it found one voice
+too many in one of fifteen joined recordings measured, and the speech
+was then named 58 per cent right instead of 95. Where in the end no
+voice can be given a microphone, the log says that the tracks are
+measured instead, and the cut is the one it always was: one voice per
+track.
 
 ### Naming the voices
 
@@ -437,7 +477,13 @@ measured](../development/measurements.md).
 The program looks for the way it has and says in the log which one it
 took. Recognition takes the language setting of the run. If that is
 empty, macOS works with the system language and Whisper guesses it from
-the audio. The run writes the text down alongside the camera cut, not
+the audio. On the macOS way a language is heard in the same variant
+every time: the one of the Mac's own region where there is one (de-CH
+on a Swiss Mac, en-GB on a British one), else a fixed one -- English in
+en-US, German in de-DE, French in fr-FR -- else the first by name.
+Where the Mac offers no variant of the language at all, macOS does not
+hear it in the system language: the log says so and Whisper takes it,
+in the window only where faster-whisper is already installed. The run writes the text down alongside the camera cut, not
 ahead of it.
 
 On the macOS way the recognition reports on itself afterwards, in the
@@ -462,13 +508,22 @@ below rest on the same words the preview showed. Only a run without
 them -- from the command line, or started before the window was done --
 listens to the mix it made.
 
+The cut does not suffer for it. Measured on two interviews of twelve and
+fourteen minutes, two microphones each: the cut by the window's words
+and the cut by the run's own listening showed the same camera for more
+than 99 % of the time, and in the English one with faster-whisper they
+were the same to the frame. The few seconds apart were questions one of
+the two transcripts had heard and the other had not, in both
+directions. What the run saves is the listening itself: with the
+recognition macOS brings, well under a minute an hour of material; with
+faster-whisper ten to fifteen minutes.
+
 ### The three transcript files
 
 What was heard lands beside the result, in the output folder, as three
 files named after the **Production name**: `<name>.json`, `<name>.srt`
 and `<name>.txt`. The log lists their paths under the heading
-`TRANSCRIPT`, and above them how many words were heard and how many of
-those went to one voice, to two, or into a gap between voices.
+`TRANSCRIPT`, and above them how many words were heard.
 
 * **The json** holds a passage per stretch of one voice: when it begins
   and ends, the running text, the speaker, and a row per word with its
@@ -548,7 +603,8 @@ These options are not in the window.
   changed or gone since, or the separation came from another model, it
   is not used: the run warns and goes on without it.
 * `--speakers-count <NUMBER>` says how many people are to be found;
-  without it the program works the count out.
+  without it the program works the count out, and for microphones
+  joined into one recording it takes one person per microphone.
 * `--no-speakers-local` takes no recording apart by voice in this run,
   whatever else asks for it.
 * `--no-speech-recognition` leaves the text out.
